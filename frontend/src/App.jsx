@@ -117,20 +117,16 @@ function MainApp() {
   );
 }
 
-import GlobalErrorMonitor from './components/common/GlobalErrorMonitor';
-
 export default function App() {
   return (
-    <GlobalErrorMonitor>
-      <ThemeProvider>
-        <LanguageProvider>
-          <SettingsProvider>
-            <AuthProvider>
-              <MainApp />
-            </AuthProvider>
-          </SettingsProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </GlobalErrorMonitor>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SettingsProvider>
+          <AuthProvider>
+            <MainApp />
+          </AuthProvider>
+        </SettingsProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
