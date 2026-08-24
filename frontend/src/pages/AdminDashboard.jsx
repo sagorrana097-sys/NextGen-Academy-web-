@@ -566,6 +566,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
   }, [analyticsPeriod, customStartDate, customEndDate]);
 
   const fetchAnalytics = async (p = analyticsPeriod, s = customStartDate, e = customEndDate) => {
+    const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
+    if (!token) return;
     setLoadingAnalytics(true);
     try {
       const res = await analyticsAPI.getSummary({
@@ -573,11 +575,11 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         startDate: s,
         endDate: e
       });
-      if (res.success && res.data) {
+      if (res?.success && res?.data) {
         setAnalyticsData(res.data);
       }
     } catch (err) {
-      console.error('Failed to load dynamic analytics:', err);
+      console.warn('Failed to load dynamic analytics:', err);
     } finally {
       setLoadingAnalytics(false);
     }

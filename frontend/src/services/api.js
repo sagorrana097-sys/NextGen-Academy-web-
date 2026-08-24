@@ -70,11 +70,23 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
         continue;
       }
 
+      if (res.status === 401) {
+        console.warn(`[Auth Session Notice]: Session token expired or unauthorized on ${endpoint}`);
+        return {
+          success: false,
+          isUnauthorized: true,
+          error: { message: data?.error?.message || 'সেশনের মেয়াদ শেষ হয়েছে। অনুগ্রহ করে আবার লগইন করুন।' },
+          data: null
+        };
+      }
+
       if (!res.ok) {
-        const err = new Error(data.error?.message || data.message || `Request failed with status ${res.status}`);
-        err.status = res.status;
-        err.response = { status: res.status, data };
-        throw err;
+        return {
+          success: false,
+          status: res.status,
+          error: { message: data.error?.message || data.message || `Request failed with status ${res.status}` },
+          data: null
+        };
       }
 
       return data;
@@ -93,15 +105,19 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
   // If failed after all retries and not an error reporting request itself, log silently
   if (!endpoint.includes('/system-errors')) {
     silentlyLogSystemError({
-      message: `Network Exception on ${options.method || 'GET'} ${endpoint}: ${lastError.message}`,
-      stack: lastError.stack,
+      message: `Network Exception on ${options.method || 'GET'} ${endpoint}: ${lastError?.message || 'Failed to fetch'}`,
+      stack: lastError?.stack,
       errorType: 'NETWORK_ERROR',
-      statusCode: lastError.status || 500
+      statusCode: lastError?.status || 500
     });
   }
 
-  console.error(`API Error on [${options.method || 'GET'} ${endpoint}]:`, lastError);
-  throw lastError;
+  console.warn(`API Exception handled gracefully on [${options.method || 'GET'} ${endpoint}]:`, lastError?.message);
+  return {
+    success: false,
+    error: { message: lastError?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' },
+    data: null
+  };
 }
 
 export const authAPI = {
