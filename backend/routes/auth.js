@@ -429,7 +429,7 @@ router.post('/refresh', async (req, res, next) => {
     let decoded;
     try {
       decoded = jwt.verify(refreshToken, JWT_SECRET);
-      if (decoded.tokenType !== 'REFRESH' || !decoded.userId) {
+      if (decoded.tokenType !== 'REFRESH' || (!decoded.userId && !decoded.id && !decoded._id)) {
         throw new Error('Invalid token type');
       }
     } catch (err) {
@@ -439,7 +439,8 @@ router.post('/refresh', async (req, res, next) => {
       });
     }
 
-    const user = await User.findByPk(decoded.userId);
+    const userId = decoded.userId || decoded.id || decoded._id;
+    const user = await User.findByPk(userId);
     if (!user || user.isActive === false) {
       return res.status(401).json({
         success: false,

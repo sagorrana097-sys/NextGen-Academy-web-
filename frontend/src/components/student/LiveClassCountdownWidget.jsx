@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
 const BRAND = {
@@ -11,7 +11,7 @@ const BRAND = {
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function request(endpoint, options = {}) {
-  const token = localStorage.getItem('nextgen_token');
+  const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
   const headers = { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers };
   return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => r.json());
 }

@@ -60,7 +60,7 @@ export default function DataBackupManager() {
   const handleDownload = async (url, defaultFilename, label) => {
     setDownloading(label);
     try {
-      const authToken = token || localStorage.getItem('nextgen_token');
+      const authToken = token || localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${authToken}`
