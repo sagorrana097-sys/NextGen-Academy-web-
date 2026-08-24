@@ -376,9 +376,11 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
                     <span className="text-xs font-bold text-slate-200 group-hover:text-white truncate">
                       {user.name}
                     </span>
-                    <span className="text-[9px] text-slate-400 font-mono truncate">
-                      {user.role}
-                    </span>
+                    {user.role && user.role !== 'PARENT' && (
+                      <span className="text-[9px] text-slate-400 font-mono truncate">
+                        {user.role}
+                      </span>
+                    )}
                   </div>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-200 hidden sm:block transition-transform duration-200" />
                 </button>
@@ -389,9 +391,11 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
                     <div className="px-4 py-2.5 border-b border-slate-800">
                       <p className="text-xs font-bold text-white truncate">{user.name}</p>
                       <p className="text-[11px] text-slate-400 truncate">{user.email || user.phone}</p>
-                      <div className="mt-1.5 inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 uppercase">
-                        {user.role}
-                      </div>
+                      {user.role && user.role !== 'PARENT' && (
+                        <div className="mt-1.5 inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 uppercase">
+                          {user.role}
+                        </div>
+                      )}
                     </div>
 
                     <button

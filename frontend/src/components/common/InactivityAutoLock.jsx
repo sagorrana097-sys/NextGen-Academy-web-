@@ -134,9 +134,11 @@ export default function InactivityAutoLock({ children }) {
                 <h4 className="font-bold text-sm text-white truncate">{user?.name}</h4>
                 <p className="text-xs text-slate-400 font-mono truncate">{user?.email}</p>
               </div>
-              <span className="px-2 py-0.5 rounded-md bg-rose-950 text-rose-300 text-[10px] font-bold border border-rose-800">
-                {user?.role}
-              </span>
+              {user?.role && user.role !== 'PARENT' && (
+                <span className="px-2 py-0.5 rounded-md bg-rose-950 text-rose-300 text-[10px] font-bold border border-rose-800">
+                  {user.role}
+                </span>
+              )}
             </div>
 
             {/* Unlock Form */}
