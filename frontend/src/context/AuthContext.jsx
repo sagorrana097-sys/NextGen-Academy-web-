@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(() => {
     try {
-      const t = localStorage.getItem('nextgen_token');
+      const t = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
       return t && t !== 'undefined' && t !== 'null' ? t : null;
     } catch (e) {
       return null;
@@ -60,6 +60,10 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem('nextgen_refresh_token', res.data.refreshToken);
         }
         localStorage.setItem('nextgen_token', res.data.token);
+        localStorage.setItem('token', res.data.token);
+        if (res.data.user?.role === 'ADMIN' || res.data.user?.role === 'SUPER_ADMIN') {
+          localStorage.setItem('adminToken', res.data.token);
+        }
         localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
         return { success: true, user: res.data.user };
       }
@@ -91,6 +95,10 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem('nextgen_refresh_token', res.data.refreshToken);
         }
         localStorage.setItem('nextgen_token', res.data.token);
+        localStorage.setItem('token', res.data.token);
+        if (res.data.user?.role === 'ADMIN' || res.data.user?.role === 'SUPER_ADMIN') {
+          localStorage.setItem('adminToken', res.data.token);
+        }
         localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
         return { success: true, user: res.data.user };
       }
@@ -134,6 +142,8 @@ export const AuthProvider = ({ children }) => {
     setRefreshToken(null);
     setError(null);
     localStorage.removeItem('nextgen_token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('adminToken');
     localStorage.removeItem('nextgen_refresh_token');
     localStorage.removeItem('nextgen_user');
   };

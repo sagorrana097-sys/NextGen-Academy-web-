@@ -10,23 +10,26 @@ const AuditService = require('../services/auditService');
 
 const router = express.Router();
 
-const ACCESS_TOKEN_EXPIRY = '15m';
-const REFRESH_TOKEN_EXPIRY = '7d';
+const ACCESS_TOKEN_EXPIRY = '14d';
+const REFRESH_TOKEN_EXPIRY = '30d';
 
 /**
  * Generate Access and Refresh Tokens
  */
 function generateTokens(user, studentId = null, teacherId = null) {
+  const userId = user.id || user._id;
   const payload = {
-    userId: user.id,
+    userId,
+    id: userId,
+    _id: userId,
     email: user.email,
     role: user.role,
     studentId,
     teacherId
   };
 
-  const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY });
-  const refreshToken = jwt.sign({ userId: user.id, tokenType: 'REFRESH' }, JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRY });
+  const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '14d' });
+  const refreshToken = jwt.sign({ userId, id: userId, _id: userId, tokenType: 'REFRESH' }, JWT_SECRET, { expiresIn: '30d' });
 
   return { accessToken, refreshToken };
 }

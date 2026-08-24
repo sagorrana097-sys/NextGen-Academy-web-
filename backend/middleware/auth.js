@@ -35,7 +35,8 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    const user = await User.findByPk(decoded.userId);
+    const userId = decoded.userId || decoded.id || decoded._id;
+    const user = await User.findByPk(userId);
     if (!user || !user.isActive) {
       return res.status(401).json({
         success: false,

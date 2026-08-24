@@ -40,7 +40,7 @@ export async function silentlyLogSystemError(errorPayload) {
  * Network Request with Auto-Healing (Up to 3 silent retries on network/5xx server failures)
  */
 async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
-  const token = localStorage.getItem('nextgen_token');
+  const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
