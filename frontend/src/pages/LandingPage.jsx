@@ -1,4 +1,5 @@
 import React from 'react';
+import NewsTicker from '../components/layout/NewsTicker';
 import { 
   Sparkles, ArrowRight, ShieldCheck, Zap, Brain, 
   FlaskConical, Heart, Calculator, Compass, BookOpen, 
@@ -48,6 +49,9 @@ export default function LandingPage({ onNavigateLogin, onNavigateAdmission, onEx
           </div>
         </div>
       </header>
+
+      {/* Public Live News & Exam Routine Ticker */}
+      <NewsTicker />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-24 lg:pt-20 lg:pb-32">
