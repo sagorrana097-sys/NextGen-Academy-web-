@@ -862,5 +862,167 @@ router.post('/admin/settings/student-menus/reset', authenticate, (req, res) => {
   }
 });
 
+
+// ==========================================
+// CENTRALIZED STUDENT PORTAL CONTROL & MANAGEMENT HUB
+// ==========================================
+
+const DEFAULT_STUDENT_PORTAL_CONFIG = {
+  maintenanceMode: false,
+  maintenanceMessage: 'স্টুডেন্ট পোর্টাল বর্তমানে সিস্টেম আপগ্রেডেশনের জন্য সাময়িক স্থগিত রয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।',
+  portalBannerText: '',
+  showPortalBanner: false,
+  enableDoubtSolver: true,
+  enableLeaderboard: true,
+  enableOnlinePayment: true,
+  enableInstantPrint: true,
+  categories: {
+    academicCore: {
+      key: 'academicCore',
+      titleBn: '📚 একাডেমিক কোর',
+      titleEn: 'Academic Core',
+      enabled: true,
+      modules: {
+        'routine': { id: 'routine', nameBn: 'ক্লাস রুটিন', nameEn: 'Class Routine', enabled: true, icon: 'CalendarDays', description: 'সাপ্তাহিক ক্লাস শিডিউল ও পিরিয়ড' },
+        'exams': { id: 'exams', nameBn: 'অনলাইন পরীক্ষা ও মূল্যায়ন', nameEn: 'Online Exams', enabled: true, icon: 'HelpCircle', description: 'অনলাইন এমসিকিউ ও মডেল টেস্ট' },
+        'homework': { id: 'homework', nameBn: 'ডিজিটাল বাড়ির কাজ', nameEn: 'Homework & Tasks', enabled: true, icon: 'ClipboardList', description: 'হোমওয়ার্ক সাবমিশন ও শিক্ষকের গ্রেডিং' },
+        'syllabus': { id: 'syllabus', nameBn: 'সিলেবাস অগ্রগতি ও ট্র্যাকার', nameEn: 'Syllabus Tracker', enabled: true, icon: 'BookCheck', description: 'অধ্যায়ভিত্তিক সমাপ্তি ও প্রগ্রেস' },
+        'textbooks': { id: 'textbooks', nameBn: 'ডিজিটাল পাঠ্যবই (NCTB)', nameEn: 'Digital Textbooks', enabled: true, icon: 'BookOpen', description: 'জাতীয় পাঠ্যবই ও ই-বুক রিডার' },
+        'live-classes': { id: 'live-classes', nameBn: 'লাইভ ক্লাসরুম', nameEn: 'Live Classroom', enabled: true, icon: 'Video', description: 'রিয়েল-টাইম অনলাইন ক্লাস ও ভিডিও' },
+        'recorded': { id: 'recorded', nameBn: 'রেকর্ডেড ক্লাস লাইব্রেরি', nameEn: 'Recorded Classes', enabled: true, icon: 'PlaySquare', description: 'আর্কাইভকৃত পূর্ববর্তী সকল ক্লাস ভিডিও' }
+      }
+    },
+    smartLabs: {
+      key: 'smartLabs',
+      titleBn: '🧪 স্মার্ট সায়েন্স ও এআই ল্যাব',
+      titleEn: 'Smart Science & AI Labs',
+      enabled: true,
+      modules: {
+        'chemistry-hub': { id: 'chemistry-hub', nameBn: 'রসায়ন ল্যাব ও মাস্টার হাব', nameEn: 'Chemistry Hub', enabled: true, icon: 'FlaskConical', description: 'মাস্টার কেমিস্ট্রি, বন্ডিং ও ম্যাথ সলভার' },
+        'biology-lab': { id: 'biology-lab', nameBn: 'মাস্টার জীববিজ্ঞান ভার্চুয়াল ল্যাব', nameEn: 'Biology Lab', enabled: true, icon: 'Dna', description: 'প্রাণিবিজ্ঞান ও উদ্ভিদবিজ্ঞান ৩ডি ল্যাব' },
+        'physics-lab': { id: 'physics-lab', nameBn: 'মেগা পদার্থবিজ্ঞান সিমুলেশন ল্যাব', nameEn: 'Physics Lab', enabled: true, icon: 'Atom', description: 'আলো, গতি ও বিদ্যুতের ইন্টারঅ্যাক্টিভ সিমুলেশন' },
+        'math-lab': { id: 'math-lab', nameBn: 'গণিত ও ICT ভিজ্যুয়ালাইজার', nameEn: 'Math & ICT Lab', enabled: true, icon: 'Calculator', description: 'জ্যামিতি বোর্ড, সংখ্যা পদ্ধতি ও অ্যালগরিদম' },
+        'ict-quiz': { id: 'ict-quiz', nameBn: 'ICT স্মার্ট কুইজ ও কোডিং চ্যালেঞ্জ', nameEn: 'ICT Quiz Zone', enabled: true, icon: 'Terminal', description: 'সি প্রোগ্রামিং, এইচটিএমএল ও এমসিকিউ কুইজ' }
+      }
+    },
+    studyMaterials: {
+      key: 'studyMaterials',
+      titleBn: '📖 স্টাডি মেটেরিয়ালস ও বুকস',
+      titleEn: 'Study Materials & Books',
+      enabled: true,
+      modules: {
+        'smart-notes': { id: 'smart-notes', nameBn: 'অ্যানিমেটেড স্মার্টবোর্ড নোটস', nameEn: 'Smart Board Notes', enabled: true, icon: 'PenTool', description: 'ডিজিটাল স্মার্টবোর্ড লেকচার স্লাইডস' },
+        'grammar-hub': { id: 'grammar-hub', nameBn: 'ইংরেজি গ্রামার ও রুলস হাব', nameEn: 'English Grammar Hub', enabled: true, icon: 'Languages', description: 'গ্রামার রুলস, টেস্ট ও বাংলা ব্যাখ্যা' },
+        'formula-vault': { id: 'formula-vault', nameBn: 'ইন্টারেক্টিভ ফর্মুলা ভল্ট', nameEn: 'Formula Vault', enabled: true, icon: 'Sigma', description: 'সকল সূত্র ভাণ্ডার ও ইমেজ জেনারেটর' },
+        'book-store': { id: 'book-store', nameBn: 'স্টুডেন্ট ডিজিটাল বুকস্টোর', nameEn: 'Digital Book Store', enabled: true, icon: 'BookMarked', description: 'প্রামাণ্য গাইড ও স্পেশাল শিট সংগ্রহ' },
+        'resources': { id: 'resources', nameBn: 'লেকচার শিট ও রিসোর্স ব্যাংক', nameEn: 'Resource Library', enabled: true, icon: 'FolderGit2', description: 'পিডিএফ শিট ও সাজেশন ডাউনলোড' }
+      }
+    },
+    gamification: {
+      key: 'gamification',
+      titleBn: '🎮 পারফরম্যান্স ও গ্যামিফিকেশন',
+      titleEn: 'Performance & Gamification',
+      enabled: true,
+      modules: {
+        'ai-routine': { id: 'ai-routine', nameBn: 'AI স্টাডি রুটিন ও দুর্বলতা ট্র্যাকার', nameEn: 'AI Routine', enabled: true, icon: 'Brain', description: 'দুর্বল বিষয়ের উপর ৭ দিনের স্মার্ট রুটিন' },
+        'syllabus-map': { id: 'syllabus-map', nameBn: 'RPG সিলেবাস ম্যাপ', nameEn: 'RPG Syllabus Map', enabled: true, icon: 'Map', description: 'লেভেল ও এক্সপি অর্জনের সিলেবাস জার্নি' },
+        'live-battle': { id: 'live-battle', nameBn: '১v১ লাইভ MCQ ব্যাটেল', nameEn: '1v1 Live Battle', enabled: true, icon: 'Swords', description: 'সহপাঠীদের সাথে সরাসরি অনলাইন কুইজ লড়াই' },
+        'results': { id: 'results', nameBn: 'ফলাফল ও গ্রেডশিট', nameEn: 'Results & Grades', enabled: true, icon: 'Award', description: 'টার্মভিত্তিক ফলাফল ও ট্রান্সক্রিপ্ট' }
+      }
+    },
+    profileRecords: {
+      key: 'profileRecords',
+      titleBn: '⚙️ প্রোফাইল ও রেকর্ড',
+      titleEn: 'Profile & Records',
+      enabled: true,
+      modules: {
+        'attendance': { id: 'attendance', nameBn: 'একাডেমিক প্রগ্রেস ও রিপোর্ট হাব', nameEn: 'Progress & Attendance', enabled: true, icon: 'TrendingUp', description: 'নম্বর বিশ্লেষণ, প্রগ্রেস চার্ট ও উপস্থিতি' },
+        'fees': { id: 'fees', nameBn: 'ফি ও পেমেন্ট হিস্ট্রি', nameEn: 'Fee Invoices', enabled: true, icon: 'CreditCard', description: 'টিউশন ফি বিবরণ ও মানি রিসিট' },
+        'checkout': { id: 'checkout', nameBn: 'পেমেন্ট গেটওয়ে ও রিডিম', nameEn: 'Payment Gateway', enabled: true, icon: 'Wallet', description: 'বিকাশ/নগদ ডিজিটাল ফি পরিশোধ' },
+        'referral-hub': { id: 'referral-hub', nameBn: 'রেফারেল ও রিওয়ার্ডস হাব', nameEn: 'Referral Rewards', enabled: true, icon: 'Gift', description: 'বন্ধু রেফার করে ক্যাশব্যাক ও পয়েন্ট' },
+        'rewards': { id: 'rewards', nameBn: 'রিওয়ার্ড স্টোর ও কয়েন', nameEn: 'Reward Store', enabled: true, icon: 'Trophy', description: 'অর্জিত কয়েন দিয়ে স্টোর গিফট রিডিম' },
+        'teachers': { id: 'teachers', nameBn: 'শিক্ষক নির্দেশিকা', nameEn: 'Teacher Directory', enabled: true, icon: 'Users', description: 'সম্মানিত শিক্ষকদের তালিকা ও যোগাযোগ' },
+        'helpdesk': { id: 'helpdesk', nameBn: 'মতামত ও হেল্পডেস্ক', nameEn: 'Feedback & Helpdesk', enabled: true, icon: 'MessageSquarePlus', description: 'অভিযোগ, সমস্যা ও পরামর্শ বক্স' },
+        'notices': { id: 'notices', nameBn: 'নোটিশ বোর্ড', nameEn: 'Notice Board', enabled: true, icon: 'BellRing', description: 'একাডেমির জরুরি নোটিশ ও ছুটির তালিকা' }
+      }
+    }
+  }
+};
+
+function getOrInitStudentPortal(db) {
+  if (!db.student_portal_config) {
+    db.student_portal_config = JSON.parse(JSON.stringify(DEFAULT_STUDENT_PORTAL_CONFIG));
+    saveDB(db);
+  }
+  return db.student_portal_config;
+}
+
+/**
+ * GET /api/settings/student-portal
+ * Fetch centralized student portal configuration and active module toggles
+ */
+router.get('/student-portal', (req, res) => {
+  try {
+    const db = getDB();
+    const config = getOrInitStudentPortal(db);
+    res.json({
+      success: true,
+      data: config
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * PUT /api/settings/student-portal
+ * Admin update centralized student portal configuration
+ */
+router.put('/student-portal', authenticate, (req, res) => {
+  try {
+    const db = getDB();
+    const current = getOrInitStudentPortal(db);
+    const updated = {
+      ...current,
+      ...req.body,
+      categories: {
+        ...current.categories,
+        ...(req.body.categories || {})
+      }
+    };
+
+    db.student_portal_config = updated;
+    saveDB(db);
+
+    res.json({
+      success: true,
+      message: 'স্টুডেন্ট পোর্টাল কন্ট্রোল হাব সেটিংস সফলভাবে আপডেট ও সেভ হয়েছে!',
+      data: updated
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * POST /api/settings/student-portal/reset
+ * Reset student portal configuration to factory defaults
+ */
+router.post('/student-portal/reset', authenticate, (req, res) => {
+  try {
+    const db = getDB();
+    db.student_portal_config = JSON.parse(JSON.stringify(DEFAULT_STUDENT_PORTAL_CONFIG));
+    saveDB(db);
+
+    res.json({
+      success: true,
+      message: 'স্টুডেন্ট পোর্টাল সেটিংস ফ্যাক্টরি ডিফল্টে সফলভাবে রিস্টোর হয়েছে!',
+      data: db.student_portal_config
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
 module.exports = router;
 

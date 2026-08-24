@@ -623,6 +623,12 @@ export const referralAPI = {
   updateAdminSettings: (data) => request('/referral/admin/settings', { method: 'PUT', body: JSON.stringify(data) }),
 };
 
+export const studentPortalControlAPI = {
+  getConfig: () => request('/settings/student-portal'),
+  updateConfig: (data) => request('/settings/student-portal', { method: 'PUT', body: JSON.stringify(data) }),
+  resetConfig: () => request('/settings/student-portal/reset', { method: 'POST' }),
+};
+
 export const proctoringAPI = {
   sendEvent: (data) => request('/proctoring/event', { method: 'POST', body: JSON.stringify(data) }),
 };

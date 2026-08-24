@@ -42,6 +42,7 @@ const AdminHelpdeskManager = lazy(() => import('../components/admin/AdminHelpdes
 const AdminMenuManager = lazy(() => import('../components/admin/AdminMenuManager'));
 const AdminGrammarCMS = lazy(() => import('../components/admin/AdminGrammarCMS'));
 const AdminPromoSettings = lazy(() => import('../components/admin/AdminPromoSettings'));
+const AdminStudentPortalManager = lazy(() => import('../components/admin/AdminStudentPortalManager'));
 
 
 
@@ -1578,6 +1579,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         <AdminMenuManager />
       ) : activeTab === 'approvals' ? (
         <UnifiedApprovalEngine />
+      ) : activeTab === 'student-portal-control' || activeTab === 'menu-controls' ? (
+        <AdminStudentPortalManager />
       ) : activeTab === 'site-cms' ? (
         <GlobalSiteContentCMS />
       ) : activeTab === 'sms-notifications' ? (

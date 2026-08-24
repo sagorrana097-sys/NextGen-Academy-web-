@@ -261,8 +261,8 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '🎨 কনটেন্ট ও লার্নিং CMS' : '🎨 Content & Learning CMS',
       icon: Sparkles,
       items: [
+        { id: 'student-portal-control', label: lang === 'bn' ? 'স্টুডেন্ট পোর্টাল কন্ট্রোল হাব' : 'Student Portal Control', icon: Sliders },
         { id: 'site-cms', label: lang === 'bn' ? 'গ্লোবাল সাইট কনটেন্ট CMS' : 'Global Site CMS', icon: Sparkles },
-        { id: 'dashboard-controls', label: lang === 'bn' ? 'স্টুডেন্ট মেনু কন্ট্রোল' : 'Student Menu Controls', icon: Sliders },
         { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
         { id: 'gamification-cms', label: lang === 'bn' ? 'গ্যামিফিকেশন কন্ট্রোল' : 'Gamification CMS', icon: Zap },
         { id: 'grammar-cms', label: lang === 'bn' ? 'ইংলিশ গ্রামার CMS' : 'English Grammar CMS', icon: BookA },
@@ -328,14 +328,44 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
   // Active Categories based on user role
   const activeCategories = useMemo(() => {
     if (user?.role === 'STUDENT' || user?.role === 'PARENT') {
-      return studentCategories;
+      const portalConfig = settings?.studentPortal;
+      if (!portalConfig || !portalConfig.categories) return studentCategories;
+
+      return studentCategories
+        .map((cat) => {
+          const configCatKey = cat.key === 'aiPerformance' ? 'gamification' : cat.key;
+          const configCat = portalConfig.categories[configCatKey];
+          if (configCat && configCat.enabled === false) {
+            return null;
+          }
+
+          const filteredItems = cat.items.filter((item) => {
+            if (item.isDropdown && item.subItems) {
+              const chemEnabled = configCat?.modules?.['chemistry-hub']?.enabled !== false;
+              return chemEnabled;
+            }
+            const modConfig = configCat?.modules?.[item.id];
+            if (modConfig && modConfig.enabled === false) {
+              return false;
+            }
+            return true;
+          });
+
+          if (filteredItems.length === 0) return null;
+
+          return {
+            ...cat,
+            items: filteredItems
+          };
+        })
+        .filter(Boolean);
     } else if (user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN') {
       return adminCategories;
     } else if (user?.role === 'TEACHER') {
       return teacherCategories;
     }
     return [];
-  }, [user?.role, lang]);
+  }, [user?.role, lang, settings?.studentPortal]);
 
   // Auto-expand category or dropdown containing current activeTab
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { useSettings } from '../context/SettingsContext';
 import { studentAPI, parentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI, menuControlsAPI } from '../services/api';
 import { useSWRCache } from '../utils/swrCache';
 import LoadingFallback from '../components/common/LoadingFallback';
@@ -105,12 +106,14 @@ import {
   Flame,
   Trophy,
   Zap,
-  Target
+  Target,
+  Megaphone
 } from 'lucide-react';
 
 export default function StudentDashboard({ activeTab = 'dashboard' }) {
   const { t, lang } = useLanguage();
   const { user } = useAuth();
+  const { settings } = useSettings();
   const isParent = user?.role === 'PARENT';
   const [children, setChildren] = useState([]);
   const [selectedChildId, setSelectedChildId] = useState(null);
@@ -423,8 +426,42 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
     );
   }
 
+  // Centralized Student Portal Maintenance Mode Guard
+  if (settings?.studentPortal?.maintenanceMode && user?.role !== 'ADMIN' && user?.role !== 'SUPER_ADMIN') {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-6">
+        <div className="max-w-xl w-full bg-slate-900 border border-amber-500/30 rounded-3xl p-8 text-center space-y-4 shadow-2xl text-white">
+          <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/10 animate-bounce">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-xl font-black text-white">স্টুডেন্ট পোর্টাল রক্ষণাবেক্ষণ চলছে</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              {settings.studentPortal.maintenanceMessage || 'স্টুডেন্ট পোর্টাল বর্তমানে সিস্টেম আপগ্রেডেশনের জন্য সাময়িক স্থগিত রয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।'}
+            </p>
+          </div>
+          <div className="pt-2 text-xs text-amber-400 font-bold">
+            জরুরি হেল্পলাইন: {settings.contactNumber || '০১৭৯২৮১৮০০৫'}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Dynamic Student Portal Top Announcement Banner */}
+      {settings?.studentPortal?.showPortalBanner && settings?.studentPortal?.portalBannerText && (
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 border border-indigo-500/30 text-white flex items-center space-x-3 shadow-lg shadow-indigo-950/30 animate-fadeIn">
+          <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+            <Megaphone className="w-4 h-4 text-amber-300 animate-pulse" />
+          </div>
+          <p className="text-xs sm:text-sm font-bold flex-1 leading-snug">
+            {settings.studentPortal.portalBannerText}
+          </p>
+        </div>
+      )}
+
       {/* Top Student Overview & KPI strictly for root dashboard */}
       {activeTab === 'dashboard' && (
         <>
@@ -556,9 +593,26 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
         </>
       )}
 
-      {/* Access Guard (Feature Flagging Check) */}
+      {/* Access Guard (Centralized Feature Flagging Check) */}
       {(() => {
-        if (!menuSettings || !activeTab || activeTab === 'dashboard') return false;
+        if (!activeTab || activeTab === 'dashboard') return false;
+
+        const portalConfig = settings?.studentPortal;
+        if (portalConfig?.categories) {
+          for (const catKey of Object.keys(portalConfig.categories)) {
+            const cat = portalConfig.categories[catKey];
+            if (cat.enabled === false && cat.modules) {
+              if (Object.keys(cat.modules).includes(activeTab)) {
+                return { nameBn: cat.titleBn, isCategory: true };
+              }
+            }
+            if (cat.modules && cat.modules[activeTab] && cat.modules[activeTab].enabled === false) {
+              return cat.modules[activeTab];
+            }
+          }
+        }
+
+        if (!menuSettings) return false;
         const tabMapping = {
           'routine-ai': 'ai-routine',
           'rpg-syllabus': 'syllabus-map',
