@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import './index.css';
 import { setupFastCache } from './utils/speedOptimizer';
 
 // Initialize NextGen Speed & Memory Cache Optimizer
 setupFastCache();
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root') || document.body.appendChild(document.createElement('div'));
+if (!container.id) container.id = 'root';
+
+const root = ReactDOM.createRoot(container);
+root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
