@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import ErrorBoundary from './components/common/ErrorBoundary';
 import './index.css';
 import { setupFastCache } from './utils/speedOptimizer';
 
@@ -14,8 +13,6 @@ if (!container.id) container.id = 'root';
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
+    <App />
   </React.StrictMode>
 );
