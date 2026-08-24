@@ -26,7 +26,7 @@ export default function UniversalFileUploader({
   fileName = '',
   fileSize = '',
   onChange,
-  accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.zip,.ppt,.pptx',
+  accept = '.pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*',
   maxMb = 15,
   helperText = '',
   placeholder = 'https://drive.google.com/file/d/... বা ক্লাউড লিঙ্ক দিন',

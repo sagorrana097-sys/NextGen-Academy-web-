@@ -21,7 +21,7 @@ export default function DualFileUploadInput({
   fileName = '',
   fileSize = '',
   onChange,
-  accept = '.pdf,.doc,.docx,image/*,.ppt,.pptx',
+  accept = '.pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*',
   placeholder = 'https://drive.google.com/file/d/... বা অনলাইন লিঙ্ক'
 }) {
   // Determine initial mode: if value starts with data:, set to 'UPLOAD', else 'URL'

@@ -921,6 +921,7 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
                   value={formData.fileUrl}
                   fileName={formData.fileName}
                   fileSize={formData.fileSize}
+                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*"
                   maxMb={30}
                   onChange={({ url, fileUrl, fileName, fileSize }) => {
                     const finalUrl = fileUrl || url || '';
