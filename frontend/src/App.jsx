@@ -64,7 +64,8 @@ function MainApp() {
   }
 
   const renderDashboard = () => {
-    switch (user?.role) {
+    const role = String(user?.role || '').toUpperCase();
+    switch (role) {
       case 'SUPER_ADMIN':
       case 'ADMIN':
         return <AdminDashboard activeTab={activeTab} />;
@@ -73,9 +74,8 @@ function MainApp() {
       case 'PARENT':
         return <ParentDashboard activeTab={activeTab} />;
       case 'STUDENT':
-        return <StudentDashboard activeTab={activeTab} />;
       default:
-        return <div className="p-8 text-center text-slate-500">Invalid Role</div>;
+        return <StudentDashboard activeTab={activeTab} />;
     }
   };
 
