@@ -1,7 +1,9 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { adminAPI, analyticsAPI, noticeAPI, curriculumAPI, textbookAPI, teacherAttendanceAPI, examAPI } from '../services/api';
+import { useSWRCache, getCacheItem, setCacheItem } from '../utils/swrCache';
 import LoadingFallback from '../components/common/LoadingFallback';
+import DashboardSkeletonLoader from '../components/common/DashboardSkeletonLoader';
 import Student360Modal from '../components/common/Student360Modal';
 import ExecutiveSummaryModal from '../components/common/ExecutiveSummaryModal';
 import AdminQuickFloater from '../components/admin/AdminQuickFloater';
@@ -557,7 +559,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
   useEffect(() => {
     fetchAdminData();
     fetchAnalytics();
-  }, [activeTab]);
+  }, []);
 
   useEffect(() => {
     fetchAnalytics();
@@ -581,11 +583,27 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
     }
   };
 
-  const fetchAdminData = async () => {
-    setLoading(true);
+  const fetchAdminData = async (forceRefresh = false) => {
+    // 1. Instant Cache Hydration
+    const cachedStats = getCacheItem('admin_stats');
+    const cachedStudents = getCacheItem('admin_students');
+    const cachedTeachers = getCacheItem('admin_teachers');
+    const cachedInvoices = getCacheItem('admin_invoices');
+    const cachedClasses = getCacheItem('admin_classes');
+
+    if (cachedStats && !stats) setStats(cachedStats);
+    if (cachedStudents && students.length === 0) setStudents(cachedStudents);
+    if (cachedTeachers && teachers.length === 0) setTeachers(cachedTeachers);
+    if (cachedInvoices && invoices.length === 0) setInvoices(cachedInvoices);
+    if (cachedClasses && allClasses.length === 0) setAllClasses(cachedClasses);
+
+    if (!cachedStats) {
+      setLoading(true);
+    }
     setError(null);
+
     try {
-      const [statsRes, studentsRes, teachersRes, invoicesRes, logsRes, classesRes, textbooksRes, examsRes] = await Promise.all([
+      const [statsRes, studentsRes, teachersRes, invoicesRes, logsRes, classesRes, textbooksRes, examsRes] = await Promise.allSettled([
         adminAPI.getStats(),
         adminAPI.getStudents(),
         adminAPI.getTeachers(),
@@ -596,14 +614,35 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         examAPI.getExams()
       ]);
 
-      if (statsRes.success) setStats(statsRes.data);
-      if (studentsRes.success) setStudents(studentsRes.data);
-      if (teachersRes.success) setTeachers(teachersRes.data);
-      if (invoicesRes.success) setInvoices(invoicesRes.data);
-      if (logsRes.success) setAuditLogs(logsRes.data.logs);
-      if (classesRes.success) setAllClasses(classesRes.data);
-      if (textbooksRes.success) setTextbooks(textbooksRes.data);
-      if (examsRes.success) setExamsList(examsRes.data);
+      if (statsRes.status === 'fulfilled' && statsRes.value?.success) {
+        setStats(statsRes.value.data);
+        setCacheItem('admin_stats', statsRes.value.data, 10 * 60 * 1000);
+      }
+      if (studentsRes.status === 'fulfilled' && studentsRes.value?.success) {
+        setStudents(studentsRes.value.data);
+        setCacheItem('admin_students', studentsRes.value.data, 10 * 60 * 1000);
+      }
+      if (teachersRes.status === 'fulfilled' && teachersRes.value?.success) {
+        setTeachers(teachersRes.value.data);
+        setCacheItem('admin_teachers', teachersRes.value.data, 10 * 60 * 1000);
+      }
+      if (invoicesRes.status === 'fulfilled' && invoicesRes.value?.success) {
+        setInvoices(invoicesRes.value.data);
+        setCacheItem('admin_invoices', invoicesRes.value.data, 10 * 60 * 1000);
+      }
+      if (logsRes.status === 'fulfilled' && logsRes.value?.success) {
+        setAuditLogs(logsRes.value.data.logs);
+      }
+      if (classesRes.status === 'fulfilled' && classesRes.value?.success) {
+        setAllClasses(classesRes.value.data);
+        setCacheItem('admin_classes', classesRes.value.data, 30 * 60 * 1000);
+      }
+      if (textbooksRes.status === 'fulfilled' && textbooksRes.value?.success) {
+        setTextbooks(textbooksRes.value.data);
+      }
+      if (examsRes.status === 'fulfilled' && examsRes.value?.success) {
+        setExamsList(examsRes.value.data);
+      }
     } catch (err) {
       setError(err.message || 'Failed to load admin data');
     } finally {
@@ -1224,14 +1263,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
   });
 
   if (loading && !stats) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center space-y-3">
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-xs font-semibold text-slate-500">{t('processing')}</p>
-        </div>
-      </div>
-    );
+    return <DashboardSkeletonLoader cardsCount={4} showHero={true} showSideCards={true} />;
   }
 
   return (

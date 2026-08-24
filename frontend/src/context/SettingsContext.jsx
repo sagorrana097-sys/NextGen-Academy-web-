@@ -137,9 +137,21 @@ export const defaultSiteSettings = {
 
 const SettingsContext = createContext();
 
+const getInitialSettings = () => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const cached = localStorage.getItem('nga_site_settings_cache');
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    }
+  } catch (_) {}
+  return defaultSiteSettings;
+};
+
 export const SettingsProvider = ({ children }) => {
-  const [settings, setSettings] = useState(defaultSiteSettings);
-  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState(getInitialSettings);
+  const [loading, setLoading] = useState(false);
 
   const fetchSettings = async () => {
     try {
@@ -165,7 +177,7 @@ export const SettingsProvider = ({ children }) => {
         };
       }
 
-      setSettings({
+      const merged = {
         ...defaultSiteSettings,
         ...siteData,
         studentPortal: portalData,
@@ -181,7 +193,14 @@ export const SettingsProvider = ({ children }) => {
           ...defaultSiteSettings.socialLinks,
           ...(siteData.socialLinks || {})
         }
-      });
+      };
+
+      setSettings(merged);
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          localStorage.setItem('nga_site_settings_cache', JSON.stringify(merged));
+        }
+      } catch (_) {}
     } catch (err) {
       console.warn('Failed to load site settings from server, using defaults:', err);
     } finally {

@@ -3,8 +3,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useSettings } from '../context/SettingsContext';
 import { studentAPI, parentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI, menuControlsAPI } from '../services/api';
-import { useSWRCache } from '../utils/swrCache';
+import { useSWRCache, getCacheItem, setCacheItem } from '../utils/swrCache';
 import LoadingFallback from '../components/common/LoadingFallback';
+import DashboardSkeletonLoader from '../components/common/DashboardSkeletonLoader';
 import LiveClassroomView from '../components/liveclass/LiveClassroomView';
 import LiveClassNotificationBanner from '../components/liveclass/LiveClassNotificationBanner';
 import DigitalHomeworkDropzone from '../components/student/DigitalHomeworkDropzone';
@@ -179,10 +180,20 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
   }, [activeTab]);
 
 
-  const fetchStudentData = async () => {
-    setLoading(true);
+  const fetchStudentData = async (forceRefresh = false) => {
+    // 1. Instant cache hydration
+    const cachedProfile = getCacheItem('student_profile');
+    const cachedDash = getCacheItem('student_dashboard');
+
+    if (cachedProfile && !profile) setProfile(cachedProfile);
+    if (cachedDash && !dashboard) setDashboard(cachedDash);
+
+    if (!cachedProfile) {
+      setLoading(true);
+    }
+
     try {
-      const [profRes, dashRes, attRes, resRes, routRes, invRes, notifRes, gameRes] = await Promise.all([
+      const [profRes, dashRes, attRes, resRes, routRes, invRes, notifRes, gameRes] = await Promise.allSettled([
         studentAPI.getProfile(),
         studentAPI.getDashboard(),
         studentAPI.getAttendance(),
@@ -190,35 +201,47 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
         studentAPI.getRoutine(),
         studentAPI.getInvoices(),
         noticeAPI.getNotices('STUDENT'),
-        studentAPI.getGamification().catch(() => ({ success: false }))
+        studentAPI.getGamification()
       ]);
 
-      if (gameRes && gameRes.data) {
-        setStreakData(gameRes.data);
+      if (gameRes.status === 'fulfilled' && gameRes.value?.data) {
+        setStreakData(gameRes.value.data);
       }
 
-      if (profRes.success) {
-        setProfile(profRes.data);
-        const [hwRes, matRes, tbRes, examRes] = await Promise.all([
-          homeworkAPI.getStudentHomework(profRes.data.id),
-          materialAPI.getStudentMaterials(profRes.data.id),
-          textbookAPI.getTextbooks({ classId: profRes.data.classId }),
-          examAPI.getStudentExams(profRes.data.id)
-        ]);
-        if (hwRes.success) setHomeworkList(hwRes.data);
-        if (matRes.success) setMaterialsList(matRes.data);
-        if (tbRes.success) setTextbooksList(tbRes.data);
-        if (examRes.success && examRes.data) {
-          setExamsList(examRes.data.exams || []);
-          setExamSummary(examRes.data.summary || null);
-        }
+      let activeProf = profile || cachedProfile;
+
+      if (profRes.status === 'fulfilled' && profRes.value?.success && profRes.value.data) {
+        activeProf = profRes.value.data;
+        setProfile(activeProf);
+        setCacheItem('student_profile', activeProf, 10 * 60 * 1000);
       }
-      if (dashRes.success) setDashboard(dashRes.data);
-      if (attRes.success) setAttendance(attRes.data);
-      if (resRes.success) setResults(resRes.data);
-      if (routRes.success) setRoutine(routRes.data);
-      if (invRes.success) setInvoices(invRes.data);
-      if (notifRes.success) setNotices(notifRes.data);
+
+      if (activeProf?.id) {
+        Promise.allSettled([
+          homeworkAPI.getStudentHomework(activeProf.id),
+          materialAPI.getStudentMaterials(activeProf.id),
+          textbookAPI.getTextbooks({ classId: activeProf.classId }),
+          examAPI.getStudentExams(activeProf.id)
+        ]).then(([hwRes, matRes, tbRes, examRes]) => {
+          if (hwRes.status === 'fulfilled' && hwRes.value?.success) setHomeworkList(hwRes.value.data);
+          if (matRes.status === 'fulfilled' && matRes.value?.success) setMaterialsList(matRes.value.data);
+          if (tbRes.status === 'fulfilled' && tbRes.value?.success) setTextbooksList(tbRes.value.data);
+          if (examRes.status === 'fulfilled' && examRes.value?.success && examRes.value.data) {
+            setExamsList(examRes.value.data.exams || []);
+            setExamSummary(examRes.value.data.summary || null);
+          }
+        }).catch(() => {});
+      }
+
+      if (dashRes.status === 'fulfilled' && dashRes.value?.success) {
+        setDashboard(dashRes.value.data);
+        setCacheItem('student_dashboard', dashRes.value.data, 10 * 60 * 1000);
+      }
+      if (attRes.status === 'fulfilled' && attRes.value?.success) setAttendance(attRes.value.data);
+      if (resRes.status === 'fulfilled' && resRes.value?.success) setResults(resRes.value.data);
+      if (routRes.status === 'fulfilled' && routRes.value?.success) setRoutine(routRes.value.data);
+      if (invRes.status === 'fulfilled' && invRes.value?.success) setInvoices(invRes.value.data);
+      if (notifRes.status === 'fulfilled' && notifRes.value?.success) setNotices(notifRes.value.data);
     } catch (err) {
       console.error('Failed to load student data:', err);
     } finally {
@@ -419,11 +442,7 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
   ).filter(Boolean);
 
   if (loading && !profile) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    return <DashboardSkeletonLoader cardsCount={4} showHero={true} showSideCards={true} />;
   }
 
   return (

@@ -7,11 +7,28 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '../data/nextgen_academy_db.json');
 
+let _cachedDB = null;
+let _lastCacheTime = 0;
+const DB_CACHE_TTL = 15000; // 15 seconds in-memory cache
+
 function getDB() {
-  return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+  const now = Date.now();
+  if (_cachedDB && (now - _lastCacheTime) < DB_CACHE_TTL) {
+    return _cachedDB;
+  }
+  try {
+    _cachedDB = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+    _lastCacheTime = now;
+    return _cachedDB;
+  } catch (err) {
+    if (_cachedDB) return _cachedDB;
+    throw err;
+  }
 }
 
 function saveDB(db) {
+  _cachedDB = db;
+  _lastCacheTime = Date.now();
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2), 'utf-8');
 }
 
