@@ -430,10 +430,10 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
   return (
     <>
-      {/* Mobile backdrop with high z-index and solid dark blur */}
+      {/* Mobile backdrop with ultra-high z-index and solid dark blur */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] lg:hidden transition-all duration-300"
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99990] lg:hidden transition-all duration-300"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -441,12 +441,12 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
       {/* Sidebar container with ultra-high z-index, solid background, and zero leakage */}
       <aside
-        className={`fixed top-0 lg:top-16 bottom-0 left-0 z-[9999] lg:z-30 w-72 sm:w-64 bg-slate-900 border-r border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.85)] lg:shadow-none transition-all duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 lg:top-16 bottom-0 left-0 z-[99999] lg:z-30 w-72 sm:w-64 bg-slate-900 border-r border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.85)] lg:shadow-none transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden isolate ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full justify-between p-3.5 overflow-hidden">
-          <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full justify-between p-3.5 overflow-x-hidden overflow-y-hidden isolate">
+          <div className="flex flex-col h-full overflow-x-hidden overflow-y-hidden">
             
             {/* Mobile Header with Close Button */}
             <div className="lg:hidden flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-800">
