@@ -30,8 +30,10 @@ import {
   Lock,
   GraduationCap,
   Check,
-  ArrowRight
+  ArrowRight,
+  ShieldAlert
 } from 'lucide-react';
+import { useProctoring } from '../../hooks/useProctoring';
 
 export default function LiveClassroomView({ studentId = null, role = 'STUDENT' }) {
   const { t, lang } = useLanguage();
@@ -55,6 +57,18 @@ export default function LiveClassroomView({ studentId = null, role = 'STUDENT' }
   // Freemium Lock CTA Modal State
   const [showLockCtaModal, setShowLockCtaModal] = useState(null);
   const [showAdmissionModal, setShowAdmissionModal] = useState(false);
+
+  // Automated Live Class Proctoring & Attendance SMS Alerts
+  const isClassActive = Boolean(activeWebRTCClass || watchingVideo);
+  const activeClassName = activeWebRTCClass?.title || watchingVideo?.title || 'লাইভ ক্লাস';
+
+  const { tabSwitchCount, lastWarning, clearWarning } = useProctoring({
+    type: 'CLASS',
+    name: activeClassName,
+    className: user?.class?.nameBn || '',
+    studentId: studentId || user?.studentId || user?.id,
+    enabled: isClassActive && (role === 'STUDENT' || user?.role === 'STUDENT')
+  });
 
   useEffect(() => {
     fetchStudentClasses();
@@ -481,6 +495,17 @@ export default function LiveClassroomView({ studentId = null, role = 'STUDENT' }
 
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 overflow-hidden">
               <div className="lg:col-span-2 flex flex-col overflow-y-auto bg-black p-3 sm:p-5 space-y-4">
+                {lastWarning && (
+                  <div className="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-600 text-rose-200 text-xs font-bold flex items-center justify-between animate-pulse">
+                    <div className="flex items-center space-x-2">
+                      <ShieldAlert className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                      <span>{lastWarning}</span>
+                    </div>
+                    <button onClick={clearWarning} className="text-rose-400 hover:text-rose-200 p-1">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
                 <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
                   {watchingVideo.recordingUrl || watchingVideo.meetingLink ? (
                     <iframe

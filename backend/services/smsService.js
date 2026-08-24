@@ -157,7 +157,7 @@ class SMSService {
 
       switch (eventType) {
         case 'EXAM_START':
-          messageContent = `প্রিয় অভিভাবক, আপনার সন্তান ${studentName} NextGen Academy-এর পোর্টালে ${examName} পরীক্ষা শুরু করেছে।`;
+          messageContent = `আপনার সন্তান ${studentName} NextGen Academy-এর পোর্টালে ${examName} পরীক্ষা শুরু করেছে।`;
           noticeTitle = `পরীক্ষা শুরুর নোটিফিকেশন: ${studentName}`;
           break;
         case 'EXAM_ABANDON':
