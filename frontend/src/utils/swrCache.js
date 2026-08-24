@@ -174,3 +174,6 @@ export function useSWRCache(key, fetcher, options = {}) {
     }
   };
 }
+
+export { setupFastCache, performFastAction } from './speedOptimizer';
+
