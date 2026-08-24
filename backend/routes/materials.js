@@ -130,7 +130,17 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
  */
 router.get('/source-materials', authenticate, async (req, res, next) => {
   try {
+    const { subjectId, classId } = req.query;
+    const where = {};
+    if (subjectId) where.subjectId = Number(subjectId);
+    if (classId) where.classId = Number(classId);
+
     const materials = await StudyMaterial.findAll({
+      where,
+      include: [
+        { model: Class, as: 'class' },
+        { model: Subject, as: 'subject' }
+      ],
       order: [['id', 'DESC']]
     });
 
@@ -140,6 +150,11 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
         id: m.id,
         title: m.title || m.titleBn || m.chapterBn || `সোর্স ম্যাটেরিয়াল #${m.id}`,
         category: m.category || 'GENERAL',
+        classId: m.classId,
+        subjectId: m.subjectId,
+        subjectName: m.subject ? (m.subject.nameBn || m.subject.name) : (m.category || ''),
+        className: m.class ? (m.class.nameBn || m.class.name) : '',
+        fileName: m.fileName || '',
         fileType: m.fileType || 'PDF',
         fileSize: m.fileSize,
         content_text: m.content_text || m.contentText || m.extracted_text || m.descriptionBn || '',

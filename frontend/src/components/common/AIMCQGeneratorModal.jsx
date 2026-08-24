@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { examAPI, materialAPI, googleDriveAPI } from '../../services/api';
 import {
@@ -93,10 +93,101 @@ export default function AIMCQGeneratorModal({
     }
   }, [isOpen]);
 
+  // Filter source materials strictly by the selected subject
+  const filteredSourceMaterials = useMemo(() => {
+    if (!subject) return sourceMaterials;
+
+    const cleanSub = subject.toLowerCase().trim();
+
+    return sourceMaterials.filter(mat => {
+      const title = (mat.title || mat.titleBn || '').toLowerCase();
+      const cat = (mat.category || '').toLowerCase();
+      const subName = (mat.subjectName || '').toLowerCase();
+      const fileName = (mat.fileName || '').toLowerCase();
+
+      // Helper: check if keywords exist in metadata
+      const matchesAny = (terms) => {
+        return terms.some(t =>
+          title.includes(t) || cat.includes(t) || subName.includes(t) || fileName.includes(t)
+        );
+      };
+
+      // 1. Higher Math vs General Math distinction
+      if (cleanSub.includes('উচ্চতর') || cleanSub.includes('higher')) {
+        return matchesAny(['উচ্চতর', 'higher', 'higher_math', 'highermath', 'ম্যাট্রিক্স', 'ভেক্টর', 'স্থানাঙ্ক', 'ত্রিকোণমিতিক']);
+      }
+
+      if (cleanSub.includes('গণিত') || cleanSub.includes('math')) {
+        // General Math: must NOT be higher math
+        const isHigher = matchesAny(['উচ্চতর', 'higher', 'higher_math', 'highermath']);
+        if (isHigher) return false;
+        return matchesAny(['সাধারণ গণিত', 'গণিত', 'math', 'general_math', 'generalmath', 'পাটিগণিত', 'বীজগণিত', 'জ্যামিতি', 'পরিসংখ্যান', 'সেট']);
+      }
+
+      // 2. Physics
+      if (cleanSub.includes('পদার্থ') || cleanSub.includes('physics')) {
+        return matchesAny(['পদার্থ', 'পদার্থবিজ্ঞান', 'physics', 'গতিবিদ্যা', 'বলবিদ্যা', 'কাজ ও শক্তি', 'আলো', 'তরঙ্গ', 'তড়িৎ', 'তাপ']);
+      }
+
+      // 3. Chemistry
+      if (cleanSub.includes('রসায়ন') || cleanSub.includes('রসায়ন') || cleanSub.includes('chemistry')) {
+        return matchesAny(['রসায়ন', 'রসায়ন', 'chemistry', 'পর্যায় সারণি', 'মোল', 'বন্ধন', 'যোজ্যতা', 'অম্ল', 'ক্ষারক']);
+      }
+
+      // 4. Biology
+      if (cleanSub.includes('জীব') || cleanSub.includes('biology')) {
+        return matchesAny(['জীব', 'জীববিজ্ঞান', 'biology', 'উদ্ভিদ', 'প্রাণী', 'কোষ', 'টিস্যু', 'বংশগতি']);
+      }
+
+      // 5. ICT
+      if (cleanSub.includes('আইসিটি') || cleanSub.includes('ict') || cleanSub.includes('তথ্য')) {
+        return matchesAny(['তথ্য', 'ict', 'তথ্য ও যোগাযোগ', 'কম্পিউটার', 'প্রোগ্রামিং', 'এইচটিএমএল', 'ডাটাবেস']);
+      }
+
+      // 6. Bangla
+      if (cleanSub.includes('বাংলা') || cleanSub.includes('bangla') || cleanSub.includes('সাহিত্য') || cleanSub.includes('ব্যাকরণ')) {
+        return matchesAny(['বাংলা', 'bangla', 'সাহিত্য', 'ব্যাকরণ', 'নির্মিতি', 'গদ্য', 'পদ্য']);
+      }
+
+      // 7. English
+      if (cleanSub.includes('english') || cleanSub.includes('ইংরেজি')) {
+        return matchesAny(['english', 'ইংরেজি', 'grammar', 'paragraph', 'composition', 'vocabulary']);
+      }
+
+      // 8. General Science / Primary Science
+      if (cleanSub.includes('বিজ্ঞান') || cleanSub.includes('science')) {
+        return matchesAny(['বিজ্ঞান', 'science', 'প্রাথমিক বিজ্ঞান', 'সাধারণ বিজ্ঞান']);
+      }
+
+      // 9. BGS / Social
+      if (cleanSub.includes('বিশ্বপরিচয়') || cleanSub.includes('bgs') || cleanSub.includes('সমাজ')) {
+        return matchesAny(['বিশ্বপরিচয়', 'bgs', 'বাংলাদেশ ও বিশ্বপরিচয়', 'সমাজ']);
+      }
+
+      // Generic fallback: check main subject word without parentheses
+      const mainWord = cleanSub.split('(')[0].replace(/[^\u0980-\u09FFa-zA-Z]/g, ' ').trim();
+      if (mainWord.length > 2) {
+        return matchesAny([mainWord]);
+      }
+
+      return true;
+    });
+  }, [sourceMaterials, subject]);
+
+  // Reset selected source material if it no longer matches the selected subject
+  useEffect(() => {
+    if (selectedSourceMaterialId) {
+      const isStillValid = filteredSourceMaterials.some(m => String(m.id) === String(selectedSourceMaterialId));
+      if (!isStillValid) {
+        setSelectedSourceMaterialId('');
+      }
+    }
+  }, [subject, filteredSourceMaterials]);
+
   const handleSelectSource = (matId) => {
     setSelectedSourceMaterialId(matId);
     if (matId) {
-      const found = sourceMaterials.find(m => String(m.id) === String(matId));
+      const found = filteredSourceMaterials.find(m => String(m.id) === String(matId));
       if (found) {
         if (!topic.trim()) setTopic(found.title);
       }
@@ -623,7 +714,9 @@ export default function AIMCQGeneratorModal({
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-indigo-300 flex items-center space-x-1.5">
                     <FileCode className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>স্টাডি সোর্স ডকুমেন্ট নির্বাচন করুন (Select Source Material - Locked AI Context)</span>
+                    <span>
+                      স্টাডি সোর্স ডকুমেন্ট ({filteredSourceMaterials.length}টি {subject.split('(')[0].trim()} ফাইল)
+                    </span>
                   </label>
                   {selectedSourceMaterialId && (
                     <button
@@ -642,12 +735,17 @@ export default function AIMCQGeneratorModal({
                   className="w-full p-2.5 rounded-xl border border-indigo-500/40 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   <option value="">-- সাধারণ কারিকুলাম জ্ঞান (General AI Knowledge) --</option>
-                  {sourceMaterials.map((mat) => (
+                  {filteredSourceMaterials.map((mat) => (
                     <option key={mat.id} value={mat.id}>
-                      📄 {mat.title} ({mat.category} • {mat.content_text?.length || 0} অক্ষর)
+                      📄 {mat.title} ({mat.subjectName || mat.category || 'নোট'} • {mat.content_text?.length || 0} অক্ষর)
                     </option>
                   ))}
                 </select>
+                {filteredSourceMaterials.length === 0 && (
+                  <p className="text-[10px] text-amber-400/90 mt-1 italic">
+                    ⚠️ {subject.split('(')[0].trim()} বিষয়ের কোনো নির্দিষ্ট ফাইল পাওয়া যায়নি। সাধারণ কারিকুলাম সিলেবাস থেকে প্রশ্ন তৈরি হবে।
+                  </p>
+                )}
               </div>
 
               {/* Topic Input */}
