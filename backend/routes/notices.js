@@ -96,7 +96,13 @@ router.post('/', authenticate, requireRole('ADMIN'), async (req, res, next) => {
       category = 'ACADEMIC',
       priority = 'NORMAL',
       targetRole = 'ALL',
-      isPinned = false
+      isPinned = false,
+      attachmentUrl = '',
+      attachmentName = '',
+      attachmentSize = '',
+      pdfUrl = '',
+      routineUrl = '',
+      examDate = ''
     } = req.body;
 
     if (!titleBn || !contentBn) {
@@ -109,6 +115,8 @@ router.post('/', authenticate, requireRole('ADMIN'), async (req, res, next) => {
       });
     }
 
+    const effectiveAttachment = attachmentUrl || pdfUrl || routineUrl || '';
+
     const newNotice = await Notice.create({
       titleBn,
       titleEn: titleEn || titleBn,
@@ -118,6 +126,12 @@ router.post('/', authenticate, requireRole('ADMIN'), async (req, res, next) => {
       priority,
       targetRole,
       isPinned: !!isPinned,
+      attachmentUrl: effectiveAttachment,
+      attachmentName: attachmentName || (effectiveAttachment ? 'Exam_Routine.pdf' : ''),
+      attachmentSize: attachmentSize || '',
+      pdfUrl: effectiveAttachment,
+      routineUrl: effectiveAttachment,
+      examDate: examDate || '',
       authorUserId: req.user.id,
       publishedAt: new Date().toISOString()
     });
@@ -167,7 +181,13 @@ router.put('/:id', authenticate, requireRole('ADMIN'), async (req, res, next) =>
       category,
       priority,
       targetRole,
-      isPinned
+      isPinned,
+      attachmentUrl,
+      attachmentName,
+      attachmentSize,
+      pdfUrl,
+      routineUrl,
+      examDate
     } = req.body;
 
     const updateData = {};
@@ -179,6 +199,12 @@ router.put('/:id', authenticate, requireRole('ADMIN'), async (req, res, next) =>
     if (priority !== undefined) updateData.priority = priority;
     if (targetRole !== undefined) updateData.targetRole = targetRole;
     if (isPinned !== undefined) updateData.isPinned = !!isPinned;
+    if (attachmentUrl !== undefined) updateData.attachmentUrl = attachmentUrl;
+    if (attachmentName !== undefined) updateData.attachmentName = attachmentName;
+    if (attachmentSize !== undefined) updateData.attachmentSize = attachmentSize;
+    if (pdfUrl !== undefined) updateData.pdfUrl = pdfUrl;
+    if (routineUrl !== undefined) updateData.routineUrl = routineUrl;
+    if (examDate !== undefined) updateData.examDate = examDate;
 
     await Notice.update(updateData, { where: { id: noticeId } });
 

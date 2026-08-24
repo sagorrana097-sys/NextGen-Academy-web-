@@ -199,7 +199,11 @@ export default function NoticeManager() {
       case 'ACADEMIC':
         return { label: 'একাডেমিক', color: 'bg-blue-50 text-blue-700 border-blue-200' };
       case 'EXAM':
-        return { label: 'পরীক্ষা', color: 'bg-purple-50 text-purple-700 border-purple-200' };
+        return { label: 'পরীক্ষার নোটিশ', color: 'bg-purple-50 text-purple-700 border-purple-200' };
+      case 'ROUTINE':
+        return { label: 'পরীক্ষার রুটিন', color: 'bg-amber-50 text-amber-700 border-amber-200' };
+      case 'ADMISSION':
+        return { label: 'ভর্তি বিজ্ঞপ্তি', color: 'bg-teal-50 text-teal-700 border-teal-200' };
       case 'HOLIDAY':
         return { label: 'ছুটি ও উৎসব', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
       case 'EMERGENCY':
@@ -535,9 +539,11 @@ export default function NoticeManager() {
                     className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="ACADEMIC">একাডেমিক</option>
-                    <option value="EXAM">পরীক্ষা</option>
-                    <option value="HOLIDAY">ছুটি</option>
-                    <option value="EMERGENCY">জরুরি</option>
+                    <option value="EXAM">পরীক্ষার নোটিশ</option>
+                    <option value="ROUTINE">পরীক্ষার রুটিন (PDF)</option>
+                    <option value="ADMISSION">ভর্তি সংক্রান্ত</option>
+                    <option value="HOLIDAY">ছুটি ও উৎসব</option>
+                    <option value="EMERGENCY">জরুরি নোটিশ</option>
                     <option value="GENERAL">সাধারণ</option>
                   </select>
                 </div>
