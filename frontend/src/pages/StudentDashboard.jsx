@@ -424,6 +424,9 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
 
   return (
     <div className="space-y-6">
+      {/* Top Student Overview & KPI strictly for root dashboard */}
+      {activeTab === 'dashboard' && (
+        <>
       {/* Student Banner */}
       <div className="bg-gradient-to-r from-emerald-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -548,6 +551,9 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
 
       {/* Live Class 15-Minute Alert Banner */}
       <LiveClassNotificationBanner classId={profile?.classId} sectionId={profile?.sectionId} />
+
+        </>
+      )}
 
       {/* Access Guard (Feature Flagging Check) */}
       {(() => {

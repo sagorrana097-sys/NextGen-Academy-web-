@@ -943,6 +943,9 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
   return (
     <div className="space-y-6">
+      {/* Top Teacher Overview strictly for root dashboard */}
+      {activeTab === 'dashboard' && (
+        <>
       {/* Teacher Profile Header */}
       <div className="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -1037,6 +1040,9 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
       {/* Live Class 15-Minute Alert Banner */}
       <LiveClassNotificationBanner classId={selectedClassId} sectionId={selectedSectionId} />
+
+        </>
+      )}
 
       {/* Main Tabs */}
       {activeTab === 'profile-settings' ? (
