@@ -204,7 +204,6 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '⚙️ প্রোফাইল ও রেকর্ড' : '⚙️ Profile & Records',
       icon: UserCheck,
       items: [
-        { id: 'idcard', label: lang === 'bn' ? 'ডিজিটাল আইডি কার্ড' : 'Digital ID Card', icon: UserCheck },
         { id: 'attendance', label: lang === 'bn' ? 'উপস্থিতি হিস্ট্রি' : 'Attendance History', icon: CalendarCheck },
         { id: 'fees', label: lang === 'bn' ? 'ফি ও পেমেন্ট হিস্ট্রি' : 'Fees & Payment History', icon: CreditCard },
         { id: 'checkout', label: lang === 'bn' ? 'পেমেন্ট গেটওয়ে ও রিডিম' : 'Payment Gateway', icon: Wallet },

@@ -647,6 +647,13 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           <LiveClassCountdownWidget />
           <LiveClassroomView studentId={profile?.id || user?.studentId} role="STUDENT" />
         </div>
+      ) : activeTab === 'attendance' ? (
+        <div className="space-y-6">
+          <GuardianAttendanceMatrix
+            attendanceData={attendance?.records || attendance?.data || (Array.isArray(attendance) ? attendance : [])}
+            studentName={profile?.user?.name || user?.name || 'শিক্ষার্থী'}
+          />
+        </div>
       ) : activeTab === 'exams' ? (
         /* Student Online Exams & Assessment Center */
         <div className="space-y-6">
