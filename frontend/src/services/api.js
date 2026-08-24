@@ -291,9 +291,13 @@ export const materialAPI = {
     const q = new URLSearchParams(params).toString();
     return request(`/materials?${q}`);
   },
+  getStudyMaterials: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/materials?${q}`);
+  },
   getSourceMaterials: () => request('/materials/source-materials'),
   uploadSourceMaterial: (formData) => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token') || sessionStorage.getItem('token');
     const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     return fetch(`${API_BASE}/materials/upload`, {
       method: 'POST',
@@ -301,8 +305,23 @@ export const materialAPI = {
         ...(token ? { Authorization: `Bearer ${token}` } : {})
       },
       body: formData
-    }).then(res => res.json());
+    }).then(res => res.json()).catch(err => ({ success: false, error: { message: err.message } }));
   },
+  createStudyMaterial: (data) => {
+    if (data instanceof FormData) {
+      const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token') || sessionStorage.getItem('token');
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      return fetch(`${API_BASE}/materials/upload`, {
+        method: 'POST',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: data
+      }).then(res => res.json()).catch(err => ({ success: false, error: { message: err.message } }));
+    }
+    return request('/materials/upload', { method: 'POST', body: JSON.stringify(data) });
+  },
+  createMaterial: (data) => request('/materials', { method: 'POST', body: JSON.stringify(data) }),
   getStudentMaterials: (studentId, params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/materials/student/${studentId}?${q}`);
@@ -311,6 +330,8 @@ export const materialAPI = {
   updateMaterial: (id, data) => request(`/materials/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteMaterial: (id) => request(`/materials/${id}`, { method: 'DELETE' })
 };
+
+export const studyMaterialAPI = materialAPI;
 
 export const textbookAPI = {
   getTextbooks: (params = {}) => {

@@ -20,11 +20,26 @@ const upload = multer({
  */
 router.post('/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
-    const { title, category = 'GENERAL', classId, subjectId, content_text, contentText } = req.body;
-    let extractedText = content_text || contentText || '';
-    let fileName = '';
-    let fileSize = '';
-    let fileType = 'TXT';
+    const {
+      title,
+      titleBn,
+      titleEn,
+      category = 'GENERAL',
+      classId,
+      subjectId,
+      content_text,
+      contentText,
+      extracted_text,
+      fileUrl,
+      fileName: reqFileName,
+      fileSize: reqFileSize,
+      fileType: reqFileType
+    } = req.body || {};
+
+    let extractedText = content_text || contentText || extracted_text || '';
+    let fileName = reqFileName || '';
+    let fileSize = reqFileSize || '';
+    let fileType = reqFileType || 'TXT';
 
     if (req.file) {
       fileName = req.file.originalname;
@@ -48,9 +63,9 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       }
     }
 
-    const finalTitle = (title || fileName || 'স্টাডি সোর্স নোট').trim();
+    const finalTitle = (title || titleBn || titleEn || fileName || 'স্টাডি সোর্স নোট').trim();
 
-    if (!extractedText && !finalTitle) {
+    if (!extractedText && !finalTitle && !fileUrl) {
       return res.status(400).json({
         success: false,
         error: { code: 'EMPTY_CONTENT', message: 'ফাইল বা টেক্সট থেকে কোনো তথ্য পাওয়া যায়নি।' }
@@ -58,7 +73,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
     }
 
     let teacherId = 1;
-    if (req.user.role === 'TEACHER') {
+    if (req.user && req.user.role === 'TEACHER') {
       const tProfile = await Teacher.findOne({ where: { userId: req.user.id } });
       if (tProfile) teacherId = tProfile.id;
     }
@@ -66,34 +81,38 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
     const newMaterial = await StudyMaterial.create({
       title: finalTitle,
       titleBn: finalTitle,
-      titleEn: finalTitle,
+      titleEn: titleEn || finalTitle,
       category: category || 'GENERAL',
       content_text: extractedText,
       contentText: extractedText,
       extracted_text: extractedText,
       descriptionBn: extractedText.slice(0, 300) + (extractedText.length > 300 ? '...' : ''),
       chapterBn: finalTitle,
-      chapterEn: finalTitle,
+      chapterEn: titleEn || finalTitle,
       classId: classId ? Number(classId) : null,
       subjectId: subjectId ? Number(subjectId) : null,
       teacherId,
-      fileType,
-      fileName,
+      fileType: fileType || 'TXT',
+      fileName: fileName || (finalTitle + '.txt'),
       fileSize: fileSize || '1.0 MB',
-      fileUrl: req.body.fileUrl || '',
+      fileUrl: fileUrl || req.body?.fileUrl || '',
       created_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       publishedAt: new Date().toISOString()
     });
 
-    await AuditService.log({
-      req,
-      userId: req.user.id,
-      action: 'UPLOAD_STUDY_MATERIAL_SOURCE',
-      entityType: 'study_material',
-      entityId: newMaterial.id,
-      details: `${req.user.name} নতুন স্টাডি সোর্স আপলোড ও টেক্সট এক্সট্রাক্ট করেছেন: "${finalTitle}" (${extractedText.length} অক্ষর)`
-    });
+    try {
+      await AuditService.log({
+        req,
+        userId: req.user?.id || 1,
+        action: 'UPLOAD_STUDY_MATERIAL_SOURCE',
+        entityType: 'study_material',
+        entityId: newMaterial.id,
+        details: `${req.user?.name || 'অ্যাডমিন'} নতুন স্টাডি সোর্স আপলোড করেছেন: "${finalTitle}"`
+      });
+    } catch (auditErr) {
+      console.warn('Audit log warning:', auditErr.message);
+    }
 
     res.status(201).json({
       success: true,
