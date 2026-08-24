@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useSettings } from '../../context/SettingsContext';
@@ -50,7 +50,11 @@ import {
   Languages,
   Laptop,
   Flame,
-  FlaskConical
+  FlaskConical,
+  Search,
+  X,
+  Settings,
+  FolderOpen
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
@@ -58,13 +62,26 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
   const { t, lang } = useLanguage();
   const { settings } = useSettings();
 
-  // Collapsible Accordion State for Categories (Student Dashboard)
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Collapsible Accordion State for Categories
   const [collapsedCategories, setCollapsedCategories] = useState({
+    // Student & Parent categories
     academic: false,
     subjectLabs: false,
     studyMaterials: false,
     aiPerformance: false,
-    profileRecords: false
+    profileRecords: false,
+    // Admin categories
+    adminCore: false,
+    adminAcademics: false,
+    adminFinance: false,
+    adminCms: false,
+    adminSystem: false,
+    // Teacher categories
+    teacherCore: false,
+    teacherAcademics: false,
+    teacherProfile: false
   });
 
   const toggleCategory = (catKey) => {
@@ -74,11 +91,14 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     }));
   };
 
-  // Student Collapsible Category Groupings
+  // =========================================================================
+  // 1. STUDENT & PARENT CATEGORIZED NAVIGATION
+  // =========================================================================
   const studentCategories = [
     {
       key: 'academic',
       title: lang === 'bn' ? '🎓 একাডেমিক কার্যক্রম' : '🎓 Academic Core',
+      icon: GraduationCap,
       items: [
         { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classroom', icon: Video },
         { id: 'routine', label: lang === 'bn' ? 'ক্লাস রুটিন' : 'Class Routine', icon: CalendarDays },
@@ -89,10 +109,11 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     {
       key: 'subjectLabs',
       title: lang === 'bn' ? '🔬 স্মার্ট সাবজেক্ট ল্যাব' : '🔬 Smart Subject Labs',
-      badge: 'NEW',
+      badge: 'PRO LABS',
+      icon: FlaskConical,
       items: [
         { id: 'geometry-board', label: lang === 'bn' ? 'গণিত: ভার্চুয়াল জ্যামিতি বক্স' : 'Math: Geometry Board', icon: Compass },
-        { id: 'math-lab', label: lang === 'bn' ? 'গণিত: মাস্টার ম্যাথ ও আইসিটি ইঞ্জিন' : 'Math: Master Math & ICT', icon: Calculator },
+        { id: 'math-lab', label: lang === 'bn' ? 'গণিত: মাস্টার ম্যাথ ও আইসিটি' : 'Math: Master Math & ICT', icon: Calculator },
         { id: 'physics-lab', label: lang === 'bn' ? 'পদার্থ: মেগা ফিজিক্স ল্যাব' : 'Physics: Mega Physics Lab', icon: Zap },
         { id: 'chemistry-lab', label: lang === 'bn' ? 'রসায়ন: মাস্টার কেমিস্ট্রি ল্যাব' : 'Chemistry: Master Chemistry Lab', icon: FlaskConical },
         { id: 'bonding-solver', label: lang === 'bn' ? 'রসায়ন: ৫ম অধ্যায় বন্ধন ও ডট-ক্রস' : 'Chemistry: Ch-5 Bonding Solver', icon: Atom },
@@ -115,6 +136,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     {
       key: 'studyMaterials',
       title: lang === 'bn' ? '📚 স্টাডি ম্যাটেরিয়ালস' : '📚 Study Materials',
+      icon: BookOpen,
       items: [
         { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen },
         { id: 'smart-notes', label: lang === 'bn' ? 'স্মার্ট বোর্ড লেকচার নোটস' : 'Smart Board Notes', icon: PenTool },
@@ -126,6 +148,8 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     {
       key: 'aiPerformance',
       title: lang === 'bn' ? '🚀 AI ও পারফরম্যান্স' : '🚀 AI & Performance',
+      badge: 'AI ACTIVE',
+      icon: Brain,
       items: [
         { id: 'ai-routine', label: lang === 'bn' ? 'AI স্টাডি রুটিন ও ট্র্যাকার' : 'AI Study Routine', icon: Brain },
         { id: 'syllabus-map', label: lang === 'bn' ? 'RPG সিলেবাস ম্যাপ' : 'RPG Syllabus Map', icon: Map },
@@ -136,6 +160,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     {
       key: 'profileRecords',
       title: lang === 'bn' ? '⚙️ প্রোফাইল ও রেকর্ড' : '⚙️ Profile & Records',
+      icon: UserCheck,
       items: [
         { id: 'idcard', label: lang === 'bn' ? 'ডিজিটাল আইডি কার্ড' : 'Digital ID Card', icon: UserCheck },
         { id: 'attendance', label: lang === 'bn' ? 'উপস্থিতি হিস্ট্রি' : 'Attendance History', icon: CalendarCheck },
@@ -150,10 +175,131 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     }
   ];
 
+  // =========================================================================
+  // 2. ADMIN CATEGORIZED NAVIGATION
+  // =========================================================================
+  const adminCategories = [
+    {
+      key: 'adminCore',
+      title: lang === 'bn' ? '🏛️ একাডেমি প্রশাসন' : '🏛️ Core Administration',
+      icon: ShieldCheck,
+      items: [
+        { id: 'approvals', label: lang === 'bn' ? 'অনুমোদন ও যাচাই কেন্দ্র' : 'Approvals Engine', icon: CheckSquare },
+        { id: 'admissions', label: lang === 'bn' ? 'নতুন ভর্তি আবেদন' : 'Student Admissions', icon: UserPlus },
+        { id: 'students', label: lang === 'bn' ? 'শিক্ষার্থী ব্যবস্থাপনা' : 'Student Directory', icon: GraduationCap },
+        { id: 'teachers', label: lang === 'bn' ? 'শিক্ষক ব্যবস্থাপনা' : 'Teacher Directory', icon: Users },
+        { id: 'teacher-attendance', label: lang === 'bn' ? 'শিক্ষক হাজিরা ও কর্মঘণ্টা' : 'Teacher Attendance', icon: Clock }
+      ]
+    },
+    {
+      key: 'adminAcademics',
+      title: lang === 'bn' ? '📖 পাঠ্যক্রম ও মূল্যায়ন' : '📖 Academics & Exams',
+      icon: BookOpen,
+      items: [
+        { id: 'batches-routine', label: lang === 'bn' ? 'ব্যাচ ও সাপ্তাহিক রুটিন' : 'Batches & Routine', icon: Layers },
+        { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classroom', icon: Video },
+        { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা ও কুইজ' : 'Online Exams', icon: HelpCircle },
+        { id: 'omr-evaluation', label: lang === 'bn' ? 'OMR ফলাফল আমদানি' : 'OMR Evaluation', icon: Award },
+        { id: 'results-report', label: lang === 'bn' ? 'ফলাফল ও গ্রেডশিট' : 'Results & Reports', icon: Award },
+        { id: 'syllabus-tracker', label: lang === 'bn' ? 'সিলেবাস প্রগ্রেস ট্র্যাকার' : 'Syllabus Tracker', icon: BookOpen },
+        { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen }
+      ]
+    },
+    {
+      key: 'adminFinance',
+      title: lang === 'bn' ? '💳 হিসাব ও ফাইন্যান্স' : '💳 Finance & Accounts',
+      icon: Wallet,
+      items: [
+        { id: 'fees', label: lang === 'bn' ? 'ফি ও ইনভয়েস কালেকশন' : 'Fees & Invoices', icon: CreditCard },
+        { id: 'accounts-payroll', label: lang === 'bn' ? 'আয়-ব্যয় ও শিক্ষক বেতন' : 'Accounts & Payroll', icon: Wallet },
+        { id: 'payment-settings', label: lang === 'bn' ? 'পেমেন্ট মেথড কনফিগ' : 'Payment Settings', icon: Sliders }
+      ]
+    },
+    {
+      key: 'adminCms',
+      title: lang === 'bn' ? '🎨 কনটেন্ট ও লার্নিং CMS' : '🎨 Content & Learning CMS',
+      icon: Sparkles,
+      items: [
+        { id: 'site-cms', label: lang === 'bn' ? 'গ্লোবাল সাইট কনটেন্ট CMS' : 'Global Site CMS', icon: Sparkles },
+        { id: 'dashboard-controls', label: lang === 'bn' ? 'স্টুডেন্ট মেনু কন্ট্রোল' : 'Student Menu Controls', icon: Sliders },
+        { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
+        { id: 'gamification-cms', label: lang === 'bn' ? 'গ্যামিফিকেশন কন্ট্রোল' : 'Gamification CMS', icon: Zap },
+        { id: 'grammar-cms', label: lang === 'bn' ? 'ইংলিশ গ্রামার CMS' : 'English Grammar CMS', icon: BookA },
+        { id: 'promo-controls', label: lang === 'bn' ? 'প্রমো ও রেফারেল কন্ট্রোল' : 'Promo & Referral Controls', icon: Tag }
+      ]
+    },
+    {
+      key: 'adminSystem',
+      title: lang === 'bn' ? '⚙️ সিস্টেম ও সিকিউরিটি' : '⚙️ System & Security',
+      icon: Settings,
+      items: [
+        { id: 'notices', label: lang === 'bn' ? 'নোটিশ বোর্ড' : 'Notice Board', icon: BellRing },
+        { id: 'sms-notifications', label: lang === 'bn' ? 'বাল্ক SMS বিজ্ঞপ্তি' : 'Bulk SMS Gateway', icon: MessageSquare },
+        { id: 'helpdesk', label: lang === 'bn' ? 'হেল্পডেস্ক ও অভিযোগ' : 'Helpdesk & Feedback', icon: LifeBuoy },
+        { id: 'admin-settings', label: lang === 'bn' ? 'একাডেমি সেটিংস' : 'Academy Settings', icon: Sliders },
+        { id: 'data-backup', label: lang === 'bn' ? 'ডেটা ব্যাকআপ ও রিস্টোর' : 'Data Backup & Restore', icon: Database },
+        { id: 'audit-logs', label: lang === 'bn' ? 'সিকিউরিটি অডিট লগ' : 'Security Audit Logs', icon: ShieldCheck },
+        { id: 'admin-profile', label: lang === 'bn' ? 'প্রোফাইল ও সিকিউরিটি' : 'Admin Profile', icon: UserCheck }
+      ]
+    }
+  ];
+
+  // =========================================================================
+  // 3. TEACHER CATEGORIZED NAVIGATION
+  // =========================================================================
+  const teacherCategories = [
+    {
+      key: 'teacherCore',
+      title: lang === 'bn' ? '📋 ক্লাসরুম ও অ্যাক্টিভিটি' : '📋 Classroom & Teaching',
+      icon: BookOpen,
+      items: [
+        { id: 'attendance', label: lang === 'bn' ? 'দৈনিক ক্লাস হাজিরা' : 'Take Attendance', icon: CalendarCheck },
+        { id: 'homework', label: lang === 'bn' ? 'হোমওয়ার্ক প্রদান ও চেক' : 'Homework Manager', icon: ClipboardList },
+        { id: 'materials', label: lang === 'bn' ? 'স্টাডি ম্যাটেরিয়াল আপলোড' : 'Study Materials', icon: BookMarked },
+        { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা প্রণয়ন' : 'Online Exams', icon: HelpCircle },
+        { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classes', icon: Video }
+      ]
+    },
+    {
+      key: 'teacherAcademics',
+      title: lang === 'bn' ? '📊 ডিরেক্টরি ও রুটিন' : '📊 Records & Routine',
+      icon: Layers,
+      items: [
+        { id: 'students', label: lang === 'bn' ? 'শিক্ষার্থী ডিরেক্টরি (৩৬০°)' : 'Student Directory', icon: GraduationCap },
+        { id: 'routine', label: lang === 'bn' ? 'সাপ্তাহিক ক্লাস রুটিন' : 'Weekly Routine', icon: CalendarDays },
+        { id: 'results-report', label: lang === 'bn' ? 'ফলাফল ও মার্কশিট' : 'Results Manager', icon: Award },
+        { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen },
+        { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার' : 'Media Center', icon: Film }
+      ]
+    },
+    {
+      key: 'teacherProfile',
+      title: lang === 'bn' ? '⚙️ হাজিরা ও প্রোফাইল' : '⚙️ Faculty & Settings',
+      icon: Clock,
+      items: [
+        { id: 'my-attendance', label: lang === 'bn' ? 'ব্যক্তিগত পঞ্চ-ইন/আউট' : 'My Attendance (Punch)', icon: Clock },
+        { id: 'notices', label: lang === 'bn' ? 'নোটিশ বোর্ড' : 'Notice Board', icon: BellRing },
+        { id: 'profile-settings', label: lang === 'bn' ? 'শিক্ষক প্রোফাইল ও সেটিংস' : 'Profile Settings', icon: UserCheck }
+      ]
+    }
+  ];
+
+  // Active Categories based on user role
+  const activeCategories = useMemo(() => {
+    if (user?.role === 'STUDENT' || user?.role === 'PARENT') {
+      return studentCategories;
+    } else if (user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN') {
+      return adminCategories;
+    } else if (user?.role === 'TEACHER') {
+      return teacherCategories;
+    }
+    return [];
+  }, [user?.role, lang]);
+
   // Auto-expand category containing current activeTab
   useEffect(() => {
-    if (user?.role === 'STUDENT' || user?.role === 'PARENT') {
-      const parentCat = studentCategories.find((cat) =>
+    if (activeCategories.length > 0) {
+      const parentCat = activeCategories.find((cat) =>
         cat.items.some((item) => item.id === activeTab)
       );
       if (parentCat && collapsedCategories[parentCat.key]) {
@@ -163,248 +309,218 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         }));
       }
     }
-  }, [activeTab, user?.role]);
+  }, [activeTab, activeCategories]);
 
-  // Non-Student Menu Items
-  const getNonStudentMenuItems = () => {
-    switch (user?.role) {
-      case 'SUPER_ADMIN':
-      case 'ADMIN':
-        return [
-          { id: 'dashboard', label: t('navDashboard'), icon: LayoutDashboard },
-          { id: 'approvals', label: lang === 'bn' ? 'অনুমোদন ও যাচাই কেন্দ্র' : 'Approvals Engine', icon: CheckSquare },
-          { id: 'site-cms', label: lang === 'bn' ? 'সাইট কনটেন্ট CMS' : 'Site Content CMS', icon: Sparkles },
-          { id: 'dashboard-controls', label: lang === 'bn' ? 'স্টুডেন্ট মেনু কন্ট্রোল' : 'Student Menu Controls', icon: Sliders },
-          { id: 'admin-profile', label: lang === 'bn' ? 'প্রোফাইল ও সিকিউরিটি' : 'Profile & Security', icon: UserCheck },
-          { id: 'sms-notifications', label: t('navSMS'), icon: MessageSquare },
-          { id: 'admissions', label: t('navAdmissions'), icon: UserPlus },
-          { id: 'data-backup', label: t('navDataBackup'), icon: Database },
-          { id: 'admin-settings', label: t('navAdminSettings'), icon: Sliders },
-          { id: 'payment-settings', label: t('navPaymentSettings'), icon: CreditCard },
-          { id: 'accounts-payroll', label: t('navAccountsPayroll'), icon: Wallet },
-          { id: 'batches-routine', label: t('navBatchesRoutine'), icon: Layers },
-          { id: 'syllabus-tracker', label: lang === 'bn' ? 'সিলেবাস প্রগ্রেস ট্র্যাকার' : 'Syllabus Tracker', icon: BookOpen },
-          { id: 'omr-evaluation', label: lang === 'bn' ? 'OMR ফলাফল আমদানি' : 'OMR Evaluation', icon: Award },
-          { id: 'results-report', label: t('navResultsReport'), icon: Award },
-          { id: 'live-classes', label: t('navLiveClasses'), icon: Video },
-          { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
-          { id: 'gamification-cms', label: lang === 'bn' ? 'গ্যামিফিকেশন কন্ট্রোল' : 'Gamification CMS', icon: Zap },
-          { id: 'grammar-cms', label: lang === 'bn' ? 'ইংলিশ গ্রামার CMS' : 'English Grammar CMS', icon: BookA },
-          { id: 'promo-controls', label: lang === 'bn' ? 'প্রমো ও রেফারেল কন্ট্রোল' : 'Promo & Referral Controls', icon: Tag },
-          { id: 'helpdesk', label: lang === 'bn' ? 'হেল্পডেস্ক ও অভিযোগ' : 'Helpdesk & Complaints', icon: LifeBuoy },
-          { id: 'students', label: t('navStudents'), icon: GraduationCap },
-          { id: 'teachers', label: t('navTeachers'), icon: Users },
-          { id: 'teacher-attendance', label: t('navTeacherAttendance'), icon: Clock },
-          { id: 'exams', label: t('navExams'), icon: HelpCircle },
-          { id: 'textbooks', label: t('navTextbooks'), icon: BookOpen },
-          { id: 'fees', label: t('navFees'), icon: CreditCard },
-          { id: 'notices', label: t('navNotices'), icon: BellRing },
-          { id: 'audit-logs', label: t('navAuditLogs'), icon: ShieldCheck }
-        ];
-      case 'TEACHER':
-        return [
-          { id: 'dashboard', label: t('navDashboard'), icon: LayoutDashboard },
-          { id: 'profile-settings', label: t('myProfileSettings'), icon: UserCheck },
-          { id: 'results-report', label: t('navResultsReport'), icon: Award },
-          { id: 'routine', label: t('navRoutine'), icon: CalendarDays },
-          { id: 'live-classes', label: t('navLiveClasses'), icon: Video },
-          { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
-          { id: 'my-attendance', label: t('myAttendanceTime'), icon: Clock },
-          { id: 'exams', label: t('navExams'), icon: HelpCircle },
-          { id: 'materials', label: t('navMaterials'), icon: BookMarked },
-          { id: 'textbooks', label: t('navTextbooks'), icon: BookOpen },
-          { id: 'homework', label: t('navHomework'), icon: ClipboardList },
-          { id: 'attendance', label: t('takeAttendance'), icon: CalendarCheck },
-          { id: 'students', label: t('navStudents'), icon: GraduationCap },
-          { id: 'notices', label: t('navNotices'), icon: BellRing }
-        ];
-      case 'PARENT':
-        return [
-          { id: 'dashboard', label: t('navDashboard'), icon: LayoutDashboard },
-          { id: 'helpdesk', label: lang === 'bn' ? 'মতামত ও হেল্পডেস্ক' : 'Feedback & Helpdesk', icon: MessageSquarePlus },
-          { id: 'teachers', label: t('navTeachers'), icon: Users },
-          { id: 'live-classes', label: t('navLiveClasses'), icon: Video },
-          { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
-          { id: 'exams', label: t('navExams'), icon: HelpCircle },
-          { id: 'materials', label: t('navMaterials'), icon: BookMarked },
-          { id: 'textbooks', label: t('navTextbooks'), icon: BookOpen },
-          { id: 'homework', label: t('navHomework'), icon: ClipboardList },
-          { id: 'attendance', label: t('navAttendance'), icon: CalendarCheck },
-          { id: 'results', label: t('navResults'), icon: Award },
-          { id: 'routine', label: t('navRoutine'), icon: CalendarDays },
-          { id: 'fees', label: t('navFees'), icon: CreditCard },
-          { id: 'checkout', label: lang === 'bn' ? 'পেমেন্ট ও মানি রিসিট' : 'Payment & Receipt', icon: CreditCard },
-          { id: 'notices', label: t('navNotices'), icon: BellRing }
-        ];
-      default:
-        return [{ id: 'dashboard', label: t('navDashboard'), icon: LayoutDashboard }];
-    }
-  };
+  // Filtered categories when search query is entered
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery.trim()) return activeCategories;
+    const q = searchQuery.toLowerCase().trim();
+
+    return activeCategories
+      .map((cat) => {
+        const matchingItems = cat.items.filter(
+          (item) =>
+            item.label.toLowerCase().includes(q) ||
+            item.id.toLowerCase().includes(q)
+        );
+        return { ...cat, items: matchingItems };
+      })
+      .filter((cat) => cat.items.length > 0);
+  }, [activeCategories, searchQuery]);
 
   return (
     <>
       {/* Mobile backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar container */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 z-40 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-16 bottom-0 left-0 z-40 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/80 dark:border-slate-800/80 transition-all duration-300 ease-in-out lg:translate-x-0 ${
+          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full justify-between p-3.5 overflow-y-auto scrollbar-thin">
-          <div>
+        <div className="flex flex-col h-full justify-between p-3.5 overflow-hidden">
+          <div className="flex flex-col h-full overflow-hidden">
             {/* User quick pill */}
-            <div className="p-3 mb-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/60 flex items-center space-x-3 shadow-sm">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">
-                {user?.role === 'ADMIN' && <ShieldCheck className="w-5 h-5" />}
-                {user?.role === 'TEACHER' && <BookOpen className="w-5 h-5" />}
-                {user?.role === 'PARENT' && <Users className="w-5 h-5" />}
-                {user?.role === 'STUDENT' && <GraduationCap className="w-5 h-5" />}
+            <div className="p-3 mb-2.5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/60 dark:from-slate-800/90 dark:to-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 flex items-center space-x-3 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shadow-inner flex-shrink-0">
+                {user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? (
+                  <ShieldCheck className="w-5 h-5" />
+                ) : user?.role === 'TEACHER' ? (
+                  <BookOpen className="w-5 h-5" />
+                ) : user?.role === 'PARENT' ? (
+                  <Users className="w-5 h-5" />
+                ) : (
+                  <GraduationCap className="w-5 h-5" />
+                )}
               </div>
-              <div className="overflow-hidden">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{user?.name}</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                  {user?.role === 'PARENT' ? (lang === 'bn' ? '👨‍👩‍👧 অভিভাবক পোর্টাল' : 'Guardian Portal') : user?.role === 'STUDENT' ? (lang === 'bn' ? '🎓 শিক্ষার্থী পোর্টাল' : 'Student Portal') : user?.role?.toLowerCase() + ' Portal'}
-                </p>
+              <div className="overflow-hidden min-w-0">
+                <p className="text-xs font-black text-slate-800 dark:text-slate-100 truncate">{user?.name}</p>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold truncate">
+                    {user?.role === 'PARENT'
+                      ? (lang === 'bn' ? '👨‍👩‍👧 অভিভাবক পোর্টাল' : 'Guardian Portal')
+                      : user?.role === 'STUDENT'
+                      ? (lang === 'bn' ? '🎓 শিক্ষার্থী পোর্টাল' : 'Student Portal')
+                      : user?.role === 'TEACHER'
+                      ? (lang === 'bn' ? '👨‍🏫 শিক্ষক পোর্টাল' : 'Faculty Portal')
+                      : (lang === 'bn' ? '🛡️ অ্যাডমিন কন্ট্রোল' : 'Admin Control')}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Dashboard Overview Primary Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('dashboard');
-                if (onClose) onClose();
-              }}
-              className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all mb-3 ${
-                activeTab === 'dashboard'
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                  : 'text-slate-700 dark:text-slate-200 bg-slate-100/80 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800'
-              }`}
-            >
-              <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-white' : 'text-emerald-500'}`} />
-              <span>{t('navDashboard')}</span>
-            </button>
+            {/* Quick Menu Search Filter */}
+            <div className="relative mb-2">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={lang === 'bn' ? 'মেনু খুঁজুন...' : 'Search menu...'}
+                className="w-full pl-8 pr-7 py-1.5 text-[11px] rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
 
-            {/* ========================================================================= */}
-            {/* UNIFIED STUDENT & PARENT ACCORDION COLLAPSIBLE CATEGORIES */}
-            {/* ========================================================================= */}
-            {user?.role === 'STUDENT' || user?.role === 'PARENT' ? (
-              <div className="space-y-2.5">
-                {studentCategories.map((cat) => {
-                  const isCollapsed = collapsedCategories[cat.key];
-                  const hasActiveItem = cat.items.some((item) => item.id === activeTab);
-
-                  return (
-                    <div
-                      key={cat.key}
-                      className="rounded-2xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 overflow-hidden"
-                    >
-                      {/* Accordion Category Header Button */}
-                      <button
-                        type="button"
-                        onClick={() => toggleCategory(cat.key)}
-                        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-black transition-colors ${
-                          hasActiveItem
-                            ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/10'
-                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                        }`}
-                      >
-                        <div className="flex items-center gap-1.5 truncate">
-                          <span>{cat.title}</span>
-                          {cat.badge && (
-                            <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-[9px] text-white font-mono font-bold">
-                              {cat.badge}
-                            </span>
-                          )}
-                        </div>
-                        {isCollapsed ? (
-                          <ChevronRight className="w-3.5 h-3.5 opacity-60 flex-shrink-0" />
-                        ) : (
-                          <ChevronDown className="w-3.5 h-3.5 opacity-60 flex-shrink-0" />
-                        )}
-                      </button>
-
-                      {/* Accordion Category Items */}
-                      {!isCollapsed && (
-                        <div className="p-1.5 space-y-0.5 border-t border-slate-100 dark:border-slate-800/60">
-                          {cat.items.map((item) => {
-                            const Icon = item.icon;
-                            const isActive = activeTab === item.id;
-
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => {
-                                  if (item.isAction && item.action) {
-                                    item.action();
-                                  } else {
-                                    setActiveTab(item.id);
-                                  }
-                                  if (onClose) onClose();
-                                }}
-                                className={`w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
-                                  isActive
-                                    ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/20 font-bold'
-                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white'
-                                }`}
-                              >
-                                <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                                <span className="truncate">{item.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              /* Non-student flat menus */
-              <div className="space-y-1">
-                {getNonStudentMenuItems()
-                  .filter((item) => item.id !== 'dashboard')
-                  .map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeTab === item.id;
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => {
-                          setActiveTab(item.id);
-                          if (onClose) onClose();
-                        }}
-                        className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                          isActive
-                            ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20 font-bold'
-                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white'
-                        }`}
-                      >
-                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                        <span>{item.label}</span>
-                      </button>
-                    );
-                  })}
-              </div>
+            {/* Primary Root Dashboard Button */}
+            {!searchQuery && (
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('dashboard');
+                  if (onClose) onClose();
+                }}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all mb-2.5 shadow-sm group ${
+                  activeTab === 'dashboard'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-600/30 scale-[1.01]'
+                    : 'text-slate-700 dark:text-slate-200 bg-slate-100/80 dark:bg-slate-800/60 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <LayoutDashboard className={`w-4 h-4 transition-transform group-hover:scale-110 ${activeTab === 'dashboard' ? 'text-white' : 'text-emerald-500'}`} />
+                  <span>{t('navDashboard')}</span>
+                </div>
+                {activeTab === 'dashboard' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                )}
+              </button>
             )}
+
+            {/* Scrollable Categories List */}
+            <div className="flex-1 overflow-y-auto pr-1 space-y-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
+              {filteredCategories.map((cat) => {
+                const isCollapsed = collapsedCategories[cat.key] && !searchQuery;
+                const hasActiveItem = cat.items.some((item) => item.id === activeTab);
+                const CatIcon = cat.icon || FolderOpen;
+
+                return (
+                  <div
+                    key={cat.key}
+                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                      hasActiveItem
+                        ? 'border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/20 dark:bg-emerald-950/20 shadow-sm'
+                        : 'border-slate-100 dark:border-slate-800/80 bg-slate-50/40 dark:bg-slate-900/40 hover:border-slate-200 dark:hover:border-slate-700'
+                    }`}
+                  >
+                    {/* Accordion Category Header */}
+                    <button
+                      type="button"
+                      onClick={() => toggleCategory(cat.key)}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-black transition-colors ${
+                        hasActiveItem
+                          ? 'text-emerald-700 dark:text-emerald-300'
+                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100/60 dark:hover:bg-slate-800/50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <CatIcon className={`w-3.5 h-3.5 flex-shrink-0 ${hasActiveItem ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
+                        <span className="truncate">{cat.title}</span>
+                        {cat.badge && (
+                          <span className="px-1.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-[8px] text-white font-mono font-bold tracking-tight shadow-xs flex-shrink-0">
+                            {cat.badge}
+                          </span>
+                        )}
+                      </div>
+                      {!searchQuery && (
+                        isCollapsed ? (
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                        ) : (
+                          <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                        )
+                      )}
+                    </button>
+
+                    {/* Accordion Sub-items */}
+                    {!isCollapsed && (
+                      <div className="p-1.5 space-y-0.5 border-t border-slate-100 dark:border-slate-800/50">
+                        {cat.items.map((item) => {
+                          const Icon = item.icon;
+                          const isActive = activeTab === item.id;
+
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => {
+                                if (item.isAction && item.action) {
+                                  item.action();
+                                } else {
+                                  setActiveTab(item.id);
+                                }
+                                if (onClose) onClose();
+                              }}
+                              className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs transition-all duration-150 group ${
+                                isActive
+                                  ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-600/20 translate-x-0.5'
+                                  : 'text-slate-600 dark:text-slate-400 font-medium hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white hover:translate-x-0.5'
+                              }`}
+                            >
+                              <div className="flex items-center space-x-2.5 truncate">
+                                <Icon className={`w-3.5 h-3.5 flex-shrink-0 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-emerald-500'}`} />
+                                <span className="truncate">{item.label}</span>
+                              </div>
+                              {isActive && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {filteredCategories.length === 0 && (
+                <div className="p-4 text-center text-xs text-slate-400 dark:text-slate-500">
+                  <Search className="w-5 h-5 mx-auto mb-1.5 text-slate-300 dark:text-slate-600" />
+                  <span>কোনো মেনু পাওয়া যায়নি</span>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Academy Info Footer */}
-          <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 text-center">
-            <p className="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+          <div className="pt-2.5 mt-2 border-t border-slate-100 dark:border-slate-800/80 text-center flex-shrink-0">
+            <p className="text-[11px] font-black text-slate-800 dark:text-slate-200 tracking-tight">
               {settings?.academyName || 'NextGen Academy'}
             </p>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500">
-              {lang === 'bn' ? 'স্মার্ট এডুকেশন পোর্টাল' : 'Smart Education Portal'}
+            <p className="text-[9px] text-slate-400 dark:text-slate-500 font-medium">
+              {lang === 'bn' ? 'স্মার্ট একাডেমি প্ল্যাটফর্ম • ২০২৬' : 'Smart Academy Platform • 2026'}
             </p>
           </div>
         </div>
