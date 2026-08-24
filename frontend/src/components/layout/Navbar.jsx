@@ -110,11 +110,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
           color: 'bg-blue-500/15 text-blue-300 border-blue-500/40 shadow-blue-500/10'
         };
       case 'PARENT':
-        return {
-          label: lang === 'bn' ? 'অভিভাবক' : 'Parent',
-          icon: Users,
-          color: 'bg-purple-500/15 text-purple-300 border-purple-500/40 shadow-purple-500/10'
-        };
+        return null;
       case 'STUDENT':
         return {
           label: lang === 'bn' ? 'শিক্ষার্থী' : 'Student',
@@ -122,11 +118,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
           color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 shadow-emerald-500/10'
         };
       default:
-        return {
-          label: role || 'User',
-          icon: UserIcon,
-          color: 'bg-slate-800 text-slate-300 border-slate-700'
-        };
+        return null;
     }
   };
 
