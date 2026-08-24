@@ -54,7 +54,8 @@ import {
   Search,
   X,
   Settings,
-  FolderOpen
+  FolderOpen,
+  TestTube2
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
@@ -63,6 +64,18 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
   const { settings } = useSettings();
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Dropdown expansion state for nested groups (e.g. chemistry-hub)
+  const [expandedDropdowns, setExpandedDropdowns] = useState({
+    'chemistry-hub': true
+  });
+
+  const toggleDropdown = (dropdownId) => {
+    setExpandedDropdowns((prev) => ({
+      ...prev,
+      [dropdownId]: !prev[dropdownId]
+    }));
+  };
 
   // Collapsible Accordion State for Categories
   const [collapsedCategories, setCollapsedCategories] = useState({
@@ -92,7 +105,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
   };
 
   // =========================================================================
-  // 1. STUDENT & PARENT CATEGORIZED NAVIGATION
+  // 1. STUDENT & PARENT CATEGORIZED NAVIGATION (WITH CHEMISTRY UNIFIED HUB)
   // =========================================================================
   const studentCategories = [
     {
@@ -112,14 +125,43 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       badge: 'PRO LABS',
       icon: FlaskConical,
       items: [
+        // ==========================================================
+        // UNIFIED CHEMISTRY COMPLETE LAB & HUB DROPDOWN
+        // ==========================================================
+        {
+          id: 'chemistry-hub',
+          label: lang === 'bn' ? 'রসায়ন ল্যাব ও মাস্টার হাব' : 'Chemistry: Complete Lab & Hub',
+          icon: FlaskConical,
+          badge: 'SSC & HSC',
+          isDropdown: true,
+          subItems: [
+            {
+              id: 'chemistry-lab',
+              label: lang === 'bn' ? 'মাস্টার কেমিস্ট্রি ল্যাব (মূল হাব)' : 'Master Chemistry Lab (Core Hub)',
+              icon: FlaskConical
+            },
+            {
+              id: 'bonding-solver',
+              label: lang === 'bn' ? '৫ম অধ্যায়: রাসায়নিক বন্ধন ও ডট-ক্রস' : 'Ch-5: Chemical Bonding Solver',
+              icon: Atom
+            },
+            {
+              id: 'chemistry-math-solver',
+              label: lang === 'bn' ? '৬ষ্ঠ অধ্যায়: AI গাণিতিক রসায়ন ও মিশ্রণ' : 'Ch-6: AI Math & Beaker Solver',
+              icon: Calculator
+            },
+            {
+              id: 'science-3d',
+              label: lang === 'bn' ? '৩ডি পর্যায় সারণি ও আণবিক গঠন' : '3D Periodic Table & Molecules',
+              icon: Rotate3d
+            }
+          ]
+        },
+        // Other Subject Labs
         { id: 'geometry-board', label: lang === 'bn' ? 'গণিত: ভার্চুয়াল জ্যামিতি বক্স' : 'Math: Geometry Board', icon: Compass },
         { id: 'math-lab', label: lang === 'bn' ? 'গণিত: মাস্টার ম্যাথ ও আইসিটি' : 'Math: Master Math & ICT', icon: Calculator },
         { id: 'physics-lab', label: lang === 'bn' ? 'পদার্থ: মেগা ফিজিক্স ল্যাব' : 'Physics: Mega Physics Lab', icon: Zap },
-        { id: 'chemistry-lab', label: lang === 'bn' ? 'রসায়ন: মাস্টার কেমিস্ট্রি ল্যাব' : 'Chemistry: Master Chemistry Lab', icon: FlaskConical },
-        { id: 'bonding-solver', label: lang === 'bn' ? 'রসায়ন: ৫ম অধ্যায় বন্ধন ও ডট-ক্রস' : 'Chemistry: Ch-5 Bonding Solver', icon: Atom },
-        { id: 'chemistry-math-solver', label: lang === 'bn' ? 'রসায়ন: ৬ষ্ঠ অধ্যায় AI ম্যাথ সলভার' : 'Chemistry: Ch-6 AI Math Solver', icon: Calculator },
         { id: 'biology-lab', label: lang === 'bn' ? 'জীববিজ্ঞান: মাস্টার বায়োলজি ল্যাব' : 'Biology: Master Biology Lab', icon: Heart },
-        { id: 'science-3d', label: lang === 'bn' ? 'বিজ্ঞান: ৩ডি সায়েন্স ল্যাব ও পর্যায় সারণি' : 'Science: 3D Lab & Periodic', icon: Atom },
         { id: 'grammar-hub', label: lang === 'bn' ? 'ইংরেজি: স্মার্ট ইংলিশ গ্রামার হাব' : 'English: Grammar Hub', icon: BookA },
         { id: 'ict-quiz', label: lang === 'bn' ? 'আইসিটি: আইসিটি ও স্মার্ট কুইজ জোন' : 'ICT: Smart Quiz Zone', icon: Laptop },
         {
@@ -296,18 +338,27 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     return [];
   }, [user?.role, lang]);
 
-  // Auto-expand category containing current activeTab
+  // Auto-expand category or dropdown containing current activeTab
   useEffect(() => {
     if (activeCategories.length > 0) {
-      const parentCat = activeCategories.find((cat) =>
-        cat.items.some((item) => item.id === activeTab)
-      );
-      if (parentCat && collapsedCategories[parentCat.key]) {
-        setCollapsedCategories((prev) => ({
-          ...prev,
-          [parentCat.key]: false
-        }));
-      }
+      activeCategories.forEach((cat) => {
+        cat.items.forEach((item) => {
+          if (item.id === activeTab) {
+            if (collapsedCategories[cat.key]) {
+              setCollapsedCategories((prev) => ({ ...prev, [cat.key]: false }));
+            }
+          }
+          if (item.isDropdown && item.subItems) {
+            const hasActiveSub = item.subItems.some((sub) => sub.id === activeTab);
+            if (hasActiveSub) {
+              if (collapsedCategories[cat.key]) {
+                setCollapsedCategories((prev) => ({ ...prev, [cat.key]: false }));
+              }
+              setExpandedDropdowns((prev) => ({ ...prev, [item.id]: true }));
+            }
+          }
+        });
+      });
     }
   }, [activeTab, activeCategories]);
 
@@ -318,11 +369,30 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
     return activeCategories
       .map((cat) => {
-        const matchingItems = cat.items.filter(
-          (item) =>
+        const matchingItems = [];
+        cat.items.forEach((item) => {
+          if (item.isDropdown && item.subItems) {
+            const matchingSub = item.subItems.filter(
+              (sub) =>
+                sub.label.toLowerCase().includes(q) ||
+                sub.id.toLowerCase().includes(q)
+            );
+            if (
+              matchingSub.length > 0 ||
+              item.label.toLowerCase().includes(q)
+            ) {
+              matchingItems.push({
+                ...item,
+                subItems: matchingSub.length > 0 ? matchingSub : item.subItems
+              });
+            }
+          } else if (
             item.label.toLowerCase().includes(q) ||
             item.id.toLowerCase().includes(q)
-        );
+          ) {
+            matchingItems.push(item);
+          }
+        });
         return { ...cat, items: matchingItems };
       })
       .filter((cat) => cat.items.length > 0);
@@ -424,7 +494,13 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
             <div className="flex-1 overflow-y-auto pr-1 space-y-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
               {filteredCategories.map((cat) => {
                 const isCollapsed = collapsedCategories[cat.key] && !searchQuery;
-                const hasActiveItem = cat.items.some((item) => item.id === activeTab);
+                const hasActiveItem = cat.items.some((item) => {
+                  if (item.id === activeTab) return true;
+                  if (item.isDropdown && item.subItems) {
+                    return item.subItems.some((sub) => sub.id === activeTab);
+                  }
+                  return false;
+                });
                 const CatIcon = cat.icon || FolderOpen;
 
                 return (
@@ -466,8 +542,89 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
                     {/* Accordion Sub-items */}
                     {!isCollapsed && (
-                      <div className="p-1.5 space-y-0.5 border-t border-slate-100 dark:border-slate-800/50">
+                      <div className="p-1.5 space-y-1 border-t border-slate-100 dark:border-slate-800/50">
                         {cat.items.map((item) => {
+                          // ====================================================
+                          // NESTED DROPDOWN (e.g. Chemistry Hub)
+                          // ====================================================
+                          if (item.isDropdown && item.subItems) {
+                            const isDropdownExpanded = (expandedDropdowns[item.id] !== false) || !!searchQuery;
+                            const isChildActive = item.subItems.some((sub) => sub.id === activeTab);
+                            const DropdownIcon = item.icon || FlaskConical;
+
+                            return (
+                              <div
+                                key={item.id}
+                                className={`rounded-xl border transition-all ${
+                                  isChildActive
+                                    ? 'border-emerald-300/80 dark:border-emerald-700/80 bg-emerald-500/10 dark:bg-emerald-950/40'
+                                    : 'border-emerald-100/60 dark:border-slate-800/80 bg-white/60 dark:bg-slate-800/40'
+                                }`}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => toggleDropdown(item.id)}
+                                  className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs transition-all duration-150 font-black ${
+                                    isChildActive
+                                      ? 'text-emerald-800 dark:text-emerald-300'
+                                      : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400'
+                                  }`}
+                                >
+                                  <div className="flex items-center space-x-2 truncate">
+                                    <div className={`p-1 rounded-lg ${isChildActive ? 'bg-emerald-600 text-white' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400'}`}>
+                                      <DropdownIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                                    </div>
+                                    <span className="truncate">{item.label}</span>
+                                    {item.badge && (
+                                      <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-[8px] text-white font-mono font-bold">
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <ChevronDown
+                                    className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${
+                                      isDropdownExpanded ? 'transform rotate-180' : ''
+                                    }`}
+                                  />
+                                </button>
+
+                                {isDropdownExpanded && (
+                                  <div className="pl-3 pr-1.5 pb-1.5 pt-0.5 space-y-0.5 border-l-2 border-emerald-500/30 ml-4 mb-1">
+                                    {item.subItems.map((sub) => {
+                                      const SubIcon = sub.icon || Atom;
+                                      const isSubActive = activeTab === sub.id;
+
+                                      return (
+                                        <button
+                                          key={sub.id}
+                                          type="button"
+                                          onClick={() => {
+                                            setActiveTab(sub.id);
+                                            if (onClose) onClose();
+                                          }}
+                                          className={`w-full flex items-center justify-between px-2 py-1.5 rounded-lg text-[11px] transition-all group ${
+                                            isSubActive
+                                              ? 'bg-emerald-600 text-white font-bold shadow-sm shadow-emerald-600/20 translate-x-0.5'
+                                              : 'text-slate-600 dark:text-slate-400 font-medium hover:bg-emerald-100/60 dark:hover:bg-slate-800/80 hover:text-emerald-800 dark:hover:text-white hover:translate-x-0.5'
+                                          }`}
+                                        >
+                                          <div className="flex items-center space-x-2 truncate">
+                                            <SubIcon className={`w-3 h-3 flex-shrink-0 ${isSubActive ? 'text-white' : 'text-slate-400 group-hover:text-emerald-500'}`} />
+                                            <span className="truncate">{sub.label}</span>
+                                          </div>
+                                          {isSubActive && (
+                                            <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+                                          )}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+
+                          // Standard Single Item
                           const Icon = item.icon;
                           const isActive = activeTab === item.id;
 
