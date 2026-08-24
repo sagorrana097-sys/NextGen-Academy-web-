@@ -430,24 +430,39 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
   return (
     <>
-      {/* Mobile backdrop */}
+      {/* Mobile backdrop with high z-index and solid dark blur */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] lg:hidden transition-all duration-300"
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar container */}
+      {/* Sidebar container with ultra-high z-index, solid background, and zero leakage */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 z-40 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/80 dark:border-slate-800/80 transition-all duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
+        className={`fixed top-0 lg:top-16 bottom-0 left-0 z-[9999] lg:z-30 w-72 sm:w-64 bg-slate-900 border-r border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.85)] lg:shadow-none transition-all duration-300 ease-in-out lg:translate-x-0 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full justify-between p-3.5 overflow-hidden">
           <div className="flex flex-col h-full overflow-hidden">
+            
+            {/* Mobile Header with Close Button */}
+            <div className="lg:hidden flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-800">
+              <span className="text-xs font-black text-amber-400 uppercase tracking-wider">মেনু নেভিগেশন</span>
+              <button
+                type="button"
+                onClick={onClose}
+                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                title="বন্ধ করুন"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
             {/* User quick pill */}
-            <div className="p-3 mb-2.5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/60 dark:from-slate-800/90 dark:to-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 flex items-center space-x-3 shadow-sm">
+            <div className="p-3 mb-2.5 rounded-2xl bg-slate-800/90 border border-slate-700/80 flex items-center space-x-3 shadow-sm">
               <div className="w-10 h-10 rounded-xl bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shadow-inner flex-shrink-0">
                 {user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? (
                   <ShieldCheck className="w-5 h-5" />
