@@ -670,6 +670,13 @@ export const proctoringAPI = {
   sendEvent: (data) => request('/proctoring/event', { method: 'POST', body: JSON.stringify(data) }),
 };
 
+export const googleDriveAPI = {
+  scanFolder: (payload) => request('/google-drive/scan', { method: 'POST', body: JSON.stringify(payload) }),
+  extractContent: (payload) => request('/google-drive/extract', { method: 'POST', body: JSON.stringify(payload) }),
+  syncMaterials: (payload) => request('/google-drive/sync-materials', { method: 'POST', body: JSON.stringify(payload) }),
+  generateQuestions: (payload) => request('/google-drive/generate-questions', { method: 'POST', body: JSON.stringify(payload) })
+};
+
 
 
 

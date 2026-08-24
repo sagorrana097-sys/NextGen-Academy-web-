@@ -46,6 +46,7 @@ const helpdeskRoutes = require('./routes/helpdesk');
 const grammarRoutes = require('./routes/grammar');
 const referralRoutes = require('./routes/referral');
 const proctoringRoutes = require('./routes/proctoring');
+const googleDriveRoutes = require('./routes/googleDrive');
 const errorHandler = require('./middleware/errorHandler');
 
 
@@ -138,6 +139,8 @@ app.use('/api/admin/grammar', grammarRoutes);
 app.use('/api/referral', referralRoutes);
 app.use('/api/admin/referral', referralRoutes);
 app.use('/api/proctoring', proctoringRoutes);
+app.use('/api/google-drive', googleDriveRoutes);
+app.use('/api/admin/google-drive', googleDriveRoutes);
 
 
 
