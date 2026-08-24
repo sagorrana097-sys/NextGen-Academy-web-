@@ -595,7 +595,7 @@ export default function PaymentMethodManager() {
                   label="কিউআর কোড (QR Code - Device Upload / Image Link)"
                   value={formData.qrCodeUrl}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="বিকাশ, নগদ বা রকেটের মার্চেন্ট/পার্সোনাল কিউআর কোড ছবি বা লিংক"
                   placeholder="https://... বা গুগল ড্রাইভ ইমেজ লিংক"

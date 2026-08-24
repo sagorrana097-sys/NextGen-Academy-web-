@@ -2394,7 +2394,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   label="হোমওয়ার্ক প্রশ্নপত্র / সংযুক্তি ফাইল (Homework Attachment - Image / PDF / Link)"
                   value={homeworkForm.attachmentImage}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="হোমওয়ার্কের প্রশ্নপত্র, খাতার ছবি, সমাধান নির্দেশিকা বা ড্রাইভ লিংক"
                   onChange={({ fileUrl, url }) => {
@@ -2717,7 +2717,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   label="বইয়ের প্রচ্ছদ / কভার ইমেজ (Cover Image / Link - Optional)"
                   value={textbookForm.coverImage}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="প্রচ্ছদ ছবি আপলোড করুন অথবা অনলাইন ইমেজ লিঙ্ক দিন"
                   onChange={({ fileUrl, url }) => {

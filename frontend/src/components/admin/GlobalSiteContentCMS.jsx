@@ -394,7 +394,7 @@ export default function GlobalSiteContentCMS() {
                 <label className="block font-bold text-slate-700">হোমপেজ ব্যানার ব্যাকগ্রাউন্ড ছবি</label>
                 <UniversalFileUploader
                   label="ব্যানার ছবি আপলোড অথবা লিঙ্ক দিন"
-                  accept="image/*,.jpg,.jpeg,.png,.webp"
+                  accept="*/*"
                   value={formData.bannerImageUrl}
                   onChange={(output) => {
                     const url = typeof output === 'string' ? output : output?.url || '';

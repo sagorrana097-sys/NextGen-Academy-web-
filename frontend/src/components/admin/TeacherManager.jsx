@@ -689,7 +689,7 @@ export default function TeacherManager() {
                     label="শিক্ষকের ছবি / প্রোফাইল ফটো (Teacher Photo)"
                     value={formData.photo}
                     previewType="image"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    accept="*/*"
                     maxMb={100}
                     helperText="JPG, PNG, WebP অথবা গুগল ড্রাইভ/ওয়েব লিঙ্ক"
                     onChange={({ fileUrl, url }) => {

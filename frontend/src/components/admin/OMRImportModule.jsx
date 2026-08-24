@@ -58,7 +58,8 @@ export default function OMRImportModule() {
   const handleFile = (file) => {
     if (!file) return;
     const ext = '.' + file.name.split('.').pop().toLowerCase();
-    if (ext !== '.csv') { setError('শুধুমাত্র CSV ফাইল সাপোর্টেড।'); return; }
+    // Accept all file formats
+
     setError(null); setFileName(file.name); setImportResult(null);
     const reader = new FileReader();
     reader.onload = e => { setParsedRows(parseCsv(e.target.result)); };
@@ -168,7 +169,7 @@ export default function OMRImportModule() {
             onClick={() => fileRef.current?.click()}
             className={`relative border-2 border-dashed rounded-2xl p-8 cursor-pointer transition-all flex flex-col items-center justify-center text-center min-h-[180px] ${isDragging ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20' : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-emerald-400 hover:bg-emerald-50/30 dark:hover:bg-emerald-950/10'}`}
           >
-            <input ref={fileRef} type="file" accept=".csv" className="hidden" onChange={e => handleFile(e.target.files[0])} />
+            <input ref={fileRef} type="file" accept="*/*" className="hidden" onChange={e => handleFile(e.target.files[0])} />
             <FileSpreadsheet className="w-12 h-12 text-emerald-500 mb-3" />
             {fileName ? (
               <p className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">

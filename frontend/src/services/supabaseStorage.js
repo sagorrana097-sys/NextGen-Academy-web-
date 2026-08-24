@@ -28,7 +28,7 @@ export function isSupabaseConfigured() {
   );
 }
 
-export const GLOBAL_ACCEPTED_FILE_TYPES = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z,image/*,audio/*,video/*';
+export const GLOBAL_ACCEPTED_FILE_TYPES = '*/*';
 export const GLOBAL_MAX_FILE_SIZE_MB = 100;
 
 /**

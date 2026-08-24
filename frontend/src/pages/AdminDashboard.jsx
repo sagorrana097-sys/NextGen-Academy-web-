@@ -2843,7 +2843,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     label="শিক্ষার্থীর ছবি / পাসপোর্ট সাইজ ফটো (Student Photo - Device Upload or URL)"
                     value={studentForm.photo}
                     previewType="image"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    accept="*/*"
                     maxMb={100}
                     helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                     onChange={({ fileUrl, url }) => {
@@ -3225,7 +3225,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   label="শিক্ষকের ছবি (Teacher Photo - Device Upload or URL)"
                   value={teacherForm.photo}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                   onChange={({ fileUrl, url }) => {
@@ -3462,7 +3462,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   label="বইয়ের প্রচ্ছদ / কভার ইমেজ (Cover Image / Link - Optional)"
                   value={textbookForm.coverImage}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="প্রচ্ছদ ছবি আপলোড করুন অথবা অনলাইন ইমেজ লিঙ্ক দিন"
                   onChange={({ fileUrl, url }) => {

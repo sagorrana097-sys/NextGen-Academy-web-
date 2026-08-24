@@ -35,7 +35,7 @@ export default function DualFileUploadInput({
   value = '',
   fileName = '',
   fileSize = '',
-  accept = '.pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*,' + GLOBAL_ACCEPTED_FILE_TYPES,
+  accept = '*/*',
   maxMb = GLOBAL_MAX_FILE_SIZE_MB,
   bucket = 'general-uploads',
   folder = 'notes',
@@ -241,10 +241,7 @@ export default function DualFileUploadInput({
       {/* Tab 1: Direct File Upload */}
       {activeTab === 'UPLOAD' && (
         <div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={accept}
+          <input ref={fileInputRef} type="file" accept={accept || "*/*"}
             onChange={handleFileInputChange}
             disabled={uploading}
             className="hidden"

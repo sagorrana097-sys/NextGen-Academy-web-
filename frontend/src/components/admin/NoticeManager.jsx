@@ -600,7 +600,7 @@ export default function NoticeManager() {
                   value={formData.attachmentUrl}
                   fileName={formData.attachmentName}
                   fileSize={formData.attachmentSize}
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  accept="*/*"
                   maxMb={100}
                   helperText="অফিসিয়াল নোটিশ বা সার্কুলারের স্ক্যান কপি / পিডিএফ বা গুগল ড্রাইভ লিংক"
                   onChange={({ fileUrl, url, fileName, fileSize }) => {

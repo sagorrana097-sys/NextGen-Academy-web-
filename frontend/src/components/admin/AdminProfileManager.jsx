@@ -530,7 +530,7 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
                     label="অ্যাডমিন প্রোফাইল ছবি / অবতার (Admin Avatar - Device Upload or URL)"
                     value={profileData.photo}
                     previewType="image"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    accept="*/*"
                     maxMb={100}
                     helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                     onChange={({ fileUrl, url }) => {

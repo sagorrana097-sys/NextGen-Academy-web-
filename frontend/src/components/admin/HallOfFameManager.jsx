@@ -347,7 +347,7 @@ export default function HallOfFameManager() {
                 <label className="block font-bold text-slate-700">শিক্ষার্থীর ছবি (Student Photo):</label>
                 <UniversalFileUploader
                   label="ছবি আপলোড অথবা ওয়েব লিংক দিন"
-                  accept="image/*,.jpg,.jpeg,.png"
+                  accept="*/*"
                   maxSizeMB={5}
                   value={formData.studentPhoto}
                   onChange={(output) => {

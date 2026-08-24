@@ -426,7 +426,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
                   label="ক্যাশ ভাউচার / জমা রসিদের স্ক্যান কপি (Cash Voucher / Bank Slip - Optional)"
                   value={voucherPhotoUrl}
                   fileName={voucherFileName}
-                  accept="image/*,.pdf"
+                  accept="*/*"
                   maxMb={100}
                   helperText="কাউন্টার ভাউচার, ব্যাংকের জমা স্লিপের ছবি বা গুগল ড্রাইভ লিংক"
                   onChange={({ fileUrl, url, fileName }) => {

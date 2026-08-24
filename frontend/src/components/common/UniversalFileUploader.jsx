@@ -37,7 +37,7 @@ export default function UniversalFileUploader({
   value = '',
   fileName = '',
   fileSize = '',
-  accept = '.pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*,' + GLOBAL_ACCEPTED_FILE_TYPES,
+  accept = '*/*',
   maxMb = GLOBAL_MAX_FILE_SIZE_MB,
   bucket = 'general-uploads',
   folder = 'uploads',
@@ -264,10 +264,7 @@ export default function UniversalFileUploader({
       {/* Mode 1: Direct File Upload Area */}
       {activeTab === 'DEVICE' && (
         <div className="space-y-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={accept}
+          <input ref={fileInputRef} type="file" accept={accept || "*/*"}
             onChange={handleFileInputChange}
             disabled={disabled || uploading}
             className="hidden"

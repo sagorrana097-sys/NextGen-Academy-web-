@@ -720,7 +720,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                       value={formData.photoUrl}
                       fileName={formData.photoFileName}
                       previewType="image"
-                      accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                      accept="*/*"
                       maxMb={100}
                       helperText="সরাসরি ফোন/পিসি থেকে ছবি নির্বাচন করুন অথবা গুগল ড্রাইভ লিংক দিন (সর্বোচ্চ 10MB)"
                       onChange={({ fileUrl, url, fileName }) => {
@@ -835,7 +835,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                         label="জন্ম নিবন্ধন / জাতীয় পরিচয়পত্রের কপি (Birth Certificate / NID)"
                         value={formData.birthCertUrl}
                         fileName={formData.birthCertFileName}
-                        accept=".pdf,.jpg,.jpeg,.png,.webp"
+                        accept="*/*"
                         maxMb={100}
                         helperText="জন্ম নিবন্ধন বা এনআইডির ছবি / পিডিএফ বা গুগল ড্রাইভ লিংক"
                         onChange={({ fileUrl, url, fileName }) => {
@@ -853,7 +853,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                         label="পূর্ববর্তী শ্রেণির মার্কশিট / প্রশংসাপত্র (Previous Marksheet / Testimonial)"
                         value={formData.marksheetUrl}
                         fileName={formData.marksheetFileName}
-                        accept=".pdf,.jpg,.jpeg,.png,.webp"
+                        accept="*/*"
                         maxMb={100}
                         helperText="সর্বশেষ বার্ষিক পরীক্ষার রেজাল্ট কার্ড বা প্রশংসাপত্রের কপি"
                         onChange={({ fileUrl, url, fileName }) => {
@@ -1028,7 +1028,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                       label="পেমেন্ট রসিদ / স্ক্রিনশট আপলোড (Payment Slip / Screenshot - Optional)"
                       value={formData.paymentSlipUrl}
                       fileName={formData.paymentSlipFileName}
-                      accept="image/*,.pdf"
+                      accept="*/*"
                       maxMb={100}
                       helperText="বিকাশ/নগদ এর কনফার্মেশন মেসেজের স্ক্রিনশট বা ব্যাংক রসিদের ছবি"
                       onChange={({ fileUrl, url, fileName }) => {

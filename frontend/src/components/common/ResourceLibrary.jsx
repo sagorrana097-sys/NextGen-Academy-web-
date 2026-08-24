@@ -924,7 +924,7 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
                   label="রিসোর্স ও পাঠ্যপুস্তক ফাইল (PDF / Drive URL / Device Upload) *"
                   value={formData.fileUrl}
                   fileName={formData.fileName}
-                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*"
+                  accept="*/*"
                   maxMb={100}
                   onChange={({ url, fileUrl, fileName, fileSize }) => {
                     const finalUrl = fileUrl || url || '';

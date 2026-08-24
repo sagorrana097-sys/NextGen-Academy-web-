@@ -355,7 +355,7 @@ export default function TeacherProfileSettings() {
                 label="প্রোফাইল ছবি / অবতার (Profile Photo - Device Upload or URL)"
                 value={photo}
                 previewType="image"
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                accept="*/*"
                 maxMb={100}
                 helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                 onChange={({ fileUrl, url }) => {

@@ -442,7 +442,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                 label="পেমেন্ট রসিদ / স্ক্রিনশট (Payment Slip / Screenshot - Optional)"
                 value={slipUrl}
                 fileName={slipFileName}
-                accept="image/*,.pdf"
+                accept="*/*"
                 maxMb={100}
                 helperText="পেমেন্ট কনফার্মেশন স্ক্রিনশট বা ব্যাংক রসিদের ছবি"
                 onChange={({ fileUrl, url, fileName }) => {

@@ -321,7 +321,7 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
                 <input
                   type="file"
                   id="source-file-upload"
-                  accept={GLOBAL_ACCEPTED_FILE_TYPES}
+                  accept="*/*"
                   onChange={handleFileChange}
                   className="hidden"
                 />

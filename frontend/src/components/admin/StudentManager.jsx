@@ -1139,7 +1139,7 @@ export default function StudentManager() {
                     label="শিক্ষার্থীর ছবি / পাসপোর্ট সাইজ ফটো (Student Photo)"
                     value={formData.photo}
                     previewType="image"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    accept="*/*"
                     maxMb={100}
                     helperText="JPG, PNG, JPEG, WebP অথবা গুগল ড্রাইভ লিংক (সর্বোচ্চ 10MB)"
                     onChange={({ fileUrl, url }) => {
