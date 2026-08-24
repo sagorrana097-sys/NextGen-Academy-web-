@@ -317,13 +317,33 @@ export default function Login() {
                 </div>
               </div>
 
+              {/* Skeleton Visual Loading Feedback State */}
+              {loading && (
+                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200/80 animate-pulse space-y-2.5">
+                  <div className="flex items-center space-x-2 text-xs font-black text-emerald-800">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>{lang === 'bn' ? '🔒 নিরাপদ যাচাইকরণ ও প্রোফাইল লোড হচ্ছে...' : '🔒 Authenticating & loading profile...'}</span>
+                  </div>
+                  <div className="h-2 w-full bg-emerald-200/60 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse w-4/5"></div>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] text-emerald-700 font-semibold">
+                    <span>{lang === 'bn' ? 'সেশন ক্যাশ ও ড্যাশবোর্ড প্রস্তুত হচ্ছে' : 'Preparing session cache & dashboard'}</span>
+                    <span>১০০% সুরক্ষিত</span>
+                  </div>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-50 active:scale-95"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-75 active:scale-95"
               >
                 {loading ? (
-                  <span>{t('processing')}</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
+                    <span>{lang === 'bn' ? 'প্রবেশ করা হচ্ছে...' : 'Signing in...'}</span>
+                  </span>
                 ) : (
                   <>
                     <span>{lang === 'bn' ? 'লগইন করুন' : 'Sign In'}</span>
