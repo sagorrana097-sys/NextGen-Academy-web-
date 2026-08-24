@@ -204,7 +204,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '⚙️ প্রোফাইল ও রেকর্ড' : '⚙️ Profile & Records',
       icon: UserCheck,
       items: [
-        { id: 'attendance', label: lang === 'bn' ? 'উপস্থিতি হিস্ট্রি' : 'Attendance History', icon: CalendarCheck },
+        { id: 'attendance', label: lang === 'bn' ? 'একাডেমিক প্রগ্রেস ও রিপোর্ট হাব' : 'Academic Progress & Reports', icon: TrendingUp },
         { id: 'fees', label: lang === 'bn' ? 'ফি ও পেমেন্ট হিস্ট্রি' : 'Fees & Payment History', icon: CreditCard },
         { id: 'checkout', label: lang === 'bn' ? 'পেমেন্ট গেটওয়ে ও রিডিম' : 'Payment Gateway', icon: Wallet },
         { id: 'referral-hub', label: lang === 'bn' ? 'রেফারেল ও রিওয়ার্ডস' : 'Referral & Rewards', icon: Gift },

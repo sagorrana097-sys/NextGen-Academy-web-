@@ -53,6 +53,7 @@ const TeacherDirectory = lazy(() => import('../components/common/TeacherDirector
 const WeeklyRoutineGrid = lazy(() => import('../components/common/WeeklyRoutineGrid'));
 const AcademicReportCard = lazy(() => import('../components/common/AcademicReportCard'));
 const AcademicPerformanceAnalytics = lazy(() => import('../components/common/AcademicPerformanceAnalytics'));
+const StudentAcademicProgressHub = lazy(() => import('../components/student/StudentAcademicProgressHub'));
 const RecordedClassLibrary = lazy(() => import('../components/common/RecordedClassLibrary'));
 const ResourceLibrary = lazy(() => import('../components/common/ResourceLibrary'));
 const InteractiveFormulaVault = lazy(() => import('../components/student/InteractiveFormulaVault'));
@@ -647,13 +648,12 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           <LiveClassCountdownWidget />
           <LiveClassroomView studentId={profile?.id || user?.studentId} role="STUDENT" />
         </div>
-      ) : activeTab === 'attendance' ? (
-        <div className="space-y-6">
-          <GuardianAttendanceMatrix
-            attendanceData={attendance?.records || attendance?.data || (Array.isArray(attendance) ? attendance : [])}
-            studentName={profile?.user?.name || user?.name || 'শিক্ষার্থী'}
-          />
-        </div>
+      ) : activeTab === 'attendance' || activeTab === 'progress' || activeTab === 'academic-progress' ? (
+        <StudentAcademicProgressHub
+          profile={profile}
+          attendanceData={attendance?.records || attendance?.data || (Array.isArray(attendance) ? attendance : [])}
+          resultsData={results}
+        />
       ) : activeTab === 'exams' ? (
         /* Student Online Exams & Assessment Center */
         <div className="space-y-6">
