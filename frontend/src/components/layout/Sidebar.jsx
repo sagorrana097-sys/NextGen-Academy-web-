@@ -423,8 +423,6 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
                   <ShieldCheck className="w-5 h-5" />
                 ) : user?.role === 'TEACHER' ? (
                   <BookOpen className="w-5 h-5" />
-                ) : user?.role === 'PARENT' ? (
-                  <Users className="w-5 h-5" />
                 ) : (
                   <GraduationCap className="w-5 h-5" />
                 )}
@@ -433,14 +431,12 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
                 <p className="text-xs font-black text-slate-800 dark:text-slate-100 truncate">{user?.name}</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold truncate">
-                    {user?.role === 'PARENT'
-                      ? (lang === 'bn' ? '👨‍👩‍👧 অভিভাবক পোর্টাল' : 'Guardian Portal')
-                      : user?.role === 'STUDENT'
-                      ? (lang === 'bn' ? '🎓 শিক্ষার্থী পোর্টাল' : 'Student Portal')
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold truncate">
+                    {user?.role === 'PARENT' || user?.role === 'STUDENT'
+                      ? (lang === 'bn' ? '🎓 শিক্ষার্থী ও অভিভাবক পোর্টাল' : 'Student & Guardian Portal')
                       : user?.role === 'TEACHER'
-                      ? (lang === 'bn' ? '👨‍🏫 শিক্ষক পোর্টাল' : 'Faculty Portal')
-                      : (lang === 'bn' ? '🛡️ অ্যাডমিন কন্ট্রোল' : 'Admin Control')}
+                      ? (lang === 'bn' ? '👨‍🏫 শিক্ষক ও ফ্যাকাল্টি পোর্টাল' : 'Faculty & Teacher Portal')
+                      : (lang === 'bn' ? '🛡️ একাডেমি কন্ট্রোল সেন্টার' : 'Academy Control Center')}
                   </p>
                 </div>
               </div>
