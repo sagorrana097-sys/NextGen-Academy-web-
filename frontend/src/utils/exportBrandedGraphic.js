@@ -116,3 +116,5 @@ export async function exportBrandedGraphic(element, options = {}) {
     }
   }
 }
+
+export default exportBrandedGraphic;
