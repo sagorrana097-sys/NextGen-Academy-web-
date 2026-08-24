@@ -55,7 +55,8 @@ import {
   X,
   Settings,
   FolderOpen,
-  TestTube2
+  TestTube2,
+  TrendingUp
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
