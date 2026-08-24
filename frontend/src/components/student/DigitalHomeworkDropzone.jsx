@@ -79,8 +79,8 @@ export default function DigitalHomeworkDropzone({ homework, onSubmitted }) {
         value={fileData.fileUrl}
         fileName={fileData.fileName}
         fileSize={fileData.fileSize}
-        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.zip"
-        maxMb={25}
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+        maxMb={100}
         helperText="খাতার ছবি তুলে, PDF ফাইল হিসেবে, অথবা গুগল ড্রাইভ লিংক দিয়ে জমা দিন (Max 25MB)"
         onChange={({ fileUrl, url, fileName, fileSize }) => {
           setFileData({

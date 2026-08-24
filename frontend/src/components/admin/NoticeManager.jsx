@@ -504,35 +504,35 @@ export default function NoticeManager() {
 
             <form onSubmit={handleFormSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নোটিশের শিরোনাম (বাংলা) *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নোটিশের শিরোনাম (বাংলা) *</label>
                 <input
                   type="text"
                   value={formData.titleBn}
                   onChange={(e) => setFormData({ ...formData, titleBn: e.target.value })}
                   placeholder="যেমন: ২০২৬ সালের ১ম সাময়িক পরীক্ষার রুটিন প্রকাশ"
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Notice Title (English)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">Notice Title (English)</label>
                 <input
                   type="text"
                   value={formData.titleEn}
                   onChange={(e) => setFormData({ ...formData, titleEn: e.target.value })}
                   placeholder="e.g. 1st Term Examination Routine Published"
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ক্যাটাগরি *</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="ACADEMIC">একাডেমিক</option>
                     <option value="EXAM">পরীক্ষা</option>
@@ -543,11 +543,11 @@ export default function NoticeManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">অগ্রাধিকার (Priority)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">অগ্রাধিকার (Priority)</label>
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="NORMAL">সাধারণ (Normal)</option>
                     <option value="HIGH">উচ্চ (High)</option>
@@ -556,11 +556,11 @@ export default function NoticeManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">প্রাপক (Audience)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">প্রাপক (Audience)</label>
                   <select
                     value={formData.targetRole}
                     onChange={(e) => setFormData({ ...formData, targetRole: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="ALL">সকলের জন্য</option>
                     <option value="STUDENT">শিক্ষার্থী</option>
@@ -571,7 +571,7 @@ export default function NoticeManager() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নোটিশের বিস্তারিত বিবরণ (বাংলা) *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নোটিশের বিস্তারিত বিবরণ (বাংলা) *</label>
                 <textarea
                   rows={4}
                   value={formData.contentBn}
@@ -583,7 +583,7 @@ export default function NoticeManager() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Notice Content (English)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">Notice Content (English)</label>
                 <textarea
                   rows={2}
                   value={formData.contentEn}
@@ -600,8 +600,8 @@ export default function NoticeManager() {
                   value={formData.attachmentUrl}
                   fileName={formData.attachmentName}
                   fileSize={formData.attachmentSize}
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                  maxMb={15}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="অফিসিয়াল নোটিশ বা সার্কুলারের স্ক্যান কপি / পিডিএফ বা গুগল ড্রাইভ লিংক"
                   onChange={({ fileUrl, url, fileName, fileSize }) => {
                     setFormData(prev => ({

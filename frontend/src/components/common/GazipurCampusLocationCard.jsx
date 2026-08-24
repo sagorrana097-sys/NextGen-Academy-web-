@@ -21,7 +21,7 @@ export default function GazipurCampusLocationCard() {
   const phone = settings?.contactPhone || settings?.phone || '+880 1792818005';
   const whatsapp = settings?.whatsappPhone || '01792818005';
   const email = settings?.contactEmail || settings?.email || 'info@nextgen.edu.bd';
-  const address = 'নেক্সটজেন একাডেমি (প্রধান ক্যাম্পাস), জয়দেবপুর রোড, বোর্ড বাজার, গাজীপুর-১৭০৪, ঢাকা, বাংলাদেশ';
+  const address = settings?.address || 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর';
 
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('NextGen Academy Gazipur Campus Board Bazar Gazipur Bangladesh')}`;
   

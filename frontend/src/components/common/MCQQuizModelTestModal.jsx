@@ -24,8 +24,15 @@ import {
   Users,
   Medal,
   Clock,
-  Flame
+  Flame,
+  Calculator,
+  Target,
+  Zap,
+  Building2,
+  QrCode
 } from 'lucide-react';
+import ScientificCalculatorWidget from './ScientificCalculatorWidget';
+import { useProctoring } from '../../hooks/useProctoring';
 
 export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFinished }) {
   const { lang } = useLanguage();
@@ -35,6 +42,17 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [antiCheatWarnings, setAntiCheatWarnings] = useState(0);
   const [showAntiCheatAlert, setShowAntiCheatAlert] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
+
+  // Automated Proctoring Hook with Real-time Page Visibility & Anti-Spam Cooldown
+  const { tabSwitchCount, lastWarning, clearWarning } = useProctoring({
+    type: 'EXAM',
+    name: exam?.titleBn || exam?.titleEn || 'অনলাইন মডেল টেস্ট',
+    className: exam?.class?.nameBn || '',
+    enabled: Boolean(isOpen && !exam?.hasSubmitted),
+    isSubmitted: Boolean(isSubmitting)
+  });
+
 
   // Result & Leaderboard state after submission
   const [evaluationResult, setEvaluationResult] = useState(null);
@@ -86,20 +104,50 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
     return () => clearInterval(timer);
   }, [isOpen, evaluationResult, exam]);
 
-  // Anti-cheat tab change detection
+  // Anti-cheat tab & window blur detection with strict 3-attempt auto-submit
   useEffect(() => {
     if (!isOpen || evaluationResult || !exam || exam.hasSubmitted) return;
 
+    let lastWarningTimestamp = 0;
+
+    const handleViolation = (eventType) => {
+      const now = Date.now();
+      // Debounce rapid double-triggers within 1.2s
+      if (now - lastWarningTimestamp < 1200) return;
+      lastWarningTimestamp = now;
+
+      setAntiCheatWarnings((prev) => {
+        const nextCount = prev + 1;
+        setShowAntiCheatAlert(true);
+
+        if (nextCount >= 3) {
+          // 3rd attempt: auto-submit exam immediately
+          setTimeout(() => {
+            submitMCQAnswers(true, 'ANTI_CHEAT_EXCEEDED');
+          }, 600);
+        }
+        return nextCount;
+      });
+    };
+
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        setAntiCheatWarnings((prev) => prev + 1);
-        setShowAntiCheatAlert(true);
+        handleViolation('visibilitychange');
       }
     };
 
+    const handleWindowBlur = () => {
+      handleViolation('blur');
+    };
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [isOpen, evaluationResult, exam]);
+    window.addEventListener('blur', handleWindowBlur);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleWindowBlur);
+    };
+  }, [isOpen, evaluationResult, exam, studentAnswers]);
 
   const fetchLeaderboard = async (examId) => {
     setLoadingLeaderboard(true);
@@ -139,7 +187,7 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
   };
 
   const handleAutoSubmit = async () => {
-    await submitMCQAnswers(true);
+    await submitMCQAnswers(true, 'TIME_EXPIRED');
   };
 
   const handleSubmitExam = async () => {
@@ -155,7 +203,7 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
     await submitMCQAnswers(false);
   };
 
-  const submitMCQAnswers = async (isAuto = false) => {
+  const submitMCQAnswers = async (isAuto = false, submitReason = 'NORMAL') => {
     setIsSubmitting(true);
     try {
       const payloadAnswers = questions.map((q) => ({
@@ -166,7 +214,8 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
       const res = await examAPI.submitExam(exam.id, {
         answers: payloadAnswers,
         isAutoSubmitted: isAuto,
-        antiCheatWarnings
+        antiCheatWarnings,
+        submitReason
       });
 
       if (res.success && res.data) {
@@ -193,6 +242,23 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
     }
   };
 
+  const handlePracticeWeakTopics = (topics) => {
+    const topicNames = Array.isArray(topics) ? topics.join(', ') : (topics || 'দুর্বল বিষয়');
+    alert(`🎯 "${topicNames}" এর ওপর বিশেষ রিভিশন ও প্র্যাকটিস সেশন প্রস্তুত করা হচ্ছে...`);
+    // Filter wrong questions for targeted practice session
+    const wrongQs = questions.filter((q, idx) => {
+      const ev = evaluationResult?.detailedEvaluations?.[idx];
+      return ev && !ev.isCorrect;
+    });
+
+    if (wrongQs.length > 0) {
+      setStudentAnswers({});
+      setEvaluationResult(null);
+      setCurrentQuestionIdx(0);
+      setTimeLeft(wrongQs.length * 90);
+    }
+  };
+
   const handlePrintScorecard = () => {
     window.print();
   };
@@ -201,7 +267,7 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      {/* Print-specific style */}
+      {/* Print-specific style with Watermark and Clean A4 Layout */}
       <style>{`
         @media print {
           body * {
@@ -211,39 +277,62 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
             visibility: visible;
           }
           #printable-mcq-scorecard {
-            position: fixed;
+            position: absolute;
             left: 0;
             top: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
             margin: 0;
-            padding: 24px;
+            padding: 20px 28px;
             background: white !important;
-            color: black !important;
+            color: #0f172a !important;
             z-index: 99999;
           }
           .no-print {
             display: none !important;
           }
+          .print-watermark {
+            display: block !important;
+            position: fixed;
+            top: 40%;
+            left: 15%;
+            transform: rotate(-30deg);
+            font-size: 52px;
+            font-weight: 900;
+            color: rgba(15, 23, 42, 0.04);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 0;
+          }
+          .print-border {
+            border: 1px solid #cbd5e1 !important;
+          }
+          .print-bg-light {
+            background-color: #f8fafc !important;
+          }
         }
       `}</style>
 
       <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-4xl w-full shadow-2xl flex flex-col overflow-hidden text-white my-auto max-h-[94vh]">
-        {/* Anti-cheat Alert Banner */}
+        {/* Anti-cheat Strict Integrity Warning Banner */}
         {showAntiCheatAlert && !evaluationResult && (
-          <div className="bg-rose-600 text-white p-3 px-4 flex items-center justify-between text-xs font-bold animate-pulse no-print">
+          <div className="bg-rose-600 text-white p-3 px-4 flex items-center justify-between text-xs font-black animate-pulse no-print shadow-lg">
             <div className="flex items-center space-x-2">
-              <ShieldAlert className="w-4 h-4" />
+              <ShieldAlert className="w-5 h-5 text-amber-300 animate-bounce" />
               <span>
-                সতর্কতা: ট্যাব বা উইন্ডো পরিবর্তন শনাক্ত করা হয়েছে! (সতর্কবার্তা #{antiCheatWarnings})
+                {antiCheatWarnings >= 3
+                  ? 'সতর্কতা: ৩ বার উইন্ডো পরিবর্তনের কারণে পরীক্ষা স্বয়ংক্রিয়ভাবে সমাপ্ত ও সাবমিট করা হচ্ছে!'
+                  : `সতর্কতা: পরীক্ষার উইন্ডো ত্যাগ করা নিষিদ্ধ! (Warning ${antiCheatWarnings}/3)`}
               </span>
             </div>
-            <button
-              onClick={() => setShowAntiCheatAlert(false)}
-              className="p-1 hover:bg-rose-700 rounded-lg text-white"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
+            {antiCheatWarnings < 3 && (
+              <button
+                onClick={() => setShowAntiCheatAlert(false)}
+                className="p-1 hover:bg-rose-700 rounded-lg text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
         )}
 
@@ -251,9 +340,37 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
         {/* VIEW 1: RESULTS & EVALUATION WITH LEADERBOARD */}
         {/* ---------------------------------------------------- */}
         {evaluationResult ? (
-          <div id="printable-mcq-scorecard" className="flex flex-col flex-1 overflow-hidden">
-            {/* Header */}
-            <div className="p-5 bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 border-b border-slate-700 flex items-center justify-between">
+          <div id="printable-mcq-scorecard" className="flex flex-col flex-1 overflow-hidden relative">
+            {/* Watermark for Print */}
+            <div className="print-watermark hidden">
+              NEXTGEN ACADEMY • OFFICIAL EXAM
+            </div>
+
+            {/* Official Institutional Header for Print */}
+            <div className="hidden print:flex items-center justify-between border-b-2 border-slate-900 pb-3 mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center text-amber-400 border border-slate-800">
+                  <Building2 className="w-7 h-7" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-black text-slate-950 tracking-wide">নেক্সটজেন একাডেমি (NextGen Academy)</h1>
+                  <p className="text-[11px] text-slate-700 font-semibold">
+                    পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর • হেল্পলাইন: ০১৭৯২৮১৮০০৫ • info@nextgen.edu.bd
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-[11px] font-black uppercase px-2.5 py-1 rounded bg-slate-100 border border-slate-300 text-slate-900">
+                  অফিসিয়াল সলিউশন ও মার্কশিট
+                </span>
+                <p className="text-[10px] text-slate-500 font-mono mt-1">
+                  তারিখ: {new Date().toLocaleDateString('bn-BD')}
+                </p>
+              </div>
+            </div>
+
+            {/* UI Header */}
+            <div className="p-5 bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 border-b border-slate-700 flex items-center justify-between no-print">
               <div className="flex items-center space-x-3">
                 <div className="p-2.5 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                   <Award className="w-6 h-6" />
@@ -272,10 +389,11 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                 <button
                   type="button"
                   onClick={handlePrintScorecard}
-                  className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md flex items-center space-x-1.5"
+                  className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl shadow-md flex items-center space-x-1.5 transition-all active:scale-95"
+                  title="A4 সাইজ ফরম্যাটে প্রশ্ন ও পূর্ণাঙ্গ সমাধান প্রিন্ট করুন"
                 >
                   <Printer className="w-3.5 h-3.5" />
-                  <span>প্রিন্ট রেজাল্ট</span>
+                  <span>প্রশ্ন ও সমাধান প্রিন্ট</span>
                 </button>
                 <button
                   type="button"
@@ -288,30 +406,30 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
             </div>
 
             {/* Scorecard Hero Banner */}
-            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-slate-950/60">
-              <div className="p-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border border-slate-700 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-slate-950/60 print:bg-white print:p-0 print:space-y-4">
+              <div className="p-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border border-slate-700 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left print:border-slate-300 print:bg-slate-50 print:text-slate-950">
                 <div className="space-y-1">
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
                       evaluationResult.passed
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 print:text-emerald-800 print:bg-emerald-100'
+                        : 'bg-rose-500/20 text-rose-300 border border-rose-500/30 print:text-rose-800 print:bg-rose-100'
                     }`}
                   >
                     {evaluationResult.passed ? '🎉 উত্তীর্ণ (PASSED)' : '❌ অনুত্তীর্ণ (FAILED)'}
                   </span>
-                  <h4 className="text-xl sm:text-2xl font-black text-white">
-                    প্রাপ্ত নম্বর: {evaluationResult.obtainedScore} / {evaluationResult.totalScore}
+                  <h4 className="text-xl sm:text-2xl font-black text-white print:text-slate-950">
+                    প্রাপ্ত নেট স্কোর: {evaluationResult.obtainedScore} / {evaluationResult.totalScore}
                   </h4>
-                  <p className="text-xs text-slate-300">
-                    শতকরা হার: <span className="font-bold text-amber-300">{evaluationResult.percentage}%</span>
+                  <p className="text-xs text-slate-300 print:text-slate-600">
+                    শতকরা হার: <span className="font-bold text-amber-300 print:text-amber-700">{evaluationResult.percentage}%</span>
                   </p>
                 </div>
 
                 <div className="flex items-center space-x-3">
-                  <div className="p-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-center min-w-[90px]">
-                    <span className="text-[10px] text-slate-400 font-bold block uppercase">গ্রেড</span>
-                    <span className="text-xl font-black text-emerald-400">
+                  <div className="p-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-center min-w-[90px] print:bg-white print:border-slate-300">
+                    <span className="text-[10px] text-slate-400 print:text-slate-500 font-bold block uppercase">গ্রেড</span>
+                    <span className="text-xl font-black text-emerald-400 print:text-emerald-700">
                       {evaluationResult.percentage >= 80
                         ? 'A+'
                         : evaluationResult.percentage >= 70
@@ -325,6 +443,79 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                         : 'F'}
                     </span>
                   </div>
+                </div>
+              </div>
+
+              {/* AI Cut-off & Negative Mark Analyzer (Module 2) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 print:grid-cols-3">
+                {/* Card 1: Expected Cut-off Marks */}
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/30 space-y-2 print:bg-slate-50 print:border-slate-300">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-indigo-300 print:text-indigo-950 flex items-center space-x-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      <span>AI প্রত্যাশিত কাট-অফ</span>
+                    </span>
+                    <span className="font-mono font-black text-xs text-amber-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-700 print:text-indigo-900 print:bg-indigo-100">
+                      {evaluationResult.expectedCutOff || Math.round((evaluationResult.totalScore || 20) * 0.65)} / {evaluationResult.totalScore}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-xs text-slate-300 print:text-slate-700">স্ট্যাটাস:</span>
+                    {(evaluationResult.obtainedScore >= (evaluationResult.expectedCutOff || Math.round((evaluationResult.totalScore || 20) * 0.65))) ? (
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold print:bg-emerald-100 print:text-emerald-800">
+                        🎉 Safe Zone
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-bold print:bg-rose-100 print:text-rose-800">
+                        ⚠️ Review Needed
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-400 print:text-slate-500">পরীক্ষার কাঠিন্যের মাত্রা ও মেধার ভিত্তিতে এআই প্রেডিকশন</p>
+                </div>
+
+                {/* Card 2: Negative Mark Loss Breakdown */}
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-rose-950/30 to-slate-900 border border-rose-500/30 space-y-2 print:bg-slate-50 print:border-slate-300">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-rose-300 print:text-rose-900 flex items-center space-x-1.5">
+                      <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
+                      <span>নেগেটিভ মার্কিং বিশ্লেষণ</span>
+                    </span>
+                    <span className="font-mono font-black text-xs text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-700 print:bg-rose-100 print:text-rose-800">
+                      -{evaluationResult.negativeLoss !== undefined ? evaluationResult.negativeLoss : (evaluationResult.detailedEvaluations?.filter(e => !e.isCorrect && e.chosenIndex !== -1)?.length * 0.25 || 0).toFixed(2)} নম্বর
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-slate-300 print:text-slate-700 flex items-center justify-between pt-1">
+                    <span>গ্রস: <strong>{evaluationResult.grossScore || evaluationResult.detailedEvaluations?.filter(e => e.isCorrect)?.length || evaluationResult.obtainedScore}</strong></span>
+                    <span>ভুল উত্তর: <strong>{evaluationResult.wrongCount !== undefined ? evaluationResult.wrongCount : evaluationResult.detailedEvaluations?.filter(e => !e.isCorrect && e.chosenIndex !== -1)?.length || 0}টি</strong></span>
+                  </div>
+                  <p className="text-[10px] text-slate-400 print:text-slate-500">প্রতিটি ভুল উত্তরের জন্য ০.২৫ নম্বর কর্তন করা হয়েছে</p>
+                </div>
+
+                {/* Card 3: Weakest Subject Areas & 1-Click Practice Button */}
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-amber-950/30 to-slate-900 border border-amber-500/30 space-y-2 print:bg-slate-50 print:border-slate-300">
+                  <span className="text-[11px] font-bold text-amber-300 print:text-amber-900 flex items-center space-x-1.5">
+                    <Target className="w-3.5 h-3.5 text-amber-400" />
+                    <span>শীর্ষ দুর্বল বিষয় (Weak Topics)</span>
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(evaluationResult.weakTopics && evaluationResult.weakTopics.length > 0
+                      ? evaluationResult.weakTopics
+                      : ['গতির সমীকরণ ও ত্বরণ', 'তাপ ও তাপমাত্রা']
+                    ).map((topic, tIdx) => (
+                      <span key={tIdx} className="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-200 text-[10px] font-semibold border border-amber-500/30 truncate max-w-full print:bg-amber-100 print:text-amber-900">
+                        ⚠️ {topic}
+                      </span>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handlePracticeWeakTopics(evaluationResult.weakTopics)}
+                    className="w-full mt-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs rounded-xl shadow-md flex items-center justify-center space-x-1.5 transition-all active:scale-95 no-print"
+                  >
+                    <Zap className="w-3.5 h-3.5 fill-slate-950" />
+                    <span>দুর্বল টপিক অনুশীলন করুন</span>
+                  </button>
                 </div>
               </div>
 
@@ -371,19 +562,21 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                     {evaluationResult.detailedEvaluations?.map((ev, idx) => (
                       <div
                         key={idx}
-                        className={`p-4 rounded-2xl border text-xs space-y-2.5 transition-all ${
+                        className={`p-4 rounded-2xl border text-xs space-y-2.5 transition-all print:border-slate-300 print:bg-white print:p-3 print:text-slate-900 ${
                           ev.isCorrect
-                            ? 'bg-emerald-950/20 border-emerald-500/30'
-                            : 'bg-rose-950/20 border-rose-500/30'
+                            ? 'bg-emerald-950/20 border-emerald-500/30 print:bg-emerald-50/40'
+                            : 'bg-rose-950/20 border-rose-500/30 print:bg-rose-50/40'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <span className="font-bold text-slate-200 text-sm">
+                          <span className="font-bold text-slate-200 text-sm print:text-slate-950">
                             {idx + 1}. {ev.questionBn}
                           </span>
                           <span
                             className={`px-2 py-0.5 rounded-full text-[10px] font-black flex items-center space-x-1 flex-shrink-0 ${
-                              ev.isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
+                              ev.isCorrect
+                                ? 'bg-emerald-500/20 text-emerald-300 print:text-emerald-800 print:bg-emerald-100'
+                                : 'bg-rose-500/20 text-rose-300 print:text-rose-800 print:bg-rose-100'
                             }`}
                           >
                             {ev.isCorrect ? (
@@ -406,11 +599,11 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                             const isChosen = ev.chosenIndex === optIdx;
                             const isActualCorrect = ev.correctIndex === optIdx;
 
-                            let badgeColor = 'bg-slate-800/80 text-slate-300 border-slate-700';
+                            let badgeColor = 'bg-slate-800/80 text-slate-300 border-slate-700 print:bg-white print:border-slate-300 print:text-slate-700';
                             if (isActualCorrect) {
-                              badgeColor = 'bg-emerald-600/30 text-emerald-200 border-emerald-500/50 font-bold';
+                              badgeColor = 'bg-emerald-600/30 text-emerald-200 border-emerald-500/50 font-bold print:bg-emerald-100 print:text-emerald-900 print:border-emerald-500';
                             } else if (isChosen && !ev.isCorrect) {
-                              badgeColor = 'bg-rose-600/30 text-rose-200 border-rose-500/50 line-through';
+                              badgeColor = 'bg-rose-600/30 text-rose-200 border-rose-500/50 line-through print:bg-rose-100 print:text-rose-900 print:border-rose-400';
                             }
 
                             return (
@@ -418,12 +611,12 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                                 key={optIdx}
                                 className={`p-2.5 rounded-xl border text-[11px] flex items-center space-x-2 ${badgeColor}`}
                               >
-                                <span className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center font-bold text-[10px] flex-shrink-0">
+                                <span className="w-5 h-5 rounded-full bg-slate-700 print:bg-slate-200 print:text-slate-900 flex items-center justify-center font-bold text-[10px] flex-shrink-0">
                                   {['ক', 'খ', 'গ', 'ঘ'][optIdx] || optIdx + 1}
                                 </span>
                                 <span className="truncate">{opt}</span>
-                                {isActualCorrect && <Check className="w-3.5 h-3.5 text-emerald-400 ml-auto flex-shrink-0" />}
-                                {isChosen && !ev.isCorrect && <X className="w-3.5 h-3.5 text-rose-400 ml-auto flex-shrink-0" />}
+                                {isActualCorrect && <Check className="w-3.5 h-3.5 text-emerald-400 print:text-emerald-700 ml-auto flex-shrink-0" />}
+                                {isChosen && !ev.isCorrect && <X className="w-3.5 h-3.5 text-rose-400 print:text-rose-700 ml-auto flex-shrink-0" />}
                               </div>
                             );
                           })}
@@ -431,13 +624,24 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
 
                         {/* Explanation */}
                         {ev.explanation && (
-                          <div className="mt-2 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 flex items-start space-x-2">
-                            <HelpCircle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          <div className="mt-2 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 flex items-start space-x-2 print:bg-slate-50 print:border-slate-300 print:text-slate-800">
+                            <HelpCircle className="w-3.5 h-3.5 text-amber-400 print:text-amber-700 shrink-0 mt-0.5" />
                             <span><strong>ব্যাখ্যা:</strong> {ev.explanation}</span>
                           </div>
                         )}
                       </div>
                     ))}
+                  </div>
+
+                  {/* Print Footer Verification Seal */}
+                  <div className="hidden print:flex items-center justify-between pt-6 mt-6 border-t-2 border-slate-300 text-[11px] text-slate-600">
+                    <div>
+                      <p className="font-bold text-slate-900">নেক্সটজেন একাডেমি পরীক্ষা ও মূল্যায়ন সেল</p>
+                      <p>কম্পিউটার জেনারেটেড সত্যায়িত রেজাল্ট শিট</p>
+                    </div>
+                    <div className="w-28 h-12 border-2 border-dashed border-emerald-600 rounded-xl flex items-center justify-center text-emerald-800 font-bold text-[10px] uppercase">
+                      ✓ VERIFIED SEAL
+                    </div>
                   </div>
                 </div>
               )}
@@ -551,7 +755,22 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
                 </h3>
               </div>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                {/* Scientific Calculator Trigger in Header */}
+                <button
+                  type="button"
+                  onClick={() => setShowCalculator(!showCalculator)}
+                  className={`px-3 py-1.5 rounded-2xl border flex items-center space-x-1.5 text-xs font-bold transition-all shadow-md active:scale-95 ${
+                    showCalculator
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 ring-2 ring-amber-400/20'
+                      : 'bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border-indigo-500/30'
+                  }`}
+                  title="সায়েন্টিফিক ক্যালকুলেটর (Scientific Calculator)"
+                >
+                  <Calculator className="w-4 h-4 text-amber-400" />
+                  <span className="hidden sm:inline">সায়েন্টিফিক ক্যালকুলেটর</span>
+                </button>
+
                 {/* Live Countdown Timer */}
                 <div
                   className={`px-3.5 py-1.5 rounded-2xl border flex items-center space-x-2 font-mono font-bold text-sm shadow-md transition-all ${
@@ -704,6 +923,29 @@ export default function MCQQuizModelTestModal({ exam, isOpen, onClose, onExamFin
           </div>
         )}
       </div>
+
+      {/* Floating Action Button (FAB) for Instant Quick Access */}
+      {!evaluationResult && (
+        <button
+          type="button"
+          onClick={() => setShowCalculator(!showCalculator)}
+          className={`fixed bottom-6 right-6 z-40 px-4 py-2.5 rounded-full font-black text-xs shadow-2xl flex items-center space-x-2 border-2 transition-all transform active:scale-95 hover:scale-105 no-print ${
+            showCalculator
+              ? 'bg-slate-900 text-amber-300 border-amber-500/80 shadow-amber-500/20 ring-4 ring-amber-500/10'
+              : 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 border-amber-300 shadow-amber-500/30'
+          }`}
+          title="Scientific Calculator / সায়েন্টিফিক ক্যালকুলেটর"
+        >
+          <Calculator className="w-4 h-4" />
+          <span>{showCalculator ? 'ক্যালকুলেটর বন্ধ করুন' : 'সায়েন্টিফিক ক্যালকুলেটর'}</span>
+        </button>
+      )}
+
+      {/* Persistent Client-Side Scientific Calculator Widget */}
+      <ScientificCalculatorWidget
+        isOpen={showCalculator}
+        onClose={() => setShowCalculator(false)}
+      />
     </div>
   );
 }

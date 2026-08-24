@@ -5,6 +5,132 @@ const { verifyStudentAccess } = require('../middleware/ownership');
 const AuditService = require('../services/auditService');
 
 const router = express.Router();
+const multer = require('multer');
+const pdfParse = require('pdf-parse');
+
+// Configure multer memory storage
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 } // 25 MB max
+});
+
+/**
+ * POST /api/materials/upload
+ * Process & Upload PDF/Text study materials, extract text with pdf-parse and save to study_materials table
+ */
+router.post('/upload', authenticate, upload.single('file'), async (req, res, next) => {
+  try {
+    const { title, category = 'GENERAL', classId, subjectId, content_text, contentText } = req.body;
+    let extractedText = content_text || contentText || '';
+    let fileName = '';
+    let fileSize = '';
+    let fileType = 'TXT';
+
+    if (req.file) {
+      fileName = req.file.originalname;
+      fileSize = `${(req.file.size / (1024 * 1024)).toFixed(2)} MB`;
+      const isPdf =
+        req.file.mimetype === 'application/pdf' ||
+        fileName.toLowerCase().endsWith('.pdf');
+
+      if (isPdf) {
+        fileType = 'PDF';
+        try {
+          const parsed = await pdfParse(req.file.buffer);
+          extractedText = (parsed.text || '').trim();
+        } catch (pdfErr) {
+          console.warn('PDF parse warning:', pdfErr.message);
+          extractedText = req.file.buffer.toString('utf-8').trim();
+        }
+      } else {
+        fileType = 'TXT';
+        extractedText = req.file.buffer.toString('utf-8').trim();
+      }
+    }
+
+    const finalTitle = (title || fileName || 'স্টাডি সোর্স নোট').trim();
+
+    if (!extractedText && !finalTitle) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'EMPTY_CONTENT', message: 'ফাইল বা টেক্সট থেকে কোনো তথ্য পাওয়া যায়নি।' }
+      });
+    }
+
+    let teacherId = 1;
+    if (req.user.role === 'TEACHER') {
+      const tProfile = await Teacher.findOne({ where: { userId: req.user.id } });
+      if (tProfile) teacherId = tProfile.id;
+    }
+
+    const newMaterial = await StudyMaterial.create({
+      title: finalTitle,
+      titleBn: finalTitle,
+      titleEn: finalTitle,
+      category: category || 'GENERAL',
+      content_text: extractedText,
+      contentText: extractedText,
+      extracted_text: extractedText,
+      descriptionBn: extractedText.slice(0, 300) + (extractedText.length > 300 ? '...' : ''),
+      chapterBn: finalTitle,
+      chapterEn: finalTitle,
+      classId: classId ? Number(classId) : null,
+      subjectId: subjectId ? Number(subjectId) : null,
+      teacherId,
+      fileType,
+      fileName,
+      fileSize: fileSize || '1.0 MB',
+      fileUrl: req.body.fileUrl || '',
+      created_at: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      publishedAt: new Date().toISOString()
+    });
+
+    await AuditService.log({
+      req,
+      userId: req.user.id,
+      action: 'UPLOAD_STUDY_MATERIAL_SOURCE',
+      entityType: 'study_material',
+      entityId: newMaterial.id,
+      details: `${req.user.name} নতুন স্টাডি সোর্স আপলোড ও টেক্সট এক্সট্রাক্ট করেছেন: "${finalTitle}" (${extractedText.length} অক্ষর)`
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'স্টাডি ম্যাটেরিয়াল ও সোর্স টেক্সট সফলভাবে প্রসেস এবং সংরক্ষণ করা হয়েছে!',
+      data: newMaterial
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/materials/source-materials
+ * List all study materials with extracted text for AI question context
+ */
+router.get('/source-materials', authenticate, async (req, res, next) => {
+  try {
+    const materials = await StudyMaterial.findAll({
+      order: [['id', 'DESC']]
+    });
+
+    res.json({
+      success: true,
+      data: materials.map(m => ({
+        id: m.id,
+        title: m.title || m.titleBn || m.chapterBn || `সোর্স ম্যাটেরিয়াল #${m.id}`,
+        category: m.category || 'GENERAL',
+        fileType: m.fileType || 'PDF',
+        fileSize: m.fileSize,
+        content_text: m.content_text || m.contentText || m.extracted_text || m.descriptionBn || '',
+        created_at: m.created_at || m.createdAt || m.publishedAt
+      }))
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 /**
  * GET /api/materials

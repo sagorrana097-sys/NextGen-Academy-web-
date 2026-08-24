@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { examAPI } from '../../services/api';
+import { examAPI, materialAPI } from '../../services/api';
 import {
   Sparkles,
   FileText,
@@ -26,7 +26,8 @@ import {
   Columns,
   Table,
   CheckSquare,
-  Calendar
+  Calendar,
+  FileCode
 } from 'lucide-react';
 
 export default function AICQGeneratorModal({
@@ -47,6 +48,8 @@ export default function AICQGeneratorModal({
   const [questionCount, setQuestionCount] = useState(2);
   const [chapterNotes, setChapterNotes] = useState('');
   const [examTerm, setExamTerm] = useState('মডেল টেস্ট ও মূল্যায়ন পরীক্ষা ২০২৬');
+  const [sourceMaterials, setSourceMaterials] = useState([]);
+  const [selectedSourceMaterialId, setSelectedSourceMaterialId] = useState('');
 
   // Generation & Status
   const [generating, setGenerating] = useState(false);
@@ -86,6 +89,26 @@ export default function AICQGeneratorModal({
     'সাপ্তাহিক মূল্যায়ন কুইজ (Weekly Assessment)'
   ];
 
+  useEffect(() => {
+    if (isOpen) {
+      materialAPI.getSourceMaterials()
+        .then(res => {
+          if (res && res.data) setSourceMaterials(res.data);
+        })
+        .catch(err => console.error('Failed to load source materials in CQ generator:', err));
+    }
+  }, [isOpen]);
+
+  const handleSelectSource = (matId) => {
+    setSelectedSourceMaterialId(matId);
+    if (matId) {
+      const found = sourceMaterials.find(m => String(m.id) === String(matId));
+      if (found) {
+        if (!chapterTopic.trim()) setChapterTopic(found.title);
+      }
+    }
+  };
+
   // Determine stage
   const isPrimaryStage = (cg) => {
     const val = (cg || classGrade).toLowerCase();
@@ -100,8 +123,8 @@ export default function AICQGeneratorModal({
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    if (!chapterTopic.trim() && !chapterNotes.trim()) {
-      setErrorMsg('অনুগ্রহ করে অধ্যায়/টপিকের নাম অথবা হ্যান্ডনোট পেস্ট করুন।');
+    if (!chapterTopic.trim() && !chapterNotes.trim() && !selectedSourceMaterialId) {
+      setErrorMsg('অনুগ্রহ করে অধ্যায়/টপিকের নাম, হ্যান্ডনোট অথবা স্টাডি সোর্স ডকুমেন্ট নির্বাচন করুন।');
       return;
     }
 
@@ -121,7 +144,8 @@ export default function AICQGeneratorModal({
         difficulty,
         questionCount: Number(questionCount),
         chapterNotes: chapterNotes.trim(),
-        examTerm
+        examTerm,
+        sourceMaterialId: selectedSourceMaterialId ? Number(selectedSourceMaterialId) : null
       });
 
       if (res.success && Array.isArray(res.data)) {
@@ -390,6 +414,49 @@ export default function AICQGeneratorModal({
                   ))}
                 </select>
               </div>
+            </div>
+
+            {/* Select Source Material (Study Material & Source-Context AI System) */}
+            <div className="space-y-1.5 p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-emerald-300 flex items-center space-x-1.5">
+                  <FileCode className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>স্টাডি সোর্স ডকুমেন্ট নির্বাচন করুন (Select Source Material - Locked AI Context)</span>
+                </label>
+                {selectedSourceMaterialId && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSourceMaterialId('')}
+                    className="text-[10px] text-rose-400 hover:text-rose-300 font-bold"
+                  >
+                    রিমুভ করুন
+                  </button>
+                )}
+              </div>
+
+              <select
+                value={selectedSourceMaterialId}
+                onChange={(e) => handleSelectSource(e.target.value)}
+                className="w-full p-2.5 rounded-xl border border-emerald-500/40 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              >
+                <option value="">-- সাধারণ কারিকুলাম জ্ঞান (General AI Knowledge) --</option>
+                {sourceMaterials.map((mat) => (
+                  <option key={mat.id} value={mat.id}>
+                    📄 {mat.title} ({mat.category} • {mat.content_text?.length || 0} অক্ষর)
+                  </option>
+                ))}
+              </select>
+
+              {selectedSourceMaterialId && (
+                <div className="p-2.5 rounded-xl bg-emerald-900/40 border border-emerald-500/40 text-[11px] text-emerald-200 flex items-center justify-between">
+                  <span className="truncate font-medium">
+                    🔒 <strong>সোর্স লক সক্রিয়:</strong> সৃজনশীল উদ্দীপক ও প্রশ্নসমূহ শুধুমাত্র নির্বাচিত ডকুমেন্টের তথ্যের ওপর ভিত্তি করে রচিত হবে।
+                  </span>
+                  <span className="shrink-0 font-mono text-[10px] bg-emerald-950 px-2 py-0.5 rounded border border-emerald-700">
+                    {sourceMaterials.find(m => String(m.id) === String(selectedSourceMaterialId))?.content_text?.length || 0} Chars
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Chapter / Topic */}

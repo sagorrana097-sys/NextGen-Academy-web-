@@ -534,7 +534,7 @@ export default function AdmissionManager() {
 
             <form onSubmit={handleApprove} className="space-y-3.5">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">বরাদ্দকৃত ব্যাচ নির্বাচন করুন *</label>
+                <label className="block font-bold text-slate-900 mb-1">বরাদ্দকৃত ব্যাচ নির্বাচন করুন *</label>
                 <select
                   value={approveForm.targetBatchId}
                   onChange={(e) => setApproveForm({ ...approveForm, targetBatchId: e.target.value })}
@@ -548,7 +548,7 @@ export default function AdmissionManager() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">ভর্তি ফি (টাকা) *</label>
+                  <label className="block font-bold text-slate-900 mb-1">ভর্তি ফি (টাকা) *</label>
                   <input
                     type="number"
                     required
@@ -560,7 +560,7 @@ export default function AdmissionManager() {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">পেমেন্ট মেথড</label>
+                  <label className="block font-bold text-slate-900 mb-1">পেমেন্ট মেথড</label>
                   <select
                     value={approveForm.paymentMethod}
                     onChange={(e) => setApproveForm({ ...approveForm, paymentMethod: e.target.value })}
@@ -575,7 +575,7 @@ export default function AdmissionManager() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">ট্রানজেকশন আইডি / মেমো নং</label>
+                <label className="block font-bold text-slate-900 mb-1">ট্রানজেকশন আইডি / মেমো নং</label>
                 <input
                   type="text"
                   placeholder="যেমন: BK889102 বা CSM-9901"

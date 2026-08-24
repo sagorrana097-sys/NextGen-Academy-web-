@@ -315,20 +315,30 @@ async function generateMCQs({
   difficulty = 'MEDIUM',
   questionCount = 10,
   chapterNotes = '',
+  sourceMaterialId = null,
+  sourceMaterialTitle = '',
   apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY
 }) {
   const count = Math.min(Math.max(Number(questionCount) || 10, 1), 30);
   
   if (apiKey) {
     try {
+      const sourceInstruction = chapterNotes
+        ? `You are an expert tutor. Create questions ONLY based on the provided material:
+"""
+${chapterNotes}
+"""
+If the material doesn't cover a topic, do not make up facts. Strictly formulate the ${count} questions and answers from the factual content above.`
+        : `You are an expert curriculum specialist and exam question creator for NCTB Bangladesh education board.`;
+
       const prompt = `
-You are an expert curriculum specialist and exam question creator for NCTB Bangladesh education board.
+${sourceInstruction}
+
 Generate exactly ${count} multiple choice questions (MCQ) for the following specifications:
 - Class/Grade: ${classGrade || 'Class 9-10 (SSC)'}
 - Subject: ${subject || 'Science'}
-- Chapter/Topic: ${topic || 'General Curriculum Chapter'}
+- Chapter/Topic: ${topic || sourceMaterialTitle || 'General Curriculum Chapter'}
 - Difficulty Level: ${difficulty} (EASY / MEDIUM / HARD)
-${chapterNotes ? `- Study Notes Context:\n"""${chapterNotes}"""` : ''}
 
 Output Requirements:
 1. Return ONLY a valid JSON Array with no extra text or markdown backticks outside of valid JSON.

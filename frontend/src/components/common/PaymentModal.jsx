@@ -80,6 +80,25 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
 
   if (!isOpen || !invoice) return null;
 
+  const baseAmount = Number(invoice?.amount || 0);
+
+  const calculateCharge = (provider, base) => {
+    const prov = (provider || '').toLowerCase();
+    if (prov.includes('bkash')) {
+      return { charge: base * 0.0185, rate: '1.85%', name: 'bKash' };
+    }
+    if (prov.includes('nagad')) {
+      return { charge: base * 0.015, rate: '1.50%', name: 'Nagad' };
+    }
+    if (prov.includes('rocket')) {
+      return { charge: base * 0.015, rate: '1.50%', name: 'Rocket' };
+    }
+    return { charge: 0, rate: '0%', name: provider || 'Other' };
+  };
+
+  const { charge: calculatedCharge, rate: chargeRate } = calculateCharge(selectedMethod?.provider, baseAmount);
+  const totalPayable = baseAmount + calculatedCharge;
+
   const handlePay = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,6 +108,9 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
       const res = await paymentAPI.simulatePayment({
         invoiceId: invoice.id,
         method: selectedMethod?.provider || 'BKASH',
+        amount: totalPayable,
+        baseAmount: baseAmount,
+        chargeAmount: calculatedCharge,
         senderPhone: phone,
         trxId: trxId || `TXN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
         pin
@@ -110,7 +132,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
         throw new Error(res.error?.message || 'Payment simulation failed');
       }
     } catch (err) {
-      setError(err.message || 'Payment simulation error');
+      setError(err.message || 'পেমেন্ট ব্যর্থ হয়েছে');
     } finally {
       setLoading(false);
     }
@@ -333,15 +355,38 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
 
               {/* Instructions */}
               <div className="text-[11px] text-slate-600 bg-white/80 p-2.5 rounded-xl border border-indigo-100/80 leading-relaxed font-medium">
-                💡 <span className="font-bold">নির্দেশিকা:</span> {selectedMethod.instructions}
+                💡 <span className="font-bold">নির্দেশিকা:</span> {selectedMethod.instructions || `আপনার ${selectedMethod.provider} অ্যাপ থেকে চার্জসহ সর্বমোট ৳${totalPayable.toFixed(2)} পেমেন্ট সম্পন্ন করুন।`}
               </div>
             </div>
           )}
 
+          {/* Real-Time Cost Breakdown Card */}
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm space-y-1.5 shadow-sm">
+            <div className="flex justify-between text-slate-600 font-medium">
+              <span>মূল ইনভয়েস ফি:</span>
+              <span className="font-mono font-bold text-slate-900">৳ {baseAmount.toLocaleString('en-BD')}</span>
+            </div>
+            {selectedMethod?.provider === 'bKash' || selectedMethod?.provider === 'Nagad' || selectedMethod?.provider === 'Rocket' ? (
+              <div className="flex justify-between text-rose-600 font-medium">
+                <span>{selectedMethod?.provider} গেটওয়ে চার্জ ({chargeRate}):</span>
+                <span className="font-mono font-bold">+ ৳ {calculatedCharge.toFixed(2)}</span>
+              </div>
+            ) : (
+              <div className="flex justify-between text-emerald-600 font-medium text-xs">
+                <span>গেটওয়ে সার্ভিস চার্জ:</span>
+                <span className="font-bold">ফ্রি (৳ ০.০০)</span>
+              </div>
+            )}
+            <div className="flex justify-between text-slate-900 font-black border-t border-slate-300 pt-2 mt-2 text-sm sm:text-base">
+              <span>সর্বমোট পরিশোধযোগ্য:</span>
+              <span className="text-emerald-700 font-mono font-black text-base sm:text-lg">৳ {totalPayable.toFixed(2)}</span>
+            </div>
+          </div>
+
           {/* Payment Form inputs */}
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-slate-900 mb-1">
                 আপনার প্রেরক মোবাইল / অ্যাকাউন্ট নম্বর *
               </label>
               <div className="relative">
@@ -351,14 +396,14 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="017XXXXXXXX"
                   required
-                  className="w-full pl-9 pr-3 py-2.5 text-xs font-medium rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg pl-9 pr-3 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
                 <Smartphone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-slate-900 mb-1">
                 লেনদেন আইডি (TrxID / Transaction Reference)
               </label>
               <input
@@ -366,12 +411,12 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                 value={trxId}
                 onChange={(e) => setTrxId(e.target.value)}
                 placeholder="যেমন: BKASH-TXN-9A8B7C (সিমুলেশনে ঐচ্ছিক)"
-                className="w-full px-3 py-2.5 text-xs font-mono font-medium rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500"
+                className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg px-3 py-2.5 text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-slate-900 mb-1">
                 সিমুলেশন সিকিউরিটি পিন (Default: 1234)
               </label>
               <div className="relative">
@@ -382,7 +427,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                   onChange={(e) => setPin(e.target.value)}
                   placeholder="••••"
                   required
-                  className="w-full pl-9 pr-3 py-2 text-xs font-medium tracking-widest rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-xs font-medium tracking-widest focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               </div>
@@ -398,7 +443,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                 value={slipUrl}
                 fileName={slipFileName}
                 accept="image/*,.pdf"
-                maxMb={10}
+                maxMb={100}
                 helperText="পেমেন্ট কনফার্মেশন স্ক্রিনশট বা ব্যাংক রসিদের ছবি"
                 onChange={({ fileUrl, url, fileName }) => {
                   setSlipUrl(fileUrl || url || '');
@@ -426,7 +471,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
                 <span>{t('processing')}</span>
               ) : (
                 <span>
-                  {t('confirmPayment')} ৳ {Number(invoice.amount).toLocaleString('en-BD')}
+                  {t('confirmPayment')} ৳ {totalPayable.toFixed(2)}
                 </span>
               )}
             </button>

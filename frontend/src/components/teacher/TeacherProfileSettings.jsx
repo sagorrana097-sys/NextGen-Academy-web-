@@ -236,7 +236,7 @@ export default function TeacherProfileSettings() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {t('contactNumber')} <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
@@ -253,7 +253,7 @@ export default function TeacherProfileSettings() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {lang === 'bn' ? 'অফিসিয়াল ইমেইল' : 'Official Email'} <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
@@ -270,7 +270,7 @@ export default function TeacherProfileSettings() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {t('qualifications')}
                 </label>
                 <div className="relative">
@@ -286,7 +286,7 @@ export default function TeacherProfileSettings() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {t('specialization')}
                 </label>
                 <div className="relative">
@@ -302,7 +302,7 @@ export default function TeacherProfileSettings() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {t('officeRoom')}
                 </label>
                 <div className="relative">
@@ -318,7 +318,7 @@ export default function TeacherProfileSettings() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   {t('officeHours')}
                 </label>
                 <div className="relative">
@@ -335,7 +335,7 @@ export default function TeacherProfileSettings() {
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">
+              <label className="block font-bold text-slate-900 mb-1">
                 {lang === 'bn' ? 'শিক্ষক পরিচিতি / বায়ো' : 'Bio / Short Introduction'}
               </label>
               <div className="relative">
@@ -355,8 +355,8 @@ export default function TeacherProfileSettings() {
                 label="প্রোফাইল ছবি / অবতার (Profile Photo - Device Upload or URL)"
                 value={photo}
                 previewType="image"
-                accept="image/*"
-                maxMb={10}
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                maxMb={100}
                 helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                 onChange={({ fileUrl, url }) => {
                   setPhoto(fileUrl || url || '');

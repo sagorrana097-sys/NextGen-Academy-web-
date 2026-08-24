@@ -304,7 +304,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 mb-1">ফির খাত / শিরোনাম *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">ফির খাত / শিরোনাম *</label>
                 <select
                   value={feeType}
                   onChange={(e) => setFeeType(e.target.value)}
@@ -319,11 +319,11 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">প্রযোজ্য মাস *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">প্রযোজ্য মাস *</label>
                 <select
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
-                  className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 >
                   {monthsList.map((m) => (
                     <option key={m} value={m}>
@@ -334,7 +334,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">শিক্ষাবর্ষ / সাল *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">শিক্ষাবর্ষ / সাল *</label>
                 <input
                   type="number"
                   value={year}
@@ -344,7 +344,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-900 mb-1">
                   মূল ফি (Base Tuition/Exam Amount) ৳ *
                 </label>
                 <input
@@ -358,7 +358,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-900 mb-1">
                   প্রদত্ত ছাড় / বৃত্তি (Scholarship Waiver) ৳
                 </label>
                 <input
@@ -372,7 +372,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
 
               {Number(discountAmount) > 0 && (
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ছাড় / স্কলারশিপের কারণ</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ছাড় / স্কলারশিপের কারণ</label>
                   <select
                     value={discountReason}
                     onChange={(e) => setDiscountReason(e.target.value)}
@@ -387,7 +387,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">আদায়কারী কর্মকর্তা (Received By) *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">আদায়কারী কর্মকর্তা (Received By) *</label>
                 <input
                   type="text"
                   value={receivedBy}
@@ -399,7 +399,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">পরিশোধের তারিখ (Payment Date) *</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">পরিশোধের তারিখ (Payment Date) *</label>
                 <input
                   type="date"
                   value={paymentDate}
@@ -410,13 +410,13 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 mb-1">মন্তব্য (Remarks / Note)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">মন্তব্য (Remarks / Note)</label>
                 <input
                   type="text"
                   value={remarks}
                   onChange={(e) => setRemarks(e.target.value)}
                   placeholder="যেমন: সশরীরে ক্যাশ কাউন্টারে জমা"
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
@@ -427,7 +427,7 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
                   value={voucherPhotoUrl}
                   fileName={voucherFileName}
                   accept="image/*,.pdf"
-                  maxMb={10}
+                  maxMb={100}
                   helperText="কাউন্টার ভাউচার, ব্যাংকের জমা স্লিপের ছবি বা গুগল ড্রাইভ লিংক"
                   onChange={({ fileUrl, url, fileName }) => {
                     setVoucherPhotoUrl(fileUrl || url || '');

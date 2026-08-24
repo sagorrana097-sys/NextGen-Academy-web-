@@ -31,6 +31,15 @@ const Batch = new Model('batches');
 const BatchTransferLog = new Model('batch_transfer_logs');
 const PaymentMethod = new Model('payment_methods');
 const Achiever = new Model('achievers');
+const SystemError = new Model('system_errors');
+const SyllabusTracking = new Model('syllabus_tracking');
+const HelpdeskTicket = new Model('helpdesk_tickets');
+const MenuSetting = new Model('menu_settings');
+const GrammarLesson = new Model('grammar_lessons');
+const ReferralProfile = new Model('referral_profiles');
+const PromoSetting = new Model('promo_settings');
+
+
 
 // Relational Associations
 
@@ -195,6 +204,9 @@ BatchTransferLog.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
 BatchTransferLog.belongsTo(Batch, { foreignKey: 'fromBatchId', as: 'fromBatch' });
 BatchTransferLog.belongsTo(Batch, { foreignKey: 'toBatchId', as: 'toBatch' });
 
+HelpdeskTicket.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+User.hasMany(HelpdeskTicket, { foreignKey: 'userId', as: 'helpdeskTickets' });
+
 module.exports = {
   User,
   Student,
@@ -225,5 +237,16 @@ module.exports = {
   Batch,
   BatchTransferLog,
   PaymentMethod,
-  Achiever
+  Achiever,
+  SystemError,
+  SyllabusTracking,
+  HelpdeskTicket,
+  MenuSetting,
+  GrammarLesson,
+  ReferralProfile,
+  PromoSetting
 };
+
+
+
+

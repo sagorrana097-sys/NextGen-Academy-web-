@@ -24,11 +24,13 @@ export default function ReceiptModal({ receipt, isOpen, onClose }) {
     window.print();
   };
 
-  const academyName = settings?.academyName || 'নেক্সটজেন একাডেমি';
-  const academyNameEn = settings?.academyNameEn || 'NEXTGEN ACADEMY';
-  const hotline = settings?.hotline || '01792818005';
-  const email = settings?.email || 'admin@nextgen.edu.bd';
-  const address = settings?.address || 'গাজীপুর ক্যাম্পাস, ঢাকা, বাংলাদেশ';
+  const academyName = 'NextGen Academy';
+  const academyNameEn = 'NextGen Academy';
+  const instructor = 'মো: আলমগীর হোসেন (সাগর)';
+  const hotline = '০১৭৯২৮১৮০০৫';
+  const email = 'info@nextgen.edu.bd';
+  const address = 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর';
+  const tagline = 'LEARN · GROW · SUCCEED';
   const logoUrl = settings?.logoUrl || '/logo.png';
 
   const receiptNo = receipt.receiptNo || `MR-2026-${String(receipt.id || Math.floor(Math.random()*90000 + 10000))}`;
@@ -136,8 +138,11 @@ export default function ReceiptModal({ receipt, isOpen, onClose }) {
                 </div>
               </div>
 
-              <p className="text-[11px] text-slate-600 font-medium">
-                {address} • হেল্পলাইন: {hotline} • ইমেইল: {email}
+              <p className="text-[11px] text-slate-700 font-bold">
+                পরিচালক: <span className="text-emerald-800">{instructor}</span> • মোবাইল: {hotline}
+              </p>
+              <p className="text-[11px] text-slate-500">
+                {address} • {tagline}
               </p>
 
               <div className="pt-2 flex items-center justify-center space-x-2">

@@ -98,7 +98,7 @@ export default function PaymentMethodManager() {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       showFeedback('QR ছবির আকার সর্বোচ্চ 5MB হতে পারবে', 'error');
       return;
     }
@@ -554,19 +554,19 @@ export default function PaymentMethodManager() {
                   onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
                   placeholder="যেমন: bKash / Nagad / Upay"
                   required
-                  className="w-full text-xs font-semibold rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     অ্যাকাউন্টের ধরন (Account Type) *
                   </label>
                   <select
                     value={formData.accountType}
                     onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="Merchant">মার্চেন্ট অ্যাকাউন্ট (Merchant)</option>
                     <option value="Personal">ব্যক্তিগত নম্বর (Personal)</option>
@@ -575,7 +575,7 @@ export default function PaymentMethodManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     অ্যাকাউন্ট / মোবাইল নম্বর *
                   </label>
                   <input
@@ -584,7 +584,7 @@ export default function PaymentMethodManager() {
                     onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
                     placeholder="যেমন: 01800-639843"
                     required
-                    className="w-full text-xs font-semibold rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-emerald-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               </div>
@@ -595,8 +595,8 @@ export default function PaymentMethodManager() {
                   label="কিউআর কোড (QR Code - Device Upload / Image Link)"
                   value={formData.qrCodeUrl}
                   previewType="image"
-                  accept="image/*"
-                  maxMb={5}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="বিকাশ, নগদ বা রকেটের মার্চেন্ট/পার্সোনাল কিউআর কোড ছবি বা লিংক"
                   placeholder="https://... বা গুগল ড্রাইভ ইমেজ লিংক"
                   onChange={({ fileUrl, url }) => {
@@ -607,7 +607,7 @@ export default function PaymentMethodManager() {
 
               {/* Instructions */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-900 mb-1">
                   শিক্ষার্থী/অভিভাবকের জন্য পেমেন্ট নির্দেশিকা (Payment Instructions) *
                 </label>
                 <textarea
@@ -616,7 +616,7 @@ export default function PaymentMethodManager() {
                   onChange={(e) => setFormData({ ...formData, instructions: e.target.value })}
                   placeholder="যেমন: বিকাশ অ্যাপের Payment অপশন দিয়ে ফি পরিশোধ করুন..."
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-emerald-500 leading-relaxed"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs leading-relaxed"
                 />
               </div>
 

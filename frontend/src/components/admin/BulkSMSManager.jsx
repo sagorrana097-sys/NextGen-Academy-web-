@@ -924,19 +924,19 @@ export default function BulkSMSManager() {
 
             <form onSubmit={handleSaveNewTemplate} className="space-y-3">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">টেমপ্লেট শিরোনাম</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">টেমপ্লেট শিরোনাম</label>
                 <input
                   type="text"
                   value={newTemplateTitle}
                   onChange={(e) => setNewTemplateTitle(e.target.value)}
                   placeholder="যেমন: বিশেষ ওয়ার্কশপ নোটিশ"
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">ক্যাটাগরি</label>
                 <select
                   value={newTemplateCategory}
                   onChange={(e) => setNewTemplateCategory(e.target.value)}
@@ -951,7 +951,7 @@ export default function BulkSMSManager() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">টেমপ্লেট টেক্সট (ভ্যারিয়েবল সহ)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">টেমপ্লেট টেক্সট (ভ্যারিয়েবল সহ)</label>
                 <textarea
                   value={newTemplateText}
                   onChange={(e) => setNewTemplateText(e.target.value)}

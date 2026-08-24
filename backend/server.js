@@ -37,7 +37,19 @@ const smsRoutes = require('./routes/sms');
 const paymentMethodsRoutes = require('./routes/paymentMethods');
 const resourcesRoutes = require('./routes/resources');
 const achieversRoutes = require('./routes/achievers');
+const systemErrorsRoutes = require('./routes/systemErrors');
+const syllabusTrackingRoutes = require('./routes/syllabusTracking');
+const doubtSolverRoutes = require('./routes/doubtSolver');
+const omrRoutes = require('./routes/omr');
+const gamificationCmsRoutes = require('./routes/gamificationCms');
+const helpdeskRoutes = require('./routes/helpdesk');
+const grammarRoutes = require('./routes/grammar');
+const referralRoutes = require('./routes/referral');
+const proctoringRoutes = require('./routes/proctoring');
 const errorHandler = require('./middleware/errorHandler');
+
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -110,7 +122,26 @@ app.use('/api/teacher-attendance', teacherAttendanceRoutes);
 app.use('/api/exams', examsRoutes);
 app.use('/api/live-classes', liveClassRoutes);
 app.use('/api/curriculum', curriculumRoutes);
+app.use('/api/system-errors', systemErrorsRoutes);
+app.use('/api/admin/system-errors', systemErrorsRoutes);
+app.use('/api/syllabus-tracker', syllabusTrackingRoutes);
+app.use('/api/admin/syllabus-tracker', syllabusTrackingRoutes);
+app.use('/api', doubtSolverRoutes);
 app.use('/api', curriculumRoutes);
+app.use('/api/omr', omrRoutes);
+app.use('/api/admin/omr', omrRoutes);
+app.use('/api/admin/gamification', gamificationCmsRoutes);
+app.use('/api/helpdesk', helpdeskRoutes);
+app.use('/api/admin/helpdesk', helpdeskRoutes);
+app.use('/api/grammar', grammarRoutes);
+app.use('/api/admin/grammar', grammarRoutes);
+app.use('/api/referral', referralRoutes);
+app.use('/api/admin/referral', referralRoutes);
+app.use('/api/proctoring', proctoringRoutes);
+
+
+
+
 
 // Catch 404
 app.use((req, res, next) => {
@@ -125,6 +156,15 @@ app.use((req, res, next) => {
 
 // Global Error Handler
 app.use(errorHandler);
+
+// Prevent crashing on unhandled errors
+process.on('uncaughtException', (err) => {
+  console.error('🔥 Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔥 Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 // Bootstrap Server & Auto-Seed Database if empty
 async function startServer() {

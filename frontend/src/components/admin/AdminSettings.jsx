@@ -58,29 +58,47 @@ export default function AdminSettings() {
 
   // Form State for Site Settings
   const [formData, setFormData] = useState({
-    academyName: 'NextGen ACADEMY',
+    academyName: 'NextGen Academy',
     academyNameBn: 'নেক্সটজেন একাডেমি',
-    academyNameEn: 'NextGen ACADEMY',
+    academyNameEn: 'NextGen Academy',
+    founderName: 'মো: আলমগীর হোসেন (সাগর)',
+    contactNumber: '০১৭৯২৮১৮০০৫',
     tagline: 'LEARN · GROW · SUCCEED',
     taglineBn: 'শিক্ষা · সমৃদ্ধি · সাফল্য',
     taglineEn: 'LEARN · GROW · SUCCEED',
     logoUrl: '/logo.png',
     sealUrl: '/logo.png',
-    contactPhone: '+880 1800-NEXTGEN',
-    altPhone: '+880 1711-223344',
+    contactPhone: '01792818005',
+    altPhone: '+880 1792818005',
+    hotline: '01792818005',
     contactEmail: 'info@nextgen.edu.bd',
-    supportEmail: 'support@nextgen.edu.bd',
-    address: 'বাড়ি নং-১২, রোড নং-০৫, ধানমন্ডি, ঢাকা-১২০৯',
-    eiin: 'NGA-DHAKA-2026',
+    supportEmail: 'info@nextgen.edu.bd',
+    address: 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর',
+    addressBn: 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর',
+    addressEn: 'West Joydebpur, Bus Stand, Gazipur',
+    eiin: 'NGA-GAZIPUR-2026',
     website: 'https://nextgen.edu.bd',
     currencySymbol: '৳',
-    noticeText: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: +880 1800-NEXTGEN',
-    noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: +880 1800-NEXTGEN',
-    noticeTextEn: 'Admission Open for Academic Session 2026 from Class 6 to 12. Helpline: +880 1800-NEXTGEN',
+    academic: {
+      classes: ['৬ষ্ঠ শ্রেণি', '৭ম শ্রেণি', '৮ম শ্রেণি', '৯ম শ্রেণি', '১০ম শ্রেণি', '১১শ শ্রেণি', '১২শ শ্রেণি'],
+      sections: ['পদ্মা', 'মেঘনা', 'যমুনা'],
+      groups: ['বিজ্ঞান', 'মানবিক', 'ব্যবসায় শিক্ষা'],
+      subjects: ['সাধারণ গণিত', 'উচ্চতর গণিত', 'পদার্থবিজ্ঞান', 'রসায়ন', 'জীববিজ্ঞান', 'তথ্য ও যোগাযোগ প্রযুক্তি', 'বাংলা', 'ইংরেজি']
+    },
+    payment: {
+      bkashCharge: 1.5,
+      nagadCharge: 1.25,
+      monthlyTuitionDefault: 1500,
+      admissionFeeDefault: 3000,
+      examFeeDefault: 500
+    },
+    noticeText: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: ০১৭৯২৮১৮০০৫',
+    noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: ০১৭৯২৮১৮০০৫',
+    noticeTextEn: 'Admission Open for Academic Session 2026 from Class 6 to 12. Helpline: 01792818005',
     showNotice: true,
     admissionActive: true,
     admissionSessionYear: '২০২৬',
-    admissionHelpline: '+880 1800-NEXTGEN',
+    admissionHelpline: '01792818005',
     maxApplicationsPerBatch: 60,
     socialLinks: {
       facebook: 'https://facebook.com/NextGenAcademyBD',
@@ -99,6 +117,31 @@ export default function AdminSettings() {
       }
     }
   });
+
+  const handleAddAcademicItem = (category, newItem) => {
+    if (!newItem || !newItem.trim()) return;
+    const trimmed = newItem.trim();
+    const currentList = formData.academic?.[category] || [];
+    if (currentList.includes(trimmed)) return;
+    setFormData((prev) => ({
+      ...prev,
+      academic: {
+        ...(prev.academic || {}),
+        [category]: [...currentList, trimmed]
+      }
+    }));
+  };
+
+  const handleRemoveAcademicItem = (category, index) => {
+    const currentList = formData.academic?.[category] || [];
+    setFormData((prev) => ({
+      ...prev,
+      academic: {
+        ...(prev.academic || {}),
+        [category]: currentList.filter((_, i) => i !== index)
+      }
+    }));
+  };
 
   const [savingSettings, setSavingSettings] = useState(false);
 
@@ -154,6 +197,14 @@ export default function AdminSettings() {
       setFormData((prev) => ({
         ...prev,
         ...globalSettings,
+        academic: {
+          ...prev.academic,
+          ...(globalSettings.academic || {})
+        },
+        payment: {
+          ...prev.payment,
+          ...(globalSettings.payment || {})
+        },
         socialLinks: {
           ...prev.socialLinks,
           ...(globalSettings.socialLinks || {})
@@ -178,6 +229,14 @@ export default function AdminSettings() {
         setFormData((prev) => ({
           ...prev,
           ...res.data,
+          academic: {
+            ...prev.academic,
+            ...(res.data.academic || {})
+          },
+          payment: {
+            ...prev.payment,
+            ...(res.data.payment || {})
+          },
           socialLinks: {
             ...prev.socialLinks,
             ...(res.data.socialLinks || {})
@@ -400,42 +459,6 @@ export default function AdminSettings() {
       {/* Settings Navigation Tabs */}
       <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
         <button
-          onClick={() => setActiveTab('my-profile')}
-          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
-            activeTab === 'my-profile'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/25'
-              : 'bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200'
-          }`}
-        >
-          <Lock className="w-4 h-4 text-rose-500" />
-          <span>আমার প্রোফাইল ও সিকিউরিটি</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('admin-users')}
-          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
-            activeTab === 'admin-users'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/25'
-              : 'bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200'
-          }`}
-        >
-          <ShieldCheck className="w-4 h-4 text-rose-500" />
-          <span>অ্যাডমিন ইউজার ম্যানেজমেন্ট</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('site-cms')}
-          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
-            activeTab === 'site-cms'
-              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/25'
-              : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
-          }`}
-        >
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span>🌐 সাইট কনটেন্ট CMS</span>
-        </button>
-
-        <button
           onClick={() => setActiveTab('general')}
           className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
             activeTab === 'general'
@@ -445,6 +468,30 @@ export default function AdminSettings() {
         >
           <Building className="w-4 h-4" />
           <span>সাধারণ তথ্য (General Info)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('academic')}
+          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
+            activeTab === 'academic'
+              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+              : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200'
+          }`}
+        >
+          <Layers className="w-4 h-4 text-indigo-600" />
+          <span>একাডেমিক সেটআপ (Academic Setup)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('payment')}
+          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
+            activeTab === 'payment'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+              : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+          }`}
+        >
+          <CreditCard className="w-4 h-4 text-emerald-600" />
+          <span>ফি ও পেমেন্ট (Payment & Fees)</span>
         </button>
 
         <button
@@ -518,6 +565,42 @@ export default function AdminSettings() {
           <CreditCard className="w-4 h-4" />
           <span>পেমেন্ট মেথড ও গেটওয়ে</span>
         </button>
+
+        <button
+          onClick={() => setActiveTab('site-cms')}
+          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
+            activeTab === 'site-cms'
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/25'
+              : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+          }`}
+        >
+          <Sparkles className="w-4 h-4 text-amber-400" />
+          <span>🌐 সাইট কনটেন্ট CMS</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('my-profile')}
+          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
+            activeTab === 'my-profile'
+              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/25'
+              : 'bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200'
+          }`}
+        >
+          <Lock className="w-4 h-4 text-rose-500" />
+          <span>আমার প্রোফাইল ও সিকিউরিটি</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('admin-users')}
+          className={`px-4 py-2.5 rounded-2xl font-bold text-xs transition-all flex items-center space-x-2 ${
+            activeTab === 'admin-users'
+              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/25'
+              : 'bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-rose-500" />
+          <span>অ্যাডমিন ইউজার ম্যানেজমেন্ট</span>
+        </button>
       </div>
 
       {/* ========================================================== */}
@@ -562,23 +645,23 @@ export default function AdminSettings() {
               className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center space-x-1.5 shadow-sm"
             >
               <Save className="w-3.5 h-3.5" />
-              <span>সংরক্ষণ করুন</span>
+              <span>{savingSettings ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}</span>
             </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">একাডেমির নাম (বাংলা)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">একাডেমির নাম (বাংলা)</label>
               <input
                 type="text"
                 value={formData.academyNameBn}
                 onChange={(e) => setFormData({ ...formData, academyNameBn: e.target.value, nameBn: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Academy Name (English)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">Academy Name (English)</label>
               <input
                 type="text"
                 value={formData.academyNameEn}
@@ -590,88 +673,337 @@ export default function AdminSettings() {
                     nameEn: e.target.value
                   })
                 }
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">স্লোগান / ট্যাগলাইন (Tagline)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">প্রতিষ্ঠাতা / পরিচালকের নাম (Founder)</label>
+              <input
+                type="text"
+                value={formData.founderName}
+                onChange={(e) => setFormData({ ...formData, founderName: e.target.value })}
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-900 mb-1">প্রতিষ্ঠাতা হেল্পলাইন / ফোন (Contact Number)</label>
+              <input
+                type="text"
+                value={formData.contactNumber}
+                onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-900 mb-1">স্লোগান / ট্যাগলাইন (Tagline)</label>
               <input
                 type="text"
                 value={formData.tagline}
                 onChange={(e) => setFormData({ ...formData, tagline: e.target.value, taglineEn: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">লোগো URL (Logo Path)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">লোগো URL (Logo Path)</label>
               <input
                 type="text"
                 value={formData.logoUrl}
                 onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">অফিসিয়াল ফোন নম্বর</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">অফিসিয়াল ফোন নম্বর</label>
               <input
                 type="text"
                 value={formData.contactPhone}
                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value, phone: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">অফিসিয়াল ইমেইল অ্যাড্রেস</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">অফিসিয়াল ইমেইল অ্যাড্রেস</label>
               <input
                 type="email"
                 value={formData.contactEmail}
                 onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value, email: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">EIIN / ইনস্টিটিউট কোড</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">EIIN / ইনস্টিটিউট কোড</label>
               <input
                 type="text"
                 value={formData.eiin}
                 onChange={(e) => setFormData({ ...formData, eiin: e.target.value, code: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">অফিসিয়াল ওয়েবসাইট URL</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">অফিসিয়াল ওয়েবসাইট URL</label>
               <input
                 type="text"
                 value={formData.website}
                 onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">মুদ্রা প্রতীক (Currency)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">মুদ্রা প্রতীক (Currency)</label>
               <input
                 type="text"
                 value={formData.currencySymbol}
                 onChange={(e) => setFormData({ ...formData, currencySymbol: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-700 mb-1">ক্যাম্পাস পূর্ণাঙ্গ ঠিকানা (Address)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ক্যাম্পাস পূর্ণাঙ্গ ঠিকানা (Address)</label>
               <textarea
                 rows={2}
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================== */}
+      {/* TAB 1.5: ACADEMIC SETUP (CLASSES, SECTIONS, GROUPS, SUBJECTS) */}
+      {/* ========================================================== */}
+      {activeTab === 'academic' && (
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <h3 className="text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                <Layers className="w-5 h-5 text-indigo-600" />
+                <span>একাডেমিক সেটআপ ও ডাইনামিক ড্রপডাউন তালিকা (Academic Setup)</span>
+              </h3>
+              <p className="text-xs text-slate-500">
+                ভর্তি ফরম, স্টুডেন্ট এনরোলমেন্ট, রুটিন ও রেজাল্টে ব্যবহৃত শ্রেণি, শাখা, বিভাগ ও বিষয় তালিকা
+              </p>
+            </div>
+            <button
+              onClick={handleSaveSettings}
+              disabled={savingSettings}
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center space-x-1.5 shadow-sm"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>{savingSettings ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* 1. Classes List */}
+            <TagListCard
+              title="শ্রেণি তালিকা (Classes)"
+              subtitle="ভর্তির অপশন ও ড্যাশবোর্ডে প্রযোজ্য শ্রেণি"
+              badgeColor="bg-indigo-100 text-indigo-800 border-indigo-200"
+              items={formData.academic?.classes || []}
+              placeholder="যেমন: ৯ম শ্রেণি, ১০ম শ্রেণি..."
+              onAdd={(item) => handleAddAcademicItem('classes', item)}
+              onRemove={(idx) => handleRemoveAcademicItem('classes', idx)}
+            />
+
+            {/* 2. Sections List */}
+            <TagListCard
+              title="শাখা / সেকশন (Sections)"
+              subtitle="ক্লাস ও ব্যাচের শাখা তালিকা"
+              badgeColor="bg-emerald-100 text-emerald-800 border-emerald-200"
+              items={formData.academic?.sections || []}
+              placeholder="যেমন: পদ্মা, মেঘনা, যমুনা..."
+              onAdd={(item) => handleAddAcademicItem('sections', item)}
+              onRemove={(idx) => handleRemoveAcademicItem('sections', idx)}
+            />
+
+            {/* 3. Groups List */}
+            <TagListCard
+              title="বিভাগ তালিকা (Groups)"
+              subtitle="৯ম-১২শ শ্রেণির গ্রুপ / ডিপার্টমেন্ট"
+              badgeColor="bg-amber-100 text-amber-800 border-amber-200"
+              items={formData.academic?.groups || []}
+              placeholder="যেমন: বিজ্ঞান, মানবিক, ব্যবসায় শিক্ষা..."
+              onAdd={(item) => handleAddAcademicItem('groups', item)}
+              onRemove={(idx) => handleRemoveAcademicItem('groups', idx)}
+            />
+
+            {/* 4. Subjects List */}
+            <TagListCard
+              title="বিষয় তালিকা (Subjects)"
+              subtitle="সিলেবাস ট্র্যাকার ও এআই ডাউট সলভারে প্রযোজ্য বিষয়"
+              badgeColor="bg-teal-100 text-teal-800 border-teal-200"
+              items={formData.academic?.subjects || []}
+              placeholder="যেমন: সাধারণ গণিত, উচ্চতর গণিত, পদার্থবিজ্ঞান..."
+              onAdd={(item) => handleAddAcademicItem('subjects', item)}
+              onRemove={(idx) => handleRemoveAcademicItem('subjects', idx)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================== */}
+      {/* TAB 1.6: PAYMENT & FEES CONFIGURATION */}
+      {/* ========================================================== */}
+      {activeTab === 'payment' && (
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <h3 className="text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                <CreditCard className="w-5 h-5 text-emerald-600" />
+                <span>পেমেন্ট চার্জ ও ডিফল্ট ফি কাঠামো (Payment & Fees)</span>
+              </h3>
+              <p className="text-xs text-slate-500">
+                বিকাশ/নগদ লেনদেন ফি পার্সেন্টেজ এবং প্রাথমিক টিউশন ও ভর্তি ফি রেট
+              </p>
+            </div>
+            <button
+              onClick={handleSaveSettings}
+              disabled={savingSettings}
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-1.5 shadow-sm"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>{savingSettings ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* bKash MFS Charge */}
+            <div className="bg-pink-50/50 p-4 rounded-2xl border border-pink-200 space-y-2">
+              <label className="block text-xs font-bold text-pink-900">
+                বিকাশ MFS চার্জ (bKash Charge %)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.payment?.bkashCharge ?? 1.5}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      payment: {
+                        ...(formData.payment || {}),
+                        bkashCharge: Number(e.target.value)
+                      }
+                    })
+                  }
+                  className="w-full bg-white border border-pink-300 font-mono font-bold text-slate-900 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-pink-500"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-pink-700">%</span>
+              </div>
+              <p className="text-[10px] text-pink-600">অনলাইন বিকাশ পেমেন্টে স্বয়ংক্রিয় হিসাবকৃত চার্জ</p>
+            </div>
+
+            {/* Nagad MFS Charge */}
+            <div className="bg-orange-50/50 p-4 rounded-2xl border border-orange-200 space-y-2">
+              <label className="block text-xs font-bold text-orange-900">
+                নগদ MFS চার্জ (Nagad Charge %)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.payment?.nagadCharge ?? 1.25}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      payment: {
+                        ...(formData.payment || {}),
+                        nagadCharge: Number(e.target.value)
+                      }
+                    })
+                  }
+                  className="w-full bg-white border border-orange-300 font-mono font-bold text-slate-900 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-orange-500"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-orange-700">%</span>
+              </div>
+              <p className="text-[10px] text-orange-600">নগদ গেটওয়ে ট্রানজ্যাকশন ফি পার্সেন্টেজ</p>
+            </div>
+
+            {/* Default Monthly Tuition */}
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold text-slate-800">
+                ডিফল্ট মাসিক বেতন (Monthly Tuition Fee)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={formData.payment?.monthlyTuitionDefault ?? 1500}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      payment: {
+                        ...(formData.payment || {}),
+                        monthlyTuitionDefault: Number(e.target.value)
+                      }
+                    })
+                  }
+                  className="w-full bg-white border border-slate-300 font-mono font-bold text-slate-900 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">৳</span>
+              </div>
+              <p className="text-[10px] text-slate-500">ইনভয়েস তৈরির সময় ডিফল্ট বেস ফি</p>
+            </div>
+
+            {/* Default Admission Fee */}
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold text-slate-800">
+                ডিফল্ট নতুন ভর্তি ফি (Admission Fee)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={formData.payment?.admissionFeeDefault ?? 3000}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      payment: {
+                        ...(formData.payment || {}),
+                        admissionFeeDefault: Number(e.target.value)
+                      }
+                    })
+                  }
+                  className="w-full bg-white border border-slate-300 font-mono font-bold text-slate-900 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">৳</span>
+              </div>
+              <p className="text-[10px] text-slate-500">অনলাইন ও অফলাইন ভর্তি আবেদনের মূল ফি</p>
+            </div>
+
+            {/* Default Exam Fee */}
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold text-slate-800">
+                ডিফল্ট পরীক্ষা ফি (Exam Fee)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={formData.payment?.examFeeDefault ?? 500}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      payment: {
+                        ...(formData.payment || {}),
+                        examFeeDefault: Number(e.target.value)
+                      }
+                    })
+                  }
+                  className="w-full bg-white border border-slate-300 font-mono font-bold text-slate-900 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">৳</span>
+              </div>
+              <p className="text-[10px] text-slate-500">টার্ম পরীক্ষা বা মডেল টেস্টের ফি</p>
             </div>
           </div>
         </div>
@@ -725,7 +1057,7 @@ export default function AdminSettings() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">নোটিশ টেক্সট (বাংলা)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">নোটিশ টেক্সট (বাংলা)</label>
               <textarea
                 rows={3}
                 value={formData.noticeTextBn || formData.noticeText}
@@ -742,7 +1074,7 @@ export default function AdminSettings() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Notice Text (English)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">Notice Text (English)</label>
               <textarea
                 rows={3}
                 value={formData.noticeTextEn}
@@ -820,32 +1152,32 @@ export default function AdminSettings() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">ভর্তি শিক্ষাবর্ষ (Session Year)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ভর্তি শিক্ষাবর্ষ (Session Year)</label>
               <input
                 type="text"
                 value={formData.admissionSessionYear}
                 onChange={(e) => setFormData({ ...formData, admissionSessionYear: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">ভর্তি হেল্পলাইন মোবাইল</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ভর্তি হেল্পলাইন মোবাইল</label>
               <input
                 type="text"
                 value={formData.admissionHelpline}
                 onChange={(e) => setFormData({ ...formData, admissionHelpline: e.target.value })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">ব্যাচ প্রতি সর্বোচ্চ আবেদন গ্রহণ</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ব্যাচ প্রতি সর্বোচ্চ আবেদন গ্রহণ</label>
               <input
                 type="number"
                 value={formData.maxApplicationsPerBatch}
                 onChange={(e) => setFormData({ ...formData, maxApplicationsPerBatch: Number(e.target.value) })}
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
           </div>
@@ -879,7 +1211,7 @@ export default function AdminSettings() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">ফেসবুক পেজ (Facebook URL)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ফেসবুক পেজ (Facebook URL)</label>
               <input
                 type="text"
                 value={formData.socialLinks?.facebook || ''}
@@ -890,12 +1222,12 @@ export default function AdminSettings() {
                   })
                 }
                 placeholder="https://facebook.com/..."
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">ইউটিউব চ্যানেল (YouTube URL)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">ইউটিউব চ্যানেল (YouTube URL)</label>
               <input
                 type="text"
                 value={formData.socialLinks?.youtube || ''}
@@ -906,12 +1238,12 @@ export default function AdminSettings() {
                   })
                 }
                 placeholder="https://youtube.com/@..."
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">লিঙ্কডইন প্রোফাইল (LinkedIn URL)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">লিঙ্কডইন প্রোফাইল (LinkedIn URL)</label>
               <input
                 type="text"
                 value={formData.socialLinks?.linkedin || ''}
@@ -922,12 +1254,12 @@ export default function AdminSettings() {
                   })
                 }
                 placeholder="https://linkedin.com/company/..."
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">টুইটার / এক্স (Twitter URL)</label>
+              <label className="block text-xs font-bold text-slate-900 mb-1">টুইটার / এক্স (Twitter URL)</label>
               <input
                 type="text"
                 value={formData.socialLinks?.twitter || ''}
@@ -938,7 +1270,7 @@ export default function AdminSettings() {
                   })
                 }
                 placeholder="https://twitter.com/..."
-                className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
               />
             </div>
           </div>
@@ -1179,62 +1511,62 @@ export default function AdminSettings() {
 
             <form onSubmit={handleAddStaffSubmit} className="space-y-3">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">স্টাফের পুরো নাম</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">স্টাফের পুরো নাম</label>
                 <input
                   type="text"
                   value={staffForm.name}
                   onChange={(e) => setStaffForm({ ...staffForm, name: e.target.value })}
                   placeholder="যেমন: মোঃ কামরুল ইসলাম"
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ইমেইল অ্যাড্রেস (লগইনের জন্য)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">ইমেইল অ্যাড্রেস (লগইনের জন্য)</label>
                 <input
                   type="email"
                   value={staffForm.email}
                   onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
                   placeholder="kamrul@nextgen.edu.bd"
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">মোবাইল নম্বর</label>
                 <input
                   type="text"
                   value={staffForm.phone}
                   onChange={(e) => setStaffForm({ ...staffForm, phone: e.target.value })}
                   placeholder="01712345678"
                   required
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               {!editingStaff && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">লগইন পাসওয়ার্ড</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">লগইন পাসওয়ার্ড</label>
                   <input
                     type="password"
                     value={staffForm.password}
                     onChange={(e) => setStaffForm({ ...staffForm, password: e.target.value })}
                     placeholder="••••••••"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">রোল (Role)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">রোল (Role)</label>
                   <select
                     value={staffForm.role}
                     onChange={(e) => setStaffForm({ ...staffForm, role: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="ADMIN">ADMIN</option>
                     <option value="CO_ADMIN">CO_ADMIN</option>
@@ -1244,13 +1576,13 @@ export default function AdminSettings() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">পদবি (Designation)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">পদবি (Designation)</label>
                   <input
                     type="text"
                     value={staffForm.designation}
                     onChange={(e) => setStaffForm({ ...staffForm, designation: e.target.value })}
                     placeholder="হিসাবরক্ষক"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               </div>
@@ -1297,7 +1629,7 @@ export default function AdminSettings() {
                 ইউজার: <span className="font-bold text-slate-900">{resetTargetStaff.name}</span>
               </p>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নতুন পাসওয়ার্ড</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নতুন পাসওয়ার্ড</label>
                 <input
                   type="password"
                   value={newPassword}
@@ -1327,6 +1659,75 @@ export default function AdminSettings() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function TagListCard({ title, subtitle, badgeColor, items = [], placeholder, onAdd, onRemove }) {
+  const [inputText, setInputText] = useState('');
+
+  const handleAdd = (e) => {
+    if (e) e.preventDefault();
+    if (!inputText.trim()) return;
+    onAdd(inputText.trim());
+    setInputText('');
+  };
+
+  return (
+    <div className="bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3.5 flex flex-col justify-between">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="text-xs font-black text-slate-900">{title}</h4>
+            <p className="text-[10px] text-slate-500">{subtitle}</p>
+          </div>
+          <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700 font-mono font-bold text-[10px]">
+            {items.length}টি
+          </span>
+        </div>
+
+        {/* Chip Tags Container */}
+        <div className="flex flex-wrap gap-2 min-h-[52px] p-2.5 bg-white rounded-xl border border-slate-200/80 items-center">
+          {items.length === 0 ? (
+            <span className="text-[11px] text-slate-400 italic">কোনো আইটেম নেই। নিচের বক্সে লিখে যোগ করুন।</span>
+          ) : (
+            items.map((item, idx) => (
+              <span
+                key={idx}
+                className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-xl text-xs font-bold border shadow-xs ${badgeColor}`}
+              >
+                <span>{item}</span>
+                <button
+                  type="button"
+                  onClick={() => onRemove(idx)}
+                  className="hover:opacity-75 focus:outline-none ml-1 p-0.5 rounded-full hover:bg-black/10 transition-colors"
+                  title="মুছে ফেলুন"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Add New Input Form */}
+      <form onSubmit={handleAdd} className="flex gap-2 pt-1">
+        <input
+          type="text"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder={placeholder}
+          className="flex-1 bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center space-x-1 flex-shrink-0 transition-transform active:scale-95"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>যোগ করুন</span>
+        </button>
+      </form>
     </div>
   );
 }

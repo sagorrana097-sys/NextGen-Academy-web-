@@ -113,10 +113,12 @@ const PERMISSIONS_MATRIX = [
 router.get(['/', '/public', '/profile'], (req, res) => {
   try {
     const db = getDB();
-    const settings = db.settings || db.instituteSettings || {
+    const defaultSettings = {
       academyName: 'NextGen Academy',
       academyNameBn: 'নেক্সটজেন একাডেমি',
       academyNameEn: 'NextGen Academy',
+      founderName: 'মো: আলমগীর হোসেন (সাগর)',
+      contactNumber: '০১৭৯২৮১৮০০৫',
       tagline: 'LEARN · GROW · SUCCEED',
       taglineBn: 'শিক্ষা · সমৃদ্ধি · সাফল্য',
       taglineEn: 'LEARN · GROW · SUCCEED',
@@ -133,6 +135,19 @@ router.get(['/', '/public', '/profile'], (req, res) => {
       eiin: 'NGA-GAZIPUR-2026',
       website: 'https://nextgen.edu.bd',
       currencySymbol: '৳',
+      academic: {
+        classes: ['৬ষ্ঠ শ্রেণি', '৭ম শ্রেণি', '৮ম শ্রেণি', '৯ম শ্রেণি', '১০ম শ্রেণি', '১১শ শ্রেণি', '১২শ শ্রেণি'],
+        sections: ['পদ্মা', 'মেঘনা', 'যমুনা'],
+        groups: ['বিজ্ঞান', 'মানবিক', 'ব্যবসায় শিক্ষা'],
+        subjects: ['সাধারণ গণিত', 'উচ্চতর গণিত', 'পদার্থবিজ্ঞান', 'রসায়ন', 'জীববিজ্ঞান', 'তথ্য ও যোগাযোগ প্রযুক্তি', 'বাংলা', 'ইংরেজি']
+      },
+      payment: {
+        bkashCharge: 1.5,
+        nagadCharge: 1.25,
+        monthlyTuitionDefault: 1500,
+        admissionFeeDefault: 3000,
+        examFeeDefault: 500
+      },
       noticeText: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ প্লে থেকে ১২শ শ্রেণি (Play to Class 12) পর্যন্ত সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। হেল্পলাইন: ০১৭৯২৮১৮০০৫',
       noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ প্লে থেকে ১২শ শ্রেণি (Play to Class 12) পর্যন্ত সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। হেল্পলাইন: ০১৭৯২৮১৮০০৫',
       noticeTextEn: 'Admission Open for Academic Session 2026 from Play to Class 12. Hotline: +880 1792818005',
@@ -159,6 +174,24 @@ router.get(['/', '/public', '/profile'], (req, res) => {
       }
     };
 
+    const current = db.settings || db.instituteSettings || {};
+    const settings = {
+      ...defaultSettings,
+      ...current,
+      academic: {
+        ...defaultSettings.academic,
+        ...(current.academic || {})
+      },
+      payment: {
+        ...defaultSettings.payment,
+        ...(current.payment || {})
+      },
+      socialLinks: {
+        ...defaultSettings.socialLinks,
+        ...(current.socialLinks || {})
+      }
+    };
+
     res.json({
       success: true,
       data: settings
@@ -175,22 +208,43 @@ router.put(['/', '/profile'], authenticate, (req, res) => {
     const db = getDB();
     const current = db.settings || db.instituteSettings || {};
 
-    const academyName = req.body.academyName || req.body.nameEn || current.academyName || current.nameEn || 'NextGen ACADEMY';
-    const academyNameBn = req.body.academyNameBn || req.body.nameBn || current.academyNameBn || current.nameBn || 'নেক্সটজেন একাডেমি';
-    const academyNameEn = req.body.academyNameEn || req.body.nameEn || current.academyNameEn || current.nameEn || 'NextGen ACADEMY';
+    const academyName = req.body.academyName || req.body.nameEn || current.academyName || 'NextGen Academy';
+    const academyNameBn = req.body.academyNameBn || req.body.nameBn || current.academyNameBn || 'নেক্সটজেন একাডেমি';
+    const academyNameEn = req.body.academyNameEn || req.body.nameEn || current.academyNameEn || 'NextGen Academy';
+    const founderName = req.body.founderName || current.founderName || 'মো: আলমগীর হোসেন (সাগর)';
+    const contactNumber = req.body.contactNumber || current.contactNumber || '০১৭৯২৮১৮০০৫';
     const tagline = req.body.tagline || current.tagline || 'LEARN · GROW · SUCCEED';
     const taglineBn = req.body.taglineBn || current.taglineBn || 'শিক্ষা · সমৃদ্ধি · সাফল্য';
     const taglineEn = req.body.taglineEn || current.taglineEn || 'LEARN · GROW · SUCCEED';
     const logoUrl = req.body.logoUrl || current.logoUrl || '/logo.png';
     const sealUrl = req.body.sealUrl || current.sealUrl || '/logo.png';
-    const contactPhone = req.body.contactPhone || req.body.phone || current.contactPhone || current.phone || '+880 1800-NEXTGEN';
+    const contactPhone = req.body.contactPhone || req.body.phone || current.contactPhone || '01792818005';
     const altPhone = req.body.altPhone !== undefined ? req.body.altPhone : (current.altPhone || '');
-    const contactEmail = req.body.contactEmail || req.body.email || current.contactEmail || current.email || 'info@nextgen.edu.bd';
+    const contactEmail = req.body.contactEmail || req.body.email || current.contactEmail || 'info@nextgen.edu.bd';
     const supportEmail = req.body.supportEmail !== undefined ? req.body.supportEmail : (current.supportEmail || '');
-    const address = req.body.address || current.address || 'ধানমন্ডি, ঢাকা';
-    const eiin = req.body.eiin || req.body.code || current.eiin || current.code || 'NGA-DHAKA-2026';
+    const address = req.body.address || current.address || 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর';
+    const addressBn = req.body.addressBn || current.addressBn || address;
+    const addressEn = req.body.addressEn || current.addressEn || 'West Joydebpur, Bus Stand, Gazipur';
+    const eiin = req.body.eiin || req.body.code || current.eiin || 'NGA-GAZIPUR-2026';
     const website = req.body.website || current.website || 'https://nextgen.edu.bd';
     const currencySymbol = req.body.currencySymbol || current.currencySymbol || '৳';
+
+    // Academic setup lists
+    const academic = {
+      classes: req.body.academic?.classes || current.academic?.classes || ['৬ষ্ঠ শ্রেণি', '৭ম শ্রেণি', '৮ম শ্রেণি', '৯ম শ্রেণি', '১০ম শ্রেণি', '১১শ শ্রেণি', '১২শ শ্রেণি'],
+      sections: req.body.academic?.sections || current.academic?.sections || ['পদ্মা', 'মেঘনা', 'যমুনা'],
+      groups: req.body.academic?.groups || current.academic?.groups || ['বিজ্ঞান', 'মানবিক', 'ব্যবসায় শিক্ষা'],
+      subjects: req.body.academic?.subjects || current.academic?.subjects || ['সাধারণ গণিত', 'উচ্চতর গণিত', 'পদার্থবিজ্ঞান', 'রসায়ন', 'জীববিজ্ঞান', 'তথ্য ও যোগাযোগ প্রযুক্তি', 'বাংলা', 'ইংরেজি']
+    };
+
+    // Payment settings
+    const payment = {
+      bkashCharge: req.body.payment?.bkashCharge !== undefined ? Number(req.body.payment.bkashCharge) : (current.payment?.bkashCharge || 1.5),
+      nagadCharge: req.body.payment?.nagadCharge !== undefined ? Number(req.body.payment.nagadCharge) : (current.payment?.nagadCharge || 1.25),
+      monthlyTuitionDefault: req.body.payment?.monthlyTuitionDefault !== undefined ? Number(req.body.payment.monthlyTuitionDefault) : (current.payment?.monthlyTuitionDefault || 1500),
+      admissionFeeDefault: req.body.payment?.admissionFeeDefault !== undefined ? Number(req.body.payment.admissionFeeDefault) : (current.payment?.admissionFeeDefault || 3000),
+      examFeeDefault: req.body.payment?.examFeeDefault !== undefined ? Number(req.body.payment.examFeeDefault) : (current.payment?.examFeeDefault || 500)
+    };
 
     // Notice & Announcement
     const noticeText = req.body.noticeText !== undefined ? req.body.noticeText : (current.noticeText || '');
@@ -236,6 +290,8 @@ router.put(['/', '/profile'], authenticate, (req, res) => {
       academyNameEn,
       nameBn: academyNameBn,
       nameEn: academyNameEn,
+      founderName,
+      contactNumber,
       tagline,
       taglineBn,
       taglineEn,
@@ -249,10 +305,14 @@ router.put(['/', '/profile'], authenticate, (req, res) => {
       email: contactEmail,
       supportEmail,
       address,
+      addressBn,
+      addressEn,
       eiin,
       code: eiin,
       website,
       currencySymbol,
+      academic,
+      payment,
       noticeText,
       noticeTextBn,
       noticeTextEn,
@@ -261,9 +321,6 @@ router.put(['/', '/profile'], authenticate, (req, res) => {
       admissionSessionYear,
       admissionHelpline,
       maxApplicationsPerBatch,
-      heroHeadlineBn: req.body.heroHeadlineBn || current.heroHeadlineBn || 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম',
-      heroSubtitleBn: req.body.heroSubtitleBn || current.heroSubtitleBn || 'অনলাইন লাইভ ক্লাস, স্মার্ট মার্কশিট, স্বয়ংক্রিয় ফি পেমেন্ট ও অভিজ্ঞ শিক্ষক প্যানেলের সমন্বয়ে আধুনিক শিক্ষা ব্যবস্থা।',
-      bannerImageUrl: req.body.bannerImageUrl || current.bannerImageUrl || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80',
       socialLinks,
       printSettings,
       updatedAt: new Date().toISOString()
@@ -275,7 +332,7 @@ router.put(['/', '/profile'], authenticate, (req, res) => {
 
     res.json({
       success: true,
-      message: 'সাইট সেটিংস ও ইনস্টিটিউট প্রোফাইল সফলভাবে আপডেট করা হয়েছে!',
+      message: 'সাইট সেটিংস ও একাডেমিক কনফিগারেশন সফলভাবে সংরক্ষিত হয়েছে!',
       data: updated
     });
   } catch (err) {
@@ -647,4 +704,163 @@ router.delete('/staff/:id', authenticate, (req, res) => {
   }
 });
 
+// ==========================================
+// STUDENT DASHBOARD MENU CONTROLLER (FEATURE FLAGS)
+// ==========================================
+
+const DEFAULT_STUDENT_MENUS = [
+  { id: 'dashboard', moduleKey: 'dashboard', nameBn: 'ড্যাশবোর্ড ওভারভিউ', nameEn: 'Dashboard Overview', category: 'CORE', icon: 'LayoutDashboard', is_active: true, sort_order: 1, isLocked: true, description: 'প্রধান ওভারভিউ ড্যাশবোর্ড ও ক্লাসরুম নোটিফিকেশন' },
+  { id: 'helpdesk', moduleKey: 'helpdesk', nameBn: 'মতামত ও হেল্পডেস্ক', nameEn: 'Feedback & Helpdesk', category: 'COMMUNICATION', icon: 'MessageSquarePlus', is_active: true, sort_order: 2, isLocked: false, description: 'নাম গোপন রেখে বা সরাসরি কর্তৃপক্ষের কাছে অভিযোগ ও মতামত প্রদান' },
+  { id: 'ai-routine', moduleKey: 'ai-routine', nameBn: 'AI স্টাডি রুটিন ও দুর্বলতা ট্র্যাকার', nameEn: 'AI Routine & Weakness Tracker', category: 'AI_STUDY', icon: 'Brain', is_active: true, sort_order: 3, isLocked: false, description: 'পরীক্ষার স্কোরের ভিত্তিতে স্বয়ংক্রিয় ৭ দিনের স্মার্ট স্টাডি প্ল্যান' },
+  { id: 'syllabus-map', moduleKey: 'syllabus-map', nameBn: 'RPG সিলেবাস ম্যাপ', nameEn: 'RPG Syllabus Map', category: 'GAMIFICATION', icon: 'Map', is_active: true, sort_order: 4, isLocked: false, description: 'গেমের মতো চ্যাপ্টার আনলক ও অগ্রগতি ট্র্যাকিং পথ' },
+  { id: '3d-lab', moduleKey: '3d-lab', nameBn: 'ভার্চুয়াল ৩ডি সায়েন্স ল্যাব', nameEn: 'Virtual 3D Science Lab', category: 'LAB', icon: 'Rotate3d', is_active: true, sort_order: 5, isLocked: false, description: 'পদার্থ, রসায়ন ও জীববিজ্ঞানের ইন্টারেক্টিভ ৩ডি মডেল ল্যাব' },
+  { id: 'live-battle', moduleKey: 'live-battle', nameBn: '১v১ লাইভ MCQ ব্যাটেল', nameEn: '1v1 Live MCQ Battle', category: 'GAMIFICATION', icon: 'Swords', is_active: true, sort_order: 6, isLocked: false, description: 'সহপাঠীদের সাথে রিয়েল-টাইম কুইজ প্রতিযোগিতা' },
+  { id: 'rewards', moduleKey: 'rewards', nameBn: 'রিওয়ার্ড স্টোর ও কয়েন', nameEn: 'Reward Store & Coins', category: 'GAMIFICATION', icon: 'Gift', is_active: true, sort_order: 7, isLocked: false, description: 'ডেইলি লগইন ও কুইজে অর্জিত কয়েন দিয়ে উপহার ও নোটস রিডিম' },
+  { id: 'book-store', moduleKey: 'book-store', nameBn: 'ডিজিটাল বুক স্টোর', nameEn: 'Digital Book Store', category: 'RESOURCES', icon: 'BookMarked', is_active: true, sort_order: 8, isLocked: false, description: 'প্যারালাল টেক্সটবুক ও স্পেশাল লেকচার শিট সংগ্রহ' },
+  { id: 'all-formulas', moduleKey: 'all-formulas', nameBn: 'সকল সূত্র ভাণ্ডার', nameEn: 'All Formulas Library', category: 'RESOURCES', icon: 'Sigma', is_active: true, sort_order: 9, isLocked: false, description: 'গণিত ও বিজ্ঞান বিষয়ের অধ্যায়ভিত্তিক সমীকরণ ও ইমেজ এক্সপোর্ট' },
+  { id: 'smart-notes', moduleKey: 'smart-notes', nameBn: 'স্মার্ট বোর্ড লেকচার নোটস', nameEn: 'Smart Board Lecture Notes', category: 'RESOURCES', icon: 'PenTool', is_active: true, sort_order: 10, isLocked: false, description: 'ক্লাসরুমের ডিজিটাল স্মার্টবোর্ডের রঙিন লেকচার স্লাইডস' },
+  { id: 'media-center', moduleKey: 'media-center', nameBn: 'মিডিয়া সেন্টার ও ভিডিও', nameEn: 'Media Center & Lectures', category: 'RESOURCES', icon: 'Film', is_active: true, sort_order: 11, isLocked: false, description: 'রেকর্ডেড ক্লাস ভিডিও ও মাল্টিমিডিয়া আর্কাইভ' },
+  { id: 'teachers', moduleKey: 'teachers', nameBn: 'শিক্ষক নির্দেশিকা', nameEn: 'Teachers Directory', category: 'ACADEMIC', icon: 'Users', is_active: true, sort_order: 12, isLocked: false, description: 'বিষয়ভিত্তিক সম্মানিত শিক্ষকবৃন্দের তালিকা ও প্রোফাইল' },
+  { id: 'live-classes', moduleKey: 'live-classes', nameBn: 'লাইভ ক্লাসরুম', nameEn: 'Live Classroom', category: 'ACADEMIC', icon: 'Video', is_active: true, sort_order: 13, isLocked: false, description: 'রিয়েল-টাইম অনলাইন ক্লাস ও ভিডিও কনফারেন্সিং' },
+  { id: 'exams', moduleKey: 'exams', nameBn: 'অনলাইন পরীক্ষা ও MCQ', nameEn: 'Online Exams', category: 'ACADEMIC', icon: 'HelpCircle', is_active: true, sort_order: 14, isLocked: false, description: 'অনলাইন মডেল টেস্ট ও তাৎক্ষণিক রেজাল্ট মূল্যায়ন' },
+  { id: 'materials', moduleKey: 'materials', nameBn: 'স্টাডি মেটেরিয়ালস', nameEn: 'Study Materials', category: 'ACADEMIC', icon: 'BookMarked', is_active: true, sort_order: 15, isLocked: false, description: 'অধ্যায়ভিত্তিক শিট, অ্যাসাইনমেন্ট ফাইল ও সাজেশন' },
+  { id: 'textbooks', moduleKey: 'textbooks', nameBn: 'ডিজিটাল পাঠ্যবই', nameEn: 'Digital Textbooks', category: 'ACADEMIC', icon: 'BookOpen', is_active: true, sort_order: 16, isLocked: false, description: 'এনসিটিবি প্রামাণ্য ই-বুক ও বোর্ড বই রিডার' },
+  { id: 'homework', moduleKey: 'homework', nameBn: 'বাড়ির কাজ (Homework)', nameEn: 'Homework & Tasks', category: 'ACADEMIC', icon: 'ClipboardList', is_active: true, sort_order: 17, isLocked: false, description: 'দৈনিক বাড়ির কাজ জমাদান ও শিক্ষকের মূল্যায়ন' },
+  { id: 'idcard', moduleKey: 'idcard', nameBn: 'ডিজিটাল আইডি কার্ড', nameEn: 'Digital Student ID', category: 'PROFILE', icon: 'UserCheck', is_active: true, sort_order: 18, isLocked: false, description: 'কিউআর কোড ভেরিফায়েড ডিজিটাল স্টুডেন্ট আইডি' },
+  { id: 'attendance', moduleKey: 'attendance', nameBn: 'উপস্থিতি হিস্ট্রি', nameEn: 'Attendance Matrix', category: 'ACADEMIC', icon: 'CalendarCheck', is_active: true, sort_order: 19, isLocked: false, description: 'দৈনিক হাজিরা ক্যালেন্ডার ও উপস্থিতির শতকরা হার' },
+  { id: 'results', moduleKey: 'results', nameBn: 'ফলাফল ও গ্রেডশিট', nameEn: 'Exam Results', category: 'ACADEMIC', icon: 'Award', is_active: true, sort_order: 20, isLocked: false, description: 'টার্ম ও মডেল টেস্টের বিস্তারিত মার্কশিট ও জিপিএ' },
+  { id: 'routine', moduleKey: 'routine', nameBn: 'ক্লাস রুটিন', nameEn: 'Class Routine', category: 'ACADEMIC', icon: 'CalendarDays', is_active: true, sort_order: 21, isLocked: false, description: 'সাপ্তাহিক পিরিয়ড ও ক্লাসরুম শিডিউল গ্রিড' },
+  { id: 'fees', moduleKey: 'fees', nameBn: 'ফি ও পেমেন্ট হিস্ট্রি', nameEn: 'Fee Invoices & Payments', category: 'ACCOUNTS', icon: 'CreditCard', is_active: true, sort_order: 22, isLocked: false, description: 'টিউশন ফি বকেয়া, ইনভয়েস ও মানি রিসিট ডাউনলোড' },
+  { id: 'notices', moduleKey: 'notices', nameBn: 'নোটিশ বোর্ড', nameEn: 'Notice Board', category: 'COMMUNICATION', icon: 'BellRing', is_active: true, sort_order: 23, isLocked: false, description: 'একাডেমির জরুরি প্রাতিষ্ঠানিক নোটিশ ও ঘোষণা' }
+];
+
+function getOrInitStudentMenus(db) {
+  if (!db.menu_settings || !Array.isArray(db.menu_settings) || db.menu_settings.length === 0) {
+    db.menu_settings = JSON.parse(JSON.stringify(DEFAULT_STUDENT_MENUS));
+    saveDB(db);
+  }
+  // Sort by sort_order
+  db.menu_settings.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+  return db.menu_settings;
+}
+
+/**
+ * GET /api/settings/student-menus
+ * Public / Student endpoint to get active and ordered student menus
+ */
+router.get('/student-menus', (req, res) => {
+  try {
+    const db = getDB();
+    const menus = getOrInitStudentMenus(db);
+    res.json({
+      success: true,
+      data: menus
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * GET /api/admin/settings/student-menus
+ * Admin endpoint to get full menu controller configuration
+ */
+router.get('/admin/settings/student-menus', authenticate, (req, res) => {
+  try {
+    const db = getDB();
+    const menus = getOrInitStudentMenus(db);
+    res.json({
+      success: true,
+      data: menus
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * PUT /api/admin/settings/student-menus
+ * Admin bulk update student menus (toggle states and drag & drop order)
+ */
+router.put('/admin/settings/student-menus', authenticate, (req, res) => {
+  try {
+    const { menus } = req.body;
+    if (!Array.isArray(menus)) {
+      return res.status(400).json({ success: false, error: { message: 'মেনু তালিকা অবৈধ' } });
+    }
+
+    const db = getDB();
+    // Normalize and assign sort_order based on array sequence
+    const updated = menus.map((m, index) => ({
+      ...m,
+      sort_order: index + 1,
+      is_active: m.isLocked ? true : (m.is_active === true || m.is_active === 'true')
+    }));
+
+    db.menu_settings = updated;
+    saveDB(db);
+
+    res.json({
+      success: true,
+      message: 'স্টুডেন্ট মেনু কন্ট্রোল ও সিরিয়াল সফলভাবে সংরক্ষিত হয়েছে!',
+      data: updated
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * PATCH /api/admin/settings/student-menus/:id/toggle
+ * Admin quick toggle a single module On/Off
+ */
+router.patch('/admin/settings/student-menus/:id/toggle', authenticate, (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = getDB();
+    const menus = getOrInitStudentMenus(db);
+
+    const target = menus.find(m => m.id === id || m.moduleKey === id);
+    if (!target) {
+      return res.status(404).json({ success: false, error: { message: 'মডিউল পাওয়া যায়নি' } });
+    }
+
+    if (target.isLocked) {
+      return res.status(400).json({ success: false, error: { message: 'প্রধান ড্যাশবোর্ড মডিউল বন্ধ করা যাবে না।' } });
+    }
+
+    target.is_active = !target.is_active;
+    saveDB(db);
+
+    res.json({
+      success: true,
+      message: `'${target.nameBn}' মডিউলটি ${target.is_active ? 'চালু' : 'বন্ধ'} করা হয়েছে।`,
+      data: target
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
+/**
+ * POST /api/admin/settings/student-menus/reset
+ * Reset student menus to factory defaults
+ */
+router.post('/admin/settings/student-menus/reset', authenticate, (req, res) => {
+  try {
+    const db = getDB();
+    db.menu_settings = JSON.parse(JSON.stringify(DEFAULT_STUDENT_MENUS));
+    saveDB(db);
+
+    res.json({
+      success: true,
+      message: 'স্টুডেন্ট মেনু সেটিংস ডিফল্ট অবস্থায় রিসেট করা হয়েছে।',
+      data: db.menu_settings
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: { message: err.message } });
+  }
+});
+
 module.exports = router;
+

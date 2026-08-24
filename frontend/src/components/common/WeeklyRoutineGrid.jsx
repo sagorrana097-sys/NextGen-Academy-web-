@@ -637,7 +637,7 @@ export default function WeeklyRoutineGrid({ viewMode = 'ADMIN', studentId = null
             <form onSubmit={handleSaveSlot} className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     {t('day')} <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -670,7 +670,7 @@ export default function WeeklyRoutineGrid({ viewMode = 'ADMIN', studentId = null
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     {t('period')} <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -703,7 +703,7 @@ export default function WeeklyRoutineGrid({ viewMode = 'ADMIN', studentId = null
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   বিষয়ের নাম <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -717,7 +717,7 @@ export default function WeeklyRoutineGrid({ viewMode = 'ADMIN', studentId = null
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   শিক্ষক নির্বাচন <span className="text-rose-500">*</span>
                 </label>
                 <select
@@ -736,7 +736,7 @@ export default function WeeklyRoutineGrid({ viewMode = 'ADMIN', studentId = null
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   কক্ষ / ল্যাব নম্বর
                 </label>
                 <input

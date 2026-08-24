@@ -365,7 +365,17 @@ router.delete('/users/:id', async (req, res, next) => {
  */
 router.get('/stats', async (req, res, next) => {
   try {
-    const totalStudents = await Student.count();
+    const allStudents = await Student.findAll({ include: [{ model: User, as: 'user' }] });
+    const totalStudents = allStudents.length;
+    const activeStudents = allStudents.filter(s => {
+      const st = (s.status || '').toLowerCase();
+      return st === 'active' || (!st && s.user?.isActive !== false);
+    }).length;
+    const inactiveStudents = allStudents.filter(s => {
+      const st = (s.status || '').toLowerCase();
+      return st === 'suspended' || st === 'inactive' || st === 'left' || s.user?.isActive === false;
+    }).length;
+
     const totalTeachers = await Teacher.count();
     const totalClasses = await Class.count();
 
@@ -392,6 +402,8 @@ router.get('/stats', async (req, res, next) => {
       success: true,
       data: {
         totalStudents,
+        activeStudents,
+        inactiveStudents,
         totalTeachers,
         totalClasses,
         attendanceRateToday: attendanceRate,
@@ -1224,18 +1236,34 @@ router.post('/notices', async (req, res, next) => {
 
 /**
  * POST /api/admin/generate-mcq
- * AI-Powered Automated MCQ Question Generator for Exams
+ * AI-Powered Automated MCQ Question Generator for Exams with Source Material Support
  */
 const { generateMCQs } = require('../services/mcqAiGeneratorService');
+const { generateCreativeQuestions } = require('../services/cqAiGeneratorService');
+const { StudyMaterial } = require('../models');
 
 router.post('/generate-mcq', async (req, res, next) => {
   try {
-    const { topic, subject, classGrade, difficulty, questionCount, chapterNotes } = req.body;
+    const { topic, subject, classGrade, difficulty, questionCount, chapterNotes, sourceMaterialId } = req.body;
 
-    if (!topic && !chapterNotes && !subject) {
+    let materialContext = chapterNotes || '';
+    let sourceMaterialTitle = '';
+
+    if (sourceMaterialId) {
+      const srcMat = await StudyMaterial.findByPk(sourceMaterialId);
+      if (srcMat) {
+        sourceMaterialTitle = srcMat.title || srcMat.titleBn;
+        const text = srcMat.content_text || srcMat.contentText || srcMat.extracted_text || srcMat.descriptionBn;
+        if (text) {
+          materialContext = text;
+        }
+      }
+    }
+
+    if (!topic && !materialContext && !subject) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম অথবা বিষয় উল্লেখ করা আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম, স্টাডি সোর্স বা বিষয় উল্লেখ করা আবশ্যক' }
       });
     }
 
@@ -1245,7 +1273,9 @@ router.post('/generate-mcq', async (req, res, next) => {
       classGrade,
       difficulty: difficulty || 'MEDIUM',
       questionCount: Number(questionCount) || 10,
-      chapterNotes
+      chapterNotes: materialContext,
+      sourceMaterialId,
+      sourceMaterialTitle
     });
 
     await AuditService.log({
@@ -1253,13 +1283,14 @@ router.post('/generate-mcq', async (req, res, next) => {
       userId: req.user.id,
       action: 'AI_GENERATE_MCQ',
       entityType: 'exam_mcq_ai',
-      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন জেনারেট করেছেন (টপিক: "${topic || subject}")`
+      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন জেনারেট করেছেন (টপিক: "${topic || subject || sourceMaterialTitle}")`
     });
 
     res.json({
       success: true,
       message: `সফলভাবে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন প্রস্তুত হয়েছে!`,
       source: result.source,
+      sourceMaterialTitle: sourceMaterialTitle || null,
       data: result.questions
     });
   } catch (err) {
@@ -1269,18 +1300,30 @@ router.post('/generate-mcq', async (req, res, next) => {
 
 /**
  * POST /api/admin/generate-cq
- * AI-Powered Creative Question (CQ / সৃজনশীল প্রশ্ন) Generator
+ * AI-Powered Creative Question (CQ / সৃজনশীল প্রশ্ন) Generator with Source Material Support
  */
-const { generateCreativeQuestions } = require('../services/cqAiGeneratorService');
-
 router.post('/generate-cq', async (req, res, next) => {
   try {
-    const { subject, classGrade, chapterTopic, difficulty, questionCount, chapterNotes } = req.body;
+    const { subject, classGrade, chapterTopic, difficulty, questionCount, chapterNotes, sourceMaterialId } = req.body;
 
-    if (!chapterTopic && !chapterNotes && !subject) {
+    let materialContext = chapterNotes || '';
+    let sourceMaterialTitle = '';
+
+    if (sourceMaterialId) {
+      const srcMat = await StudyMaterial.findByPk(sourceMaterialId);
+      if (srcMat) {
+        sourceMaterialTitle = srcMat.title || srcMat.titleBn;
+        const text = srcMat.content_text || srcMat.contentText || srcMat.extracted_text || srcMat.descriptionBn;
+        if (text) {
+          materialContext = text;
+        }
+      }
+    }
+
+    if (!chapterTopic && !materialContext && !subject) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম অথবা বিষয় উল্লেখ করা আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম, স্টাডি সোর্স বা বিষয় উল্লেখ করা আবশ্যক' }
       });
     }
 
@@ -1290,7 +1333,9 @@ router.post('/generate-cq', async (req, res, next) => {
       chapterTopic,
       difficulty: difficulty || 'MEDIUM',
       questionCount: Number(questionCount) || 2,
-      chapterNotes
+      chapterNotes: materialContext,
+      sourceMaterialId,
+      sourceMaterialTitle
     });
 
     await AuditService.log({
@@ -1298,13 +1343,14 @@ router.post('/generate-cq', async (req, res, next) => {
       userId: req.user.id,
       action: 'AI_GENERATE_CQ',
       entityType: 'exam_cq_ai',
-      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি সৃজনশীল প্রশ্ন জেনারেট করেছেন (টপিক: "${chapterTopic || subject}")`
+      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি সৃজনশীল প্রশ্ন জেনারেট করেছেন (টপিক: "${chapterTopic || subject || sourceMaterialTitle}")`
     });
 
     res.json({
       success: true,
       message: `সফলভাবে ${result.questions.length}টি সৃজনশীল প্রশ্ন প্রস্তুত হয়েছে!`,
       source: result.source,
+      sourceMaterialTitle: sourceMaterialTitle || null,
       data: result.questions
     });
   } catch (err) {

@@ -32,11 +32,16 @@ export default function PrintableStudentIdCardModal({ student, isOpen, onClose }
   const classNameDisplay = student.class?.nameBn || student.class?.nameEn || student.className || '৯ম শ্রেণি';
   const sectionDisplay = student.section?.nameBn || student.section?.nameEn || student.sectionName || 'শাখা ক';
   const batchDisplay = student.batch?.name || student.batchName || 'মর্নিং স্টার ব্যাচ';
-  const academyName = settings?.academyName || 'নেক্সটজেন একাডেমি';
-  const academyNameEn = settings?.academyNameEn || 'NEXTGEN ACADEMY';
+  const academyName = 'NextGen Academy';
+  const academyNameEn = 'NextGen Academy';
+  const directorName = 'মো: আলমগীর হোসেন (সাগর)';
+  const officialPhone = '০১৭৯২৮১৮০০৫';
+  const officialAddress = 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর';
+  const tagline = 'LEARN · GROW · SUCCEED';
   const academyLogo = settings?.logoUrl || '/logo.png';
   const qrCodeData = `https://nextgen.edu.bd/verify/student?id=${student.id}&roll=${student.rollNo || ''}&name=${encodeURIComponent(student.nameBn || student.name || '')}&session=2026`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(qrCodeData)}&margin=1`;
+
 
   const handlePrint = () => {
     window.print();
@@ -243,12 +248,12 @@ export default function PrintableStudentIdCardModal({ student, isOpen, onClose }
                     <span className="text-[9px] text-slate-300 font-semibold">৩১ ডিসে, ২০২৬</span>
                   </div>
                   <div className="text-right">
-                    <div className="h-5 flex items-end justify-end">
-                      <span className="font-serif italic text-[11px] text-amber-300 font-black border-b border-slate-600 px-1">
-                        A. Mahmud
+                    <div className="h-6 flex items-end justify-end">
+                      <span className="font-serif text-[10.5px] text-amber-300 font-bold border-b border-slate-600 px-1 tracking-tight">
+                        {directorName}
                       </span>
                     </div>
-                    <span className="text-[8px] text-slate-400 font-bold block mt-0.5">অধ্যক্ষ / পরিচালক</span>
+                    <span className="text-[8px] text-slate-400 font-bold block mt-0.5">পরিচালক ও প্রতিষ্ঠাতা</span>
                   </div>
                 </div>
               </div>
@@ -304,17 +309,26 @@ export default function PrintableStudentIdCardModal({ student, isOpen, onClose }
                   </div>
                 </div>
 
-                {/* Terms and Academy Return Note */}
-                <div className="p-3.5 bg-slate-950 border-t border-slate-800 text-[9px] text-slate-400 text-center space-y-1">
-                  <p className="leading-relaxed">
-                    💡 <strong>নির্দেশনা:</strong> এই কার্ডটি নেক্সটজেন একাডেমির সম্পত্তি। কার্ডটি কোথাও পাওয়া গেলে অনুগ্রহ করে নিকটস্থ অফিসে জমা দিন।
+                {/* Terms and Academy Return Note with Institutional Branding */}
+                <div className="p-3 bg-slate-950 border-t border-slate-800 text-[9px] text-slate-300 text-center space-y-1.5">
+                  <p className="leading-relaxed text-[8.5px] text-slate-400">
+                    💡 <strong>নির্দেশনা:</strong> এই কার্ডটি {academyName}-এর সম্পত্তি। কার্ডটি কোথাও পাওয়া গেলে অনুগ্রহ করে নিচের ঠিকানায় ফেরত দিন।
                   </p>
-                  <p className="text-[8px] text-amber-400/90 font-mono font-bold">
-                    হটলাইন: +880 1792818005 • www.nextgen.edu.bd
-                  </p>
+                  <div className="pt-1 border-t border-slate-800/80 space-y-0.5">
+                    <p className="text-[9px] font-bold text-amber-400">
+                      📍 {officialAddress}
+                    </p>
+                    <p className="text-[8.5px] text-emerald-400 font-mono font-bold">
+                      পরিচালক: {directorName} • হেল্পলাইন: {officialPhone}
+                    </p>
+                    <p className="text-[7.5px] text-slate-500 font-mono">
+                      {tagline} • www.nextgen.edu.bd
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
+
           </div>
         </div>
 

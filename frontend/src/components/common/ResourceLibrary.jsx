@@ -215,6 +215,7 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
     setFormError(null);
 
     try {
+      const directLink = formData.fileUrl ? formData.fileUrl.trim() : (formData.pdf_link || '');
       const payload = {
         title: formData.title.trim(),
         titleBn: formData.title.trim(),
@@ -224,7 +225,10 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
         subjectId: Number(formData.subjectId),
         subjectName: formData.subjectName,
         fileType: formData.fileType,
-        fileUrl: formData.fileUrl.trim(),
+        fileUrl: directLink,
+        pdf_link: formData.pdf_link || directLink,
+        file_url: formData.file_url || directLink,
+        downloadUrl: formData.downloadUrl || directLink,
         fileName: formData.fileName || '',
         fileSize: formData.fileSize || '3.5 MB',
         totalPages: Number(formData.totalPages) || 15,
@@ -920,9 +924,8 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
                   label="রিসোর্স ও পাঠ্যপুস্তক ফাইল (PDF / Drive URL / Device Upload) *"
                   value={formData.fileUrl}
                   fileName={formData.fileName}
-                  fileSize={formData.fileSize}
                   accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*"
-                  maxMb={30}
+                  maxMb={100}
                   onChange={({ url, fileUrl, fileName, fileSize }) => {
                     const finalUrl = fileUrl || url || '';
                     setFormData(prev => ({

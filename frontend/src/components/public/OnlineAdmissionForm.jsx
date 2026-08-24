@@ -54,6 +54,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
     studentNameEn: '',
     className: 'Class 9',
     classId: 3,
+    group: '',
     batchName: 'সকাল ব্যাচ (সকাল ৮:০০ - ১০:০০)',
     bloodGroup: 'B+',
     religion: 'ISLAM',
@@ -222,6 +223,10 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
   const validateCurrentStep = () => {
     setStepError('');
 
+    const requiresGroup = ['Class 9', 'Class 10', 'Class 11', 'Class 12', '9', '10', '11', '12', '৯ম', '১০ম', 'একাদশ', 'দ্বাদশ', 'SSC', 'HSC'].some(
+      (c) => (formData.className || '').includes(c)
+    );
+
     if (currentStep === 1) {
       if (!formData.studentNameBn.trim()) {
         setStepError('শিক্ষার্থীর বাংলা নাম প্রদান করা বাধ্যতামূলক');
@@ -229,6 +234,10 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
       }
       if (!formData.studentNameEn.trim()) {
         setStepError('শিক্ষার্থীর ইংরেজি নাম প্রদান করা বাধ্যতামূলক');
+        return false;
+      }
+      if (requiresGroup && !formData.group) {
+        setStepError('৯ম থেকে ১২শ শ্রেণির শিক্ষার্থীদের জন্য বিভাগ (Group) নির্বাচন করুন');
         return false;
       }
       if (!formData.dob) {
@@ -275,6 +284,30 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
     setCurrentStep((prev) => Math.max(1, prev - 1));
   };
 
+  // Dynamic MFS Transaction Charge Calculation Logic
+  const baseAmount = Number(settings?.admissionFee || formData.applicationFee || 1000);
+
+  const calculateCharge = (provider, base) => {
+    const prov = (provider || '').toLowerCase();
+    if (prov.includes('bkash')) {
+      return { charge: base * 0.0185, rate: '1.85%', name: 'bKash' };
+    }
+    if (prov.includes('nagad')) {
+      return { charge: base * 0.015, rate: '1.50%', name: 'Nagad' };
+    }
+    if (prov.includes('rocket')) {
+      return { charge: base * 0.015, rate: '1.50%', name: 'Rocket' };
+    }
+    return { charge: 0, rate: '0%', name: provider || 'Other' };
+  };
+
+  const requiresGroup = ['Class 9', 'Class 10', 'Class 11', 'Class 12', '9', '10', '11', '12', '৯ম', '১০ম', 'একাদশ', 'দ্বাদশ', 'SSC', 'HSC'].some(
+    (c) => (formData.className || '').includes(c)
+  );
+
+  const { charge: calculatedCharge, rate: chargeRate } = calculateCharge(formData.paymentMethod, baseAmount);
+  const totalPayable = baseAmount + calculatedCharge;
+
   // Final Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -282,7 +315,14 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
 
     setSubmitting(true);
     try {
-      const res = await admissionAPI.apply(formData);
+      const payload = {
+        ...formData,
+        group: requiresGroup ? (formData.group || 'Science') : null,
+        applicationFee: baseAmount,
+        gatewayCharge: calculatedCharge,
+        totalPayable: totalPayable
+      };
+      const res = await admissionAPI.apply(payload);
       if (res.success && res.data) {
         setSubmittedData(res.data);
         setShowSlipModal(true);
@@ -553,6 +593,26 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                     </select>
                   </div>
 
+                  {/* Dynamic Group Field for Class 9 to 12 */}
+                  {requiresGroup && (
+                    <div>
+                      <label className="block font-bold text-amber-300 mb-1">
+                        বিভাগ (Group) *
+                      </label>
+                      <select
+                        value={formData.group || ''}
+                        onChange={(e) => setFormData({ ...formData, group: e.target.value })}
+                        required={requiresGroup}
+                        className="w-full p-2.5 rounded-xl border border-amber-500/50 bg-slate-900 font-bold text-white focus:ring-2 focus:ring-emerald-500"
+                      >
+                        <option value="">নির্বাচন করুন...</option>
+                        {(settings?.academic?.groups || ['বিজ্ঞান', 'মানবিক', 'ব্যবসায় শিক্ষা']).map((grp) => (
+                          <option key={grp} value={grp}>{grp}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   {/* 1. Dynamic Batch Options */}
                   <div>
                     <label className="block font-bold text-slate-300 mb-1">
@@ -660,8 +720,8 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                       value={formData.photoUrl}
                       fileName={formData.photoFileName}
                       previewType="image"
-                      accept="image/*"
-                      maxMb={10}
+                      accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                      maxMb={100}
                       helperText="সরাসরি ফোন/পিসি থেকে ছবি নির্বাচন করুন অথবা গুগল ড্রাইভ লিংক দিন (সর্বোচ্চ 10MB)"
                       onChange={({ fileUrl, url, fileName }) => {
                         setFormData(prev => ({
@@ -776,7 +836,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                         value={formData.birthCertUrl}
                         fileName={formData.birthCertFileName}
                         accept=".pdf,.jpg,.jpeg,.png,.webp"
-                        maxMb={15}
+                        maxMb={100}
                         helperText="জন্ম নিবন্ধন বা এনআইডির ছবি / পিডিএফ বা গুগল ড্রাইভ লিংক"
                         onChange={({ fileUrl, url, fileName }) => {
                           setFormData(prev => ({
@@ -794,7 +854,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                         value={formData.marksheetUrl}
                         fileName={formData.marksheetFileName}
                         accept=".pdf,.jpg,.jpeg,.png,.webp"
-                        maxMb={15}
+                        maxMb={100}
                         helperText="সর্বশেষ বার্ষিক পরীক্ষার রেজাল্ট কার্ড বা প্রশংসাপত্রের কপি"
                         onChange={({ fileUrl, url, fileName }) => {
                           setFormData(prev => ({
@@ -845,7 +905,12 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                 <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="space-y-1 text-center sm:text-left">
                     <span className="text-[11px] text-indigo-300 font-bold uppercase tracking-wider block">নির্ধারিত অনলাইন আবেদন ফি</span>
-                    <p className="text-2xl font-black text-white font-mono">৳ ৫০০.০০</p>
+                    <p className="text-2xl font-black text-white font-mono">
+                      ৳ {totalPayable.toFixed(2)}{' '}
+                      <span className="text-xs text-slate-400 font-normal">
+                        (মূল ফি: ৳{baseAmount} {calculatedCharge > 0 ? `+ ${formData.paymentMethod} চার্জ: ৳${calculatedCharge.toFixed(2)}` : ''})
+                      </span>
+                    </p>
                     <p className="text-[11px] text-slate-400">ভর্তি ফরম প্রসেসিং ও লিখিত/মৌখিক পরীক্ষার ফি বাবদ</p>
                   </div>
 
@@ -860,6 +925,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {paymentMethods.map((pm) => {
                       const isSelected = selectedMethod?.provider === pm.provider || formData.paymentMethod === pm.provider;
+                      const pmCharge = calculateCharge(pm.provider, baseAmount);
                       return (
                         <button
                           key={pm.id || pm.provider}
@@ -875,10 +941,35 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                           }`}
                         >
                           <span className="font-black text-sm">{pm.provider}</span>
-                          <span className="text-[10px] opacity-80">{pm.accountType || 'Personal'}</span>
+                          <span className="text-[10px] opacity-80">
+                            {pmCharge.charge > 0 ? `চার্জ: +${pmCharge.rate}` : 'চার্জ ফ্রি (0%)'}
+                          </span>
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+
+                {/* Real-Time Cost Breakdown */}
+                <div className="bg-slate-900/90 p-4 rounded-2xl border border-slate-700/80 text-sm mt-3 space-y-2">
+                  <div className="flex justify-between text-slate-400 font-medium">
+                    <span>মূল ভর্তি ফি:</span>
+                    <span className="font-mono font-bold text-white">৳ {baseAmount.toLocaleString('en-BD')}</span>
+                  </div>
+                  {formData.paymentMethod === 'bKash' || formData.paymentMethod === 'Nagad' || formData.paymentMethod === 'Rocket' ? (
+                    <div className="flex justify-between text-rose-400 font-medium">
+                      <span>{formData.paymentMethod} খরচ (Charge {chargeRate}):</span>
+                      <span className="font-mono font-bold">+ ৳ {calculatedCharge.toFixed(2)}</span>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between text-emerald-400 font-medium text-xs">
+                      <span>{formData.paymentMethod} খরচ (Charge):</span>
+                      <span className="font-bold">ফ্রি (৳ ০.০০)</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-white font-black border-t border-slate-700 pt-2 mt-2 text-base">
+                    <span>সর্বমোট পরিশোধযোগ্য:</span>
+                    <span className="text-emerald-400 font-mono text-lg font-black">৳ {totalPayable.toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -894,13 +985,13 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                           {selectedMethod.accountNumber}
                         </span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 text-[10px] font-bold">
-                        অ্যামাউন্ট: ৳৫০০
+                      <span className="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-black">
+                        পরিশোধযোগ্য: ৳ {totalPayable.toFixed(2)}
                       </span>
                     </div>
 
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      💡 <strong>পেমেন্ট নিয়মাবলী:</strong> {selectedMethod.instructions || `আপনার ${selectedMethod.provider} অ্যাপ থেকে ৳৫০০ Send Money / Payment করুন এবং নিচের ঘরে প্রেরক নম্বর ও TrxID লিখুন।`}
+                      💡 <strong>পেমেন্ট নিয়মাবলী:</strong> {selectedMethod.instructions || `আপনার ${selectedMethod.provider} অ্যাপ থেকে চার্জসহ সর্বমোট ৳${totalPayable.toFixed(2)} Send Money / Payment করুন এবং নিচের ঘরে প্রেরক নম্বর ও TrxID লিখুন।`}
                     </p>
                   </div>
                 )}
@@ -938,7 +1029,7 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
                       value={formData.paymentSlipUrl}
                       fileName={formData.paymentSlipFileName}
                       accept="image/*,.pdf"
-                      maxMb={10}
+                      maxMb={100}
                       helperText="বিকাশ/নগদ এর কনফার্মেশন মেসেজের স্ক্রিনশট বা ব্যাংক রসিদের ছবি"
                       onChange={({ fileUrl, url, fileName }) => {
                         setFormData(prev => ({

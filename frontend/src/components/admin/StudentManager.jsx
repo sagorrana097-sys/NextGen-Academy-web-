@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 import { studentAPI, curriculumAPI, batchAPI } from '../../services/api';
 import Student360Modal from '../common/Student360Modal';
 import PrintableStudentIdCardModal from '../common/PrintableStudentIdCardModal';
 import BatchStudentIdCardModal from '../common/BatchStudentIdCardModal';
 import UniversalFileUploader from '../common/UniversalFileUploader';
+import ManualStudentEnrollmentModal from './ManualStudentEnrollmentModal';
 import { exportStudentsToCSV } from '../../utils/exportUtils';
 import {
   GraduationCap,
@@ -60,6 +62,7 @@ const defaultClassesList = [
 
 export default function StudentManager() {
   const { t, lang } = useLanguage();
+  const { settings } = useSettings();
 
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState(defaultClassesList);
@@ -74,6 +77,7 @@ export default function StudentManager() {
   const [viewMode, setViewMode] = useState('table'); // 'table' | 'cards'
 
   // Modals
+  const [showManualEnrollModal, setShowManualEnrollModal] = useState(false);
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -94,6 +98,7 @@ export default function StudentManager() {
     classId: '1',
     sectionId: '1',
     batchId: '',
+    group: '',
     guardianName: '',
     guardianPhone: '',
     bloodGroup: 'B+',
@@ -149,7 +154,7 @@ export default function StudentManager() {
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       showFeedback('ছবির আকার সর্বোচ্চ 8MB হতে পারবে', 'error');
       return;
     }
@@ -229,6 +234,7 @@ export default function StudentManager() {
       classId: String(student.classId || '1'),
       sectionId: String(student.sectionId || '1'),
       batchId: student.batchId ? String(student.batchId) : '',
+      group: student.group || '',
       guardianName: primaryParent?.name || '',
       guardianPhone: primaryParent?.phone || student.user?.phone || '',
       bloodGroup: student.bloodGroup || 'B+',
@@ -246,15 +252,28 @@ export default function StudentManager() {
     e.preventDefault();
     setSubmitting(true);
     try {
+      const selectedClassObj = currentAvailableClasses.find(
+        (c) => String(c.id) === String(formData.classId)
+      );
+      const selectedClassName = selectedClassObj?.nameBn || selectedClassObj?.nameEn || selectedClassObj?.name || '';
+      const requiresGroup = ['Class 9', 'Class 10', 'Class 11', 'Class 12', '9', '10', '11', '12', '৯ম', '১০ম', 'একাদশ', 'দ্বাদশ', 'SSC', 'HSC'].some(
+        (c) => selectedClassName.includes(c) || Number(selectedClassObj?.numericGrade) >= 9
+      );
+
+      const payload = {
+        ...formData,
+        group: requiresGroup ? (formData.group || 'Science') : null
+      };
+
       if (editingStudent) {
-        const res = await studentAPI.update(editingStudent.id, formData);
+        const res = await studentAPI.update(editingStudent.id, payload);
         if (res.success) {
           showFeedback('শিক্ষার্থীর তথ্য সফলভাবে আপডেট করা হয়েছে!');
           setShowAddEditModal(false);
           fetchData();
         }
       } else {
-        const res = await studentAPI.create(formData);
+        const res = await studentAPI.create(payload);
         if (res.success) {
           showFeedback('নতুন শিক্ষার্থী সফলভাবে ভর্তি করা হয়েছে!');
           setShowAddEditModal(false);
@@ -311,6 +330,10 @@ export default function StudentManager() {
   const selectedClassObj = currentAvailableClasses.find(
     (c) => String(c.id) === String(formData.classId)
   );
+  const selectedClassName = selectedClassObj?.nameBn || selectedClassObj?.nameEn || selectedClassObj?.name || '';
+  const requiresGroup = ['Class 9', 'Class 10', 'Class 11', 'Class 12', '9', '10', '11', '12', '৯ম', '১০ম', 'একাদশ', 'দ্বাদশ', 'SSC', 'HSC'].some(
+    (c) => selectedClassName.includes(c) || Number(selectedClassObj?.numericGrade) >= 9
+  );
 
   return (
     <div className="space-y-6 animate-in fade-in">
@@ -362,11 +385,11 @@ export default function StudentManager() {
             </button>
 
             <button
-              onClick={handleOpenAdd}
-              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center space-x-2 transition-all transform active:scale-95"
+              onClick={() => setShowManualEnrollModal(true)}
+              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-lg shadow-emerald-600/30 flex items-center space-x-2 transition-all transform active:scale-95"
             >
               <UserPlus className="w-4 h-4" />
-              <span>+ নতুন শিক্ষার্থী ভর্তি</span>
+              <span>+ নতুন শিক্ষার্থী ভর্তি করুন (Add Student)</span>
             </button>
           </div>
         </div>
@@ -873,20 +896,20 @@ export default function StudentManager() {
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর পুরো নাম (বাংলা/English) *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শিক্ষার্থীর পুরো নাম (বাংলা/English) *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value, nameBn: e.target.value })}
                     placeholder="যেমন: তানভীর আহমেদ"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 {/* Class Selection with all 15 classes from Play to 12 */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     শ্রেণি (Class: Play - Class 12) *
                   </label>
                   <select
@@ -975,48 +998,60 @@ export default function StudentManager() {
                   </select>
                 </div>
 
+                {/* Dynamic Group Field for Class 9 to 12 */}
+                {requiresGroup && (
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
+                      বিভাগ (Group) *
+                    </label>
+                    <select
+                      value={formData.group || ''}
+                      onChange={(e) => setFormData({ ...formData, group: e.target.value })}
+                      required={requiresGroup}
+                      className="w-full bg-white border border-amber-400 text-slate-900 font-bold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
+                    >
+                      <option value="">নির্বাচন করুন...</option>
+                      <option value="Science">বিজ্ঞান (Science)</option>
+                      <option value="Humanities">মানবিক (Humanities)</option>
+                      <option value="Business">ব্যবসায় শিক্ষা (Business)</option>
+                    </select>
+                  </div>
+                )}
+
                 {/* Section selection */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শাখা / সেকশন (Section)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শাখা / সেকশন (Section) *</label>
                   <select
                     value={formData.sectionId}
                     onChange={(e) => setFormData({ ...formData, sectionId: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
-                    {selectedClassObj?.sections && selectedClassObj.sections.length > 0 ? (
-                      selectedClassObj.sections.map((sec) => (
-                        <option key={sec.id} value={sec.id}>
-                          {sec.nameBn || sec.name}
-                        </option>
-                      ))
-                    ) : (
-                      <>
-                        <option value="1">পদ্মা (Padma - A)</option>
-                        <option value="2">মেঘনা (Meghna - B)</option>
-                        <option value="3">যমুনা (Jamuna - C)</option>
-                      </>
-                    )}
+                    {(settings?.academic?.sections || ['পদ্মা', 'মেঘনা', 'যমুনা']).map((sec, idx) => (
+                      <option key={idx} value={sec}>
+                        {sec}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">রোল নম্বর (Roll No) *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">রোল নম্বর (Roll No) *</label>
                   <input
                     type="number"
                     value={formData.rollNo}
                     onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
                     placeholder="১"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ব্যাচ (Batch)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ব্যাচ (Batch)</label>
                   <select
                     value={formData.batchId}
                     onChange={(e) => setFormData({ ...formData, batchId: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="">সাধারণ ব্যাচ / বরাদ্দহীন</option>
                     {batches.map((b) => (
@@ -1028,11 +1063,11 @@ export default function StudentManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ (Blood Group)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">রক্তের গ্রুপ (Blood Group)</label>
                   <select
                     value={formData.bloodGroup}
                     onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     {bloodGroups.map((bg) => (
                       <option key={bg} value={bg}>
@@ -1043,11 +1078,11 @@ export default function StudentManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">লিঙ্গ (Gender)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">লিঙ্গ (Gender)</label>
                   <select
                     value={formData.gender}
                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-full text-xs font-bold rounded-xl border border-slate-300 p-2.5 bg-slate-50"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   >
                     <option value="MALE">ছাত্র (Male)</option>
                     <option value="FEMALE">ছাত্রী (Female)</option>
@@ -1056,45 +1091,45 @@ export default function StudentManager() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">জন্ম তারিখ (DOB)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">জন্ম তারিখ (DOB)</label>
                   <input
                     type="date"
                     value={formData.dob}
                     onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">অভিভাবকের নাম (Guardian Name)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">অভিভাবকের নাম (Guardian Name)</label>
                   <input
                     type="text"
                     value={formData.guardianName}
                     onChange={(e) => setFormData({ ...formData, guardianName: e.target.value })}
                     placeholder="যেমন: মোঃ রফিকুল ইসলাম"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">অভিভাবকের ফোন নম্বর *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">অভিভাবকের ফোন নম্বর *</label>
                   <input
                     type="text"
                     value={formData.guardianPhone}
                     onChange={(e) => setFormData({ ...formData, guardianPhone: e.target.value })}
                     placeholder="01712345678"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ভর্তির তারিখ (Admission Date)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ভর্তির তারিখ (Admission Date)</label>
                   <input
                     type="date"
                     value={formData.admissionDate}
                     onChange={(e) => setFormData({ ...formData, admissionDate: e.target.value })}
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
@@ -1104,8 +1139,8 @@ export default function StudentManager() {
                     label="শিক্ষার্থীর ছবি / পাসপোর্ট সাইজ ফটো (Student Photo)"
                     value={formData.photo}
                     previewType="image"
-                    accept="image/*"
-                    maxMb={10}
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    maxMb={100}
                     helperText="JPG, PNG, JPEG, WebP অথবা গুগল ড্রাইভ লিংক (সর্বোচ্চ 10MB)"
                     onChange={({ fileUrl, url }) => {
                       setFormData(prev => ({ ...prev, photo: fileUrl || url || '' }));
@@ -1114,13 +1149,13 @@ export default function StudentManager() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">স্থায়ী ঠিকানা (Address)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">স্থায়ী ঠিকানা (Address)</label>
                   <input
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     placeholder="বাড়ি নং ১২, ধানমন্ডি, ঢাকা"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               </div>
@@ -1223,6 +1258,18 @@ export default function StudentManager() {
         batches={batches}
         isOpen={showBatchIdCardModal}
         onClose={() => setShowBatchIdCardModal(false)}
+      />
+
+      {/* Manual Student Enrollment & Auto-Credential Generator Modal */}
+      <ManualStudentEnrollmentModal
+        isOpen={showManualEnrollModal}
+        onClose={() => setShowManualEnrollModal(false)}
+        classes={currentAvailableClasses}
+        batches={batches}
+        onEnrollmentComplete={() => {
+          fetchData();
+          showFeedback('নতুন শিক্ষার্থী সফলভাবে ভর্তি করা হয়েছে!');
+        }}
       />
     </div>
   );

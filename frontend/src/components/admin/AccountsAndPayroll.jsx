@@ -999,7 +999,7 @@ export default function AccountsAndPayroll() {
 
             <form onSubmit={handleSaveExpense} className="space-y-3.5 text-xs">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">{t('expenseCategory')} *</label>
+                <label className="block font-bold text-slate-900 mb-1">{t('expenseCategory')} *</label>
                 <select
                   value={expenseForm.category}
                   onChange={(e) => setExpenseForm({ ...expenseForm, category: e.target.value })}
@@ -1012,7 +1012,7 @@ export default function AccountsAndPayroll() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">{t('expenseTitle')} *</label>
+                <label className="block font-bold text-slate-900 mb-1">{t('expenseTitle')} *</label>
                 <input
                   type="text"
                   required
@@ -1025,7 +1025,7 @@ export default function AccountsAndPayroll() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">{t('expenseAmount')} *</label>
+                  <label className="block font-bold text-slate-900 mb-1">{t('expenseAmount')} *</label>
                   <input
                     type="number"
                     required
@@ -1038,7 +1038,7 @@ export default function AccountsAndPayroll() {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">{t('expenseDate')} *</label>
+                  <label className="block font-bold text-slate-900 mb-1">{t('expenseDate')} *</label>
                   <input
                     type="date"
                     required
@@ -1051,7 +1051,7 @@ export default function AccountsAndPayroll() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">{t('paymentMethod')} *</label>
+                  <label className="block font-bold text-slate-900 mb-1">{t('paymentMethod')} *</label>
                   <select
                     value={expenseForm.paymentMethod}
                     onChange={(e) => setExpenseForm({ ...expenseForm, paymentMethod: e.target.value })}
@@ -1065,7 +1065,7 @@ export default function AccountsAndPayroll() {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">{t('recipientName')}</label>
+                  <label className="block font-bold text-slate-900 mb-1">{t('recipientName')}</label>
                   <input
                     type="text"
                     placeholder="প্রাপকের নাম / দোকান"
@@ -1077,7 +1077,7 @@ export default function AccountsAndPayroll() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">মেমো / রেফারেন্স নোট</label>
+                <label className="block font-bold text-slate-900 mb-1">মেমো / রেফারেন্স নোট</label>
                 <input
                   type="text"
                   placeholder="মেমো নং, চেক নম্বর বা ট্রানজেকশন আইডি"
@@ -1175,7 +1175,7 @@ export default function AccountsAndPayroll() {
 
             <form onSubmit={handleDisbursePayment} className="space-y-3.5 text-xs">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">পেমেন্ট মেথড</label>
+                <label className="block font-bold text-slate-900 mb-1">পেমেন্ট মেথড</label>
                 <select
                   value={payFormData.paymentMethod}
                   onChange={(e) => setPayFormData({ ...payFormData, paymentMethod: e.target.value })}
@@ -1189,7 +1189,7 @@ export default function AccountsAndPayroll() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">পরিশোধের তারিখ</label>
+                <label className="block font-bold text-slate-900 mb-1">পরিশোধের তারিখ</label>
                 <input
                   type="date"
                   required
@@ -1200,7 +1200,7 @@ export default function AccountsAndPayroll() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">ট্রানজেকশন আইডি / চেক নং</label>
+                <label className="block font-bold text-slate-900 mb-1">ট্রানজেকশন আইডি / চেক নং</label>
                 <input
                   type="text"
                   placeholder="যেমন: NGA-PAY-880912 বা CHQ-99120"

@@ -6,5 +6,19 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true
+  },
+  build: {
+    target: 'esnext',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-katex': ['katex'],
+          'vendor-icons': ['lucide-react']
+        }
+      }
+    }
   }
 });
+

@@ -932,7 +932,7 @@ export default function LiveClassManager({ role = 'TEACHER' }) {
                   value={formData.noteFileUrl || formData.notesUrl}
                   fileName={formData.noteFileName}
                   fileSize={formData.noteFileSize}
-                  maxMb={25}
+                  maxMb={100}
                   onChange={({ url, fileUrl, fileName, fileSize }) => {
                     const finalUrl = fileUrl || url || '';
                     setFormData(prev => ({
@@ -1065,7 +1065,7 @@ export default function LiveClassManager({ role = 'TEACHER' }) {
                   value={recordingForm.noteFileUrl || recordingForm.notesUrl}
                   fileName={recordingForm.noteFileName}
                   fileSize={recordingForm.noteFileSize}
-                  maxMb={25}
+                  maxMb={100}
                   onChange={({ url, fileUrl, fileName, fileSize }) => {
                     const finalUrl = fileUrl || url || '';
                     setRecordingForm(prev => ({

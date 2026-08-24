@@ -1,24 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { studentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI } from '../services/api';
-import ReceiptModal from '../components/common/ReceiptModal';
-import PaymentModal from '../components/common/PaymentModal';
+import { studentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI, menuControlsAPI } from '../services/api';
+import { useSWRCache } from '../utils/swrCache';
+import LoadingFallback from '../components/common/LoadingFallback';
 import LiveClassroomView from '../components/liveclass/LiveClassroomView';
 import LiveClassNotificationBanner from '../components/liveclass/LiveClassNotificationBanner';
-import TeacherDirectory from '../components/common/TeacherDirectory';
-import WeeklyRoutineGrid from '../components/common/WeeklyRoutineGrid';
-import AcademicReportCard from '../components/common/AcademicReportCard';
-import AcademicPerformanceAnalytics from '../components/common/AcademicPerformanceAnalytics';
-import RecordedClassLibrary from '../components/common/RecordedClassLibrary';
-import ResourceLibrary from '../components/common/ResourceLibrary';
 import DigitalHomeworkDropzone from '../components/student/DigitalHomeworkDropzone';
 import StudentInteractiveTimetable from '../components/student/StudentInteractiveTimetable';
 import StudentResultScorecard from '../components/student/StudentResultScorecard';
-import PrintableStudentIdCardModal from '../components/common/PrintableStudentIdCardModal';
-import MCQQuizModelTestModal from '../components/common/MCQQuizModelTestModal';
-import PrintableNoticeSlipModal from '../components/common/PrintableNoticeSlipModal';
-import PrintableRoutineSlipModal from '../components/common/PrintableRoutineSlipModal';
+import ScientificCalculatorWidget from '../components/common/ScientificCalculatorWidget';
+import BilingualDictionaryWidget from '../components/student/BilingualDictionaryWidget';
+
+import SyllabusProgress from '../components/student/SyllabusProgress';
+
+import LeaderboardWidget from '../components/student/LeaderboardWidget';
+import PaymentHistory from '../components/common/PaymentHistory';
+import LiveClassCountdownWidget from '../components/student/LiveClassCountdownWidget';
+
+// Code-split Heavy Components with React.lazy
+const Virtual3DScienceLab = lazy(() => import('../components/student/Virtual3DScienceLab'));
+const AllFormulasLibrary = lazy(() => import('../components/student/AllFormulasLibrary'));
+const MediaCenter = lazy(() => import('../components/media/MediaCenter'));
+const AIWeaknessTracker = lazy(() => import('../components/student/AIWeaknessTracker'));
+const RPGSyllabusMap = lazy(() => import('../components/student/RPGSyllabusMap'));
+const LiveMCQBattleArena = lazy(() => import('../components/student/LiveMCQBattleArena'));
+const AnimatedSmartBoardNotes = lazy(() => import('../components/student/AnimatedSmartBoardNotes'));
+const DigitalBookStore = lazy(() => import('../components/student/DigitalBookStore'));
+const PaymentGatewayCheckout = lazy(() => import('../components/student/PaymentGatewayCheckout'));
+const NextGenRewardStore = lazy(() => import('../components/student/NextGenRewardStore'));
+const FeedbackHelpdeskModule = lazy(() => import('../components/common/FeedbackHelpdeskModule'));
+const EnglishGrammarHub = lazy(() => import('../components/student/EnglishGrammarHub'));
+const StudentReferralHub = lazy(() => import('../components/student/StudentReferralHub'));
+const VirtualGeometryBoard = lazy(() => import('../components/student/VirtualGeometryBoard'));
+const MegaPhysicsLab = lazy(() => import('../components/student/MegaPhysicsLab'));
+const MasterChemistryLab = lazy(() => import('../components/student/MasterChemistryLab'));
+const ChemistryChapter6MathSolver = lazy(() => import('../components/student/ChemistryChapter6MathSolver'));
+const ChemistryChapter5BondingSolver = lazy(() => import('../components/student/ChemistryChapter5BondingSolver'));
+const MasterBiologyLab = lazy(() => import('../components/student/MasterBiologyLab'));
+const MasterMathICTLab = lazy(() => import('../components/student/MasterMathICTLab'));
+const VirtualBiologyLab3D = lazy(() => import('../components/student/VirtualBiologyLab3D'));
+const Science3DHub = lazy(() => import('../components/student/Science3DHub'));
+const ICTSmartQuizZone = lazy(() => import('../components/student/ICTSmartQuizZone'));
+const TeacherDirectory = lazy(() => import('../components/common/TeacherDirectory'));
+
+
+
+
+
+const WeeklyRoutineGrid = lazy(() => import('../components/common/WeeklyRoutineGrid'));
+const AcademicReportCard = lazy(() => import('../components/common/AcademicReportCard'));
+const AcademicPerformanceAnalytics = lazy(() => import('../components/common/AcademicPerformanceAnalytics'));
+const RecordedClassLibrary = lazy(() => import('../components/common/RecordedClassLibrary'));
+const ResourceLibrary = lazy(() => import('../components/common/ResourceLibrary'));
+const InteractiveFormulaVault = lazy(() => import('../components/student/InteractiveFormulaVault'));
+
+// Lazy-loaded Modals
+const ReceiptModal = lazy(() => import('../components/common/ReceiptModal'));
+const PaymentModal = lazy(() => import('../components/common/PaymentModal'));
+const PrintableStudentIdCardModal = lazy(() => import('../components/common/PrintableStudentIdCardModal'));
+const MCQQuizModelTestModal = lazy(() => import('../components/common/MCQQuizModelTestModal'));
+const PrintableNoticeSlipModal = lazy(() => import('../components/common/PrintableNoticeSlipModal'));
+const PrintableRoutineSlipModal = lazy(() => import('../components/common/PrintableRoutineSlipModal'));
+
+
 import {
   Film,
   GraduationCap,
@@ -52,7 +97,12 @@ import {
   ChevronRight,
   TrendingUp,
   ShieldAlert,
-  Send
+  Send,
+  Calculator,
+  Flame,
+  Trophy,
+  Zap,
+  Target
 } from 'lucide-react';
 
 export default function StudentDashboard({ activeTab = 'dashboard' }) {
@@ -62,6 +112,7 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
   const [profile, setProfile] = useState(null);
   const [dashboard, setDashboard] = useState(null);
   const [attendance, setAttendance] = useState(null);
+  const [showCalculator, setShowCalculator] = useState(false);
   const [results, setResults] = useState(null);
   const [routine, setRoutine] = useState([]);
   const [invoices, setInvoices] = useState([]);
@@ -97,23 +148,45 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
   const [showIdCardModal, setShowIdCardModal] = useState(false);
   const [selectedNoticeForSlip, setSelectedNoticeForSlip] = useState(null);
   const [showStudentRoutineSlip, setShowStudentRoutineSlip] = useState(false);
+  const [streakData, setStreakData] = useState({
+    current_streak: 5,
+    longest_streak: 12,
+    total_correct_answers: 142,
+    total_quizzes_completed: 18,
+    badges: []
+  });
+  const [menuSettings, setMenuSettings] = useState(null);
+
+  useEffect(() => {
+    menuControlsAPI.getStudentMenus().then((res) => {
+      if (res?.success && Array.isArray(res.data)) {
+        setMenuSettings(res.data);
+      }
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetchStudentData();
   }, [activeTab]);
 
+
   const fetchStudentData = async () => {
     setLoading(true);
     try {
-      const [profRes, dashRes, attRes, resRes, routRes, invRes, notifRes] = await Promise.all([
+      const [profRes, dashRes, attRes, resRes, routRes, invRes, notifRes, gameRes] = await Promise.all([
         studentAPI.getProfile(),
         studentAPI.getDashboard(),
         studentAPI.getAttendance(),
         studentAPI.getResults(),
         studentAPI.getRoutine(),
         studentAPI.getInvoices(),
-        noticeAPI.getNotices('STUDENT')
+        noticeAPI.getNotices('STUDENT'),
+        studentAPI.getGamification().catch(() => ({ success: false }))
       ]);
+
+      if (gameRes && gameRes.data) {
+        setStreakData(gameRes.data);
+      }
 
       if (profRes.success) {
         setProfile(profRes.data);
@@ -362,6 +435,15 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
         <div className="flex items-center space-x-2">
           <button
             type="button"
+            onClick={() => setShowCalculator(!showCalculator)}
+            className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black rounded-2xl shadow-lg shadow-amber-500/20 flex items-center space-x-2 transition-all active:scale-95 border border-amber-300/40"
+            title="সায়েন্টিফিক ক্যালকুলেটর (Scientific Calculator)"
+          >
+            <Calculator className="w-4 h-4" />
+            <span>ক্যালকুলেটর</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setShowIdCardModal(true)}
             className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white text-xs font-bold rounded-2xl shadow-lg shadow-emerald-500/20 flex items-center space-x-2 transition-all active:scale-95 border border-emerald-400/30"
           >
@@ -375,8 +457,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPI Cards (including Daily Study Streak) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Attendance */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
@@ -406,6 +488,23 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           </p>
           <span className="text-[11px] text-purple-600 font-semibold mt-1 inline-block">
             ১ম সাময়িক পরীক্ষা
+          </span>
+        </div>
+
+        {/* Daily Study Streak & Gamification */}
+        <div className="bg-gradient-to-br from-amber-500/10 via-orange-500/15 to-amber-500/10 p-5 rounded-2xl border border-amber-500/30 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-amber-700 uppercase">দৈনিক পড়ার স্ট্রিক</span>
+            <div className="p-2 rounded-xl bg-amber-500/20 text-orange-600">
+              <Flame className="w-4 h-4 fill-orange-500 animate-pulse" />
+            </div>
+          </div>
+          <p className="text-2xl font-black text-slate-900 mt-2 flex items-baseline space-x-1.5">
+            <span>🔥 {streakData.current_streak || 5}</span>
+            <span className="text-xs text-amber-700 font-bold">দিনের স্ট্রিক</span>
+          </p>
+          <span className="text-[11px] text-amber-700 font-semibold mt-1 inline-block">
+            🏆 {streakData.badges?.filter(b => b.unlocked)?.length || 5}টি ব্যাজ আনলকড
           </span>
         </div>
 
@@ -445,11 +544,98 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
       {/* Live Class 15-Minute Alert Banner */}
       <LiveClassNotificationBanner classId={profile?.classId} sectionId={profile?.sectionId} />
 
-      {/* Main Tabs */}
-      {activeTab === 'teachers' ? (
+      {/* Access Guard (Feature Flagging Check) */}
+      {(() => {
+        if (!menuSettings || !activeTab || activeTab === 'dashboard') return false;
+        const tabMapping = {
+          'routine-ai': 'ai-routine',
+          'rpg-syllabus': 'syllabus-map',
+          'bookstore': 'book-store',
+          'formula-vault': 'all-formulas',
+          'formulas': 'all-formulas',
+          'feedback': 'helpdesk',
+          'media': 'media-center',
+          'live-class': 'live-classes'
+        };
+        const key = tabMapping[activeTab] || activeTab;
+        const mod = menuSettings.find((m) => m.id === key || m.moduleKey === key);
+        return mod && mod.is_active === false ? mod : false;
+      })() ? (
+        <div className="p-8 sm:p-12 text-center rounded-3xl bg-slate-900 border border-slate-800 space-y-4 max-w-2xl mx-auto shadow-2xl my-8">
+          <div className="w-16 h-16 rounded-3xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center mx-auto shadow-lg shadow-rose-500/10">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
+          <div className="space-y-1.5">
+            <h3 className="text-lg font-black text-white">এই ফিচারটি বর্তমানে বন্ধ রাখা হয়েছে</h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md mx-auto">
+              কর্তৃপক্ষ কর্তৃক এই মডিউলটি সাময়িকভাবে বন্ধ রাখা হয়েছে। সহায়তার জন্য একাডেমি হেল্পডেস্কে যোগাযোগ করুন।
+            </p>
+          </div>
+          <div className="pt-2 flex items-center justify-center gap-2">
+            <span className="px-3 py-1 rounded-full bg-slate-800 text-amber-400 text-xs font-mono font-bold">
+              মডিউল: {activeTab} (নিষ্ক্রিয়)
+            </span>
+          </div>
+        </div>
+      ) : (
+        <Suspense fallback={<LoadingFallback message="মডিউল লোড হচ্ছে..." />}>
+          {activeTab === 'checkout' || activeTab === 'payment-gateway' || activeTab === 'pay' ? (
+            <PaymentGatewayCheckout onPaymentSuccess={() => fetchStudentData()} />
+          ) : activeTab === 'referral-hub' || activeTab === 'referral' ? (
+            <StudentReferralHub />
+          ) : activeTab === 'geometry-board' || activeTab === 'geometry' ? (
+            <VirtualGeometryBoard />
+          ) : activeTab === 'math-lab' || activeTab === 'math' ? (
+            <MasterMathICTLab />
+          ) : activeTab === 'physics-lab' || activeTab === 'physics' ? (
+            <MegaPhysicsLab />
+          ) : activeTab === 'bonding-solver' || activeTab === 'chemistry-bonding' ? (
+            <ChemistryChapter5BondingSolver />
+          ) : activeTab === 'chemistry-math-solver' || activeTab === 'chemistry-solver' || activeTab === 'master-math' || activeTab === 'chemistry-master-math' ? (
+            <ChemistryChapter6MathSolver />
+          ) : activeTab === 'chemistry-lab' || activeTab === 'chemistry' ? (
+            <MasterChemistryLab />
+          ) : activeTab === 'biology-lab' || activeTab === 'biology' ? (
+            <MasterBiologyLab />
+          ) : activeTab === 'science-3d' || activeTab === '3d-lab' || activeTab === 'periodic-table' || activeTab === 'biology-3d' ? (
+            <Science3DHub defaultSubTab={activeTab === 'periodic-table' ? 'periodic' : activeTab === 'biology-3d' ? 'biology' : 'lab'} />
+          ) : activeTab === 'ict-quiz' || activeTab === 'ict' ? (
+            <ICTSmartQuizZone />
+          ) : activeTab === 'helpdesk' || activeTab === 'feedback' ? (
+            <FeedbackHelpdeskModule />
+          ) : activeTab === 'grammar-hub' || activeTab === 'grammar' ? (
+            <EnglishGrammarHub />
+          ) : activeTab === 'ai-routine' || activeTab === 'routine-ai' ? (
+
+
+
+
+
+            <AIWeaknessTracker />
+          ) : activeTab === 'syllabus-map' || activeTab === 'rpg-syllabus' ? (
+            <RPGSyllabusMap />
+          ) : activeTab === 'book-store' || activeTab === 'bookstore' ? (
+            <DigitalBookStore />
+          ) : activeTab === '3d-lab' ? (
+
+        <Virtual3DScienceLab />
+      ) : activeTab === 'all-formulas' || activeTab === 'formula-vault' || activeTab === 'formulas' ? (
+        <AllFormulasLibrary />
+      ) : activeTab === 'rewards' ? (
+        <NextGenRewardStore />
+      ) : activeTab === 'live-battle' ? (
+        <LiveMCQBattleArena studentName={profile?.user?.name || user?.name || 'আপনি'} />
+      ) : activeTab === 'smart-notes' ? (
+        <AnimatedSmartBoardNotes />
+      ) : activeTab === 'media-center' || activeTab === 'media' ? (
+        <MediaCenter studentProfile={profile} />
+      ) : activeTab === 'teachers' ? (
         <TeacherDirectory role="STUDENT" />
-      ) : activeTab === 'live-classes' ? (
-        <LiveClassroomView studentId={profile?.id || user?.studentId} role="STUDENT" />
+      ) : activeTab === 'live-classes' || activeTab === 'live-class' ? (
+        <div className="space-y-6">
+          <LiveClassCountdownWidget />
+          <LiveClassroomView studentId={profile?.id || user?.studentId} role="STUDENT" />
+        </div>
       ) : activeTab === 'exams' ? (
         /* Student Online Exams & Assessment Center */
         <div className="space-y-6">
@@ -888,6 +1074,9 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             studentClass={profile?.class?.nameBn || '১০ম শ্রেণি'}
           />
           <AcademicReportCard studentId={profile?.id || 1} />
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5">
+            <LeaderboardWidget studentProfile={profile} />
+          </div>
         </div>
       ) : activeTab === 'routine' ? (
         <div className="space-y-6">
@@ -898,182 +1087,15 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           <WeeklyRoutineGrid viewMode="STUDENT" />
         </div>
       ) : activeTab === 'fees' ? (
-        /* Fees & Payment with Full Discount Breakdown */
-        <div className="space-y-5">
-          {/* Financial Summary Cards */}
-          {(() => {
-            const totalBase = invoices.reduce((sum, inv) => sum + (Number(inv.baseAmount) || Number(inv.amount) || 0), 0);
-            const totalDiscount = invoices.reduce((sum, inv) => sum + (Number(inv.discountAmount) || 0), 0);
-            const totalPaid = invoices.filter(inv => inv.status === 'PAID').reduce((sum, inv) => sum + (Number(inv.amount) || 0), 0);
-            const totalDue = invoices.filter(inv => inv.status === 'UNPAID').reduce((sum, inv) => sum + (Number(inv.amount) || 0), 0);
-
-            return (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">মোট মূল ফি</span>
-                  <p className="text-xl font-black text-slate-800 mt-1">৳ {totalBase.toLocaleString('en-BD')}</p>
-                  <span className="text-[10px] text-slate-400 font-semibold">ধার্যকৃত মোট ফি</span>
-                </div>
-
-                <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 shadow-sm">
-                  <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">প্রাপ্ত মোট ছাড়/বৃত্তি</span>
-                  <p className="text-xl font-black text-emerald-700 mt-1">৳ {totalDiscount.toLocaleString('en-BD')}</p>
-                  <span className="text-[10px] text-emerald-600 font-semibold">মওকুফকৃত স্কলারশিপ</span>
-                </div>
-
-                <div className="bg-blue-50/80 p-4 rounded-2xl border border-blue-200 shadow-sm">
-                  <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">পরিশোধিত ফি</span>
-                  <p className="text-xl font-black text-blue-700 mt-1">৳ {totalPaid.toLocaleString('en-BD')}</p>
-                  <span className="text-[10px] text-blue-600 font-semibold">{invoices.filter(i => i.status === 'PAID').length}টি পরিশোধিত</span>
-                </div>
-
-                <div className="bg-amber-50/80 p-4 rounded-2xl border border-amber-200 shadow-sm">
-                  <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">বর্তমান নিট বকেয়া</span>
-                  <p className="text-xl font-black text-amber-700 mt-1">৳ {totalDue.toLocaleString('en-BD')}</p>
-                  <span className="text-[10px] text-amber-600 font-semibold">{invoices.filter(i => i.status === 'UNPAID').length}টি পরিশোধ বাকি</span>
-                </div>
-              </div>
-            );
-          })()}
-
-          {/* Invoices Table Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-slate-100">
-              <div>
-                <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                  <CreditCard className="w-5 h-5 text-emerald-600" />
-                  <span>{t('navFees')} ও পেমেন্ট হিস্ট্রি</span>
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">ফি বিবরণ, স্কলারশিপ ছাড়ের হিসাব ও ডিজিটাল মানি রিসিট সংগ্রহ করুন</p>
-              </div>
-
-              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100">
-                {profile?.class?.nameBn} • রোল: {profile?.rollNo}
-              </span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
-                <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="p-3">ইনভয়েস নম্বর</th>
-                    <th className="p-3">ফি বিবরণ ও মাস</th>
-                    <th className="p-3 text-right">মূল ফি</th>
-                    <th className="p-3 text-center">স্কলারশিপ / ছাড়</th>
-                    <th className="p-3 text-right">প্রদেয় মোট ফি</th>
-                    <th className="p-3 text-center">জমার শেষ তারিখ</th>
-                    <th className="p-3 text-center">স্ট্যাটাস</th>
-                    <th className="p-3 text-center">অ্যাকশন</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
-                  {invoices.length === 0 ? (
-                    <tr>
-                      <td colSpan={8} className="p-8 text-center text-slate-400">
-                        কোনো ফি বা ইনভয়েসের তথ্য পাওয়া যায়নি।
-                      </td>
-                    </tr>
-                  ) : (
-                    invoices.map((inv) => {
-                      const base = Number(inv.baseAmount) || Number(inv.amount) || 0;
-                      const disc = Number(inv.discountAmount) || 0;
-                      const net = Number(inv.amount) || 0;
-
-                      return (
-                        <tr key={inv.id} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="p-3 font-mono font-bold text-slate-800">{inv.invoiceNo}</td>
-                          <td className="p-3">
-                            <p className="font-bold text-slate-800">{inv.titleBn}</p>
-                            <span className="text-[11px] text-slate-400">{inv.month} {inv.year}</span>
-                          </td>
-                          <td className="p-3 text-right font-semibold text-slate-700">
-                            ৳ {base.toLocaleString('en-BD')}
-                          </td>
-                          <td className="p-3 text-center">
-                            {disc > 0 ? (
-                              <div className="inline-flex flex-col items-center">
-                                <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-extrabold text-[10px] border border-emerald-200">
-                                  - ৳ {disc.toLocaleString('en-BD')}
-                                </span>
-                                <span className="text-[9px] text-emerald-700 font-bold mt-0.5">
-                                  {inv.discountReason === 'MERIT_SCHOLARSHIP'
-                                    ? 'মেধাবৃত্তি'
-                                    : inv.discountReason === 'SIBLING_DISCOUNT'
-                                    ? 'ভাই-বোন ছাড়'
-                                    : inv.discountReason === 'SPECIAL_WAIVER'
-                                    ? 'বিশেষ বিবেচনা'
-                                    : inv.discountReason === 'POVERTY_AID'
-                                    ? 'দরিদ্র তহবিল'
-                                    : (inv.discountType === 'PERCENTAGE' ? `${inv.discountValue}% ছাড়` : 'অনুমোদিত ছাড়')}
-                                </span>
-                              </div>
-                            ) : (
-                              <span className="text-slate-400 text-[11px] font-mono">-</span>
-                            )}
-                          </td>
-                          <td className="p-3 text-right font-extrabold text-slate-900 text-sm">
-                            ৳ {net.toLocaleString('en-BD')}
-                          </td>
-                          <td className="p-3 text-center text-slate-500 font-medium">{inv.dueDate}</td>
-                          <td className="p-3 text-center">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                              inv.status === 'PAID'
-                                ? 'bg-emerald-100 text-emerald-800'
-                                : 'bg-amber-100 text-amber-800'
-                            }`}>
-                              {inv.status === 'PAID' ? t('paidStatus') : t('unpaidStatus')}
-                            </span>
-                          </td>
-                          <td className="p-3 text-center">
-                            {inv.status === 'UNPAID' ? (
-                              <button
-                                onClick={() => setSelectedInvoiceForPayment(inv)}
-                                className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center space-x-1.5 mx-auto transition-transform active:scale-95"
-                              >
-                                <CreditCard className="w-3.5 h-3.5" />
-                                <span>{t('payNow')}</span>
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  setReceiptData({
-                                    receiptNo: `RCPT-2026-${inv.id.toString().padStart(5, '0')}`,
-                                    transactionId: inv.payments?.[0]?.transactionId || 'BKASH-TXN-99824',
-                                    invoiceNo: inv.invoiceNo,
-                                    invoiceTitleBn: inv.titleBn,
-                                    invoiceTitleEn: inv.titleEn,
-                                    baseAmount: base,
-                                    discountType: inv.discountType || 'NONE',
-                                    discountValue: inv.discountValue || 0,
-                                    discountReason: inv.discountReason || null,
-                                    discountAmount: disc,
-                                    amountPaid: net,
-                                    currency: 'BDT (৳)',
-                                    method: inv.payments?.[0]?.method || 'BKASH',
-                                    paidAt: inv.payments?.[0]?.paidAt || new Date().toISOString(),
-                                    studentName: profile?.user?.name,
-                                    studentIdNumber: profile?.studentIdNumber,
-                                    className: profile?.class?.nameBn,
-                                    sectionName: profile?.section?.nameBn,
-                                    status: 'SUCCESS'
-                                  });
-                                }}
-                                className="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] flex items-center space-x-1.5 mx-auto transition-colors"
-                              >
-                                <Printer className="w-3.5 h-3.5 text-slate-500" />
-                                <span>রসিদ দেখুন</span>
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        /* Fees & Payment with Full Discount Breakdown & Demo Fallback */
+        <PaymentHistory
+          invoices={invoices}
+          studentName={profile?.user?.name || user?.name || 'তাহমিদ হাসান'}
+          studentIdNumber={profile?.studentIdNumber || 'NGA-26-4821'}
+          studentClass={profile?.class?.nameBn || '৯ম শ্রেণি'}
+          rollNo={profile?.rollNo || '০১'}
+          onPaymentSuccess={fetchStudentData}
+        />
       ) : (
         /* Overview & Digital ID Card Default */
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1163,6 +1185,13 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             </div>
           </div>
 
+          {/* Dynamic Syllabus Progress Tracker Widget */}
+          <div className="lg:col-span-2">
+            <SyllabusProgress
+              studentClass={profile?.class?.nameBn || profile?.class?.name || 'Class 9'}
+            />
+          </div>
+
           {/* Academic Performance Analytics Chart on Main Dashboard */}
           <div className="lg:col-span-2">
             <AcademicPerformanceAnalytics
@@ -1171,18 +1200,14 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             />
           </div>
         </div>
+          )}
+        </Suspense>
       )}
 
-      {receiptData && (
-        <ReceiptModal
-          receipt={receiptData}
-          isOpen={!!receiptData}
-          onClose={() => setReceiptData(null)}
-        />
-      )}
 
       {/* Lightbox / Zoom Image Modal */}
       {previewImageModal && (
+
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in"
           onClick={() => setPreviewImageModal(null)}
@@ -1407,68 +1432,80 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
         </div>
       )}
 
-      {/* Payment Modal */}
-      {selectedInvoiceForPayment && (
-        <PaymentModal
-          invoice={selectedInvoiceForPayment}
-          onClose={() => setSelectedInvoiceForPayment(null)}
-          onSuccess={(receipt) => {
-            setSelectedInvoiceForPayment(null);
-            setReceiptData(receipt);
-            fetchStudentData();
-          }}
-        />
-      )}
+      {/* Lazy Modals Wrapped in Suspense */}
+      <Suspense fallback={null}>
+        {selectedInvoiceForPayment && (
+          <PaymentModal
+            invoice={selectedInvoiceForPayment}
+            onClose={() => setSelectedInvoiceForPayment(null)}
+            onSuccess={(receipt) => {
+              setSelectedInvoiceForPayment(null);
+              setReceiptData(receipt);
+              fetchStudentData();
+            }}
+          />
+        )}
 
-      {/* Printable Receipt Modal */}
-      {receiptData && (
-        <ReceiptModal
-          receipt={receiptData}
-          onClose={() => setReceiptData(null)}
-        />
-      )}
+        {/* Printable Receipt Modal */}
+        {receiptData && (
+          <ReceiptModal
+            receipt={receiptData}
+            onClose={() => setReceiptData(null)}
+          />
+        )}
 
-      {/* Printable Digital Student ID Card */}
-      {showIdCardModal && profile && (
-        <PrintableStudentIdCardModal
-          student={profile}
-          isOpen={showIdCardModal}
-          onClose={() => setShowIdCardModal(false)}
-        />
-      )}
+        {/* Printable Digital Student ID Card */}
+        {showIdCardModal && profile && (
+          <PrintableStudentIdCardModal
+            student={profile}
+            isOpen={showIdCardModal}
+            onClose={() => setShowIdCardModal(false)}
+          />
+        )}
 
-      {/* Interactive MCQ Quiz & Model Test Modal */}
-      {takingExam && (
-        <MCQQuizModelTestModal
-          exam={takingExam}
-          isOpen={!!takingExam}
-          onClose={() => setTakingExam(null)}
-          onExamFinished={() => {
-            loadExamsOnly();
-            fetchStudentData();
-          }}
-        />
-      )}
+        {/* Interactive MCQ Quiz & Model Test Modal */}
+        {takingExam && (
+          <MCQQuizModelTestModal
+            exam={takingExam}
+            isOpen={!!takingExam}
+            onClose={() => setTakingExam(null)}
+            onExamFinished={() => {
+              loadExamsOnly();
+              fetchStudentData();
+            }}
+          />
+        )}
 
-      {/* Printable Notice Slip Modal */}
-      {selectedNoticeForSlip && (
-        <PrintableNoticeSlipModal
-          notice={selectedNoticeForSlip}
-          isOpen={!!selectedNoticeForSlip}
-          onClose={() => setSelectedNoticeForSlip(null)}
-        />
-      )}
+        {/* Printable Notice Slip Modal */}
+        {selectedNoticeForSlip && (
+          <PrintableNoticeSlipModal
+            notice={selectedNoticeForSlip}
+            isOpen={!!selectedNoticeForSlip}
+            onClose={() => setSelectedNoticeForSlip(null)}
+          />
+        )}
 
-      {/* Printable Routine Slip Modal */}
-      {showStudentRoutineSlip && (
-        <PrintableRoutineSlipModal
-          routineData={routine}
-          classInfo={profile?.class || { id: profile?.classId, nameBn: 'শ্রেণি' }}
-          batchInfo={profile?.batch || { id: profile?.batchId, nameBn: 'আমার ব্যাচ' }}
-          isOpen={showStudentRoutineSlip}
-          onClose={() => setShowStudentRoutineSlip(false)}
-        />
-      )}
+        {/* Printable Routine Slip Modal */}
+        {showStudentRoutineSlip && (
+          <PrintableRoutineSlipModal
+            routineData={routine}
+            classInfo={profile?.class || { id: profile?.classId, nameBn: 'শ্রেণি' }}
+            batchInfo={profile?.batch || { id: profile?.batchId, nameBn: 'আমার ব্যাচ' }}
+            isOpen={showStudentRoutineSlip}
+            onClose={() => setShowStudentRoutineSlip(false)}
+          />
+        )}
+      </Suspense>
+
+      {/* Persistent Client-Side Scientific Calculator */}
+      <ScientificCalculatorWidget
+        isOpen={showCalculator}
+        onClose={() => setShowCalculator(false)}
+      />
+
+      {/* Floating Bilingual Dictionary & Science Glossary Widget */}
+      <BilingualDictionaryWidget />
     </div>
   );
 }
+

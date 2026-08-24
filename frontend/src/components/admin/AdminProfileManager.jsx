@@ -530,8 +530,8 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
                     label="অ্যাডমিন প্রোফাইল ছবি / অবতার (Admin Avatar - Device Upload or URL)"
                     value={profileData.photo}
                     previewType="image"
-                    accept="image/*"
-                    maxMb={10}
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    maxMb={100}
                     helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                     onChange={({ fileUrl, url }) => {
                       setProfileData(prev => ({ ...prev, photo: fileUrl || url || '' }));
@@ -1066,7 +1066,7 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
                   value={adminForm.phone}
                   onChange={(e) => setAdminForm({ ...adminForm, phone: e.target.value })}
                   placeholder="+880 1800-000000"
-                  className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 

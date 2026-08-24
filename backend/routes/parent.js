@@ -28,32 +28,79 @@ router.use(authenticate, requireRole(['PARENT', 'ADMIN']));
  */
 router.get('/children', async (req, res, next) => {
   try {
-    let where = {};
+    let mappings = [];
     if (req.user.role === 'PARENT') {
-      where = { parentUserId: req.user.id };
-    }
+      mappings = await GuardianStudentMapping.findAll({
+        where: { parentUserId: req.user.id },
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            include: [
+              { model: User, as: 'user' },
+              { model: Class, as: 'class' },
+              { model: Section, as: 'section' }
+            ]
+          }
+        ]
+      });
 
-    const mappings = await GuardianStudentMapping.findAll({
-      where,
-      include: [
-        {
-          model: Student,
-          as: 'student',
+      if (mappings.length === 0) {
+        mappings = await GuardianStudentMapping.findAll({
+          where: { parentId: req.user.id },
+          include: [
+            {
+              model: Student,
+              as: 'student',
+              include: [
+                { model: User, as: 'user' },
+                { model: Class, as: 'class' },
+                { model: Section, as: 'section' }
+              ]
+            }
+          ]
+        });
+      }
+
+      // If still empty, find students with matching guardianPhone
+      if (mappings.length === 0 && req.user.phone) {
+        const allStudents = await Student.findAll({
           include: [
             { model: User, as: 'user' },
             { model: Class, as: 'class' },
             { model: Section, as: 'section' }
           ]
-        }
-      ]
-    });
+        });
+        const matched = allStudents.filter(s => s.guardianPhone === req.user.phone || s.user?.phone === req.user.phone);
+        mappings = matched.map((st, idx) => ({
+          id: idx + 1,
+          relationship: 'GUARDIAN',
+          isPrimary: true,
+          student: st
+        }));
+      }
+    } else {
+      mappings = await GuardianStudentMapping.findAll({
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            include: [
+              { model: User, as: 'user' },
+              { model: Class, as: 'class' },
+              { model: Section, as: 'section' }
+            ]
+          }
+        ]
+      });
+    }
 
     const children = mappings.map(m => ({
       mappingId: m.id,
-      relationship: m.relationship,
-      isPrimary: m.isPrimary,
+      relationship: m.relationship || 'GUARDIAN',
+      isPrimary: m.isPrimary ?? true,
       student: m.student
-    }));
+    })).filter(c => c.student);
 
     res.json({
       success: true,

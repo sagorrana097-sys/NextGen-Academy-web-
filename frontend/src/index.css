@@ -7,6 +7,28 @@
     @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]):not([type="hidden"]),
+  textarea,
+  select {
+    @apply text-slate-900 bg-white border-slate-300 placeholder-slate-400 !important;
+  }
+
+  /* Ensure focused state has a visible border */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-none ring-2 ring-emerald-500 border-emerald-500 !important;
+  }
 }
 
 /* Glassmorphism & Neo-Brutalist Classes */

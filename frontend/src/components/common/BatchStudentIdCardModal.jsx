@@ -36,11 +36,13 @@ export default function BatchStudentIdCardModal({
 
   if (!isOpen) return null;
 
-  const academyName = settings?.academyName || 'নেক্সটজেন একাডেমি';
-  const academyNameEn = settings?.academyNameEn || 'NEXTGEN ACADEMY';
+  const academyName = 'NextGen Academy';
+  const academyNameEn = 'NextGen Academy';
   const academyLogo = settings?.logoUrl || '/logo.png';
-  const hotline = settings?.hotline || '01792818005';
-  const campusAddress = settings?.address || 'গাজীপুর ক্যাম্পাস, ঢাকা, বাংলাদেশ';
+  const directorName = 'মো: আলমগীর হোসেন (সাগর)';
+  const hotline = '০১৭৯২৮১৮০০৫';
+  const campusAddress = 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর';
+
 
   // Filter students by class if specified
   const filteredStudents = students.filter((st) => {
@@ -271,12 +273,13 @@ export default function BatchStudentIdCardModal({
 
                       {/* Card Footer */}
                       <div className="bg-slate-50 px-3 py-1 border-t border-slate-200 flex items-center justify-between text-[8px] text-slate-500">
-                        <span>{campusAddress}</span>
+                        <span className="truncate max-w-[170px]">{campusAddress}</span>
                         <div className="flex items-center space-x-1 font-bold text-indigo-900">
-                          <span>অধ্যক্ষের স্বাক্ষর</span>
-                          <span className="text-[9px] text-indigo-600 font-serif italic underline">NextGen</span>
+                          <span className="text-[7.5px] text-slate-500">পরিচালক:</span>
+                          <span className="text-[8.5px] text-indigo-700 font-bold underline">{directorName}</span>
                         </div>
                       </div>
+
                     </div>
                   );
                 })}

@@ -11,6 +11,7 @@ import ResultsManager from '../components/admin/ResultsManager';
 import UniversalFileUploader from '../components/common/UniversalFileUploader';
 import AIMCQGeneratorModal from '../components/common/AIMCQGeneratorModal';
 import AICQGeneratorModal from '../components/common/AICQGeneratorModal';
+import MediaCenter from '../components/media/MediaCenter';
 import {
   BookOpen,
   CalendarCheck,
@@ -536,7 +537,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       alert('ফাইলের আকার সর্বোচ্চ 8MB হতে পারবে');
       return;
     }
@@ -1046,6 +1047,8 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
         <WeeklyRoutineGrid viewMode="TEACHER" />
       ) : activeTab === 'live-classes' ? (
         <LiveClassManager role="TEACHER" />
+      ) : activeTab === 'media-center' || activeTab === 'media' ? (
+        <MediaCenter />
       ) : activeTab === 'students' ? (
         /* Teacher Student Directory Tab */
         <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
@@ -2156,7 +2159,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             <form onSubmit={handleSaveMaterial} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শ্রেণি নির্বাচন</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শ্রেণি নির্বাচন</label>
                   <select
                     value={materialForm.classId}
                     onChange={(e) => setMaterialForm({ ...materialForm, classId: e.target.value })}
@@ -2167,7 +2170,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">পাঠ্য বিষয়</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">পাঠ্য বিষয়</label>
                   <select
                     value={materialForm.subjectId}
                     onChange={(e) => setMaterialForm({ ...materialForm, subjectId: e.target.value })}
@@ -2182,43 +2185,43 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">অধ্যায় / টপিকের নাম</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">অধ্যায় / টপিকের নাম</label>
                 <input
                   type="text"
                   value={materialForm.chapterBn}
                   onChange={(e) => setMaterialForm({ ...materialForm, chapterBn: e.target.value })}
                   required
                   placeholder="যেমন: অধ্যায় ৩: বীজগণিতীয় রাশি ও সূত্রাবলি"
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নোট / শিটের শিরোনাম</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নোট / শিটের শিরোনাম</label>
                 <input
                   type="text"
                   value={materialForm.titleBn}
                   onChange={(e) => setMaterialForm({ ...materialForm, titleBn: e.target.value })}
                   required
                   placeholder="যেমন: বীজগণিতের সকল সূত্র ও বোর্ড প্রশ্ন সমাধান হ্যান্ডনোট"
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ ও নির্দেশনাবলী</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">বিস্তারিত বিবরণ ও নির্দেশনাবলী</label>
                 <textarea
                   rows={2}
                   value={materialForm.descriptionBn}
                   onChange={(e) => setMaterialForm({ ...materialForm, descriptionBn: e.target.value })}
                   placeholder="লেকচার নোটের বিষয়বস্তু সংক্ষেপে বর্ণনা করুন..."
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ফাইলের ধরন</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ফাইলের ধরন</label>
                   <select
                     value={materialForm.fileType}
                     onChange={(e) => setMaterialForm({ ...materialForm, fileType: e.target.value })}
@@ -2232,13 +2235,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ফাইল / ড্রাইভ ডাউনলোড লিঙ্ক</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ফাইল / ড্রাইভ ডাউনলোড লিঙ্ক</label>
                   <input
                     type="url"
                     value={materialForm.fileUrl}
                     onChange={(e) => setMaterialForm({ ...materialForm, fileUrl: e.target.value })}
                     placeholder="https://drive.google.com/..."
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               </div>
@@ -2285,7 +2288,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             <form onSubmit={handlePostHomework} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শ্রেণি</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শ্রেণি</label>
                   <select
                     value={homeworkForm.classId}
                     onChange={(e) => {
@@ -2304,7 +2307,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শাখা / বিভাগ</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শাখা / বিভাগ</label>
                   <select
                     value={homeworkForm.sectionId}
                     onChange={(e) => setHomeworkForm({ ...homeworkForm, sectionId: e.target.value })}
@@ -2319,7 +2322,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">কারিকুলাম বিষয়</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">কারিকুলাম বিষয়</label>
                   <select
                     value={homeworkForm.subjectId}
                     onChange={(e) => setHomeworkForm({ ...homeworkForm, subjectId: e.target.value })}
@@ -2333,7 +2336,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">জমা দেওয়ার শেষ তারিখ</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">জমা দেওয়ার শেষ তারিখ</label>
                   <input
                     type="date"
                     value={homeworkForm.dueDate}
@@ -2345,7 +2348,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">টপিক / শিরোনাম (বাংলা)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">টপিক / শিরোনাম (বাংলা)</label>
                 <input
                   type="text"
                   value={homeworkForm.topicBn}
@@ -2357,7 +2360,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ ও নির্দেশনা</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">বিস্তারিত বিবরণ ও নির্দেশনা</label>
                 <textarea
                   rows={3}
                   value={homeworkForm.descriptionBn}
@@ -2369,13 +2372,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">সংযুক্তি / হ্যান্ডনোট / রেফারেন্স (ঐচ্ছিক)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">সংযুক্তি / হ্যান্ডনোট / রেফারেন্স (ঐচ্ছিক)</label>
                 <input
                   type="text"
                   value={homeworkForm.attachmentNote}
                   onChange={(e) => setHomeworkForm({ ...homeworkForm, attachmentNote: e.target.value })}
                   placeholder="যেমন: পাঠ্যবই পৃষ্ঠা ৪২-৪৪ এবং ক্লাস নোট পিডিএফ"
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                 />
               </div>
 
@@ -2385,8 +2388,8 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   label="হোমওয়ার্ক প্রশ্নপত্র / সংযুক্তি ফাইল (Homework Attachment - Image / PDF / Link)"
                   value={homeworkForm.attachmentImage}
                   previewType="image"
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.zip"
-                  maxMb={15}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="হোমওয়ার্কের প্রশ্নপত্র, খাতার ছবি, সমাধান নির্দেশিকা বা ড্রাইভ লিংক"
                   onChange={({ fileUrl, url }) => {
                     setHomeworkForm(prev => ({
@@ -2460,7 +2463,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-900 mb-1">
                   বাংলা SMS টেমপ্লেট প্রিভিউ (Template Preview):
                 </label>
                 <div className="p-3.5 bg-slate-900 text-emerald-300 rounded-xl text-xs leading-relaxed border border-slate-700 font-medium">
@@ -2544,7 +2547,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             <form onSubmit={handleSaveTextbook} className="space-y-3.5 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বইয়ের নাম (Bangla Title) <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2553,12 +2556,12 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={textbookForm.titleBn}
                     onChange={(e) => setTextbookForm({ ...textbookForm, titleBn: e.target.value })}
                     placeholder="যেমন: সাহিত্য কণিকা - ৮ম শ্রেণি"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বইয়ের ইংরেজি নাম (English Title)
                   </label>
                   <input
@@ -2566,7 +2569,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={textbookForm.titleEn}
                     onChange={(e) => setTextbookForm({ ...textbookForm, titleEn: e.target.value })}
                     placeholder="e.g. Sahitya Konika - Class 8"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
@@ -2579,7 +2582,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       শ্রেণি (Class) <span className="text-rose-500">*</span>
                     </label>
                     <select
@@ -2603,7 +2606,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       বিষয় (Subject) <span className="text-rose-500">*</span>
                     </label>
                     <select
@@ -2623,7 +2626,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     সংস্করণ / শিক্ষাবর্ষ (Edition)
                   </label>
                   <input
@@ -2631,12 +2634,12 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={textbookForm.edition}
                     onChange={(e) => setTextbookForm({ ...textbookForm, edition: e.target.value })}
                     placeholder="যেমন: NCTB ২০২৬ সংস্করণ"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বোর্ড / রচয়িতা (Author / Board)
                   </label>
                   <input
@@ -2644,13 +2647,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={textbookForm.author}
                     onChange={(e) => setTextbookForm({ ...textbookForm, author: e.target.value })}
                     placeholder="জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   বইয়ের সম্পূর্ণ PDF ফাইল বা অনলাইন রিডিং লিঙ্ক (PDF / Web Link)
                 </label>
                 <input
@@ -2658,25 +2661,25 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   value={textbookForm.fileUrl}
                   onChange={(e) => setTextbookForm({ ...textbookForm, fileUrl: e.target.value })}
                   placeholder="https://nctb.gov.bd/textbooks/sample-2026.pdf বা লিঙ্ক"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পৃষ্ঠা সংখ্যা (Total Pages)
                   </label>
                   <input
                     type="number"
                     value={textbookForm.totalPages}
                     onChange={(e) => setTextbookForm({ ...textbookForm, totalPages: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     ফাইলের আকার (File Size)
                   </label>
                   <input
@@ -2684,13 +2687,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={textbookForm.fileSize}
                     onChange={(e) => setTextbookForm({ ...textbookForm, fileSize: e.target.value })}
                     placeholder="যেমন: 15.4 MB"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   সংক্ষিপ্ত পরিচিতি ও নির্দেশনা (Description)
                 </label>
                 <textarea
@@ -2698,7 +2701,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   value={textbookForm.description}
                   onChange={(e) => setTextbookForm({ ...textbookForm, description: e.target.value })}
                   placeholder="বইটির অধ্যায় বা শিক্ষাক্রমের সংক্ষিপ্ত বিবরণ..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
               </div>
 
@@ -2708,8 +2711,8 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   label="বইয়ের প্রচ্ছদ / কভার ইমেজ (Cover Image / Link - Optional)"
                   value={textbookForm.coverImage}
                   previewType="image"
-                  accept="image/*"
-                  maxMb={10}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="প্রচ্ছদ ছবি আপলোড করুন অথবা অনলাইন ইমেজ লিঙ্ক দিন"
                   onChange={({ fileUrl, url }) => {
                     setTextbookForm(prev => ({ ...prev, coverImage: fileUrl || url || null }));
@@ -2852,7 +2855,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               {/* Title Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পরীক্ষার নাম / শিরোনাম <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2861,12 +2864,12 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={examForm.titleBn}
                     onChange={(e) => setExamForm({ ...examForm, titleBn: e.target.value })}
                     placeholder="যেমন: বিজ্ঞান ১ম সাময়িক কুইজ"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     ইংরেজি নাম (English Title)
                   </label>
                   <input
@@ -2874,21 +2877,21 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                     value={examForm.titleEn}
                     onChange={(e) => setExamForm({ ...examForm, titleEn: e.target.value })}
                     placeholder="e.g. Science 1st Term Quiz"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               {/* Subject & Type Selection */}
-              <div className="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বিষয় (Subject) <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={examForm.subjectId}
                     onChange={(e) => setExamForm({ ...examForm, subjectId: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold bg-white"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   >
                     {classSubjects.map(s => (
                       <option key={s.id} value={s.id}>{s.nameBn} ({s.nameEn})</option>
@@ -2897,13 +2900,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পরীক্ষার ধরণ (Exam Type) <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={examForm.type}
                     onChange={(e) => setExamForm({ ...examForm, type: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold bg-white text-indigo-700"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-bold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   >
                     <option value="MCQ">🎯 বহুনির্বাচনী (MCQ)</option>
                     <option value="WRITTEN">✍️ সৃজনশীল লিখিত (Written)</option>
@@ -2914,65 +2917,65 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
               {/* Date, Time, Duration, Marks */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">তারিখ (Date)</label>
+                  <label className="block font-bold text-slate-900 mb-1">তারিখ (Date)</label>
                   <input
                     type="date"
                     required
                     value={examForm.examDate}
                     onChange={(e) => setExamForm({ ...examForm, examDate: e.target.value })}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">শুরুর সময়</label>
+                  <label className="block font-bold text-slate-900 mb-1">শুরুর সময়</label>
                   <input
                     type="text"
                     value={examForm.startTime}
                     onChange={(e) => setExamForm({ ...examForm, startTime: e.target.value })}
                     placeholder="11:00 AM"
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-mono"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-mono font-semibold placeholder:text-slate-400 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">সময়সীমা (মিনিট)</label>
+                  <label className="block font-bold text-slate-900 mb-1">সময়সীমা (মিনিট)</label>
                   <input
                     type="number"
                     min="5"
                     max="180"
                     value={examForm.durationMinutes}
                     onChange={(e) => setExamForm({ ...examForm, durationMinutes: Number(e.target.value) })}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-bold placeholder:text-slate-400 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">মোট নম্বর</label>
+                  <label className="block font-bold text-slate-900 mb-1">মোট নম্বর</label>
                   <input
                     type="number"
                     min="1"
                     value={examForm.totalMarks}
                     onChange={(e) => setExamForm({ ...examForm, totalMarks: Number(e.target.value) })}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-indigo-700"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-bold placeholder:text-slate-400 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">পাস নম্বর</label>
+                  <label className="block font-bold text-slate-900 mb-1">পাস নম্বর</label>
                   <input
                     type="number"
                     min="1"
                     value={examForm.passMarks}
                     onChange={(e) => setExamForm({ ...examForm, passMarks: Number(e.target.value) })}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-emerald-700"
+                    className="w-full bg-white border border-slate-300 text-emerald-800 font-bold placeholder:text-slate-400 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               {/* Instructions */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   নির্দেশনাবলী (Instructions)
                 </label>
                 <textarea
@@ -2980,7 +2983,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   value={examForm.instructions}
                   onChange={(e) => setExamForm({ ...examForm, instructions: e.target.value })}
                   placeholder="পরীক্ষার্থীদের জন্য বিশেষ নির্দেশনা..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 ></textarea>
               </div>
 
@@ -3023,13 +3026,13 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                             প্রশ্ন নং {qIdx + 1}
                           </span>
                           <div className="flex items-center space-x-2">
-                            <span className="text-[11px] text-slate-500">নম্বর:</span>
+                            <span className="text-[11px] font-bold text-slate-900">নম্বর:</span>
                             <input
                               type="number"
                               min="1"
                               value={q.marks || 1}
                               onChange={(e) => handleMCQQuestionChange(qIdx, 'marks', Number(e.target.value))}
-                              className="w-12 px-1.5 py-0.5 rounded-lg border border-slate-300 text-center font-bold text-xs"
+                              className="w-16 bg-white border border-slate-300 text-slate-900 font-bold placeholder:text-slate-400 rounded-lg px-2 py-1 text-center text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                             />
                             <button
                               type="button"
@@ -3048,7 +3051,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                           value={q.questionBn}
                           onChange={(e) => handleMCQQuestionChange(qIdx, 'questionBn', e.target.value)}
                           placeholder="প্রশ্নের বিবরণ লিখুন..."
-                          className="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold bg-white"
+                          className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                         />
 
                         {/* 4 Options */}
@@ -3074,7 +3077,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                                 value={opt}
                                 onChange={(e) => handleMCQOptionChange(qIdx, optIdx, e.target.value)}
                                 placeholder={`অপশন ${optIdx + 1} (${['ক', 'খ', 'গ', 'ঘ'][optIdx] || optIdx + 1})`}
-                                className="flex-1 px-2 py-1 rounded-lg border border-slate-200 text-xs focus:outline-none"
+                                className="flex-1 bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                               />
                             </div>
                           ))}
@@ -3085,7 +3088,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                           value={q.explanation || ''}
                           onChange={(e) => handleMCQQuestionChange(qIdx, 'explanation', e.target.value)}
                           placeholder="সঠিক উত্তরের ব্যাখ্যা (ঐচ্ছিক)..."
-                          className="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-[11px] bg-white italic"
+                          className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                         />
                       </div>
                     ))}
@@ -3116,7 +3119,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       প্রশ্নপত্রের পিডিএফ / ফাইল লিঙ্ক (Question Paper URL)
                     </label>
                     <input
@@ -3124,7 +3127,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
                       value={examForm.questionFileUrl || ''}
                       onChange={(e) => setExamForm({ ...examForm, questionFileUrl: e.target.value })}
                       placeholder="https://nextgen.edu.bd/downloads/exams/sample-question.pdf"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-xs"
+                      className="w-full bg-white border border-slate-300 text-slate-900 font-mono font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                     />
                   </div>
                 </div>

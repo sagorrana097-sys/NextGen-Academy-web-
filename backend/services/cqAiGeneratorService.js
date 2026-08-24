@@ -206,6 +206,7 @@ const secondaryCqBank = {
       ka: { text: `পর্যায় সূত্রটি লিখ।`, marks: 1, hint: `মৌলসমূহের ভৌত ও রাসায়নিক ধর্মাবলি তাদের পারমাণবিক সংখ্যা অনুসারে পর্যায়ক্রমে আবর্তিত হয়।` },
       kha: { text: `সোডিয়ামকে কেরোসিনের নিচে রাখা হয় কেন? ব্যাখ্যা করো।`, marks: 2, hint: `সোডিয়াম অত্যন্ত সক্রিয় ধাতু, খোলা বাতাসে অক্সিজেন ও জলীয় বাষ্পের সাথে তীব্র বিক্রিয়া করে।` },
       ga: { text: `X ও Z মৌলদ্বয় দ্বারা গঠিত যৌগের বন্ধন গঠন প্রক্রিয়া চিত্রসহ বর্ণনা করো।`, marks: 3, hint: `Na ইলেকট্রন ত্যাগ করে Na⁺ এবং Cl ইলেকট্রন গ্রহণ করে Cl⁻ গঠন করে আয়নিক বন্ধন তৈরি করে।` },
+      ga: { text: `X ও Z মৌলদ্বয় দ্বারা গঠিত যৌগের বন্ধন গঠন প্রক্রিয়া চিত্রসহ বর্ণনা করো।`, marks: 3, hint: `Na ইলেকট্রন ত্যাগ করে Na⁺ and Cl ইলেকট্রন গ্রহণ করে Cl⁻ গঠন করে আয়নিক বন্ধন তৈরি করে।` },
       gha: { text: `X ও Y মৌলদ্বয়ের ১ম আয়নীকরণ শক্তির মানের তুলনামূলক বিশ্লেষণ করো।`, marks: 4, hint: `একই পর্যায়ে বাম থেকে ডানে পারমাণবিক ব্যাসার্ধ হ্রাস পাওয়ায় Mg এর আয়নীকরণ শক্তি Na এর চেয়ে বেশি।` }
     }
   ],
@@ -323,6 +324,8 @@ async function generateCreativeQuestions({
   questionCount = 2,
   chapterNotes = '',
   examTerm = 'মডেল টেস্ট ও মূল্যায়ন পরীক্ষা ২০২৬',
+  sourceMaterialId = null,
+  sourceMaterialTitle = '',
   apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY
 }) {
   const stage = getStageCategory(classGrade);
@@ -331,15 +334,23 @@ async function generateCreativeQuestions({
   if (apiKey) {
     try {
       let prompt = '';
+      const sourceInstruction = chapterNotes
+        ? `You are an expert tutor. Create questions ONLY based on the provided material:
+"""
+${chapterNotes}
+"""
+If the material doesn't cover a topic, do not make up facts. Formulate the questions strictly based on the text provided above.`
+        : `You are an expert curriculum specialist for Bangladesh education board.`;
+
       if (stage === 'PRE_PRIMARY' || stage === 'PRIMARY') {
         prompt = `
-You are an expert Primary Education curriculum designer for Bangladesh NCTB (Play to Class 5).
+${sourceInstruction}
+
 Generate a child-friendly visual and adaptive question set in Bengali for:
 - Class: ${classGrade}
 - Subject: ${subject}
-- Chapter/Topic: ${chapterTopic || 'General Topic'}
+- Chapter/Topic: ${chapterTopic || sourceMaterialTitle || 'General Topic'}
 - Exam Term: ${examTerm}
-${chapterNotes ? `- Context/Notes:\n"""${chapterNotes}"""` : ''}
 
 Output Requirements:
 Return a JSON array of interactive primary question objects containing:
@@ -354,14 +365,14 @@ Return a JSON array of interactive primary question objects containing:
 `;
       } else {
         prompt = `
-You are an expert NCTB curriculum specialist for Secondary & Higher Secondary (Class 6 to 12 / SSC & HSC).
+${sourceInstruction}
+
 Generate exactly ${count} Creative Questions (CQ / সৃজনশীল প্রশ্ন) in Bengali for:
 - Class: ${classGrade} ${stage === 'HIGHER_SECONDARY' ? '(HSC Stage - Include sectional paper divisions like ক-বিভাগ / খ-বিভাগ)' : ''}
 - Subject: ${subject}
-- Chapter/Topic: ${chapterTopic || 'General Topic'}
+- Chapter/Topic: ${chapterTopic || sourceMaterialTitle || 'General Topic'}
 - Exam Term: ${examTerm}
 - Difficulty: ${difficulty}
-${chapterNotes ? `- Study Notes/Formulas:\n"""${chapterNotes}"""` : ''}
 
 Output Requirements:
 Return ONLY a valid JSON array of objects:

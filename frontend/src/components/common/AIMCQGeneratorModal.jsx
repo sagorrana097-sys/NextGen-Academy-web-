@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { examAPI } from '../../services/api';
+import { examAPI, materialAPI } from '../../services/api';
 import {
   Sparkles,
   Bot,
@@ -20,7 +20,8 @@ import {
   Sliders,
   FileText,
   Copy,
-  GraduationCap
+  GraduationCap,
+  FileCode
 } from 'lucide-react';
 
 export default function AIMCQGeneratorModal({
@@ -40,6 +41,8 @@ export default function AIMCQGeneratorModal({
   const [difficulty, setDifficulty] = useState('MEDIUM'); // 'EASY' | 'MEDIUM' | 'HARD'
   const [questionCount, setQuestionCount] = useState(10);
   const [chapterNotes, setChapterNotes] = useState('');
+  const [sourceMaterials, setSourceMaterials] = useState([]);
+  const [selectedSourceMaterialId, setSelectedSourceMaterialId] = useState('');
 
   // Generation & Status State
   const [generating, setGenerating] = useState(false);
@@ -63,13 +66,33 @@ export default function AIMCQGeneratorModal({
     'বাংলাদেশ ও বিশ্বপরিচয় (BGS)'
   ];
 
+  useEffect(() => {
+    if (isOpen) {
+      materialAPI.getSourceMaterials()
+        .then(res => {
+          if (res && res.data) setSourceMaterials(res.data);
+        })
+        .catch(err => console.error('Failed to load source materials in MCQ generator:', err));
+    }
+  }, [isOpen]);
+
+  const handleSelectSource = (matId) => {
+    setSelectedSourceMaterialId(matId);
+    if (matId) {
+      const found = sourceMaterials.find(m => String(m.id) === String(matId));
+      if (found) {
+        if (!topic.trim()) setTopic(found.title);
+      }
+    }
+  };
+
   const handleGenerate = async (e) => {
     if (e) e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    if (!topic.trim() && !chapterNotes.trim()) {
-      setErrorMsg('অনুগ্রহ করে অধ্যায়/টপিকের নাম অথবা হ্যান্ডনোট পেস্ট করুন।');
+    if (!topic.trim() && !chapterNotes.trim() && !selectedSourceMaterialId) {
+      setErrorMsg('অনুগ্রহ করে অধ্যায়/টপিকের নাম, হ্যান্ডনোট অথবা স্টাডি সোর্স ডকুমেন্ট নির্বাচন করুন।');
       return;
     }
 
@@ -87,7 +110,8 @@ export default function AIMCQGeneratorModal({
         classGrade,
         difficulty,
         questionCount: Number(questionCount),
-        chapterNotes: chapterNotes.trim()
+        chapterNotes: chapterNotes.trim(),
+        sourceMaterialId: selectedSourceMaterialId ? Number(selectedSourceMaterialId) : null
       });
 
       if (res.success && Array.isArray(res.data)) {
@@ -317,6 +341,49 @@ export default function AIMCQGeneratorModal({
                   <option value="HARD">কঠিন (Hard - Critical Thinking)</option>
                 </select>
               </div>
+            </div>
+
+            {/* Select Source Material (Study Material & Source-Context AI System) */}
+            <div className="space-y-1.5 p-3.5 rounded-2xl bg-indigo-950/30 border border-indigo-500/30">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-indigo-300 flex items-center space-x-1.5">
+                  <FileCode className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>স্টাডি সোর্স ডকুমেন্ট নির্বাচন করুন (Select Source Material - Locked AI Context)</span>
+                </label>
+                {selectedSourceMaterialId && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSourceMaterialId('')}
+                    className="text-[10px] text-rose-400 hover:text-rose-300 font-bold"
+                  >
+                    রিমুভ করুন
+                  </button>
+                )}
+              </div>
+
+              <select
+                value={selectedSourceMaterialId}
+                onChange={(e) => handleSelectSource(e.target.value)}
+                className="w-full p-2.5 rounded-xl border border-indigo-500/40 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              >
+                <option value="">-- সাধারণ কারিকুলাম জ্ঞান (General AI Knowledge) --</option>
+                {sourceMaterials.map((mat) => (
+                  <option key={mat.id} value={mat.id}>
+                    📄 {mat.title} ({mat.category} • {mat.content_text?.length || 0} অক্ষর)
+                  </option>
+                ))}
+              </select>
+
+              {selectedSourceMaterialId && (
+                <div className="p-2.5 rounded-xl bg-indigo-900/40 border border-indigo-500/40 text-[11px] text-indigo-200 flex items-center justify-between">
+                  <span className="truncate font-medium">
+                    🔒 <strong>সোর্স লক সক্রিয়:</strong> প্রশ্নসমূহ শুধুমাত্র নির্বাচিত ডকুমেন্টের মূল তথ্যের ওপর ভিত্তি করে তৈরি হবে।
+                  </span>
+                  <span className="shrink-0 font-mono text-[10px] bg-indigo-950 px-2 py-0.5 rounded border border-indigo-700">
+                    {sourceMaterials.find(m => String(m.id) === String(selectedSourceMaterialId))?.content_text?.length || 0} Chars
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Topic Input */}

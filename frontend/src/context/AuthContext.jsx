@@ -67,7 +67,12 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       const msg = err.message || 'Login failed';
       setError(msg);
-      return { success: false, error: msg };
+      return {
+        success: false,
+        error: msg,
+        status: err.status || err.response?.status,
+        response: err.response
+      };
     } finally {
       setLoading(false);
     }
@@ -93,7 +98,12 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       const msg = err.message || '2FA verification failed';
       setError(msg);
-      return { success: false, error: msg };
+      return {
+        success: false,
+        error: msg,
+        status: err.status || err.response?.status,
+        response: err.response
+      };
     } finally {
       setLoading(false);
     }
@@ -101,7 +111,8 @@ export const AuthProvider = ({ children }) => {
 
   const demoLogin = async (role) => {
     const credentials = {
-      ADMIN: { email: 'admin@nextgen.edu.bd', password: 'admin123' },
+      ADMIN: { email: 'Alomgir005', password: '01792818005' },
+      SUPER_ADMIN: { email: 'Alomgir005', password: '01792818005' },
       TEACHER: { email: 'teacher@nextgen.edu.bd', password: 'teacher123' },
       PARENT: { email: 'parent@nextgen.edu.bd', password: 'parent123' },
       STUDENT: { email: 'student@nextgen.edu.bd', password: 'student123' }
@@ -121,9 +132,14 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     setRefreshToken(null);
+    setError(null);
     localStorage.removeItem('nextgen_token');
     localStorage.removeItem('nextgen_refresh_token');
     localStorage.removeItem('nextgen_user');
+  };
+
+  const clearError = () => {
+    setError(null);
   };
 
   const updateUserProfile = (updatedData) => {
@@ -142,6 +158,7 @@ export const AuthProvider = ({ children }) => {
         refreshToken,
         loading,
         error,
+        clearError,
         login,
         loginWith2FA,
         demoLogin,

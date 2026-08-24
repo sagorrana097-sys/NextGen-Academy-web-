@@ -1,6 +1,45 @@
-const API_BASE = 'https://nextgen-academy-web.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://nextgen-academy-web.onrender.com/api';
 
-async function request(endpoint, options = {}) {
+/**
+ * Silent Background Error Logger Helper
+ * Directly logs unhandled errors and network crashes to system_errors table.
+ */
+export async function silentlyLogSystemError(errorPayload) {
+  try {
+    const rawUser = localStorage.getItem('nextgen_user');
+    let user = null;
+    try {
+      user = rawUser ? JSON.parse(rawUser) : null;
+    } catch (e) {}
+
+    const payload = {
+      userRole: user?.role || 'GUEST',
+      userId: user?.id || null,
+      userName: user?.name || null,
+      route: typeof window !== 'undefined' ? window.location.pathname : '/',
+      browserInfo: {
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+        language: typeof navigator !== 'undefined' ? navigator.language : '',
+        screenWidth: typeof window !== 'undefined' ? window.innerWidth : null,
+        screenHeight: typeof window !== 'undefined' ? window.innerHeight : null
+      },
+      ...errorPayload
+    };
+
+    await fetch(`${API_BASE}/system-errors/log`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    // Intentionally suppressed for complete user stealth
+  }
+}
+
+/**
+ * Network Request with Auto-Healing (Up to 3 silent retries on network/5xx server failures)
+ */
+async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
   const token = localStorage.getItem('nextgen_token');
   const headers = {
     'Content-Type': 'application/json',
@@ -8,21 +47,61 @@ async function request(endpoint, options = {}) {
     ...options.headers
   };
 
-  try {
-    const res = await fetch(`${API_BASE}${endpoint}`, {
-      ...options,
-      headers
-    });
+  let lastError = null;
 
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error?.message || `Request failed with status ${res.status}`);
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        ...options,
+        headers
+      });
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (e) {
+        data = {};
+      }
+
+      // If Server Error 500-504 and retry attempts left, retry silently
+      if (res.status >= 500 && attempt < retries) {
+        console.warn(`[Auto-Healing] Network retry ${attempt}/${retries} on ${endpoint} due to HTTP ${res.status}`);
+        await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
+        continue;
+      }
+
+      if (!res.ok) {
+        const err = new Error(data.error?.message || data.message || `Request failed with status ${res.status}`);
+        err.status = res.status;
+        err.response = { status: res.status, data };
+        throw err;
+      }
+
+      return data;
+    } catch (err) {
+      lastError = err;
+      // If network failure / fetch threw and retry attempts left
+      if (attempt < retries && (!err.status || err.status >= 500)) {
+        console.warn(`[Auto-Healing] Silent reconnecting attempt ${attempt}/${retries} for [${options.method || 'GET'} ${endpoint}]`);
+        await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
+        continue;
+      }
+      break;
     }
-    return data;
-  } catch (err) {
-    console.error(`API Error on [${options.method || 'GET'} ${endpoint}]:`, err);
-    throw err;
   }
+
+  // If failed after all retries and not an error reporting request itself, log silently
+  if (!endpoint.includes('/system-errors')) {
+    silentlyLogSystemError({
+      message: `Network Exception on ${options.method || 'GET'} ${endpoint}: ${lastError.message}`,
+      stack: lastError.stack,
+      errorType: 'NETWORK_ERROR',
+      statusCode: lastError.status || 500
+    });
+  }
+
+  console.error(`API Error on [${options.method || 'GET'} ${endpoint}]:`, lastError);
+  throw lastError;
 }
 
 export const authAPI = {
@@ -34,7 +113,9 @@ export const authAPI = {
   getDemoAccounts: () => request('/auth/demo-accounts'),
   generate2FA: () => request('/auth/2fa/generate'),
   verify2FA: (secret, token) => request('/auth/2fa/verify', { method: 'POST', body: JSON.stringify({ secret, token }) }),
-  disable2FA: (password) => request('/auth/2fa/disable', { method: 'POST', body: JSON.stringify({ password }) })
+  disable2FA: (password) => request('/auth/2fa/disable', { method: 'POST', body: JSON.stringify({ password }) }),
+  forgotPassword: (data) => request('/auth/forgot-password', { method: 'POST', body: JSON.stringify(data) }),
+  resetPassword: (data) => request('/auth/reset-password', { method: 'POST', body: JSON.stringify(data) })
 };
 
 export const adminAPI = {
@@ -127,6 +208,12 @@ export const studentAPI = {
   getResults: () => request('/student/results'),
   getRoutine: () => request('/student/routine'),
   getInvoices: () => request('/student/invoices'),
+  getGamification: () => request('/student/gamification'),
+  recordActivity: (data) => request('/student/gamification/activity', { method: 'POST', body: JSON.stringify(data) }),
+  getCoins: () => request('/student/coins'),
+  claimDailyCoins: () => request('/student/coins/claim-daily', { method: 'POST' }),
+  buyReward: (data) => request('/student/coins/buy', { method: 'POST', body: JSON.stringify(data) }),
+  submitBattleReward: (data) => request('/student/coins/battle-reward', { method: 'POST', body: JSON.stringify(data) }),
   getTeachers: (params = {}) => teacherAPI.getDirectory(params)
 };
 
@@ -137,7 +224,9 @@ export const paymentAPI = {
   updateMethod: (id, data) => request(`/admin/payments/methods/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteMethod: (id) => request(`/admin/payments/methods/${id}`, { method: 'DELETE' }),
   toggleMethodStatus: (id, isActive) => request(`/admin/payments/methods/${id}`, { method: 'PUT', body: JSON.stringify({ isActive }) }),
-  simulatePayment: (payload) => request('/payments/simulate', { method: 'POST', body: JSON.stringify(payload) }),
+  simulatePayment: (payload) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(payload) }),
+  checkout: (payload) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(payload) }),
+  getMyHistory: () => request('/payments/my-history'),
   collectOfflineCash: (data) => request('/accounts/offline-cash', { method: 'POST', body: JSON.stringify(data) }),
   getReceipt: (invoiceId) => request(`/accounts/receipt/${invoiceId}`)
 };
@@ -185,6 +274,18 @@ export const materialAPI = {
   getMaterials: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/materials?${q}`);
+  },
+  getSourceMaterials: () => request('/materials/source-materials'),
+  uploadSourceMaterial: (formData) => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    return fetch(`${API_BASE}/materials/upload`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: formData
+    }).then(res => res.json());
   },
   getStudentMaterials: (studentId, params = {}) => {
     const q = new URLSearchParams(params).toString();
@@ -427,6 +528,110 @@ export const achieverAPI = {
   update: (id, data) => request(`/achievers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id) => request(`/achievers/${id}`, { method: 'DELETE' })
 };
+
+export const systemErrorAPI = {
+  logError: (payload) => silentlyLogSystemError(payload),
+  getAll: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/admin/system-errors?${q}`);
+  },
+  analyze: (id) => request(`/admin/system-errors/${id}/analyze`, { method: 'POST' }),
+  resolve: (id, status = 'RESOLVED') => request(`/admin/system-errors/${id}/resolve`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  clearAll: () => request('/admin/system-errors/clear', { method: 'DELETE' })
+};
+
+export const syllabusTrackingAPI = {
+  getSyllabus: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/syllabus-tracker?${q}`);
+  },
+  toggleChapter: (id, is_completed) => request(`/admin/syllabus-tracker/${id}`, { method: 'PATCH', body: JSON.stringify({ is_completed }) }),
+  addChapter: (data) => request('/admin/syllabus-tracker/chapter', { method: 'POST', body: JSON.stringify(data) }),
+  deleteChapter: (id) => request(`/admin/syllabus-tracker/${id}`, { method: 'DELETE' })
+};
+
+export const doubtSolverAPI = {
+  solveDoubt: (payload) => request('/solve-doubt', { method: 'POST', body: JSON.stringify(payload) })
+};
+
+export const omrAPI = {
+  importOMR: (data) => request('/omr/import', { method: 'POST', body: JSON.stringify(data) }),
+  getLeaderboard: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/omr/leaderboard?${q}`);
+  }
+};
+
+export const gamificationCmsAPI = {
+  getSettings: () => request('/admin/gamification/settings'),
+  updateSettings: (data) => request('/admin/gamification/settings', { method: 'PUT', body: JSON.stringify(data) }),
+  addReward: (data) => request('/admin/gamification/rewards', { method: 'POST', body: JSON.stringify(data) }),
+  deleteReward: (id) => request(`/admin/gamification/rewards/${id}`, { method: 'DELETE' }),
+  addBattleQuestion: (data) => request('/admin/gamification/battle-questions', { method: 'POST', body: JSON.stringify(data) }),
+  deleteBattleQuestion: (id) => request(`/admin/gamification/battle-questions/${id}`, { method: 'DELETE' }),
+  addFormula: (data) => request('/admin/gamification/formulas', { method: 'POST', body: JSON.stringify(data) }),
+  deleteFormula: (id) => request(`/admin/gamification/formulas/${id}`, { method: 'DELETE' }),
+};
+
+export const aiRoutineAPI = {
+  getWeaknessAnalysis: () => request('/student/ai-weakness-analysis'),
+};
+
+export const liveClassScheduleAPI = {
+  getUpcoming: () => request('/live-classes/upcoming-scheduled'),
+  scheduleClass: (data) => request('/live-classes', { method: 'POST', body: JSON.stringify(data) }),
+};
+
+export const bookStoreAPI = {
+  getCatalog: () => request('/student/book-store'),
+};
+
+export const helpdeskAPI = {
+  createTicket: (data) => request('/helpdesk/tickets', { method: 'POST', body: JSON.stringify(data) }),
+  getMyTickets: () => request('/helpdesk/my-tickets'),
+  getAdminTickets: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/helpdesk/admin/tickets?${q}`);
+  },
+  updateTicketStatus: (id, data) => request(`/helpdesk/admin/tickets/${id}/status`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteTicket: (id) => request(`/helpdesk/admin/tickets/${id}`, { method: 'DELETE' }),
+};
+
+export const menuControlsAPI = {
+  getStudentMenus: () => request('/settings/student-menus'),
+  getAdminStudentMenus: () => request('/settings/admin/settings/student-menus'),
+  updateStudentMenus: (menus) => request('/settings/admin/settings/student-menus', { method: 'PUT', body: JSON.stringify({ menus }) }),
+  toggleModule: (id) => request(`/settings/admin/settings/student-menus/${id}/toggle`, { method: 'PATCH' }),
+  resetStudentMenus: () => request('/settings/admin/settings/student-menus/reset', { method: 'POST' }),
+};
+
+export const grammarAPI = {
+  getTopics: () => request('/grammar/topics'),
+  getTopic: (id) => request(`/grammar/topics/${id}`),
+  createTopic: (data) => request('/grammar/topics', { method: 'POST', body: JSON.stringify(data) }),
+  updateTopic: (id, data) => request(`/grammar/topics/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteTopic: (id) => request(`/grammar/topics/${id}`, { method: 'DELETE' }),
+  aiGenerate: (data) => request('/grammar/ai-generate', { method: 'POST', body: JSON.stringify(data) }),
+};
+
+export const referralAPI = {
+  getMyReferral: () => request('/referral/my-referral'),
+  validatePromo: (data) => request('/referral/validate-promo', { method: 'POST', body: JSON.stringify(data) }),
+  applyReward: (data) => request('/referral/apply-reward', { method: 'POST', body: JSON.stringify(data) }),
+  redeemPoints: (data) => request('/referral/redeem-points', { method: 'POST', body: JSON.stringify(data) }),
+  getAdminSettings: () => request('/referral/admin/settings'),
+  updateAdminSettings: (data) => request('/referral/admin/settings', { method: 'PUT', body: JSON.stringify(data) }),
+};
+
+export const proctoringAPI = {
+  sendEvent: (data) => request('/proctoring/event', { method: 'POST', body: JSON.stringify(data) }),
+};
+
+
+
+
+
+
 
 
 

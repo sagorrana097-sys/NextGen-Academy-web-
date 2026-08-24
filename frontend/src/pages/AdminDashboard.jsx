@@ -1,34 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { adminAPI, analyticsAPI, noticeAPI, curriculumAPI, textbookAPI, teacherAttendanceAPI, examAPI } from '../services/api';
-import LiveClassManager from '../components/liveclass/LiveClassManager';
+import LoadingFallback from '../components/common/LoadingFallback';
 import Student360Modal from '../components/common/Student360Modal';
 import ExecutiveSummaryModal from '../components/common/ExecutiveSummaryModal';
-import BatchManagement from '../components/admin/BatchManagement';
-import WeeklyRoutineGrid from '../components/common/WeeklyRoutineGrid';
-import ResultsManager from '../components/admin/ResultsManager';
-import AccountsAndPayroll from '../components/admin/AccountsAndPayroll';
-import AdminSettings from '../components/admin/AdminSettings';
-import AdminProfileManager from '../components/admin/AdminProfileManager';
-import SecurityAuditLogs from '../components/admin/SecurityAuditLogs';
-import AdmissionManager from '../components/admin/AdmissionManager';
-import DataBackupManager from '../components/admin/DataBackupManager';
-import BulkSMSManager from '../components/admin/BulkSMSManager';
-import StudentManager from '../components/admin/StudentManager';
-import TeacherManager from '../components/admin/TeacherManager';
-import NoticeManager from '../components/admin/NoticeManager';
-import PaymentMethodManager from '../components/admin/PaymentMethodManager';
-import OfflineCashPaymentModal from '../components/admin/OfflineCashPaymentModal';
-import MoneyReceiptModal from '../components/common/MoneyReceiptModal';
 import AdminQuickFloater from '../components/admin/AdminQuickFloater';
 import AnimatedCounter from '../components/common/AnimatedCounter';
-import ResourceLibrary from '../components/common/ResourceLibrary';
 import UniversalFileUploader from '../components/common/UniversalFileUploader';
-import UnifiedApprovalEngine from '../components/admin/UnifiedApprovalEngine';
-import GlobalSiteContentCMS from '../components/admin/GlobalSiteContentCMS';
 import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
-import AIMCQGeneratorModal from '../components/common/AIMCQGeneratorModal';
-import AICQGeneratorModal from '../components/common/AICQGeneratorModal';
+import AdminDashboardStats from '../components/admin/AdminDashboardStats';
+
+// Code-split Lazy Loaded Admin Modules
+const LiveClassManager = lazy(() => import('../components/liveclass/LiveClassManager'));
+const BatchManagement = lazy(() => import('../components/admin/BatchManagement'));
+const WeeklyRoutineGrid = lazy(() => import('../components/common/WeeklyRoutineGrid'));
+const ResultsManager = lazy(() => import('../components/admin/ResultsManager'));
+const AccountsAndPayroll = lazy(() => import('../components/admin/AccountsAndPayroll'));
+const AdminSettings = lazy(() => import('../components/admin/AdminSettings'));
+const AdminProfileManager = lazy(() => import('../components/admin/AdminProfileManager'));
+const SecurityAuditLogs = lazy(() => import('../components/admin/SecurityAuditLogs'));
+const AdmissionManager = lazy(() => import('../components/admin/AdmissionManager'));
+const DataBackupManager = lazy(() => import('../components/admin/DataBackupManager'));
+const BulkSMSManager = lazy(() => import('../components/admin/BulkSMSManager'));
+const StudentManager = lazy(() => import('../components/admin/StudentManager'));
+const TeacherManager = lazy(() => import('../components/admin/TeacherManager'));
+const NoticeManager = lazy(() => import('../components/admin/NoticeManager'));
+const PaymentMethodManager = lazy(() => import('../components/admin/PaymentMethodManager'));
+const OfflineCashPaymentModal = lazy(() => import('../components/admin/OfflineCashPaymentModal'));
+const MoneyReceiptModal = lazy(() => import('../components/common/MoneyReceiptModal'));
+const ResourceLibrary = lazy(() => import('../components/common/ResourceLibrary'));
+const UnifiedApprovalEngine = lazy(() => import('../components/admin/UnifiedApprovalEngine'));
+const GlobalSiteContentCMS = lazy(() => import('../components/admin/GlobalSiteContentCMS'));
+const AIMCQGeneratorModal = lazy(() => import('../components/common/AIMCQGeneratorModal'));
+const AICQGeneratorModal = lazy(() => import('../components/common/AICQGeneratorModal'));
+const AdminStudyMaterialUploadModal = lazy(() => import('../components/admin/AdminStudyMaterialUploadModal'));
+const SyllabusTrackerManager = lazy(() => import('../components/admin/SyllabusTrackerManager'));
+const OMRImportModule = lazy(() => import('../components/admin/OMRImportModule'));
+const InteractiveGamificationCMS = lazy(() => import('../components/admin/InteractiveGamificationCMS'));
+const MediaCenter = lazy(() => import('../components/media/MediaCenter'));
+const AdminHelpdeskManager = lazy(() => import('../components/admin/AdminHelpdeskManager'));
+const AdminMenuManager = lazy(() => import('../components/admin/AdminMenuManager'));
+const AdminGrammarCMS = lazy(() => import('../components/admin/AdminGrammarCMS'));
+const AdminPromoSettings = lazy(() => import('../components/admin/AdminPromoSettings'));
+
+
+
+
 import {
   Banknote,
   Users,
@@ -71,7 +88,8 @@ import {
   Check,
   Layers,
   Zap,
-  CalendarDays
+  CalendarDays,
+  ChevronDown
 } from 'lucide-react';
 
 export default function AdminDashboard({ activeTab = 'dashboard' }) {
@@ -153,6 +171,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
     admissionDate: new Date().toISOString().split('T')[0],
     photo: null
   });
+  const [isAdmissionClassDropdownOpen, setIsAdmissionClassDropdownOpen] = useState(false);
 
   // Add / Edit Teacher Modal & Form State
   const [showTeacherModal, setShowTeacherModal] = useState(false);
@@ -232,6 +251,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
   const [showExamModal, setShowExamModal] = useState(false);
   const [showAIGeneratorModal, setShowAIGeneratorModal] = useState(false);
   const [showCQGeneratorModal, setShowCQGeneratorModal] = useState(false);
+  const [showStudyMaterialUploadModal, setShowStudyMaterialUploadModal] = useState(false);
   const [editingExamId, setEditingExamId] = useState(null);
   const [savingExam, setSavingExam] = useState(false);
   const [examSuccess, setExamSuccess] = useState(null);
@@ -625,7 +645,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       alert('ছবির আকার সর্বোচ্চ 8MB হতে পারবে');
       return;
     }
@@ -696,7 +716,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       alert('ছবির আকার সর্বোচ্চ 8MB হতে পারবে');
       return;
     }
@@ -840,7 +860,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       alert('ছবির আকার সর্বোচ্চ 8MB হতে পারবে');
       return;
     }
@@ -1301,6 +1321,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         </div>
       )}
 
+      {/* TOP-LEVEL HIGH-PERFORMANCE STUDENT ANALYTICS OVERVIEW */}
+      <AdminDashboardStats />
+
       {/* DYNAMIC TIME PERIOD SELECTION & EXECUTIVE REPORT GENERATOR */}
       <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -1494,8 +1517,10 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       </div>
 
       {/* Main Tabs */}
-      {activeTab === 'batches-routine' ? (
-        <div className="space-y-6">
+      <Suspense fallback={<LoadingFallback message="অ্যাডমিন মডিউল লোড হচ্ছে..." />}>
+        {activeTab === 'batches-routine' ? (
+          <div className="space-y-6">
+
           {/* Sub-tab Switcher: Batch Management vs Class Routine */}
           <div className="flex items-center space-x-2 bg-slate-200/80 p-1.5 rounded-2xl w-fit border border-slate-300/60 shadow-inner">
             <button
@@ -1528,6 +1553,24 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
             <WeeklyRoutineGrid viewMode="ADMIN" />
           )}
         </div>
+      ) : activeTab === 'syllabus-tracker' || activeTab === 'syllabus' ? (
+        <SyllabusTrackerManager />
+      ) : activeTab === 'omr-evaluation' || activeTab === 'omr' ? (
+        <OMRImportModule />
+      ) : activeTab === 'media-center' || activeTab === 'media' ? (
+        <MediaCenter />
+      ) : activeTab === 'gamification-cms' || activeTab === 'interactive-cms' ? (
+        <InteractiveGamificationCMS />
+      ) : activeTab === 'grammar-cms' || activeTab === 'grammar' ? (
+        <AdminGrammarCMS />
+      ) : activeTab === 'promo-controls' || activeTab === 'promos' || activeTab === 'referrals' ? (
+        <AdminPromoSettings />
+      ) : activeTab === 'helpdesk' || activeTab === 'complaints' ? (
+        <AdminHelpdeskManager />
+      ) : activeTab === 'dashboard-controls' || activeTab === 'menu-controls' ? (
+
+
+        <AdminMenuManager />
       ) : activeTab === 'approvals' ? (
         <UnifiedApprovalEngine />
       ) : activeTab === 'site-cms' ? (
@@ -2527,7 +2570,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
             </div>
           </div>
         </div>
-      )}
+        )}
+      </Suspense>
+
 
       {/* Add New Student Modal */}
       {showStudentModal && (
@@ -2550,7 +2595,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Student Name */}
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     শিক্ষার্থীর পূর্ণ নাম <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2565,7 +2610,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Roll Number */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     শ্রেণির রোল নম্বর <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2581,7 +2626,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Gender */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">লিঙ্গ (Gender)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">লিঙ্গ (Gender)</label>
                   <select
                     value={studentForm.gender}
                     onChange={(e) => setStudentForm({ ...studentForm, gender: e.target.value })}
@@ -2593,50 +2638,101 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   </select>
                 </div>
 
-                {/* Class */}
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                {/* Class - Custom Dropdown with onMouseDown & Selectable Categories */}
+                <div className="relative">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     ভর্তি শ্রেণি <span className="text-rose-500">*</span>
                   </label>
-                  <select
-                    value={studentForm.classId}
-                    onChange={(e) => {
-                      const newCid = e.target.value;
-                      const targetClass = allClasses.find(c => c.id === Number(newCid));
-                      setStudentForm({
-                        ...studentForm,
-                        classId: newCid,
-                        sectionId: targetClass?.sections?.[0]?.id ? String(targetClass.sections[0].id) : '1'
-                      });
+
+                  {/* Green Bordered Trigger Box dynamically showing selected class name */}
+                  <button
+                    type="button"
+                    onClick={() => setIsAdmissionClassDropdownOpen(!isAdmissionClassDropdownOpen)}
+                    onBlur={() => {
+                      setTimeout(() => setIsAdmissionClassDropdownOpen(false), 200);
                     }}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 font-bold text-emerald-900 bg-emerald-50/50"
+                    className="w-full px-3.5 py-2.5 text-xs rounded-xl border-2 border-emerald-500 font-bold text-emerald-950 bg-emerald-50/70 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex items-center justify-between shadow-sm transition-all text-left cursor-pointer"
                   >
-                    <optgroup label="👶 প্রি-প্রাইমারি (Pre-Primary)">
-                      {allClasses.filter(c => c.stage === 'PRE_PRIMARY').map(c => (
-                        <option key={c.id} value={c.id}>{c.nameBn}</option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="🎒 প্রাথমিক (Primary 1-5)">
-                      {allClasses.filter(c => c.stage === 'PRIMARY').map(c => (
-                        <option key={c.id} value={c.id}>{c.nameBn}</option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="📚 মাধ্যমিক (Secondary 6-10)">
-                      {allClasses.filter(c => c.stage === 'JUNIOR_SECONDARY' || c.stage === 'SECONDARY').map(c => (
-                        <option key={c.id} value={c.id}>{c.nameBn}</option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="🎓 উচ্চ মাধ্যমিক (HSC 11-12)">
-                      {allClasses.filter(c => c.stage === 'HIGHER_SECONDARY').map(c => (
-                        <option key={c.id} value={c.id}>{c.nameBn}</option>
-                      ))}
-                    </optgroup>
-                  </select>
+                    <span className="truncate">
+                      {allClasses.find(c => String(c.id) === String(studentForm.classId))?.nameBn ||
+                       allClasses.find(c => String(c.id) === String(studentForm.classId))?.name ||
+                       'শ্রেণি নির্বাচন করুন'}
+                    </span>
+                    <ChevronDown className={`w-4 h-4 text-emerald-600 ml-2 shrink-0 transition-transform ${isAdmissionClassDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {/* Custom Dropdown Menu with onMouseDown handlers */}
+                  {isAdmissionClassDropdownOpen && (
+                    <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border-2 border-emerald-500/80 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto p-2 space-y-2 animate-in fade-in slide-in-from-top-1">
+                      {[
+                        { stage: 'PRE_PRIMARY', label: '👶 প্রি-প্রাইমারি (Pre-Primary)', bg: 'bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100' },
+                        { stage: 'PRIMARY', label: '🎒 প্রাথমিক (Primary 1-5)', bg: 'bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100' },
+                        { stage: 'SECONDARY', label: '📚 মাধ্যমিক (Secondary 6-10)', bg: 'bg-blue-50 text-blue-900 border-blue-200 hover:bg-blue-100', match: (c) => c.stage === 'JUNIOR_SECONDARY' || c.stage === 'SECONDARY' },
+                        { stage: 'HIGHER_SECONDARY', label: '🎓 উচ্চ মাধ্যমিক (HSC 11-12)', bg: 'bg-purple-50 text-purple-900 border-purple-200 hover:bg-purple-100' }
+                      ].map((cat) => {
+                        const catClasses = allClasses.filter(c => cat.match ? cat.match(c) : c.stage === cat.stage);
+                        if (catClasses.length === 0) return null;
+                        return (
+                          <div key={cat.stage} className="space-y-1">
+                            {/* Category Header - Selectable onMouseDown to select default category class */}
+                            <div
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                const firstClass = catClasses[0];
+                                if (firstClass) {
+                                  setStudentForm({
+                                    ...studentForm,
+                                    classId: String(firstClass.id),
+                                    sectionId: firstClass.sections?.[0]?.id ? String(firstClass.sections[0].id) : '1'
+                                  });
+                                  setIsAdmissionClassDropdownOpen(false);
+                                }
+                              }}
+                              className={`px-3 py-1.5 rounded-xl border text-[11px] font-black cursor-pointer flex items-center justify-between transition-colors ${cat.bg}`}
+                              title="ক্যাটাগরি সিলেক্ট করুন"
+                            >
+                              <span>{cat.label}</span>
+                              <span className="text-[10px] opacity-70">({catClasses.length}টি শ্রেণি)</span>
+                            </div>
+
+                            {/* Child Classes */}
+                            <div className="grid grid-cols-1 gap-1 pl-2">
+                              {catClasses.map((cls) => {
+                                const isSelected = String(studentForm.classId) === String(cls.id);
+                                return (
+                                  <div
+                                    key={cls.id}
+                                    onMouseDown={(e) => {
+                                      e.preventDefault();
+                                      setStudentForm({
+                                        ...studentForm,
+                                        classId: String(cls.id),
+                                        sectionId: cls.sections?.[0]?.id ? String(cls.sections[0].id) : '1'
+                                      });
+                                      setIsAdmissionClassDropdownOpen(false);
+                                    }}
+                                    className={`px-3 py-2 rounded-xl text-xs font-bold cursor-pointer flex items-center justify-between transition-all ${
+                                      isSelected
+                                        ? 'bg-emerald-600 text-white shadow-sm font-black'
+                                        : 'text-slate-700 hover:bg-emerald-50 hover:text-emerald-900'
+                                    }`}
+                                  >
+                                    <span>{cls.nameBn || cls.name}</span>
+                                    {isSelected && <Check className="w-3.5 h-3.5 text-white shrink-0" />}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 {/* Section */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     শাখা / সেকশন <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -2652,7 +2748,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Guardian Name */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     অভিভাবকের নাম <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2667,7 +2763,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Guardian Mobile */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     অভিভাবকের মোবাইল নম্বর <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2682,7 +2778,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Blood Group */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">রক্তের গ্রুপ</label>
                   <select
                     value={studentForm.bloodGroup}
                     onChange={(e) => setStudentForm({ ...studentForm, bloodGroup: e.target.value })}
@@ -2701,7 +2797,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Date of Birth */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">জন্ম তারিখ (Date of Birth)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">জন্ম তারিখ (Date of Birth)</label>
                   <input
                     type="date"
                     value={studentForm.dob}
@@ -2712,7 +2808,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Admission Date */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     ভর্তির তারিখ (Admission Date) <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -2726,13 +2822,13 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 {/* Address */}
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">বর্তমান ঠিকানা</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">বর্তমান ঠিকানা</label>
                   <input
                     type="text"
                     value={studentForm.address}
                     onChange={(e) => setStudentForm({ ...studentForm, address: e.target.value })}
                     placeholder="যেমন: বাড়ি #১২, রোড #৪, ধানমন্ডি, ঢাকা"
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
@@ -2742,8 +2838,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     label="শিক্ষার্থীর ছবি / পাসপোর্ট সাইজ ফটো (Student Photo - Device Upload or URL)"
                     value={studentForm.photo}
                     previewType="image"
-                    accept="image/*"
-                    maxMb={10}
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    maxMb={100}
                     helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                     onChange={({ fileUrl, url }) => {
                       setStudentForm(prev => ({ ...prev, photo: fileUrl || url || null }));
@@ -2793,7 +2889,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
             <form onSubmit={handlePublishNotice} className="space-y-3">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নোটিশের শিরোনাম (বাংলা)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নোটিশের শিরোনাম (বাংলা)</label>
                 <input
                   type="text"
                   required
@@ -2805,7 +2901,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ (বাংলা)</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">বিস্তারিত বিবরণ (বাংলা)</label>
                 <textarea
                   rows={3}
                   required
@@ -2818,7 +2914,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ক্যাটাগরি</label>
                   <select
                     value={noticeForm.category}
                     onChange={(e) => setNoticeForm({ ...noticeForm, category: e.target.value })}
@@ -2832,7 +2928,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">গুরুত্ব</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">গুরুত্ব</label>
                   <select
                     value={noticeForm.priority}
                     onChange={(e) => setNoticeForm({ ...noticeForm, priority: e.target.value })}
@@ -2844,7 +2940,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">প্রাপক</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">প্রাপক</label>
                   <select
                     value={noticeForm.targetRole}
                     onChange={(e) => setNoticeForm({ ...noticeForm, targetRole: e.target.value })}
@@ -2900,7 +2996,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
             {inspectedLog.oldValue && (
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">পূর্ববর্তী অবস্থা (Previous State):</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">পূর্ববর্তী অবস্থা (Previous State):</label>
                 <pre className="p-3 bg-slate-900 text-emerald-400 rounded-xl text-[11px] font-mono overflow-x-auto">
                   {JSON.stringify(inspectedLog.oldValue, null, 2)}
                 </pre>
@@ -2909,7 +3005,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
             {inspectedLog.newValue && (
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">নতুন অবস্থা (Updated State):</label>
+                <label className="block text-xs font-bold text-slate-900 mb-1">নতুন অবস্থা (Updated State):</label>
                 <pre className="p-3 bg-slate-900 text-teal-300 rounded-xl text-[11px] font-mono overflow-x-auto">
                   {JSON.stringify(inspectedLog.newValue, null, 2)}
                 </pre>
@@ -2956,7 +3052,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Personal Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     শিক্ষকের পূর্ণ নাম (Full Name) *
                   </label>
                   <input
@@ -2970,7 +3066,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পদবি / ডেজিগনেশন (Designation) *
                   </label>
                   <input
@@ -2986,7 +3082,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     শিক্ষাগত যোগ্যতা ও স্পেশালাইজেশন (Qualification)
                   </label>
                   <input
@@ -2999,7 +3095,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     যোগদানের তারিখ (Joining Date)
                   </label>
                   <input
@@ -3020,7 +3116,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       পাঠদানের শ্রেণি (Assigned Class)
                     </label>
                     <select
@@ -3052,7 +3148,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       পাঠদানের বিষয় (Assigned Subject)
                     </label>
                     <select
@@ -3077,7 +3173,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       মোবাইল নম্বর (Phone) *
                     </label>
                     <input
@@ -3091,7 +3187,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       ইমেইল (Email)
                     </label>
                     <input
@@ -3104,7 +3200,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       পাসওয়ার্ড (Password)
                     </label>
                     <input
@@ -3124,8 +3220,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   label="শিক্ষকের ছবি (Teacher Photo - Device Upload or URL)"
                   value={teacherForm.photo}
                   previewType="image"
-                  accept="image/*"
-                  maxMb={10}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="পাসপোর্ট সাইজ ফটো, ক্যামেরা স্ন্যাপ বা গুগল ড্রাইভ ছবি লিংক"
                   onChange={({ fileUrl, url }) => {
                     setTeacherForm(prev => ({ ...prev, photo: fileUrl || url || null }));
@@ -3185,7 +3281,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Title Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বইয়ের নাম (Bangla Title) <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -3194,12 +3290,12 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={textbookForm.titleBn}
                     onChange={(e) => setTextbookForm({ ...textbookForm, titleBn: e.target.value })}
                     placeholder="যেমন: সাহিত্য কণিকা - ৮ম শ্রেণি"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বইয়ের ইংরেজি নাম (English Title)
                   </label>
                   <input
@@ -3207,7 +3303,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={textbookForm.titleEn}
                     onChange={(e) => setTextbookForm({ ...textbookForm, titleEn: e.target.value })}
                     placeholder="e.g. Sahitya Konika - Class 8"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
@@ -3221,7 +3317,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       শ্রেণি (Class) <span className="text-rose-500">*</span>
                     </label>
                     <select
@@ -3253,7 +3349,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       বিষয় (Subject) <span className="text-rose-500">*</span>
                     </label>
                     <select
@@ -3274,7 +3370,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Edition, Author & File Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     সংস্করণ / শিক্ষাবর্ষ (Edition)
                   </label>
                   <input
@@ -3282,12 +3378,12 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={textbookForm.edition}
                     onChange={(e) => setTextbookForm({ ...textbookForm, edition: e.target.value })}
                     placeholder="যেমন: NCTB ২০২৬ সংস্করণ"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বোর্ড / রচয়িতা (Author / Board)
                   </label>
                   <input
@@ -3295,14 +3391,14 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={textbookForm.author}
                     onChange={(e) => setTextbookForm({ ...textbookForm, author: e.target.value })}
                     placeholder="জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               {/* File Link / URL */}
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   বইয়ের সম্পূর্ণ PDF ফাইল বা অনলাইন রিডিং লিঙ্ক (PDF / Web Link)
                 </label>
                 <input
@@ -3310,25 +3406,25 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   value={textbookForm.fileUrl}
                   onChange={(e) => setTextbookForm({ ...textbookForm, fileUrl: e.target.value })}
                   placeholder="https://nctb.gov.bd/textbooks/class8-bangla.pdf বা লিঙ্ক"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পৃষ্ঠা সংখ্যা (Total Pages)
                   </label>
                   <input
                     type="number"
                     value={textbookForm.totalPages}
                     onChange={(e) => setTextbookForm({ ...textbookForm, totalPages: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     ফাইলের আকার (File Size)
                   </label>
                   <input
@@ -3336,14 +3432,14 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={textbookForm.fileSize}
                     onChange={(e) => setTextbookForm({ ...textbookForm, fileSize: e.target.value })}
                     placeholder="যেমন: 15.4 MB"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   সংক্ষিপ্ত পরিচিতি ও নির্দেশনা (Description)
                 </label>
                 <textarea
@@ -3351,7 +3447,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   value={textbookForm.description}
                   onChange={(e) => setTextbookForm({ ...textbookForm, description: e.target.value })}
                   placeholder="বইটির অধ্যায় বা শিক্ষাক্রমের সংক্ষিপ্ত বিবরণ লিখুন..."
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                  className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                 />
               </div>
 
@@ -3361,8 +3457,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                   label="বইয়ের প্রচ্ছদ / কভার ইমেজ (Cover Image / Link - Optional)"
                   value={textbookForm.coverImage}
                   previewType="image"
-                  accept="image/*"
-                  maxMb={10}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                  maxMb={100}
                   helperText="প্রচ্ছদ ছবি আপলোড করুন অথবা অনলাইন ইমেজ লিঙ্ক দিন"
                   onChange={({ fileUrl, url }) => {
                     setTextbookForm(prev => ({ ...prev, coverImage: fileUrl || url || null }));
@@ -3508,7 +3604,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Title & Basic Details */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পরীক্ষার নাম / শিরোনাম (Bangla Title) <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -3517,12 +3613,12 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={examForm.titleBn}
                     onChange={(e) => setExamForm({ ...examForm, titleBn: e.target.value })}
                     placeholder="যেমন: ৮ম শ্রেণি বিজ্ঞান ১ম সাময়িক কুইজ"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     ইংরেজি নাম (English Title)
                   </label>
                   <input
@@ -3530,7 +3626,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                     value={examForm.titleEn}
                     onChange={(e) => setExamForm({ ...examForm, titleEn: e.target.value })}
                     placeholder="e.g. Class 8 Science 1st Term Quiz"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm"
                   />
                 </div>
               </div>
@@ -3538,7 +3634,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Class, Subject & Exam Type */}
               <div className="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     শ্রেণি (Class) <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -3562,7 +3658,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     বিষয় (Subject) <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -3577,7 +3673,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-900 mb-1">
                     পরীক্ষার ধরণ (Exam Type) <span className="text-rose-500">*</span>
                   </label>
                   <select
@@ -3594,7 +3690,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
               {/* Date, Time, Duration & Marks */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">তারিখ (Date)</label>
+                  <label className="block font-bold text-slate-900 mb-1">তারিখ (Date)</label>
                   <input
                     type="date"
                     required
@@ -3605,7 +3701,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">শুরুর সময়</label>
+                  <label className="block font-bold text-slate-900 mb-1">শুরুর সময়</label>
                   <input
                     type="text"
                     value={examForm.startTime}
@@ -3616,7 +3712,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">সময়সীমা (মিনিট)</label>
+                  <label className="block font-bold text-slate-900 mb-1">সময়সীমা (মিনিট)</label>
                   <input
                     type="number"
                     min="5"
@@ -3628,7 +3724,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">মোট নম্বর</label>
+                  <label className="block font-bold text-slate-900 mb-1">মোট নম্বর</label>
                   <input
                     type="number"
                     min="1"
@@ -3639,7 +3735,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">পাস নম্বর</label>
+                  <label className="block font-bold text-slate-900 mb-1">পাস নম্বর</label>
                   <input
                     type="number"
                     min="1"
@@ -3652,7 +3748,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
               {/* Instructions */}
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-900 mb-1">
                   নির্দেশনাবলী (Instructions)
                 </label>
                 <textarea
@@ -3673,7 +3769,17 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                       <span>বহুনির্বাচনী প্রশ্নমালা ({examForm.questions.length}টি প্রশ্ন)</span>
                     </h4>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowStudyMaterialUploadModal(true)}
+                        className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center space-x-1.5 border border-slate-300 transition-all active:scale-95"
+                        title="স্টাডি সোর্স ডকুমেন্ট (PDF/Text) আপলোড ও প্রসেস করুন"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-indigo-600" />
+                        <span>📄 সোর্স PDF আপলোড</span>
+                      </button>
+
                       <button
                         type="button"
                         onClick={() => setShowAIGeneratorModal(true)}
@@ -3785,18 +3891,30 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
                       </p>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setShowCQGeneratorModal(true)}
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-xs font-black rounded-xl shadow-lg shadow-emerald-500/30 flex items-center space-x-1.5 transition-all flex-shrink-0 active:scale-95"
-                    >
-                      <Zap className="w-3.5 h-3.5 text-amber-300" />
-                      <span>সৃজনশীল প্রশ্ন জেনারেট করুন</span>
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => setShowStudyMaterialUploadModal(true)}
+                        className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl flex items-center space-x-1.5 border border-slate-700 transition-all active:scale-95"
+                        title="স্টাডি সোর্স ডকুমেন্ট (PDF/Text) আপলোড ও প্রসেস করুন"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>📄 সোর্স PDF আপলোড</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setShowCQGeneratorModal(true)}
+                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-xs font-black rounded-xl shadow-lg shadow-emerald-500/30 flex items-center space-x-1.5 transition-all flex-shrink-0 active:scale-95"
+                      >
+                        <Zap className="w-3.5 h-3.5 text-amber-300" />
+                        <span>সৃজনশীল প্রশ্ন জেনারেট করুন</span>
+                      </button>
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">
+                    <label className="block font-bold text-slate-900 mb-1">
                       প্রশ্নপত্রের পিডিএফ / ফাইল লিঙ্ক (Question Paper URL)
                     </label>
                     <input
@@ -4444,61 +4562,73 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         />
       )}
 
-      {/* Offline Cash Payment Modal */}
-      <OfflineCashPaymentModal
-        isOpen={showCashPaymentModal}
-        onClose={() => setShowCashPaymentModal(false)}
-        onPaymentSuccess={(receipt) => {
-          setShowCashPaymentModal(false);
-          setCurrentReceiptData(receipt);
-          fetchStats();
-        }}
-      />
-
-      {/* Money Receipt Printable Slip Modal */}
-      <MoneyReceiptModal
-        receipt={currentReceiptData}
-        isOpen={!!currentReceiptData}
-        onClose={() => setCurrentReceiptData(null)}
-      />
-
-      {/* AI MCQ Automated Question Generator Modal */}
-      {showAIGeneratorModal && (
-        <AIMCQGeneratorModal
-          isOpen={showAIGeneratorModal}
-          onClose={() => setShowAIGeneratorModal(false)}
-          allClasses={allClasses}
-          onQuestionsImported={({ questions, topic: generatedTopic, totalMarks }) => {
-            setExamForm(prev => ({
-              ...prev,
-              titleBn: prev.titleBn || generatedTopic || 'মডেল টেস্ট পরীক্ষা',
-              questions,
-              totalMarks: totalMarks || questions.length,
-              passMarks: Math.round((totalMarks || questions.length) * 0.4)
-            }));
-            setShowAIGeneratorModal(false);
+      {/* Lazy Modals Wrapped in Suspense */}
+      <Suspense fallback={null}>
+        {/* Offline Cash Payment Modal */}
+        <OfflineCashPaymentModal
+          isOpen={showCashPaymentModal}
+          onClose={() => setShowCashPaymentModal(false)}
+          onPaymentSuccess={(receipt) => {
+            setShowCashPaymentModal(false);
+            setCurrentReceiptData(receipt);
+            fetchStats();
           }}
         />
-      )}
 
-      {/* AI CQ Automated Creative Question Generator Modal */}
-      {showCQGeneratorModal && (
-        <AICQGeneratorModal
-          isOpen={showCQGeneratorModal}
-          onClose={() => setShowCQGeneratorModal(false)}
-          allClasses={allClasses}
-          onQuestionsImported={({ cqs, subject: cqSub, classGrade: cqCls, chapterTopic: cqTopic, totalMarks }) => {
-            setExamForm(prev => ({
-              ...prev,
-              titleBn: prev.titleBn || `${cqTopic || 'সৃজনশীল'} মডেল টেস্ট`,
-              type: 'WRITTEN',
-              totalMarks: totalMarks || cqs.length * 10,
-              passMarks: Math.round((totalMarks || cqs.length * 10) * 0.4)
-            }));
-            setShowCQGeneratorModal(false);
-          }}
+        {/* Money Receipt Printable Slip Modal */}
+        <MoneyReceiptModal
+          receipt={currentReceiptData}
+          isOpen={!!currentReceiptData}
+          onClose={() => setCurrentReceiptData(null)}
         />
-      )}
+
+        {/* AI MCQ Automated Question Generator Modal */}
+        {showAIGeneratorModal && (
+          <AIMCQGeneratorModal
+            isOpen={showAIGeneratorModal}
+            onClose={() => setShowAIGeneratorModal(false)}
+            allClasses={allClasses}
+            onQuestionsImported={({ questions, topic: generatedTopic, totalMarks }) => {
+              setExamForm(prev => ({
+                ...prev,
+                titleBn: prev.titleBn || generatedTopic || 'মডেল টেস্ট পরীক্ষা',
+                questions,
+                totalMarks: totalMarks || questions.length,
+                passMarks: Math.round((totalMarks || questions.length) * 0.4)
+              }));
+              setShowAIGeneratorModal(false);
+            }}
+          />
+        )}
+
+        {/* AI CQ Automated Creative Question Generator Modal */}
+        {showCQGeneratorModal && (
+          <AICQGeneratorModal
+            isOpen={showCQGeneratorModal}
+            onClose={() => setShowCQGeneratorModal(false)}
+            allClasses={allClasses}
+            onQuestionsImported={({ cqs, subject: cqSub, classGrade: cqCls, chapterTopic: cqTopic, totalMarks }) => {
+              setExamForm(prev => ({
+                ...prev,
+                titleBn: prev.titleBn || `${cqTopic || 'সৃজনশীল'} মডেল টেস্ট`,
+                type: 'WRITTEN',
+                totalMarks: totalMarks || cqs.length * 10,
+                passMarks: Math.round((totalMarks || cqs.length * 10) * 0.4)
+              }));
+              setShowCQGeneratorModal(false);
+            }}
+          />
+        )}
+
+        {/* Admin Study Material & Source-Context AI Document Uploader Modal */}
+        {showStudyMaterialUploadModal && (
+          <AdminStudyMaterialUploadModal
+            isOpen={showStudyMaterialUploadModal}
+            onClose={() => setShowStudyMaterialUploadModal(false)}
+          />
+        )}
+      </Suspense>
+
 
       {/* Floating Quick-Actions Command Floater */}
       <AdminQuickFloater

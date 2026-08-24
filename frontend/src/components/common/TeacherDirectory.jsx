@@ -639,7 +639,7 @@ export default function TeacherDirectory({ role = 'PARENT' }) {
                     : 'Send a direct contact request or message to the faculty member.'}
                 </p>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold text-slate-900 mb-1">
                     {lang === 'bn' ? 'আপনার বার্তা / যোগাযোগের কারণ:' : 'Your Message / Purpose:'}
                   </label>
                   <textarea

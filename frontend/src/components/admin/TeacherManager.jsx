@@ -580,107 +580,107 @@ export default function TeacherManager() {
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শিক্ষকের পুরো নাম *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শিক্ষকের পুরো নাম *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="যেমন: ড. মোঃ রফিকুল ইসলাম"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">পদবি (Designation) *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">পদবি (Designation) *</label>
                   <input
                     type="text"
                     value={formData.designation}
                     onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
                     placeholder="সিনিয়র প্রভাষক / সহকারী শিক্ষক"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">বিশেষায়িত বিষয় / বিভাগ *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">বিশেষায়িত বিষয় / বিভাগ *</label>
                   <input
                     type="text"
                     value={formData.specialization}
                     onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
                     placeholder="উচ্চতর গণিত ও পদার্থবিজ্ঞান"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর *</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">মোবাইল নম্বর *</label>
                   <input
                     type="text"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="01712345678"
                     required
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">ইমেইল অ্যাড্রেস</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">ইমেইল অ্যাড্রেস</label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="teacher@nextgen.edu.bd"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 {!editingTeacher && (
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">লগইন পাসওয়ার্ড (ডিফল্ট: teacher123)</label>
+                    <label className="block text-xs font-bold text-slate-900 mb-1">লগইন পাসওয়ার্ড (ডিফল্ট: teacher123)</label>
                     <input
                       type="password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       placeholder="••••••••"
-                      className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                     />
                   </div>
                 )}
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শিক্ষাগত যোগ্যতা (Educational Background)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শিক্ষাগত যোগ্যতা (Educational Background)</label>
                   <input
                     type="text"
                     value={formData.qualifications}
                     onChange={(e) => setFormData({ ...formData, qualifications: e.target.value })}
                     placeholder="বি.এসসি (অনার্স), এম.এসসি - ঢাকা বিশ্ববিদ্যালয়"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">শিক্ষক মিলনায়তন / রুম নং</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">শিক্ষক মিলনায়তন / রুম নং</label>
                   <input
                     type="text"
                     value={formData.roomNo}
                     onChange={(e) => setFormData({ ...formData, roomNo: e.target.value })}
                     placeholder="শিক্ষক মিলনায়তন (কক্ষ ২০৪)"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">কনসাল্টেশন সময়সূচি</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">কনসাল্টেশন সময়সূচি</label>
                   <input
                     type="text"
                     value={formData.officeHours}
                     onChange={(e) => setFormData({ ...formData, officeHours: e.target.value })}
                     placeholder="রবি - বৃহঃ সকাল ৯:৩০ - বিকাল ৩:৩০"
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
 
@@ -689,8 +689,8 @@ export default function TeacherManager() {
                     label="শিক্ষকের ছবি / প্রোফাইল ফটো (Teacher Photo)"
                     value={formData.photo}
                     previewType="image"
-                    accept="image/*"
-                    maxMb={10}
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.txt,.csv,.zip,image/*,audio/*,video/*"
+                    maxMb={100}
                     helperText="JPG, PNG, WebP অথবা গুগল ড্রাইভ/ওয়েব লিঙ্ক"
                     onChange={({ fileUrl, url }) => {
                       setFormData(prev => ({ ...prev, photo: fileUrl || url || '' }));
@@ -699,13 +699,13 @@ export default function TeacherManager() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">সংক্ষিপ্ত পরিচিতি ও বায়ো (Bio)</label>
+                  <label className="block text-xs font-bold text-slate-900 mb-1">সংক্ষিপ্ত পরিচিতি ও বায়ো (Bio)</label>
                   <textarea
                     rows={2}
                     value={formData.bio}
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     placeholder="নেক্সটজেন একাডেমির অভিজ্ঞ ও নিবেদিতপ্রাণ শিক্ষক..."
-                    className="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5"
+                    className="w-full bg-white border border-slate-300 text-slate-900 font-semibold placeholder:text-slate-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm text-xs"
                   />
                 </div>
               </div>

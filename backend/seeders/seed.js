@@ -47,6 +47,7 @@ async function seedDatabase() {
     userId: 'Alomgir005',
     identifier: 'Alomgir005',
     email: 'admin@nextgen.edu.bd',
+    password: adminPassword,
     passwordHash: adminPassword,
     role: 'SUPER_ADMIN',
     phone: '01792818005',
@@ -230,30 +231,60 @@ async function seedDatabase() {
     {
       id: 1,
       classId: 13,
+      title: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
       titleBn: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
+      category: 'PHYSICS',
       chapterBn: 'অধ্যায় ২ ও ৩',
       descriptionBn: 'গতির সমীকরণ ও বলের গাণিতিক সমস্যা সমাধানের শর্টকাট টেকনিক ও বিগত বছরের বোর্ড প্রশ্নব্যাংক।',
-      fileType: 'হ্যান্ডনোট',
+      content_text: `গতি ও বলের মৌলিক বিষয়াবলি:
+১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
+২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
+৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
+৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
+৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
+৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
+      contentText: `গতি ও বলের মৌলিক বিষয়াবলি:
+১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
+২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
+৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
+৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
+৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
+৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
+      fileType: 'PDF',
       fileUrl: 'https://nextgen.edu.bd/downloads/materials/physics-formulas.pdf',
       fileSize: '2.5 MB',
       totalPages: 18,
       author: 'নেক্সটজেন শিক্ষক প্যানেল',
       isFree: true,
-      downloadCount: 154
+      downloadCount: 154,
+      created_at: new Date().toISOString()
     },
     {
       id: 2,
       classId: 14,
+      title: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
       titleBn: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
+      category: 'HIGHER_MATH',
       chapterBn: 'অধ্যায় ৯: অন্তরীকরণ',
       descriptionBn: 'লিমিট ও মূল নিয়মে অন্তরজের সমাধান, স্পর্শক ও অভিলম্বের সমীকরণ সূত্রাবলি।',
-      fileType: 'হ্যান্ডনোট',
+      content_text: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
+১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
+২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
+৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
+৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
+      contentText: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
+১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
+২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
+৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
+৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
+      fileType: 'PDF',
       fileUrl: 'https://nextgen.edu.bd/downloads/materials/hsc-math-calculus.pdf',
       fileSize: '3.1 MB',
       totalPages: 26,
       author: 'নেক্সটজেন শিক্ষক প্যানেল',
       isFree: false,
-      downloadCount: 88
+      downloadCount: 88,
+      created_at: new Date().toISOString()
     }
   ];
 
