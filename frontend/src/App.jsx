@@ -107,7 +107,7 @@ function MainApp() {
         <FloatingWhatsAppSupport />
 
         {/* 24/7 AI Doubt Solver Chatbot for Students */}
-        {user?.role === 'STUDENT' && (
+        {(user?.role === 'STUDENT' || user?.role === 'PARENT') && (
           <FloatingDoubtSolver
             studentClass={user?.student?.class?.nameBn || user?.student?.class?.name || 'Class 9'}
           />

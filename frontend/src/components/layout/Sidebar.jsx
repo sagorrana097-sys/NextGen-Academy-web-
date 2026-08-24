@@ -152,7 +152,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
   // Auto-expand category containing current activeTab
   useEffect(() => {
-    if (user?.role === 'STUDENT') {
+    if (user?.role === 'STUDENT' || user?.role === 'PARENT') {
       const parentCat = studentCategories.find((cat) =>
         cat.items.some((item) => item.id === activeTab)
       );
@@ -269,7 +269,9 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               </div>
               <div className="overflow-hidden">
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{user?.name}</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 capitalize">{user?.role?.toLowerCase()} Portal</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  {user?.role === 'PARENT' ? (lang === 'bn' ? '👨‍👩‍👧 অভিভাবক পোর্টাল' : 'Guardian Portal') : user?.role === 'STUDENT' ? (lang === 'bn' ? '🎓 শিক্ষার্থী পোর্টাল' : 'Student Portal') : user?.role?.toLowerCase() + ' Portal'}
+                </p>
               </div>
             </div>
 
@@ -291,9 +293,9 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
             </button>
 
             {/* ========================================================================= */}
-            {/* STUDENT ACCORDION COLLAPSIBLE CATEGORIES */}
+            {/* UNIFIED STUDENT & PARENT ACCORDION COLLAPSIBLE CATEGORIES */}
             {/* ========================================================================= */}
-            {user?.role === 'STUDENT' ? (
+            {user?.role === 'STUDENT' || user?.role === 'PARENT' ? (
               <div className="space-y-2.5">
                 {studentCategories.map((cat) => {
                   const isCollapsed = collapsedCategories[cat.key];

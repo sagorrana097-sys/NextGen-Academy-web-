@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { studentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI, menuControlsAPI } from '../services/api';
+import { studentAPI, parentAPI, noticeAPI, homeworkAPI, materialAPI, textbookAPI, examAPI, menuControlsAPI } from '../services/api';
 import { useSWRCache } from '../utils/swrCache';
 import LoadingFallback from '../components/common/LoadingFallback';
 import LiveClassroomView from '../components/liveclass/LiveClassroomView';
@@ -13,6 +13,8 @@ import ScientificCalculatorWidget from '../components/common/ScientificCalculato
 import BilingualDictionaryWidget from '../components/student/BilingualDictionaryWidget';
 
 import SyllabusProgress from '../components/student/SyllabusProgress';
+import GuardianAttendanceMatrix from '../components/parent/GuardianAttendanceMatrix';
+import GuardianTeacherCards from '../components/parent/GuardianTeacherCards';
 
 import LeaderboardWidget from '../components/student/LeaderboardWidget';
 import PaymentHistory from '../components/common/PaymentHistory';
@@ -108,6 +110,9 @@ import {
 export default function StudentDashboard({ activeTab = 'dashboard' }) {
   const { t, lang } = useLanguage();
   const { user } = useAuth();
+  const isParent = user?.role === 'PARENT';
+  const [children, setChildren] = useState([]);
+  const [selectedChildId, setSelectedChildId] = useState(null);
 
   const [profile, setProfile] = useState(null);
   const [dashboard, setDashboard] = useState(null);
