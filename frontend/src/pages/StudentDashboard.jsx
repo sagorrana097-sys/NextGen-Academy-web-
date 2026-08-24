@@ -426,28 +426,6 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
     );
   }
 
-  // Centralized Student Portal Maintenance Mode Guard
-  if (settings?.studentPortal?.maintenanceMode && user?.role !== 'ADMIN' && user?.role !== 'SUPER_ADMIN') {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center p-6">
-        <div className="max-w-xl w-full bg-slate-900 border border-amber-500/30 rounded-3xl p-8 text-center space-y-4 shadow-2xl text-white">
-          <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/10 animate-bounce">
-            <ShieldAlert className="w-8 h-8" />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-black text-white">স্টুডেন্ট পোর্টাল রক্ষণাবেক্ষণ চলছে</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              {settings.studentPortal.maintenanceMessage || 'স্টুডেন্ট পোর্টাল বর্তমানে সিস্টেম আপগ্রেডেশনের জন্য সাময়িক স্থগিত রয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।'}
-            </p>
-          </div>
-          <div className="pt-2 text-xs text-amber-400 font-bold">
-            জরুরি হেল্পলাইন: {settings.contactNumber || '০১৭৯২৮১৮০০৫'}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       {/* Dynamic Student Portal Top Announcement Banner */}
