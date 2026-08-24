@@ -15,9 +15,7 @@ import ParentDashboard from './pages/ParentDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 
 import InactivityAutoLock from './components/common/InactivityAutoLock';
-import FloatingWhatsAppSupport from './components/common/FloatingWhatsAppSupport';
-import FloatingDoubtSolver from './components/student/FloatingDoubtSolver';
-import FloatingDraggableCalculator from './components/common/FloatingDraggableCalculator';
+import FloatingToolboxDock from './components/common/FloatingToolboxDock';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
 function MainApp() {
@@ -105,18 +103,8 @@ function MainApp() {
           </main>
         </div>
 
-        {/* Floating WhatsApp Support Widget */}
-        <FloatingWhatsAppSupport />
-
-        {/* Global Floating Draggable Scientific Calculator */}
-        <FloatingDraggableCalculator />
-
-        {/* 24/7 AI Doubt Solver Chatbot for Students */}
-        {(user?.role === 'STUDENT' || user?.role === 'PARENT') && (
-          <FloatingDoubtSolver
-            studentClass={user?.student?.class?.nameBn || user?.student?.class?.name || 'Class 9'}
-          />
-        )}
+        {/* Unified Floating Smart Dock & Toolbox (AI Doubt, Calculator, WhatsApp) */}
+        <FloatingToolboxDock />
       </div>
     </InactivityAutoLock>
   );
