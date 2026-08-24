@@ -282,7 +282,7 @@ export default function FloatingDoubtSolver({ studentClass = 'Class 9', currentS
                         <div className="prose prose-invert prose-xs max-w-none leading-relaxed space-y-2">
                           <ReactMarkdown
                             remarkPlugins={[remarkMath, remarkGfm]}
-                            rehypePlugins={[rehypeKatex]}
+                            rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false }]]}
                             className="prose prose-sm text-slate-100 max-w-none"
                             components={{
                               p: ({ node, ...props }) => <p className="mb-1.5 last:mb-0" {...props} />,
@@ -293,15 +293,23 @@ export default function FloatingDoubtSolver({ studentClass = 'Class 9', currentS
                               blockquote: ({ node, ...props }) => (
                                 <blockquote className="border-l-2 border-emerald-500 pl-2 py-1 bg-emerald-950/20 text-emerald-200 my-1 rounded" {...props} />
                               ),
-                              code: ({ node, inline, ...props }) =>
-                                inline ? (
-                                   <code className="px-1 py-0.5 rounded bg-slate-800 text-emerald-300 font-mono text-[10px]" {...props} />
+                              code: ({ node, className, children, ...props }) => {
+                                const match = /language-(\w+)/.exec(className || '');
+                                return match ? (
+                                  <pre className="p-2 rounded-xl bg-black/60 text-emerald-300 font-mono text-[10px] overflow-x-auto my-1 border border-slate-800">
+                                    <code className={className} {...props}>
+                                      {children}
+                                    </code>
+                                  </pre>
                                 ) : (
-                                  <pre className="p-2 rounded-xl bg-black/60 text-emerald-300 font-mono text-[10px] overflow-x-auto my-1 border border-slate-800" {...props} />
-                                )
+                                  <code className="px-1 py-0.5 rounded bg-slate-800 text-emerald-300 font-mono text-[10px]" {...props}>
+                                    {children}
+                                  </code>
+                                );
+                              }
                             }}
                           >
-                            {msg.content || msg.text}
+                            {msg.content || msg.text || ''}
                           </ReactMarkdown>
                         </div>
                         <span className="block text-[9px] text-slate-400 mt-1.5 text-right font-mono">

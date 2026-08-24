@@ -17,6 +17,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import InactivityAutoLock from './components/common/InactivityAutoLock';
 import FloatingWhatsAppSupport from './components/common/FloatingWhatsAppSupport';
 import FloatingDoubtSolver from './components/student/FloatingDoubtSolver';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 function MainApp() {
   const { user, isAuthenticated } = useAuth();
@@ -99,7 +100,9 @@ function MainApp() {
           />
 
           <main className="flex-1 lg:pl-64 p-4 sm:p-6 lg:p-8 pb-28 max-w-7xl w-full mx-auto">
-            {renderDashboard()}
+            <ErrorBoundary>
+              {renderDashboard()}
+            </ErrorBoundary>
           </main>
         </div>
 
