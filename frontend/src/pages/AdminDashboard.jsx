@@ -1235,6 +1235,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
   return (
     <div className="space-y-6">
+      {/* Top Overview & Analytics strictly for root dashboard */}
+      {activeTab === 'dashboard' && (
+        <>
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -1515,6 +1518,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
         </div>
       </div>
+        </>
+      )}
 
       {/* Main Tabs */}
       <Suspense fallback={<LoadingFallback message="অ্যাডমিন মডিউল লোড হচ্ছে..." />}>
