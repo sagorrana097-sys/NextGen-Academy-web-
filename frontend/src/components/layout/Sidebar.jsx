@@ -475,13 +475,29 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         <div className="flex flex-col h-full justify-between p-3.5 overflow-x-hidden overflow-y-hidden isolate">
           <div className="flex flex-col h-full overflow-x-hidden overflow-y-hidden">
             
-            {/* Mobile Header with Close Button */}
-            <div className="lg:hidden flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-800">
-              <span className="text-xs font-black text-amber-400 uppercase tracking-wider">মেনু নেভিগেশন</span>
+            {/* Mobile Header with Logo & Close Button */}
+            <div className="lg:hidden flex items-center justify-between pb-3 mb-2.5 border-b border-slate-800">
+              <div className="flex items-center space-x-2 min-w-0">
+                <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center p-0.5 ring-1 ring-amber-400/50 flex-shrink-0 overflow-hidden">
+                  <img
+                    src={settings?.logoUrl || '/logo.png'}
+                    alt={settings?.academyName || 'NextGen Academy'}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                </div>
+                <div className="flex items-baseline gap-1 font-english leading-none min-w-0">
+                  <span className="text-sm font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent whitespace-nowrap">
+                    {settings?.academyName?.split(' ')[0] || 'NextGen'}
+                  </span>
+                  <span className="text-[11px] font-black uppercase text-white tracking-wider whitespace-nowrap">
+                    {settings?.academyName?.split(' ').slice(1).join(' ') || 'ACADEMY'}
+                  </span>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors flex-shrink-0"
                 title="বন্ধ করুন"
               >
                 <X className="w-4 h-4" />

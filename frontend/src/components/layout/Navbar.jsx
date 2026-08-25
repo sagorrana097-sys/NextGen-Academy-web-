@@ -136,7 +136,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
           {/* ============================================================ */}
           {/* LEFT: Mobile Sidebar Toggle + Brand Logo & Title */}
           {/* ============================================================ */}
-          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-shrink">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-max flex-shrink-0">
             {/* Mobile Menu Hamburger Button */}
             <button
               onClick={onToggleSidebar}
@@ -151,8 +151,8 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
             </button>
 
             {/* Brand Logo & Name Crest */}
-            <div className="flex items-center space-x-2.5 sm:space-x-3.5 py-1 px-2.5 sm:py-1.5 sm:px-4 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 border border-amber-500/30 hover:border-amber-400/60 shadow-[0_0_20px_rgba(245,158,11,0.08)] ring-1 ring-amber-500/20 group transition-all duration-300 min-w-0">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-950 flex items-center justify-center p-0.5 ring-2 ring-amber-400/50 group-hover:ring-amber-400 shadow-md shadow-amber-500/20 overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+            <div className="flex items-center space-x-2 sm:space-x-3 py-1 px-2.5 sm:py-1.5 sm:px-3.5 rounded-2xl bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 border border-amber-500/30 hover:border-amber-400/60 shadow-[0_0_20px_rgba(245,158,11,0.08)] ring-1 ring-amber-500/20 group transition-all duration-300 flex-shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl bg-slate-950 flex items-center justify-center p-0.5 ring-2 ring-amber-400/50 group-hover:ring-amber-400 shadow-md shadow-amber-500/20 overflow-hidden flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
                 <img
                   src={settings?.logoUrl || '/logo.png'}
                   alt={settings?.academyName || 'NextGen Academy'}
@@ -160,16 +160,17 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
                 />
               </div>
 
-              <div className="flex flex-col border-l border-slate-800/80 pl-2.5 sm:pl-3.5 min-w-0 justify-center">
-                <div className="flex items-baseline space-x-1.5 sm:space-x-2 font-english leading-none">
-                  <span className="text-sm sm:text-base lg:text-[17px] font-black tracking-[0.12em] sm:tracking-[0.16em] bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(245,158,11,0.4)] truncate">
+              <div className="flex flex-col border-l border-slate-800/80 pl-2 sm:pl-3 justify-center">
+                {/* Brand Title: NextGen + Academy */}
+                <div className="flex items-baseline gap-1 sm:gap-1.5 leading-none font-english">
+                  <span className="text-sm sm:text-base lg:text-[17px] font-black tracking-[0.06em] sm:tracking-[0.12em] bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(245,158,11,0.4)] whitespace-nowrap">
                     {settings?.academyName?.split(' ')[0] || 'NextGen'}
                   </span>
-                  <span className="text-[10.5px] sm:text-[12px] lg:text-[13px] font-black uppercase tracking-[0.20em] sm:tracking-[0.26em] bg-gradient-to-r from-white via-slate-100 to-amber-100 bg-clip-text text-transparent drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)] hidden xs:inline">
+                  <span className="text-[11px] sm:text-[12px] lg:text-[13px] font-black uppercase tracking-[0.14em] sm:tracking-[0.20em] bg-gradient-to-r from-white via-slate-100 to-amber-100 bg-clip-text text-transparent drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)] whitespace-nowrap">
                     {settings?.academyName?.split(' ').slice(1).join(' ') || 'ACADEMY'}
                   </span>
                 </div>
-                <p className="text-[8px] sm:text-[9px] text-amber-300/80 tracking-[0.24em] uppercase hidden sm:block font-bold mt-1 font-english">
+                <p className="text-[7.5px] sm:text-[8.5px] text-amber-300/80 tracking-[0.18em] uppercase font-bold mt-0.5 sm:mt-1 font-english whitespace-nowrap">
                   {settings?.tagline || 'LEARN · GROW · SUCCEED'}
                 </p>
               </div>
