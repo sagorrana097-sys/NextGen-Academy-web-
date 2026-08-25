@@ -58,7 +58,8 @@ import {
   TestTube2,
   TrendingUp,
   Battery,
-  BatteryCharging
+  BatteryCharging,
+  Radio
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
@@ -289,6 +290,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '🎨 কনটেন্ট ও লার্নিং CMS' : '🎨 Content & Learning CMS',
       icon: Sparkles,
       items: [
+        { id: 'page-announcements', label: lang === 'bn' ? 'অডিও ও পেজ নোটিফিকেশন' : 'Audio Announcements', icon: Radio },
         { id: 'student-portal-control', label: lang === 'bn' ? 'স্টুডেন্ট পোর্টাল কন্ট্রোল হাব' : 'Student Portal Control', icon: Sliders },
         { id: 'site-cms', label: lang === 'bn' ? 'গ্লোবাল সাইট কনটেন্ট CMS' : 'Global Site CMS', icon: Sparkles },
         { id: 'media-center', label: lang === 'bn' ? 'মিডিয়া সেন্টার ও ভিডিও' : 'Media Center', icon: Film },
@@ -326,7 +328,8 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         { id: 'homework', label: lang === 'bn' ? 'হোমওয়ার্ক প্রদান ও চেক' : 'Homework Manager', icon: ClipboardList },
         { id: 'materials', label: lang === 'bn' ? 'স্টাডি ম্যাটেরিয়াল আপলোড' : 'Study Materials', icon: BookMarked },
         { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা প্রণয়ন' : 'Online Exams', icon: HelpCircle },
-        { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classes', icon: Video }
+        { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classes', icon: Video },
+        { id: 'page-announcements', label: lang === 'bn' ? 'পেজ অডিও নোটিশ' : 'Audio Announcements', icon: Radio }
       ]
     },
     {

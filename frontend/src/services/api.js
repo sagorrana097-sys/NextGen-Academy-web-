@@ -729,17 +729,17 @@ export const googleDriveAPI = {
   generateQuestions: (payload) => request('/google-drive/generate-questions', { method: 'POST', body: JSON.stringify(payload) })
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const announcementAPI = {
+  getActive: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/announcements/active?${q}`);
+  },
+  getAll: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/announcements?${q}`);
+  },
+  create: (data) => request('/announcements', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/announcements/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  toggle: (id) => request(`/announcements/${id}/toggle`, { method: 'PATCH' }),
+  delete: (id) => request(`/announcements/${id}`, { method: 'DELETE' })
+};

@@ -45,6 +45,8 @@ const AdminMenuManager = lazy(() => import('../components/admin/AdminMenuManager
 const AdminGrammarCMS = lazy(() => import('../components/admin/AdminGrammarCMS'));
 const AdminPromoSettings = lazy(() => import('../components/admin/AdminPromoSettings'));
 const AdminStudentPortalManager = lazy(() => import('../components/admin/AdminStudentPortalManager'));
+const AdminAnnouncementManager = lazy(() => import('../components/admin/AdminAnnouncementManager'));
+import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 
 
 
@@ -1279,6 +1281,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       {/* Top Overview & Analytics strictly for root dashboard */}
       {activeTab === 'dashboard' && (
         <>
+      {/* Dynamic Contextual Audio & Text Announcement Banner */}
+      <PageAnnouncementBanner targetPage="DASHBOARD" />
+
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -1613,6 +1618,8 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         <AdminPromoSettings />
       ) : activeTab === 'helpdesk' || activeTab === 'complaints' ? (
         <AdminHelpdeskManager />
+      ) : activeTab === 'page-announcements' || activeTab === 'announcements' ? (
+        <AdminAnnouncementManager />
       ) : activeTab === 'dashboard-controls' || activeTab === 'menu-controls' ? (
 
 

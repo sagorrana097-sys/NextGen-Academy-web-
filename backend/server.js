@@ -47,10 +47,8 @@ const grammarRoutes = require('./routes/grammar');
 const referralRoutes = require('./routes/referral');
 const proctoringRoutes = require('./routes/proctoring');
 const googleDriveRoutes = require('./routes/googleDrive');
+const announcementsRoutes = require('./routes/announcements');
 const errorHandler = require('./middleware/errorHandler');
-
-
-
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -67,7 +65,6 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(sanitizeInput);
 app.use('/api', generalLimiter);
-
 
 // Master Unified Dashboard Aggregate API Handler (Stats, Notices, Financials, Counts)
 app.get('/api/dashboard-aggregate', async (req, res) => {
@@ -196,6 +193,8 @@ app.use('/api/admin/achievers', achieversRoutes);
 app.use('/api/teacher-attendance', teacherAttendanceRoutes);
 app.use('/api/exams', examsRoutes);
 app.use('/api/live-classes', liveClassRoutes);
+app.use('/api/announcements', announcementsRoutes);
+app.use('/api/admin/announcements', announcementsRoutes);
 
 // Aliases for /api/subjectsClassId=11 and /api/curriculum/subjectsClassId=11
 app.get(['/api/subjectsClassId*', '/api/curriculum/subjectsClassId*'], (req, res, next) => {
@@ -208,71 +207,77 @@ app.get(['/api/subjectsClassId*', '/api/curriculum/subjectsClassId*'], (req, res
 app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/system-errors', systemErrorsRoutes);
 app.use('/api/admin/system-errors', systemErrorsRoutes);
-app.use('/api/syllabus-tracker', syllabusTrackingRoutes);
-app.use('/api/admin/syllabus-tracker', syllabusTrackingRoutes);
-app.use('/api', doubtSolverRoutes);
-app.use('/api', curriculumRoutes);
+app.use('/api/syllabus-tracking', syllabusTrackingRoutes);
+app.use('/api/doubt-solver', doubtSolverRoutes);
 app.use('/api/omr', omrRoutes);
-app.use('/api/admin/omr', omrRoutes);
-app.use('/api/admin/gamification', gamificationCmsRoutes);
+app.use('/api/gamification-cms', gamificationCmsRoutes);
 app.use('/api/helpdesk', helpdeskRoutes);
-app.use('/api/admin/helpdesk', helpdeskRoutes);
 app.use('/api/grammar', grammarRoutes);
-app.use('/api/admin/grammar', grammarRoutes);
 app.use('/api/referral', referralRoutes);
-app.use('/api/admin/referral', referralRoutes);
 app.use('/api/proctoring', proctoringRoutes);
 app.use('/api/google-drive', googleDriveRoutes);
-app.use('/api/admin/google-drive', googleDriveRoutes);
 
+// Root Health & API Explorer Check
+app.get('/', (req, res) => {
+  res.json({
+    message: 'NextGen Academy Parent Portal API Engine is Live',
+    documentation: '/api/health',
+    version: '1.0.0'
+  });
+});
 
-
-
-
-// Catch 404
-app.use((req, res, next) => {
+// 404 Catch-All Route
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     error: {
       code: 'ROUTE_NOT_FOUND',
-      message: `API Route ${req.originalUrl} not found`
+      message: `API রুট পাওয়া যায়নি: ${req.method} ${req.originalUrl}`
     }
   });
 });
 
-// Global Error Handler
+// Central Error Handling Middleware
 app.use(errorHandler);
 
-// Prevent crashing on unhandled errors
+// Global Uncaught Exception Handlers to Prevent Crash
 process.on('uncaughtException', (err) => {
-  console.error('🔥 Uncaught Exception:', err);
+  console.error('[CRITICAL] Uncaught Exception:', err);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('🔥 Unhandled Rejection at:', promise, 'reason:', reason);
+  console.error('[CRITICAL] Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// Bootstrap Server & Auto-Seed Database if empty
-async function startServer() {
-  try {
-    const existingUsers = await User.count();
-    if (existingUsers === 0) {
-      console.log('⚡ Empty database detected. Seeding initial records...');
-      await seedDatabase();
-    }
+// Server Initialization
+if (process.env.NODE_ENV !== 'test') {
+  const server = app.listen(PORT, async () => {
+    console.log(`==================================================`);
+    console.log(`🚀 NextGen Academy Backend Engine Active`);
+    console.log(`📡 Server Port: ${PORT}`);
+    console.log(`🛡️  Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`==================================================`);
 
-    app.listen(PORT, () => {
-      console.log(`🚀 NextGen Academy Backend running on http://localhost:${PORT}`);
-      console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+    // Run safe initial seed
+    await seedDatabase();
+  });
+
+  // Graceful Shutdown
+  const gracefulShutdown = (signal) => {
+    console.log(`Received ${signal}. Shutting down gracefully...`);
+    server.close(() => {
+      console.log('HTTP Server closed.');
+      process.exit(0);
     });
-  } catch (err) {
-    console.error('❌ Failed to start server:', err);
-    process.exit(1);
-  }
-}
 
-if (require.main === module) {
-  startServer();
+    setTimeout(() => {
+      console.error('Forcing shutdown after 10s timeout.');
+      process.exit(1);
+    }, 10000);
+  };
+
+  process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+  process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 }
 
 module.exports = app;

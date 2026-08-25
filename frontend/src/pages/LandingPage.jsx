@@ -1,5 +1,6 @@
 import React from 'react';
 import NewsTicker from '../components/layout/NewsTicker';
+import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 import { 
   Sparkles, ArrowRight, ShieldCheck, Zap, Brain, 
   FlaskConical, Heart, Calculator, Compass, BookOpen, 
@@ -49,6 +50,11 @@ export default function LandingPage({ onNavigateLogin, onNavigateAdmission, onEx
           </div>
         </div>
       </header>
+
+      {/* Contextual Audio & Text Announcement on Landing Home */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <PageAnnouncementBanner targetPage="HOME" />
+      </div>
 
       {/* Public Live News & Exam Routine Ticker */}
       <NewsTicker />

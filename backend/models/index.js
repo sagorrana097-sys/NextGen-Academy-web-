@@ -38,6 +38,7 @@ const MenuSetting = new Model('menu_settings');
 const GrammarLesson = new Model('grammar_lessons');
 const ReferralProfile = new Model('referral_profiles');
 const PromoSetting = new Model('promo_settings');
+const PageAnnouncement = new Model('page_announcements');
 
 
 
@@ -207,6 +208,9 @@ BatchTransferLog.belongsTo(Batch, { foreignKey: 'toBatchId', as: 'toBatch' });
 HelpdeskTicket.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 User.hasMany(HelpdeskTicket, { foreignKey: 'userId', as: 'helpdeskTickets' });
 
+PageAnnouncement.belongsTo(User, { foreignKey: 'createdById', as: 'author' });
+User.hasMany(PageAnnouncement, { foreignKey: 'createdById', as: 'announcements' });
+
 module.exports = {
   User,
   Student,
@@ -244,7 +248,8 @@ module.exports = {
   MenuSetting,
   GrammarLesson,
   ReferralProfile,
-  PromoSetting
+  PromoSetting,
+  PageAnnouncement
 };
 
 

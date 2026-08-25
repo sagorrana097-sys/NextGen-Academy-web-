@@ -21,6 +21,7 @@ import GuardianTeacherCards from '../components/parent/GuardianTeacherCards';
 import LeaderboardWidget from '../components/student/LeaderboardWidget';
 import PaymentHistory from '../components/common/PaymentHistory';
 import LiveClassCountdownWidget from '../components/student/LiveClassCountdownWidget';
+import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 
 // Code-split Heavy Components with React.lazy
 const Virtual3DScienceLab = lazy(() => import('../components/student/Virtual3DScienceLab'));
@@ -450,6 +451,9 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
 
   return (
     <div className="space-y-6">
+      {/* Contextual Audio & Text Announcement Banner */}
+      <PageAnnouncementBanner targetPage={activeTab === 'dashboard' ? 'DASHBOARD' : activeTab === 'live-classes' ? 'LIVE_CLASS' : activeTab === 'exams' ? 'EXAM_HALL' : 'DASHBOARD'} />
+
       {/* Dynamic Student Portal Top Announcement Banner */}
       {settings?.studentPortal?.showPortalBanner && settings?.studentPortal?.portalBannerText && (
         <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 border border-indigo-500/30 text-white flex items-center space-x-3 shadow-lg shadow-indigo-950/30 animate-fadeIn">

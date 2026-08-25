@@ -13,6 +13,8 @@ import AIMCQGeneratorModal from '../components/common/AIMCQGeneratorModal';
 import AICQGeneratorModal from '../components/common/AICQGeneratorModal';
 import AdminStudyMaterialUploadModal, { formatAcademicBadge } from '../components/admin/AdminStudyMaterialUploadModal';
 import MediaCenter from '../components/media/MediaCenter';
+import AdminAnnouncementManager from '../components/admin/AdminAnnouncementManager';
+import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 import {
   BookOpen,
   CalendarCheck,
@@ -50,7 +52,8 @@ import {
   HelpCircle,
   CheckSquare,
   Zap,
-  PenTool
+  PenTool,
+  Radio
 } from 'lucide-react';
 
 export default function TeacherDashboard({ activeTab = 'attendance' }) {
@@ -1039,6 +1042,9 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
         </div>
       )}
 
+      {/* Contextual Audio Announcement Banner */}
+      <PageAnnouncementBanner targetPage="DASHBOARD" />
+
       {/* Live Class 15-Minute Alert Banner */}
       <LiveClassNotificationBanner classId={selectedClassId} sectionId={selectedSectionId} />
 
@@ -1046,7 +1052,9 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       )}
 
       {/* Main Tabs */}
-      {activeTab === 'profile-settings' ? (
+      {activeTab === 'page-announcements' || activeTab === 'announcements' ? (
+        <AdminAnnouncementManager />
+      ) : activeTab === 'profile-settings' ? (
         <TeacherProfileSettings />
       ) : activeTab === 'results-report' ? (
         <ResultsManager userRole="TEACHER" />

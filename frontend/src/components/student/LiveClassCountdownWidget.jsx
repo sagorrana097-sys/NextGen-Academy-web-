@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import PageAnnouncementBanner from '../common/PageAnnouncementBanner';
 
 const BRAND = {
   name: 'NextGen Academy',
@@ -152,6 +153,11 @@ export default function LiveClassCountdownWidget() {
 
   return (
     <div style={{ fontFamily: "'Hind Siliguri', sans-serif", color: '#e2e8f0' }}>
+      {/* Contextual Live Class Voice & Text Announcement */}
+      <div className="mb-4">
+        <PageAnnouncementBanner targetPage="LIVE_CLASS" />
+      </div>
+
       {/* Header */}
       <div style={{ background: 'linear-gradient(135deg,#0f172a,#1e1b4b)', borderRadius: 16, padding: '22px 28px', marginBottom: 24, border: '1px solid #312e81' }}>
         <h2 style={{ margin: 0, color: '#a5b4fc', fontWeight: 800, fontSize: 22 }}>📡 লাইভ ক্লাসরুম সিস্টেম</h2>
