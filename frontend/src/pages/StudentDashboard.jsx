@@ -47,6 +47,7 @@ const VirtualBiologyLab3D = lazy(() => import('../components/student/VirtualBiol
 const Science3DHub = lazy(() => import('../components/student/Science3DHub'));
 const ElectronConfigurationVisualizer = lazy(() => import('../components/student/ElectronConfigurationVisualizer'));
 const GalvanicCellSimulation = lazy(() => import('../components/student/GalvanicCellSimulation'));
+const RedoxOxidationEngine = lazy(() => import('../components/student/RedoxOxidationEngine'));
 const ICTSmartQuizZone = lazy(() => import('../components/student/ICTSmartQuizZone'));
 const TeacherDirectory = lazy(() => import('../components/common/TeacherDirectory'));
 
@@ -668,6 +669,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             <ElectronConfigurationVisualizer />
           ) : activeTab === 'galvanic-cell' || activeTab === 'galvanic' || activeTab === 'electrochemistry' ? (
             <GalvanicCellSimulation />
+          ) : activeTab === 'redox-engine' || activeTab === 'redox' || activeTab === 'oxidation-number' ? (
+            <RedoxOxidationEngine />
           ) : activeTab === 'ict-quiz' || activeTab === 'ict' ? (
             <ICTSmartQuizZone />
           ) : activeTab === 'helpdesk' || activeTab === 'feedback' ? (

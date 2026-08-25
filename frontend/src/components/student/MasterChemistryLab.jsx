@@ -793,11 +793,13 @@ function StoichiometryAndRadicalsSandbox() {
 import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
 import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
 import GalvanicCellSimulation from './GalvanicCellSimulation';
+import RedoxOxidationEngine from './RedoxOxidationEngine';
 
 // ============================================================
 // MAIN COMPONENT EXPORT
 // ============================================================
 const MODULES = [
+  { id: 'redox-engine', label: 'জারণ-বিজারণ ও জারণ সংখ্যা ইঞ্জিন', icon: Flame, Component: RedoxOxidationEngine },
   { id: 'galvanic', label: 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন', icon: BatteryCharging, Component: GalvanicCellSimulation },
   { id: 'bonding-solver', label: '৫ম অধ্যায়: বন্ধন ও লুইস ডট-ক্রস', icon: Atom, Component: ChemistryChapter5BondingSolver },
   { id: 'math-solver', label: '৬ষ্ঠ অধ্যায়: AI ম্যাথ সলভার', icon: Calculator, Component: ChemistryChapter6MathSolver },

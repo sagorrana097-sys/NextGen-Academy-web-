@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { Rotate3d, Atom, Heart, Sparkles, BatteryCharging } from 'lucide-react';
+import { Rotate3d, Atom, Heart, Sparkles, BatteryCharging, Flame } from 'lucide-react';
 import LoadingFallback from '../common/LoadingFallback';
 
 const Virtual3DScienceLab = lazy(() => import('./Virtual3DScienceLab'));
@@ -7,9 +7,10 @@ const PeriodicTable3D = lazy(() => import('./PeriodicTable3D'));
 const VirtualBiologyLab3D = lazy(() => import('./VirtualBiologyLab3D'));
 const ElectronConfigurationVisualizer = lazy(() => import('./ElectronConfigurationVisualizer'));
 const GalvanicCellSimulation = lazy(() => import('./GalvanicCellSimulation'));
+const RedoxOxidationEngine = lazy(() => import('./RedoxOxidationEngine'));
 
 export default function Science3DHub({ defaultSubTab = 'lab' }) {
-  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'galvanic' | 'biology'
+  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'galvanic' | 'redox' | 'biology'
 
   return (
     <div className="space-y-6">
@@ -69,10 +70,23 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
 
         <button
           type="button"
+          onClick={() => setActiveSubTab('redox')}
+          className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+            activeSubTab === 'redox'
+              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30 font-black'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Flame className="w-3.5 h-3.5" />
+          <span>জারণ-বিজারণ ও জারণ সংখ্যা ইঞ্জিন</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveSubTab('biology')}
           className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
             activeSubTab === 'biology'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30 font-black'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 font-black'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -87,6 +101,7 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
         {activeSubTab === 'periodic' && <PeriodicTable3D />}
         {activeSubTab === 'electron' && <ElectronConfigurationVisualizer />}
         {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
+        {activeSubTab === 'redox' && <RedoxOxidationEngine />}
         {activeSubTab === 'biology' && <VirtualBiologyLab3D />}
       </Suspense>
     </div>

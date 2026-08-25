@@ -166,6 +166,11 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               id: 'galvanic-cell',
               label: lang === 'bn' ? 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন ল্যাব' : 'Galvanic Cell & Electrochemistry',
               icon: BatteryCharging
+            },
+            {
+              id: 'redox-engine',
+              label: lang === 'bn' ? 'জারণ-বিজারণ ও জারণ সংখ্যা ইঞ্জিন' : 'Redox & Oxidation Number Engine',
+              icon: Flame
             }
           ]
         },
