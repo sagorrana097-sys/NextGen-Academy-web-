@@ -155,6 +155,11 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               id: 'science-3d',
               label: lang === 'bn' ? '৩ডি পর্যায় সারণি ও আণবিক গঠন' : '3D Periodic Table & Molecules',
               icon: Rotate3d
+            },
+            {
+              id: 'electron-config',
+              label: lang === 'bn' ? 'ইলেকট্রন বিন্যাস ও বোর অরবিট ল্যাব' : 'Electron Configuration & Bohr Lab',
+              icon: Sparkles
             }
           ]
         },

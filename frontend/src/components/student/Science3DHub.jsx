@@ -5,14 +5,15 @@ import LoadingFallback from '../common/LoadingFallback';
 const Virtual3DScienceLab = lazy(() => import('./Virtual3DScienceLab'));
 const PeriodicTable3D = lazy(() => import('./PeriodicTable3D'));
 const VirtualBiologyLab3D = lazy(() => import('./VirtualBiologyLab3D'));
+const ElectronConfigurationVisualizer = lazy(() => import('./ElectronConfigurationVisualizer'));
 
 export default function Science3DHub({ defaultSubTab = 'lab' }) {
-  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'biology'
+  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'biology' | 'electron'
 
   return (
     <div className="space-y-6">
       {/* Subject Lab Selector Bar */}
-      <div className="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 w-fit text-xs font-bold shadow-lg backdrop-blur-sm">
+      <div className="flex flex-wrap items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 w-fit text-xs font-bold shadow-lg backdrop-blur-sm">
         <button
           type="button"
           onClick={() => setActiveSubTab('lab')}
@@ -41,6 +42,19 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
 
         <button
           type="button"
+          onClick={() => setActiveSubTab('electron')}
+          className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+            activeSubTab === 'electron'
+              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 font-black'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>ইলেকট্রন বিন্যাস ও বোর অরবিট ল্যাব</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveSubTab('biology')}
           className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
             activeSubTab === 'biology'
@@ -57,6 +71,7 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
       <Suspense fallback={<LoadingFallback message="৩ডি সায়েন্স ল্যাব লোড হচ্ছে..." />}>
         {activeSubTab === 'lab' && <Virtual3DScienceLab />}
         {activeSubTab === 'periodic' && <PeriodicTable3D />}
+        {activeSubTab === 'electron' && <ElectronConfigurationVisualizer />}
         {activeSubTab === 'biology' && <VirtualBiologyLab3D />}
       </Suspense>
     </div>
