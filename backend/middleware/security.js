@@ -6,14 +6,15 @@ const rateLimit = require('express-rate-limit');
  */
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // max 10 requests per window
+  max: 60, // allow campus / shared wifi multiple logins
+  skipSuccessfulRequests: true, // successful logins do not consume rate limit quota
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     success: false,
     error: {
       code: 'TOO_MANY_REQUESTS',
-      message: 'অতিরিক্ত লগইন চেষ্টার কারণে সাময়িকভাবে ব্লক করা হয়েছে। অনুগ্রহ করে ১৫ মিনিট পর আবার চেষ্টা করুন।'
+      message: 'অতিরিক্ত ব্যর্থ লগইন চেষ্টার কারণে সাময়িকভাবে ব্লক করা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।'
     }
   }
 });
