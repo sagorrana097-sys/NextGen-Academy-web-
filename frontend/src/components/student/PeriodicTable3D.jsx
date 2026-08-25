@@ -21,8 +21,11 @@ import {
   Brain,
   Sliders,
   Play,
+  Pause,
   RotateCcw,
-  Volume2
+  Volume2,
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
 
@@ -62,40 +65,16 @@ const ALL_ELEMENTS = [
   { n: 23, sym: 'V', nameBn: 'ভ্যানাডিয়াম', nameEn: 'Vanadium', mass: '50.942', group: 5, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.63, val: '2, 3, 4, 5', ec: '[Ar] 3d³ 4s²', shells: [2, 8, 11, 2], subshells: [{ name: '3d', cap: 10, count: 3 }, { name: '4s', cap: 2, count: 2 }], desc: 'সালফিউরিক এসিড তৈরিতে V2O5 প্রভাবক হিসেবে সুপরিচিত।' },
   { n: 24, sym: 'Cr', nameBn: 'ক্রোমিয়াম', nameEn: 'Chromium', mass: '51.996', group: 6, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.66, val: '2, 3, 6', ec: '[Ar] 3d⁵ 4s¹ (ব্যতিক্রম)', shells: [2, 8, 13, 1], subshells: [{ name: '3d', cap: 10, count: 5 }, { name: '4s', cap: 2, count: 1 }], desc: 'আউফবাউ নিয়মের ব্যতিক্রম! অর্ধপূর্ণ d⁵ অরবিটালের অধিক স্থিতিশীলতা।' },
   { n: 25, sym: 'Mn', nameBn: 'ম্যাঙ্গানিজ', nameEn: 'Manganese', mass: '54.938', group: 7, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.55, val: '2, 4, 7', ec: '[Ar] 3d⁵ 4s²', shells: [2, 8, 13, 2], subshells: [{ name: '3d', cap: 10, count: 5 }, { name: '4s', cap: 2, count: 2 }], desc: 'KMnO4 তীব্র জারক পদার্থ তৈরিতে ব্যবহৃত অবস্থান্তর ধাতু।' },
-  { n: 26, sym: 'Fe', nameBn: 'আয়রন (লোহা)', nameEn: 'Iron', mass: '55.845', group: 8, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.83, val: '2, 3', ec: '[Ar] 3d⁶ 4s²', shells: [2, 8, 14, 2], subshells: [{ name: '3d', cap: 10, count: 6 }, { name: '4s', cap: 2, count: 2 }], desc: 'রক্তের হিমোগ্লোবিনের মূল ধাতু এবং আধুনিক সভ্যতার মূল মেরুদণ্ড।' },
+  { n: 26, sym: 'Fe', nameBn: 'আয়রন (লোহা)', nameEn: 'Iron', mass: '55.845', group: 8, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.83, val: '2, 3', ec: '[Ar] 3d⁶ 4s²', shells: [2, 8, 14, 2], subshells: [{ name: '3d', cap: 10, count: 6 }, { name: '4s', cap: 2, count: 2 }], desc: 'রক্তের হিমোগ্লোবিনের মূল ধাতু এবং আধুনিক সভ্যতার মূল মেরুদণ্ড (২৬টি প্রোটন ও ৩০টি নিউট্রন)।' },
   { n: 27, sym: 'Co', nameBn: 'কোবাল্ট', nameEn: 'Cobalt', mass: '58.933', group: 9, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.88, val: '2, 3', ec: '[Ar] 3d⁷ 4s²', shells: [2, 8, 15, 2], subshells: [{ name: '3d', cap: 10, count: 7 }, { name: '4s', cap: 2, count: 2 }], desc: 'ভিটামিন বি-১২ এর কেন্দ্রীয় মৌল; ক্যান্সার থেরাপিতে Co-60 ব্যবহৃত।' },
   { n: 28, sym: 'Ni', nameBn: 'নিকেল', nameEn: 'Nickel', mass: '58.693', group: 10, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.91, val: '2', ec: '[Ar] 3d⁸ 4s²', shells: [2, 8, 16, 2], subshells: [{ name: '3d', cap: 10, count: 8 }, { name: '4s', cap: 2, count: 2 }], desc: 'তেল থেকে ডালডা তৈরির হাইড্রোজিনেশন বিক্রিয়ায় নিকেল প্রভাবক।' },
   { n: 29, sym: 'Cu', nameBn: 'কপার (তামা)', nameEn: 'Copper', mass: '63.546', group: 11, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.90, val: '1, 2', ec: '[Ar] 3d¹⁰ 4s¹ (ব্যতিক্রম)', shells: [2, 8, 18, 1], subshells: [{ name: '3d', cap: 10, count: 10 }, { name: '4s', cap: 2, count: 1 }], desc: 'আউফবাউ নিয়মের ব্যতিক্রম! পূর্ণ d¹⁰ অরবিটালের অধিক স্থিতিশীলতা।' },
   { n: 30, sym: 'Zn', nameBn: 'জিঙ্ক (দস্তা)', nameEn: 'Zinc', mass: '65.38', group: 12, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.65, val: '2', ec: '[Ar] 3d¹⁰ 4s²', shells: [2, 8, 18, 2], subshells: [{ name: '3d', cap: 10, count: 10 }, { name: '4s', cap: 2, count: 2 }], desc: 'লোহায় মরিচা রোধে গ্যালভানাইজিং ও মানবদেহে রোগ প্রতিরোধে কার্যকর।' },
-  { n: 31, sym: 'Ga', nameBn: 'গ্যালিয়াম', nameEn: 'Gallium', mass: '69.723', group: 13, period: 4, block: 'p', cat: 'post-transition', state: 'Solid', en: 1.81, val: '3', ec: '[Ar] 3d¹⁰ 4s² 4p¹', shells: [2, 8, 18, 3], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 1 }], desc: 'হাতে রাখলেই শরীরের উত্তাপে গলে যাওয়া অদ্ভুত ধাতু (গলনাঙ্ক ২৯.৭°C)।' },
-  { n: 32, sym: 'Ge', nameBn: 'জার্মেনিয়াম', nameEn: 'Germanium', mass: '72.63', group: 14, period: 4, block: 'p', cat: 'metalloid', state: 'Solid', en: 2.01, val: '4', ec: '[Ar] 3d¹⁰ 4s² 4p²', shells: [2, 8, 18, 4], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 2 }], desc: 'ফাইবার অপটিক্স ও ইনফ্রারেড অপটিক্সে ব্যবহৃত অপধাতু।' },
-  { n: 33, sym: 'As', nameBn: 'আর্সেনিক', nameEn: 'Arsenic', mass: '74.922', group: 15, period: 4, block: 'p', cat: 'metalloid', state: 'Solid', en: 2.18, val: '3, 5', ec: '[Ar] 3d¹⁰ 4s² 4p³', shells: [2, 8, 18, 5], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 3 }], desc: 'বিষাক্ত অপধাতু; ভূগর্ভস্থ পানির আর্সেনিক দূষণ জনস্বাস্থ্যের সমস্যা।' },
-  { n: 34, sym: 'Se', nameBn: 'সেলেনিয়াম', nameEn: 'Selenium', mass: '78.971', group: 16, period: 4, block: 'p', cat: 'nonmetal', state: 'Solid', en: 2.55, val: '2, 4, 6', ec: '[Ar] 3d¹⁰ 4s² 4p⁴', shells: [2, 8, 18, 6], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 4 }], desc: 'আলো পড়লে বিদ্যুৎ পরিবাহিতা বৃদ্ধি পায় (ফটোইলেকট্রিক সেল)।' },
   { n: 35, sym: 'Br', nameBn: 'ব্রোমিন', nameEn: 'Bromine', mass: '79.904', group: 17, period: 4, block: 'p', cat: 'halogen', state: 'Liquid', en: 2.96, val: '1, 3, 5', ec: '[Ar] 3d¹⁰ 4s² 4p⁵', shells: [2, 8, 18, 7], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 5 }], desc: 'একমাত্র সাধারণ তাপমাত্রায় তরল লালচে-বাদামি অধাতু।' },
-  { n: 36, sym: 'Kr', nameBn: 'ক্রিপ্টন', nameEn: 'Krypton', mass: '83.798', group: 18, period: 4, block: 'p', cat: 'noble', state: 'Gas', en: 3.00, val: '0', ec: '[Ar] 3d¹⁰ 4s² 4p⁶', shells: [2, 8, 18, 8], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 6 }], desc: 'ফ্ল্যাশ লাইট ও লেজারে ব্যবহৃত উজ্জ্বল নিষ্ক্রিয় গ্যাস।' },
-
-  // Period 5
-  { n: 37, sym: 'Rb', nameBn: 'রুবিডিয়াম', nameEn: 'Rubidium', mass: '85.468', group: 1, period: 5, block: 's', cat: 'alkali', state: 'Solid', en: 0.82, val: '1', ec: '[Kr] 5s¹', shells: [2, 8, 18, 8, 1], subshells: [{ name: '5s', cap: 2, count: 1 }], desc: 'অতি সক্রিয় ক্ষার ধাতু; পরমাণু ঘড়িতে ব্যবহৃত।' },
-  { n: 38, sym: 'Sr', nameBn: 'স্ট্রনশিয়াম', nameEn: 'Strontium', mass: '87.62', group: 2, period: 5, block: 's', cat: 'alkaline', state: 'Solid', en: 0.95, val: '2', ec: '[Kr] 5s²', shells: [2, 8, 18, 8, 2], subshells: [{ name: '5s', cap: 2, count: 2 }], desc: 'আতশবাজিতে গাঢ় লাল শিখা সৃষ্টি করে।' },
   { n: 47, sym: 'Ag', nameBn: 'সিলভার (রূপা)', nameEn: 'Silver', mass: '107.87', group: 11, period: 5, block: 'd', cat: 'transition', state: 'Solid', en: 1.93, val: '1', ec: '[Kr] 4d¹⁰ 5s¹', shells: [2, 8, 18, 18, 1], subshells: [{ name: '4d', cap: 10, count: 10 }, { name: '5s', cap: 2, count: 1 }], desc: 'সর্বাধিক বিদ্যুৎ ও তাপ পরিবাহী ধাতব মৌল।' },
-  { n: 50, sym: 'Sn', nameBn: 'টিন (রাং)', nameEn: 'Tin', mass: '118.71', group: 14, period: 5, block: 'p', cat: 'post-transition', state: 'Solid', en: 1.96, val: '2, 4', ec: '[Kr] 4d¹⁰ 5s² 5p²', shells: [2, 8, 18, 18, 4], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 2 }], desc: 'খাবারের ক্যান প্লেটিং ও ব্রোঞ্জ সংকর তৈরিতে ব্যবহৃত।' },
-  { n: 53, sym: 'I', nameBn: 'আয়োডিন', nameEn: 'Iodine', mass: '126.90', group: 17, period: 5, block: 'p', cat: 'halogen', state: 'Solid', en: 2.66, val: '1, 5, 7', ec: '[Kr] 4d¹⁰ 5s² 5p⁵', shells: [2, 8, 18, 18, 7], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 5 }], desc: 'থাইরয়েড গ্রন্থির হরমোন তৈরিতে অত্যাবশ্যকীয় হ্যালাইড।' },
-  { n: 54, sym: 'Xe', nameBn: 'জেনন', nameEn: 'Xenon', mass: '131.29', group: 18, period: 5, block: 'p', cat: 'noble', state: 'Gas', en: 2.60, val: '0, 2, 4, 6', ec: '[Kr] 4d¹⁰ 5s² 5p⁶', shells: [2, 8, 18, 18, 8], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 6 }], desc: 'নিষ্ক্রিয় গ্যাস হওয়া সত্ত্বেও ফ্লোরিনের সাথে যৌগ গঠন করে।' },
-
-  // Period 6
-  { n: 55, sym: 'Cs', nameBn: 'সিজিয়াম', nameEn: 'Caesium', mass: '132.91', group: 1, period: 6, block: 's', cat: 'alkali', state: 'Solid', en: 0.79, val: '1', ec: '[Xe] 6s¹', shells: [2, 8, 18, 18, 8, 1], subshells: [{ name: '6s', cap: 2, count: 1 }], desc: 'সর্বাধিক তড়িৎ-ধনাত্মক ধাতু; পারমাণবিক ঘড়ির মান নির্ধারণকারী।' },
-  { n: 56, sym: 'Ba', nameBn: 'বেরিয়াম', nameEn: 'Barium', mass: '137.33', group: 2, period: 6, block: 's', cat: 'alkaline', state: 'Solid', en: 0.89, val: '2', ec: '[Xe] 6s²', shells: [2, 8, 18, 18, 8, 2], subshells: [{ name: '6s', cap: 2, count: 2 }], desc: 'আতশবাজিতে উজ্জ্বল সবুজ শিখা প্রদানকারী মৃৎক্ষার ধাতু।' },
-  { n: 74, sym: 'W', nameBn: 'টাংস্টেন', nameEn: 'Tungsten', mass: '183.84', group: 6, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.36, val: '6', ec: '[Xe] 4f¹⁴ 5d⁴ 6s²', shells: [2, 8, 18, 32, 12, 2], subshells: [{ name: '5d', cap: 10, count: 4 }, { name: '6s', cap: 2, count: 2 }], desc: 'সর্বোচ্চ গলনাঙ্কবিশিষ্ট ধাতু (৩৪২২°C); বৈদ্যুতিক ফিলামেন্টের উৎস।' },
-  { n: 78, sym: 'Pt', nameBn: 'প্লাটিনাম', nameEn: 'Platinum', mass: '195.08', group: 10, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.28, val: '2, 4', ec: '[Xe] 4f¹⁴ 5d⁹ 6s¹', shells: [2, 8, 18, 32, 17, 1], subshells: [{ name: '5d', cap: 10, count: 9 }, { name: '6s', cap: 2, count: 1 }], desc: 'মূল্যবান অনুঘটক ও ক্যান্সার প্রতিরোধী ওষুধ সিসপ্ল্যাটিনের ভিত্তি।' },
   { n: 79, sym: 'Au', nameBn: 'গোল্ড (স্বর্ণ)', nameEn: 'Gold', mass: '196.97', group: 11, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.54, val: '1, 3', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s¹', shells: [2, 8, 18, 32, 18, 1], subshells: [{ name: '5d', cap: 10, count: 10 }, { name: '6s', cap: 2, count: 1 }], desc: 'অভিজাত ধাতু, সহজে ক্ষয় বা অক্সিডাইজড হয় না; উৎকৃষ্ট পরিবাহী।' },
   { n: 80, sym: 'Hg', nameBn: 'মার্কারি (পারদ)', nameEn: 'Mercury', mass: '200.59', group: 12, period: 6, block: 'd', cat: 'transition', state: 'Liquid', en: 2.00, val: '1, 2', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s²', shells: [2, 8, 18, 32, 18, 2], subshells: [{ name: '5d', cap: 10, count: 10 }, { name: '6s', cap: 2, count: 2 }], desc: 'একমাত্র সাধারণ তাপমাত্রায় তরল ধাতু; থার্মোমিটারে ব্যবহৃত।' },
-  { n: 82, sym: 'Pb', nameBn: 'লেড (সীসা)', nameEn: 'Lead', mass: '207.2', group: 14, period: 6, block: 'p', cat: 'post-transition', state: 'Solid', en: 2.33, val: '2, 4', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²', shells: [2, 8, 18, 32, 18, 4], subshells: [{ name: '6s', cap: 2, count: 2 }, { name: '6p', cap: 6, count: 2 }], desc: 'তেজস্ক্রিয় রশ্মি প্রতিরোধক ও ভারী ক্ষতিকর ধাতু।' },
-  { n: 86, sym: 'Rn', nameBn: 'রেডন', nameEn: 'Radon', mass: '222', group: 18, period: 6, block: 'p', cat: 'noble', state: 'Gas', en: 2.2, val: '0', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶', shells: [2, 8, 18, 32, 18, 8], subshells: [{ name: '6s', cap: 2, count: 2 }, { name: '6p', cap: 6, count: 6 }], desc: 'তেজস্ক্রিয় নিষ্ক্রিয় গ্যাস; রেডিয়াম ক্ষয়ে উৎপন্ন হয়।' },
-
-  // Period 7
-  { n: 92, sym: 'U', nameBn: 'ইউরেনিয়াম', nameEn: 'Uranium', mass: '238.03', group: 3, period: 7, block: 'f', cat: 'actinide', state: 'Solid', en: 1.38, val: '3, 4, 5, 6', ec: '[Rn] 5f³ 6d¹ 7s²', shells: [2, 8, 18, 32, 21, 9, 2], subshells: [{ name: '5f', cap: 14, count: 3 }, { name: '6d', cap: 10, count: 1 }, { name: '7s', cap: 2, count: 2 }], desc: 'পারমাণবিক চুল্লি ও পারমাণবিক বোমার প্রধান ফিশন জ্বালানি।' },
-  { n: 94, sym: 'Pu', nameBn: 'প্লুটোনিয়াম', nameEn: 'Plutonium', mass: '244', group: 3, period: 7, block: 'f', cat: 'actinide', state: 'Solid', en: 1.28, val: '4', ec: '[Rn] 5f⁶ 7s²', shells: [2, 8, 18, 32, 24, 8, 2], subshells: [{ name: '5f', cap: 14, count: 6 }, { name: '7s', cap: 2, count: 2 }], desc: 'কৃত্রিম তেজস্ক্রিয় মৌল ও পারমাণবিক শক্তির অন্যতম উৎস।' },
-  { n: 118, sym: 'Og', nameBn: 'ওগানেসন', nameEn: 'Oganesson', mass: '294', group: 18, period: 7, block: 'p', cat: 'noble', state: 'Synthetic', en: 0, val: '0', ec: '[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶', shells: [2, 8, 18, 32, 32, 18, 8], subshells: [{ name: '7s', cap: 2, count: 2 }, { name: '7p', cap: 6, count: 6 }], desc: 'পর্যায় সারণির ১১৮তম ও সর্বশেষ সংশ্লেষিত অতিভারী মৌল।' }
+  { n: 92, sym: 'U', nameBn: 'ইউরেনিয়াম', nameEn: 'Uranium', mass: '238.03', group: 3, period: 7, block: 'f', cat: 'actinide', state: 'Solid', en: 1.38, val: '3, 4, 5, 6', ec: '[Rn] 5f³ 6d¹ 7s²', shells: [2, 8, 18, 32, 21, 9, 2], subshells: [{ name: '5f', cap: 14, count: 3 }, { name: '6d', cap: 10, count: 1 }, { name: '7s', cap: 2, count: 2 }], desc: 'পারমাণবিক চুল্লি ও পারমাণবিক বোমার প্রধান ফিশন জ্বালানি।' }
 ];
 
 const CATEGORIES = [
@@ -197,12 +176,60 @@ export default function PeriodicTable3D() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [selectedBlock, setSelectedBlock] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeElement, setActiveElement] = useState(ALL_ELEMENTS[25]); // Iron (Fe) default
+  const [activeElement, setActiveElement] = useState(ALL_ELEMENTS[22]); // Default: Iron (Fe)
   const [isExporting, setIsExporting] = useState(false);
   const [activeTab, setActiveTab] = useState('table'); // 'table' | 'visualizer' | 'quiz'
+  const [viewMode, setViewMode] = useState('atom'); // 'atom' | 'nucleus'
+  const [isRotating, setIsRotating] = useState(true);
   const [quizScore, setQuizScore] = useState(0);
   const [quizAnswered, setQuizAnswered] = useState(null);
   const flashcardRef = useRef(null);
+
+  // Nucleon calculations
+  const protonCount = activeElement.n;
+  const massNumber = Math.round(Number(activeElement.mass));
+  const neutronCount = Math.max(0, massNumber - protonCount);
+
+  // Nucleus cluster calculation for zoomed view
+  const nucleusCluster = useMemo(() => {
+    const totalNucleons = protonCount + neutronCount;
+    const visualTotal = Math.min(totalNucleons, 75);
+    const protonRatio = protonCount / totalNucleons;
+    const visualProtons = Math.round(visualTotal * protonRatio);
+    const visualNeutrons = visualTotal - visualProtons;
+
+    const list = [];
+    for (let i = 0; i < visualProtons; i++) list.push({ type: 'P', label: 'p⁺' });
+    for (let i = 0; i < visualNeutrons; i++) list.push({ type: 'N', label: 'n⁰' });
+
+    const seedShuffle = (arr) => {
+      const seeded = [...arr];
+      let seed = activeElement.n * 37;
+      for (let i = seeded.length - 1; i > 0; i--) {
+        seed = (seed * 9301 + 49297) % 233280;
+        const j = Math.floor((seed / 233280) * (i + 1));
+        [seeded[i], seeded[j]] = [seeded[j], seeded[i]];
+      }
+      return seeded;
+    };
+    const shuffled = seedShuffle(list);
+
+    return shuffled.map((item, idx) => {
+      const phi = idx * 137.5 * (Math.PI / 180);
+      const r = Math.sqrt(idx + 1) * 12.5;
+      const x = Math.cos(phi) * r;
+      const y = Math.sin(phi) * r;
+      const depth = Math.sin(idx * 2.3) * 0.4 + 0.8;
+      return {
+        id: idx,
+        type: item.type,
+        label: item.label,
+        x,
+        y,
+        depth
+      };
+    });
+  }, [protonCount, neutronCount, activeElement.n]);
 
   // Filter elements by category, block, and search query
   const filteredElements = useMemo(() => {
@@ -242,7 +269,7 @@ export default function PeriodicTable3D() {
   const unpairedElectronsCount = useMemo(() => {
     if (!activeElement?.subshells) return 0;
     let unpaired = 0;
-    activeElement.subshells.forEach(sub => {
+    activeElement.subshells.forEach((sub) => {
       let boxCount = 1;
       if (sub.name.includes('p')) boxCount = 3;
       else if (sub.name.includes('d')) boxCount = 5;
@@ -269,11 +296,11 @@ export default function PeriodicTable3D() {
             <div className="flex items-center gap-2">
               <h2 className="text-2xl font-black text-white">ইন্টারেক্টিভ পর্যায় সারণি ও ইলেকট্রন বিন্যাস ল্যাব</h2>
               <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold font-mono">
-                Aufbau & Hund's Rule 3D
+                Bohr & Nucleus 3D
               </span>
             </div>
             <p className="text-sm text-slate-400 mt-1">
-              মৌলের বোর মডেল (2n²), উপস্তর অরবিটাল স্পিন (↑ ↓), আউফবাউ নিয়মের ব্যতিক্রম ও বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর
+              মৌলের বোর মডেল (2n²), ঘূর্ণায়মান অরবিট, নিউক্লিয়াসের অভ্যন্তরীণ প্রোটন-নিউট্রন বিশ্লেষণ ও হুন্ডের উপস্তর স্পিন
             </p>
           </div>
         </div>
@@ -453,100 +480,223 @@ export default function PeriodicTable3D() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 font-mono mt-1">
-                  গ্রুপ: {activeElement.group} • পর্যায়: {activeElement.period} • ব্লক: {activeElement.block.toUpperCase()} • অবস্থা: {activeElement.state}
+                  গ্রুপ: {activeElement.group} • পর্যায়: {activeElement.period} • ব্লক: {activeElement.block.toUpperCase()} • ভর: {activeElement.mass} u (ভর সংখ্যা: {massNumber})
                 </p>
               </div>
             </div>
 
-            {/* Download Branded Flashcard Button */}
-            <button
-              type="button"
-              onClick={handleExportFlashcard}
-              disabled={isExporting}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
-            >
-              {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              <span>ফ্ল্যাশকার্ড ডাউনলোড (Export Flashcard)</span>
-            </button>
+            {/* View Mode Switcher and Export */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('atom')}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
+                    viewMode === 'atom' ? 'bg-cyan-600 text-white font-black' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Atom className="w-3.5 h-3.5" />
+                  <span>অরবিট</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('nucleus')}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
+                    viewMode === 'nucleus' ? 'bg-rose-600 text-white font-black' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                  <span>🔍 নিউক্লিয়াস (P+N)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsRotating((r) => !r)}
+                  className="px-2 py-1.5 text-slate-400 hover:text-white"
+                  title="অরবিট ঘূর্ণন প্লে/পজ"
+                >
+                  {isRotating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+
+              {/* Download Branded Flashcard Button */}
+              <button
+                type="button"
+                onClick={handleExportFlashcard}
+                disabled={isExporting}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+              >
+                {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                <span>ফ্ল্যাশকার্ড</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Column (5 Cols): Bohr Atomic Multi-Orbit Simulator */}
-            <div className="lg:col-span-5 p-6 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center shadow-inner relative overflow-hidden">
-              <div className="w-full flex items-center justify-between mb-4">
+            {/* Left Column (5 Cols): Dynamic Simulation Stage (Atom Orbits OR Zoomed Nucleus Cluster) */}
+            <div className="lg:col-span-5 p-6 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-between shadow-inner relative overflow-hidden min-h-[380px]">
+              <div className="w-full flex items-center justify-between z-10">
                 <span className="text-xs font-black text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Atom className="w-4 h-4 text-cyan-400 animate-spin-slow" />
-                  বোর মডেল অরবিট সিমুলেটর
+                  {viewMode === 'atom' ? (
+                    <>
+                      <Atom className="w-4 h-4 text-cyan-400 animate-spin-slow" />
+                      বোর অরবিট সিমুলেটর
+                    </>
+                  ) : (
+                    <>
+                      <ZoomIn className="w-4 h-4 text-rose-400 animate-pulse" />
+                      নিউক্লিয়াস প্রোটন-নিউট্রন ক্লাস্টার
+                    </>
+                  )}
                 </span>
                 <span className="text-[10px] text-slate-400 font-mono">
-                  শেল সংখ্যা: {activeElement.shells?.length || 1}
+                  {viewMode === 'atom' ? `শেল সংখ্যা: ${activeElement.shells?.length || 1}` : `মোট কণা: ${massNumber}টি`}
                 </span>
               </div>
 
-              {/* Concentric Bohr Shells Visualizer */}
-              <div className="relative w-56 h-56 flex items-center justify-center my-2">
-                {/* Central Nucleus with Protons & Neutrons */}
-                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 to-rose-600 flex flex-col items-center justify-center text-[10px] font-black text-slate-950 shadow-xl shadow-rose-500/40 z-20 animate-pulse border-2 border-white/40 text-center">
-                  <span className="font-mono font-black text-xs leading-none">{activeElement.sym}</span>
-                  <span className="text-[8px] font-mono leading-none mt-0.5 font-bold">p={activeElement.n}</span>
-                </div>
+              {/* VIEW 1: BOHR ATOM ORBIT SIMULATOR */}
+              {viewMode === 'atom' && (
+                <div className="relative w-64 h-64 flex items-center justify-center my-3">
+                  {/* Central Nucleus with Click-to-Zoom */}
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('nucleus')}
+                    title="ক্লিক করে নিউক্লিয়াসের ভেতরের প্রোটন ও নিউট্রন জুম করুন"
+                    className="w-16 h-16 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 to-rose-600 flex flex-col items-center justify-center text-[10px] font-black text-slate-950 shadow-2xl shadow-rose-500/50 z-20 animate-pulse border-2 border-white/50 text-center hover:scale-110 transition-transform cursor-pointer group"
+                  >
+                    <span className="font-mono font-black text-xs leading-none group-hover:hidden">{activeElement.sym}</span>
+                    <span className="text-[8px] font-mono leading-none mt-0.5 font-bold group-hover:hidden">p={protonCount}</span>
+                    <span className="text-[8px] font-bold hidden group-hover:block text-slate-950 leading-tight">🔍 জুম</span>
+                  </button>
 
-                {/* Concentric Shells (K, L, M, N, O, P, Q) */}
-                {activeElement.shells?.map((electronCount, sIdx) => {
-                  const size = 70 + (sIdx + 1) * 32;
-                  const shellNames = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'];
-                  const shellColors = ['border-cyan-500/50', 'border-indigo-500/50', 'border-emerald-500/50', 'border-amber-500/50', 'border-rose-500/50', 'border-purple-500/50', 'border-teal-500/50'];
-                  const spinClass = sIdx % 2 === 0 ? 'animate-spin-slow' : 'animate-spin-reverse';
-
-                  return (
-                    <div
-                      key={sIdx}
-                      style={{ width: `${size}px`, height: `${size}px` }}
-                      className={`absolute rounded-full border ${shellColors[sIdx % shellColors.length]} ${spinClass} flex items-center justify-center`}
-                    >
-                      {/* Place electrons around circumference */}
-                      {Array.from({ length: Math.min(electronCount, 16) }).map((_, eIdx) => {
-                        const angle = (eIdx / Math.min(electronCount, 16)) * 2 * Math.PI;
-                        const radius = size / 2;
-                        const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius;
-
-                        return (
-                          <div
-                            key={eIdx}
-                            style={{
-                              transform: `translate(${x}px, ${y}px)`
-                            }}
-                            className="absolute w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400/80 border border-white"
-                          />
-                        );
-                      })}
-                      <span className="absolute -top-3 text-[9px] font-bold text-slate-500 font-mono">
-                        {shellNames[sIdx]}({electronCount})
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Shells Breakdown Pill Bar */}
-              <div className="w-full mt-4 p-3 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-400 font-bold">শেল ইলেকট্রন:</span>
-                <div className="flex items-center gap-1.5">
-                  {activeElement.shells?.map((count, idx) => {
+                  {/* Concentric Shells (K, L, M, N, O, P, Q) */}
+                  {activeElement.shells?.map((electronCount, sIdx) => {
+                    const size = 76 + (sIdx + 1) * 34;
                     const shellNames = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'];
+                    const shellColors = ['border-cyan-500/50', 'border-indigo-500/50', 'border-emerald-500/50', 'border-amber-500/50', 'border-rose-500/50', 'border-purple-500/50', 'border-teal-500/50'];
+                    const spinClass = isRotating ? (sIdx % 2 === 0 ? 'animate-spin-slow' : 'animate-spin-reverse') : '';
+
                     return (
-                      <span key={idx} className="px-2 py-0.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs font-bold">
-                        {shellNames[idx]}={count}
-                      </span>
+                      <div
+                        key={sIdx}
+                        style={{ width: `${size}px`, height: `${size}px` }}
+                        className={`absolute rounded-full border ${shellColors[sIdx % shellColors.length]} ${spinClass} flex items-center justify-center`}
+                      >
+                        {/* Place electrons around circumference */}
+                        {Array.from({ length: Math.min(electronCount, 16) }).map((_, eIdx) => {
+                          const angle = (eIdx / Math.min(electronCount, 16)) * 2 * Math.PI;
+                          const radius = size / 2;
+                          const x = Math.cos(angle) * radius;
+                          const y = Math.sin(angle) * radius;
+
+                          return (
+                            <div
+                              key={eIdx}
+                              style={{
+                                transform: `translate(${x}px, ${y}px)`
+                              }}
+                              className="absolute w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400/80 border border-white"
+                            />
+                          );
+                        })}
+                        <span className="absolute -top-3 text-[9px] font-bold text-slate-500 font-mono">
+                          {shellNames[sIdx]}({electronCount})
+                        </span>
+                      </div>
                     );
                   })}
+                </div>
+              )}
+
+              {/* VIEW 2: ZOOMED NUCLEUS INTERNAL CLUSTER VIEW */}
+              {viewMode === 'nucleus' && (
+                <div className="relative w-64 h-64 flex items-center justify-center my-3 bg-radial-glow">
+                  <div className="absolute w-56 h-56 rounded-full border border-dashed border-rose-500/30 bg-rose-950/20 animate-pulse pointer-events-none" />
+                  <div className="relative w-48 h-48 flex items-center justify-center">
+                    {nucleusCluster.map((particle) => (
+                      <div
+                        key={particle.id}
+                        style={{
+                          transform: `translate(${particle.x}px, ${particle.y}px) scale(${particle.depth})`,
+                          zIndex: Math.round(particle.depth * 10)
+                        }}
+                        className={`absolute w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black text-white shadow-md transition-transform hover:scale-125 cursor-pointer ${
+                          particle.type === 'P'
+                            ? 'bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 border border-rose-200 shadow-rose-600/60'
+                            : 'bg-gradient-to-tr from-slate-600 via-slate-400 to-slate-200 border border-slate-300 text-slate-950 shadow-slate-600/60'
+                        }`}
+                        title={`${particle.type === 'P' ? 'প্রোটন (Proton): চার্জ +1e, ভর ~1 u' : 'নিউট্রন (Neutron): চার্জ 0, ভর ~1 u'}`}
+                      >
+                        {particle.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Shells Breakdown Pill Bar */}
+              <div className="w-full mt-2 p-3 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs font-mono z-10">
+                <span className="text-slate-400 font-bold">{viewMode === 'atom' ? 'শেল ইলেকট্রন:' : 'কণা সংক্ষেপ:'}</span>
+                <div className="flex items-center gap-1.5">
+                  {viewMode === 'atom' ? (
+                    activeElement.shells?.map((count, idx) => {
+                      const shellNames = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'];
+                      return (
+                        <span key={idx} className="px-2 py-0.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs font-bold">
+                          {shellNames[idx]}={count}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <>
+                      <span className="px-2 py-0.5 rounded-lg bg-rose-950 text-rose-300 border border-rose-800 text-xs font-bold">
+                        🔴 P={protonCount}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold">
+                        ⚪ N={neutronCount}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Right Column (7 Cols): Hund's Rule Orbital Spin Box Visualizer */}
             <div className="lg:col-span-7 space-y-4">
+              {/* Nucleon Breakdown Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                <div className="p-3 rounded-2xl bg-slate-950 border border-rose-500/40 shadow-sm">
+                  <span className="text-[10px] text-rose-300 block font-bold uppercase tracking-wider">
+                    🔴 প্রোটন (p⁺)
+                  </span>
+                  <strong className="text-lg font-black text-rose-400 font-mono mt-0.5 block">{protonCount} টি</strong>
+                  <span className="text-[9px] text-slate-400 font-mono">চার্জ: +{protonCount}e</span>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950 border border-slate-600/50 shadow-sm">
+                  <span className="text-[10px] text-slate-300 block font-bold uppercase tracking-wider">
+                    ⚪ নিউট্রন (n⁰)
+                  </span>
+                  <strong className="text-lg font-black text-slate-200 font-mono mt-0.5 block">{neutronCount} টি</strong>
+                  <span className="text-[9px] text-slate-400 font-mono">A - Z = {massNumber - protonCount}</span>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950 border border-cyan-500/40 shadow-sm">
+                  <span className="text-[10px] text-cyan-300 block font-bold uppercase tracking-wider">
+                    🔵 ইলেকট্রন (e⁻)
+                  </span>
+                  <strong className="text-lg font-black text-cyan-400 font-mono mt-0.5 block">{protonCount} টি</strong>
+                  <span className="text-[9px] text-slate-400 font-mono">চার্জ: -{protonCount}e</span>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950 border border-amber-500/40 shadow-sm">
+                  <span className="text-[10px] text-amber-300 block font-bold uppercase tracking-wider">
+                    ⚖️ ভর সংখ্যা (A)
+                  </span>
+                  <strong className="text-lg font-black text-amber-400 font-mono mt-0.5 block">{massNumber}</strong>
+                  <span className="text-[9px] text-slate-400 font-mono">p⁺ + n⁰</span>
+                </div>
+              </div>
+
               {/* Electronic Configuration Notation */}
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 shadow-inner">
                 <div className="flex items-center justify-between">
@@ -655,7 +805,7 @@ export default function PeriodicTable3D() {
               </p>
             </div>
             <div className="px-4 py-2 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono font-bold text-sm">
-              স্কোর: {quizScore} পয়েন্ট
+              স্কোর: {quizScore} point
             </div>
           </div>
 
