@@ -61,7 +61,8 @@ import {
   Battery,
   BatteryCharging,
   Radio,
-  Bot
+  Bot,
+  Upload
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
