@@ -86,7 +86,10 @@ export default function BulkSMSManager() {
   }, []);
 
   useEffect(() => {
-    fetchPreview();
+    const timer = setTimeout(() => {
+      fetchPreview();
+    }, 300);
+    return () => clearTimeout(timer);
   }, [targetType, selectedClass, selectedBatch, dueOnly, category, templateText, dueDate, examName]);
 
   useEffect(() => {

@@ -223,9 +223,9 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
     }
   };
 
-  // 3. Modal Subjects synchronization
+  // 3. Modal Subjects synchronization - lazy fetch only when modal is active
   useEffect(() => {
-    if (homeworkForm.classId) {
+    if (showHomeworkModal && homeworkForm.classId) {
       curriculumAPI.getSubjects(homeworkForm.classId).then(res => {
         if (res.success && res.data) {
           setModalSubjects(res.data);
@@ -235,10 +235,10 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
         }
       });
     }
-  }, [homeworkForm.classId]);
+  }, [showHomeworkModal, homeworkForm.classId]);
 
   useEffect(() => {
-    if (materialForm.classId) {
+    if (showMaterialModal && materialForm.classId) {
       curriculumAPI.getSubjects(materialForm.classId).then(res => {
         if (res.success && res.data) {
           setModalSubjects(res.data);
@@ -248,10 +248,10 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
         }
       });
     }
-  }, [materialForm.classId]);
+  }, [showMaterialModal, materialForm.classId]);
 
   useEffect(() => {
-    if (textbookForm.classId) {
+    if (showTextbookModal && textbookForm.classId) {
       curriculumAPI.getSubjects(textbookForm.classId).then(res => {
         if (res.success && res.data) {
           setModalSubjects(res.data);
@@ -261,7 +261,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
         }
       });
     }
-  }, [textbookForm.classId]);
+  }, [showTextbookModal, textbookForm.classId]);
 
   // Live ticking clock for punch in/out
   useEffect(() => {

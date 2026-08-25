@@ -196,9 +196,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
     assignedSubjectId: '53'
   });
 
-  // Load subjects for selected class in teacher form
+  // Load subjects for selected class in teacher form - lazy fetch
   useEffect(() => {
-    if (teacherForm.assignedClassId) {
+    if (showTeacherModal && teacherForm.assignedClassId) {
       curriculumAPI.getSubjects(teacherForm.assignedClassId).then(res => {
         if (res.success && res.data) {
           setTeacherSubjects(res.data);
@@ -208,7 +208,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         }
       });
     }
-  }, [teacherForm.assignedClassId]);
+  }, [showTeacherModal, teacherForm.assignedClassId]);
 
   // Add / Edit Textbook Modal & Form State
   const [textbooks, setTextbooks] = useState([]);
@@ -234,9 +234,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
     coverImage: null
   });
 
-  // Load subjects for selected class in textbook form
+  // Load subjects for selected class in textbook form - lazy fetch
   useEffect(() => {
-    if (textbookForm.classId) {
+    if (showTextbookModal && textbookForm.classId) {
       curriculumAPI.getSubjects(textbookForm.classId).then(res => {
         if (res.success && res.data) {
           setTextbookSubjects(res.data);
@@ -246,7 +246,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         }
       });
     }
-  }, [textbookForm.classId]);
+  }, [showTextbookModal, textbookForm.classId]);
 
   // Online Exams State (Admin & Teacher Management)
   const [examsList, setExamsList] = useState([]);
@@ -294,9 +294,9 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
     ]
   });
 
-  // Load subjects for exam modal
+  // Load subjects for exam modal - lazy fetch
   useEffect(() => {
-    if (examForm.classId) {
+    if (showExamModal && examForm.classId) {
       curriculumAPI.getSubjects(examForm.classId).then(res => {
         if (res.success && res.data) {
           setExamSubjects(res.data);
@@ -306,7 +306,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         }
       });
     }
-  }, [examForm.classId]);
+  }, [showExamModal, examForm.classId]);
 
   // Inspection modal for audit log payload
   const [inspectedLog, setInspectedLog] = useState(null);
