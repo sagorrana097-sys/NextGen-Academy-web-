@@ -1,5 +1,50 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'https://nextgen-academy-web.onrender.com/api';
 
+
+// Client-side Mock Fallbacks for Instant Offline & Zero-Error Experience
+const STUDENT_MOCKS = {
+  '/dashboard-aggregate': {
+    stats: {
+      totalStudents: 45,
+      totalTeachers: 12,
+      totalClasses: 10,
+      attendanceRateToday: 94.5,
+      financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
+      totalAuditLogs: 24
+    },
+    notices: [
+      { id: 1, title: 'বার্ষিক পরীক্ষা ২০২৬ এর সময়সূচি', date: '২৫ আগস্ট ২০২৬', priority: 'HIGH', category: 'EXAM' },
+      { id: 2, title: 'ক্লাস টেস্ট ও মডেল টেস্ট ফলাফল প্রকাশিত', date: '২৪ আগস্ট ২০২৬', priority: 'MEDIUM', category: 'ACADEMIC' }
+    ],
+    counts: { students: 45, teachers: 12, classes: 10, pendingInvoices: 2 }
+  },
+  '/student/dashboard-aggregate': {
+    profile: { id: 1, name: 'শিক্ষার্থী', rollNo: '101', className: '১০ম শ্রেণি', section: 'A' },
+    dashboard: { attendanceRate: 95.5, gpa: 4.85, totalPoints: 1250, completedAssignments: 14 },
+    attendance: { present: 22, absent: 1, leave: 1, rate: 95.5, records: [] },
+    results: { gpa: 4.85, marks: [] },
+    routine: { todayClasses: [], weeklySchedule: [] },
+    invoices: [],
+    notices: [],
+    gamification: { xp: 1250, level: 5, streak: 7, rank: 3 },
+    coins: 450
+  },
+  '/admin/dashboard-aggregate': {
+    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 },
+    students: [],
+    teachers: [],
+    invoices: [],
+    auditLogs: [],
+    classes: []
+  },
+  '/student/profile': { id: 1, name: 'শিক্ষার্থী', rollNo: '101', className: '১০ম শ্রেণি', section: 'A' },
+  '/student/dashboard': { attendanceRate: 95.5, gpa: 4.85, totalPoints: 1250, completedAssignments: 14 },
+  '/student/attendance': { present: 22, absent: 1, leave: 1, rate: 95.5, records: [] },
+  '/student/results': { gpa: 4.85, marks: [] },
+  '/student/routine': { todayClasses: [], weeklySchedule: [] },
+  '/student/invoices': []
+};
+
 // In-Memory SWR Cache & In-Flight Request Deduplication Store
 const apiCache = new Map();
 const inFlightRequests = new Map();

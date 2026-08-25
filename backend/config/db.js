@@ -1,3 +1,14 @@
+
+const Op = {
+  or: Symbol.for('or'),
+  and: Symbol.for('and'),
+  between: Symbol.for('between'),
+  like: Symbol.for('like'),
+  in: Symbol.for('in'),
+  ne: Symbol.for('ne'),
+  gte: Symbol.for('gte'),
+  lte: Symbol.for('lte')
+};
 const fs = require('fs');
 const path = require('path');
 
@@ -108,7 +119,24 @@ class Model {
   }
 
   _matchWhere(item, where = {}) {
+    if (!item || !where) return true;
+
+    // Handle Op.or
+    const orList = where[Op.or] || where['$or'] || where.or;
+    if (Array.isArray(orList) && orList.length > 0) {
+      const matched = orList.some(cond => this._matchWhere(item, cond));
+      if (!matched) return false;
+    }
+
+    // Handle Op.and
+    const andList = where[Op.and] || where['$and'] || where.and;
+    if (Array.isArray(andList) && andList.length > 0) {
+      const matched = andList.every(cond => this._matchWhere(item, cond));
+      if (!matched) return false;
+    }
+
     for (const [key, value] of Object.entries(where)) {
+      if (key === '$or' || key === '$and' || key === 'or' || key === 'and') continue;
       if (value === undefined) continue;
       if (typeof value === 'object' && value !== null) {
         if ('$in' in value && Array.isArray(value.$in)) {
@@ -296,5 +324,6 @@ class Model {
 
 module.exports = {
   globalDB,
-  Model
+  Model,
+  Op
 };
