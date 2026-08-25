@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { examAPI, materialAPI } from '../../services/api';
+import { examAPI, materialAPI, curriculumAPI } from '../../services/api';
 import {
   Sparkles,
   FileText,

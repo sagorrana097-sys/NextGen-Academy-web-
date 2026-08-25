@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { examAPI, materialAPI, googleDriveAPI } from '../../services/api';
+import { examAPI, materialAPI, googleDriveAPI, curriculumAPI } from '../../services/api';
 import {
   Sparkles,
   Bot,
@@ -44,10 +44,16 @@ export default function AIMCQGeneratorModal({
   // Mode: 'standard' | 'drive'
   const [activeTab, setActiveTab] = useState('standard');
 
+  // Dynamic Classes & Subjects State
+  const [classes, setClasses] = useState(Array.isArray(allClasses) && allClasses.length > 0 ? allClasses : []);
+  const [selectedClassId, setSelectedClassId] = useState(prefilledClassId ? String(prefilledClassId) : '');
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubjectId, setSelectedSubjectId] = useState(prefilledSubjectId ? String(prefilledSubjectId) : '');
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
+  const [loadingMaterials, setLoadingMaterials] = useState(false);
+
   // Generator State
   const [topic, setTopic] = useState('');
-  const [subject, setSubject] = useState('পদার্থবিজ্ঞান (Physics)');
-  const [classGrade, setClassGrade] = useState('১০ম শ্রেণি (Class 10)');
   const [difficulty, setDifficulty] = useState('MEDIUM'); // 'EASY' | 'MEDIUM' | 'HARD'
   const [questionCount, setQuestionCount] = useState(10);
   const [chapterNotes, setChapterNotes] = useState('');
@@ -83,106 +89,85 @@ export default function AIMCQGeneratorModal({
     'বাংলাদেশ ও বিশ্বপরিচয় (BGS)'
   ];
 
+  // 1. Load classes dynamically on mount if not provided
   useEffect(() => {
     if (isOpen) {
-      materialAPI.getSourceMaterials()
-        .then(res => {
-          if (res && res.data) setSourceMaterials(res.data);
-        })
-        .catch(err => console.error('Failed to load source materials in MCQ generator:', err));
+      if (Array.isArray(allClasses) && allClasses.length > 0) {
+        setClasses(allClasses);
+        if (!selectedClassId) setSelectedClassId(String(allClasses[0].id));
+      } else {
+        curriculumAPI.getClasses().then(res => {
+          if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
+            setClasses(res.data);
+            if (!selectedClassId) setSelectedClassId(String(res.data[0].id));
+          }
+        }).catch(err => console.error('Failed to load classes in MCQ generator:', err));
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, allClasses]);
 
-  // Filter source materials strictly by the selected subject
-  const filteredSourceMaterials = useMemo(() => {
-    if (!subject) return sourceMaterials;
-
-    const cleanSub = subject.toLowerCase().trim();
-
-    return sourceMaterials.filter(mat => {
-      const title = (mat.title || mat.titleBn || '').toLowerCase();
-      const cat = (mat.category || '').toLowerCase();
-      const subName = (mat.subjectName || '').toLowerCase();
-      const fileName = (mat.fileName || '').toLowerCase();
-
-      // Helper: check if keywords exist in metadata
-      const matchesAny = (terms) => {
-        return terms.some(t =>
-          title.includes(t) || cat.includes(t) || subName.includes(t) || fileName.includes(t)
-        );
-      };
-
-      // 1. Higher Math vs General Math distinction
-      if (cleanSub.includes('উচ্চতর') || cleanSub.includes('higher')) {
-        return matchesAny(['উচ্চতর', 'higher', 'higher_math', 'highermath', 'ম্যাট্রিক্স', 'ভেক্টর', 'স্থানাঙ্ক', 'ত্রিকোণমিতিক']);
-      }
-
-      if (cleanSub.includes('গণিত') || cleanSub.includes('math')) {
-        // General Math: must NOT be higher math
-        const isHigher = matchesAny(['উচ্চতর', 'higher', 'higher_math', 'highermath']);
-        if (isHigher) return false;
-        return matchesAny(['সাধারণ গণিত', 'গণিত', 'math', 'general_math', 'generalmath', 'পাটিগণিত', 'বীজগণিত', 'জ্যামিতি', 'পরিসংখ্যান', 'সেট']);
-      }
-
-      // 2. Physics
-      if (cleanSub.includes('পদার্থ') || cleanSub.includes('physics')) {
-        return matchesAny(['পদার্থ', 'পদার্থবিজ্ঞান', 'physics', 'গতিবিদ্যা', 'বলবিদ্যা', 'কাজ ও শক্তি', 'আলো', 'তরঙ্গ', 'তড়িৎ', 'তাপ']);
-      }
-
-      // 3. Chemistry
-      if (cleanSub.includes('রসায়ন') || cleanSub.includes('রসায়ন') || cleanSub.includes('chemistry')) {
-        return matchesAny(['রসায়ন', 'রসায়ন', 'chemistry', 'পর্যায় সারণি', 'মোল', 'বন্ধন', 'যোজ্যতা', 'অম্ল', 'ক্ষারক']);
-      }
-
-      // 4. Biology
-      if (cleanSub.includes('জীব') || cleanSub.includes('biology')) {
-        return matchesAny(['জীব', 'জীববিজ্ঞান', 'biology', 'উদ্ভিদ', 'প্রাণী', 'কোষ', 'টিস্যু', 'বংশগতি']);
-      }
-
-      // 5. ICT
-      if (cleanSub.includes('আইসিটি') || cleanSub.includes('ict') || cleanSub.includes('তথ্য')) {
-        return matchesAny(['তথ্য', 'ict', 'তথ্য ও যোগাযোগ', 'কম্পিউটার', 'প্রোগ্রামিং', 'এইচটিএমএল', 'ডাটাবেস']);
-      }
-
-      // 6. Bangla
-      if (cleanSub.includes('বাংলা') || cleanSub.includes('bangla') || cleanSub.includes('সাহিত্য') || cleanSub.includes('ব্যাকরণ')) {
-        return matchesAny(['বাংলা', 'bangla', 'সাহিত্য', 'ব্যাকরণ', 'নির্মিতি', 'গদ্য', 'পদ্য']);
-      }
-
-      // 7. English
-      if (cleanSub.includes('english') || cleanSub.includes('ইংরেজি')) {
-        return matchesAny(['english', 'ইংরেজি', 'grammar', 'paragraph', 'composition', 'vocabulary']);
-      }
-
-      // 8. General Science / Primary Science
-      if (cleanSub.includes('বিজ্ঞান') || cleanSub.includes('science')) {
-        return matchesAny(['বিজ্ঞান', 'science', 'প্রাথমিক বিজ্ঞান', 'সাধারণ বিজ্ঞান']);
-      }
-
-      // 9. BGS / Social
-      if (cleanSub.includes('বিশ্বপরিচয়') || cleanSub.includes('bgs') || cleanSub.includes('সমাজ')) {
-        return matchesAny(['বিশ্বপরিচয়', 'bgs', 'বাংলাদেশ ও বিশ্বপরিচয়', 'সমাজ']);
-      }
-
-      // Generic fallback: check main subject word without parentheses
-      const mainWord = cleanSub.split('(')[0].replace(/[^\u0980-\u09FFa-zA-Z]/g, ' ').trim();
-      if (mainWord.length > 2) {
-        return matchesAny([mainWord]);
-      }
-
-      return true;
-    });
-  }, [sourceMaterials, subject]);
-
-  // Reset selected source material if it no longer matches the selected subject
+  // 2. Fetch subjects dynamically whenever selectedClassId changes
   useEffect(() => {
-    if (selectedSourceMaterialId) {
-      const isStillValid = filteredSourceMaterials.some(m => String(m.id) === String(selectedSourceMaterialId));
-      if (!isStillValid) {
-        setSelectedSourceMaterialId('');
-      }
+    if (!isOpen || !selectedClassId) {
+      setSubjects([]);
+      setSelectedSubjectId('');
+      return;
     }
-  }, [subject, filteredSourceMaterials]);
+
+    setLoadingSubjects(true);
+    curriculumAPI.getSubjects(selectedClassId)
+      .then(res => {
+        if (res?.success && Array.isArray(res.data)) {
+          setSubjects(res.data);
+          if (res.data.length > 0) {
+            const exists = res.data.some(s => String(s.id) === String(selectedSubjectId));
+            if (!exists) {
+              setSelectedSubjectId(String(res.data[0].id));
+            }
+          } else {
+            setSelectedSubjectId('');
+          }
+        }
+      })
+      .catch(err => console.error('Failed to load subjects:', err))
+      .finally(() => setLoadingSubjects(false));
+  }, [isOpen, selectedClassId]);
+
+  // 3. Immediately re-fetch and filter source materials whenever selectedClassId or selectedSubjectId changes
+  useEffect(() => {
+    if (!isOpen) return;
+
+    setLoadingMaterials(true);
+    const queryParams = {};
+    if (selectedClassId) queryParams.classId = selectedClassId;
+    if (selectedSubjectId) queryParams.subjectId = selectedSubjectId;
+
+    materialAPI.getSourceMaterials(queryParams)
+      .then(res => {
+        if (res && Array.isArray(res.data)) {
+          setSourceMaterials(res.data);
+          setSelectedSourceMaterialId(prev => {
+            const exists = res.data.some(m => String(m.id) === String(prev));
+            return exists ? prev : '';
+          });
+        }
+      })
+      .catch(err => console.error('Failed to load source materials in MCQ generator:', err))
+      .finally(() => setLoadingMaterials(false));
+  }, [isOpen, selectedClassId, selectedSubjectId]);
+
+  // Resolved Class and Subject Objects
+  const currentClassObj = useMemo(() => {
+    return classes.find(c => String(c.id) === String(selectedClassId)) || { nameBn: '১০ম শ্রেণি (Class 10)', name: 'Class 10' };
+  }, [classes, selectedClassId]);
+
+  const currentSubjectObj = useMemo(() => {
+    return subjects.find(s => String(s.id) === String(selectedSubjectId)) || { nameBn: 'পদার্থবিজ্ঞান (Physics)', name: 'Physics' };
+  }, [subjects, selectedSubjectId]);
+
+  const subject = currentSubjectObj?.nameBn || currentSubjectObj?.name || 'পদার্থবিজ্ঞান';
+  const classGrade = currentClassObj?.nameBn || currentClassObj?.name || '১০ম শ্রেণি';
+  const filteredSourceMaterials = sourceMaterials;
 
   const handleSelectSource = (matId) => {
     setSelectedSourceMaterialId(matId);
@@ -259,8 +244,10 @@ export default function AIMCQGeneratorModal({
         files: selectedDriveFiles,
         folderUrlOrId: driveFolderUrl,
         type: 'MCQ',
-        subject,
-        classGrade,
+        subject: currentSubjectObj?.nameBn || currentSubjectObj?.name || subject,
+        classGrade: currentClassObj?.nameBn || currentClassObj?.name || classGrade,
+        classId: selectedClassId,
+        subjectId: selectedSubjectId,
         topic: topic.trim() || (selectedDriveFiles[0]?.name ? selectedDriveFiles[0].name.replace(/\.[^/.]+$/, '') : 'গুগল ড্রাইভ স্টাডি মেটেরিয়াল'),
         difficulty,
         questionCount: Number(questionCount)
@@ -315,6 +302,8 @@ export default function AIMCQGeneratorModal({
         topic: topic.trim(),
         subject,
         classGrade,
+        classId: selectedClassId ? Number(selectedClassId) : null,
+        subjectId: selectedSubjectId ? Number(selectedSubjectId) : null,
         difficulty,
         questionCount: Number(questionCount),
         chapterNotes: chapterNotes.trim(),
@@ -640,57 +629,53 @@ export default function AIMCQGeneratorModal({
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
-                {/* Subject */}
+                {/* Class / Grade (Dynamic from Database) */}
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">পাঠ্য বিষয় (Subject)</label>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    শ্রেণি / গ্রেড (Class) <span className="text-rose-400">*</span>
+                  </label>
                   <select
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
+                    value={selectedClassId}
+                    onChange={(e) => {
+                      setSelectedClassId(e.target.value);
+                      setSelectedSourceMaterialId('');
+                    }}
                     className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                   >
-                    {subjectPresets.map((sp) => (
-                      <option key={sp} value={sp}>
-                        {sp}
+                    {classes.map((cls) => (
+                      <option key={cls.id} value={cls.id}>
+                        {cls.nameBn || cls.name}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                {/* Class / Grade */}
+                {/* Subject (Dynamically Filtered for selected Class) */}
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">শ্রেণি / গ্রেড (Class)</label>
+                  <label className="block font-bold text-slate-300 mb-1 flex items-center justify-between">
+                    <span>পাঠ্য বিষয় (Subject) <span className="text-rose-400">*</span></span>
+                    {loadingSubjects && <Loader2 className="w-3 h-3 animate-spin text-indigo-400" />}
+                  </label>
                   <select
-                    value={classGrade}
-                    onChange={(e) => setClassGrade(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    value={selectedSubjectId}
+                    disabled={loadingSubjects}
+                    onChange={(e) => {
+                      setSelectedSubjectId(e.target.value);
+                      setSelectedSourceMaterialId('');
+                    }}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none disabled:opacity-50"
                   >
-                    <optgroup label="👶 প্রাক-প্রাথমিক (Pre-Primary)">
-                      <option value="প্লে গ্রুপ (Play)">প্লে গ্রুপ (Play)</option>
-                      <option value="নার্সারি (Nursery)">নার্সারি (Nursery)</option>
-                      <option value="কেজি (KG)">কেজি (KG)</option>
-                    </optgroup>
-                    <optgroup label="🎒 প্রাথমিক (Primary ১-৫ম)">
-                      <option value="১ম শ্রেণি (Class 1)">১ম শ্রেণি (Class 1)</option>
-                      <option value="২য় শ্রেণি (Class 2)">২য় শ্রেণি (Class 2)</option>
-                      <option value="৩য় শ্রেণি (Class 3)">৩য় শ্রেণি (Class 3)</option>
-                      <option value="৪র্থ শ্রেণি (Class 4)">৪র্থ শ্রেণি (Class 4)</option>
-                      <option value="৫ম শ্রেণি (Class 5)">৫ম শ্রেণি (Class 5)</option>
-                    </optgroup>
-                    <optgroup label="📚 নিম্ন মাধ্যমিক (Junior Secondary ৬-৮ম)">
-                      <option value="৬ষ্ঠ শ্রেণি (Class 6)">৬ষ্ঠ শ্রেণি (Class 6)</option>
-                      <option value="৭ম শ্রেণি (Class 7)">৭ম শ্রেণি (Class 7)</option>
-                      <option value="৮ম শ্রেণি (Class 8 / JSC)">৮ম শ্রেণি (Class 8 / JSC)</option>
-                    </optgroup>
-                    <optgroup label="🎯 মাধ্যমিক (Secondary ৯-১০ম / SSC)">
-                      <option value="৯ম শ্রেণি (Class 9)">৯ম শ্রেণি (Class 9)</option>
-                      <option value="১০ম শ্রেণি (Class 10 / SSC)">১০ম শ্রেণি (Class 10 / SSC)</option>
-                      <option value="এসএসসি পরীক্ষার্থী (SSC Candidate)">এসএসসি পরীক্ষার্থী (SSC Candidate)</option>
-                    </optgroup>
-                    <optgroup label="🎓 উচ্চ মাধ্যমিক (HSC একাদশ-দ্বাদশ)">
-                      <option value="একাদশ শ্রেণি (11th - HSC 1st Year)">একাদশ শ্রেণি (11th - HSC 1st Year)</option>
-                      <option value="দ্বাদশ শ্রেণি (12th - HSC 2nd Year)">দ্বাদশ শ্রেণি (12th - HSC 2nd Year)</option>
-                      <option value="এইচএসসি পরীক্ষার্থী (HSC Candidate)">এইচএসসি পরীক্ষার্থী (HSC Candidate)</option>
-                    </optgroup>
+                    {loadingSubjects ? (
+                      <option value="">বিষয় লোড হচ্ছে...</option>
+                    ) : subjects.length > 0 ? (
+                      subjects.map((sp) => (
+                        <option key={sp.id} value={sp.id}>
+                          {sp.nameBn || sp.name} {sp.code ? `(${sp.code})` : ''}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="">কোনো বিষয় নির্ধারিত নেই</option>
+                    )}
                   </select>
                 </div>
 

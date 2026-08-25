@@ -299,7 +299,10 @@ export const materialAPI = {
     const q = new URLSearchParams(params).toString();
     return request(`/materials?${q}`);
   },
-  getSourceMaterials: () => request('/materials/source-materials'),
+  getSourceMaterials: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/materials/source-materials${q ? '?' + q : ''}`);
+  },
   uploadSourceMaterial: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token') || sessionStorage.getItem('token');
     const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
