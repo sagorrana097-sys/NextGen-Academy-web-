@@ -7,10 +7,11 @@ const PeriodicTable3D = lazy(() => import('./PeriodicTable3D'));
 const VirtualBiologyLab3D = lazy(() => import('./VirtualBiologyLab3D'));
 const ElectronConfigurationVisualizer = lazy(() => import('./ElectronConfigurationVisualizer'));
 const GalvanicCellSimulation = lazy(() => import('./GalvanicCellSimulation'));
+const DaniellCellSimulation = lazy(() => import('./DaniellCellSimulation'));
 const RedoxOxidationEngine = lazy(() => import('./RedoxOxidationEngine'));
 
 export default function Science3DHub({ defaultSubTab = 'lab' }) {
-  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'galvanic' | 'redox' | 'biology'
+  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'daniell' | 'galvanic' | 'redox' | 'biology'
 
   return (
     <div className="space-y-6">
@@ -57,15 +58,28 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
 
         <button
           type="button"
-          onClick={() => setActiveSubTab('galvanic')}
+          onClick={() => setActiveSubTab('daniell')}
           className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-            activeSubTab === 'galvanic'
+            activeSubTab === 'daniell'
               ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30 font-black'
               : 'text-slate-400 hover:text-white'
           }`}
         >
           <BatteryCharging className="w-3.5 h-3.5" />
-          <span>গ্যালভানিক কোষ ও তড়িৎ-রসায়ন</span>
+          <span>ড্যানিয়েল কোষ (Zn-Cu)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveSubTab('galvanic')}
+          className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+            activeSubTab === 'galvanic'
+              ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 font-black'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Sliders className="w-3.5 h-3.5" />
+          <span>কাস্টম গ্যালভানিক কোষ</span>
         </button>
 
         <button
@@ -100,6 +114,7 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
         {activeSubTab === 'lab' && <Virtual3DScienceLab />}
         {activeSubTab === 'periodic' && <PeriodicTable3D />}
         {activeSubTab === 'electron' && <ElectronConfigurationVisualizer />}
+        {activeSubTab === 'daniell' && <DaniellCellSimulation />}
         {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
         {activeSubTab === 'redox' && <RedoxOxidationEngine />}
         {activeSubTab === 'biology' && <VirtualBiologyLab3D />}

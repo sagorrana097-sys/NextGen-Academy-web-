@@ -163,9 +163,14 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               icon: Sparkles
             },
             {
-              id: 'galvanic-cell',
-              label: lang === 'bn' ? 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন ল্যাব' : 'Galvanic Cell & Electrochemistry',
+              id: 'daniell-cell',
+              label: lang === 'bn' ? 'আদর্শ ড্যানিয়েল কোষ (Zn-Cu)' : 'Standard Daniell Cell (Zn-Cu)',
               icon: BatteryCharging
+            },
+            {
+              id: 'galvanic-cell',
+              label: lang === 'bn' ? 'কাস্টম গ্যালভানিক কোষ ল্যাব' : 'Custom Galvanic Cell Lab',
+              icon: Sliders
             },
             {
               id: 'redox-engine',

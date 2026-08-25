@@ -37,6 +37,7 @@ import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
 import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
 import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
 import GalvanicCellSimulation from './GalvanicCellSimulation';
+import DaniellCellSimulation from './DaniellCellSimulation';
 import RedoxOxidationEngine from './RedoxOxidationEngine';
 
 // =========================================================================
@@ -505,13 +506,24 @@ export default function MasterChemistryLab() {
 
             <button
               type="button"
-              onClick={() => setActiveSubTab('galvanic')}
+              onClick={() => setActiveSubTab('daniell')}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeSubTab === 'galvanic' ? 'bg-amber-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+                activeSubTab === 'daniell' ? 'bg-amber-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
               }`}
             >
               <BatteryCharging className="w-3.5 h-3.5" />
-              <span>গ্যালভানিক কোষ</span>
+              <span>ড্যানিয়েল কোষ (Zn-Cu)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('galvanic')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeSubTab === 'galvanic' ? 'bg-cyan-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>কাস্টম গ্যালভানিক কোষ</span>
             </button>
           </div>
 
@@ -762,7 +774,12 @@ export default function MasterChemistryLab() {
       {activeSubTab === 'redox-engine' && <RedoxOxidationEngine />}
 
       {/* ========================================================================= */}
-      {/* SUB-VIEW 3: DYNAMIC GALVANIC CELL SIMULATOR */}
+      {/* SUB-VIEW 3: CLASSIC DANIELL CELL (Zn-Cu) SIMULATOR */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'daniell' && <DaniellCellSimulation />}
+
+      {/* ========================================================================= */}
+      {/* SUB-VIEW 4: CUSTOM GALVANIC CELL SIMULATOR */}
       {/* ========================================================================= */}
       {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
     </div>
