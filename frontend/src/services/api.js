@@ -1,148 +1,31 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'https://nextgen-academy-web.onrender.com/api';
 
-/**
- * Silent Background Error Logger Helper
- * Directly logs unhandled errors and network crashes to system_errors table.
- */
-export async function silentlyLogSystemError(errorPayload) {
-  try {
-    const rawUser = localStorage.getItem('nextgen_user');
-    let user = null;
-    try {
-      user = rawUser ? JSON.parse(rawUser) : null;
-    } catch (e) {}
-
-    const payload = {
-      userRole: user?.role || 'GUEST',
-      userId: user?.id || null,
-      userName: user?.name || null,
-      route: typeof window !== 'undefined' ? window.location.pathname : '/',
-      browserInfo: {
-        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
-        language: typeof navigator !== 'undefined' ? navigator.language : '',
-        screenWidth: typeof window !== 'undefined' ? window.innerWidth : null,
-        screenHeight: typeof window !== 'undefined' ? window.innerHeight : null
-      },
-      ...errorPayload
-    };
-
-    await fetch(`${API_BASE}/system-errors/log`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    // Intentionally suppressed for complete user stealth
-  }
-}
+// In-Memory SWR Cache & In-Flight Request Deduplication Store
+const apiCache = new Map();
+const inFlightRequests = new Map();
 
 /**
- * Zero-Fail Client-Side Mock Fallbacks for Student Endpoints
- */
-const STUDENT_MOCKS = {
-  '/student/profile': {
-    id: 1,
-    userId: 1,
-    rollNo: 1,
-    studentIdNumber: 'STD-2026-001',
-    classId: 1,
-    sectionId: 1,
-    batchId: 1,
-    group: 'বিজ্ঞান (Science)',
-    bloodGroup: 'B+',
-    dob: '2009-01-01',
-    gender: 'MALE',
-    address: 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর',
-    admissionDate: '2026-01-01',
-    user: {
-      id: 1,
-      name: 'তাহমিদ আহমেদ',
-      email: 'student@nextgen.edu.bd',
-      phone: '০১৭৯২৮১৮০০৫',
-      role: 'STUDENT',
-      isActive: true,
-      avatar: null
-    },
-    class: { id: 1, nameBn: 'দশম শ্রেণি (SSC 2026)', name: 'Class 10' },
-    section: { id: 1, nameBn: 'ক শাখা (পদ্মা)', name: 'Section A' },
-    batch: { id: 1, nameBn: 'সকাল ব্যাচ (SSC স্পেশাল)', name: 'Morning Batch' }
-  },
-  '/student/dashboard': {
-    student: {
-      id: 1,
-      rollNo: 1,
-      studentIdNumber: 'STD-2026-001',
-      user: { name: 'তাহমিদ আহমেদ', email: 'student@nextgen.edu.bd', phone: '০১৭৯২৮১৮০০৫' },
-      class: { nameBn: 'দশম শ্রেণি (SSC 2026)' },
-      section: { nameBn: 'ক শাখা (পদ্মা)' }
-    },
-    metrics: {
-      attendanceRate: 96.5,
-      totalAttendanceDays: 32,
-      presentDays: 31,
-      gpa: 5.0,
-      totalDue: 0,
-      unpaidCount: 0
-    }
-  },
-  '/student/attendance': {
-    stats: { total: 32, present: 30, late: 1, absent: 1, leave: 0, percentage: 96.9 },
-    records: [
-      { id: 1, date: new Date().toISOString().split('T')[0], status: 'PRESENT', inTime: '08:45 AM', remarks: 'উপস্থিত' },
-      { id: 2, date: '2026-08-24', status: 'PRESENT', inTime: '08:40 AM', remarks: 'উপস্থিত' },
-      { id: 3, date: '2026-08-23', status: 'LATE', inTime: '09:05 AM', remarks: 'দেরিতে প্রবেশ' },
-      { id: 4, date: '2026-08-22', status: 'PRESENT', inTime: '08:48 AM', remarks: 'উপস্থিত' },
-      { id: 5, date: '2026-08-21', status: 'PRESENT', inTime: '08:42 AM', remarks: 'উপস্থিত' }
-    ]
-  },
-  '/student/results': {
-    summary: { gpa: 5.0, totalMarks: 582, totalMaxMarks: 600, percentage: 97.0 },
-    marks: [
-      { id: 1, subject: { name: 'পদার্থবিজ্ঞান', code: '136' }, obtainedMarks: 98, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 2, subject: { name: 'রসায়ন', code: '137' }, obtainedMarks: 96, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 3, subject: { name: 'উচ্চতর গণিত', code: '126' }, obtainedMarks: 99, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 4, subject: { name: 'জীববিজ্ঞান', code: '138' }, obtainedMarks: 95, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 5, subject: { name: 'বাংলা', code: '101' }, obtainedMarks: 94, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 6, subject: { name: 'ইংরেজি', code: '107' }, obtainedMarks: 100, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' }
-    ]
-  },
-  '/student/routine': [
-    { id: 1, dayOfWeek: 'Sunday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'পদার্থবিজ্ঞান' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-    { id: 2, dayOfWeek: 'Monday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'রসায়ন' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-    { id: 3, dayOfWeek: 'Tuesday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'উচ্চতর গণিত' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০২' },
-    { id: 4, dayOfWeek: 'Wednesday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'জীববিজ্ঞান' }, teacher: { user: { name: 'বিজ্ঞান অনুষদ' } }, roomNumber: '১০১' },
-    { id: 5, dayOfWeek: 'Thursday', timeSlot: '০৮:০০ - ১০:০০', subject: { name: 'আইসিটি ও ভার্চুয়াল ল্যাব' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '৩ডি ল্যাব' }
-  ],
-  '/student/invoices': [
-    {
-      id: 1,
-      invoiceNumber: 'INV-2026-0801',
-      title: 'আগস্ট ২০২৬ মাসিক বেতন ও স্পেশাল ল্যাব ফি',
-      amount: 1500,
-      baseAmount: 1500,
-      discountAmount: 0,
-      dueDate: '2026-08-10',
-      status: 'PAID',
-      payments: [{ id: 1, amount: 1500, method: 'BKASH', transactionId: 'TRX8941829', paidAt: '2026-08-05' }]
-    },
-    {
-      id: 2,
-      invoiceNumber: 'INV-2026-0701',
-      title: 'জুলাই ২০২৬ মাসিক বেতন',
-      amount: 1500,
-      baseAmount: 1500,
-      discountAmount: 0,
-      dueDate: '2026-07-10',
-      status: 'PAID',
-      payments: [{ id: 2, amount: 1500, method: 'NAGAD', transactionId: 'NGD4910284', paidAt: '2026-07-06' }]
-    }
-  ]
-};
-
-/**
- * Network Request with Auto-Healing (Up to 3 silent retries on network/5xx server failures)
+ * High-Performance Network Request with In-Flight Deduplication, Auto-Healing & Caching
  */
 async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
+  const isGet = !options.method || options.method.toUpperCase() === 'GET';
+  const cleanEndpoint = endpoint.split('?')[0];
+  const cacheKey = `${options.method || 'GET'}:${endpoint}`;
+  const cacheTtl = options.cacheTtl !== undefined ? options.cacheTtl : (isGet ? 15000 : 0); // 15s default for GET
+
+  // 1. Check in-memory cache for GET requests
+  if (isGet && cacheTtl > 0 && apiCache.has(cacheKey)) {
+    const cached = apiCache.get(cacheKey);
+    if (Date.now() - cached.timestamp < cached.ttl) {
+      return cached.data;
+    }
+  }
+
+  // 2. In-flight request deduplication: if identical GET is already in-flight, reuse promise
+  if (isGet && inFlightRequests.has(cacheKey)) {
+    return inFlightRequests.get(cacheKey);
+  }
+
   const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
   const headers = {
     'Content-Type': 'application/json',
@@ -150,85 +33,93 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
     ...options.headers
   };
 
-  const cleanEndpoint = endpoint.split('?')[0];
-  let lastError = null;
+  const executeFetch = async () => {
+    let lastError = null;
 
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      const res = await fetch(`${API_BASE}${endpoint}`, {
-        ...options,
-        headers
-      });
-
-      let data = {};
+    for (let attempt = 1; attempt <= retries; attempt++) {
       try {
-        data = await res.json();
-      } catch (e) {
-        data = {};
-      }
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          ...options,
+          headers
+        });
 
-      // If Server Error 500-504 and retry attempts left, retry silently
-      if (res.status >= 500 && attempt < retries) {
-        console.warn(`[Auto-Healing] Network retry ${attempt}/${retries} on ${endpoint} due to HTTP ${res.status}`);
-        await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
-        continue;
-      }
-
-      if (res.status === 401) {
-        if (STUDENT_MOCKS[cleanEndpoint]) {
-          return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
+        let data = {};
+        try {
+          data = await res.json();
+        } catch (e) {
+          data = {};
         }
-        return {
-          success: false,
-          isUnauthorized: true,
-          error: { message: data?.error?.message || 'সেশনের মেয়াদ শেষ হয়েছে।' },
-          data: null
-        };
-      }
 
-      if (!res.ok) {
-        if (STUDENT_MOCKS[cleanEndpoint]) {
-          return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
+        if (res.status >= 500 && attempt < retries) {
+          await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
+          continue;
         }
-        return {
-          success: false,
-          status: res.status,
-          error: { message: data.error?.message || data.message || `Request failed with status ${res.status}` },
-          data: null
-        };
-      }
 
-      return data;
-    } catch (err) {
-      lastError = err;
-      if (attempt < retries && (!err.status || err.status >= 500)) {
-        await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
-        continue;
+        if (res.status === 401) {
+          if (STUDENT_MOCKS[cleanEndpoint]) {
+            return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
+          }
+          return {
+            success: false,
+            isUnauthorized: true,
+            error: { message: data?.error?.message || 'সেশনের মেয়াদ শেষ হয়েছে।' },
+            data: null
+          };
+        }
+
+        if (!res.ok) {
+          if (STUDENT_MOCKS[cleanEndpoint]) {
+            return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
+          }
+          return {
+            success: false,
+            status: res.status,
+            error: { message: data.error?.message || data.message || `Request failed with status ${res.status}` },
+            data: null
+          };
+        }
+
+        // Cache successful GET response
+        if (isGet && cacheTtl > 0) {
+          apiCache.set(cacheKey, { data, timestamp: Date.now(), ttl: cacheTtl });
+        }
+
+        // Invalidate related cache keys on mutations
+        if (!isGet) {
+          apiCache.clear();
+        }
+
+        return data;
+      } catch (err) {
+        lastError = err;
+        if (attempt < retries && (!err.status || err.status >= 500)) {
+          await new Promise((resolve) => setTimeout(resolve, backoffMs * attempt));
+          continue;
+        }
+        break;
       }
-      break;
     }
-  }
 
-  // If failed after retries, return mock data for student endpoints
-  if (STUDENT_MOCKS[cleanEndpoint]) {
-    return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
-  }
+    if (STUDENT_MOCKS[cleanEndpoint]) {
+      return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
+    }
 
-  // If failed after all retries and not an error reporting request itself, log silently
-  if (!endpoint.includes('/system-errors')) {
-    silentlyLogSystemError({
-      message: `Network Exception on ${options.method || 'GET'} ${endpoint}: ${lastError?.message || 'Failed to fetch'}`,
-      stack: lastError?.stack,
-      errorType: 'NETWORK_ERROR',
-      statusCode: lastError?.status || 500
-    });
-  }
-
-  return {
-    success: false,
-    error: { message: lastError?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' },
-    data: null
+    return {
+      success: false,
+      error: { message: lastError?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' },
+      data: null
+    };
   };
+
+  if (isGet) {
+    const promise = executeFetch().finally(() => {
+      inFlightRequests.delete(cacheKey);
+    });
+    inFlightRequests.set(cacheKey, promise);
+    return promise;
+  }
+
+  return executeFetch();
 }
 
 export const authAPI = {
@@ -246,6 +137,7 @@ export const authAPI = {
 };
 
 export const adminAPI = {
+  getDashboardAggregate: () => request('/admin/dashboard-aggregate', { cacheTtl: 30000 }),
   getStats: () => request('/admin/stats'),
   getStudents: (params = {}) => {
     const q = new URLSearchParams(params).toString();
@@ -319,6 +211,7 @@ export const parentAPI = {
 };
 
 export const studentAPI = {
+  getDashboardAggregate: () => request('/student/dashboard-aggregate', { cacheTtl: 30000 }),
   getAll: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/students?${q}`);

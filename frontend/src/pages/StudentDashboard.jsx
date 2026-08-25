@@ -182,51 +182,59 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
 
   useEffect(() => {
     fetchStudentData();
-  }, [activeTab]);
-
+  }, []);
 
   const fetchStudentData = async (forceRefresh = false) => {
     // 1. Instant cache hydration
-    const cachedProfile = getCacheItem('student_profile');
-    const cachedDash = getCacheItem('student_dashboard');
+    const cachedAggregate = getCacheItem('student_dashboard_aggregate');
+    const cachedProfile = getCacheItem('student_profile') || cachedAggregate?.profile;
+    const cachedDash = getCacheItem('student_dashboard') || cachedAggregate?.dashboard;
 
-    if (cachedProfile && !profile) setProfile(cachedProfile);
-    if (cachedDash && !dashboard) setDashboard(cachedDash);
+    if (cachedAggregate) {
+      if (!profile) setProfile(cachedAggregate.profile);
+      if (!dashboard) setDashboard(cachedAggregate.dashboard);
+      if (!attendance) setAttendance(cachedAggregate.attendance);
+      if (!results) setResults(cachedAggregate.results);
+      if (!routine) setRoutine(cachedAggregate.routine);
+      if (!invoices) setInvoices(cachedAggregate.invoices);
+      if (!streakData) setStreakData(cachedAggregate.gamification);
+      if (!notices || notices.length === 0) setNotices(cachedAggregate.notices);
+    } else {
+      if (cachedProfile && !profile) setProfile(cachedProfile);
+      if (cachedDash && !dashboard) setDashboard(cachedDash);
+    }
 
-    if (!cachedProfile) {
+    if (!cachedAggregate && !cachedProfile) {
       setLoading(true);
     }
 
     try {
-      const [profRes, dashRes, attRes, resRes, routRes, invRes, notifRes, gameRes] = await Promise.allSettled([
-        studentAPI.getProfile(),
-        studentAPI.getDashboard(),
-        studentAPI.getAttendance(),
-        studentAPI.getResults(),
-        studentAPI.getRoutine(),
-        studentAPI.getInvoices(),
-        noticeAPI.getNotices('STUDENT'),
-        studentAPI.getGamification()
-      ]);
+      // 2. Fetch single aggregated dashboard payload
+      const aggRes = await studentAPI.getDashboardAggregate();
+      if (aggRes?.success && aggRes?.data) {
+        const d = aggRes.data;
+        setCacheItem('student_dashboard_aggregate', d, 5 * 60 * 1000);
+        if (d.profile) {
+          setProfile(d.profile);
+          setCacheItem('student_profile', d.profile, 10 * 60 * 1000);
+        }
+        if (d.dashboard) {
+          setDashboard(d.dashboard);
+          setCacheItem('student_dashboard', d.dashboard, 10 * 60 * 1000);
+        }
+        if (d.attendance) setAttendance(d.attendance);
+        if (d.results) setResults(d.results);
+        if (d.routine) setRoutine(d.routine);
+        if (d.invoices) setInvoices(d.invoices);
+        if (d.gamification) setStreakData(d.gamification);
+        if (d.notices) setNotices(d.notices);
 
-      if (gameRes.status === 'fulfilled' && gameRes.value?.data) {
-        setStreakData(gameRes.value.data);
-      }
-
-      let activeProf = profile || cachedProfile;
-
-      if (profRes.status === 'fulfilled' && profRes.value?.success && profRes.value.data) {
-        activeProf = profRes.value.data;
-        setProfile(activeProf);
-        setCacheItem('student_profile', activeProf, 10 * 60 * 1000);
-      }
-
-      if (activeProf?.id) {
+        const activeId = d.profile?.id || 1;
         Promise.allSettled([
-          homeworkAPI.getStudentHomework(activeProf.id),
-          materialAPI.getStudentMaterials(activeProf.id),
-          textbookAPI.getTextbooks({ classId: activeProf.classId }),
-          examAPI.getStudentExams(activeProf.id)
+          homeworkAPI.getStudentHomework(activeId),
+          materialAPI.getStudentMaterials(activeId),
+          textbookAPI.getTextbooks({ classId: d.profile?.classId || 1 }),
+          examAPI.getStudentExams(activeId)
         ]).then(([hwRes, matRes, tbRes, examRes]) => {
           if (hwRes.status === 'fulfilled' && hwRes.value?.success) setHomeworkList(hwRes.value.data);
           if (matRes.status === 'fulfilled' && matRes.value?.success) setMaterialsList(matRes.value.data);
@@ -237,18 +245,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           }
         }).catch(() => {});
       }
-
-      if (dashRes.status === 'fulfilled' && dashRes.value?.success) {
-        setDashboard(dashRes.value.data);
-        setCacheItem('student_dashboard', dashRes.value.data, 10 * 60 * 1000);
-      }
-      if (attRes.status === 'fulfilled' && attRes.value?.success) setAttendance(attRes.value.data);
-      if (resRes.status === 'fulfilled' && resRes.value?.success) setResults(resRes.value.data);
-      if (routRes.status === 'fulfilled' && routRes.value?.success) setRoutine(routRes.value.data);
-      if (invRes.status === 'fulfilled' && invRes.value?.success) setInvoices(invRes.value.data);
-      if (notifRes.status === 'fulfilled' && notifRes.value?.success) setNotices(notifRes.value.data);
     } catch (err) {
-      console.error('Failed to load student data:', err);
+      console.error('Failed to load student aggregate data:', err);
     } finally {
       setLoading(false);
     }

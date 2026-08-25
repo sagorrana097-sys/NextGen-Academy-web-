@@ -587,63 +587,69 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
   const fetchAdminData = async (forceRefresh = false) => {
     // 1. Instant Cache Hydration
-    const cachedStats = getCacheItem('admin_stats');
-    const cachedStudents = getCacheItem('admin_students');
-    const cachedTeachers = getCacheItem('admin_teachers');
-    const cachedInvoices = getCacheItem('admin_invoices');
-    const cachedClasses = getCacheItem('admin_classes');
+    const cachedAggregate = getCacheItem('admin_dashboard_aggregate');
+    const cachedStats = getCacheItem('admin_stats') || cachedAggregate?.stats;
+    const cachedStudents = getCacheItem('admin_students') || cachedAggregate?.students;
+    const cachedTeachers = getCacheItem('admin_teachers') || cachedAggregate?.teachers;
+    const cachedInvoices = getCacheItem('admin_invoices') || cachedAggregate?.invoices;
+    const cachedClasses = getCacheItem('admin_classes') || cachedAggregate?.classes;
 
-    if (cachedStats && !stats) setStats(cachedStats);
-    if (cachedStudents && students.length === 0) setStudents(cachedStudents);
-    if (cachedTeachers && teachers.length === 0) setTeachers(cachedTeachers);
-    if (cachedInvoices && invoices.length === 0) setInvoices(cachedInvoices);
-    if (cachedClasses && allClasses.length === 0) setAllClasses(cachedClasses);
+    if (cachedAggregate) {
+      if (!stats) setStats(cachedAggregate.stats);
+      if (students.length === 0 && cachedAggregate.students) setStudents(cachedAggregate.students);
+      if (teachers.length === 0 && cachedAggregate.teachers) setTeachers(cachedAggregate.teachers);
+      if (invoices.length === 0 && cachedAggregate.invoices) setInvoices(cachedAggregate.invoices);
+      if (allClasses.length === 0 && cachedAggregate.classes) setAllClasses(cachedAggregate.classes);
+      if (cachedAggregate.auditLogs) setAuditLogs(cachedAggregate.auditLogs);
+    } else {
+      if (cachedStats && !stats) setStats(cachedStats);
+      if (cachedStudents && students.length === 0) setStudents(cachedStudents);
+      if (cachedTeachers && teachers.length === 0) setTeachers(cachedTeachers);
+      if (cachedInvoices && invoices.length === 0) setInvoices(cachedInvoices);
+      if (cachedClasses && allClasses.length === 0) setAllClasses(cachedClasses);
+    }
 
-    if (!cachedStats) {
+    if (!cachedAggregate && !cachedStats) {
       setLoading(true);
     }
     setError(null);
 
     try {
-      const [statsRes, studentsRes, teachersRes, invoicesRes, logsRes, classesRes, textbooksRes, examsRes] = await Promise.allSettled([
-        adminAPI.getStats(),
-        adminAPI.getStudents(),
-        adminAPI.getTeachers(),
-        adminAPI.getInvoices(),
-        adminAPI.getAuditLogs({ limit: 30 }),
-        curriculumAPI.getClasses(),
-        textbookAPI.getTextbooks(),
-        examAPI.getExams()
-      ]);
+      // 2. Fetch single aggregated admin dashboard payload
+      const aggRes = await adminAPI.getDashboardAggregate();
+      if (aggRes?.success && aggRes?.data) {
+        const d = aggRes.data;
+        setCacheItem('admin_dashboard_aggregate', d, 5 * 60 * 1000);
+        if (d.stats) {
+          setStats(d.stats);
+          setCacheItem('admin_stats', d.stats, 10 * 60 * 1000);
+        }
+        if (d.students) {
+          setStudents(d.students);
+          setCacheItem('admin_students', d.students, 10 * 60 * 1000);
+        }
+        if (d.teachers) {
+          setTeachers(d.teachers);
+          setCacheItem('admin_teachers', d.teachers, 10 * 60 * 1000);
+        }
+        if (d.invoices) {
+          setInvoices(d.invoices);
+          setCacheItem('admin_invoices', d.invoices, 10 * 60 * 1000);
+        }
+        if (d.classes) {
+          setAllClasses(d.classes);
+          setCacheItem('admin_classes', d.classes, 30 * 60 * 1000);
+        }
+        if (d.auditLogs) setAuditLogs(d.auditLogs);
 
-      if (statsRes.status === 'fulfilled' && statsRes.value?.success) {
-        setStats(statsRes.value.data);
-        setCacheItem('admin_stats', statsRes.value.data, 10 * 60 * 1000);
-      }
-      if (studentsRes.status === 'fulfilled' && studentsRes.value?.success) {
-        setStudents(studentsRes.value.data);
-        setCacheItem('admin_students', studentsRes.value.data, 10 * 60 * 1000);
-      }
-      if (teachersRes.status === 'fulfilled' && teachersRes.value?.success) {
-        setTeachers(teachersRes.value.data);
-        setCacheItem('admin_teachers', teachersRes.value.data, 10 * 60 * 1000);
-      }
-      if (invoicesRes.status === 'fulfilled' && invoicesRes.value?.success) {
-        setInvoices(invoicesRes.value.data);
-        setCacheItem('admin_invoices', invoicesRes.value.data, 10 * 60 * 1000);
-      }
-      if (logsRes.status === 'fulfilled' && logsRes.value?.success) {
-        setAuditLogs(logsRes.value.data.logs);
-      }
-      if (classesRes.status === 'fulfilled' && classesRes.value?.success) {
-        setAllClasses(classesRes.value.data);
-        setCacheItem('admin_classes', classesRes.value.data, 30 * 60 * 1000);
-      }
-      if (textbooksRes.status === 'fulfilled' && textbooksRes.value?.success) {
-        setTextbooks(textbooksRes.value.data);
-      }
-      if (examsRes.status === 'fulfilled' && examsRes.value?.success) {
-        setExamsList(examsRes.value.data);
+        // Fetch secondary collections silently in background
+        Promise.allSettled([
+          textbookAPI.getTextbooks(),
+          examAPI.getExams()
+        ]).then(([textbooksRes, examsRes]) => {
+          if (textbooksRes.status === 'fulfilled' && textbooksRes.value?.success) setTextbooks(textbooksRes.value.data);
+          if (examsRes.status === 'fulfilled' && examsRes.value?.success) setExamsList(examsRes.value.data);
+        }).catch(() => {});
       }
     } catch (err) {
       setError(err.message || 'Failed to load admin data');
