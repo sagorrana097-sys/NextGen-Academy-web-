@@ -46,6 +46,7 @@ const AdminGrammarCMS = lazy(() => import('../components/admin/AdminGrammarCMS')
 const AdminPromoSettings = lazy(() => import('../components/admin/AdminPromoSettings'));
 const AdminStudentPortalManager = lazy(() => import('../components/admin/AdminStudentPortalManager'));
 const AdminAnnouncementManager = lazy(() => import('../components/admin/AdminAnnouncementManager'));
+const QuestionGeneratorSuite = lazy(() => import('../components/admin/QuestionGeneratorSuite'));
 import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 
 
@@ -1606,8 +1607,16 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         </div>
       ) : activeTab === 'syllabus-tracker' || activeTab === 'syllabus' ? (
         <SyllabusTrackerManager />
-      ) : activeTab === 'omr-evaluation' || activeTab === 'omr' ? (
-        <OMRImportModule />
+      ) : activeTab === 'question-suite' || activeTab === 'ai-question-generator' || activeTab === 'ai-questions' ? (
+        <QuestionGeneratorSuite defaultTab="ai-generator" />
+      ) : activeTab === 'multi-board-generator' || activeTab === 'question-distribution' || activeTab === 'multi-board' ? (
+        <QuestionGeneratorSuite defaultTab="multi-board" />
+      ) : activeTab === 'manual-question-creator' || activeTab === 'manual-questions' ? (
+        <QuestionGeneratorSuite defaultTab="manual-creator" />
+      ) : activeTab === 'omr-evaluation' || activeTab === 'omr' || activeTab === 'omr-import' ? (
+        <QuestionGeneratorSuite defaultTab="omr-import" />
+      ) : activeTab === 'question-bank' || activeTab === 'question-archive' ? (
+        <QuestionGeneratorSuite defaultTab="question-bank" />
       ) : activeTab === 'media-center' || activeTab === 'media' ? (
         <MediaCenter />
       ) : activeTab === 'gamification-cms' || activeTab === 'interactive-cms' ? (

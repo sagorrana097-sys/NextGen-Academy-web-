@@ -59,7 +59,8 @@ import {
   TrendingUp,
   Battery,
   BatteryCharging,
-  Radio
+  Radio,
+  Bot
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
@@ -262,6 +263,18 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       ]
     },
     {
+      key: 'adminQuestionSuite',
+      title: lang === 'bn' ? '🎯 প্রশ্ন ব্যবস্থাপনা স্যুট' : '🎯 Question Generator Suite',
+      icon: Sparkles,
+      items: [
+        { id: 'ai-question-generator', label: lang === 'bn' ? '🤖 AI প্রশ্ন জেনারেটর (MCQ/CQ)' : 'AI Question Generator', icon: Bot },
+        { id: 'multi-board-generator', label: lang === 'bn' ? '🏛️ মাল্টি-বোর্ড ও সাল বণ্টন' : 'Multi-Board Distribution', icon: Sliders },
+        { id: 'manual-question-creator', label: lang === 'bn' ? '✍️ ম্যানুয়াল প্রশ্ন নির্মাতা' : 'Manual Question Creator', icon: PenTool },
+        { id: 'omr-evaluation', label: lang === 'bn' ? '📋 OMR ফলাফল ও শিট মূল্যায়ন' : 'OMR Result & Import', icon: Award },
+        { id: 'question-bank', label: lang === 'bn' ? '📚 প্রশ্ন ব্যাংক ও আর্কাইভ' : 'Question Bank & Archive', icon: Database }
+      ]
+    },
+    {
       key: 'adminAcademics',
       title: lang === 'bn' ? '📖 পাঠ্যক্রম ও মূল্যায়ন' : '📖 Academics & Exams',
       icon: BookOpen,
@@ -269,7 +282,6 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         { id: 'batches-routine', label: lang === 'bn' ? 'ব্যাচ ও সাপ্তাহিক রুটিন' : 'Batches & Routine', icon: Layers },
         { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classroom', icon: Video },
         { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা ও কুইজ' : 'Online Exams', icon: HelpCircle },
-        { id: 'omr-evaluation', label: lang === 'bn' ? 'OMR ফলাফল আমদানি' : 'OMR Evaluation', icon: Award },
         { id: 'results-report', label: lang === 'bn' ? 'ফলাফল ও গ্রেডশিট' : 'Results & Reports', icon: Award },
         { id: 'syllabus-tracker', label: lang === 'bn' ? 'সিলেবাস প্রগ্রেস ট্র্যাকার' : 'Syllabus Tracker', icon: BookOpen },
         { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen }
@@ -328,6 +340,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         { id: 'homework', label: lang === 'bn' ? 'হোমওয়ার্ক প্রদান ও চেক' : 'Homework Manager', icon: ClipboardList },
         { id: 'materials', label: lang === 'bn' ? 'স্টাডি ম্যাটেরিয়াল আপলোড' : 'Study Materials', icon: BookMarked },
         { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা প্রণয়ন' : 'Online Exams', icon: HelpCircle },
+        { id: 'question-suite', label: lang === 'bn' ? 'প্রশ্ন ব্যবস্থাপনা স্যুট' : 'Question Generator Suite', icon: Sparkles },
         { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classes', icon: Video },
         { id: 'page-announcements', label: lang === 'bn' ? 'পেজ অডিও নোটিশ' : 'Audio Announcements', icon: Radio }
       ]
