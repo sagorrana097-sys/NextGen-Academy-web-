@@ -29,6 +29,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import DigitalClock from '../common/DigitalClock';
+import UserAvatar from '../common/UserAvatar';
 import AdminAISystemHealthModal from '../admin/AdminAISystemHealthModal';
 
 export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
@@ -370,9 +371,14 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
                   className="flex items-center space-x-2 p-1 sm:p-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition-all flex-shrink-0 group active:scale-95 shadow-sm"
                   aria-label="User Profile Menu"
                 >
-                  <div className="w-8 h-8 rounded-lg flex-shrink-0 bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-xs font-black ring-2 ring-emerald-500/30 group-hover:ring-emerald-400 shadow-sm">
-                    {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                  </div>
+                  <UserAvatar
+                    src={user.photo || user.avatar || user.profilePhoto}
+                    name={user.name}
+                    role={user.role}
+                    size="sm"
+                    shape="rounded-lg"
+                    ringColor="ring-emerald-500/30 group-hover:ring-emerald-400"
+                  />
                   <div className="hidden sm:flex flex-col text-left max-w-[100px] md:max-w-[130px]">
                     <span className="text-xs font-bold text-slate-200 group-hover:text-white truncate">
                       {user.name}
@@ -388,15 +394,24 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
 
                 {/* Profile Popover */}
                 {showProfileMenu && (
-                  <div className="absolute right-0 mt-2 w-60 bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-800 py-2 z-50 animate-in fade-in slide-in-from-top-2 text-slate-100">
-                    <div className="px-4 py-2.5 border-b border-slate-800">
-                      <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                      <p className="text-[11px] text-slate-400 truncate">{user.email || user.phone}</p>
-                      {user.role && user.role !== 'PARENT' && (
-                        <div className="mt-1.5 inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 uppercase">
-                          {user.role}
-                        </div>
-                      )}
+                  <div className="absolute right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-800 py-2 z-50 animate-in fade-in slide-in-from-top-2 text-slate-100">
+                    <div className="px-4 py-3 border-b border-slate-800 flex items-center space-x-3">
+                      <UserAvatar
+                        src={user.photo || user.avatar || user.profilePhoto}
+                        name={user.name}
+                        role={user.role}
+                        size="md"
+                        shape="rounded-xl"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold text-white truncate">{user.name}</p>
+                        <p className="text-[11px] text-slate-400 truncate">{user.email || user.phone}</p>
+                        {user.role && user.role !== 'PARENT' && (
+                          <div className="mt-1 inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 uppercase">
+                            {user.role}
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <button

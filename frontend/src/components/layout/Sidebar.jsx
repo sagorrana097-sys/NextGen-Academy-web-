@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useSettings } from '../../context/SettingsContext';
+import UserAvatar from '../common/UserAvatar';
 import {
   LayoutDashboard,
   Users,
@@ -264,14 +265,12 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
     },
     {
       key: 'adminQuestionSuite',
-      title: lang === 'bn' ? '🎯 প্রশ্ন ব্যবস্থাপনা স্যুট' : '🎯 Question Generator Suite',
+      title: lang === 'bn' ? '🎯 প্রশ্ন ব্যবস্থাপনা ও এআই স্যুট' : '🎯 Question & AI Exam Suite',
       icon: Sparkles,
       items: [
-        { id: 'ai-question-generator', label: lang === 'bn' ? '🤖 AI প্রশ্ন জেনারেটর (MCQ/CQ)' : 'AI Question Generator', icon: Bot },
-        { id: 'multi-board-generator', label: lang === 'bn' ? '🏛️ মাল্টি-বোর্ড ও সাল বণ্টন' : 'Multi-Board Distribution', icon: Sliders },
-        { id: 'manual-question-creator', label: lang === 'bn' ? '✍️ ম্যানুয়াল প্রশ্ন নির্মাতা' : 'Manual Question Creator', icon: PenTool },
-        { id: 'omr-evaluation', label: lang === 'bn' ? '📋 OMR ফলাফল ও শিট মূল্যায়ন' : 'OMR Result & Import', icon: Award },
-        { id: 'question-bank', label: lang === 'bn' ? '📚 প্রশ্ন ব্যাংক ও আর্কাইভ' : 'Question Bank & Archive', icon: Database }
+        { id: 'smart-upload-reader', label: lang === 'bn' ? '📤 পার্ট ১: স্মার্ট আপলোড ও এআই রিডার হাব' : 'Part 1: Smart Upload & AI Reader', icon: Upload, badge: 'PART 1' },
+        { id: 'ai-question-maker', label: lang === 'bn' ? '🤖 পার্ট ২: এআই প্রশ্ন জেনারেটর ও মেকার' : 'Part 2: AI Question Generator & Maker', icon: Bot, badge: 'PART 2' },
+        { id: 'omr-evaluation', label: lang === 'bn' ? '📋 পার্ট ৩: OMR ফলাফল ও শিট মূল্যায়ন' : 'Part 3: OMR Evaluation & Results', icon: Award, badge: 'PART 3' }
       ]
     },
     {
@@ -522,15 +521,14 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
 
             {/* User quick pill */}
             <div className="p-3 mb-2.5 rounded-2xl bg-slate-800/90 border border-slate-700/80 flex items-center space-x-3 shadow-sm">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-sm shadow-inner flex-shrink-0">
-                {user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? (
-                  <ShieldCheck className="w-5 h-5" />
-                ) : user?.role === 'TEACHER' ? (
-                  <BookOpen className="w-5 h-5" />
-                ) : (
-                  <GraduationCap className="w-5 h-5" />
-                )}
-              </div>
+              <UserAvatar
+                src={user?.photo || user?.avatar || user?.profilePhoto}
+                name={user?.name}
+                role={user?.role}
+                size="md"
+                shape="rounded-xl"
+                ringColor="ring-emerald-500/40"
+              />
               <div className="overflow-hidden min-w-0">
                 <p className="text-xs font-black text-white truncate">{user?.name}</p>
                 <div className="flex items-center gap-1.5 mt-0.5">

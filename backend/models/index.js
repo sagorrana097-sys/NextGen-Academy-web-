@@ -39,6 +39,7 @@ const GrammarLesson = new Model('grammar_lessons');
 const ReferralProfile = new Model('referral_profiles');
 const PromoSetting = new Model('promo_settings');
 const PageAnnouncement = new Model('page_announcements');
+const QuestionRepository = new Model('question_repositories');
 
 
 
@@ -249,7 +250,8 @@ module.exports = {
   GrammarLesson,
   ReferralProfile,
   PromoSetting,
-  PageAnnouncement
+  PageAnnouncement,
+  QuestionRepository
 };
 
 

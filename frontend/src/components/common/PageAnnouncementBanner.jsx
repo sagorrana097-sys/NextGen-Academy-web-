@@ -19,6 +19,7 @@ import {
   speakText,
   stopSpeech,
   playChime,
+  unlockAudio,
   isVoiceMuted,
   setVoiceMuted,
   hasSpokenInSession,
@@ -81,6 +82,9 @@ export default function PageAnnouncementBanner({
   };
 
   const handleSpeak = (item, isAuto = false) => {
+    // Explicitly unlock audio synchronously on user gesture / call
+    unlockAudio();
+
     if (speakingId === item.id) {
       stopSpeech();
       setSpeakingId(null);
@@ -202,13 +206,13 @@ export default function PageAnnouncementBanner({
 
                     {/* Animated Audio Equalizer Wave when Speaking */}
                     {isSpeaking && (
-                      <div className="flex items-center space-x-0.5 px-2 py-0.5 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 text-[10px] font-bold">
-                        <span className="mr-1">স্পিচ লাইভ</span>
+                      <div className="flex items-center space-x-0.5 px-2 py-0.5 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 text-[10px] font-bold animate-pulse">
+                        <span className="mr-1">স্পিচ চালু রয়েছে</span>
                         <div className="flex items-end h-3 space-x-0.5">
-                          <div className={`w-1 bg-teal-400 rounded-full animate-pulse h-2`} />
-                          <div className={`w-1 bg-teal-400 rounded-full animate-bounce h-3`} />
-                          <div className={`w-1 bg-teal-400 rounded-full animate-pulse h-1.5`} />
-                          <div className={`w-1 bg-teal-400 rounded-full animate-bounce h-2.5`} />
+                          <div className="w-1 bg-teal-400 rounded-full animate-pulse h-2" />
+                          <div className="w-1 bg-teal-400 rounded-full animate-bounce h-3" />
+                          <div className="w-1 bg-teal-400 rounded-full animate-pulse h-1.5" />
+                          <div className="w-1 bg-teal-400 rounded-full animate-bounce h-2.5" />
                         </div>
                       </div>
                     )}
@@ -231,16 +235,16 @@ export default function PageAnnouncementBanner({
                   <button
                     type="button"
                     onClick={() => handleSpeak(item)}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-bold shadow-md flex items-center space-x-1.5 transition-all active:scale-95 ${
+                    className={`px-4 py-2.5 rounded-2xl text-xs font-black shadow-md flex items-center space-x-1.5 transition-all active:scale-95 cursor-pointer ${
                       isSpeaking
-                        ? 'bg-rose-600 hover:bg-rose-700 text-white'
+                        ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/40'
                         : theme.btn
                     }`}
                     title={isSpeaking ? 'অডিও বন্ধ করুন' : 'মহিলা কণ্ঠে শুনুন'}
                   >
                     {isSpeaking ? (
                       <>
-                        <Square className="w-3.5 h-3.5 fill-current" />
+                        <Square className="w-3.5 h-3.5 fill-current text-white" />
                         <span>থামান (Stop)</span>
                       </>
                     ) : (
@@ -257,7 +261,7 @@ export default function PageAnnouncementBanner({
                   <button
                     type="button"
                     onClick={handleToggleMute}
-                    className={`p-2 rounded-xl text-xs border transition-colors ${
+                    className={`p-2.5 rounded-2xl text-xs border transition-colors cursor-pointer ${
                       isMuted
                         ? 'bg-rose-500/20 border-rose-500/30 text-rose-300'
                         : 'bg-white/10 hover:bg-white/20 border-white/10 text-slate-300 hover:text-white'
@@ -272,7 +276,7 @@ export default function PageAnnouncementBanner({
                 <button
                   type="button"
                   onClick={() => handleDismiss(item.id)}
-                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-400 hover:text-white transition-colors"
+                  className="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
                   title="বন্ধ করুন (Dismiss)"
                 >
                   <X className="w-4 h-4" />

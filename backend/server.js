@@ -48,6 +48,7 @@ const referralRoutes = require('./routes/referral');
 const proctoringRoutes = require('./routes/proctoring');
 const googleDriveRoutes = require('./routes/googleDrive');
 const announcementsRoutes = require('./routes/announcements');
+const questionRepositoryRoutes = require('./routes/questionRepository');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -216,6 +217,7 @@ app.use('/api/grammar', grammarRoutes);
 app.use('/api/referral', referralRoutes);
 app.use('/api/proctoring', proctoringRoutes);
 app.use('/api/google-drive', googleDriveRoutes);
+app.use('/api/question-repository', questionRepositoryRoutes);
 
 // Root Health & API Explorer Check
 app.get('/', (req, res) => {

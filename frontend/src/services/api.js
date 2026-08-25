@@ -1,6 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000/api' : '/api');
 
-
 // Client-side Mock Fallbacks for Instant Offline & Zero-Error Experience
 const STUDENT_MOCKS = {
   '/dashboard-aggregate': {
@@ -198,125 +197,90 @@ export const adminAPI = {
     const q = new URLSearchParams(params).toString();
     return request(`/admin/audit-logs?${q}`);
   },
-  createStudent: (studentData) => request('/admin/students', { method: 'POST', body: JSON.stringify(studentData) }),
-  createTeacher: (teacherData) => request('/admin/teachers', { method: 'POST', body: JSON.stringify(teacherData) }),
-  updateTeacher: (id, teacherData) => request(`/admin/teachers/${id}`, { method: 'PUT', body: JSON.stringify(teacherData) }),
+  createStudent: (data) => request('/admin/students', { method: 'POST', body: JSON.stringify(data) }),
+  updateStudent: (id, data) => request(`/admin/students/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteStudent: (id) => request(`/admin/students/${id}`, { method: 'DELETE' }),
+  createTeacher: (data) => request('/admin/teachers', { method: 'POST', body: JSON.stringify(data) }),
+  updateTeacher: (id, data) => request(`/admin/teachers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteTeacher: (id) => request(`/admin/teachers/${id}`, { method: 'DELETE' }),
-  publishNotice: (noticeData) => request('/admin/notices', { method: 'POST', body: JSON.stringify(noticeData) }),
-  createInvoice: (invoiceData) => request('/admin/invoices', { method: 'POST', body: JSON.stringify(invoiceData) }),
+  createInvoice: (data) => request('/admin/invoices', { method: 'POST', body: JSON.stringify(data) }),
+  updateInvoice: (id, data) => request(`/admin/invoices/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteInvoice: (id) => request(`/admin/invoices/${id}`, { method: 'DELETE' }),
-  getProfile: () => request('/admin/profile'),
-  updateProfile: (data) => request('/admin/profile', { method: 'PUT', body: JSON.stringify(data) }),
-  getAdminUsers: () => request('/admin/users'),
-  createAdminUser: (data) => request('/admin/users', { method: 'POST', body: JSON.stringify(data) }),
-  updateAdminUser: (id, data) => request(`/admin/users/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteAdminUser: (id) => request(`/admin/users/${id}`, { method: 'DELETE' })
-};
-
-export const analyticsAPI = {
-  getSummary: (params = {}) => {
+  recordPayment: (invoiceId, data) => request(`/admin/invoices/${invoiceId}/payments`, { method: 'POST', body: JSON.stringify(data) }),
+  bulkCreateInvoices: (data) => request('/admin/invoices/bulk-generate', { method: 'POST', body: JSON.stringify(data) }),
+  getFeeStructures: () => request('/admin/invoices/fee-structures'),
+  saveFeeStructure: (data) => request('/admin/invoices/fee-structures', { method: 'POST', body: JSON.stringify(data) }),
+  exportInvoicesPDF: (id) => request(`/admin/invoices/${id}/pdf`),
+  getTransactions: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/analytics/summary?${q}`);
+    return request(`/admin/invoices/transactions?${q}`);
   }
 };
 
+export const studentAPI = {
+  getDashboardAggregate: () => request('/student/dashboard-aggregate', { cacheTtl: 20000 }),
+  getProfile: () => request('/student/profile', { cacheTtl: 30000 }),
+  getDashboard: () => request('/student/dashboard', { cacheTtl: 20000 }),
+  getAttendance: () => request('/student/attendance', { cacheTtl: 20000 }),
+  getResults: () => request('/student/results', { cacheTtl: 20000 }),
+  getRoutine: () => request('/student/routine', { cacheTtl: 30000 }),
+  getInvoices: () => request('/student/invoices', { cacheTtl: 15000 }),
+  getHomework: () => request('/student/homework', { cacheTtl: 15000 }),
+  getMaterials: () => request('/student/materials', { cacheTtl: 30000 }),
+  getTextbooks: () => request('/student/textbooks', { cacheTtl: 30000 }),
+  getNotices: () => request('/student/notices', { cacheTtl: 30000 }),
+  getGamification: () => request('/student/gamification', { cacheTtl: 15000 }),
+  getCoins: () => request('/student/coins', { cacheTtl: 10000 }),
+  getRewardStore: () => request('/student/reward-store', { cacheTtl: 30000 }),
+  claimReward: (rewardId) => request('/student/claim-reward', { method: 'POST', body: JSON.stringify({ rewardId }) }),
+  getSyllabusMap: () => request('/student/syllabus-map', { cacheTtl: 30000 }),
+  completeSyllabusNode: (nodeId) => request('/student/syllabus-node/complete', { method: 'POST', body: JSON.stringify({ nodeId }) }),
+  getAIWeaknesses: () => request('/student/ai-weaknesses', { cacheTtl: 30000 }),
+  getAIRoutine: () => request('/student/ai-routine', { cacheTtl: 30000 }),
+  generateAIRoutine: (data) => request('/student/ai-routine/generate', { method: 'POST', body: JSON.stringify(data) }),
+  submitHomework: (homeworkId, data) => request(`/student/homework/${homeworkId}/submit`, { method: 'POST', body: JSON.stringify(data) }),
+  getLiveClasses: () => request('/student/live-classes', { cacheTtl: 10000 })
+};
+
 export const teacherAPI = {
-  getAll: (params = {}) => {
+  getDashboard: () => request('/teacher/dashboard', { cacheTtl: 20000 }),
+  getClasses: () => request('/teacher/classes', { cacheTtl: 30000 }),
+  getAttendance: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/teachers?${q}`);
+    return request(`/teacher/attendance?${q}`);
   },
-  getById: (id) => request(`/teachers/${id}`),
-  create: (data) => request('/teachers', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => request(`/teachers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => request(`/teachers/${id}`, { method: 'DELETE' }),
-  getDirectory: (params = {}) => {
+  saveAttendance: (data) => request('/teacher/attendance', { method: 'POST', body: JSON.stringify(data) }),
+  getMarks: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/teachers?${q}`);
+    return request(`/teacher/marks?${q}`);
   },
-  getMyProfile: () => request('/teachers/me/profile'),
-  updateMyProfile: (data) => request('/teachers/me/profile', { method: 'PUT', body: JSON.stringify(data) }),
-  togglePrivacy: (is_phone_visible) => request('/teachers/me/privacy', { method: 'PATCH', body: JSON.stringify({ is_phone_visible }) }),
-  getClasses: () => request('/teacher/classes'),
-  getStudents: (classId, sectionId) => request(`/teacher/students?classId=${classId || ''}&sectionId=${sectionId || ''}`),
-  getAttendance: (date, classId, sectionId) => request(`/teacher/attendance?date=${date || ''}&classId=${classId || ''}&sectionId=${sectionId || ''}`),
-  saveAttendance: (date, records, autoSendAbsentSms = false) => request('/teacher/attendance', { method: 'POST', body: JSON.stringify({ date, records, autoSendAbsentSms }) }),
-  sendAbsentSMS: (payload) => request('/teacher/attendance/send-absent-sms', { method: 'POST', body: JSON.stringify(payload) }),
-  getMarks: (classId, subjectId, examTermId) => request(`/teacher/marks?classId=${classId || ''}&subjectId=${subjectId || ''}&examTermId=${examTermId || ''}`),
-  saveMarks: (markData) => request('/teacher/marks', { method: 'POST', body: JSON.stringify(markData) })
+  saveMarks: (data) => request('/teacher/marks', { method: 'POST', body: JSON.stringify(data) }),
+  getRoutine: () => request('/teacher/routine', { cacheTtl: 30000 }),
+  getHomework: () => request('/teacher/homework', { cacheTtl: 15000 }),
+  getMaterials: () => request('/teacher/materials', { cacheTtl: 30000 })
 };
 
 export const parentAPI = {
   getChildren: () => request('/parent/children'),
-  getChildSummary: (studentId) => request(`/parent/children/${studentId}/summary`),
-  getChildAttendance: (studentId) => request(`/parent/children/${studentId}/attendance`),
-  getChildResults: (studentId, termId) => request(`/parent/children/${studentId}/results?termId=${termId || ''}`),
-  getChildRoutine: (studentId) => request(`/parent/children/${studentId}/routine`),
-  getChildInvoices: (studentId) => request(`/parent/children/${studentId}/invoices`),
-  getTeachers: (params = {}) => teacherAPI.getDirectory(params)
-};
-
-export const studentAPI = {
-  getDashboardAggregate: () => request('/student/dashboard-aggregate', { cacheTtl: 30000 }),
-  getAll: (params = {}) => {
-    const q = new URLSearchParams(params).toString();
-    return request(`/students?${q}`);
-  },
-  getById: (id) => request(`/students/${id}`),
-  create: (data) => request('/students', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => request(`/students/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => request(`/students/${id}`, { method: 'DELETE' }),
-  toggleStatus: (id, isActive) => request(`/students/${id}/status`, { method: 'PATCH', body: JSON.stringify({ isActive }) }),
-  getProfile: () => request('/student/profile'),
-  getDashboard: () => request('/student/dashboard'),
-  getFullSummary: (id) => request(id ? `/student/${id}/full-summary` : '/student/full-summary'),
-  getAttendance: () => request('/student/attendance'),
-  getResults: () => request('/student/results'),
-  getRoutine: () => request('/student/routine'),
-  getInvoices: () => request('/student/invoices'),
-  getGamification: () => request('/student/gamification'),
-  recordActivity: (data) => request('/student/gamification/activity', { method: 'POST', body: JSON.stringify(data) }),
-  getCoins: () => request('/student/coins'),
-  claimDailyCoins: () => request('/student/coins/claim-daily', { method: 'POST' }),
-  buyReward: (data) => request('/student/coins/buy', { method: 'POST', body: JSON.stringify(data) }),
-  submitBattleReward: (data) => request('/student/coins/battle-reward', { method: 'POST', body: JSON.stringify(data) }),
-  getTeachers: (params = {}) => teacherAPI.getDirectory(params)
-};
-
-export const paymentAPI = {
-  getMethods: () => request('/payments/methods'),
-  getAdminMethods: () => request('/admin/payments/methods'),
-  createMethod: (data) => request('/admin/payments/methods', { method: 'POST', body: JSON.stringify(data) }),
-  updateMethod: (id, data) => request(`/admin/payments/methods/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteMethod: (id) => request(`/admin/payments/methods/${id}`, { method: 'DELETE' }),
-  toggleMethodStatus: (id, isActive) => request(`/admin/payments/methods/${id}`, { method: 'PUT', body: JSON.stringify({ isActive }) }),
-  simulatePayment: (payload) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(payload) }),
-  checkout: (payload) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(payload) }),
-  getMyHistory: () => request('/payments/my-history'),
-  collectOfflineCash: (data) => request('/accounts/offline-cash', { method: 'POST', body: JSON.stringify(data) }),
-  getReceipt: (invoiceId) => request(`/accounts/receipt/${invoiceId}`)
+  getChildSummary: (studentId) => request(`/parent/child/${studentId}/summary`),
+  getChildAttendance: (studentId) => request(`/parent/child/${studentId}/attendance`),
+  getChildResults: (studentId) => request(`/parent/child/${studentId}/results`),
+  getChildInvoices: (studentId) => request(`/parent/child/${studentId}/invoices`),
+  getChildRoutine: (studentId) => request(`/parent/child/${studentId}/routine`),
+  getChildHomework: (studentId) => request(`/parent/child/${studentId}/homework`),
+  getChildExams: (studentId) => request(`/parent/child/${studentId}/exams`)
 };
 
 export const noticeAPI = {
   getNotices: (params = {}) => {
-    const q = typeof params === 'string' ? `role=${params}` : new URLSearchParams(params).toString();
+    const q = new URLSearchParams(params).toString();
     return request(`/notices?${q}`);
   },
-  getNotice: (id) => request(`/notices/${id}`),
-  createNotice: (data) => request('/notices', { method: 'POST', body: JSON.stringify(data) }),
+  postNotice: (data) => request('/notices', { method: 'POST', body: JSON.stringify(data) }),
   updateNotice: (id, data) => request(`/notices/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteNotice: (id) => request(`/notices/${id}`, { method: 'DELETE' }),
-  togglePin: (id, isPinned) => request(`/notices/${id}/pin`, { method: 'PATCH', body: JSON.stringify({ isPinned }) })
-};
-
-export const courseAPI = {
-  getCourses: (params = {}) => {
-    const q = new URLSearchParams(params).toString();
-    return request(`/courses?${q}`);
-  },
-  getCourse: (id) => request(`/courses/${id}`),
-  createCourse: (data) => request('/courses', { method: 'POST', body: JSON.stringify(data) }),
-  updateCourse: (id, data) => request(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteCourse: (id) => request(`/courses/${id}`, { method: 'DELETE' })
+  togglePin: (id) => request(`/notices/${id}/toggle-pin`, { method: 'PATCH' }),
+  getNoticeDetails: (id) => request(`/notices/${id}`)
 };
 
 export const homeworkAPI = {
@@ -442,6 +406,17 @@ export const examAPI = {
   generateCQs: (data) => request('/exams/generate-cq', { method: 'POST', body: JSON.stringify(data) })
 };
 
+export const questionRepositoryAPI = {
+  getQuestions: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/question-repository?${q}`);
+  },
+  uploadAndTrain: (data) => request('/question-repository/upload-and-train', { method: 'POST', body: JSON.stringify(data) }),
+  generateAIExam: (data) => request('/question-repository/generate-ai-exam', { method: 'POST', body: JSON.stringify(data) }),
+  publishToOnlineExam: (data) => request('/question-repository/publish-to-online-exam', { method: 'POST', body: JSON.stringify(data) }),
+  deleteQuestion: (id) => request(`/question-repository/${id}`, { method: 'DELETE' })
+};
+
 export const liveClassAPI = {
   getLiveClasses: (params = {}) => {
     const q = new URLSearchParams(params).toString();
@@ -549,197 +524,243 @@ export const accountsAPI = {
   generatePayroll: (data) => request('/accounts/payroll/generate', { method: 'POST', body: JSON.stringify(data) }),
   paySalary: (id, data) => request(`/accounts/payroll/pay/${id}`, { method: 'POST', body: JSON.stringify(data) }),
   getPayslip: (id) => request(`/accounts/payroll/payslip/${id}`),
-  getSalaryStructures: () => request('/accounts/salary-structures'),
-  updateSalaryStructure: (teacherId, data) => request(`/accounts/salary-structures/${teacherId}`, { method: 'PUT', body: JSON.stringify(data) }),
-  getCashbook: (params = {}) => {
+  getReports: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/accounts/cashbook?${q}`);
+    return request(`/accounts/reports?${q}`);
+  }
+};
+
+export const analyticsAPI = {
+  getOverview: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/analytics/overview?${q}`);
   },
-  collectOfflineCash: (data) => request('/accounts/offline-cash', { method: 'POST', body: JSON.stringify(data) }),
-  getReceipt: (invoiceId) => request(`/accounts/receipt/${invoiceId}`)
+  getAcademicAnalytics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/analytics/academic?${q}`);
+  },
+  getFinancialAnalytics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/analytics/financial?${q}`);
+  },
+  getAttendanceAnalytics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/analytics/attendance?${q}`);
+  },
+  getStudentProgress: (studentId) => request(`/analytics/student/${studentId}`)
 };
 
 export const settingsAPI = {
   getSettings: () => request('/settings'),
   updateSettings: (data) => request('/settings', { method: 'PUT', body: JSON.stringify(data) }),
-  getProfile: () => request('/settings/profile'),
-  updateProfile: (data) => request('/settings/profile', { method: 'PUT', body: JSON.stringify(data) }),
-  getRoles: () => request('/settings/roles'),
-  createRole: (data) => request('/settings/roles', { method: 'POST', body: JSON.stringify(data) }),
-  updateRole: (id, data) => request(`/settings/roles/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteRole: (id) => request(`/settings/roles/${id}`, { method: 'DELETE' }),
-  getStaff: () => request('/settings/staff'),
-  addStaff: (data) => request('/settings/staff', { method: 'POST', body: JSON.stringify(data) }),
-  updateStaff: (id, data) => request(`/settings/staff/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteStaff: (id) => request(`/settings/staff/${id}`, { method: 'DELETE' }),
-  resetStaffPassword: (id, data) => request(`/settings/staff/reset-password/${id}`, { method: 'POST', body: JSON.stringify(data) }),
-  getPermissionsMatrix: () => request('/settings/permissions-matrix')
+  getPublicSettings: () => request('/settings/public'),
+  uploadLogo: (formData) => {
+    const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    return fetch(`${API_BASE}/settings/upload-logo`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: formData
+    }).then(res => res.json()).catch(err => ({ success: false, error: { message: err.message } }));
+  },
+  getSystemHealth: () => request('/settings/system-health')
 };
 
-export const admissionAPI = {
-  apply: (data) => request('/admissions/apply', { method: 'POST', body: JSON.stringify(data) }),
-  track: (query) => request(`/admissions/track/${encodeURIComponent(query)}`),
+export const admissionsAPI = {
   getApplications: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/admissions/applications?${q}`);
+    return request(`/admissions?${q}`);
   },
-  getApplication: (id) => request(`/admissions/applications/${id}`),
-  approve: (id, data) => request(`/admissions/applications/${id}/approve`, { method: 'POST', body: JSON.stringify(data) }),
-  reject: (id, data) => request(`/admissions/applications/${id}/reject`, { method: 'POST', body: JSON.stringify(data) }),
+  submitApplication: (data) => request('/admissions/apply', { method: 'POST', body: JSON.stringify(data) }),
+  updateStatus: (id, status, notes) => request(`/admissions/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status, notes }) }),
+  approveApplication: (id, data) => request(`/admissions/${id}/approve`, { method: 'POST', body: JSON.stringify(data) }),
+  rejectApplication: (id, reason) => request(`/admissions/${id}/reject`, { method: 'POST', body: JSON.stringify({ reason }) }),
   getStats: () => request('/admissions/stats')
 };
 
+export const admissionAPI = admissionsAPI;
+
 export const backupAPI = {
-  getSummary: () => request('/backup/summary'),
-  getCategoryExportUrl: (category) => `${API_URL}/backup/export/${category}`,
-  getJsonDumpUrl: () => `${API_URL}/backup/dump/json`,
-  getSqlDumpUrl: () => `${API_URL}/backup/dump/sql`
+  getBackups: () => request('/backup/list'),
+  createBackup: () => request('/backup/create', { method: 'POST' }),
+  restoreBackup: (fileName) => request('/backup/restore', { method: 'POST', body: JSON.stringify({ fileName }) }),
+  downloadBackup: (fileName) => `${API_BASE}/backup/download/${fileName}`,
+  uploadBackup: (formData) => {
+    const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    return fetch(`${API_BASE}/backup/upload`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: formData
+    }).then(res => res.json()).catch(err => ({ success: false, error: { message: err.message } }));
+  }
 };
 
 export const smsAPI = {
-  getSummary: () => request('/sms/summary'),
-  previewSMS: (data) => request('/sms/preview', { method: 'POST', body: JSON.stringify(data) }),
-  sendBulkSMS: (data) => request('/sms/send-bulk', { method: 'POST', body: JSON.stringify(data) }),
   getLogs: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/sms/logs?${q}`);
   },
+  sendBulkSMS: (data) => request('/sms/send-bulk', { method: 'POST', body: JSON.stringify(data) }),
+  getBalance: () => request('/sms/balance'),
   getTemplates: () => request('/sms/templates'),
   saveTemplate: (data) => request('/sms/templates', { method: 'POST', body: JSON.stringify(data) })
 };
 
-export const achieverAPI = {
+export const teachersDirectoryAPI = {
   getAll: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/achievers?${q}`);
+    return request(`/teachers-directory?${q}`);
   },
+  getPublic: () => request('/teachers-directory/public'),
+  create: (data) => request('/teachers-directory', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/teachers-directory/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/teachers-directory/${id}`, { method: 'DELETE' })
+};
+
+export const teacherDirectoryAPI = teachersDirectoryAPI;
+
+export const paymentMethodsAPI = {
+  getMethods: () => request('/payments/methods'),
+  getPublicMethods: () => request('/payments/methods/public'),
+  createMethod: (data) => request('/payments/methods', { method: 'POST', body: JSON.stringify(data) }),
+  updateMethod: (id, data) => request(`/payments/methods/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteMethod: (id) => request(`/payments/methods/${id}`, { method: 'DELETE' }),
+  toggleActive: (id) => request(`/payments/methods/${id}/toggle-active`, { method: 'PATCH' })
+};
+
+export const paymentAPI = paymentMethodsAPI;
+
+export const achieversAPI = {
+  getAll: () => request('/achievers'),
+  getPublic: () => request('/achievers/public'),
   create: (data) => request('/achievers', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/achievers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id) => request(`/achievers/${id}`, { method: 'DELETE' })
 };
 
-export const systemErrorAPI = {
-  logError: (payload) => silentlyLogSystemError(payload),
-  getAll: (params = {}) => {
+export const achieverAPI = achieversAPI;
+
+export const systemErrorsAPI = {
+  getErrors: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/admin/system-errors?${q}`);
+    return request(`/system-errors?${q}`);
   },
-  analyze: (id) => request(`/admin/system-errors/${id}/analyze`, { method: 'POST' }),
-  resolve: (id, status = 'RESOLVED') => request(`/admin/system-errors/${id}/resolve`, { method: 'PATCH', body: JSON.stringify({ status }) }),
-  clearAll: () => request('/admin/system-errors/clear', { method: 'DELETE' })
+  resolveError: (id) => request(`/system-errors/${id}/resolve`, { method: 'PATCH' }),
+  clearAll: () => request('/system-errors/clear', { method: 'DELETE' })
 };
 
+export const systemErrorAPI = systemErrorsAPI;
+
 export const syllabusTrackingAPI = {
-  getSyllabus: (params = {}) => {
+  getOverview: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/syllabus-tracker?${q}`);
+    return request(`/syllabus-tracking/overview?${q}`);
   },
-  toggleChapter: (id, is_completed) => request(`/admin/syllabus-tracker/${id}`, { method: 'PATCH', body: JSON.stringify({ is_completed }) }),
-  addChapter: (data) => request('/admin/syllabus-tracker/chapter', { method: 'POST', body: JSON.stringify(data) }),
-  deleteChapter: (id) => request(`/admin/syllabus-tracker/${id}`, { method: 'DELETE' })
+  updateTopicStatus: (data) => request('/syllabus-tracking/update-status', { method: 'POST', body: JSON.stringify(data) }),
+  getSubjectProgress: (subjectId) => request(`/syllabus-tracking/subject/${subjectId}`)
 };
 
 export const doubtSolverAPI = {
-  solveDoubt: (payload) => request('/solve-doubt', { method: 'POST', body: JSON.stringify(payload) })
+  solveDoubt: (data) => request('/doubt-solver/solve', { method: 'POST', body: JSON.stringify(data) }),
+  getHistory: () => request('/doubt-solver/history'),
+  clearHistory: () => request('/doubt-solver/history', { method: 'DELETE' })
 };
 
 export const omrAPI = {
-  importOMR: (data) => request('/omr/import', { method: 'POST', body: JSON.stringify(data) }),
-  getLeaderboard: (params = {}) => {
-    const q = new URLSearchParams(params).toString();
-    return request(`/omr/leaderboard?${q}`);
+  evaluateOMR: (data) => request('/omr/evaluate', { method: 'POST', body: JSON.stringify(data) }),
+  uploadOMRImage: (formData) => {
+    const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    return fetch(`${API_BASE}/omr/upload-and-scan`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: formData
+    }).then(res => res.json()).catch(err => ({ success: false, error: { message: err.message } }));
   }
 };
 
 export const gamificationCmsAPI = {
-  getSettings: () => request('/admin/gamification/settings'),
-  updateSettings: (data) => request('/admin/gamification/settings', { method: 'PUT', body: JSON.stringify(data) }),
-  addReward: (data) => request('/admin/gamification/rewards', { method: 'POST', body: JSON.stringify(data) }),
-  deleteReward: (id) => request(`/admin/gamification/rewards/${id}`, { method: 'DELETE' }),
-  addBattleQuestion: (data) => request('/admin/gamification/battle-questions', { method: 'POST', body: JSON.stringify(data) }),
-  deleteBattleQuestion: (id) => request(`/admin/gamification/battle-questions/${id}`, { method: 'DELETE' }),
-  addFormula: (data) => request('/admin/gamification/formulas', { method: 'POST', body: JSON.stringify(data) }),
-  deleteFormula: (id) => request(`/admin/gamification/formulas/${id}`, { method: 'DELETE' }),
-};
-
-export const aiRoutineAPI = {
-  getWeaknessAnalysis: () => request('/student/ai-weakness-analysis'),
-};
-
-export const liveClassScheduleAPI = {
-  getUpcoming: () => request('/live-classes/upcoming-scheduled'),
-  scheduleClass: (data) => request('/live-classes', { method: 'POST', body: JSON.stringify(data) }),
-};
-
-export const bookStoreAPI = {
-  getCatalog: () => request('/student/book-store'),
+  getBadges: () => request('/gamification-cms/badges'),
+  saveBadge: (data) => request('/gamification-cms/badges', { method: 'POST', body: JSON.stringify(data) }),
+  deleteBadge: (id) => request(`/gamification-cms/badges/${id}`, { method: 'DELETE' }),
+  getRewards: () => request('/gamification-cms/rewards'),
+  saveReward: (data) => request('/gamification-cms/rewards', { method: 'POST', body: JSON.stringify(data) }),
+  deleteReward: (id) => request(`/gamification-cms/rewards/${id}`, { method: 'DELETE' })
 };
 
 export const helpdeskAPI = {
-  createTicket: (data) => request('/helpdesk/tickets', { method: 'POST', body: JSON.stringify(data) }),
-  getMyTickets: () => request('/helpdesk/my-tickets'),
-  getAdminTickets: (params = {}) => {
+  getTickets: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/helpdesk/admin/tickets?${q}`);
+    return request(`/helpdesk/tickets?${q}`);
   },
-  updateTicketStatus: (id, data) => request(`/helpdesk/admin/tickets/${id}/status`, { method: 'PATCH', body: JSON.stringify(data) }),
-  deleteTicket: (id) => request(`/helpdesk/admin/tickets/${id}`, { method: 'DELETE' }),
-};
-
-export const menuControlsAPI = {
-  getStudentMenus: () => request('/settings/student-menus'),
-  getAdminStudentMenus: () => request('/settings/admin/settings/student-menus'),
-  updateStudentMenus: (menus) => request('/settings/admin/settings/student-menus', { method: 'PUT', body: JSON.stringify({ menus }) }),
-  toggleModule: (id) => request(`/settings/admin/settings/student-menus/${id}/toggle`, { method: 'PATCH' }),
-  resetStudentMenus: () => request('/settings/admin/settings/student-menus/reset', { method: 'POST' }),
+  createTicket: (data) => request('/helpdesk/tickets', { method: 'POST', body: JSON.stringify(data) }),
+  replyTicket: (id, data) => request(`/helpdesk/tickets/${id}/reply`, { method: 'POST', body: JSON.stringify(data) }),
+  updateStatus: (id, status) => request(`/helpdesk/tickets/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) })
 };
 
 export const grammarAPI = {
-  getTopics: () => request('/grammar/topics'),
-  getTopic: (id) => request(`/grammar/topics/${id}`),
-  createTopic: (data) => request('/grammar/topics', { method: 'POST', body: JSON.stringify(data) }),
-  updateTopic: (id, data) => request(`/grammar/topics/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteTopic: (id) => request(`/grammar/topics/${id}`, { method: 'DELETE' }),
-  aiGenerate: (data) => request('/grammar/ai-generate', { method: 'POST', body: JSON.stringify(data) }),
+  getLessons: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/lessons?${q}`);
+  },
+  getLessonDetails: (id) => request(`/grammar/lessons/${id}`),
+  saveLesson: (data) => request('/grammar/lessons', { method: 'POST', body: JSON.stringify(data) }),
+  deleteLesson: (id) => request(`/grammar/lessons/${id}`, { method: 'DELETE' }),
+  evaluateGrammarExercise: (data) => request('/grammar/evaluate', { method: 'POST', body: JSON.stringify(data) })
 };
 
 export const referralAPI = {
-  getMyReferral: () => request('/referral/my-referral'),
-  validatePromo: (data) => request('/referral/validate-promo', { method: 'POST', body: JSON.stringify(data) }),
-  applyReward: (data) => request('/referral/apply-reward', { method: 'POST', body: JSON.stringify(data) }),
-  redeemPoints: (data) => request('/referral/redeem-points', { method: 'POST', body: JSON.stringify(data) }),
-  getAdminSettings: () => request('/referral/admin/settings'),
-  updateAdminSettings: (data) => request('/referral/admin/settings', { method: 'PUT', body: JSON.stringify(data) }),
+  getMyReferralProfile: () => request('/referral/my-profile'),
+  generateReferralCode: () => request('/referral/generate-code', { method: 'POST' }),
+  claimReferralBonus: (data) => request('/referral/claim-bonus', { method: 'POST', body: JSON.stringify(data) }),
+  getLeaderboard: () => request('/referral/leaderboard')
 };
 
-export const studentPortalControlAPI = {
-  getConfig: () => request('/settings/student-portal'),
-  updateConfig: (data) => request('/settings/student-portal', { method: 'PUT', body: JSON.stringify(data) }),
-  resetConfig: () => request('/settings/student-portal/reset', { method: 'POST' }),
-};
-
-export const proctoringAPI = {
-  sendEvent: (data) => request('/proctoring/event', { method: 'POST', body: JSON.stringify(data) }),
-};
-
-export const googleDriveAPI = {
-  scanFolder: (payload) => request('/google-drive/scan', { method: 'POST', body: JSON.stringify(payload) }),
-  extractContent: (payload) => request('/google-drive/extract', { method: 'POST', body: JSON.stringify(payload) }),
-  syncMaterials: (payload) => request('/google-drive/sync-materials', { method: 'POST', body: JSON.stringify(payload) }),
-  generateQuestions: (payload) => request('/google-drive/generate-questions', { method: 'POST', body: JSON.stringify(payload) })
-};
-
-export const announcementAPI = {
-  getActive: (params = {}) => {
-    const q = new URLSearchParams(params).toString();
-    return request(`/announcements/active?${q}`);
-  },
+export const announcementsAPI = {
   getAll: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/announcements?${q}`);
   },
+  getActive: () => request('/announcements/active'),
   create: (data) => request('/announcements', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/announcements/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  toggle: (id) => request(`/announcements/${id}/toggle`, { method: 'PATCH' }),
-  delete: (id) => request(`/announcements/${id}`, { method: 'DELETE' })
+  delete: (id) => request(`/announcements/${id}`, { method: 'DELETE' }),
+  toggleActive: (id) => request(`/announcements/${id}/toggle-active`, { method: 'PATCH' })
+};
+
+export const announcementAPI = announcementsAPI;
+
+export const menuControlsAPI = {
+  getStudentMenus: () => request('/settings/student-menus'),
+  updateStudentMenus: (data) => request('/settings/student-menus', { method: 'PUT', body: JSON.stringify(data) })
+};
+
+export const studentPortalControlAPI = {
+  getConfig: () => request('/settings/student-portal-control'),
+  updateConfig: (data) => request('/settings/student-portal-control', { method: 'PUT', body: JSON.stringify(data) })
+};
+
+export const googleDriveAPI = {
+  scanFolder: (data) => request('/google-drive/scan', { method: 'POST', body: JSON.stringify(data) }),
+  fetchContent: (data) => request('/google-drive/content', { method: 'POST', body: JSON.stringify(data) })
+};
+
+export const proctoringAPI = {
+  sendEvent: (data) => request('/proctoring/event', { method: 'POST', body: JSON.stringify(data) }),
+  getLogs: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/proctoring/logs?${q}`);
+  }
+};
+
+export const aiRoutineAPI = {
+  getWeaknessAnalysis: () => request('/student/ai-weaknesses'),
+  generateAIRoutine: (data) => request('/student/ai-routine/generate', { method: 'POST', body: JSON.stringify(data) })
 };

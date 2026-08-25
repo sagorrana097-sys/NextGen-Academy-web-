@@ -13,7 +13,19 @@
       "phone": "01792818005",
       "isActive": true,
       "createdAt": "2026-08-25T13:04:19.239Z",
-      "updatedAt": "2026-08-25T13:04:19.239Z"
+      "updatedAt": "2026-08-25T18:12:33.527Z",
+      "photo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "avatar": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "profilePhoto": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+    },
+    {
+      "id": 2,
+      "name": "সাদিয়া ইসলাম",
+      "email": "sadia@nextgen.edu.bd",
+      "role": "STUDENT",
+      "isActive": true,
+      "createdAt": "2026-08-25T18:53:36.262Z",
+      "updatedAt": "2026-08-25T18:53:36.262Z"
     }
   ],
   "classes": [
@@ -1895,13 +1907,38 @@
     "telegramUrl": "https://t.me/nextgenacademy",
     "footerCopyrightBn": "© ২০২৬ NextGen Academy. সর্বস্বত্ব সংরক্ষিত।"
   },
-  "students": [],
+  "students": [
+    {
+      "id": 1,
+      "userId": 2,
+      "rollNo": "102",
+      "classId": 1,
+      "sectionId": 1,
+      "createdAt": "2026-08-25T18:53:36.876Z",
+      "updatedAt": "2026-08-25T18:53:36.876Z"
+    }
+  ],
   "teachers": [],
   "guardian_student_mappings": [],
   "teacher_class_assignments": [],
   "attendances": [],
   "teacher_attendances": [],
-  "marks": [],
+  "marks": [
+    {
+      "id": 1,
+      "studentId": 1,
+      "subjectId": 1,
+      "examTermId": 1,
+      "examLabel": "মডেল টেস্ট ১ (OMR Evaluated)",
+      "marksObtained": 21.25,
+      "highestMarks": 25,
+      "grade": "A+",
+      "gpa": 5,
+      "remarks": "OMR Evaluation High Performance",
+      "createdAt": "2026-08-25T18:56:14.679Z",
+      "updatedAt": "2026-08-25T18:56:14.679Z"
+    }
+  ],
   "invoices": [],
   "payments": [],
   "homeworks": [],
@@ -2178,6 +2215,338 @@
       "createdById": 1,
       "createdAt": "2026-08-25T13:04:18.819Z",
       "updatedAt": "2026-08-25T13:04:18.819Z"
+    }
+  ],
+  "attendance": [],
+  "routines": [],
+  "sms_logs": [],
+  "exams": [
+    {
+      "id": 1,
+      "titleBn": "পদার্থবিজ্ঞান বিশেষ মডেল টেস্ট ২০২৬ (নটর ডেম কলেজ ও ঢাকা বোর্ড)",
+      "titleEn": "Physics Special Model Test 2026",
+      "classId": 1,
+      "subjectId": 1,
+      "type": "MCQ",
+      "examDate": "2026-08-25",
+      "startTime": "10:00 AM",
+      "durationMinutes": 25,
+      "totalMarks": 25,
+      "passMarks": 10,
+      "instructions": "প্রশ্নের ডানপাশে বোর্ড ও কলেজের নাম লক্ষ্য করে সকল প্রশ্নের উত্তর দাও।",
+      "questions": [
+        {
+          "id": 1,
+          "type": "MCQ",
+          "className": "Class 10",
+          "book": "পদার্থবিজ্ঞান",
+          "institutionOrBoard": "নটর ডেম কলেজ",
+          "year": "2025",
+          "chapter": "অধ্যায় ৫: পদার্থের অবস্থা ও চাপ",
+          "hasChapter": true,
+          "question": "১ বায়ুমণ্ডলীয় চাপ সমান কত প্যাসকেল?",
+          "options": [
+            "1.013 × 10⁵ Pa",
+            "1.013 × 10⁴ Pa",
+            "1.013 × 10⁶ Pa",
+            "1.013 × 10³ Pa"
+          ],
+          "correctAnswer": 0,
+          "explanation": "1 atm = 101325 Pa = 1.013 × 10⁵ Pa",
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+          "difficulty": "MEDIUM",
+          "uploadedByUserId": 1,
+          "createdAt": "2026-08-25T14:53:53.850Z",
+          "updatedAt": "2026-08-25T14:53:53.986Z"
+        },
+        {
+          "id": 2,
+          "type": "MCQ",
+          "className": "Class 9-10 (SSC)",
+          "book": "পদার্থবিজ্ঞান",
+          "institutionOrBoard": "নটর ডেম কলেজ",
+          "year": "2025",
+          "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+          "hasChapter": true,
+          "question": "কাজের মাত্রা সমীকরণ কোনটি?",
+          "options": [
+            "[ML²T⁻²]",
+            "[MLT⁻²]",
+            "[ML²T⁻¹]",
+            "[MLT⁻¹]"
+          ],
+          "correctAnswer": 0,
+          "explanation": "কাজ = বল × সরণ = [MLT⁻²] × [L] = [ML²T⁻²]",
+          "difficulty": "EASY",
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+          "uploadedByUserId": 1,
+          "createdAt": "2026-08-25T16:47:28.509Z",
+          "updatedAt": "2026-08-25T16:47:28.511Z"
+        },
+        {
+          "id": 3,
+          "type": "MCQ",
+          "className": "Class 9-10 (SSC)",
+          "book": "পদার্থবিজ্ঞান",
+          "institutionOrBoard": "নটর ডেম কলেজ",
+          "year": "2025",
+          "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+          "hasChapter": true,
+          "question": "১ কিলোওয়াট-ঘণ্টা (1 kWh) সমান কত জুল?",
+          "options": [
+            "3.6 × 10⁶ J",
+            "3.6 × 10⁵ J",
+            "3.6 × 10⁴ J",
+            "3.6 × 10³ J"
+          ],
+          "correctAnswer": 0,
+          "explanation": "1 kWh = 1000 W × 3600 s = 3.6 × 10⁶ J",
+          "difficulty": "MEDIUM",
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+          "uploadedByUserId": 1,
+          "createdAt": "2026-08-25T16:47:28.520Z",
+          "updatedAt": "2026-08-25T16:47:28.520Z"
+        }
+      ],
+      "status": "ACTIVE",
+      "createdByUserId": 1,
+      "createdAt": "2026-08-25T16:47:28.529Z",
+      "updatedAt": "2026-08-25T16:47:28.529Z"
+    },
+    {
+      "id": 2,
+      "title": "নটর ডেম কলেজ মডেল টেস্ট ২০২৫ (পদার্থবিজ্ঞান)",
+      "titleBn": "নটর ডেম কলেজ মডেল টেস্ট ২০২৫ (পদার্থবিজ্ঞান)",
+      "subject": "পদার্থবিজ্ঞান",
+      "examType": "ONLINE_MCQ",
+      "durationMinutes": 30,
+      "totalMarks": 25,
+      "passMarks": 10,
+      "negativeMarking": 0.25,
+      "shuffleQuestions": true,
+      "examDate": "2026-08-25",
+      "startTime": "10:00",
+      "endTime": "23:59",
+      "questions": [
+        {
+          "questionNumber": 1,
+          "questionText": "১ বায়ুমণ্ডলীয় চাপ সমান কত প্যাসকেল?",
+          "type": "MCQ",
+          "options": [
+            "1.013 × 10⁵ Pa",
+            "1.013 × 10⁴ Pa",
+            "1.013 × 10⁶ Pa",
+            "1.013 × 10³ Pa"
+          ],
+          "correctOptionIndex": 0,
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)"
+        },
+        {
+          "questionNumber": 2,
+          "questionText": "কাজের মাত্রা সমীকরণ কোনটি?",
+          "type": "MCQ",
+          "options": [
+            "[ML²T⁻²]",
+            "[MLT⁻²]",
+            "[ML²T⁻¹]",
+            "[MLT⁻¹]"
+          ],
+          "correctOptionIndex": 0,
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)"
+        },
+        {
+          "questionNumber": 3,
+          "questionText": "১ কিলোওয়াট-ঘণ্টা (1 kWh) সমান কত জুল?",
+          "type": "MCQ",
+          "options": [
+            "3.6 × 10⁶ J",
+            "3.6 × 10⁵ J",
+            "3.6 × 10⁴ J",
+            "3.6 × 10³ J"
+          ],
+          "correctOptionIndex": 0,
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '২৫ (MCQ)"
+        },
+        {
+          "questionNumber": 4,
+          "questionText": "কাজের মাত্রা সমীকরণ কোনটি?",
+          "type": "MCQ",
+          "options": [
+            "[ML²T⁻²]",
+            "[MLT⁻²]",
+            "[ML²T⁻¹]",
+            "[MLT⁻¹]"
+          ],
+          "correctOptionIndex": 0,
+          "marks": 1,
+          "badge": "নটর ডেম কলেজ - '25 (MCQ)"
+        },
+        {
+          "questionNumber": 5,
+          "questionText": "৫০ কেজি ভরের একটি পাথর ১০০ মিটার উঁচু পাহাড় থেকে নিচে ফেলা হলো।",
+          "type": "CQ",
+          "options": [],
+          "correctOptionIndex": 0,
+          "marks": 10,
+          "badge": "নটর ডেম কলেজ - '25 (CQ)"
+        }
+      ],
+      "createdAt": "2026-08-25T18:45:48.822Z",
+      "updatedAt": "2026-08-25T18:45:48.822Z"
+    }
+  ],
+  "batch_transfer_logs": [],
+  "payment_methods": [],
+  "system_errors": [],
+  "syllabus_tracking": [],
+  "helpdesk_tickets": [],
+  "menu_settings": [],
+  "grammar_lessons": [],
+  "referral_profiles": [],
+  "promo_settings": [],
+  "question_repositories": [
+    {
+      "id": 1,
+      "type": "MCQ",
+      "className": "Class 10",
+      "book": "পদার্থবিজ্ঞান",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "chapter": "অধ্যায় ৫: পদার্থের অবস্থা ও চাপ",
+      "hasChapter": true,
+      "question": "১ বায়ুমণ্ডলীয় চাপ সমান কত প্যাসকেল?",
+      "options": [
+        "1.013 × 10⁵ Pa",
+        "1.013 × 10⁴ Pa",
+        "1.013 × 10⁶ Pa",
+        "1.013 × 10³ Pa"
+      ],
+      "correctAnswer": 0,
+      "explanation": "1 atm = 101325 Pa = 1.013 × 10⁵ Pa",
+      "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+      "difficulty": "MEDIUM",
+      "uploadedByUserId": 1,
+      "createdAt": "2026-08-25T14:53:53.850Z",
+      "updatedAt": "2026-08-25T14:53:53.986Z"
+    },
+    {
+      "id": 2,
+      "type": "MCQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "পদার্থবিজ্ঞান",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+      "hasChapter": true,
+      "question": "কাজের মাত্রা সমীকরণ কোনটি?",
+      "options": [
+        "[ML²T⁻²]",
+        "[MLT⁻²]",
+        "[ML²T⁻¹]",
+        "[MLT⁻¹]"
+      ],
+      "correctAnswer": 0,
+      "explanation": "কাজ = বল × সরণ = [MLT⁻²] × [L] = [ML²T⁻²]",
+      "difficulty": "EASY",
+      "marks": 1,
+      "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+      "uploadedByUserId": 1,
+      "createdAt": "2026-08-25T16:47:28.509Z",
+      "updatedAt": "2026-08-25T16:47:28.511Z"
+    },
+    {
+      "id": 3,
+      "type": "MCQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "পদার্থবিজ্ঞান",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+      "hasChapter": true,
+      "question": "১ কিলোওয়াট-ঘণ্টা (1 kWh) সমান কত জুল?",
+      "options": [
+        "3.6 × 10⁶ J",
+        "3.6 × 10⁵ J",
+        "3.6 × 10⁴ J",
+        "3.6 × 10³ J"
+      ],
+      "correctAnswer": 0,
+      "explanation": "1 kWh = 1000 W × 3600 s = 3.6 × 10⁶ J",
+      "difficulty": "MEDIUM",
+      "marks": 1,
+      "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+      "uploadedByUserId": 1,
+      "createdAt": "2026-08-25T16:47:28.520Z",
+      "updatedAt": "2026-08-25T16:47:28.520Z"
+    },
+    {
+      "id": 4,
+      "type": "MCQ",
+      "subject": "পদার্থবিজ্ঞান",
+      "className": "Class 9-10 (SSC)",
+      "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "badge": "নটর ডেম কলেজ - '25 (MCQ)",
+      "question": "কাজের মাত্রা সমীকরণ কোনটি?",
+      "options": [
+        "[ML²T⁻²]",
+        "[MLT⁻²]",
+        "[ML²T⁻¹]",
+        "[MLT⁻¹]"
+      ],
+      "correctAnswer": 0,
+      "subQuestions": null,
+      "explanation": "কাজ = বল × সরণ = [MLT⁻²] × [L] = [ML²T⁻²]।",
+      "difficulty": "EASY",
+      "marks": 1,
+      "createdAt": "2026-08-25T18:45:48.801Z",
+      "updatedAt": "2026-08-25T18:45:48.801Z"
+    },
+    {
+      "id": 5,
+      "type": "CQ",
+      "subject": "পদার্থবিজ্ঞান",
+      "className": "Class 9-10 (SSC)",
+      "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "badge": "নটর ডেম কলেজ - '25 (CQ)",
+      "question": "৫০ কেজি ভরের একটি পাথর ১০০ মিটার উঁচু পাহাড় থেকে নিচে ফেলা হলো।",
+      "options": [],
+      "correctAnswer": 0,
+      "subQuestions": {
+        "a": {
+          "q": "গতিশক্তি কাকে বলে?",
+          "ans": "কোনো গতিশীল বস্তু তার গতির জন্য যে কাজ করার সামর্থ্য লাভ করে তাকে গতিশক্তি বলে।",
+          "marks": 1
+        },
+        "b": {
+          "q": "সংরক্ষণশীল বল বলতে কী বোঝায়?",
+          "ans": "যে বল দ্বারা কৃতকাজ আদি ও অন্তিম অবস্থানের ওপর নির্ভর করে, পথের ওপর নয়।",
+          "marks": 2
+        },
+        "c": {
+          "q": "ভূমি স্পর্শ করার মুহূর্তে পাথরটির বেগ কত হবে?",
+          "ans": "v = √(2gh) = √(2 × 9.8 × 100) = 44.27 m/s।",
+          "marks": 3
+        },
+        "d": {
+          "q": "পাহাড়ের ৫০ মিটার উচ্চতায় মোট শক্তি এবং গতিশক্তির অনুপাত নির্ণয় করো।",
+          "ans": "যান্ত্রিক শক্তির নিত্যতা অনুযায়ী মোট শক্তি ধ্রুবক।",
+          "marks": 4
+        }
+      },
+      "explanation": "",
+      "difficulty": "HARD",
+      "marks": 10,
+      "createdAt": "2026-08-25T18:45:48.811Z",
+      "updatedAt": "2026-08-25T18:45:48.811Z"
     }
   ]
 }

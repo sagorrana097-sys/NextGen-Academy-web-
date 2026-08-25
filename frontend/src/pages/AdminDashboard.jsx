@@ -1607,16 +1607,12 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
         </div>
       ) : activeTab === 'syllabus-tracker' || activeTab === 'syllabus' ? (
         <SyllabusTrackerManager />
-      ) : activeTab === 'question-suite' || activeTab === 'ai-question-generator' || activeTab === 'ai-questions' ? (
-        <QuestionGeneratorSuite defaultTab="ai-generator" />
-      ) : activeTab === 'multi-board-generator' || activeTab === 'question-distribution' || activeTab === 'multi-board' ? (
-        <QuestionGeneratorSuite defaultTab="multi-board" />
-      ) : activeTab === 'manual-question-creator' || activeTab === 'manual-questions' ? (
-        <QuestionGeneratorSuite defaultTab="manual-creator" />
+      ) : activeTab === 'smart-upload-reader' || activeTab === 'upload-reader' || activeTab === 'question-bank' || activeTab === 'question-archive' ? (
+        <QuestionGeneratorSuite initialTab="upload-reader" />
+      ) : activeTab === 'ai-question-maker' || activeTab === 'question-maker' || activeTab === 'ai-question-generator' || activeTab === 'question-suite' || activeTab === 'multi-board-generator' || activeTab === 'manual-question-creator' ? (
+        <QuestionGeneratorSuite initialTab="question-maker" />
       ) : activeTab === 'omr-evaluation' || activeTab === 'omr' || activeTab === 'omr-import' ? (
-        <QuestionGeneratorSuite defaultTab="omr-import" />
-      ) : activeTab === 'question-bank' || activeTab === 'question-archive' ? (
-        <QuestionGeneratorSuite defaultTab="question-bank" />
+        <QuestionGeneratorSuite initialTab="omr-evaluation" />
       ) : activeTab === 'media-center' || activeTab === 'media' ? (
         <MediaCenter />
       ) : activeTab === 'gamification-cms' || activeTab === 'interactive-cms' ? (

@@ -3,6 +3,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { adminAPI, authAPI } from '../../services/api';
 import UniversalFileUploader from '../common/UniversalFileUploader';
+import UserAvatar from '../common/UserAvatar';
 import {
   ShieldCheck,
   User,
@@ -461,9 +462,14 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
             <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-black text-lg border border-rose-100 shadow-inner">
-                    {profileData.name ? profileData.name.charAt(0) : 'A'}
-                  </div>
+                  <UserAvatar
+                    src={profileData.photo || profileData.avatar || user?.photo || user?.avatar}
+                    name={profileData.name}
+                    role={profileData.role || 'SUPER_ADMIN'}
+                    size="xl"
+                    shape="rounded-2xl"
+                    ringColor="ring-rose-500/40"
+                  />
                   <div>
                     <h3 className="font-bold text-base text-slate-900">{profileData.name || 'অ্যাডমিন প্রোফাইল'}</h3>
                     <p className="text-xs text-slate-500 font-mono">{profileData.email}</p>
@@ -770,9 +776,14 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-700 font-black text-sm flex items-center justify-center border border-rose-100 shadow-inner">
-                            {adminItem.name?.charAt(0) || 'A'}
-                          </div>
+                          <UserAvatar
+                            src={adminItem.photo || adminItem.avatar || adminItem.profilePhoto}
+                            name={adminItem.name}
+                            role={adminItem.role || 'ADMIN'}
+                            size="md"
+                            shape="rounded-2xl"
+                            ringColor="ring-rose-500/40"
+                          />
                           <div>
                             <div className="flex items-center space-x-1.5">
                               <h4 className="font-bold text-sm text-slate-900 truncate max-w-[150px]">

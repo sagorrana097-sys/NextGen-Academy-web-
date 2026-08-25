@@ -316,40 +316,6 @@ router.post('/login', authLimiter, async (req, res, next) => {
       adminEmail: user.email,
       adminName: user.name,
       action: 'USER_LOGIN',
-      actionType: 'LOGIN',
-      targetResource: 'AUTH',
-      entityType: 'auth',
-      entityId: user.id,
-      details: `User ${user.email} (${user.role}) logged in successfully`
-    }).catch(err => console.warn('Audit log error:', err?.message));
-
-    res.json({
-      success: true,
-      data: {
-        token: accessToken,
-        refreshToken,
-        expiresIn: ACCESS_TOKEN_EXPIRY,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          phone: user.phone,
-          twoFactorEnabled: !!user.twoFactorEnabled,
-          studentId,
-          teacherId,
-          linkedChildren
-        }
-      }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/auth/login-2fa
- * Complete login by verifying 6-digit TOTP code
  */
 router.post('/login-2fa', authLimiter, async (req, res, next) => {
   try {

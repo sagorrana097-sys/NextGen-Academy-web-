@@ -1,27 +1,87 @@
 /**
  * NextGen Academy - Professional Audio & Voice Announcement Engine
- * Incorporates Web Audio API chime synthesis and natural Bengali/English Professional Female Voice TTS
+ * Ultra-Reliable Bengali/English Voice Synthesis & Web Audio API Engine
+ * Bulletproof against browser autoplay restrictions, voice loading asynchrony, and OS quirks.
  */
 
 let audioCtx = null;
+let currentUtterance = null;
+let keepAliveTimer = null;
+let cachedVoices = [];
+let hasUnlockedAudio = false;
 
-function getAudioContext() {
-  if (typeof window === 'undefined') return null;
-  if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (AudioContextClass) {
-      audioCtx = new AudioContextClass();
-    }
+// 1. Preload and Cache Voices with Asynchronous Listener
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  const refreshVoices = () => {
+    try {
+      const v = window.speechSynthesis.getVoices() || [];
+      if (v && v.length > 0) {
+        cachedVoices = v;
+      }
+    } catch (e) {}
+  };
+
+  refreshVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
   }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
+
+  // Pre-warm on first user interaction anywhere on the window
+  const handleFirstInteraction = () => {
+    if (!hasUnlockedAudio) {
+      unlockAudio();
+      hasUnlockedAudio = true;
+    }
+  };
+  ['click', 'touchstart', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, handleFirstInteraction, { once: true, passive: true });
+  });
+}
+
+/**
+ * Ensures Web Audio API AudioContext is created and running
+ */
+export function getAudioContext() {
+  if (typeof window === 'undefined') return null;
+  try {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+  } catch (e) {
+    console.warn('AudioContext initialization error:', e);
   }
   return audioCtx;
 }
 
 /**
- * High-Fidelity Acoustic Chime Generator using pure Web Audio API synthesis
- * No external mp3 downloads required.
+ * Explicit User-Interaction Audio & Speech Unlocker
+ * Guarantees bypass of browser autoplay policies when invoked during click handlers
+ */
+export function unlockAudio() {
+  if (typeof window === 'undefined') return;
+  try {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    if ('speechSynthesis' in window) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    }
+  } catch (e) {
+    console.warn('Audio unlock notice:', e);
+  }
+}
+
+/**
+ * High-Fidelity Harmonic Chime Generator using pure Web Audio API synthesis
  */
 export function playChime(chimeType = 'pleasant_bell') {
   if (isVoiceMuted() || typeof window === 'undefined') return;
@@ -38,107 +98,121 @@ export function playChime(chimeType = 'pleasant_bell') {
       const gain1 = ctx.createGain();
       osc1.type = 'sine';
       osc1.frequency.setValueAtTime(587.33, now);
-      gain1.gain.setValueAtTime(0.18, now);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      gain1.gain.setValueAtTime(0.2, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
       osc1.connect(gain1);
       gain1.connect(ctx.destination);
       osc1.start(now);
-      osc1.stop(now + 0.6);
+      osc1.stop(now + 0.55);
 
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(880.00, now + 0.12);
-      gain2.gain.setValueAtTime(0.22, now + 0.12);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
+      osc2.frequency.setValueAtTime(880.00, now + 0.1);
+      gain2.gain.setValueAtTime(0.25, now + 0.1);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
       osc2.connect(gain2);
       gain2.connect(ctx.destination);
-      osc2.start(now + 0.12);
-      osc2.stop(now + 0.85);
+      osc2.start(now + 0.1);
+      osc2.stop(now + 0.8);
     } else if (chimeType === 'digital_ping') {
-      // Modern Crisp Ping: G5 (783.99Hz) -> C6 (1046.50Hz)
+      // Crisp Digital Ping: G5 (783.99Hz) -> C6 (1046.50Hz)
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(783.99, now);
       osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.08);
-      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.setValueAtTime(0.22, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start(now);
       osc.stop(now + 0.5);
     } else if (chimeType === 'gentle_harp') {
-      // Warm Triad Arpeggio: C5 (523.25Hz) -> E5 (659.25Hz) -> G5 (783.99Hz)
+      // Warm Triad Arpeggio
       const freqs = [523.25, 659.25, 783.99];
       freqs.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.09);
-        gain.gain.setValueAtTime(0.16, now + idx * 0.09);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.09 + 0.7);
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.18, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.65);
         osc.connect(gain);
         gain.connect(ctx.destination);
-        osc.start(now + idx * 0.09);
-        osc.stop(now + idx * 0.09 + 0.7);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 0.65);
       });
     }
   } catch (err) {
-    console.warn('Chime audio playback prevented:', err);
+    console.warn('Chime audio playback error:', err);
   }
 }
 
 /**
- * Intelligent Professional Female Voice Detection & Selection
+ * Intelligent Professional Female Voice Selection with Bengali First Strategy
  */
 export function getProfessionalFemaleVoice(targetLang = 'bn-BD') {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
 
-  const voices = window.speechSynthesis.getVoices() || [];
-  if (voices.length === 0) return null;
+  let voices = cachedVoices;
+  if (!voices || voices.length === 0) {
+    try {
+      voices = window.speechSynthesis.getVoices() || [];
+      if (voices && voices.length > 0) cachedVoices = voices;
+    } catch (e) {}
+  }
+  if (!voices || voices.length === 0) return null;
 
   const langCode = (targetLang || 'bn-BD').toLowerCase();
   const baseLang = langCode.split('-')[0]; // 'bn'
 
-  // Known high-quality female voice names across Windows, macOS, Android, ChromeOS, iOS
-  const femaleVoiceKeywords = [
+  const femaleKeywords = [
     'female', 'zira', 'heera', 'swara', 'samantha', 'karen', 'victoria',
     'moira', 'veena', 'aditi', 'kalpana', 'geeta', 'tessa', 'sangeeta',
     'google bangla', 'google বাংলা', 'bangla female', 'bengali female', 'natural'
   ];
 
-  // 1. First priority: Target language + explicit female match
+  // 1. Direct Target Language + Female Match
   const directMatch = voices.find(v => {
     const vLang = (v.lang || '').toLowerCase();
     const vName = (v.name || '').toLowerCase();
-    const isLangMatch = vLang.includes(langCode) || vLang.includes(baseLang);
-    const isFemale = femaleVoiceKeywords.some(kw => vName.includes(kw));
-    return isLangMatch && isFemale;
+    const isLang = vLang.includes(langCode) || vLang.includes(baseLang);
+    const isFemale = femaleKeywords.some(kw => vName.includes(kw));
+    return isLang && isFemale;
   });
   if (directMatch) return directMatch;
 
-  // 2. Second priority: Any Bengali voice
+  // 2. Any Bengali Voice (Google বাংলা, Microsoft Swara, etc.)
   const bengaliVoice = voices.find(v => {
     const vLang = (v.lang || '').toLowerCase();
-    return vLang.includes('bn') || vLang.includes('bangla') || vLang.includes('bengali');
+    const vName = (v.name || '').toLowerCase();
+    return vLang.includes('bn') || vLang.includes('bangla') || vLang.includes('bengali') || vName.includes('bangla') || vName.includes('bengali');
   });
   if (bengaliVoice) return bengaliVoice;
 
-  // 3. Third priority: High quality female voice in English / Indian accent (fluent multi-lingual)
+  // 3. High-Quality South Asian / Indian English / Multi-lingual Female Voice
   const fluentFemaleVoice = voices.find(v => {
     const vName = (v.name || '').toLowerCase();
-    const isFemale = femaleVoiceKeywords.some(kw => vName.includes(kw));
-    return isFemale && (v.lang.includes('en') || v.lang.includes('hi'));
+    const vLang = (v.lang || '').toLowerCase();
+    const isFemale = femaleKeywords.some(kw => vName.includes(kw));
+    return isFemale && (vLang.includes('en-in') || vLang.includes('hi') || vLang.includes('en'));
   });
   if (fluentFemaleVoice) return fluentFemaleVoice;
 
-  // 4. Fallback: First default voice
-  return voices[0] || null;
+  // 4. Any Female Voice
+  const anyFemale = voices.find(v => {
+    const vName = (v.name || '').toLowerCase();
+    return femaleKeywords.some(kw => vName.includes(kw));
+  });
+  if (anyFemale) return anyFemale;
+
+  // 5. System Default Voice Fallback
+  return voices.find(v => v.default) || voices[0] || null;
 }
 
 /**
- * Speaks text using the configured Professional Female Voice
+ * Speaks text using the configured Professional Voice with Guaranteed Playback
  */
 export function speakText(text, options = {}) {
   if (isVoiceMuted() || typeof window === 'undefined' || !window.speechSynthesis) {
@@ -146,14 +220,15 @@ export function speakText(text, options = {}) {
     return;
   }
 
-  // Cancel any ongoing utterance
+  // 1. Synchronously unlock and clear stuck queues
+  unlockAudio();
   stopSpeech();
 
   const {
     lang = 'bn-BD',
     pitch = 1.08,    // 1.08 = Warm, clear professional female frequency
     rate = 0.94,     // 0.94 = Articulate, natural speed
-    volume = 1.0,
+    volume = 1.0,    // 1.0 = Full rich volume
     playChimeBefore = true,
     chimeType = 'pleasant_bell',
     onStart,
@@ -165,49 +240,81 @@ export function speakText(text, options = {}) {
     playChime(chimeType);
   }
 
-  // Slight 200ms delay to allow the chime tone to resonate
-  const delayMs = playChimeBefore && chimeType && chimeType !== 'none' ? 220 : 0;
+  const cleanText = (text || '').replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim();
+  if (!cleanText) {
+    if (onEnd) onEnd();
+    return;
+  }
 
-  setTimeout(() => {
+  // Slight 160ms delay allowing harmonic chime resonance, without losing gesture context
+  const delayMs = playChimeBefore && chimeType && chimeType !== 'none' ? 160 : 0;
+
+  const executeSpeech = () => {
     try {
-      const cleanText = (text || '').replace(/<[^>]*>?/gm, '').trim();
-      if (!cleanText) {
-        if (onEnd) onEnd();
-        return;
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
       }
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = lang;
-      utterance.pitch = pitch;
-      utterance.rate = rate;
-      utterance.volume = volume;
+      currentUtterance = utterance; // Prevent garbage collection mid-speech
 
-      const femaleVoice = getProfessionalFemaleVoice(lang);
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
+      utterance.pitch = Math.max(0.5, Math.min(2.0, Number(pitch) || 1.08));
+      utterance.rate = Math.max(0.5, Math.min(2.0, Number(rate) || 0.94));
+      utterance.volume = Math.max(0.1, Math.min(1.0, Number(volume) || 1.0));
+
+      const selectedVoice = getProfessionalFemaleVoice(lang);
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        // Synchronize language tag to the voice's native language to prevent Windows SAPI drops
+        utterance.lang = selectedVoice.lang || lang;
+      } else {
+        utterance.lang = lang;
       }
 
       utterance.onstart = () => {
+        // Chromium 15-second cutoff prevention keepalive
+        if (keepAliveTimer) clearInterval(keepAliveTimer);
+        keepAliveTimer = setInterval(() => {
+          if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause();
+            window.speechSynthesis.resume();
+          } else {
+            clearInterval(keepAliveTimer);
+          }
+        }, 10000);
+
         if (onStart) onStart();
       };
 
       utterance.onend = () => {
+        if (keepAliveTimer) clearInterval(keepAliveTimer);
+        currentUtterance = null;
         if (onEnd) onEnd();
       };
 
       utterance.onerror = (e) => {
-        console.warn('Speech synthesis error:', e);
+        if (keepAliveTimer) clearInterval(keepAliveTimer);
+        currentUtterance = null;
+        console.warn('Speech synthesis error event:', e);
         if (onError) onError(e);
         if (onEnd) onEnd();
       };
 
       window.speechSynthesis.speak(utterance);
     } catch (err) {
+      if (keepAliveTimer) clearInterval(keepAliveTimer);
+      currentUtterance = null;
       console.warn('Speech synthesis execution failed:', err);
       if (onError) onError(err);
       if (onEnd) onEnd();
     }
-  }, delayMs);
+  };
+
+  if (delayMs > 0) {
+    setTimeout(executeSpeech, delayMs);
+  } else {
+    executeSpeech();
+  }
 }
 
 /**
@@ -215,7 +322,17 @@ export function speakText(text, options = {}) {
  */
 export function stopSpeech() {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
+    try {
+      if (keepAliveTimer) {
+        clearInterval(keepAliveTimer);
+        keepAliveTimer = null;
+      }
+      currentUtterance = null;
+      window.speechSynthesis.cancel();
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    } catch (e) {}
   }
 }
 
@@ -241,14 +358,14 @@ export function setVoiceMuted(muted) {
 }
 
 /**
- * Session throttling so auto-speaking banners don't repeat infinitely
+ * Session throttling for auto-speaking banners
  */
 export function hasSpokenInSession(announcementId) {
   if (typeof window === 'undefined' || !announcementId) return false;
-  return sessionStorage.getItem(`nextgen_announced_${announcementId}`) === 'true';
+  return sessionStorage.getItem('nextgen_announced_' + announcementId) === 'true';
 }
 
 export function markSpokenInSession(announcementId) {
   if (typeof window === 'undefined' || !announcementId) return;
-  sessionStorage.setItem(`nextgen_announced_${announcementId}`, 'true');
+  sessionStorage.setItem('nextgen_announced_' + announcementId, 'true');
 }
