@@ -151,12 +151,13 @@ export default function AdminProfileManager({ defaultTab = 'profile' }) {
       const res = await adminAPI.updateProfile({
         name: profileData.name.trim(),
         email: profileData.email.trim(),
-        phone: profileData.phone ? profileData.phone.trim() : ''
+        phone: profileData.phone ? profileData.phone.trim() : '',
+        photo: profileData.photo || ''
       });
 
       if (res.success) {
         setProfileData(res.data);
-        updateUserProfile({ name: res.data.name, email: res.data.email, phone: res.data.phone });
+        updateUserProfile({ name: res.data.name, email: res.data.email, phone: res.data.phone, photo: res.data.photo || res.data.avatar || profileData.photo });
         showToast('প্রোফাইল তথ্য সফলভাবে আপডেট করা হয়েছে!', 'success');
         fetchAdminUsers();
       } else {

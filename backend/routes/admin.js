@@ -53,7 +53,7 @@ router.get('/profile', async (req, res, next) => {
  */
 router.put('/profile', async (req, res, next) => {
   try {
-    const { name, email, phone, currentPassword, newPassword } = req.body;
+    const { name, email, phone, photo, avatar, profilePhoto, currentPassword, newPassword } = req.body;
     const user = await User.findByPk(req.user.id);
     if (!user) {
       return res.status(404).json({
@@ -70,6 +70,13 @@ router.put('/profile', async (req, res, next) => {
 
     if (phone !== undefined) {
       updatePayload.phone = phone ? phone.trim() : '';
+    }
+
+    if (photo !== undefined || avatar !== undefined || profilePhoto !== undefined) {
+      const finalPhoto = photo || avatar || profilePhoto || '';
+      updatePayload.photo = finalPhoto;
+      updatePayload.avatar = finalPhoto;
+      updatePayload.profilePhoto = finalPhoto;
     }
 
     if (email && email.trim()) {

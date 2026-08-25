@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "S R",
+      "name": "মো: আলমগীর হোসেন (সাগর)",
       "username": "Alomgir005",
       "userId": "Alomgir005",
       "identifier": "Alomgir005",
@@ -12,10 +12,13 @@
       "phone": "01792818005",
       "isActive": true,
       "createdAt": "2026-08-21T09:10:09.406Z",
-      "updatedAt": "2026-08-22T19:56:58.767Z",
+      "updatedAt": "2026-08-25T12:43:13.025Z",
       "password": "$2a$10$jTuv6jnDAj6iLNepeZxQjegXZL01H.z92gl.y6sIYJIoTZOcRsUvG",
       "nameBn": "আলমগীর হোসেন",
-      "twoFactorEnabled": false
+      "twoFactorEnabled": false,
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "profilePhoto": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
     },
     {
       "id": 2,
@@ -6620,6 +6623,54 @@
       "createdAt": "2026-08-25T12:32:38.563Z",
       "timestamp": "2026-08-25T12:32:38.563Z",
       "updatedAt": "2026-08-25T12:32:38.563Z"
+    },
+    {
+      "id": 232,
+      "userId": 1,
+      "adminEmail": "sagorrana097@gmail.com",
+      "adminName": "S R",
+      "action": "USER_LOGIN",
+      "actionType": "USER_LOGIN",
+      "targetResource": "AUTH",
+      "entityType": "AUTH",
+      "entityId": "1",
+      "status": "SUCCESS",
+      "oldValue": null,
+      "newValue": null,
+      "details": "User sagorrana097@gmail.com (SUPER_ADMIN) logged in successfully",
+      "ipAddress": "::1",
+      "userAgent": "Unknown",
+      "createdAt": "2026-08-25T12:43:12.710Z",
+      "timestamp": "2026-08-25T12:43:12.710Z",
+      "updatedAt": "2026-08-25T12:43:12.710Z"
+    },
+    {
+      "id": 233,
+      "userId": 1,
+      "adminEmail": "sagorrana097@gmail.com",
+      "adminName": "S R",
+      "action": "UPDATE_ADMIN_PROFILE",
+      "actionType": "UPDATE_ADMIN_PROFILE",
+      "targetResource": "User",
+      "entityType": "User",
+      "entityId": "1",
+      "status": "SUCCESS",
+      "oldValue": {
+        "name": "S R",
+        "email": "sagorrana097@gmail.com",
+        "phone": "01792818005"
+      },
+      "newValue": {
+        "name": "মো: আলমগীর হোসেন (সাগর)",
+        "email": "sagorrana097@gmail.com",
+        "phone": "01792818005"
+      },
+      "details": "Admin profile updated for S R",
+      "ipAddress": "::1",
+      "userAgent": "Unknown",
+      "createdAt": "2026-08-25T12:43:13.057Z",
+      "timestamp": "2026-08-25T12:43:13.057Z",
+      "updatedAt": "2026-08-25T12:43:13.057Z"
     }
   ],
   "students": [

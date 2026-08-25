@@ -46,6 +46,7 @@ export default function UniversalFileUploader({
   previewType = 'auto', // 'auto' | 'image' | 'file'
   required = false,
   disabled = false,
+  onChange = () => {},
   className = ''
 }) {
   // Normalize initial values
