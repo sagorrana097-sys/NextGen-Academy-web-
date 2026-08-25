@@ -196,6 +196,15 @@ app.use('/api/admin/achievers', achieversRoutes);
 app.use('/api/teacher-attendance', teacherAttendanceRoutes);
 app.use('/api/exams', examsRoutes);
 app.use('/api/live-classes', liveClassRoutes);
+
+// Aliases for /api/subjectsClassId=11 and /api/curriculum/subjectsClassId=11
+app.get(['/api/subjectsClassId*', '/api/curriculum/subjectsClassId*'], (req, res, next) => {
+  const parts = req.path.split(/ClassId=|classId=/i);
+  const classId = parts[1] || '';
+  req.url = `/subjects?classId=${classId}`;
+  curriculumRoutes(req, res, next);
+});
+
 app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/system-errors', systemErrorsRoutes);
 app.use('/api/admin/system-errors', systemErrorsRoutes);
