@@ -1,899 +1,770 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { fabric } from 'fabric';
-import { Canvas as ThreeCanvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Box, Cylinder, Torus, Text } from '@react-three/drei';
-import * as THREE from 'three';
-import { 
-  FlaskConical, Atom, Table2, Zap, Flame, Download, Loader2, 
-  ChevronDown, ChevronUp, Brain, Calculator, Droplets, Rotate3d, 
-  Move, Sparkles, Search, Filter, HelpCircle, Layers, CheckCircle2,
-  Share2, Activity, Play, RefreshCw, X, ArrowRight, Dna, Sliders, Scale, Beaker, Info, BatteryCharging
+import React, { useState, useRef, useMemo } from 'react';
+import {
+  FlaskConical,
+  Atom,
+  Table2,
+  Zap,
+  Flame,
+  Download,
+  Loader2,
+  ChevronDown,
+  ChevronUp,
+  Brain,
+  Calculator,
+  Droplets,
+  Rotate3d,
+  Sparkles,
+  Search,
+  Filter,
+  HelpCircle,
+  Layers,
+  CheckCircle2,
+  Activity,
+  Play,
+  RefreshCw,
+  X,
+  ArrowRight,
+  Sliders,
+  Scale,
+  Beaker,
+  Info,
+  BatteryCharging,
+  BookOpen,
+  Award,
+  Wind
 } from 'lucide-react';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
-
-// ==========================================
-// 1. COMPLETE 118-ELEMENT PERIODIC TABLE DATA
-// ==========================================
-const PERIODIC_TABLE_118 = [
-  // Period 1
-  { n:1, sym:'H', nameBn:'হাইড্রোজেন', nameEn:'Hydrogen', mass:1.008, group:1, period:1, block:'s', cat:'nonmetal', en:2.20, val:1, mp:-259, bp:-252, ec:'1s¹' },
-  { n:2, sym:'He', nameBn:'হিলিয়াম', nameEn:'Helium', mass:4.003, group:18, period:1, block:'s', cat:'noble', en:0, val:0, mp:-272, bp:-269, ec:'1s²' },
-  // Period 2
-  { n:3, sym:'Li', nameBn:'লিথিয়াম', nameEn:'Lithium', mass:6.941, group:1, period:2, block:'s', cat:'alkali', en:0.98, val:1, mp:180, bp:1342, ec:'[He] 2s¹' },
-  { n:4, sym:'Be', nameBn:'বেরিলিয়াম', nameEn:'Beryllium', mass:9.012, group:2, period:2, block:'s', cat:'alkaline', en:1.57, val:2, mp:1287, bp:2470, ec:'[He] 2s²' },
-  { n:5, sym:'B', nameBn:'বোরন', nameEn:'Boron', mass:10.81, group:13, period:2, block:'p', cat:'metalloid', en:2.04, val:3, mp:2076, bp:3927, ec:'[He] 2s² 2p¹' },
-  { n:6, sym:'C', nameBn:'কার্বন', nameEn:'Carbon', mass:12.01, group:14, period:2, block:'p', cat:'nonmetal', en:2.55, val:4, mp:3550, bp:4827, ec:'[He] 2s² 2p²' },
-  { n:7, sym:'N', nameBn:'নাইট্রোজেন', nameEn:'Nitrogen', mass:14.01, group:15, period:2, block:'p', cat:'nonmetal', en:3.04, val:3, mp:-210, bp:-195, ec:'[He] 2s² 2p³' },
-  { n:8, sym:'O', nameBn:'অক্সিজেন', nameEn:'Oxygen', mass:16.00, group:16, period:2, block:'p', cat:'nonmetal', en:3.44, val:2, mp:-218, bp:-182, ec:'[He] 2s² 2p⁴' },
-  { n:9, sym:'F', nameBn:'ফ্লোরিন', nameEn:'Fluorine', mass:19.00, group:17, period:2, block:'p', cat:'halogen', en:3.98, val:1, mp:-220, bp:-188, ec:'[He] 2s² 2p⁵' },
-  { n:10, sym:'Ne', nameBn:'নিয়ন', nameEn:'Neon', mass:20.18, group:18, period:2, block:'p', cat:'noble', en:0, val:0, mp:-248, bp:-246, ec:'[He] 2s² 2p⁶' },
-  // Period 3
-  { n:11, sym:'Na', nameBn:'সোডিয়াম', nameEn:'Sodium', mass:22.99, group:1, period:3, block:'s', cat:'alkali', en:0.93, val:1, mp:98, bp:883, ec:'[Ne] 3s¹' },
-  { n:12, sym:'Mg', nameBn:'ম্যাগনেসিয়াম', nameEn:'Magnesium', mass:24.31, group:2, period:3, block:'s', cat:'alkaline', en:1.31, val:2, mp:650, bp:1090, ec:'[Ne] 3s²' },
-  { n:13, sym:'Al', nameBn:'অ্যালুমিনিয়াম', nameEn:'Aluminium', mass:26.98, group:13, period:3, block:'p', cat:'post-transition', en:1.61, val:3, mp:660, bp:2519, ec:'[Ne] 3s² 3p¹' },
-  { n:14, sym:'Si', nameBn:'সিলিকন', nameEn:'Silicon', mass:28.09, group:14, period:3, block:'p', cat:'metalloid', en:1.90, val:4, mp:1414, bp:3265, ec:'[Ne] 3s² 3p²' },
-  { n:15, sym:'P', nameBn:'ফসফরাস', nameEn:'Phosphorus', mass:30.97, group:15, period:3, block:'p', cat:'nonmetal', en:2.19, val:3, mp:44, bp:280, ec:'[Ne] 3s² 3p³' },
-  { n:16, sym:'S', nameBn:'সালফার', nameEn:'Sulfur', mass:32.06, group:16, period:3, block:'p', cat:'nonmetal', en:2.58, val:2, mp:115, bp:444, ec:'[Ne] 3s² 3p⁴' },
-  { n:17, sym:'Cl', nameBn:'ক্লোরিন', nameEn:'Chlorine', mass:35.45, group:17, period:3, block:'p', cat:'halogen', en:3.16, val:1, mp:-101, bp:-34, ec:'[Ne] 3s² 3p⁵' },
-  { n:18, sym:'Ar', nameBn:'আর্গন', nameEn:'Argon', mass:39.95, group:18, period:3, block:'p', cat:'noble', en:0, val:0, mp:-189, bp:-185, ec:'[Ne] 3s² 3p⁶' },
-  // Period 4
-  { n:19, sym:'K', nameBn:'পটাশিয়াম', nameEn:'Potassium', mass:39.10, group:1, period:4, block:'s', cat:'alkali', en:0.82, val:1, mp:63, bp:759, ec:'[Ar] 4s¹' },
-  { n:20, sym:'Ca', nameBn:'ক্যালসিয়াম', nameEn:'Calcium', mass:40.08, group:2, period:4, block:'s', cat:'alkaline', en:1.00, val:2, mp:842, bp:1484, ec:'[Ar] 4s²' },
-  { n:21, sym:'Sc', nameBn:'স্ক্যান্ডিয়াম', nameEn:'Scandium', mass:44.96, group:3, period:4, block:'d', cat:'transition', en:1.36, val:3, mp:1541, bp:2836, ec:'[Ar] 3d¹ 4s²' },
-  { n:22, sym:'Ti', nameBn:'টাইটানিয়াম', nameEn:'Titanium', mass:47.87, group:4, period:4, block:'d', cat:'transition', en:1.54, val:4, mp:1668, bp:3287, ec:'[Ar] 3d² 4s²' },
-  { n:23, sym:'V', nameBn:'ভ্যানাডিয়াম', nameEn:'Vanadium', mass:50.94, group:5, period:4, block:'d', cat:'transition', en:1.63, val:5, mp:1910, bp:3407, ec:'[Ar] 3d³ 4s²' },
-  { n:24, sym:'Cr', nameBn:'ক্রোমিয়াম', nameEn:'Chromium', mass:52.00, group:6, period:4, block:'d', cat:'transition', en:1.66, val:3, mp:1907, bp:2671, ec:'[Ar] 3d⁵ 4s¹ (ব্যতিক্রম)' },
-  { n:25, sym:'Mn', nameBn:'ম্যাঙ্গানিজ', nameEn:'Manganese', mass:54.94, group:7, period:4, block:'d', cat:'transition', en:1.55, val:2, mp:1246, bp:2061, ec:'[Ar] 3d⁵ 4s²' },
-  { n:26, sym:'Fe', nameBn:'আয়রন (লোহা)', nameEn:'Iron', mass:55.85, group:8, period:4, block:'d', cat:'transition', en:1.83, val:2, mp:1538, bp:2862, ec:'[Ar] 3d⁶ 4s²' },
-  { n:27, sym:'Co', nameBn:'কোবাল্ট', nameEn:'Cobalt', mass:58.93, group:9, period:4, block:'d', cat:'transition', en:1.88, val:2, mp:1495, bp:2927, ec:'[Ar] 3d⁷ 4s²' },
-  { n:28, sym:'Ni', nameBn:'নিকেল', nameEn:'Nickel', mass:58.69, group:10, period:4, block:'d', cat:'transition', en:1.91, val:2, mp:1455, bp:2913, ec:'[Ar] 3d⁸ 4s²' },
-  { n:29, sym:'Cu', nameBn:'কপার (তামা)', nameEn:'Copper', mass:63.55, group:11, period:4, block:'d', cat:'transition', en:1.90, val:2, mp:1084, bp:2562, ec:'[Ar] 3d¹⁰ 4s¹ (ব্যতিক্রম)' },
-  { n:30, sym:'Zn', nameBn:'জিঙ্ক (দস্তা)', nameEn:'Zinc', mass:65.38, group:12, period:4, block:'d', cat:'transition', en:1.65, val:2, mp:419, bp:907, ec:'[Ar] 3d¹⁰ 4s²' },
-  { n:31, sym:'Ga', nameBn:'গ্যালিয়াম', nameEn:'Gallium', mass:69.72, group:13, period:4, block:'p', cat:'post-transition', en:1.81, val:3, mp:29, bp:2204, ec:'[Ar] 3d¹⁰ 4s² 4p¹' },
-  { n:32, sym:'Ge', nameBn:'জার্মেনিয়াম', nameEn:'Germanium', mass:72.63, group:14, period:4, block:'p', cat:'metalloid', en:2.01, val:4, mp:938, bp:2833, ec:'[Ar] 3d¹⁰ 4s² 4p²' },
-  { n:33, sym:'As', nameBn:'আর্সেনিক', nameEn:'Arsenic', mass:74.92, group:15, period:4, block:'p', cat:'metalloid', en:2.18, val:3, mp:817, bp:614, ec:'[Ar] 3d¹⁰ 4s² 4p³' },
-  { n:34, sym:'Se', nameBn:'সেলেনিয়াম', nameEn:'Selenium', mass:78.96, group:16, period:4, block:'p', cat:'nonmetal', en:2.55, val:2, mp:221, bp:685, ec:'[Ar] 3d¹⁰ 4s² 4p⁴' },
-  { n:35, sym:'Br', nameBn:'ব্রোমিন', nameEn:'Bromine', mass:79.90, group:17, period:4, block:'p', cat:'halogen', en:2.96, val:1, mp:-7, bp:58, ec:'[Ar] 3d¹⁰ 4s² 4p⁵' },
-  { n:36, sym:'Kr', nameBn:'ক্রিপ্টন', nameEn:'Krypton', mass:83.80, group:18, period:4, block:'p', cat:'noble', en:3.00, val:0, mp:-157, bp:-153, ec:'[Ar] 3d¹⁰ 4s² 4p⁶' },
-  // Period 5 & above
-  { n:47, sym:'Ag', nameBn:'সিলভার (রূপা)', nameEn:'Silver', mass:107.87, group:11, period:5, block:'d', cat:'transition', en:1.93, val:1, mp:961, bp:2162, ec:'[Kr] 4d¹⁰ 5s¹' },
-  { n:53, sym:'I', nameBn:'আয়োডিন', nameEn:'Iodine', mass:126.90, group:17, period:5, block:'p', cat:'halogen', en:2.66, val:1, mp:113, bp:184, ec:'[Kr] 4d¹⁰ 5s² 5p⁵' },
-  { n:54, sym:'Xe', nameBn:'জেনন', nameEn:'Xenon', mass:131.29, group:18, period:5, block:'p', cat:'noble', en:2.60, val:0, mp:-111, bp:-108, ec:'[Kr] 4d¹⁰ 5s² 5p⁶' },
-  { n:79, sym:'Au', nameBn:'গোল্ড (স্বর্ণ)', nameEn:'Gold', mass:196.97, group:11, period:6, block:'d', cat:'transition', en:2.54, val:3, mp:1064, bp:2970, ec:'[Xe] 4f¹⁴ 5d¹⁰ 6s¹' },
-  { n:80, sym:'Hg', nameBn:'মার্কারি (পারদ)', nameEn:'Mercury', mass:200.59, group:12, period:6, block:'d', cat:'transition', en:2.00, val:2, mp:-38, bp:356, ec:'[Xe] 4f¹⁴ 5d¹⁰ 6s²' },
-  { n:82, sym:'Pb', nameBn:'লেড (সীসা)', nameEn:'Lead', mass:207.2, group:14, period:6, block:'p', cat:'post-transition', en:2.33, val:2, mp:327, bp:1749, ec:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²' },
-  { n:92, sym:'U', nameBn:'ইউরেনিয়াম', nameEn:'Uranium', mass:238.03, group:3, period:7, block:'f', cat:'actinide', en:1.38, val:6, mp:1135, bp:4131, ec:'[Rn] 5f³ 6d¹ 7s²' },
-  { n:118, sym:'Og', nameBn:'ওগানেসন', nameEn:'Oganesson', mass:294, group:18, period:7, block:'p', cat:'noble', en:0, val:0, mp:0, bp:80, ec:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶' }
-];
-
-const CAT_COLORS = {
-  alkali: 'bg-red-500/20 text-red-300 border-red-500/40 hover:bg-red-500/30',
-  alkaline: 'bg-orange-500/20 text-orange-300 border-orange-500/40 hover:bg-orange-500/30',
-  transition: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40 hover:bg-yellow-500/30',
-  'post-transition': 'bg-blue-500/20 text-blue-300 border-blue-500/40 hover:bg-blue-500/30',
-  metalloid: 'bg-teal-500/20 text-teal-300 border-teal-500/40 hover:bg-teal-500/30',
-  nonmetal: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30',
-  halogen: 'bg-purple-500/20 text-purple-300 border-purple-500/40 hover:bg-purple-500/30',
-  noble: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/30',
-  actinide: 'bg-pink-500/20 text-pink-300 border-pink-500/40 hover:bg-pink-500/30',
-};
-
-function AICard({ text }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl overflow-hidden mt-4">
-      <button type="button" onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between p-3.5 text-xs font-black text-emerald-300 bg-emerald-950/60">
-        <div className="flex items-center gap-1.5"><Brain className="w-4 h-4 text-emerald-400" />AI রসায়ন বিশ্লেষণ ও পরীক্ষার নোট (Smart Guide)</div>
-        {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-      </button>
-      {open && <div className="p-4 text-xs text-emerald-100/90 leading-relaxed border-t border-emerald-500/20 bg-slate-950/40">{text}</div>}
-    </div>
-  );
-}
-
-// ============================================================
-// MODULE 1: AUTHENTIC 118-ELEMENT INTERACTIVE PERIODIC TABLE
-// ============================================================
-function PeriodicTableModule() {
-  const [selectedElement, setSelectedElement] = useState(PERIODIC_TABLE_118[10]); // Na
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedBlock, setSelectedBlock] = useState('ALL');
-
-  const filteredElements = useMemo(() => {
-    return PERIODIC_TABLE_118.filter(el => {
-      const matchSearch = el.nameBn.includes(searchQuery) ||
-        el.nameEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        el.sym.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        el.n.toString() === searchQuery.trim();
-      const matchBlock = selectedBlock === 'ALL' || el.block === selectedBlock;
-      return matchSearch && matchBlock;
-    });
-  }, [searchQuery, selectedBlock]);
-
-  const getShellElectrons = (n) => {
-    let remaining = n;
-    const shells = [];
-    const maxK = 2, maxL = 8, maxM = 18, maxN = 32;
-    if (remaining > 0) { const k = Math.min(remaining, maxK); shells.push({ name: 'K', count: k }); remaining -= k; }
-    if (remaining > 0) { const l = Math.min(remaining, maxL); shells.push({ name: 'L', count: l }); remaining -= l; }
-    if (remaining > 0) { const m = Math.min(remaining, maxM); shells.push({ name: 'M', count: m }); remaining -= m; }
-    if (remaining > 0) { const nShell = Math.min(remaining, maxN); shells.push({ name: 'N', count: nShell }); remaining -= nShell; }
-    return shells;
-  };
-
-  const shells = getShellElectrons(selectedElement?.n || 11);
-
-  return (
-    <div className="space-y-6">
-      {/* Search & Block Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-slate-950 border border-slate-800 rounded-2xl">
-        <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder="মৌলের নাম (বাংলা/ইংরেজি), প্রতীক বা পারমাণবিক সংখ্যা দিয়ে খুঁজুন..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white text-xs font-medium focus:ring-2 focus:ring-emerald-500"
-          />
-        </div>
-
-        <div className="flex items-center gap-1.5 w-full sm:w-auto">
-          <span className="text-xs text-slate-400 font-bold mr-1">ব্লক ফিল্টার:</span>
-          {['ALL', 's', 'p', 'd', 'f'].map(b => (
-            <button
-              key={b}
-              onClick={() => setSelectedBlock(b)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedBlock === b ? 'bg-emerald-600 text-white shadow-md' : 'bg-slate-900 text-slate-400 hover:text-white'
-              }`}
-            >
-              {b === 'ALL' ? 'সকল' : `${b}-block`}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 118-Element Grid */}
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-4">
-        <div className="flex flex-wrap gap-2">
-          {filteredElements.map(el => {
-            const cls = CAT_COLORS[el.cat] || 'bg-slate-800 text-slate-300 border-slate-700';
-            const isSelected = selectedElement?.n === el.n;
-            return (
-              <button
-                key={el.n}
-                onClick={() => setSelectedElement(el)}
-                className={`w-14 h-16 rounded-2xl border text-center transition-all flex flex-col justify-between p-1.5 ${cls} ${
-                  isSelected ? 'scale-110 ring-2 ring-white shadow-xl shadow-emerald-500/30 font-black' : ''
-                }`}
-              >
-                <div className="flex justify-between items-center text-[8px] opacity-70 font-mono">
-                  <span>{el.n}</span>
-                  <span className="uppercase">{el.block}</span>
-                </div>
-                <div className="text-base font-black leading-none">{el.sym}</div>
-                <div className="text-[8px] truncate font-medium">{el.nameBn}</div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Deep-Dive Element Detail Panel with Dynamic 2D Bohr Orbit */}
-      {selectedElement && (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-950 border border-emerald-500/40 rounded-3xl p-6 shadow-2xl">
-          <div className="md:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-900 rounded-2xl border border-slate-800">
-            <svg viewBox="0 0 240 240" className="w-full max-w-[220px] h-52">
-              <circle cx="120" cy="120" r="16" fill="#f59e0b" stroke="#ffffff" strokeWidth="1.5" />
-              <text x="120" y="124" fill="#000000" fontSize="10" fontWeight="bold" textAnchor="middle">
-                {selectedElement.sym}
-              </text>
-              {shells.map((sh, idx) => {
-                const r = 35 + idx * 24;
-                return (
-                  <g key={sh.name}>
-                    <circle cx="120" cy="120" r={r} fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="1" strokeDasharray="3,2" />
-                    {Array.from({ length: sh.count }).map((_, eIdx) => {
-                      const angle = (eIdx / sh.count) * 2 * Math.PI - Math.PI / 2;
-                      const ex = 120 + r * Math.cos(angle);
-                      const ey = 120 + r * Math.sin(angle);
-                      return (
-                        <circle key={eIdx} cx={ex} cy={ey} r="3.5" fill="#38bdf8" stroke="#ffffff" strokeWidth="0.5" />
-                      );
-                    })}
-                  </g>
-                );
-              })}
-            </svg>
-            <p className="text-xs text-slate-400 font-mono mt-2">
-              বোর শক্তিস্তর: {shells.map(s => `${s.name}=${s.count}`).join(', ')} (মোট ইলেকট্রন: {selectedElement.n})
-            </p>
-          </div>
-
-          <div className="md:col-span-7 space-y-3 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div>
-                <h3 className="text-xl font-black text-white">{selectedElement.nameBn} ({selectedElement.nameEn})</h3>
-                <p className="text-slate-400 text-[11px]">প্রতীক: <strong className="text-emerald-400 font-mono">{selectedElement.sym}</strong> | পারমাণবিক সংখ্যা: <strong className="text-white">{selectedElement.n}</strong></p>
-              </div>
-              <span className="px-3 py-1 bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 font-bold rounded-full capitalize">
-                {selectedElement.cat}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">পারমাণবিক ভর:</span>
-                <strong className="text-white font-mono">{selectedElement.mass}</strong>
-              </div>
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">পর্যায় ও গ্রুপ:</span>
-                <strong className="text-cyan-400 font-mono">Period {selectedElement.period}, Group {selectedElement.group}</strong>
-              </div>
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">যোজ্যতা (Valency):</span>
-                <strong className="text-amber-400 font-mono">{selectedElement.val}</strong>
-              </div>
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">তড়িৎঋণাত্মকতা:</span>
-                <strong className="text-white font-mono">{selectedElement.en || 'প্রযোজ্য নয়'}</strong>
-              </div>
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">গলনাঙ্ক (MP):</span>
-                <strong className="text-rose-400 font-mono">{selectedElement.mp}°C</strong>
-              </div>
-              <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span className="text-slate-500 block">স্ফুটনাঙ্ক (BP):</span>
-                <strong className="text-indigo-400 font-mono">{selectedElement.bp}°C</strong>
-              </div>
-            </div>
-
-            <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-              <span className="text-slate-400 font-bold">আউফবাউ নীতি অনুযায়ী ইলেকট্রন বিন্যাস:</span>
-              <p className="font-mono text-emerald-400 text-sm font-bold">{selectedElement.ec}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <AICard text="পর্যায় সারণিতে বাম থেকে ডানে গেলে ইলেকট্রন আসক্তি ও তড়িৎঋণাত্মকতা বাড়ে, কিন্তু পারমাণবিক আকার হ্রাস পায়। উপর থেকে নিচে নামলে নতুন প্রধান শক্তিস্তর যুক্ত হওয়ার কারণে পারমাণবিক ব্যাসার্ধ বৃদ্ধি পায় এবং ধাতুসমূহের সক্রিয়তা বাড়ে।" />
-    </div>
-  );
-}
-
-// ============================================================
-// MODULE 2: UNIVERSAL CHEMICAL BONDING SANDBOX
-// ============================================================
-function UniversalBondingSandbox() {
-  const [elemA, setElemA] = useState(PERIODIC_TABLE_118[10]); // Na
-  const [elemB, setElemB] = useState(PERIODIC_TABLE_118[16]); // Cl
-
-  const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-  const valA = elemA.val || 1;
-  const valB = elemB.val || 1;
-  const divisor = gcd(valA, valB);
-  const countA = valB / divisor;
-  const countB = valA / divisor;
-
-  const formula = `${elemA.sym}${countA > 1 ? countA : ''}${elemB.sym}${countB > 1 ? countB : ''}`;
-
-  const isMetalA = elemA.cat.includes('alkali') || elemA.cat.includes('alkaline') || elemA.cat.includes('metal') || elemA.cat.includes('transition');
-  const isMetalB = elemB.cat.includes('alkali') || elemB.cat.includes('alkaline') || elemB.cat.includes('metal') || elemB.cat.includes('transition');
-  const isIonic = (isMetalA && !isMetalB) || (!isMetalA && isMetalB);
-  const bondName = isIonic ? 'আয়নিক বন্ধন (Ionic Bond)' : 'সমযোজী বন্ধন (Covalent Bond)';
-
-  return (
-    <div className="space-y-6">
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-4">
-        <h4 className="font-bold text-sm text-white flex items-center gap-2">
-          <Zap className="w-4 h-4 text-amber-400" />
-          <span>সার্বজনীন রাসায়নিক বন্ধন স্যান্ডবক্স (Universal Chemical Bonding Engine)</span>
-        </h4>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
-            <label className="text-xs font-bold text-slate-400 block">১ম মৌল নির্বাচন করুন (Element A):</label>
-            <select
-              value={elemA.sym}
-              onChange={e => setElemA(PERIODIC_TABLE_118.find(el => el.sym === e.target.value) || elemA)}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-bold text-xs focus:ring-2 focus:ring-emerald-500"
-            >
-              {PERIODIC_TABLE_118.slice(0, 36).map(el => (
-                <option key={el.sym} value={el.sym}>{el.nameBn} ({el.sym}) - যোজ্যতা: {el.val}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
-            <label className="text-xs font-bold text-slate-400 block">২য় মৌল নির্বাচন করুন (Element B):</label>
-            <select
-              value={elemB.sym}
-              onChange={e => setElemB(PERIODIC_TABLE_118.find(el => el.sym === e.target.value) || elemB)}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-bold text-xs focus:ring-2 focus:ring-emerald-500"
-            >
-              {PERIODIC_TABLE_118.slice(0, 36).map(el => (
-                <option key={el.sym} value={el.sym}>{el.nameBn} ({el.sym}) - যোজ্যতা: {el.val}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="p-4 bg-gradient-to-r from-slate-900 to-indigo-950/40 border border-indigo-500/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="space-y-1 text-center sm:text-left">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-indigo-300">যোজনী স্থানান্তর ও গঠিত সংকেত:</span>
-            <div className="text-2xl font-black text-emerald-400 font-mono flex items-center justify-center sm:justify-start gap-2">
-              <span>{countA > 1 ? countA : ''}{elemA.sym} + {countB > 1 ? countB : ''}{elemB.sym}</span>
-              <ArrowRight className="w-5 h-5 text-slate-500" />
-              <span className="text-white bg-indigo-950 border border-indigo-500/50 px-3 py-0.5 rounded-xl">{formula}</span>
-            </div>
-          </div>
-          <span className={`px-4 py-2 rounded-xl text-xs font-black ${isIonic ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'}`}>
-            {bondName}
-          </span>
-        </div>
-      </div>
-
-      {/* Multi-Atom Visualizer Canvas */}
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-3">
-        <h4 className="font-bold text-xs text-slate-300">অ্যানিমেটেড মাল্টি-অ্যাটম বোর বন্ধন মডেল ({formula}):</h4>
-        <div className="p-6 bg-slate-900 rounded-2xl flex flex-wrap items-center justify-center gap-8">
-          {Array.from({ length: countA }).map((_, i) => (
-            <div key={`a-${i}`} className="flex flex-col items-center space-y-1.5 animate-pulse">
-              <div className="w-16 h-16 rounded-full bg-rose-500/20 border-2 border-rose-500 flex items-center justify-center text-white font-black text-sm">
-                {elemA.sym}{isIonic ? (countB > 1 ? `${valA}+` : '+') : ''}
-              </div>
-              <span className="text-[10px] text-slate-400 font-bold">{elemA.nameBn}</span>
-            </div>
-          ))}
-
-          <div className="text-xs font-bold text-amber-400 flex flex-col items-center">
-            <span className="text-lg font-black">{isIonic ? '⚡ e⁻ স্থানান্তর' : '🤝 e⁻ শেয়ারিং'}</span>
-            <span className="text-[10px] text-slate-500">{isIonic ? 'আয়নিক আকর্ষণ' : 'সমযোজী জোড়'}</span>
-          </div>
-
-          {Array.from({ length: countB }).map((_, i) => (
-            <div key={`b-${i}`} className="flex flex-col items-center space-y-1.5 animate-pulse">
-              <div className="w-16 h-16 rounded-full bg-sky-500/20 border-2 border-sky-500 flex items-center justify-center text-white font-black text-sm">
-                {elemB.sym}{isIonic ? (countA > 1 ? `${valB}-` : '-') : ''}
-              </div>
-              <span className="text-[10px] text-slate-400 font-bold">{elemB.nameBn}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <AICard text={`${elemA.nameBn} এর সর্ববহিঃস্থ স্তরের যোজনী ইলেকট্রন ${elemB.nameBn} এর সাথে অষ্টক বা দ্বিত্ব নিয়ম পূরণ করে ${formula} যৌগ গঠন করেছে।`} />
-    </div>
-  );
-}
-
-// ============================================================
-// MODULE 3: INTERACTIVE STOICHIOMETRY & RADICALS SANDBOX
-// ============================================================
-function StoichiometryAndRadicalsSandbox() {
-  const [reactionId, setReactionId] = useState('caco3_hcl');
-  const [unitA, setUnitA] = useState('g');
-  const [unitB, setUnitB] = useState('g');
-  const [inputValA, setInputValA] = useState(10); // 10 g or mL
-  const [inputValB, setInputValB] = useState(10); // 10 g or mL
-
-  // Radical Compound Drag & Drop Builder Slots
-  const [cationSlot, setCationSlot] = useState({ id: 'Al', sym: 'Al³⁺', name: 'অ্যালুমিনিয়াম', val: 3 });
-  const [anionSlot, setAnionSlot] = useState({ id: 'SO4', formula: 'SO₄²⁻', name: 'সালফেট', val: 2 });
-
-  const AVOGADRO = 6.022e23;
-
-  // Comprehensive SSC Reactions Suite
-  const REACTIONS = {
-    caco3_hcl: {
-      name: 'CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂ (চুনাপাথর ও অ্যাসিড)',
-      nameA: 'CaCO₃ (ক্যালসিয়াম কার্বনেট)',
-      nameB: 'HCl (হাইড্রোক্লোরিক অ্যাসিড)',
-      mA: 100.09, // g/mol
-      mB: 36.46, // g/mol
-      coeffA: 1,
-      coeffB: 2,
-      mProd: 44.01,
-      prodName: 'CO₂ গ্যাস',
-      prodCoeff: 1
-    },
-    water: {
-      name: '2H₂ + O₂ → 2H₂O (পানির সংশ্লেষণ)',
-      nameA: 'H₂ (হাইড্রোজেন)',
-      nameB: 'O₂ (অক্সিজেন)',
-      mA: 2.016,
-      mB: 32.00,
-      coeffA: 2,
-      coeffB: 1,
-      mProd: 18.015,
-      prodName: 'H₂O (পানি)',
-      prodCoeff: 2
-    },
-    ammonia: {
-      name: 'N₂ + 3H₂ → 2NH₃ (হেবার পদ্ধতিতে অ্যামোনিয়া)',
-      nameA: 'N₂ (নাইট্রোজেন)',
-      nameB: 'H₂ (হাইড্রোজেন)',
-      mA: 28.02,
-      mB: 2.016,
-      coeffA: 1,
-      coeffB: 3,
-      mProd: 17.03,
-      prodName: 'NH₃ (অ্যামোনিয়া)',
-      prodCoeff: 2
-    },
-    naoh_h2so4: {
-      name: '2NaOH + H₂SO₄ → Na₂SO₄ + 2H₂O (প্রশমন বিক্রিয়া)',
-      nameA: 'NaOH (সোডিয়াম হাইড্রোক্সাইড)',
-      nameB: 'H₂SO₄ (সালফিউরিক অ্যাসিড)',
-      mA: 40.00,
-      mB: 98.08,
-      coeffA: 2,
-      coeffB: 1,
-      mProd: 142.04,
-      prodName: 'Na₂SO₄ (সোডিয়াম সালফেট)',
-      prodCoeff: 1
-    },
-    ch4_o2: {
-      name: 'CH₄ + 2O₂ → CO₂ + 2H₂O (মিথেনের দহন)',
-      nameA: 'CH₄ (মিথেন গ্যাস)',
-      nameB: 'O₂ (অক্সিজেন)',
-      mA: 16.04,
-      mB: 32.00,
-      coeffA: 1,
-      coeffB: 2,
-      mProd: 44.01,
-      prodName: 'CO₂ গ্যাস',
-      prodCoeff: 1
-    }
-  };
-
-  const curRxn = REACTIONS[reactionId] || REACTIONS.caco3_hcl;
-
-  const massA = unitA === 'g' ? inputValA : inputValA * 1.0;
-  const massB = unitB === 'g' ? inputValB : inputValB * 1.0;
-
-  // Mole Calculations: n = W / M
-  const molesA = massA / curRxn.mA;
-  const molesB = massB / curRxn.mB;
-
-  // Avogadro Particles calculation for each Reactant
-  const particlesA = (molesA * AVOGADRO).toExponential(3);
-  const particlesB = (molesB * AVOGADRO).toExponential(3);
-
-  // Limiting Reactant Determination
-  const reqRatio = curRxn.coeffA / curRxn.coeffB;
-  const actualRatio = molesA / (molesB || 1e-6);
-  const isALimiting = actualRatio <= reqRatio;
-  const limitingName = isALimiting ? curRxn.nameA : curRxn.nameB;
-
-  // Reaction extent based on limiting reactant
-  const limitingMoles = isALimiting ? molesA / curRxn.coeffA : molesB / curRxn.coeffB;
-  const productMoles = limitingMoles * curRxn.prodCoeff;
-  const productMass = (productMoles * curRxn.mProd).toFixed(2);
-  const productVolumeSTP = (productMoles * 22.4).toFixed(2); // Liters at STP
-  const totalParticles = (productMoles * AVOGADRO).toExponential(3); // e.g. 1.003e23
-
-  // Remaining excess reactant mass
-  const usedMolesExcess = isALimiting ? limitingMoles * curRxn.coeffB : limitingMoles * curRxn.coeffA;
-  const totalMolesExcess = isALimiting ? molesB : molesA;
-  const remainingMolesExcess = Math.max(0, totalMolesExcess - usedMolesExcess);
-  const remainingMassExcess = (remainingMolesExcess * (isALimiting ? curRxn.mB : curRxn.mA)).toFixed(2);
-  const remainingParticles = (remainingMolesExcess * AVOGADRO).toExponential(3);
-
-  // Radicals & Cations Palette
-  const ALL_CATIONS = [
-    { id: 'Al', sym: 'Al³⁺', name: 'অ্যালুমিনিয়াম', val: 3 },
-    { id: 'Na', sym: 'Na⁺', name: 'সোডিয়াম', val: 1 },
-    { id: 'K', sym: 'K⁺', name: 'পটাশিয়াম', val: 1 },
-    { id: 'Ca', sym: 'Ca²⁺', name: 'ক্যালসিয়াম', val: 2 },
-    { id: 'Mg', sym: 'Mg²⁺', name: 'ম্যাগনেসিয়াম', val: 2 },
-    { id: 'Fe2', sym: 'Fe²⁺', name: 'ফেরাস (Iron II)', val: 2 },
-    { id: 'Fe3', sym: 'Fe³⁺', name: 'ফেরিক (Iron III)', val: 3 },
-    { id: 'Cu', sym: 'Cu²⁺', name: 'কিউপ্রিক', val: 2 },
-    { id: 'Zn', sym: 'Zn²⁺', name: 'জিঙ্ক', val: 2 },
-    { id: 'NH4', sym: 'NH₄⁺', name: 'অ্যামোনিয়াম', val: 1 },
-  ];
-
-  const ALL_ANIONS = [
-    { id: 'SO4', formula: 'SO₄²⁻', name: 'সালফেট', val: 2 },
-    { id: 'NO3', formula: 'NO₃⁻', name: 'নাইট্রেট', val: 1 },
-    { id: 'CO3', formula: 'CO₃²⁻', name: 'কার্বনেট', val: 2 },
-    { id: 'PO4', formula: 'PO₄³⁻', name: 'ফসফেট', val: 3 },
-    { id: 'OH', formula: 'OH⁻', name: 'হাইড্রক্সাইড', val: 1 },
-    { id: 'HCO3', formula: 'HCO₃⁻', name: 'বাইকার্বনেট', val: 1 },
-    { id: 'Cl', formula: 'Cl⁻', name: 'ক্লোরাইড', val: 1 },
-    { id: 'O', formula: 'O²⁻', name: 'অক্সাইড', val: 2 },
-  ];
-
-  const gcdVal = (a, b) => b === 0 ? a : gcdVal(b, a % b);
-  const div = gcdVal(cationSlot.val, anionSlot.val);
-  const countC = anionSlot.val / div;
-  const countA = cationSlot.val / div;
-  const catSym = cationSlot.id.replace(/[0-9]/g, '');
-  const computedFormula = `${catSym}${countC > 1 ? countC : ''}${countA > 1 ? `(${anionSlot.id})${countA}` : anionSlot.id}`;
-
-  return (
-    <div className="space-y-6">
-      {/* 1. Dynamic Equation & Mass Input Sandbox */}
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-          <h4 className="font-bold text-sm text-white flex items-center gap-2">
-            <Scale className="w-4 h-4 text-sky-400" />
-            <span>স্টয়কিওমিতি ও লিমিটিং বিক্রিয়ক ক্যালকুলেটর (Stoichiometry Engine)</span>
-          </h4>
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30">
-            রিয়েল-টাইম ভর, মোল ও কণা অনুপাত
-          </span>
-        </div>
-
-        {/* Reaction Selector */}
-        <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl">
-          <label className="text-xs text-slate-400 font-bold block mb-1.5">রাসায়নিক সমীকরণ নির্বাচন করুন:</label>
-          <select
-            value={reactionId}
-            onChange={e => setReactionId(e.target.value)}
-            className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-bold text-xs focus:ring-2 focus:ring-sky-500"
-          >
-            {Object.entries(REACTIONS).map(([k, v]) => (
-              <option key={k} value={k}>{v.name}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Reactant Mass & Volume Controls with Avogadro Particles Counter */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          {/* Reactant A */}
-          <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-2.5">
-            <div className="flex justify-between items-center">
-              <span className="font-black text-sky-300">{curRxn.nameA}</span>
-              <div className="flex gap-1">
-                {['g', 'mL'].map(u => (
-                  <button
-                    key={u}
-                    onClick={() => setUnitA(u)}
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${unitA === u ? 'bg-sky-600 text-white' : 'bg-slate-950 text-slate-400'}`}
-                  >
-                    {u}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                min="0.1"
-                max="500"
-                step="0.5"
-                value={inputValA}
-                onChange={e => setInputValA(Math.max(0.1, +e.target.value))}
-                className="w-24 p-2 bg-slate-950 border border-slate-700 rounded-xl text-white font-mono font-bold text-center"
-              />
-              <span className="text-slate-400 font-bold">{unitA}</span>
-              <input
-                type="range"
-                min="1"
-                max="100"
-                value={inputValA}
-                onChange={e => setInputValA(+e.target.value)}
-                className="flex-1 accent-sky-500"
-              />
-            </div>
-
-            <div className="p-2.5 bg-slate-950 rounded-xl border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1">
-              <div className="flex justify-between">
-                <span>আণবিক ভর M₁ = {curRxn.mA} g/mol</span>
-                <span className="text-sky-400 font-bold">n₁ = {molesA.toFixed(3)} mol</span>
-              </div>
-              <div 
-                className="flex items-center justify-between text-amber-300 pt-1 border-t border-slate-800/80 cursor-help"
-                title="সূত্র: N = n × NA (যেখানে NA = 6.022 × 10²³)"
-              >
-                <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-amber-400" />মোট কণা (N₁):</span>
-                <span className="font-bold">{particlesA} টি অণু</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Reactant B */}
-          <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-2.5">
-            <div className="flex justify-between items-center">
-              <span className="font-black text-emerald-300">{curRxn.nameB}</span>
-              <div className="flex gap-1">
-                {['g', 'mL'].map(u => (
-                  <button
-                    key={u}
-                    onClick={() => setUnitB(u)}
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${unitB === u ? 'bg-emerald-600 text-white' : 'bg-slate-950 text-slate-400'}`}
-                  >
-                    {u}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                min="0.1"
-                max="500"
-                step="0.5"
-                value={inputValB}
-                onChange={e => setInputValB(Math.max(0.1, +e.target.value))}
-                className="w-24 p-2 bg-slate-950 border border-slate-700 rounded-xl text-white font-mono font-bold text-center"
-              />
-              <span className="text-slate-400 font-bold">{unitB}</span>
-              <input
-                type="range"
-                min="1"
-                max="100"
-                value={inputValB}
-                onChange={e => setInputValB(+e.target.value)}
-                className="flex-1 accent-emerald-500"
-              />
-            </div>
-
-            <div className="p-2.5 bg-slate-950 rounded-xl border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1">
-              <div className="flex justify-between">
-                <span>আণবিক ভর M₂ = {curRxn.mB} g/mol</span>
-                <span className="text-emerald-400 font-bold">n₂ = {molesB.toFixed(3)} mol</span>
-              </div>
-              <div 
-                className="flex items-center justify-between text-amber-300 pt-1 border-t border-slate-800/80 cursor-help"
-                title="সূত্র: N = n × NA (যেখানে NA = 6.022 × 10²³)"
-              >
-                <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-amber-400" />মোট কণা (N₂):</span>
-                <span className="font-bold">{particlesB} টি অণু</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Real-time Calculation Outputs & Limiting Reactant Badge */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-          <div className="p-3.5 bg-rose-950/40 border border-rose-500/40 rounded-2xl">
-            <span className="text-rose-300 block text-[10px] font-bold uppercase tracking-wider">লিমিটিং বিক্রিয়ক (Limiting):</span>
-            <span className="text-base font-black text-rose-200 block truncate mt-1">{limitingName}</span>
-            <span className="text-[10px] text-rose-400/80 block mt-0.5">সম্পূর্ণ বিক্রিয়ায় শেষ হবে</span>
-          </div>
-
-          <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/40 rounded-2xl">
-            <span className="text-emerald-300 block text-[10px] font-bold uppercase tracking-wider">উৎপাদের ভর (Mass Yield):</span>
-            <span className="text-xl font-black text-emerald-300 font-mono mt-0.5">{productMass} g</span>
-            <span className="text-[10px] text-slate-400 block mt-0.5">({productMoles.toFixed(3)} mol {curRxn.prodName})</span>
-          </div>
-
-          <div className="p-3.5 bg-sky-950/40 border border-sky-500/40 rounded-2xl">
-            <span className="text-sky-300 block text-[10px] font-bold uppercase tracking-wider">এসটিপিতে আয়তন (STP Volume):</span>
-            <span className="text-xl font-black text-sky-300 font-mono mt-0.5">{productVolumeSTP} L</span>
-            <span className="text-[10px] text-slate-400 block mt-0.5">(V = n × 22.4L)</span>
-          </div>
-
-          <div 
-            className="p-3.5 bg-amber-950/40 border border-amber-500/40 rounded-2xl cursor-help"
-            title="সূত্র: N = n × NA (যেখানে NA = 6.022 × 10²³)"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-amber-300 block text-[10px] font-bold uppercase tracking-wider">উৎপাদের কণা সংখ্যা (Particles N):</span>
-              <Info className="w-3.5 h-3.5 text-amber-400" />
-            </div>
-            <span className="text-lg font-black text-amber-300 font-mono mt-0.5 block">{totalParticles} টি</span>
-            <span className="text-[10px] text-slate-400 block mt-0.5">N = n × 6.022 × 10²³</span>
-          </div>
-        </div>
-
-        {/* Unreacted Excess Reactant Remaining */}
-        <div className="p-3.5 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-          <span className="text-slate-300 font-bold">অতিরিক্ত বিক্রিয়কের অবিশ্লিষ্ট অবশিষ্ট ভর ও কণা:</span>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-black text-amber-400 bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">
-              ভর: {remainingMassExcess} g
-            </span>
-            <span className="font-mono text-xs font-black text-amber-300 bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">
-              কণা: {remainingParticles} টি
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Interactive Radicals & Elements Drag-and-Drop / Slot Palette */}
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h4 className="font-bold text-sm text-white flex items-center gap-2">
-            <Beaker className="w-4 h-4 text-teal-400" />
-            <span>যৌগমূলক ও ক্যাটায়ন সংযোজক প্যালেট (Radicals & Formula Builder)</span>
-          </h4>
-          <span className="text-xs text-slate-400 font-bold">ক্লিক করে স্লটে বসান</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          {/* Cations Palette */}
-          <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-2.5">
-            <span className="text-teal-300 font-black block">ধাতব ক্যাটায়ন প্যালেট (Metal Cations):</span>
-            <div className="flex flex-wrap gap-1.5">
-              {ALL_CATIONS.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => setCationSlot(c)}
-                  className={`px-2.5 py-1.5 rounded-xl font-bold transition-all ${
-                    cationSlot.id === c.id ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/30 scale-105 ring-2 ring-white' : 'bg-slate-950 text-slate-300 hover:text-white border border-slate-800'
-                  }`}
-                >
-                  {c.name} ({c.sym})
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Anions / Radicals Palette */}
-          <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-2.5">
-            <span className="text-indigo-300 font-black block">যৌগমূলক অ্যানায়ন প্যালেট (Radical Anions):</span>
-            <div className="flex flex-wrap gap-1.5">
-              {ALL_ANIONS.map(a => (
-                <button
-                  key={a.id}
-                  onClick={() => setAnionSlot(a)}
-                  className={`px-2.5 py-1.5 rounded-xl font-bold transition-all ${
-                    anionSlot.id === a.id ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105 ring-2 ring-white' : 'bg-slate-950 text-slate-300 hover:text-white border border-slate-800'
-                  }`}
-                >
-                  {a.name} ({a.formula})
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Builder Slots & Formed Compound */}
-        <div className="p-5 bg-gradient-to-r from-slate-900 via-teal-950/30 to-slate-900 border border-teal-500/40 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2 bg-slate-950 rounded-xl border border-teal-500/50 text-teal-300 font-black text-center">
-              <span className="text-[10px] text-slate-500 block uppercase">ক্যাটায়ন</span>
-              <span className="text-base">{cationSlot.sym}</span>
-            </div>
-            <span className="text-lg font-black text-slate-500">+</span>
-            <div className="px-4 py-2 bg-slate-950 rounded-xl border border-indigo-500/50 text-indigo-300 font-black text-center">
-              <span className="text-[10px] text-slate-500 block uppercase">যৌগমূলক</span>
-              <span className="text-base">{anionSlot.formula}</span>
-            </div>
-            <ArrowRight className="w-5 h-5 text-teal-400" />
-          </div>
-
-          <div className="text-center sm:text-right">
-            <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">যোজনী স্থানান্তরে প্রস্তুতকৃত সংকেত:</span>
-            <span className="text-2xl font-black text-teal-300 font-mono bg-slate-950 px-5 py-1.5 rounded-2xl border border-teal-500/50 inline-block mt-1">
-              {computedFormula}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Step-by-Step Calculation Breakdown */}
-      <div className="bg-slate-950 border border-slate-800 rounded-3xl p-5 space-y-3 text-xs">
-        <h4 className="font-bold text-white flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          <span>গাণিতিক বিশ্লেষণের ধারাবাহিক ধাপসমূহ (Step-by-Step Breakdown):</span>
-        </h4>
-        <div className="space-y-2 p-4 bg-slate-900 rounded-2xl border border-slate-800 font-mono text-slate-300">
-          <p>১. মোল সংখ্যা: n₁ = W₁/M₁ = {massA}g / {curRxn.mA} = {molesA.toFixed(4)} mol ; n₂ = {massB}g / {curRxn.mB} = {molesB.toFixed(4)} mol</p>
-          <p>২. কণা গণনা: N₁ = n₁ × NA = {particlesA} টি ; N₂ = n₂ × NA = {particlesB} টি</p>
-          <p>৩. স্টয়কিওমেট্রিক অনুপাত তুলনা: প্রয়োজনীয় অনুপাত = {curRxn.coeffA}:{curRxn.coeffB}, প্রাপ্ত অনুপাত = {(molesA/molesB).toFixed(3)}:1 ➔ লিমিটিং বিক্রিয়ক = <strong className="text-rose-400">{limitingName}</strong></p>
-          <p>৪. উৎপাদের পরিমাণ: W = n(limiting) × Coeff × M(prod) = <strong className="text-emerald-400">{productMass} g</strong></p>
-          <p>৫. অ্যাভোগাড্রো কণা সংখ্যা: N = n × N_A = {productMoles.toFixed(4)} × 6.022 × 10²³ = <strong className="text-amber-400">{totalParticles} টি কণা</strong></p>
-          <p>৬. এসটিপিতে গ্যাসীয় আয়তন: V = n × 22.4 L = <strong className="text-sky-400">{productVolumeSTP} L</strong></p>
-        </div>
-      </div>
-
-      <AICard text="স্টয়কিওমিতি অনুযায়ী বিক্রিয়ার সমতাকৃত সমীকরণের সহগগুলো বিক্রিয়ক ও উৎপাদের মোল অনুপাত প্রকাশ করে। ১ মোল যেকোনো পদার্থে ৬.০২২ × ১০²³ টি অণু/পরমাণু/আয়ন থাকে যাকে অ্যাভোগাড্রো সংখ্যা (N_A) বলে।" />
-    </div>
-  );
-}
-
 import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
 import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
 import GalvanicCellSimulation from './GalvanicCellSimulation';
 import RedoxOxidationEngine from './RedoxOxidationEngine';
 
-// ============================================================
-// MAIN COMPONENT EXPORT
-// ============================================================
-const MODULES = [
-  { id: 'redox-engine', label: 'জারণ-বিজারণ ও জারণ সংখ্যা ইঞ্জিন', icon: Flame, Component: RedoxOxidationEngine },
-  { id: 'galvanic', label: 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন', icon: BatteryCharging, Component: GalvanicCellSimulation },
-  { id: 'bonding-solver', label: '৫ম অধ্যায়: বন্ধন ও লুইস ডট-ক্রস', icon: Atom, Component: ChemistryChapter5BondingSolver },
-  { id: 'math-solver', label: '৬ষ্ঠ অধ্যায়: AI ম্যাথ সলভার', icon: Calculator, Component: ChemistryChapter6MathSolver },
-  { id: 'stoichiometry', label: 'স্টয়কিওমিতি ও কণা গণনা', icon: Scale, Component: StoichiometryAndRadicalsSandbox },
-  { id: 'periodic', label: '১১৮ মৌলের পর্যায় সারণি', icon: Table2, Component: PeriodicTableModule },
-  { id: 'bonding', label: 'সার্বজনীন বন্ধন স্যান্ডবক্স', icon: Zap, Component: UniversalBondingSandbox },
+// =========================================================================
+// 1. COMPREHENSIVE HSC & SSC CHEMICAL REACTIONS DATABASE
+// =========================================================================
+const MASTER_REACTIONS_DB = [
+  // -------------------------------------------------------------
+  // A. REDOX REACTIONS (জারণ-বিজারণ বিক্রিয়া)
+  // -------------------------------------------------------------
+  {
+    id: 'rx-redox-1',
+    category: 'redox',
+    catName: 'জারণ-বিজারণ (Redox)',
+    titleBn: 'অম্লীয় মাধ্যমে KMnO₄ দ্বারা FeSO₄ এর জারণ',
+    reactantsStr: '2KMnO₄ + 10FeSO₄ + 8H₂SO₄',
+    productsStr: 'K₂SO₄ + 2MnSO₄ + 5Fe₂(SO₄)₃ + 8H₂O',
+    reactants: [
+      { formula: 'KMnO₄', name: 'পটাশিয়াম পারম্যাঙ্গানেট', coeff: 2, mw: 158.03, state: '(aq)' },
+      { formula: 'FeSO₄', name: 'ফেরাস সালফেটের দ্রবণ', coeff: 10, mw: 151.91, state: '(aq)' },
+      { formula: 'H₂SO₄', name: 'সালফিউরিক এসিড', coeff: 8, mw: 98.08, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'K₂SO₄', name: 'পটাশিয়াম সালফেট', coeff: 1, mw: 174.26, state: '(aq)' },
+      { formula: 'MnSO₄', name: 'ম্যাঙ্গানাস সালফেট', coeff: 2, mw: 151.00, state: '(aq)' },
+      { formula: 'Fe₂(SO₄)₃', name: 'ফেরিক সালফেট', coeff: 5, mw: 399.88, state: '(aq)' },
+      { formula: 'H₂O', name: 'পানি', coeff: 8, mw: 18.02, state: '(l)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. জারণ অর্ধ-বিক্রিয়া: Fe²⁺ → Fe³⁺ + e⁻  (প্রতিটি Fe²⁺ ১টি ইলেকট্রন ত্যাগ করে)',
+      '২. বিজারণ অর্ধ-বিক্রিয়া: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O  (Mn⁺⁷ ৫টি ইলেকট্রন গ্রহণ করে)',
+      '৩. ইলেকট্রন সমতা: জারণ অর্ধ-বিক্রিয়াকে ৫ দিয়ে গুণ করে বিজারণের সাথে যোগ করলে কঙ্কাল সমীকরণ দাঁড়ায়: MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O',
+      '৪. পূর্ণ আণবিক রূপ: দর্শক আয়ন (K⁺ ও SO₄²⁻) সমন্বয়ের জন্য সমীকরণকে ২ দ্বারা গুণ করে পাওয়া যায়: 2KMnO₄ + 10FeSO₄ + 8H₂SO₄ → K₂SO₄ + 2MnSO₄ + 5Fe₂(SO₄)₃ + 8H₂O'
+    ],
+    whyOccurs: 'KMnO₄ এর ম্যাঙ্গানিজ (+7) একটি অতি তীব্র ইলেকট্রনগ্রাহী জারক। অম্লীয় মাধ্যমে এটি Fe²⁺ থেকে সহজেই ইলেকট্রন গ্রহণ করে নিজে হালকা গোলাপি/বর্ণহীন Mn²⁺ আয়নে বিজারিত হয়।',
+    examNote: 'টাইট্রেশনে নির্দেশক হিসেবে কোনো অতিরিক্ত সূচক প্রয়োজন হয় না কারণ KMnO₄ নিজেই স্ব-নির্দেশক (Self-indicator)।'
+  },
+  {
+    id: 'rx-redox-2',
+    category: 'redox',
+    catName: 'জারণ-বিজারণ (Redox)',
+    titleBn: 'অম্লীয় মাধ্যমে K₂Cr₂O₇ দ্বারা FeSO₄ এর জারণ',
+    reactantsStr: 'K₂Cr₂O₇ + 6FeSO₄ + 7H₂SO₄',
+    productsStr: 'K₂SO₄ + Cr₂(SO₄)₃ + 3Fe₂(SO₄)₃ + 7H₂O',
+    reactants: [
+      { formula: 'K₂Cr₂O₇', name: 'পটাশিয়াম ডাইক্রোমেট', coeff: 1, mw: 294.18, state: '(aq)' },
+      { formula: 'FeSO₄', name: 'ফেরাস সালফেট', coeff: 6, mw: 151.91, state: '(aq)' },
+      { formula: 'H₂SO₄', name: 'সালফিউরিক এসিড', coeff: 7, mw: 98.08, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'K₂SO₄', name: 'পটাশিয়াম সালফেট', coeff: 1, mw: 174.26, state: '(aq)' },
+      { formula: 'Cr₂(SO₄)₃', name: 'ক্রোমিক সালফেট (সবুজ)', coeff: 1, mw: 392.18, state: '(aq)' },
+      { formula: 'Fe₂(SO₄)₃', name: 'ফেরিক সালফেট', coeff: 3, mw: 399.88, state: '(aq)' },
+      { formula: 'H₂O', name: 'পানি', coeff: 7, mw: 18.02, state: '(l)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. জারণ অর্ধ-বিক্রিয়া: Fe²⁺ → Fe³⁺ + e⁻',
+      '২. বিজারণ অর্ধ-বিক্রিয়া: Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O  (প্রতিটি Cr⁺⁶ ৩টি করে মোট ৬টি ইলেকট্রন গ্রহণ করে)',
+      '৩. জারণ অর্ধ-বিক্রিয়াকে ৬ দিয়ে গুণ করে যোগ করলে: Cr₂O₇²⁻ + 6Fe²⁺ + 14H⁺ → 2Cr³⁺ + 6Fe³⁺ + 7H₂O',
+      '৪. প্রয়োজনীয় দর্শক আয়ন (2K⁺ ও 7SO₄²⁻) যোগ করে সমতাকৃত সমীকরণ গঠিত হয়।'
+    ],
+    whyOccurs: 'ডাইক্রোমেট মূলকের Cr⁺⁶ অত্যন্ত উচ্চ জারণ অবস্থায় থাকায় এটি প্রবলভাবে ইলেকট্রন আকর্ষণ করে সবুজ বর্ণের Cr³⁺ এ রূপান্তরিত হয়।',
+    examNote: 'বিক্রিয়া সম্পন্ন হলে দ্রবণের কমলা বর্ণ সম্পূর্ণ বিলীন হয়ে সবুজ বর্ণ ধারণ করে।'
+  },
+  {
+    id: 'rx-redox-3',
+    category: 'redox',
+    catName: 'জারণ-বিজারণ (Redox)',
+    titleBn: 'কপার ও গাঢ় নাইট্রিক এসিডের বিক্রিয়া (NO₂ গ্যাস উৎপাদন)',
+    reactantsStr: 'Cu + 4HNO₃ (গাঢ়)',
+    productsStr: 'Cu(NO₃)₂ + 2NO₂ ↑ + 2H₂O',
+    reactants: [
+      { formula: 'Cu', name: 'তামার কুচি (কপার)', coeff: 1, mw: 63.55, state: '(s)' },
+      { formula: 'HNO₃', name: 'গাঢ় নাইট্রিক এসিড', coeff: 4, mw: 63.01, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'Cu(NO₃)₂', name: 'কপার নাইট্রেট দ্রবণ (নীল)', coeff: 1, mw: 187.56, state: '(aq)' },
+      { formula: 'NO₂', name: 'নাইট্রোজেন ডাইঅক্সাইড গ্যাস', coeff: 2, mw: 46.01, state: '(g)', isGas: true },
+      { formula: 'H₂O', name: 'পানি', coeff: 2, mw: 18.02, state: '(l)' }
+    ],
+    gases: [{ formula: 'NO₂', coeff: 2, name: 'নাইট্রোজেন ডাইঅক্সাইড' }],
+    balancingLogic: [
+      '১. জারণ: Cu → Cu²⁺ + 2e⁻  (তামা জারিত হয়)',
+      '২. বিজারণ: NO₃⁻ + 2H⁺ + e⁻ → NO₂ + H₂O  (N⁺⁵ বিজারিত হয়ে N⁺⁴ এ পরিণত হয়)',
+      '৩. বিজারণ সমীকরণকে ২ দ্বারা গুণ করে জারণের সাথে যোগ করলে কঙ্কাল সমীকরণ: Cu + 2NO₃⁻ + 4H⁺ → Cu²⁺ + 2NO₂ + 2H₂O',
+      '৪. বামে ও ডানে ২টি নাইট্রেট দর্শক আয়ন (2NO₃⁻) যুক্ত করে পূর্ণ সমীকরণ পাওয়া যায়।'
+    ],
+    whyOccurs: 'গাঢ় নাইট্রিক এসিড একটি শক্তিশালী অক্সিডাইজিং এজেন্ট। এটি কপার ধাতুকে দ্রবীভূত করে Cu²⁺ এ জারিত করে এবং নিজে বাদামি রঙের NO₂ গ্যাসে বিজারিত হয়।',
+    examNote: 'যদি লঘু নাইট্রিক এসিড ব্যবহার করা হতো, তবে NO₂ এর পরিবর্তে বর্ণহীন NO গ্যাস উৎপন্ন হতো (3Cu + 8HNO₃ → 3Cu(NO₃)₂ + 2NO + 4H₂O)।'
+  },
+  {
+    id: 'rx-redox-4',
+    category: 'redox',
+    catName: 'জারণ-বিজারণ (Redox)',
+    titleBn: 'জিঙ্ক ও সালফিউরিক এসিডের বিক্রিয়ায় হাইড্রোজেন গ্যাস প্রস্তুতি',
+    reactantsStr: 'Zn + H₂SO₄',
+    productsStr: 'ZnSO₄ + H₂ ↑',
+    reactants: [
+      { formula: 'Zn', name: 'দস্তা / জিঙ্ক ধাতু', coeff: 1, mw: 65.38, state: '(s)' },
+      { formula: 'H₂SO₄', name: 'সালফিউরিক এসিড', coeff: 1, mw: 98.08, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'ZnSO₄', name: 'জিঙ্ক সালফেট দ্রবণ', coeff: 1, mw: 161.47, state: '(aq)' },
+      { formula: 'H₂', name: 'হাইড্রোজেন গ্যাস', coeff: 1, mw: 2.016, state: '(g)', isGas: true }
+    ],
+    gases: [{ formula: 'H₂', coeff: 1, name: 'হাইড্রোজেন গ্যাস' }],
+    balancingLogic: [
+      '১. জারণ: Zn(s) → Zn²⁺(aq) + 2e⁻  (জিঙ্ক ইলেকট্রন ত্যাগ করে জারিত হয়)',
+      '২. বিজারণ: 2H⁺(aq) + 2e⁻ → H₂(g)  (এসিডের প্রোটন ইলেকট্রন গ্রহণ করে গ্যাসে পরিণত হয়)',
+      '৩. উভয় পাশে পরমাণু সংখ্যা ১টি Zn, ২টি H এবং ১টি SO₄ আয়ন সমান থাকায় অনুপাত ১:১।'
+    ],
+    whyOccurs: 'সক্রিয়তা সিরিজে জিঙ্ক হাইড্রোজেনের উপরে অবস্থিত (E° = -0.76 V)। ফলে জিঙ্ক এসিড হতে হাইড্রোজেন আয়নকে বিজারিত ও প্রতিস্থাপিত করতে সক্ষম।',
+    examNote: 'পরীক্ষাগারে হাইড্রোজেন গ্যাস প্রস্তুতির এটি সবচেয়ে জনপ্রিয় সাধারণ পদ্ধতি।'
+  },
+
+  // -------------------------------------------------------------
+  // B. ORGANIC CONVERSIONS (জৈব রসায়ন রূপান্তর)
+  // -------------------------------------------------------------
+  {
+    id: 'rx-org-1',
+    category: 'organic',
+    catName: 'জৈব রূপান্তর (Organic)',
+    titleBn: 'ডিকার্বক্সিলেশন বিক্রিয়া (সোডিয়াম ইথানয়েট থেকে মিথেন প্রস্তুতি)',
+    reactantsStr: 'CH₃COONa + NaOH',
+    productsStr: 'CH₄ ↑ + Na₂CO₃',
+    reactants: [
+      { formula: 'CH₃COONa', name: 'সোডিয়াম ইথানয়েট (অ্যাসিটেট)', coeff: 1, mw: 82.03, state: '(s)' },
+      { formula: 'NaOH', name: 'সোডালাইম (NaOH + CaO)', coeff: 1, mw: 40.00, state: '(s)' }
+    ],
+    products: [
+      { formula: 'CH₄', name: 'মিথেন গ্যাস', coeff: 1, mw: 16.04, state: '(g)', isGas: true },
+      { formula: 'Na₂CO₃', name: 'সোডিয়াম কার্বনেট', coeff: 1, mw: 105.99, state: '(s)' }
+    ],
+    gases: [{ formula: 'CH₄', coeff: 1, name: 'মিথেন গ্যাস' }],
+    balancingLogic: [
+      '১. সোডিয়াম ইথানয়েটের -COONa অংশ এবং কস্টিক সোডার -ONa অংশ যুক্ত হয়ে Na₂CO₃ গঠন করে।',
+      '২. অবশিষ্টাংশ মিথাইল মূলক (-CH₃) এবং সোডালাইমের হাইড্রোজেন যুক্ত হয়ে মিথেন গ্যাস (CH₄) উৎপন্ন করে।',
+      '৩. কার্বন চেইনে ১টি কার্বন পরমাণু হ্রাস পায় (Decarboxylation)।'
+    ],
+    whyOccurs: 'CaO এর উপস্থিতিতে উত্তপ্ত করলে শুষ্ক সোডালাইম এসিড লবণ হতে কার্বক্সিলেট মূলককে কার্বনেট আয়ন হিসেবে অপসারণ করে উচ্চ তাপীয় সুস্থিতি লাভ করে।',
+    examNote: 'এই বিক্রিয়ার মাধ্যমে জৈব যৌগের শিকল এক কার্বন বিশিষ্ট ছোট করা যায় (Chain degradation)।'
+  },
+  {
+    id: 'rx-org-2',
+    category: 'organic',
+    catName: 'জৈব রূপান্তর (Organic)',
+    titleBn: 'ইথানলের নিরুদন দ্বারা ইথিন (অ্যালকিন) প্রস্তুতি',
+    reactantsStr: 'C₂H₅OH (গাঢ় H₂SO₄, 170°C)',
+    productsStr: 'C₂H₄ ↑ + H₂O',
+    reactants: [
+      { formula: 'C₂H₅OH', name: 'ইথানল (ইথাইল অ্যালকোহল)', coeff: 1, mw: 46.07, state: '(l)' }
+    ],
+    products: [
+      { formula: 'C₂H₄', name: 'ইথিন / ইথিলিন গ্যাস', coeff: 1, mw: 28.05, state: '(g)', isGas: true },
+      { formula: 'H₂O', name: 'পানি', coeff: 1, mw: 18.02, state: '(l)' }
+    ],
+    gases: [{ formula: 'C₂H₄', coeff: 1, name: 'ইথিন গ্যাস' }],
+    balancingLogic: [
+      '১. ইথানলের আলফা কার্বন হতে -OH মূলক এবং বিটা কার্বন হতে -H পরমাণু অপসারিত হয়ে ১ অণু পানি (H₂O) উৎপন্ন হয়।',
+      '২. দুটি কার্বনের মাঝে দ্বিবন্ধন গঠিত হয়ে অসম্পৃক্ত হাইড্রোকার্বন ইথিন (CH₂=CH₂) তৈরি হয়।'
+    ],
+    whyOccurs: '১৭০°C তাপমাত্রায় অতিরিক্ত গাঢ় সালফিউরিক এসিড তীব্র নিরুদক হিসেবে কাজ করে অ্যালকোহল অণু হতে পানি শোষণ করে নেয়।',
+    examNote: 'তাপমাত্রা ১৪০°C এ রাখলে ইথিনের পরিবর্তে ডাই-ইথাইল ইথার ((C₂H₅)₂O) তৈরি হতো।'
+  },
+  {
+    id: 'rx-org-3',
+    category: 'organic',
+    catName: 'জৈব রূপান্তর (Organic)',
+    titleBn: 'ক্যালসিয়াম কার্বাইড হতে অ্যাসিটিলিন (ইথাইন) প্রস্তুতি',
+    reactantsStr: 'CaC₂ + 2H₂O',
+    productsStr: 'C₂H₂ ↑ + Ca(OH)₂',
+    reactants: [
+      { formula: 'CaC₂', name: 'ক্যালসিয়াম কার্বাইড', coeff: 1, mw: 64.10, state: '(s)' },
+      { formula: 'H₂O', name: 'পানি', coeff: 2, mw: 18.02, state: '(l)' }
+    ],
+    products: [
+      { formula: 'C₂H₂', name: 'ইথাইন / অ্যাসিটিলিন গ্যাস', coeff: 1, mw: 26.04, state: '(g)', isGas: true },
+      { formula: 'Ca(OH)₂', name: 'ক্যালসিয়াম হাইড্রোক্সাইড (স্লেকড চুন)', coeff: 1, mw: 74.09, state: '(aq)' }
+    ],
+    gases: [{ formula: 'C₂H₂', coeff: 1, name: 'অ্যাসিটিলিন গ্যাস' }],
+    balancingLogic: [
+      '১. কার্বাইড অ্যানায়ন (C₂²⁻) পানির প্রোটন (H⁺) গ্রহণ করে ত্রিবন্ধনযুক্ত ইথাইন গ্যাস (HC≡CH) গঠন করে।',
+      '২. ক্যালসিয়াম আয়ন পানির হাইড্রোক্সিল আয়ন (OH⁻) গ্রহণ করে Ca(OH)₂ গঠন করে।'
+    ],
+    whyOccurs: 'কার্বাইড আয়নের তীব্র প্রোটনগ্রাহী প্রকৃতির কারণে কক্ষ তাপমাত্রায় পানির সংস্পর্শে আসা মাত্রই তীব্রভাবে হাইড্রোলাইসিস ঘটে।',
+    examNote: 'অক্সি-অ্যাসিটিলিন শিখা (৩০০০°C) তৈরি করতে এবং ফল পাকাতে এই গ্যাস ব্যবহৃত হয়।'
+  },
+  {
+    id: 'rx-org-4',
+    category: 'organic',
+    catName: 'জৈব রূপান্তর (Organic)',
+    titleBn: 'এস্টারিফিকেশন বিক্রিয়া (ইথাইল ইথানয়েট সুগন্ধি এস্টার প্রস্তুতি)',
+    reactantsStr: 'CH₃COOH + C₂H₅OH (গাঢ় H₂SO₄)',
+    productsStr: 'CH₃COOC₂H₅ + H₂O',
+    reactants: [
+      { formula: 'CH₃COOH', name: 'ইথানয়িক এসিড (অ্যাসিটিক এসিড)', coeff: 1, mw: 60.05, state: '(l)' },
+      { formula: 'C₂H₅OH', name: 'ইথানল', coeff: 1, mw: 46.07, state: '(l)' }
+    ],
+    products: [
+      { formula: 'CH₃COOC₂H₅', name: 'ইথাইল ইথানয়েট (মিষ্টি ফলের গন্ধযুক্ত এস্টার)', coeff: 1, mw: 88.11, state: '(l)' },
+      { formula: 'H₂O', name: 'পানি', coeff: 1, mw: 18.02, state: '(l)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. কার্বক্সিলিক এসিডের -COOH অংশ হতে -OH এবং অ্যালকোহলের -OH হতে -H পরমাণু অপসারিত হয়ে পানি গঠিত হয়।',
+      '২. অবশিষ্ট অ্যাসিটাইল ও অ্যালকোক্সি মূলক পরস্পর যুক্ত হয়ে এস্টার বন্ধন (-COO-) সৃষ্টি করে।'
+    ],
+    whyOccurs: 'এসিড প্রভাবকের উপস্থিতিতে নিউক্লিওফিলিক প্রতিস্থাপন বিক্রিয়া ঘটে এবং উৎপন্ন পানিকে H₂SO₄ শোষণ করায় সাম্যাবস্থা ডানে ধাবিত হয়।',
+    examNote: 'এস্টারগুলো মিষ্টি ফলের গন্ধযুক্ত হওয়ায় সুগন্ধি পারফিউম ও কৃত্রিম ফ্লেভার তৈরিতে ব্যবহৃত হয়।'
+  },
+
+  // -------------------------------------------------------------
+  // C. PRECIPITATION REACTIONS (অধঃক্ষেপণ বিক্রিয়া)
+  // -------------------------------------------------------------
+  {
+    id: 'rx-ppt-1',
+    category: 'ppt',
+    catName: 'অধঃক্ষেপণ (Precipitation)',
+    titleBn: 'সিলভার নাইট্রেট ও খাবার লবণের বিক্রিয়ায় AgCl এর সাদা অধঃক্ষেপ',
+    reactantsStr: 'AgNO₃ + NaCl',
+    productsStr: 'AgCl ↓ (সাদা অধঃক্ষেপ) + NaNO₃',
+    reactants: [
+      { formula: 'AgNO₃', name: 'সিলভার নাইট্রেট দ্রবণ', coeff: 1, mw: 169.87, state: '(aq)' },
+      { formula: 'NaCl', name: 'সোডিয়াম ক্লোরাইড (খাবার লবণ)', coeff: 1, mw: 58.44, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'AgCl', name: 'সিলভার ক্লোরাইড (দধির মতো সাদা অধঃক্ষেপ)', coeff: 1, mw: 143.32, state: '(s)' },
+      { formula: 'NaNO₃', name: 'সোডিয়াম নাইট্রেট', coeff: 1, mw: 84.99, state: '(aq)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. দ্বৈত প্রতিস্থাপন (Double displacement) প্রক্রিয়ায় Ag⁺ আয়ন Cl⁻ আয়নের সাথে যুক্ত হয়ে কঠিন AgCl তৈরি করে।',
+      '২. Na⁺ ও NO₃⁻ আয়ন দর্শক আয়ন হিসেবে দ্রবণে দ্রবীভূত থাকে।'
+    ],
+    whyOccurs: 'পানিতে সিলভার ক্লোরাইডের দ্রাব্যতা গুণফল (Ksp = 1.8 × 10⁻¹⁰) অত্যন্ত কম। আয়ন দুটির দ্রবণ মিশ্রিত করামাত্র আয়ন গুণফল Ksp অতিক্রম করায় সাথে সাথে সাদা অধঃক্ষেপ পড়ে।',
+    examNote: 'এই অধঃক্ষেপ লঘু HNO₃ এ অদ্রবণীয় হলেও অতিরিক্ত NH₄OH দ্রবণে দ্রবীভূত হয়ে ডাইঅ্যামিন সিলভার কমপ্লেক্স ([Ag(NH₃)₂]Cl) গঠন করে।'
+  },
+  {
+    id: 'rx-ppt-2',
+    category: 'ppt',
+    catName: 'অধঃক্ষেপণ (Precipitation)',
+    titleBn: 'বেরিয়াম ক্লোরাইড ও সোডিয়াম সালফেটের বিক্রিয়ায় BaSO₄ অধঃক্ষেপ',
+    reactantsStr: 'BaCl₂ + Na₂SO₄',
+    productsStr: 'BaSO₄ ↓ (ভারী সাদা অধঃক্ষেপ) + 2NaCl',
+    reactants: [
+      { formula: 'BaCl₂', name: 'বেরিয়াম ক্লোরাইড', coeff: 1, mw: 208.23, state: '(aq)' },
+      { formula: 'Na₂SO₄', name: 'সোডিয়াম সালফেট', coeff: 1, mw: 142.04, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'BaSO₄', name: 'বেরিয়াম সালফেট (ভারী সাদা অধঃক্ষেপ)', coeff: 1, mw: 233.38, state: '(s)' },
+      { formula: 'NaCl', name: 'সোডিয়াম ক্লোরাইড', coeff: 2, mw: 58.44, state: '(aq)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. Ba²⁺ ক্যাটায়ন SO₄²⁻ অ্যানায়নের সাথে যুক্ত হয়ে অবিশ্লেষ্য BaSO₄ ল্যাটিস গঠন করে।',
+      '২. সোডিয়াম এবং ক্লোরিনের চার্জ সমতা করার জন্য উৎপাদে ২ মোল NaCl তৈরি হয়।'
+    ],
+    whyOccurs: 'BaSO₄ এর ল্যাটিস এনথালপি অত্যন্ত উচ্চ এবং এটি কোনো তীব্র খনিজ এসিডেও (HCl, HNO₃) দ্রবীভূত হয় না।',
+    examNote: 'সালফেট আয়ন (SO₄²⁻) নিশ্চিতকরণ পরীক্ষার এটি প্রধান আদর্শ টেস্ট।'
+  },
+  {
+    id: 'rx-ppt-3',
+    category: 'ppt',
+    catName: 'অধঃক্ষেপণ (Precipitation)',
+    titleBn: 'লেড নাইট্রেট ও পটাশিয়াম আয়োডাইডের সোনালী হলুদ অধঃক্ষেপ',
+    reactantsStr: 'Pb(NO₃)₂ + 2KI',
+    productsStr: 'PbI₂ ↓ (উজ্জ্বল সোনালী হলুদ) + 2KNO₃',
+    reactants: [
+      { formula: 'Pb(NO₃)₂', name: 'লেড নাইট্রেট দ্রবণ', coeff: 1, mw: 331.20, state: '(aq)' },
+      { formula: 'KI', name: 'পটাশিয়াম আয়োডাইড', coeff: 2, mw: 166.00, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'PbI₂', name: 'লেড আয়োডাইড (Golden Rain Ppt)', coeff: 1, mw: 461.01, state: '(s)' },
+      { formula: 'KNO₃', name: 'পটাশিয়াম নাইট্রেট', coeff: 2, mw: 101.10, state: '(aq)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. Pb²⁺ আয়ন দুটি I⁻ আয়নের সাথে যুক্ত হয়ে PbI₂ গঠন করে।',
+      '২. নাইট্রেট আয়নকে ব্যালেন্স করার জন্য ২ মোল KI এবং ২ মোল KNO₃ প্রয়োজন।'
+    ],
+    whyOccurs: 'PbI₂ একটি বিখ্যাত সোনালী চকচকে অধঃক্ষেপ। গরম পানিতে দ্রবীভূত হয়ে ঠান্ডা করলে স্বর্ণরেণুর মতো চমকাতে থাকে (Golden Spangles)।',
+    examNote: 'লেড আয়ন (Pb²⁺) শনাক্তকরণ পরীক্ষায় উজ্জ্বল হলুদ অধঃক্ষেপ নিশ্চিত প্রমাণ দেয়।'
+  },
+
+  // -------------------------------------------------------------
+  // D. ACID-BASE NEUTRALIZATION (এসিড-ক্ষার প্রশমন)
+  // -------------------------------------------------------------
+  {
+    id: 'rx-neutral-1',
+    category: 'neutral',
+    catName: 'এসিড-ক্ষার প্রশমন (Neutralization)',
+    titleBn: 'তীব্র এসিড (HCl) ও তীব্র ক্ষারের (NaOH) প্রশমন বিক্রিয়া',
+    reactantsStr: 'HCl + NaOH',
+    productsStr: 'NaCl + H₂O (ΔH = -57.34 kJ/mol)',
+    reactants: [
+      { formula: 'HCl', name: 'হাইড্রোক্লোরিক এসিড', coeff: 1, mw: 36.46, state: '(aq)' },
+      { formula: 'NaOH', name: 'সোডিয়াম হাইড্রোক্সাইড (কস্টিক সোডা)', coeff: 1, mw: 40.00, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'NaCl', name: 'সোডিয়াম ক্লোরাইড (খাবার লবণ)', coeff: 1, mw: 58.44, state: '(aq)' },
+      { formula: 'H₂O', name: 'পানি', coeff: 1, mw: 18.02, state: '(l)' }
+    ],
+    gases: [],
+    balancingLogic: [
+      '১. এসিড হতে আগত প্রোটন (H⁺) এবং ক্ষার হতে আগত হাইড্রোক্সিল আয়ন (OH⁻) যুক্ত হয়ে ১ মোল পানি (H₂O) গঠন করে।',
+      '২. দর্শক আয়ন Na⁺ ও Cl⁻ মিলে লবণ NaCl দ্রবণ আকারে থাকে।'
+    ],
+    whyOccurs: 'H⁺ ও OH⁻ মিলিত হয়ে পানি তৈরির বিক্রিয়াটি একটি তীব্র তাপোৎপাদী প্রক্রিয়া যার প্রশমন তাপ সর্বদা ধ্রুবক (-৫৭.৩৪ কিলোজুল/মোল)।',
+    examNote: 'যেকোনো তীব্র এসিড ও তীব্র ক্ষারের প্রশমন তাপ সর্বদা ধ্রুবক (-57.34 kJ/mol) থাকে।'
+  },
+  {
+    id: 'rx-neutral-2',
+    category: 'neutral',
+    catName: 'এসিড-ক্ষার প্রশমন (Neutralization)',
+    titleBn: 'চুনাপাথর ও হাইড্রোক্লোরিক এসিডের বিক্রিয়ায় CO₂ গ্যাস প্রস্তুতি',
+    reactantsStr: 'CaCO₃ + 2HCl',
+    productsStr: 'CaCl₂ + CO₂ ↑ + H₂O',
+    reactants: [
+      { formula: 'CaCO₃', name: 'ক্যালসিয়াম কার্বনেট (চুনাপাথর/মার্বেল)', coeff: 1, mw: 100.09, state: '(s)' },
+      { formula: 'HCl', name: 'হাইড্রোক্লোরিক এসিড', coeff: 2, mw: 36.46, state: '(aq)' }
+    ],
+    products: [
+      { formula: 'CaCl₂', name: 'ক্যালসিয়াম ক্লোরাইড', coeff: 1, mw: 110.98, state: '(aq)' },
+      { formula: 'CO₂', name: 'কার্বন ডাইঅক্সাইড গ্যাস (বুদবুদ)', coeff: 1, mw: 44.01, state: '(g)', isGas: true },
+      { formula: 'H₂O', name: 'পানি', coeff: 1, mw: 18.02, state: '(l)' }
+    ],
+    gases: [{ formula: 'CO₂', coeff: 1, name: 'কার্বন ডাইঅক্সাইড' }],
+    balancingLogic: [
+      '১. কার্বনেট আয়ন (CO₃²⁻) ২টি H⁺ আয়নের সাথে বিক্রিয়া করে অস্থায়ী কার্বনিক এসিড (H₂CO₃) গঠন করে।',
+      '২. কার্বনিক এসিড তাৎক্ষণিক ভেঙে গিয়ে CO₂ গ্যাস ও H₂O উৎপন্ন করে।'
+    ],
+    whyOccurs: 'কার্বনেট লবণের চেয়ে শক্তিশালী এসিড যোগ করলে কার্বন ডাইঅক্সাইড তীব্র বুদবুদ আকারে দ্রুত নির্গত হয়ে বিক্রিয়াকে সামনে এগিয়ে নেয়।',
+    examNote: 'নির্গত গ্যাস চুনের পানিতে চালনা করলে পানি ঘোলা হয় (CaCO₃ গঠনের কারণে)।'
+  }
 ];
 
+const CATEGORIES = [
+  { id: 'ALL', name: 'সকল বিক্রিয়া (All Reactions)', icon: Sparkles },
+  { id: 'redox', name: 'জারণ-বিজারণ (Redox)', icon: Flame },
+  { id: 'organic', name: 'জৈব রূপান্তর (Organic)', icon: Atom },
+  { id: 'ppt', name: 'অধঃক্ষেপণ (Precipitation)', icon: Droplets },
+  { id: 'neutral', name: 'এসিড-ক্ষার প্রশমন (Neutralization)', icon: Scale }
+];
+
+// =========================================================================
+// 2. MAIN COMPONENT: MASTER CHEMISTRY LAB
+// =========================================================================
 export default function MasterChemistryLab() {
-  const [activeTab, setActiveTab] = useState('math-solver');
+  const [selectedCat, setSelectedCat] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeReactionId, setActiveReactionId] = useState(MASTER_REACTIONS_DB[0].id);
+  const [moleMultiplier, setMoleMultiplier] = useState(1.0); // 1x to 10x interactive slider
   const [isExporting, setIsExporting] = useState(false);
+  const [activeSubTab, setActiveSubTab] = useState('reactions-hub'); // 'reactions-hub' | 'redox-engine' | 'galvanic' | 'bonding-ch5' | 'math-ch6'
   const labRef = useRef(null);
 
-  const CurrentMod = MODULES.find(m => m.id === activeTab);
+  // Active Reaction Object
+  const currentRx = useMemo(() => {
+    return MASTER_REACTIONS_DB.find(r => r.id === activeReactionId) || MASTER_REACTIONS_DB[0];
+  }, [activeReactionId]);
 
+  // Filtered reactions list
+  const filteredReactions = useMemo(() => {
+    return MASTER_REACTIONS_DB.filter(rx => {
+      const matchCat = selectedCat === 'ALL' || rx.category === selectedCat;
+      const q = searchQuery.toLowerCase().trim();
+      const matchQ =
+        !q ||
+        rx.titleBn.toLowerCase().includes(q) ||
+        rx.reactantsStr.toLowerCase().includes(q) ||
+        rx.productsStr.toLowerCase().includes(q) ||
+        rx.catName.toLowerCase().includes(q);
+      return matchCat && matchQ;
+    });
+  }, [selectedCat, searchQuery]);
+
+  // Total Reactant and Product Mass calculations
+  const reactionMetrics = useMemo(() => {
+    let totalReactantMass = 0;
+    currentRx.reactants.forEach(r => {
+      totalReactantMass += r.coeff * r.mw * moleMultiplier;
+    });
+
+    let totalProductMass = 0;
+    currentRx.products.forEach(p => {
+      totalProductMass += p.coeff * p.mw * moleMultiplier;
+    });
+
+    // Total gas volume at STP
+    let totalGasVolume = 0;
+    currentRx.gases?.forEach(g => {
+      totalGasVolume += g.coeff * 22.4 * moleMultiplier;
+    });
+
+    return {
+      reactantMass: totalReactantMass.toFixed(2),
+      productMass: totalProductMass.toFixed(2),
+      gasVolumeSTP: totalGasVolume.toFixed(2),
+      hasGas: (currentRx.gases?.length || 0) > 0
+    };
+  }, [currentRx, moleMultiplier]);
+
+  // Export card
   const handleExport = async () => {
     if (!labRef.current) return;
     setIsExporting(true);
     try {
       await exportBrandedGraphic(labRef.current, {
-        fileName: `NextGen_Chemistry_${activeTab}`,
-        cardTitle: `মাস্টার রসায়ন ইঞ্জিন: ${CurrentMod?.label}`,
+        fileName: `NextGen_Master_Chemistry_${currentRx.id}`,
+        cardTitle: `মাস্টার কেমিস্ট্রি বিক্রিয়া ও স্টয়কিওমিতি: ${currentRx.titleBn}`,
         scale: 2
       });
-    } catch (e) {
-      console.error('Export error:', e);
+    } catch (err) {
+      console.error('Export error:', err);
     } finally {
       setIsExporting(false);
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="p-6 bg-gradient-to-r from-slate-900 via-emerald-950/40 to-slate-900 border border-slate-800 rounded-3xl text-white flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
-        <div className="flex items-center gap-4">
-          <div className="p-3.5 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-            <FlaskConical className="w-8 h-8" />
+    <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Top Header Banner */}
+      <div className="p-6 bg-gradient-to-r from-slate-900 via-emerald-950/50 to-slate-900 border border-slate-800 rounded-3xl shadow-xl text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="p-3.5 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-inner">
+            <FlaskConical className="w-9 h-9 animate-pulse" />
           </div>
           <div>
-            <h2 className="text-2xl font-black flex items-center gap-2">
-              রসায়ন মাস্টার ল্যাব ও এআই ইঞ্জিন (Master Chemistry Lab)
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs">
-                SSC সম্পূর্ণ
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-black text-white">রসায়ন মাস্টার ল্যাব ও বিক্রিয়া ইঞ্জিন (Master Chemistry Lab)</h2>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold font-mono">
+                SSC & HSC Complete 🧪
               </span>
-            </h2>
+            </div>
             <p className="text-sm text-slate-400 mt-1">
-              স্টয়কিওমিতি ও কণা গণনা • যৌগমূলক বিল্ডার • ১৮ মৌলের পর্যায় সারণি • সার্বজনীন বন্ধন স্যান্ডবক্স
+              জারণ-বিজারণ, জৈব রূপান্তর, অধঃক্ষেপণ ও এসিড-ক্ষার প্রশমন সমীকরণ, স্টয়কিওমিতি মোলার ভর ও STP গ্যাস আয়তন সিমুলেটর
             </p>
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleExport}
-          disabled={isExporting}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-xs shadow-lg flex items-center gap-2 hover:scale-105 transition-all disabled:opacity-50 flex-shrink-0"
-        >
-          {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-          <span>হিসাবপত্র ডাউনলোড (Watermarked)</span>
-        </button>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="flex flex-wrap gap-2">
-        {MODULES.map(mod => {
-          const Icon = mod.icon;
-          const isActive = activeTab === mod.id;
-          return (
+        {/* Master Lab Switcher */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 text-xs font-bold">
             <button
-              key={mod.id}
-              onClick={() => setActiveTab(mod.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black transition-all ${
-                isActive
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 scale-105'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
+              type="button"
+              onClick={() => setActiveSubTab('reactions-hub')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeSubTab === 'reactions-hub' ? 'bg-emerald-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Icon className="w-4 h-4" />
-              <span>{mod.label}</span>
+              <FlaskConical className="w-3.5 h-3.5" />
+              <span>বিক্রিয়া ও সমতাকরণ</span>
             </button>
-          );
-        })}
+
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('redox-engine')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeSubTab === 'redox-engine' ? 'bg-rose-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Flame className="w-3.5 h-3.5" />
+              <span>জারণ সংখ্যা ল্যাব</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('galvanic')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeSubTab === 'galvanic' ? 'bg-amber-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <BatteryCharging className="w-3.5 h-3.5" />
+              <span>গ্যালভানিক কোষ</span>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleExport}
+            disabled={isExporting}
+            className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+          >
+            {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            <span>ডাউনলোড (HD)</span>
+          </button>
+        </div>
       </div>
 
-      {/* Main Workspace */}
-      <div ref={labRef} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl">
-        <div className="flex items-center gap-2 mb-4 pb-4 border-b border-slate-800">
-          {CurrentMod && <CurrentMod.icon className="w-5 h-5 text-emerald-400" />}
-          <h3 className="font-black text-white">{CurrentMod?.label}</h3>
-          <span className="text-xs text-slate-500">SSC Chemistry Interactive Simulation & AI Engine</span>
+      {/* ========================================================================= */}
+      {/* SUB-VIEW 1: MASTER CHEMICAL REACTIONS & STOICHIOMETRY HUB */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'reactions-hub' && (
+        <div className="space-y-6">
+          {/* Category Filter Pills & Search Bar */}
+          <div className="p-4 bg-slate-900 border border-slate-800 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl text-white">
+            {/* Search Input */}
+            <div className="relative w-full md:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="বিক্রিয়া, যৌগ বা নাম দিয়ে খুঁজুন (যেমন: KMnO4, ইথিন, AgCl)..."
+                className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div>
+
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 text-xs font-bold scrollbar-none">
+              {CATEGORIES.map((cat) => {
+                const Icon = cat.icon;
+                const isSelected = selectedCat === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setSelectedCat(cat.id)}
+                    className={`px-3 py-2 rounded-xl whitespace-nowrap transition-all text-xs font-bold flex items-center gap-1.5 ${
+                      isSelected
+                        ? 'bg-emerald-600 text-white shadow-md scale-105'
+                        : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{cat.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Quick Reaction Select Grid */}
+          <div className="p-4 bg-slate-900/60 border border-slate-800 rounded-3xl">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="text-xs font-black text-slate-400 uppercase tracking-wider">
+                উপলব্ধ বিক্রিয়াসমূহ ({filteredReactions.length}টি সমীকরণ)
+              </span>
+              <span className="text-xs text-slate-500 italic hidden sm:inline">
+                💡 যেকোনো সমীকরণে ক্লিক করে ব্যালেন্সিং ও স্টয়কিওমিতি সিমুলেশন দেখুন
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {filteredReactions.map((rx) => {
+                const isSelected = activeReactionId === rx.id;
+                return (
+                  <button
+                    key={rx.id}
+                    type="button"
+                    onClick={() => setActiveReactionId(rx.id)}
+                    className={`p-3.5 rounded-2xl border-2 text-left transition-all hover:scale-[1.02] flex flex-col justify-between gap-2 ${
+                      isSelected
+                        ? 'bg-emerald-950/40 border-emerald-500 shadow-lg shadow-emerald-500/20'
+                        : 'bg-slate-950/80 border-slate-800/80 hover:border-slate-700'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-emerald-300 font-bold font-mono">
+                          {rx.catName}
+                        </span>
+                        {rx.gases?.length > 0 && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold flex items-center gap-1">
+                            <Wind className="w-2.5 h-2.5" /> গ্যাস
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-bold text-xs text-white mt-1.5 line-clamp-1">{rx.titleBn}</h4>
+                    </div>
+                    <p className="font-mono text-[11px] text-cyan-300 bg-slate-900/90 p-2 rounded-xl border border-slate-800/80 truncate">
+                      {rx.reactantsStr} → {rx.productsStr}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Detailed Reaction Breakdown & Interactive Stoichiometry Stage */}
+          <div ref={labRef} className="bg-slate-900 border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-8 text-white shadow-2xl space-y-6 relative overflow-hidden">
+            {/* Header & Reaction Overview */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+              <div>
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">
+                  {currentRx.catName}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-white mt-1.5">{currentRx.titleBn}</h3>
+              </div>
+
+              {/* Mole Multiplier Interactive Slider */}
+              <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800 w-full sm:w-72 space-y-1.5 shadow-inner">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-slate-400">মোল স্কেলার (Multiplier):</span>
+                  <span className="text-emerald-400 font-mono font-black text-sm">{moleMultiplier}x মোল</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.5"
+                  max="10"
+                  step="0.5"
+                  value={moleMultiplier}
+                  onChange={(e) => setMoleMultiplier(Number(e.target.value))}
+                  className="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
+                />
+                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                  <span>0.5x</span>
+                  <span>1.0x (Standard)</span>
+                  <span>10.0x</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Fully Balanced Chemical Equation Box */}
+            <div className="p-6 rounded-3xl bg-slate-950 border-2 border-cyan-500/40 text-center space-y-3 shadow-inner">
+              <span className="text-xs font-black text-cyan-400 uppercase tracking-widest block">
+                সম্পূর্ণ সমতাকৃত সমীকরণ (Fully Balanced Reaction)
+              </span>
+              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 inline-block max-w-full overflow-x-auto">
+                <span className="font-mono text-base sm:text-xl font-black text-cyan-300 tracking-wide">
+                  {currentRx.reactants.map((r, idx) => (
+                    <span key={idx}>
+                      <strong className="text-emerald-400 font-bold">{(r.coeff * moleMultiplier).toFixed(r.coeff * moleMultiplier % 1 === 0 ? 0 : 1)}</strong>
+                      {r.formula}{r.state}{' '}
+                      {idx < currentRx.reactants.length - 1 ? '+ ' : ''}
+                    </span>
+                  ))}
+                  <span className="text-amber-400 font-black px-2">→</span>
+                  {currentRx.products.map((p, idx) => (
+                    <span key={idx}>
+                      <strong className="text-cyan-400 font-bold">{(p.coeff * moleMultiplier).toFixed(p.coeff * moleMultiplier % 1 === 0 ? 0 : 1)}</strong>
+                      {p.formula}{p.state}{' '}
+                      {idx < currentRx.products.length - 1 ? '+ ' : ''}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            </div>
+
+            {/* Stoichiometric Mass & Molar Volume Gauges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
+                <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">
+                  বিক্রিয়কের মোট ভর (Reactant Mass):
+                </span>
+                <strong className="text-2xl font-black text-emerald-400 font-mono mt-1 block">
+                  {reactionMetrics.reactantMass} <span className="text-xs font-sans text-slate-400">গ্রাম (g)</span>
+                </strong>
+                <span className="text-[10px] text-slate-500 font-mono">ভরের নিত্যতা সূত্র মেনে চলে</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
+                <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">
+                  উৎপাদের মোট ভর (Product Mass):
+                </span>
+                <strong className="text-2xl font-black text-cyan-400 font-mono mt-1 block">
+                  {reactionMetrics.productMass} <span className="text-xs font-sans text-slate-400">গ্রাম (g)</span>
+                </strong>
+                <span className="text-[10px] text-slate-500 font-mono">বিক্রিয়ক ভর ≡ উৎপাদ ভর</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 shadow-inner">
+                <span className="text-[10px] text-amber-300 block font-bold uppercase tracking-wider flex items-center gap-1">
+                  <Wind className="w-3.5 h-3.5" />
+                  STP তে নির্গত গ্যাস আয়তন (Molar Volume):
+                </span>
+                <strong className="text-2xl font-black text-amber-400 font-mono mt-1 block">
+                  {reactionMetrics.hasGas ? `${reactionMetrics.gasVolumeSTP} L` : 'N/A (গ্যাস নেই)'}
+                </strong>
+                <span className="text-[10px] text-slate-400 font-mono">1 mol Gas = 22.4 L at STP (0°C, 1 atm)</span>
+              </div>
+            </div>
+
+            {/* 2-Column: Step-by-step Balancing Logic & Why This Reaction Occurs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Step-by-Step Balancing Logic */}
+              <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-3 shadow-inner">
+                <h4 className="font-black text-emerald-400 text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Scale className="w-4 h-4 text-emerald-400" />
+                  ধাপে ধাপে সমতাকরণ যুক্তি (Step-by-Step Balancing Logic)
+                </h4>
+                <div className="space-y-2 pt-1 text-xs">
+                  {currentRx.balancingLogic.map((logic, lIdx) => (
+                    <div key={lIdx} className="p-3 rounded-2xl bg-slate-900 border border-slate-800/80 text-slate-200 leading-relaxed font-mono">
+                      {logic}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scientific Explanation & Exam Keynotes */}
+              <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-3 shadow-inner">
+                <h4 className="font-black text-cyan-400 text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-cyan-400" />
+                  বিক্রিয়াটি কেন ঘটে? (Why Reaction Occurs - Student Clarity)
+                </h4>
+                <div className="space-y-3 text-xs">
+                  <div className="p-3.5 rounded-2xl bg-slate-900 border border-cyan-500/30 text-cyan-100/90 leading-relaxed">
+                    <strong className="text-cyan-300 block mb-1 font-bold">💡 বিক্রিয়ার মূল চালিকাশক্তি (Driving Force):</strong>
+                    {currentRx.whyOccurs}
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-100/90 leading-relaxed">
+                    <strong className="text-emerald-300 block mb-1 font-bold">📌 বোর্ড পরীক্ষার স্মার্ট টিপস (Exam Keynote):</strong>
+                    {currentRx.examNote}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Academy Branding */}
+            <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+              <span>NextGen Academy • পরিচালক: মো: আলমগীর হোসেন (সাগর) • ০১৭৯২৮১৮০০৫</span>
+              <span>পশ্চিম জয়দেবপুর, গাজীপুর • LEARN · GROW · SUCCEED</span>
+            </div>
+          </div>
         </div>
-        {CurrentMod && <CurrentMod.Component />}
-      </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SUB-VIEW 2: REDOX & OXIDATION NUMBER ENGINE */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'redox-engine' && <RedoxOxidationEngine />}
+
+      {/* ========================================================================= */}
+      {/* SUB-VIEW 3: DYNAMIC GALVANIC CELL SIMULATOR */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
     </div>
   );
 }
