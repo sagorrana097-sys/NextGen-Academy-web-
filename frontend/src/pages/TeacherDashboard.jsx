@@ -11,6 +11,7 @@ import ResultsManager from '../components/admin/ResultsManager';
 import UniversalFileUploader from '../components/common/UniversalFileUploader';
 import AIMCQGeneratorModal from '../components/common/AIMCQGeneratorModal';
 import AICQGeneratorModal from '../components/common/AICQGeneratorModal';
+import AdminStudyMaterialUploadModal, { formatAcademicBadge } from '../components/admin/AdminStudyMaterialUploadModal';
 import MediaCenter from '../components/media/MediaCenter';
 import {
   BookOpen,
@@ -3336,6 +3337,18 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Admin / Teacher Study Material & Source-Context AI Document Uploader Modal */}
+      {showStudyMaterialUploadModal && (
+        <AdminStudyMaterialUploadModal
+          isOpen={showStudyMaterialUploadModal}
+          onClose={() => {
+            setShowStudyMaterialUploadModal(false);
+            loadMaterials();
+          }}
+          onUploadSuccess={() => loadMaterials()}
+        />
       )}
 
       {/* Student 360 Comprehensive Profile Modal */}

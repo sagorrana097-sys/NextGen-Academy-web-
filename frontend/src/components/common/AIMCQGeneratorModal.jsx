@@ -720,11 +720,15 @@ export default function AIMCQGeneratorModal({
                   className="w-full p-2.5 rounded-xl border border-indigo-500/40 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   <option value="">-- সাধারণ কারিকুলাম জ্ঞান (General AI Knowledge) --</option>
-                  {filteredSourceMaterials.map((mat) => (
-                    <option key={mat.id} value={mat.id}>
-                      📄 {mat.title} ({mat.subjectName || mat.category || 'নোট'} • {mat.content_text?.length || 0} অক্ষর)
-                    </option>
-                  ))}
+                  {filteredSourceMaterials.map((mat) => {
+                    const badge = mat.badge || mat.academicBadge;
+                    return (
+                      <option key={mat.id} value={mat.id}>
+                        {badge ? `[${badge}] ` : '📄 '}
+                        {mat.title} ({mat.subjectName || mat.category || 'নোট'}{mat.board ? ` • ${mat.board}` : ''}{mat.examYear ? ` '${String(mat.examYear).slice(-2)}` : ''})
+                      </option>
+                    );
+                  })}
                 </select>
                 {filteredSourceMaterials.length === 0 && (
                   <p className="text-[10px] text-amber-400/90 mt-1 italic">

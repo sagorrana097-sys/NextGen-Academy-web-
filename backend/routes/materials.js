@@ -15,8 +15,31 @@ const upload = multer({
 });
 
 /**
+ * Helper: Generate formatted academic badge like "ঢাকা - ২৫ (MCQ)" or "রাজশাহী - ২০২৪ (CQ)"
+ */
+function generateAcademicBadge({ board, examYear, questionType, category }) {
+  const cleanBoard = (board || '').trim();
+  const cleanYear = examYear ? String(examYear).trim() : '';
+  const shortYear = cleanYear ? cleanYear.replace(/^20/, '').replace(/^২০/, '') : '';
+  const cleanType = (questionType || (category === 'EXAM' ? 'MCQ' : category) || 'MCQ').trim();
+
+  if (cleanBoard && shortYear && cleanType) {
+    return `${cleanBoard} - ${shortYear} (${cleanType})`;
+  } else if (cleanBoard && shortYear) {
+    return `${cleanBoard} - ${shortYear}`;
+  } else if (cleanBoard && cleanType) {
+    return `${cleanBoard} (${cleanType})`;
+  } else if (shortYear && cleanType) {
+    return `${shortYear} (${cleanType})`;
+  } else if (cleanType && cleanType !== 'GENERAL') {
+    return `(${cleanType})`;
+  }
+  return '';
+}
+
+/**
  * POST /api/materials/upload
- * Process & Upload PDF/Text study materials, extract text with pdf-parse and save to study_materials table
+ * Process & Upload PDF/Text study materials with academic metadata (Board, Year, Question Type, Chapter, Topic)
  */
 router.post('/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
@@ -27,6 +50,17 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       category = 'GENERAL',
       classId,
       subjectId,
+      chapter,
+      chapterBn,
+      chapterEn,
+      topic,
+      topicBn,
+      topicEn,
+      board,
+      examYear,
+      questionType = 'MCQ',
+      badge: reqBadge,
+      academicBadge: reqAcademicBadge,
       content_text,
       contentText,
       extracted_text,
@@ -64,6 +98,18 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
     }
 
     const finalTitle = (title || titleBn || titleEn || fileName || 'স্টাডি সোর্স নোট').trim();
+    const finalChapter = (chapter || chapterBn || finalTitle).trim();
+    const finalTopic = (topic || topicBn || '').trim();
+    const finalBoard = (board || '').trim();
+    const finalYear = examYear ? String(examYear).trim() : '';
+    const finalType = (questionType || category || 'MCQ').trim();
+
+    const academicBadge = reqBadge || reqAcademicBadge || generateAcademicBadge({
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType,
+      category
+    });
 
     if (!extractedText && !finalTitle && !fileUrl) {
       return res.status(400).json({
@@ -87,8 +133,17 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       contentText: extractedText,
       extracted_text: extractedText,
       descriptionBn: extractedText.slice(0, 300) + (extractedText.length > 300 ? '...' : ''),
-      chapterBn: finalTitle,
-      chapterEn: titleEn || finalTitle,
+      chapter: finalChapter,
+      chapterBn: finalChapter,
+      chapterEn: chapterEn || finalChapter,
+      topic: finalTopic,
+      topicBn: finalTopic,
+      topicEn: topicEn || finalTopic,
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType,
+      badge: academicBadge,
+      academicBadge,
       classId: classId ? Number(classId) : null,
       subjectId: subjectId ? Number(subjectId) : null,
       teacherId,
@@ -96,6 +151,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       fileName: fileName || (finalTitle + '.txt'),
       fileSize: fileSize || '1.0 MB',
       fileUrl: fileUrl || req.body?.fileUrl || '',
+      downloadCount: 0,
       created_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       publishedAt: new Date().toISOString()
@@ -108,7 +164,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
         action: 'UPLOAD_STUDY_MATERIAL_SOURCE',
         entityType: 'study_material',
         entityId: newMaterial.id,
-        details: `${req.user?.name || 'অ্যাডমিন'} নতুন স্টাডি সোর্স আপলোড করেছেন: "${finalTitle}"`
+        details: `${req.user?.name || 'অ্যাডমিন'} নতুন স্টাডি সোর্স আপলোড করেছেন: "${finalTitle}" [${academicBadge}]`
       });
     } catch (auditErr) {
       console.warn('Audit log warning:', auditErr.message);
@@ -116,7 +172,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
 
     res.status(201).json({
       success: true,
-      message: 'স্টাডি ম্যাটেরিয়াল ও সোর্স টেক্সট সফলভাবে প্রসেস এবং সংরক্ষণ করা হয়েছে!',
+      message: 'স্টাডি ম্যাটেরিয়াল, একাডেমিক মেটাডাটা ও সোর্স টেক্সট সফলভাবে সংরক্ষিত হয়েছে!',
       data: newMaterial
     });
   } catch (err) {
@@ -126,16 +182,16 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
 
 /**
  * GET /api/materials/source-materials
- * List all study materials with extracted text for AI question context
+ * List study materials with academic metadata for AI question generation & filtering
  */
 router.get('/source-materials', authenticate, async (req, res, next) => {
   try {
-    const { subjectId, classId } = req.query;
+    const { subjectId, classId, board, examYear, questionType, search } = req.query;
     const where = {};
     if (subjectId) where.subjectId = Number(subjectId);
     if (classId) where.classId = Number(classId);
 
-    const materials = await StudyMaterial.findAll({
+    let materials = await StudyMaterial.findAll({
       where,
       include: [
         { model: Class, as: 'class' },
@@ -144,22 +200,63 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
       order: [['id', 'DESC']]
     });
 
+    // Optional filtering by academic metadata
+    if (board && board !== 'ALL') {
+      materials = materials.filter(m => m.board && m.board.toLowerCase() === board.toLowerCase());
+    }
+    if (examYear && examYear !== 'ALL') {
+      materials = materials.filter(m => m.examYear && String(m.examYear).includes(String(examYear).replace(/^20/, '')));
+    }
+    if (questionType && questionType !== 'ALL') {
+      materials = materials.filter(m => m.questionType && m.questionType.toLowerCase() === questionType.toLowerCase());
+    }
+    if (search && search.trim()) {
+      const q = search.trim().toLowerCase();
+      materials = materials.filter(m =>
+        (m.title && m.title.toLowerCase().includes(q)) ||
+        (m.titleBn && m.titleBn.toLowerCase().includes(q)) ||
+        (m.chapter && m.chapter.toLowerCase().includes(q)) ||
+        (m.chapterBn && m.chapterBn.toLowerCase().includes(q)) ||
+        (m.topic && m.topic.toLowerCase().includes(q)) ||
+        (m.board && m.board.toLowerCase().includes(q)) ||
+        (m.badge && m.badge.toLowerCase().includes(q)) ||
+        (m.subject?.nameBn && m.subject.nameBn.toLowerCase().includes(q))
+      );
+    }
+
     res.json({
       success: true,
-      data: materials.map(m => ({
-        id: m.id,
-        title: m.title || m.titleBn || m.chapterBn || `সোর্স ম্যাটেরিয়াল #${m.id}`,
-        category: m.category || 'GENERAL',
-        classId: m.classId,
-        subjectId: m.subjectId,
-        subjectName: m.subject ? (m.subject.nameBn || m.subject.name) : (m.category || ''),
-        className: m.class ? (m.class.nameBn || m.class.name) : '',
-        fileName: m.fileName || '',
-        fileType: m.fileType || 'PDF',
-        fileSize: m.fileSize,
-        content_text: m.content_text || m.contentText || m.extracted_text || m.descriptionBn || '',
-        created_at: m.created_at || m.createdAt || m.publishedAt
-      }))
+      data: materials.map(m => {
+        const badge = m.badge || m.academicBadge || generateAcademicBadge({
+          board: m.board,
+          examYear: m.examYear,
+          questionType: m.questionType,
+          category: m.category
+        });
+
+        return {
+          id: m.id,
+          title: m.title || m.titleBn || m.chapterBn || `সোর্স ম্যাটেরিয়াল #${m.id}`,
+          category: m.category || 'GENERAL',
+          classId: m.classId,
+          subjectId: m.subjectId,
+          subjectName: m.subject ? (m.subject.nameBn || m.subject.name) : (m.category || ''),
+          className: m.class ? (m.class.nameBn || m.class.name) : '',
+          chapter: m.chapter || m.chapterBn || '',
+          topic: m.topic || m.topicBn || '',
+          board: m.board || '',
+          examYear: m.examYear || '',
+          questionType: m.questionType || 'MCQ',
+          badge,
+          academicBadge: badge,
+          fileName: m.fileName || '',
+          fileType: m.fileType || 'PDF',
+          fileSize: m.fileSize,
+          fileUrl: m.fileUrl || '',
+          content_text: m.content_text || m.contentText || m.extracted_text || m.descriptionBn || '',
+          created_at: m.created_at || m.createdAt || m.publishedAt
+        };
+      })
     });
   } catch (err) {
     next(err);
@@ -168,11 +265,11 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
 
 /**
  * GET /api/materials
- * List study materials filtered by classId, subjectId, or search query
+ * List study materials filtered by classId, subjectId, board, year, or search query
  */
 router.get('/', authenticate, async (req, res, next) => {
   try {
-    const { classId, subjectId, search } = req.query;
+    const { classId, subjectId, board, examYear, questionType, search } = req.query;
     const where = {};
 
     if (classId) where.classId = Number(classId);
@@ -188,20 +285,48 @@ router.get('/', authenticate, async (req, res, next) => {
       order: [['id', 'DESC']]
     });
 
+    if (board && board !== 'ALL') {
+      materials = materials.filter(m => m.board && m.board.toLowerCase() === board.toLowerCase());
+    }
+    if (examYear && examYear !== 'ALL') {
+      materials = materials.filter(m => m.examYear && String(m.examYear).includes(String(examYear).replace(/^20/, '')));
+    }
+    if (questionType && questionType !== 'ALL') {
+      materials = materials.filter(m => m.questionType && m.questionType.toLowerCase() === questionType.toLowerCase());
+    }
+
     if (search && search.trim()) {
       const q = search.trim().toLowerCase();
       materials = materials.filter(m =>
         (m.titleBn && m.titleBn.toLowerCase().includes(q)) ||
         (m.titleEn && m.titleEn.toLowerCase().includes(q)) ||
         (m.chapterBn && m.chapterBn.toLowerCase().includes(q)) ||
+        (m.topic && m.topic.toLowerCase().includes(q)) ||
+        (m.board && m.board.toLowerCase().includes(q)) ||
+        (m.badge && m.badge.toLowerCase().includes(q)) ||
         (m.descriptionBn && m.descriptionBn.toLowerCase().includes(q)) ||
         (m.subject?.nameBn && m.subject.nameBn.toLowerCase().includes(q))
       );
     }
 
+    // Attach computed badges if missing
+    const formatted = materials.map(m => {
+      const badge = m.badge || m.academicBadge || generateAcademicBadge({
+        board: m.board,
+        examYear: m.examYear,
+        questionType: m.questionType,
+        category: m.category
+      });
+      return {
+        ...m,
+        badge,
+        academicBadge: badge
+      };
+    });
+
     res.json({
       success: true,
-      data: materials
+      data: formatted
     });
   } catch (err) {
     next(err);
@@ -210,7 +335,7 @@ router.get('/', authenticate, async (req, res, next) => {
 
 /**
  * GET /api/materials/student/:studentId
- * Get study materials for student's class (with strict ownership check)
+ * Get study materials for student's class (with ownership check)
  */
 router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req, res, next) => {
   try {
@@ -222,7 +347,7 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
       });
     }
 
-    const { subjectId, search } = req.query;
+    const { subjectId, board, examYear, questionType, search } = req.query;
     const where = { classId: student.classId };
     if (subjectId) where.subjectId = Number(subjectId);
 
@@ -236,19 +361,46 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
       order: [['id', 'DESC']]
     });
 
+    if (board && board !== 'ALL') {
+      materials = materials.filter(m => m.board && m.board.toLowerCase() === board.toLowerCase());
+    }
+    if (examYear && examYear !== 'ALL') {
+      materials = materials.filter(m => m.examYear && String(m.examYear).includes(String(examYear).replace(/^20/, '')));
+    }
+    if (questionType && questionType !== 'ALL') {
+      materials = materials.filter(m => m.questionType && m.questionType.toLowerCase() === questionType.toLowerCase());
+    }
+
     if (search && search.trim()) {
       const q = search.trim().toLowerCase();
       materials = materials.filter(m =>
         (m.titleBn && m.titleBn.toLowerCase().includes(q)) ||
         (m.chapterBn && m.chapterBn.toLowerCase().includes(q)) ||
+        (m.topic && m.topic.toLowerCase().includes(q)) ||
+        (m.board && m.board.toLowerCase().includes(q)) ||
+        (m.badge && m.badge.toLowerCase().includes(q)) ||
         (m.descriptionBn && m.descriptionBn.toLowerCase().includes(q)) ||
         (m.subject?.nameBn && m.subject.nameBn.toLowerCase().includes(q))
       );
     }
 
+    const formatted = materials.map(m => {
+      const badge = m.badge || m.academicBadge || generateAcademicBadge({
+        board: m.board,
+        examYear: m.examYear,
+        questionType: m.questionType,
+        category: m.category
+      });
+      return {
+        ...m,
+        badge,
+        academicBadge: badge
+      };
+    });
+
     res.json({
       success: true,
-      data: materials
+      data: formatted
     });
   } catch (err) {
     next(err);
@@ -257,7 +409,7 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
 
 /**
  * POST /api/materials
- * Create a new study material / lecture note (Teacher/Admin only)
+ * Create a new study material / lecture note with academic metadata (Teacher/Admin only)
  */
 router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, res, next) => {
   try {
@@ -266,8 +418,16 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       subjectId,
       titleBn,
       titleEn,
+      chapter,
       chapterBn,
       chapterEn,
+      topic,
+      topicBn,
+      topicEn,
+      board,
+      examYear,
+      questionType = 'MCQ',
+      badge: reqBadge,
       descriptionBn,
       descriptionEn,
       fileType = 'PDF',
@@ -275,10 +435,10 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       fileSize = '1.8 MB'
     } = req.body;
 
-    if (!classId || !subjectId || !titleBn || !chapterBn) {
+    if (!classId || !subjectId || !titleBn) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'Class, Subject, Title and Chapter are required.' }
+        error: { code: 'VALIDATION_ERROR', message: 'Class, Subject, and Title are required.' }
       });
     }
 
@@ -288,14 +448,36 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       if (tProfile) teacherId = tProfile.id;
     }
 
+    const finalChapter = (chapter || chapterBn || titleBn).trim();
+    const finalTopic = (topic || topicBn || '').trim();
+    const finalBoard = (board || '').trim();
+    const finalYear = examYear ? String(examYear).trim() : '';
+    const finalType = (questionType || 'MCQ').trim();
+
+    const academicBadge = reqBadge || generateAcademicBadge({
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType,
+      category: 'EXAM'
+    });
+
     const material = await StudyMaterial.create({
       classId: Number(classId),
       subjectId: Number(subjectId),
       teacherId,
       titleBn,
       titleEn: titleEn || titleBn,
-      chapterBn,
-      chapterEn: chapterEn || chapterBn,
+      chapter: finalChapter,
+      chapterBn: finalChapter,
+      chapterEn: chapterEn || finalChapter,
+      topic: finalTopic,
+      topicBn: finalTopic,
+      topicEn: topicEn || finalTopic,
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType,
+      badge: academicBadge,
+      academicBadge,
       descriptionBn: descriptionBn || '',
       descriptionEn: descriptionEn || descriptionBn || '',
       fileType,
@@ -311,7 +493,7 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       entityType: 'study_material',
       entityId: material.id,
       newValue: material,
-      details: `Study material posted: "${titleBn}" for class ${classId}`
+      details: `Study material posted: "${titleBn}" [${academicBadge}] for class ${classId}`
     });
 
     const fullMaterial = await StudyMaterial.findByPk(material.id, {
@@ -345,45 +527,59 @@ router.put('/:id', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, 
       });
     }
 
-    const oldVal = { ...material };
     const {
       classId,
       subjectId,
       titleBn,
+      titleEn,
+      chapter,
       chapterBn,
+      topic,
+      topicBn,
+      board,
+      examYear,
+      questionType,
+      badge,
       descriptionBn,
+      descriptionEn,
       fileType,
       fileUrl,
       fileSize
     } = req.body;
 
-    const updated = await StudyMaterial.update(
-      {
-        ...(classId && { classId: Number(classId) }),
-        ...(subjectId && { subjectId: Number(subjectId) }),
-        ...(titleBn && { titleBn }),
-        ...(chapterBn && { chapterBn }),
-        ...(descriptionBn && { descriptionBn }),
-        ...(fileType && { fileType }),
-        ...(fileUrl && { fileUrl }),
-        ...(fileSize && { fileSize })
-      },
-      { where: { id: Number(req.params.id) } }
-    );
+    const finalBoard = board !== undefined ? board : material.board;
+    const finalYear = examYear !== undefined ? examYear : material.examYear;
+    const finalType = questionType !== undefined ? questionType : material.questionType;
+    const academicBadge = badge || generateAcademicBadge({
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType
+    });
 
-    await AuditService.log({
-      req,
-      action: 'UPDATE_STUDY_MATERIAL',
-      entityType: 'study_material',
-      entityId: material.id,
-      oldValue: oldVal,
-      newValue: updated[0],
-      details: `Study material updated: ID ${material.id}`
+    await material.update({
+      classId: classId ? Number(classId) : material.classId,
+      subjectId: subjectId ? Number(subjectId) : material.subjectId,
+      titleBn: titleBn || material.titleBn,
+      titleEn: titleEn || material.titleEn,
+      chapter: chapter || chapterBn || material.chapter || material.chapterBn,
+      chapterBn: chapterBn || chapter || material.chapterBn,
+      topic: topic || topicBn || material.topic,
+      topicBn: topicBn || topic || material.topicBn,
+      board: finalBoard,
+      examYear: finalYear,
+      questionType: finalType,
+      badge: academicBadge,
+      academicBadge,
+      descriptionBn: descriptionBn !== undefined ? descriptionBn : material.descriptionBn,
+      descriptionEn: descriptionEn !== undefined ? descriptionEn : material.descriptionEn,
+      fileType: fileType || material.fileType,
+      fileUrl: fileUrl || material.fileUrl,
+      fileSize: fileSize || material.fileSize
     });
 
     res.json({
       success: true,
-      data: updated[0]
+      data: material
     });
   } catch (err) {
     next(err);
@@ -404,20 +600,11 @@ router.delete('/:id', authenticate, requireRole(['TEACHER', 'ADMIN']), async (re
       });
     }
 
-    await StudyMaterial.destroy({ where: { id: Number(req.params.id) } });
-
-    await AuditService.log({
-      req,
-      action: 'DELETE_STUDY_MATERIAL',
-      entityType: 'study_material',
-      entityId: material.id,
-      oldValue: material,
-      details: `Study material deleted: ID ${material.id}`
-    });
+    await material.destroy();
 
     res.json({
       success: true,
-      message: 'Study material deleted successfully'
+      message: 'স্টাডি ম্যাটেরিয়াল সফলভাবে মুছে ফেলা হয়েছে।'
     });
   } catch (err) {
     next(err);

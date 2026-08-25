@@ -962,9 +962,16 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
               {filteredMaterials.map((m) => (
                 <div key={m.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 transition-all space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-800 text-xs font-bold">
-                      {m.subject?.nameBn || 'বিষয়'}
-                    </span>
+                    <div className="flex items-center space-x-1.5">
+                      {(m.badge || m.academicBadge) && (
+                        <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-blue-200">
+                          {m.badge || m.academicBadge}
+                        </span>
+                      )}
+                      <span className="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold">
+                        {m.subject?.nameBn || 'বিষয়'}
+                      </span>
+                    </div>
                     <span className="text-[11px] font-semibold text-slate-500">
                       {m.fileSize || '2.0 MB'} • {m.fileType}
                     </span>

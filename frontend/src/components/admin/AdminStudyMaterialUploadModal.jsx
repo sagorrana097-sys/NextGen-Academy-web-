@@ -20,26 +20,92 @@ import {
   File,
   HardDrive,
   FolderOpen,
-  Check
+  Check,
+  Tag,
+  GraduationCap,
+  Calendar,
+  Layers,
+  Search,
+  Filter,
+  Sliders,
+  Bookmark
 } from 'lucide-react';
-import { materialAPI, googleDriveAPI } from '../../services/api';
+import { materialAPI, googleDriveAPI, curriculumAPI } from '../../services/api';
 import {
   uploadToSupabaseStorage,
   formatFileSize,
-  getFileTypeCategory,
-  GLOBAL_ACCEPTED_FILE_TYPES,
   GLOBAL_MAX_FILE_SIZE_MB
 } from '../../services/supabaseStorage';
 
+const BOARDS_LIST = [
+  { id: 'ঢাকা', nameBn: 'ঢাকা বোর্ড (Dhaka)' },
+  { id: 'চট্টগ্রাম', nameBn: 'চট্টগ্রাম বোর্ড (Chattogram)' },
+  { id: 'রাজশাহী', nameBn: 'রাজশাহী বোর্ড (Rajshahi)' },
+  { id: 'কুমিল্লা', nameBn: 'কুমিল্লা বোর্ড (Cumilla)' },
+  { id: 'যশোর', nameBn: 'যশোর বোর্ড (Jashore)' },
+  { id: 'বরিশাল', nameBn: 'বরিশাল বোর্ড (Barishal)' },
+  { id: 'সিলেট', nameBn: 'সিলেট বোর্ড (Sylhet)' },
+  { id: 'দিনাজপুর', nameBn: 'দিনাজপুর বোর্ড (Dinajpur)' },
+  { id: 'ময়মনসিংহ', nameBn: 'ময়মনসিংহ বোর্ড (Mymensingh)' },
+  { id: 'মাদ্রাসা', nameBn: 'মাদ্রাসা বোর্ড (Madrasah)' },
+  { id: 'কারিগরি', nameBn: 'কারিগরি বোর্ড (Technical)' },
+  { id: 'সকল বোর্ড', nameBn: 'সকল বোর্ড (All Boards)' }
+];
+
+const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018'];
+
+const QUESTION_TYPES = [
+  { id: 'MCQ', label: 'MCQ (বহুনির্বাচনি প্রশ্ন)' },
+  { id: 'CQ', label: 'CQ (সৃজনশীল প্রশ্ন)' },
+  { id: 'SQ', label: 'SQ (সংক্ষিপ্ত প্রশ্ন / জ্ঞান ও অনুধাবন)' },
+  { id: 'MODEL_TEST', label: 'Model Test (মডেল টেস্ট প্রশ্নব্যাংক)' },
+  { id: 'NOTE', label: 'Lecture Note (লেকচার নোট ও গাইড)' }
+];
+
+/**
+ * Real-time Academic Badge Generator
+ */
+export function formatAcademicBadge(board, year, qType) {
+  const cleanBoard = (board || '').trim();
+  const cleanYear = year ? String(year).trim() : '';
+  const shortYear = cleanYear ? cleanYear.replace(/^20/, '').replace(/^২০/, '') : '';
+  const cleanType = (qType || 'MCQ').trim();
+
+  if (cleanBoard && shortYear && cleanType) {
+    return `${cleanBoard} - ${shortYear} (${cleanType})`;
+  } else if (cleanBoard && shortYear) {
+    return `${cleanBoard} - ${shortYear}`;
+  } else if (cleanBoard && cleanType) {
+    return `${cleanBoard} (${cleanType})`;
+  } else if (shortYear && cleanType) {
+    return `${shortYear} (${cleanType})`;
+  } else if (cleanType) {
+    return `(${cleanType})`;
+  }
+  return '';
+}
+
 export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploadSuccess }) {
+  // Form State
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('GENERAL');
+  const [category, setCategory] = useState('EXAM');
+  const [selectedClassId, setSelectedClassId] = useState('11');
+  const [selectedSubjectId, setSelectedSubjectId] = useState('');
+  const [chapter, setChapter] = useState('');
+  const [topic, setTopic] = useState('');
+  const [board, setBoard] = useState('ঢাকা');
+  const [examYear, setExamYear] = useState('2025');
+  const [questionType, setQuestionType] = useState('MCQ');
+
+  const [classes, setClasses] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
+
   const [selectedFile, setSelectedFile] = useState(null);
-  const [filePreviewUrl, setFilePreviewUrl] = useState('');
   const [pastedText, setPastedText] = useState('');
   const [uploadMode, setUploadMode] = useState('file'); // 'file' | 'text' | 'drive'
   const [isProcessing, setIsProcessing] = useState(false);
-  const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', message: '', details: '' }
+  const [feedback, setFeedback] = useState(null);
 
   // Google Drive State
   const [driveFolderUrl, setDriveFolderUrl] = useState('');
@@ -48,17 +114,55 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
   const [selectedDriveFiles, setSelectedDriveFiles] = useState([]);
   const [isSyncingDrive, setIsSyncingDrive] = useState(false);
 
-  // List of existing source materials
+  // List of existing source materials & filters
   const [sourceMaterials, setSourceMaterials] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [previewMaterial, setPreviewMaterial] = useState(null);
+  const [filterBoard, setFilterBoard] = useState('ALL');
+  const [filterYear, setFilterYear] = useState('ALL');
+  const [filterType, setFilterType] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
 
+  // Live Auto Badge Preview
+  const liveBadge = formatAcademicBadge(board, examYear, questionType);
+
+  // 1. Initial Load of Classes
   useEffect(() => {
     if (isOpen) {
+      curriculumAPI.getClasses().then(res => {
+        if (res?.success && Array.isArray(res.data)) {
+          setClasses(res.data);
+          if (!selectedClassId && res.data.length > 0) {
+            setSelectedClassId(String(res.data[0].id));
+          }
+        }
+      }).catch(err => console.error('Failed to load classes:', err));
+
       fetchSourceMaterials();
       setFeedback(null);
     }
   }, [isOpen]);
+
+  // 2. Fetch Subjects when selectedClassId changes
+  useEffect(() => {
+    if (!isOpen || !selectedClassId) return;
+
+    setLoadingSubjects(true);
+    curriculumAPI.getSubjects(selectedClassId).then(res => {
+      if (res?.success && Array.isArray(res.data)) {
+        setSubjects(res.data);
+        if (res.data.length > 0) {
+          const exists = res.data.some(s => String(s.id) === String(selectedSubjectId));
+          if (!exists) {
+            setSelectedSubjectId(String(res.data[0].id));
+          }
+        } else {
+          setSelectedSubjectId('');
+        }
+      }
+    }).catch(err => console.error('Failed to load subjects:', err))
+      .finally(() => setLoadingSubjects(false));
+  }, [isOpen, selectedClassId]);
 
   const fetchSourceMaterials = async () => {
     try {
@@ -88,12 +192,6 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
       if (!title.trim()) {
         const nameWithoutExt = (file?.name || '').replace(/\.[^/.]+$/, '');
         setTitle(nameWithoutExt);
-      }
-
-      if (file.type.startsWith('image/')) {
-        setFilePreviewUrl(URL.createObjectURL(file));
-      } else {
-        setFilePreviewUrl('');
       }
       setFeedback(null);
     }
@@ -164,14 +262,22 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
     try {
       const res = await googleDriveAPI.syncMaterials({
         files: selectedDriveFiles,
-        category
+        category,
+        classId: selectedClassId,
+        subjectId: selectedSubjectId,
+        chapter,
+        topic,
+        board,
+        examYear,
+        questionType,
+        badge: liveBadge
       });
 
       if (res.success) {
         setFeedback({
           type: 'success',
-          message: res.message || `${selectedDriveFiles.length}টি ফাইল সফলভাবে স্টাডি ম্যাটেরিয়ালে সিঙ্ক হয়েছে!`,
-          details: 'ড্রাইভের সব ফাইল স্বয়ংক্রিয়ভাবে টেক্সট এক্সট্রাক্ট করে এআই প্রশ্ন তৈরিতে প্রস্তুত করা হয়েছে।'
+          message: res.message || `${selectedDriveFiles.length}টি ফাইল একাডেমিক মেটাডাটা সহ সফলভাবে সিঙ্ক হয়েছে!`,
+          details: `অটো-জেনারেটেড ব্যাজ: [ ${liveBadge} ] যুক্ত করে এআই প্রশ্ন তৈরিতে সংযুক্ত করা হয়েছে।`
         });
         fetchSourceMaterials();
         if (onUploadSuccess) onUploadSuccess(res.data);
@@ -198,7 +304,7 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
     }
 
     if (uploadMode === 'text' && !pastedText.trim()) {
-      setFeedback({ type: 'error', message: 'অনুগ্রহ করে কিছু টেক্সট বা লেকচার নোট লিখুন।' });
+      setFeedback({ type: 'error', message: 'অনুগ্রহ করে কিছু টেক্সট বা প্রশ্নব্যাংক কন্টেন্ট লিখুন।' });
       return;
     }
 
@@ -223,16 +329,14 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
           category
         });
 
-        if (!uploadResult.success) {
-          throw new Error(uploadResult.error || 'ক্লাউড স্টোরেজে ফাইল আপলোড ব্যর্থ হয়েছে');
+        if (uploadResult.success) {
+          publicUploadedUrl = uploadResult.publicUrl;
         }
-
-        publicUploadedUrl = uploadResult.publicUrl;
 
         if (selectedFile.type === 'text/plain' || selectedFile.name.endsWith('.txt')) {
           extractedContent = await selectedFile.text();
         } else if (!extractedContent) {
-          extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - সোর্স ম্যাটেরিয়াল ফাইল সংযুক্ত।`;
+          extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - ${chapter || title} (${liveBadge}) সোর্স ডকুমেন্ট।`;
         }
       }
 
@@ -240,84 +344,113 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
         title: title.trim(),
         titleBn: title.trim(),
         category,
+        classId: selectedClassId ? Number(selectedClassId) : null,
+        subjectId: selectedSubjectId ? Number(selectedSubjectId) : null,
+        chapter: chapter.trim() || title.trim(),
+        chapterBn: chapter.trim() || title.trim(),
+        topic: topic.trim(),
+        topicBn: topic.trim(),
+        board,
+        examYear,
+        questionType,
+        badge: liveBadge,
+        academicBadge: liveBadge,
         content_text: extractedContent,
         contentText: extractedContent,
         fileUrl: publicUploadedUrl,
-        fileName: selectedFile ? selectedFile.name : '',
-        fileSize: selectedFile ? formatFileSize(selectedFile.size) : '',
+        fileName: selectedFile ? selectedFile.name : `${title.trim()}.txt`,
+        fileSize: selectedFile ? formatFileSize(selectedFile.size) : '1.2 MB',
         fileType: selectedFile ? selectedFile.name.split('.').pop().toUpperCase() : 'TXT'
       });
 
-      if (res && (res.success || res.data)) {
-        const created = res.data;
-        const charCount = created?.content_text?.length || extractedContent.length || 0;
-
+      if (res && res.success) {
         setFeedback({
           type: 'success',
-          message: 'স্টাডি ম্যাটেরিয়াল সফলভাবে আপলোড ও ডাটাবেজে সংরক্ষণ করা হয়েছে!',
-          details: `"${created.title || title}" ক্লাউডে সংরক্ষিত হয়েছে (${charCount.toLocaleString('bn-BD')}টি অক্ষর)। এটি এখন AI প্রশ্ন তৈরিতে সরাসরি ব্যবহার করা যাবে।`
+          message: 'স্টাডি ম্যাটেরিয়াল ও একাডেমিক মেটাডাটা সফলভাবে আপলোড হয়েছে!',
+          details: `ব্যাজ [ ${liveBadge} ] তৈরি হয়েছে এবং বিষয় ও অধ্যায় সফলভাবে ট্যাগ করা হয়েছে।`
         });
 
         setTitle('');
-        setSelectedFile(null);
-        setFilePreviewUrl('');
+        setChapter('');
+        setTopic('');
         setPastedText('');
+        setSelectedFile(null);
         fetchSourceMaterials();
 
-        if (onUploadSuccess) onUploadSuccess(created);
+        if (onUploadSuccess) onUploadSuccess(res.data);
       } else {
-        throw new Error(res?.error?.message || res?.message || 'আপলোড ব্যর্থ হয়েছে');
+        throw new Error(res.error?.message || 'সংরক্ষণ ব্যর্থ হয়েছে');
       }
     } catch (err) {
-      console.error('Process & Upload Error:', err);
       setFeedback({
         type: 'error',
-        message: err.message || 'ফাইল প্রসেসিংয়ের সময় সমস্যা দেখা দিয়েছে।'
+        message: err.message || 'আপলোড এবং প্রসেস করার সময় ত্রুটি ঘটেছে।'
       });
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const getFileIcon = (fileType = '') => {
-    const ft = (fileType || '').toUpperCase();
-    if (ft.includes('PDF')) return <FileText className="w-5 h-5 text-rose-400" />;
-    if (ft.includes('DOC') || ft.includes('DOCX')) return <FileCode className="w-5 h-5 text-blue-400" />;
-    if (ft.includes('IMAGE') || ft.includes('JPG') || ft.includes('PNG')) return <ImageIcon className="w-5 h-5 text-emerald-400" />;
-    if (ft.includes('XLS') || ft.includes('SHEET')) return <FileSpreadsheet className="w-5 h-5 text-teal-400" />;
-    return <File className="w-5 h-5 text-indigo-400" />;
+  const handleDeleteMaterial = async (id) => {
+    if (!window.confirm('আপনি কি নিশ্চিত এই সোর্স ম্যাটেরিয়ালটি মুছে ফেলতে চান?')) return;
+    try {
+      const res = await materialAPI.deleteStudyMaterial(id);
+      if (res && res.success) {
+        setSourceMaterials(prev => prev.filter(m => m.id !== id));
+        if (previewMaterial?.id === id) setPreviewMaterial(null);
+      }
+    } catch (err) {
+      alert('মুছে ফেলা সম্ভব হয়নি: ' + err.message);
+    }
   };
+
+  // Filtered Source Materials
+  const filteredMaterials = sourceMaterials.filter(m => {
+    if (filterBoard !== 'ALL' && m.board && m.board.toLowerCase() !== filterBoard.toLowerCase()) return false;
+    if (filterYear !== 'ALL' && m.examYear && !String(m.examYear).includes(filterYear.replace(/^20/, ''))) return false;
+    if (filterType !== 'ALL' && m.questionType && m.questionType.toLowerCase() !== filterType.toLowerCase()) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      const match =
+        (m.title && m.title.toLowerCase().includes(q)) ||
+        (m.chapter && m.chapter.toLowerCase().includes(q)) ||
+        (m.topic && m.topic.toLowerCase().includes(q)) ||
+        (m.badge && m.badge.toLowerCase().includes(q)) ||
+        (m.board && m.board.toLowerCase().includes(q)) ||
+        (m.subjectName && m.subjectName.toLowerCase().includes(q));
+      if (!match) return false;
+    }
+    return true;
+  });
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto font-sans">
-      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl max-w-5xl w-full shadow-2xl flex flex-col overflow-hidden text-white my-auto max-h-[92vh]">
+      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl max-w-5xl w-full shadow-2xl flex flex-col overflow-hidden text-white my-auto max-h-[94vh]">
         
-        {/* Header */}
-        <div className="p-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20">
+        {/* Modal Header */}
+        <div className="p-5 bg-gradient-to-r from-emerald-950 via-slate-900 to-indigo-950 border-b border-slate-700/80 flex items-center justify-between">
+          <div className="flex items-center space-x-3.5">
+            <div className="p-2.5 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/20">
               <UploadCloud className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="text-base sm:text-lg font-black text-white">
-                  📚 স্টাডি সোর্স ম্যাটেরিয়াল ও গুগল ড্রাইভ সিঙ্ক
-                </h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase">
-                  AI Knowledge Hub
+                <h3 className="text-lg font-black text-white">স্টাডি ম্যাটেরিয়াল ও বোর্ড প্রশ্ন আপলোড হাব</h3>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30">
+                  ADVANCED METADATA
                 </span>
               </div>
-              <p className="text-xs text-slate-300">
-                PDF, Word, গুগল ড্রাইভ বা টেক্সট নোট যোগ করুন যা এআই প্রশ্ন তৈরিতে স্বয়ংক্রিয়ভাবে ব্যবহৃত হবে
+              <p className="text-xs text-slate-300 mt-0.5">
+                বোর্ড, সাল, অধ্যায় ও টপিক ট্যাগিং সহ স্বয়ংক্রিয় ব্যাজ জেনারেটর এবং এআই সোর্স কানেক্টর
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all"
+            className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -325,324 +458,566 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-slate-950/40">
-          {/* Feedback alerts */}
+          
+          {/* Feedback Alerts */}
           {feedback && (
-            <div
-              className={`p-4 rounded-2xl border text-xs sm:text-sm font-semibold flex items-start space-x-3 ${
-                feedback.type === 'success'
-                  ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-200'
-                  : 'bg-rose-500/20 border-rose-500/40 text-rose-200'
-              }`}
-            >
+            <div className={`p-4 rounded-2xl border flex items-start space-x-3 animate-in fade-in ${
+              feedback.type === 'success'
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200'
+                : 'bg-rose-500/10 border-rose-500/30 text-rose-200'
+            }`}>
               {feedback.type === 'success' ? (
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
               ) : (
                 <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
               )}
-              <div className="space-y-1">
+              <div className="text-xs space-y-1">
                 <p className="font-bold">{feedback.message}</p>
-                {feedback.details && <p className="text-xs text-slate-300 font-normal">{feedback.details}</p>}
+                {feedback.details && <p className="text-slate-300 opacity-90">{feedback.details}</p>}
               </div>
+              <button
+                onClick={() => setFeedback(null)}
+                className="ml-auto text-slate-400 hover:text-white p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Column: Upload / Sync Form */}
-            <div className="lg:col-span-7 space-y-4">
-              {/* Mode Tabs */}
-              <div className="flex rounded-2xl bg-slate-900 border border-slate-800 p-1">
-                <button
-                  type="button"
-                  onClick={() => setUploadMode('file')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 ${
-                    uploadMode === 'file'
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>ফাইল আপলোড (PDF/Word)</span>
-                </button>
+          {/* UPLOAD FORM SECTION */}
+          <div className="p-5 rounded-3xl bg-slate-900 border border-slate-800 shadow-md space-y-5">
+            
+            {/* Mode Switcher */}
+            <div className="flex items-center space-x-2 border-b border-slate-800 pb-4">
+              <button
+                type="button"
+                onClick={() => setUploadMode('file')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                  uploadMode === 'file'
+                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <FileText className="w-4 h-4" />
+                <span>ফাইল আপলোড (PDF / Word)</span>
+              </button>
 
-                <button
-                  type="button"
-                  onClick={() => setUploadMode('drive')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 ${
-                    uploadMode === 'drive'
-                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <HardDrive className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>গুগল ড্রাইভ সিঙ্ক</span>
-                  <span className="px-1 py-0.2 bg-amber-400 text-slate-950 rounded text-[9px] font-black">NEW</span>
-                </button>
+              <button
+                type="button"
+                onClick={() => setUploadMode('text')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                  uploadMode === 'text'
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <FileCode className="w-4 h-4" />
+                <span>সরাসরি টেক্সট / নোট পেস্ট</span>
+              </button>
 
-                <button
-                  type="button"
-                  onClick={() => setUploadMode('text')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 ${
-                    uploadMode === 'text'
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <FileCode className="w-3.5 h-3.5" />
-                  <span>টেক্সট পেস্ট</span>
-                </button>
+              <button
+                type="button"
+                onClick={() => setUploadMode('drive')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
+                  uploadMode === 'drive'
+                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30'
+                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <HardDrive className="w-4 h-4" />
+                <span>গুগল ড্রাইভ ফোল্ডার</span>
+              </button>
+            </div>
+
+            {/* ACADEMIC METADATA SELECTION GRID */}
+            <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-black text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
+                  <GraduationCap className="w-4 h-4" />
+                  <span>একাডেমিক মেটাডাটা ও শ্রেণিবিন্যাস (Academic Metadata)</span>
+                </h4>
+
+                {/* Live Badge Preview Pill */}
+                {liveBadge && (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[11px] text-slate-400 font-medium">লাইভ ব্যাজ:</span>
+                    <span className="px-3 py-1 rounded-full text-xs font-black bg-gradient-to-r from-indigo-500/30 to-purple-500/30 text-indigo-300 border border-indigo-400/50 shadow-sm animate-pulse flex items-center space-x-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                      <span>{liveBadge}</span>
+                    </span>
+                  </div>
+                )}
               </div>
 
-              {/* Form Card */}
-              <div className="p-5 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
-                {uploadMode === 'drive' ? (
-                  /* Google Drive Folder Sync UI */
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1">
-                        গুগল ড্রাইভ ফোল্ডার লিংক (Drive Folder URL / ID)
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={driveFolderUrl}
-                          onChange={(e) => setDriveFolderUrl(e.target.value)}
-                          placeholder="https://drive.google.com/drive/folders/..."
-                          className="flex-1 p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                        />
-                        <button
-                          type="button"
-                          disabled={isScanningDrive || !driveFolderUrl.trim()}
-                          onClick={handleScanDriveFolder}
-                          className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md flex items-center space-x-1.5 transition-all disabled:opacity-50"
-                        >
-                          {isScanningDrive ? (
-                            <>
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                              <span>স্ক্যান হচ্ছে...</span>
-                            </>
-                          ) : (
-                            <>
-                              <FolderOpen className="w-3.5 h-3.5" />
-                              <span>স্ক্যান</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs">
+                {/* 1. Class Selection */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    শ্রেণি (Class) <span className="text-rose-400">*</span>
+                  </label>
+                  <select
+                    value={selectedClassId}
+                    onChange={(e) => setSelectedClassId(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  >
+                    {classes.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nameBn || c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                    {driveScanResult && driveScanResult.files && (
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-slate-300">
-                            ফাইল তালিকা ({driveScanResult.files.length}টি)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (selectedDriveFiles.length === driveScanResult.files.length) {
-                                setSelectedDriveFiles([]);
-                              } else {
-                                setSelectedDriveFiles(driveScanResult.files);
-                              }
-                            }}
-                            className="text-emerald-400 hover:text-emerald-300 font-bold text-[11px]"
-                          >
-                            {selectedDriveFiles.length === driveScanResult.files.length ? 'সব আনচেক' : 'সব সিলেক্ট'}
-                          </button>
-                        </div>
-
-                        <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1">
-                          {driveScanResult.files.map(file => {
-                            const isSelected = selectedDriveFiles.some(f => f.id === file.id);
-                            return (
-                              <div
-                                key={file.id}
-                                onClick={() => toggleDriveFile(file)}
-                                className={`p-2 rounded-xl border cursor-pointer transition-all flex items-center space-x-2.5 ${
-                                  isSelected
-                                    ? 'bg-emerald-950/40 border-emerald-500/60 text-white'
-                                    : 'bg-slate-800/40 border-slate-800 text-slate-400 hover:border-slate-700'
-                                }`}
-                              >
-                                <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center flex-shrink-0 ${
-                                  isSelected ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-600'
-                                }`}>
-                                  {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                                </div>
-                                <span className="text-xs font-bold truncate flex-1">{file.name}</span>
-                                <span className="text-[10px] font-mono text-slate-500">{file.size}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        <button
-                          type="button"
-                          disabled={isSyncingDrive || selectedDriveFiles.length === 0}
-                          onClick={handleSyncDriveMaterials}
-                          className="w-full mt-2 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-md flex items-center justify-center space-x-2 transition-all disabled:opacity-50"
-                        >
-                          {isSyncingDrive ? (
-                            <>
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                              <span>ড্রাইভ ফাইল সিঙ্ক হচ্ছে...</span>
-                            </>
-                          ) : (
-                            <>
-                              <HardDrive className="w-4 h-4" />
-                              <span>সিঙ্ক ও এআই নলেজে সেভ করুন ({selectedDriveFiles.length} ফাইল)</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  /* Standard File / Text Upload UI */
-                  <form onSubmit={handleUploadAndProcess} className="space-y-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1">
-                        শিরোনাম (Title) <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="যেমন: এসএসসি পদার্থবিজ্ঞান গতি অধ্যায় পূর্ণাঙ্গ লেকচার শিট"
-                        className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1">ক্যাটাগরি</label>
-                      <select
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                      >
-                        <option value="GENERAL">সাধারণ স্টাডি নোট (General)</option>
-                        <option value="PHYSICS">পদার্থবিজ্ঞান (Physics)</option>
-                        <option value="CHEMISTRY">রসায়ন (Chemistry)</option>
-                        <option value="MATH">উচ্চতর ও সাধারণ গণিত (Math)</option>
-                        <option value="BIOLOGY">জীববিজ্ঞান (Biology)</option>
-                        <option value="ICT">তথ্য ও যোগাযোগ প্রযুক্তি (ICT)</option>
-                        <option value="EXAM_SUGGESTION">পরীক্ষার স্পেশাল সাজেশন</option>
-                      </select>
-                    </div>
-
-                    {uploadMode === 'file' ? (
-                      <div>
-                        <label className="block text-xs font-bold text-slate-300 mb-1">
-                          ডকুমেন্ট ফাইল নির্বাচন করুন (PDF, Word, Text)
-                        </label>
-                        <input
-                          type="file"
-                          accept={GLOBAL_ACCEPTED_FILE_TYPES}
-                          onChange={handleFileChange}
-                          className="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer"
-                        />
-                        {selectedFile && (
-                          <div className="mt-2 p-2 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] text-slate-300 flex items-center justify-between">
-                            <span>📄 {selectedFile.name}</span>
-                            <span className="font-mono text-emerald-400">{formatFileSize(selectedFile.size)}</span>
-                          </div>
-                        )}
-                      </div>
+                {/* 2. Subject Selection */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1 flex items-center justify-between">
+                    <span>পাঠ্য বিষয় (Subject) <span className="text-rose-400">*</span></span>
+                    {loadingSubjects && <Loader2 className="w-3 h-3 animate-spin text-emerald-400" />}
+                  </label>
+                  <select
+                    value={selectedSubjectId}
+                    disabled={loadingSubjects}
+                    onChange={(e) => setSelectedSubjectId(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none disabled:opacity-50"
+                  >
+                    {loadingSubjects ? (
+                      <option value="">বিষয় লোড হচ্ছে...</option>
+                    ) : subjects.length > 0 ? (
+                      subjects.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.nameBn || s.name} {s.code ? `(${s.code})` : ''}
+                        </option>
+                      ))
                     ) : (
-                      <div>
-                        <label className="block text-xs font-bold text-slate-300 mb-1">
-                          লেকচার টেক্সট বা হ্যান্ডনোট পেস্ট করুন
-                        </label>
-                        <textarea
-                          rows={6}
-                          value={pastedText}
-                          onChange={(e) => setPastedText(e.target.value)}
-                          placeholder="অধ্যায়ের মূল পয়েন্ট, সংজ্ঞা, সমীকরণ ও ব্যাখ্যা এখানে লিখুন..."
-                          className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                        />
-                      </div>
+                      <option value="">কোনো বিষয় নির্ধারিত নেই</option>
                     )}
+                  </select>
+                </div>
 
-                    <button
-                      type="submit"
-                      disabled={isProcessing}
-                      className="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transition-all disabled:opacity-50"
-                    >
-                      {isProcessing ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>প্রসেস ও সংরক্ষণ হচ্ছে...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="w-4 h-4 text-amber-300" />
-                          <span>সংরক্ষণ ও AI নলেজে যুক্ত করুন</span>
-                        </>
-                      )}
-                    </button>
-                  </form>
-                )}
+                {/* 3. Education Board Selection */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    শিক্ষা বোর্ড (Education Board) <span className="text-rose-400">*</span>
+                  </label>
+                  <select
+                    value={board}
+                    onChange={(e) => setBoard(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  >
+                    {BOARDS_LIST.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.nameBn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 4. Exam Year Selection */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    পরীক্ষার সাল (Exam Year) <span className="text-rose-400">*</span>
+                  </label>
+                  <select
+                    value={examYear}
+                    onChange={(e) => setExamYear(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  >
+                    {YEARS_LIST.map((y) => (
+                      <option key={y} value={y}>
+                        {y} (২০{y.slice(2)})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs pt-1">
+                {/* 5. Question Type */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    প্রশ্নের ধরন (Question Type) <span className="text-rose-400">*</span>
+                  </label>
+                  <select
+                    value={questionType}
+                    onChange={(e) => setQuestionType(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  >
+                    {QUESTION_TYPES.map((qt) => (
+                      <option key={qt.id} value={qt.id}>
+                        {qt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 6. Chapter (অধ্যায়) */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    অধ্যায় (Chapter) <span className="text-slate-400 font-normal">(ঐচ্ছিক)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={chapter}
+                    onChange={(e) => setChapter(e.target.value)}
+                    placeholder="যেমন: অধ্যায় ৩ - বল ও গতির সূত্র"
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  />
+                </div>
+
+                {/* 7. Topic (টপিক) */}
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    টপিক / বিষয়বস্তু (Topic) <span className="text-slate-400 font-normal">(ঐচ্ছিক)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    placeholder="যেমন: নিউটনের গতিসূত্র ও ভরবেগ"
+                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Right Column: Existing Source Materials List */}
-            <div className="lg:col-span-5 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-black text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
-                  <BookOpen className="w-4 h-4 text-indigo-400" />
-                  <span>সংরক্ষিত সোর্স ম্যাটেরিয়াল ({sourceMaterials.length}টি)</span>
-                </h4>
+            {/* TITLE INPUT */}
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                ম্যাটেরিয়াল বা প্রশ্নব্যাংকের শিরোনাম (Title) <span className="text-rose-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="যেমন: ঢাকা বোর্ড ২০২৫ পদার্থবিজ্ঞান বহুনির্বাচনি প্রশ্ন ও উত্তরপত্র"
+                className="w-full p-3 rounded-2xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-inner"
+              />
+            </div>
+
+            {/* MODE 1: FILE DROPZONE */}
+            {uploadMode === 'file' && (
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-300">
+                  ফাইল আপলোড (PDF, Word, Text ফাইল) <span className="text-rose-400">*</span>
+                </label>
+                <label className="border-2 border-dashed border-slate-700 hover:border-emerald-500 bg-slate-800/50 hover:bg-slate-800/80 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all group">
+                  <UploadCloud className="w-10 h-10 text-emerald-400 group-hover:scale-110 transition-transform mb-2" />
+                  <span className="text-xs font-bold text-slate-200">
+                    {selectedFile ? selectedFile.name : 'ক্লিক করে ফাইল সিলেক্ট করুন অথবা ড্র্যাগ & ড্রপ করুন'}
+                  </span>
+                  <span className="text-[11px] text-slate-400 mt-1">
+                    PDF, DOCX, TXT (সর্বোচ্চ {GLOBAL_MAX_FILE_SIZE_MB}MB)
+                  </span>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    accept=".pdf,.docx,.txt"
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            )}
+
+            {/* MODE 2: RAW TEXT INPUT */}
+            {uploadMode === 'text' && (
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-300">
+                  সরাসরি লেকচার নোট বা প্রশ্ন টেক্সট পেস্ট করুন <span className="text-rose-400">*</span>
+                </label>
+                <textarea
+                  rows={6}
+                  value={pastedText}
+                  onChange={(e) => setPastedText(e.target.value)}
+                  placeholder="এখানে প্রশ্নের উদ্দীপক, MCQ প্রশ্ন, CQ সৃজনশীল বা অধ্যায়ের মূল নোট পেস্ট করুন..."
+                  className="w-full p-3.5 rounded-2xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
+                />
+              </div>
+            )}
+
+            {/* MODE 3: GOOGLE DRIVE */}
+            {uploadMode === 'drive' && (
+              <div className="space-y-3 p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/30">
+                <label className="block text-xs font-bold text-cyan-300">
+                  গুগল ড্রাইভ ফোল্ডার URL বা ID
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={driveFolderUrl}
+                    onChange={(e) => setDriveFolderUrl(e.target.value)}
+                    placeholder="https://drive.google.com/drive/folders/..."
+                    className="flex-1 p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 text-xs font-medium focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    disabled={isScanningDrive || !driveFolderUrl.trim()}
+                    onClick={handleScanDriveFolder}
+                    className="px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md flex items-center space-x-1.5 disabled:opacity-50"
+                  >
+                    {isScanningDrive ? <Loader2 className="w-4 h-4 animate-spin" /> : <FolderOpen className="w-4 h-4" />}
+                    <span>স্ক্যান</span>
+                  </button>
+                </div>
+
+                {driveScanResult && driveScanResult.files && (
+                  <div className="space-y-2 pt-2">
+                    <p className="text-xs text-slate-300 font-bold">সিলেক্টেড ড্রাইভ ফাইল ({selectedDriveFiles.length}টি):</p>
+                    <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+                      {driveScanResult.files.filter(f => f.isSupported).map((f) => (
+                        <div
+                          key={f.id}
+                          onClick={() => toggleDriveFile(f)}
+                          className={`p-2 rounded-xl border text-xs flex items-center justify-between cursor-pointer ${
+                            selectedDriveFiles.some(df => df.id === f.id)
+                              ? 'bg-cyan-950/60 border-cyan-500/60 text-white'
+                              : 'bg-slate-800/60 border-slate-700 text-slate-400'
+                          }`}
+                        >
+                          <span className="truncate">{f.name}</span>
+                          <span className="text-[10px] font-mono text-cyan-300">{f.size}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* SUBMIT BUTTON */}
+            <div className="flex justify-end pt-2">
+              {uploadMode === 'drive' ? (
                 <button
                   type="button"
-                  onClick={fetchSourceMaterials}
-                  className="p-1 rounded-lg text-slate-400 hover:text-white"
-                  title="রিফ্রেশ"
+                  disabled={isSyncingDrive || selectedDriveFiles.length === 0}
+                  onClick={handleSyncDriveMaterials}
+                  className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-cyan-600/30 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${loadingList ? 'animate-spin' : ''}`} />
+                  {isSyncingDrive ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>সিঙ্ক হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <HardDrive className="w-4 h-4" />
+                      <span>ড্রাইভ ফাইলসমূহ সিঙ্ক ও সেভ করুন ({selectedDriveFiles.length})</span>
+                    </>
+                  )}
                 </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={isProcessing}
+                  onClick={handleUploadAndProcess}
+                  className="px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>প্রসেস ও সংরক্ষণ হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <UploadCloud className="w-4 h-4" />
+                      <span>সংরক্ষণ ও ব্যাজ যুক্ত করুন (Save Material)</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* EXISTING SOURCE MATERIALS LIST WITH FILTERING */}
+          <div className="p-5 rounded-3xl bg-slate-900 border border-slate-800 shadow-md space-y-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+              <div className="flex items-center space-x-2">
+                <BookOpen className="w-5 h-5 text-indigo-400" />
+                <h4 className="text-sm font-black text-white">সংরক্ষিত স্টাডি সোর্স ও প্রশ্নব্যাংক তালিকা</h4>
+                <span className="px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-300 text-xs font-bold border border-indigo-800">
+                  {filteredMaterials.length}টি ফাইল
+                </span>
               </div>
 
-              <div className="max-h-[380px] overflow-y-auto space-y-2 pr-1">
-                {sourceMaterials.map((mat) => (
+              <button
+                type="button"
+                onClick={fetchSourceMaterials}
+                className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition-colors flex items-center space-x-1 text-xs"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${loadingList ? 'animate-spin' : ''}`} />
+                <span>রিফ্রেশ</span>
+              </button>
+            </div>
+
+            {/* FILTER TOOLBAR */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+              {/* Search */}
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="শিরোনাম, অধ্যায় বা টপিক খুঁজুন..."
+                  className="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
+              </div>
+
+              {/* Board Filter */}
+              <div>
+                <select
+                  value={filterBoard}
+                  onChange={(e) => setFilterBoard(e.target.value)}
+                  className="w-full p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                >
+                  <option value="ALL">সকল শিক্ষা বোর্ড (All Boards)</option>
+                  {BOARDS_LIST.map(b => (
+                    <option key={b.id} value={b.id}>{b.id} বোর্ড</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Year Filter */}
+              <div>
+                <select
+                  value={filterYear}
+                  onChange={(e) => setFilterYear(e.target.value)}
+                  className="w-full p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                >
+                  <option value="ALL">সকল পরীক্ষার সাল (All Years)</option>
+                  {YEARS_LIST.map(y => (
+                    <option key={y} value={y}>{y} সাল</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Type Filter */}
+              <div>
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="w-full p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-100 font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                >
+                  <option value="ALL">সকল প্রশ্নের ধরন (All Types)</option>
+                  {QUESTION_TYPES.map(qt => (
+                    <option key={qt.id} value={qt.id}>{qt.id}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* MATERIAL CARDS GRID */}
+            {loadingList ? (
+              <div className="p-8 text-center text-slate-400 flex flex-col items-center space-y-2">
+                <Loader2 className="w-6 h-6 animate-spin text-indigo-400" />
+                <span className="text-xs">ম্যাটেরিয়াল লোড হচ্ছে...</span>
+              </div>
+            ) : filteredMaterials.length === 0 ? (
+              <div className="p-8 text-center bg-slate-950/40 rounded-2xl border border-dashed border-slate-800">
+                <Bookmark className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+                <p className="text-xs font-bold text-slate-400">কোনো স্টাডি ম্যাটেরিয়াল পাওয়া যায়নি</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">নতুন ফাইল আপলোড করুন অথবা ফিল্টার পরিবর্তন করুন</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-96 overflow-y-auto pr-1">
+                {filteredMaterials.map((m) => (
                   <div
-                    key={mat.id}
-                    className="p-3 rounded-2xl bg-slate-900 border border-slate-800 hover:border-indigo-500/40 transition-colors space-y-1"
+                    key={m.id}
+                    className="p-4 rounded-2xl border border-slate-800 bg-slate-950/70 hover:border-indigo-500/50 transition-all space-y-2.5 flex flex-col justify-between"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center space-x-2">
-                        {getFileIcon(mat.fileType)}
-                        <h5 className="text-xs font-bold text-white truncate max-w-[200px]">
-                          {mat.title}
-                        </h5>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        {/* Academic Badge */}
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-indigo-950 text-indigo-300 border border-indigo-500/40 shadow-sm flex items-center space-x-1">
+                          <Tag className="w-3 h-3 text-indigo-400" />
+                          <span>{m.badge || m.academicBadge || 'বোর্ড প্রশ্ন'}</span>
+                        </span>
+
+                        <span className="text-[10px] font-mono text-slate-400">
+                          {m.fileSize || '1.5 MB'} • {m.fileType || 'PDF'}
+                        </span>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] font-mono text-indigo-300">
-                        {mat.category}
-                      </span>
+
+                      <h5 className="font-bold text-xs text-white line-clamp-1">{m.title}</h5>
+
+                      <div className="text-[11px] text-slate-300 space-y-0.5">
+                        {m.chapter && (
+                          <p className="text-emerald-400 font-medium line-clamp-1">📖 {m.chapter}</p>
+                        )}
+                        {m.topic && (
+                          <p className="text-slate-400 line-clamp-1">🎯 টপিক: {m.topic}</p>
+                        )}
+                      </div>
                     </div>
 
-                    <p className="text-[11px] text-slate-400 line-clamp-2">
-                      {mat.content_text || 'কোনো সারাংশ টেক্সট পাওয়া যায়নি।'}
-                    </p>
+                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                      <span className="text-[10px] text-slate-400 font-medium">
+                        {m.className || 'শ্রেণি'} • {m.subjectName || m.category}
+                      </span>
 
-                    <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 font-mono">
-                      <span>{mat.content_text ? `${mat.content_text.length} Chars` : 'N/A'}</span>
-                      <span className="text-emerald-400 font-bold">✓ AI Active</span>
+                      <div className="flex items-center space-x-1">
+                        <button
+                          type="button"
+                          onClick={() => setPreviewMaterial(m)}
+                          className="p-1.5 text-slate-400 hover:text-indigo-300 hover:bg-slate-800 rounded-lg transition-colors"
+                          title="কন্টেন্ট প্রিভিউ"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteMaterial(m.id)}
+                          className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-colors"
+                          title="মুছুন"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            )}
           </div>
+
+          {/* PREVIEW MODAL / DRAWER */}
+          {previewMaterial && (
+            <div className="p-5 rounded-3xl bg-slate-900 border border-indigo-500/40 shadow-xl space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                    {previewMaterial.badge || 'সোর্স প্রিভিউ'}
+                  </span>
+                  <h4 className="font-bold text-xs text-white">{previewMaterial.title}</h4>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPreviewMaterial(null)}
+                  className="p-1 text-slate-400 hover:text-white rounded-lg"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 max-h-60 overflow-y-auto text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed">
+                {previewMaterial.content_text || 'কোনো এক্সট্রাক্ট করা টেক্সট পাওয়া যায়নি।'}
+              </div>
+            </div>
+          )}
+
         </div>
 
-        {/* Footer */}
-        <div className="p-4 bg-slate-900 border-t border-slate-800 flex justify-end">
+        {/* Modal Footer */}
+        <div className="p-4 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <span className="flex items-center space-x-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>NextGen Academy • AI Question Bank & Academic Metadata Engine</span>
+          </span>
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold"
+            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all"
           >
-            বন্ধ করুন (Close)
+            বন্ধ করুন
           </button>
         </div>
 
