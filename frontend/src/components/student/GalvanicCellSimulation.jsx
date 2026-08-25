@@ -422,12 +422,29 @@ export default function GalvanicCellSimulation() {
         </div>
 
         {/* 2D / 2.5D Animated Galvanic Cell SVG Canvas */}
-        <div className="relative w-full h-[400px] bg-slate-950 rounded-3xl border border-slate-800 flex items-center justify-center overflow-hidden p-4 shadow-inner">
+        <div className="relative w-full h-[410px] bg-slate-950 rounded-3xl border border-slate-800 flex items-center justify-center overflow-hidden p-4 shadow-inner">
+          <style>{`
+            @keyframes electronDashFlow {
+              from { stroke-dashoffset: 32; }
+              to { stroke-dashoffset: 0; }
+            }
+            @keyframes currentDashFlow {
+              from { stroke-dashoffset: 0; }
+              to { stroke-dashoffset: 32; }
+            }
+          `}</style>
           <svg className="w-full h-full max-w-4xl" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               {/* Glow Filters */}
               <filter id="bulbGlow" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation={isCircuitClosed && e_cell > 0 ? bulbGlowPercentage / 8 : 0} result="glow" />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="electronGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="glow" />
                 <feMerge>
                   <feMergeNode in="glow" />
                   <feMergeNode in="SourceGraphic" />
@@ -443,33 +460,87 @@ export default function GalvanicCellSimulation() {
               </linearGradient>
             </defs>
 
-            {/* EXTERNAL CIRCUIT WIRE */}
-            {/* Left Wire: Anode to Voltmeter/Bulb */}
+            {/* EXTERNAL CIRCUIT COPPER WIRE */}
+            {/* Base Wire: Solid Metallic Copper */}
             <path
-              d="M 180 180 L 180 50 L 370 50"
-              stroke="#fbbf24"
-              strokeWidth="4"
+              d="M 180 160 L 180 50 L 620 50 L 620 160"
+              stroke="#b45309"
+              strokeWidth="6"
               strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
             />
-            {/* Right Wire: Bulb/Voltmeter to Cathode */}
             <path
-              d="M 430 50 L 620 50 L 620 180"
+              d="M 180 160 L 180 50 L 620 50 L 620 160"
               stroke="#fbbf24"
               strokeWidth="4"
               strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
             />
 
-            {/* Animated Electrons in Wire (Moving Left to Right) */}
+            {/* Animated Electric Current Flow Overlay */}
+            {isCircuitClosed && e_cell > 0 && (
+              <path
+                d="M 180 160 L 180 50 L 620 50 L 620 160"
+                stroke="#38bdf8"
+                strokeWidth="3"
+                strokeDasharray="8 8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                style={{
+                  animation: 'electronDashFlow 0.8s linear infinite'
+                }}
+              />
+            )}
+
+            {/* Continuous Flowing Electron Beads (Anode to Cathode) */}
+            {isCircuitClosed && e_cell > 0 && [0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6].map((delay, idx) => (
+              <g key={idx}>
+                <circle r="7" fill="#0284c7" opacity="0.6">
+                  <animateMotion
+                    dur="4s"
+                    repeatCount="indefinite"
+                    begin={`${delay}s`}
+                    path="M 180 160 L 180 50 L 620 50 L 620 160"
+                    calcMode="linear"
+                  />
+                </circle>
+                <circle r="5" fill="#38bdf8" filter="url(#electronGlow)">
+                  <animateMotion
+                    dur="4s"
+                    repeatCount="indefinite"
+                    begin={`${delay}s`}
+                    path="M 180 160 L 180 50 L 620 50 L 620 160"
+                    calcMode="linear"
+                  />
+                </circle>
+                <circle r="2" fill="#ffffff">
+                  <animateMotion
+                    dur="4s"
+                    repeatCount="indefinite"
+                    begin={`${delay}s`}
+                    path="M 180 160 L 180 50 L 620 50 L 620 160"
+                    calcMode="linear"
+                  />
+                </circle>
+              </g>
+            ))}
+
+            {/* Circuit Flow Direction Badges */}
             {isCircuitClosed && e_cell > 0 && (
               <>
-                <circle cx="210" cy="50" r="4" fill="#38bdf8" className="animate-ping" opacity="0.8" />
-                <circle cx="270" cy="50" r="4" fill="#38bdf8" className="animate-pulse" />
-                <circle cx="330" cy="50" r="4" fill="#38bdf8" />
-                <circle cx="470" cy="50" r="4" fill="#38bdf8" />
-                <circle cx="530" cy="50" r="4" fill="#38bdf8" className="animate-pulse" />
-                <circle cx="590" cy="50" r="4" fill="#38bdf8" className="animate-ping" opacity="0.8" />
-                <text x="280" y="40" fill="#38bdf8" fontSize="11" fontWeight="bold" fontFamily="monospace">
-                  ইলেকট্রন প্রবাহ (e⁻ →)
+                {/* Electron Flow Label */}
+                <rect x="200" y="24" width="150" height="20" rx="6" fill="#0f172a" stroke="#38bdf8" strokeWidth="1" />
+                <text x="275" y="38" fill="#38bdf8" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                  ইলেকট্রন প্রবাহ (e⁻ ➔ ➔)
+                </text>
+
+                {/* Conventional Current Label */}
+                <rect x="450" y="24" width="155" height="20" rx="6" fill="#0f172a" stroke="#f59e0b" strokeWidth="1" />
+                <text x="527" y="38" fill="#fbbf24" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                  বিদ্যুৎ প্রবাহ (I ⬅ ⬅)
                 </text>
               </>
             )}
@@ -629,12 +700,38 @@ export default function GalvanicCellSimulation() {
                 <>
                   {/* NO3- / Cl- flowing Left towards Anode */}
                   <text x="65" y="16" fill="#f43f5e" fontSize="9" fontWeight="black" textAnchor="middle">
-                    ← {saltBridge.anion}
+                    ← {saltBridge.anion} (অ্যানায়ন)
                   </text>
                   {/* K+ flowing Right towards Cathode */}
                   <text x="275" y="16" fill="#38bdf8" fontSize="9" fontWeight="black" textAnchor="middle">
-                    {saltBridge.cation} →
+                    (ক্যাটায়ন) {saltBridge.cation} →
                   </text>
+
+                  {/* Animated Anions moving Leftwards */}
+                  {[0, 1.5, 3.0].map((delay, idx) => (
+                    <circle key={`anion-${idx}`} r="4" fill="#f43f5e">
+                      <animateMotion
+                        dur="4.5s"
+                        repeatCount="indefinite"
+                        begin={`${delay}s`}
+                        path="M 325 110 L 325 25 Q 325 0 300 0 L 40 0 Q 15 0 15 25 L 15 110"
+                        calcMode="linear"
+                      />
+                    </circle>
+                  ))}
+
+                  {/* Animated Cations moving Rightwards */}
+                  {[0.75, 2.25, 3.75].map((delay, idx) => (
+                    <circle key={`cation-${idx}`} r="4" fill="#38bdf8">
+                      <animateMotion
+                        dur="4.5s"
+                        repeatCount="indefinite"
+                        begin={`${delay}s`}
+                        path="M 15 110 L 15 25 Q 15 0 40 0 L 300 0 Q 325 0 325 25 L 325 110"
+                        calcMode="linear"
+                      />
+                    </circle>
+                  ))}
                 </>
               )}
             </g>
