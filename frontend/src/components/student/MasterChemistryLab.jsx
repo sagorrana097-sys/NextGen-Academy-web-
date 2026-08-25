@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, lazy, Suspense } from 'react';
 import {
   FlaskConical,
   Atom,
@@ -34,13 +34,16 @@ import {
   Award,
   Wind
 } from 'lucide-react';
+import LoadingFallback from '../common/LoadingFallback';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
-import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
-import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
-import GalvanicCellSimulation from './GalvanicCellSimulation';
-import DaniellCellSimulation from './DaniellCellSimulation';
-import DryCellSimulation from './DryCellSimulation';
-import RedoxOxidationEngine from './RedoxOxidationEngine';
+
+// Code-split sub-simulators with React.lazy
+const ChemistryChapter6MathSolver = lazy(() => import('./ChemistryChapter6MathSolver'));
+const ChemistryChapter5BondingSolver = lazy(() => import('./ChemistryChapter5BondingSolver'));
+const GalvanicCellSimulation = lazy(() => import('./GalvanicCellSimulation'));
+const DaniellCellSimulation = lazy(() => import('./DaniellCellSimulation'));
+const DryCellSimulation = lazy(() => import('./DryCellSimulation'));
+const RedoxOxidationEngine = lazy(() => import('./RedoxOxidationEngine'));
 
 // =========================================================================
 // 1. COMPREHENSIVE HSC & SSC CHEMICAL REACTIONS DATABASE
@@ -782,24 +785,16 @@ export default function MasterChemistryLab() {
       )}
 
       {/* ========================================================================= */}
-      {/* SUB-VIEW 2: REDOX & OXIDATION NUMBER ENGINE */}
+      {/* SUB-VIEWS WITH SUSPENSE CODE-SPLITTING */}
       {/* ========================================================================= */}
-      {activeSubTab === 'redox-engine' && <RedoxOxidationEngine />}
-
-      {/* ========================================================================= */}
-      {/* SUB-VIEW 3: CLASSIC DANIELL CELL (Zn-Cu) SIMULATOR */}
-      {/* ========================================================================= */}
-      {activeSubTab === 'daniell' && <DaniellCellSimulation />}
-
-      {/* ========================================================================= */}
-      {/* SUB-VIEW 4: DRY CELL (LECLANCHE CELL) SIMULATOR */}
-      {/* ========================================================================= */}
-      {activeSubTab === 'dry-cell' && <DryCellSimulation />}
-
-      {/* ========================================================================= */}
-      {/* SUB-VIEW 5: CUSTOM GALVANIC CELL SIMULATOR */}
-      {/* ========================================================================= */}
-      {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
+      <Suspense fallback={<LoadingFallback />}>
+        {activeSubTab === 'redox-engine' && <RedoxOxidationEngine />}
+        {activeSubTab === 'daniell' && <DaniellCellSimulation />}
+        {activeSubTab === 'dry-cell' && <DryCellSimulation />}
+        {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
+        {activeSubTab === 'stoichiometry' && <ChemistryChapter6MathSolver />}
+        {activeSubTab === 'bonding' && <ChemistryChapter5BondingSolver />}
+      </Suspense>
     </div>
   );
 }

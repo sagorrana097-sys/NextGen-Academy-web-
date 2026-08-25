@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
@@ -6,13 +6,16 @@ import { SettingsProvider } from './context/SettingsContext';
 import Navbar from './components/layout/Navbar';
 import Sidebar from './components/layout/Sidebar';
 import NewsTicker from './components/layout/NewsTicker';
-import Login from './pages/Login';
-import LandingPage from './pages/LandingPage';
-import AdmissionForm from './pages/AdmissionForm';
-import AdminDashboard from './pages/AdminDashboard';
-import TeacherDashboard from './pages/TeacherDashboard';
-import ParentDashboard from './pages/ParentDashboard';
-import StudentDashboard from './pages/StudentDashboard';
+import LoadingFallback from './components/common/LoadingFallback';
+
+// Code-split top-level pages with React.lazy
+const Login = lazy(() => import('./pages/Login'));
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const AdmissionForm = lazy(() => import('./pages/AdmissionForm'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const TeacherDashboard = lazy(() => import('./pages/TeacherDashboard'));
+const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
+const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
 
 import InactivityAutoLock from './components/common/InactivityAutoLock';
 import FloatingToolboxDock from './components/common/FloatingToolboxDock';
@@ -27,10 +30,12 @@ function MainApp() {
   if (!isAuthenticated) {
     if (publicView === 'admission') {
       return (
-        <AdmissionForm 
-          onBackToHome={() => setPublicView('landing')} 
-          onNavigateLogin={() => setPublicView('login')} 
-        />
+        <Suspense fallback={<LoadingFallback />}>
+          <AdmissionForm 
+            onBackToHome={() => setPublicView('landing')} 
+            onNavigateLogin={() => setPublicView('login')} 
+          />
+        </Suspense>
       );
     }
     if (publicView === 'login') {
@@ -50,33 +55,43 @@ function MainApp() {
               অনলাইন ভর্তি ফরম →
             </button>
           </div>
-          <Login />
+          <Suspense fallback={<LoadingFallback />}>
+            <Login />
+          </Suspense>
         </div>
       );
     }
     return (
-      <LandingPage 
-        onNavigateLogin={() => setPublicView('login')} 
-        onNavigateAdmission={() => setPublicView('admission')} 
-        onExploreLab={() => setPublicView('login')} 
-      />
+      <Suspense fallback={<LoadingFallback />}>
+        <LandingPage 
+          onNavigateLogin={() => setPublicView('login')} 
+          onNavigateAdmission={() => setPublicView('admission')} 
+          onExploreLab={() => setPublicView('login')} 
+        />
+      </Suspense>
     );
   }
 
   const renderDashboard = () => {
     const role = String(user?.role || '').toUpperCase();
-    switch (role) {
-      case 'SUPER_ADMIN':
-      case 'ADMIN':
-        return <AdminDashboard activeTab={activeTab} />;
-      case 'TEACHER':
-        return <TeacherDashboard activeTab={activeTab} />;
-      case 'PARENT':
-        return <ParentDashboard activeTab={activeTab} />;
-      case 'STUDENT':
-      default:
-        return <StudentDashboard activeTab={activeTab} />;
-    }
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        {(() => {
+          switch (role) {
+            case 'SUPER_ADMIN':
+            case 'ADMIN':
+              return <AdminDashboard activeTab={activeTab} />;
+            case 'TEACHER':
+              return <TeacherDashboard activeTab={activeTab} />;
+            case 'PARENT':
+              return <ParentDashboard activeTab={activeTab} />;
+            case 'STUDENT':
+            default:
+              return <StudentDashboard activeTab={activeTab} />;
+          }
+        })()}
+      </Suspense>
+    );
   };
 
   return (
