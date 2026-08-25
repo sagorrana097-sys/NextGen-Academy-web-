@@ -37,8 +37,13 @@ class DatabaseEngine {
   load() {
     try {
       if (fs.existsSync(this.dbPath)) {
+        const stat = fs.statSync(this.dbPath);
+        if (this.lastLoadedMtime && stat.mtimeMs <= this.lastLoadedMtime) {
+          return;
+        }
         const raw = fs.readFileSync(this.dbPath, 'utf8');
         this.tables = JSON.parse(raw);
+        this.lastLoadedMtime = stat.mtimeMs;
       } else {
         this.tables = {};
         this.save();
@@ -55,6 +60,7 @@ class DatabaseEngine {
       const tempPath = `${this.dbPath}.tmp`;
       fs.writeFileSync(tempPath, JSON.stringify(this.tables, null, 2), 'utf8');
       fs.renameSync(tempPath, this.dbPath);
+      this.lastLoadedMtime = fs.existsSync(this.dbPath) ? fs.statSync(this.dbPath).mtimeMs : Date.now();
     } catch (err) {
       console.error('Database save error:', err.message);
     }
