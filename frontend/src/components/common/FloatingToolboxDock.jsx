@@ -237,9 +237,10 @@ export default function FloatingToolboxDock() {
     setIsCalcMinimized(false);
   };
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
   const dockPos = {
-    x: typeof window !== 'undefined' ? Math.max(10, window.innerWidth - 320) : 900,
-    y: typeof window !== 'undefined' ? Math.max(10, window.innerHeight - 80) : 650
+    x: typeof window !== 'undefined' ? (isMobile ? 12 : Math.max(10, window.innerWidth - 320)) : 900,
+    y: typeof window !== 'undefined' ? Math.max(10, window.innerHeight - (isMobile ? 70 : 80)) : 650
   };
 
   return (
@@ -418,7 +419,7 @@ export default function FloatingToolboxDock() {
                 </div>
               ) : (
                 /* Full Interactive AI Chat Window */
-                <div className="w-[360px] sm:w-[390px] h-[520px] bg-slate-900/95 backdrop-blur-2xl border border-indigo-500/40 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in zoom-in-95 duration-150">
+                <div className="w-[calc(100vw-32px)] max-w-[390px] h-[480px] sm:h-[520px] bg-slate-900/95 backdrop-blur-2xl border border-indigo-500/40 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in zoom-in-95 duration-150">
                   
                   {/* Header & Drag Handle */}
                   <div
@@ -628,7 +629,7 @@ export default function FloatingToolboxDock() {
                 </div>
               ) : (
                 /* Full Expanded Calculator Window */
-                <div className="w-[300px] sm:w-[320px] bg-slate-900/95 backdrop-blur-2xl border border-amber-500/40 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in zoom-in-95 duration-150">
+                <div className="w-[calc(100vw-32px)] max-w-[320px] bg-slate-900/95 backdrop-blur-2xl border border-amber-500/40 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in zoom-in-95 duration-150">
                   
                   {/* Header & Drag Handle */}
                   <div

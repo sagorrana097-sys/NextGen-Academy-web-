@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  html, body, #root {
+    min-height: 100%;
+    min-height: 100dvh;
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   input[type="text"],

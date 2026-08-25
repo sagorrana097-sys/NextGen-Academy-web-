@@ -1,25 +1,25 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { SettingsProvider } from './context/SettingsContext';
 import Navbar from './components/layout/Navbar';
 import Sidebar from './components/layout/Sidebar';
 import NewsTicker from './components/layout/NewsTicker';
 import LoadingFallback from './components/common/LoadingFallback';
-
-// Code-split top-level pages with React.lazy
-const Login = lazy(() => import('./pages/Login'));
-const LandingPage = lazy(() => import('./pages/LandingPage'));
-const AdmissionForm = lazy(() => import('./pages/AdmissionForm'));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
-const TeacherDashboard = lazy(() => import('./pages/TeacherDashboard'));
-const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
-const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
-
+import ErrorBoundary from './components/common/ErrorBoundary';
 import InactivityAutoLock from './components/common/InactivityAutoLock';
 import FloatingToolboxDock from './components/common/FloatingToolboxDock';
-import ErrorBoundary from './components/common/ErrorBoundary';
+import { lazyRetry } from './utils/lazyRetry';
+
+// Resilient code-split top-level pages with automatic chunk retry
+const Login = lazyRetry(() => import('./pages/Login'));
+const LandingPage = lazyRetry(() => import('./pages/LandingPage'));
+const AdmissionForm = lazyRetry(() => import('./pages/AdmissionForm'));
+const AdminDashboard = lazyRetry(() => import('./pages/AdminDashboard'));
+const TeacherDashboard = lazyRetry(() => import('./pages/TeacherDashboard'));
+const ParentDashboard = lazyRetry(() => import('./pages/ParentDashboard'));
+const StudentDashboard = lazyRetry(() => import('./pages/StudentDashboard'));
 
 function MainApp() {
   const { user, isAuthenticated } = useAuth();
@@ -30,73 +30,83 @@ function MainApp() {
   if (!isAuthenticated) {
     if (publicView === 'admission') {
       return (
-        <Suspense fallback={<LoadingFallback />}>
-          <AdmissionForm 
-            onBackToHome={() => setPublicView('landing')} 
-            onNavigateLogin={() => setPublicView('login')} 
-          />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingFallback message="ভর্তি পোর্টাল লোড হচ্ছে..." />}>
+            <AdmissionForm 
+              onBackToHome={() => setPublicView('landing')} 
+              onNavigateLogin={() => setPublicView('login')} 
+            />
+          </Suspense>
+        </ErrorBoundary>
       );
     }
     if (publicView === 'login') {
       return (
-        <div className="relative">
-          <div className="p-3 bg-slate-900 border-b border-slate-800 text-center flex items-center justify-between px-6">
-            <button 
-              onClick={() => setPublicView('landing')}
-              className="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1"
-            >
-              ← মূল হোমপেজে ফিরে যান (Home)
-            </button>
-            <button 
-              onClick={() => setPublicView('admission')}
-              className="text-xs font-black text-cyan-400 hover:underline"
-            >
-              অনলাইন ভর্তি ফরম →
-            </button>
+        <ErrorBoundary>
+          <div className="relative min-h-[100dvh] bg-slate-950 text-white flex flex-col">
+            <div className="p-3 bg-slate-900 border-b border-slate-800 text-center flex items-center justify-between px-4 sm:px-6">
+              <button 
+                onClick={() => setPublicView('landing')}
+                className="text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+              >
+                ← মূল হোমপেজে ফিরে যান (Home)
+              </button>
+              <button 
+                onClick={() => setPublicView('admission')}
+                className="text-xs font-black text-cyan-400 hover:underline cursor-pointer"
+              >
+                অনলাইন ভর্তি ফরম →
+              </button>
+            </div>
+            <div className="flex-1">
+              <Suspense fallback={<LoadingFallback message="লগইন উইন্ডো লোড হচ্ছে..." />}>
+                <Login />
+              </Suspense>
+            </div>
           </div>
-          <Suspense fallback={<LoadingFallback />}>
-            <Login />
-          </Suspense>
-        </div>
+        </ErrorBoundary>
       );
     }
     return (
-      <Suspense fallback={<LoadingFallback />}>
-        <LandingPage 
-          onNavigateLogin={() => setPublicView('login')} 
-          onNavigateAdmission={() => setPublicView('admission')} 
-          onExploreLab={() => setPublicView('login')} 
-        />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingFallback message="নেক্সটজেন হোমপেজ লোড হচ্ছে..." />}>
+          <LandingPage 
+            onNavigateLogin={() => setPublicView('login')} 
+            onNavigateAdmission={() => setPublicView('admission')} 
+            onExploreLab={() => setPublicView('login')} 
+          />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 
   const renderDashboard = () => {
     const role = String(user?.role || '').toUpperCase();
     return (
-      <Suspense fallback={<LoadingFallback />}>
-        {(() => {
-          switch (role) {
-            case 'SUPER_ADMIN':
-            case 'ADMIN':
-              return <AdminDashboard activeTab={activeTab} />;
-            case 'TEACHER':
-              return <TeacherDashboard activeTab={activeTab} />;
-            case 'PARENT':
-              return <ParentDashboard activeTab={activeTab} />;
-            case 'STUDENT':
-            default:
-              return <StudentDashboard activeTab={activeTab} />;
-          }
-        })()}
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingFallback message="ড্যাশবোর্ড প্রস্তুত হচ্ছে..." />}>
+          {(() => {
+            switch (role) {
+              case 'SUPER_ADMIN':
+              case 'ADMIN':
+                return <AdminDashboard activeTab={activeTab} />;
+              case 'TEACHER':
+                return <TeacherDashboard activeTab={activeTab} />;
+              case 'PARENT':
+                return <ParentDashboard activeTab={activeTab} />;
+              case 'STUDENT':
+              default:
+                return <StudentDashboard activeTab={activeTab} />;
+            }
+          })()}
+        </Suspense>
+      </ErrorBoundary>
     );
   };
 
   return (
     <InactivityAutoLock>
-      <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+      <div className="min-h-[100dvh] min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans w-full overflow-x-hidden">
         <Navbar
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}
@@ -105,7 +115,7 @@ function MainApp() {
         {/* Global Live News Ticker (Sticky top-16 just below Navbar) */}
         <NewsTicker />
 
-        <div className="flex flex-1">
+        <div className="flex flex-1 relative w-full overflow-x-hidden">
           <Sidebar
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -113,7 +123,7 @@ function MainApp() {
             onClose={() => setIsSidebarOpen(false)}
           />
 
-          <main className="flex-1 lg:pl-64 p-4 sm:p-6 lg:p-8 pb-28 max-w-7xl w-full mx-auto">
+          <main className="flex-1 lg:pl-64 p-3 sm:p-6 lg:p-8 pb-28 max-w-7xl w-full mx-auto transition-all">
             {renderDashboard()}
           </main>
         </div>
@@ -127,14 +137,16 @@ function MainApp() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <SettingsProvider>
-          <AuthProvider>
-            <MainApp />
-          </AuthProvider>
-        </SettingsProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <LanguageProvider>
+          <SettingsProvider>
+            <AuthProvider>
+              <MainApp />
+            </AuthProvider>
+          </SettingsProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
