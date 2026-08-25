@@ -53,7 +53,15 @@ export default function Login() {
 
   const getFriendlyErrorMessage = (resOrErr) => {
     const status = resOrErr?.status || resOrErr?.response?.status;
-    const rawMsg = (resOrErr?.error || resOrErr?.message || '').toLowerCase();
+    const rawMsg = (resOrErr?.error || resOrErr?.message || resOrErr?.error?.message || '').toLowerCase();
+
+    // If server returned a meaningful Bengali message, display it directly
+    if (resOrErr?.error && typeof resOrErr.error === 'string' && /[\u0980-\u09FF]/.test(resOrErr.error)) {
+      return resOrErr.error;
+    }
+    if (resOrErr?.error?.message && typeof resOrErr.error.message === 'string' && /[\u0980-\u09FF]/.test(resOrErr.error.message)) {
+      return resOrErr.error.message;
+    }
 
     if (
       status === 401 ||
@@ -65,7 +73,10 @@ export default function Login() {
       rawMsg.includes('not found') ||
       rawMsg.includes('unauthorized') ||
       rawMsg.includes('password') ||
-      rawMsg.includes('user')
+      rawMsg.includes('user') ||
+      rawMsg.includes('সঠিক নয়') ||
+      rawMsg.includes('ভুল') ||
+      rawMsg.includes('পাওয়া যায়নি')
     ) {
       return lang === 'bn'
         ? 'আপনার দেওয়া ইউজার আইডি বা পাসওয়ার্ডটি ভুল। অনুগ্রহ করে আবার চেষ্টা করুন।'
@@ -76,7 +87,8 @@ export default function Login() {
       status === 429 ||
       rawMsg.includes('429') ||
       rawMsg.includes('too many') ||
-      rawMsg.includes('rate limit')
+      rawMsg.includes('rate limit') ||
+      rawMsg.includes('বেশি')
     ) {
       return lang === 'bn'
         ? 'খুব বেশি সংখ্যক ভুল চেষ্টার কারণে অ্যাকাউন্টটি সাময়িকভাবে লক হয়েছে। কিছুক্ষণ পর চেষ্টা করুন।'
@@ -84,8 +96,8 @@ export default function Login() {
     }
 
     return lang === 'bn'
-      ? 'সার্ভারে সমস্যা হচ্ছে, দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।'
-      : 'Server is currently unavailable, please try again shortly.';
+      ? (resOrErr?.error || 'আপনার দেওয়া ইউজার আইডি বা পাসওয়ার্ডটি সঠিক নয়। অনুগ্রহ করে আবার চেষ্টা করুন।')
+      : (resOrErr?.error || 'Invalid credentials. Please verify your User ID and password.');
   };
 
   const handleSubmit = async (e) => {

@@ -67,15 +67,23 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
         return { success: true, user: res.data.user };
       }
-      throw new Error(res.error?.message || 'Login failed');
+
+      const errorMsg = res.error?.message || res.message || 'ইমেইল, ইউজার আইডি অথবা পাসওয়ার্ড সঠিক নয়';
+      setError(errorMsg);
+      return {
+        success: false,
+        error: errorMsg,
+        status: res.status || 401,
+        response: res
+      };
     } catch (err) {
-      const msg = err.message || 'Login failed';
+      const msg = err.message || 'ইমেইল, ইউজার আইডি অথবা পাসওয়ার্ড সঠিক নয়';
       setError(msg);
       return {
         success: false,
         error: msg,
-        status: err.status || err.response?.status,
-        response: err.response
+        status: err.status || 401,
+        response: err
       };
     } finally {
       setLoading(false);
