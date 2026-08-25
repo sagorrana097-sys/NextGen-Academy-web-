@@ -28,6 +28,7 @@ import {
   Scale,
   Beaker,
   Info,
+  Battery,
   BatteryCharging,
   BookOpen,
   Award,
@@ -38,6 +39,7 @@ import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
 import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
 import GalvanicCellSimulation from './GalvanicCellSimulation';
 import DaniellCellSimulation from './DaniellCellSimulation';
+import DryCellSimulation from './DryCellSimulation';
 import RedoxOxidationEngine from './RedoxOxidationEngine';
 
 // =========================================================================
@@ -517,6 +519,17 @@ export default function MasterChemistryLab() {
 
             <button
               type="button"
+              onClick={() => setActiveSubTab('dry-cell')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeSubTab === 'dry-cell' ? 'bg-indigo-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Battery className="w-3.5 h-3.5" />
+              <span>শুষ্ক কোষ (Dry Cell)</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => setActiveSubTab('galvanic')}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                 activeSubTab === 'galvanic' ? 'bg-cyan-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
@@ -779,7 +792,12 @@ export default function MasterChemistryLab() {
       {activeSubTab === 'daniell' && <DaniellCellSimulation />}
 
       {/* ========================================================================= */}
-      {/* SUB-VIEW 4: CUSTOM GALVANIC CELL SIMULATOR */}
+      {/* SUB-VIEW 4: DRY CELL (LECLANCHE CELL) SIMULATOR */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'dry-cell' && <DryCellSimulation />}
+
+      {/* ========================================================================= */}
+      {/* SUB-VIEW 5: CUSTOM GALVANIC CELL SIMULATOR */}
       {/* ========================================================================= */}
       {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
     </div>

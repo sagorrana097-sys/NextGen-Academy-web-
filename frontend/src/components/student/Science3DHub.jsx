@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { Rotate3d, Atom, Heart, Sparkles, BatteryCharging, Flame } from 'lucide-react';
+import { Rotate3d, Atom, Heart, Sparkles, Battery, BatteryCharging, Flame, Sliders } from 'lucide-react';
 import LoadingFallback from '../common/LoadingFallback';
 
 const Virtual3DScienceLab = lazy(() => import('./Virtual3DScienceLab'));
@@ -8,10 +8,11 @@ const VirtualBiologyLab3D = lazy(() => import('./VirtualBiologyLab3D'));
 const ElectronConfigurationVisualizer = lazy(() => import('./ElectronConfigurationVisualizer'));
 const GalvanicCellSimulation = lazy(() => import('./GalvanicCellSimulation'));
 const DaniellCellSimulation = lazy(() => import('./DaniellCellSimulation'));
+const DryCellSimulation = lazy(() => import('./DryCellSimulation'));
 const RedoxOxidationEngine = lazy(() => import('./RedoxOxidationEngine'));
 
 export default function Science3DHub({ defaultSubTab = 'lab' }) {
-  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'daniell' | 'galvanic' | 'redox' | 'biology'
+  const [activeSubTab, setActiveSubTab] = useState(defaultSubTab); // 'lab' | 'periodic' | 'electron' | 'daniell' | 'dry-cell' | 'galvanic' | 'redox' | 'biology'
 
   return (
     <div className="space-y-6">
@@ -71,6 +72,19 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
 
         <button
           type="button"
+          onClick={() => setActiveSubTab('dry-cell')}
+          className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+            activeSubTab === 'dry-cell'
+              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 font-black'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Battery className="w-3.5 h-3.5" />
+          <span>শুষ্ক কোষ (Dry Cell)</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveSubTab('galvanic')}
           className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
             activeSubTab === 'galvanic'
@@ -115,6 +129,7 @@ export default function Science3DHub({ defaultSubTab = 'lab' }) {
         {activeSubTab === 'periodic' && <PeriodicTable3D />}
         {activeSubTab === 'electron' && <ElectronConfigurationVisualizer />}
         {activeSubTab === 'daniell' && <DaniellCellSimulation />}
+        {activeSubTab === 'dry-cell' && <DryCellSimulation />}
         {activeSubTab === 'galvanic' && <GalvanicCellSimulation />}
         {activeSubTab === 'redox' && <RedoxOxidationEngine />}
         {activeSubTab === 'biology' && <VirtualBiologyLab3D />}

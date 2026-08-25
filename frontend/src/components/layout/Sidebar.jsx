@@ -168,6 +168,11 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               icon: BatteryCharging
             },
             {
+              id: 'dry-cell',
+              label: lang === 'bn' ? 'শুষ্ক কোষ (Dry Cell) ল্যাব' : 'Dry Cell (Leclanché) Lab',
+              icon: Battery
+            },
+            {
               id: 'galvanic-cell',
               label: lang === 'bn' ? 'কাস্টম গ্যালভানিক কোষ ল্যাব' : 'Custom Galvanic Cell Lab',
               icon: Sliders
