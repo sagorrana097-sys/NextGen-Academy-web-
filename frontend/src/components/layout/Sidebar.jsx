@@ -57,6 +57,7 @@ import {
   FolderOpen,
   TestTube2,
   TrendingUp,
+  Battery,
   BatteryCharging
 } from 'lucide-react';
 
