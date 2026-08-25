@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   Sparkles,
   Search,
@@ -12,80 +12,223 @@ import {
   Award,
   Zap,
   BookOpen,
-  Filter
+  Filter,
+  CheckCircle2,
+  Rotate3d,
+  ChevronRight,
+  HelpCircle,
+  TrendingUp,
+  Brain,
+  Sliders,
+  Play,
+  RotateCcw,
+  Volume2
 } from 'lucide-react';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
 
-// Comprehensive Periodic Table Dataset (Selected core & representative elements across all 118 categories)
-const ELEMENTS = [
+// =========================================================================
+// 1. COMPREHENSIVE PERIODIC TABLE DATASET (CORE & EXTENDED REPRESENTATIVES)
+// =========================================================================
+const ALL_ELEMENTS = [
   // Period 1
-  { number: 1, symbol: 'H', nameBn: 'হাইড্রোজেন', nameEn: 'Hydrogen', mass: '1.008', group: 'nonmetal', period: 1, col: 1, valency: '1', config: '1s¹', shells: [1], state: 'Gas', color: '#38BDF8', desc: 'মহাবিশ্বের সর্বাধিক প্রাচুর্যপূর্ণ গ্যাসীয় মৌল।' },
-  { number: 2, symbol: 'He', nameBn: 'হিলিয়াম', nameEn: 'Helium', mass: '4.0026', group: 'noble', period: 1, col: 18, valency: '0', config: '1s²', shells: [2], state: 'Gas', color: '#A855F7', desc: 'নিষ্ক্রিয় গ্যাস, হালকা এবং অদাহ্য।' },
+  { n: 1, sym: 'H', nameBn: 'হাইড্রোজেন', nameEn: 'Hydrogen', mass: '1.008', group: 1, period: 1, block: 's', cat: 'nonmetal', state: 'Gas', en: 2.20, val: '1', ec: '1s¹', shells: [1], subshells: [{ name: '1s', cap: 2, count: 1 }], desc: 'মহাবিশ্বের সর্বাধিক প্রাচুর্যপূর্ণ মৌলিক গ্যাস।' },
+  { n: 2, sym: 'He', nameBn: 'হিলিয়াম', nameEn: 'Helium', mass: '4.0026', group: 18, period: 1, block: 's', cat: 'noble', state: 'Gas', en: 0, val: '0', ec: '1s²', shells: [2], subshells: [{ name: '1s', cap: 2, count: 2 }], desc: 'নিষ্ক্রিয় গ্যাস, হালকা এবং অদাহ্য।' },
 
   // Period 2
-  { number: 3, symbol: 'Li', nameBn: 'লিথিয়াম', nameEn: 'Lithium', mass: '6.94', group: 'alkali', period: 2, col: 1, valency: '1', config: '1s² 2s¹', shells: [2, 1], state: 'Solid', color: '#EF4444', desc: 'সবচেয়ে হালকা ক্ষার ধাতু।' },
-  { number: 4, symbol: 'Be', nameBn: 'বেরিলিয়াম', nameEn: 'Beryllium', mass: '9.0122', group: 'alkaline', period: 2, col: 2, valency: '2', config: '1s² 2s²', shells: [2, 2], state: 'Solid', color: '#F97316', desc: 'মৃৎক্ষার ধাতু, উচ্চ গলনাঙ্কবিশিষ্ট।' },
-  { number: 5, symbol: 'B', nameBn: 'বোরন', nameEn: 'Boron', mass: '10.81', group: 'metalloid', period: 2, col: 13, valency: '3', config: '1s² 2s² 2p¹', shells: [2, 3], state: 'Solid', color: '#10B981', desc: 'অর্ধধাতু, কাচ ও সিরামিক শিল্পে ব্যবহৃত।' },
-  { number: 6, symbol: 'C', nameBn: 'কার্বন', nameEn: 'Carbon', mass: '12.011', group: 'nonmetal', period: 2, col: 14, valency: '2, 4', config: '1s² 2s² 2p²', shells: [2, 4], state: 'Solid', color: '#38BDF8', desc: 'জৈব রসায়নের মূল ভিত্তি মৌল।' },
-  { number: 7, symbol: 'N', nameBn: 'নাইট্রোজেন', nameEn: 'Nitrogen', mass: '14.007', group: 'nonmetal', period: 2, col: 15, valency: '3, 5', config: '1s² 2s² 2p³', shells: [2, 5], state: 'Gas', color: '#38BDF8', desc: 'বায়ুমণ্ডলের ৭৮% অংশ দখল করে আছে।' },
-  { number: 8, symbol: 'O', nameBn: 'অক্সিজেন', nameEn: 'Oxygen', mass: '15.999', group: 'nonmetal', period: 2, col: 16, valency: '2', config: '1s² 2s² 2p⁴', shells: [2, 6], state: 'Gas', color: '#38BDF8', desc: 'জীবের শ্বাসপ্রশ্বাস ও দহনের জন্য অপরিহার্য।' },
-  { number: 9, symbol: 'F', nameBn: 'ফ্লোরিন', nameEn: 'Fluorine', mass: '18.998', group: 'halogen', period: 2, col: 17, valency: '1', config: '1s² 2s² 2p⁵', shells: [2, 7], state: 'Gas', color: '#FBBF24', desc: 'সবচেয়ে তীব্র তড়িৎ-ঋণাত্মক হ্যালোজেন।' },
-  { number: 10, symbol: 'Ne', nameBn: 'নিয়ন', nameEn: 'Neon', mass: '20.180', group: 'noble', period: 2, col: 18, valency: '0', config: '1s² 2s² 2p⁶', shells: [2, 8], state: 'Gas', color: '#A855F7', desc: 'নিষ্ক্রিয় গ্যাস, নিয়ন সাইন বোর্ডে ব্যবহৃত।' },
+  { n: 3, sym: 'Li', nameBn: 'লিথিয়াম', nameEn: 'Lithium', mass: '6.94', group: 1, period: 2, block: 's', cat: 'alkali', state: 'Solid', en: 0.98, val: '1', ec: '1s² 2s¹', shells: [2, 1], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 1 }], desc: 'সবচেয়ে হালকা ক্ষার ধাতু, ব্যাটারিতে শীর্ষ ব্যবহৃত।' },
+  { n: 4, sym: 'Be', nameBn: 'বেরিলিয়াম', nameEn: 'Beryllium', mass: '9.0122', group: 2, period: 2, block: 's', cat: 'alkaline', state: 'Solid', en: 1.57, val: '2', ec: '1s² 2s²', shells: [2, 2], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }], desc: 'মৃৎক্ষার ধাতু, সংকর ধাতু ও এক্স-রে জানালায় ব্যবহৃত।' },
+  { n: 5, sym: 'B', nameBn: 'বোরন', nameEn: 'Boron', mass: '10.81', group: 13, period: 2, block: 'p', cat: 'metalloid', state: 'Solid', en: 2.04, val: '3', ec: '1s² 2s² 2p¹', shells: [2, 3], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 1 }], desc: 'অপধাতু, কাচ ও সিরামিক শিল্পে বোরিক এসিড হিসেবে ব্যবহৃত।' },
+  { n: 6, sym: 'C', nameBn: 'কার্বন', nameEn: 'Carbon', mass: '12.011', group: 14, period: 2, block: 'p', cat: 'nonmetal', state: 'Solid', en: 2.55, val: '2, 4', ec: '1s² 2s² 2p²', shells: [2, 4], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 2 }], desc: 'জৈব রসায়নের ভিত্তি; হীরা ও গ্রাফাইটের মূল উপাদান।' },
+  { n: 7, sym: 'N', nameBn: 'নাইট্রোজেন', nameEn: 'Nitrogen', mass: '14.007', group: 15, period: 2, block: 'p', cat: 'nonmetal', state: 'Gas', en: 3.04, val: '3, 5', ec: '1s² 2s² 2p³', shells: [2, 5], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 3 }], desc: 'বায়ুমণ্ডলের ৭৮% গ্যাস; প্রোটিন ও সারের অপরিহার্য উপাদান।' },
+  { n: 8, sym: 'O', nameBn: 'অক্সিজেন', nameEn: 'Oxygen', mass: '15.999', group: 16, period: 2, block: 'p', cat: 'nonmetal', state: 'Gas', en: 3.44, val: '2', ec: '1s² 2s² 2p⁴', shells: [2, 6], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 4 }], desc: 'জীবদেহের শ্বসন ও বায়বীয় দহনের মূল সহায়ক মৌল।' },
+  { n: 9, sym: 'F', nameBn: 'ফ্লোরিন', nameEn: 'Fluorine', mass: '18.998', group: 17, period: 2, block: 'p', cat: 'halogen', state: 'Gas', en: 3.98, val: '1', ec: '1s² 2s² 2p⁵', shells: [2, 7], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 5 }], desc: 'পর্যায় সারণির সর্বাধিক তড়িৎ-ঋণাত্মক মৌল।' },
+  { n: 10, sym: 'Ne', nameBn: 'নিয়ন', nameEn: 'Neon', mass: '20.180', group: 18, period: 2, block: 'p', cat: 'noble', state: 'Gas', en: 0, val: '0', ec: '1s² 2s² 2p⁶', shells: [2, 8], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }], desc: 'নিষ্ক্রিয় গ্যাস; নিয়ন সাইন ও বিজ্ঞাপন আলোতে ব্যবহৃত।' },
 
   // Period 3
-  { number: 11, symbol: 'Na', nameBn: 'সোডিয়াম', nameEn: 'Sodium', mass: '22.990', group: 'alkali', period: 3, col: 1, valency: '1', config: '[Ne] 3s¹', shells: [2, 8, 1], state: 'Solid', color: '#EF4444', desc: 'নরম ধাতু, পানির সাথে তীব্র বিক্রিয়া করে।' },
-  { number: 12, symbol: 'Mg', nameBn: 'ম্যাগনেসিয়াম', nameEn: 'Magnesium', mass: '24.305', group: 'alkaline', period: 3, col: 2, valency: '2', config: '[Ne] 3s²', shells: [2, 8, 2], state: 'Solid', color: '#F97316', desc: 'ক্লোরোফিলের কেন্দ্রীয় ধাতব আয়ন।' },
-  { number: 13, symbol: 'Al', nameBn: 'অ্যালুমিনিয়াম', nameEn: 'Aluminium', mass: '26.982', group: 'post-transition', period: 3, col: 13, valency: '3', config: '[Ne] 3s² 3p¹', shells: [2, 8, 3], state: 'Solid', color: '#06B6D4', desc: 'হালকা ও টেকসই সংকর ধাতু তৈরিতে প্রধান।' },
-  { number: 14, symbol: 'Si', nameBn: 'সিলিকন', nameEn: 'Silicon', mass: '28.085', group: 'metalloid', period: 3, col: 14, valency: '4', config: '[Ne] 3s² 3p²', shells: [2, 8, 4], state: 'Solid', color: '#10B981', desc: 'কম্পিউটার চিপস ও সেমিকন্ডাক্টরের ভিত্তি।' },
-  { number: 15, symbol: 'P', nameBn: 'ফসফরাস', nameEn: 'Phosphorus', mass: '30.974', group: 'nonmetal', period: 3, col: 15, valency: '3, 5', config: '[Ne] 3s² 3p³', shells: [2, 8, 5], state: 'Solid', color: '#38BDF8', desc: 'ডিএনএ ও হাড়ের মূল উপাদান।' },
-  { number: 16, symbol: 'S', nameBn: 'সালফার', nameEn: 'Sulfur', mass: '32.06', group: 'nonmetal', period: 3, col: 16, valency: '2, 4, 6', config: '[Ne] 3s² 3p⁴', shells: [2, 8, 6], state: 'Solid', color: '#38BDF8', desc: 'হলুদ রঙের গন্ধক, সালফিউরিক এসিডের উৎস।' },
-  { number: 17, symbol: 'Cl', nameBn: 'ক্লোরিন', nameEn: 'Chlorine', mass: '35.45', group: 'halogen', period: 3, col: 17, valency: '1, 3, 5, 7', config: '[Ne] 3s² 3p⁵', shells: [2, 8, 7], state: 'Gas', color: '#FBBF24', desc: 'জীবাণুনাশক ও খাবার লবণের উপাদান।' },
-  { number: 18, symbol: 'Ar', nameBn: 'আর্গন', nameEn: 'Argon', mass: '39.948', group: 'noble', period: 3, col: 18, valency: '0', config: '[Ne] 3s² 3p⁶', shells: [2, 8, 8], state: 'Gas', color: '#A855F7', desc: 'বৈদ্যুতিক বাল্ব ও ওয়েল্ডিংয়ে ব্যবহৃত।' },
+  { n: 11, sym: 'Na', nameBn: 'সোডিয়াম', nameEn: 'Sodium', mass: '22.990', group: 1, period: 3, block: 's', cat: 'alkali', state: 'Solid', en: 0.93, val: '1', ec: '[Ne] 3s¹', shells: [2, 8, 1], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 1 }], desc: 'নরম ক্ষার ধাতু; পানিতে তীব্র বিক্রিয়া করে হাইড্রোজেন উৎপন্ন করে।' },
+  { n: 12, sym: 'Mg', nameBn: 'ম্যাগনেসিয়াম', nameEn: 'Magnesium', mass: '24.305', group: 2, period: 3, block: 's', cat: 'alkaline', state: 'Solid', en: 1.31, val: '2', ec: '[Ne] 3s²', shells: [2, 8, 2], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }], desc: 'উদ্ভিদের ক্লোরোফিলের কেন্দ্রীয় ধাতু; উজ্জ্বল শিখায় জ্বলে।' },
+  { n: 13, sym: 'Al', nameBn: 'অ্যালুমিনিয়াম', nameEn: 'Aluminium', mass: '26.982', group: 13, period: 3, block: 'p', cat: 'post-transition', state: 'Solid', en: 1.61, val: '3', ec: '[Ne] 3s² 3p¹', shells: [2, 8, 3], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 1 }], desc: 'হালকা ও মরিচাহীন সংকর ধাতু তৈরিতে শীর্ষ ব্যবহৃত ধাতু।' },
+  { n: 14, sym: 'Si', nameBn: 'সিলিকন', nameEn: 'Silicon', mass: '28.085', group: 14, period: 3, block: 'p', cat: 'metalloid', state: 'Solid', en: 1.90, val: '4', ec: '[Ne] 3s² 3p²', shells: [2, 8, 4], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 2 }], desc: 'সেমিকন্ডাক্টর, সোলার প্যানেল ও কম্পিউটার প্রসেসরের প্রাণ।' },
+  { n: 15, sym: 'P', nameBn: 'ফসফরাস', nameEn: 'Phosphorus', mass: '30.974', group: 15, period: 3, block: 'p', cat: 'nonmetal', state: 'Solid', en: 2.19, val: '3, 5', ec: '[Ne] 3s² 3p³', shells: [2, 8, 5], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 3 }], desc: 'ডিএনএ ও হাড়ের অন্যতম মূল উপাদান; দেশলাই কাঠিতে ব্যবহৃত।' },
+  { n: 16, sym: 'S', nameBn: 'সালফার', nameEn: 'Sulfur', mass: '32.06', group: 16, period: 3, block: 'p', cat: 'nonmetal', state: 'Solid', en: 2.58, val: '2, 4, 6', ec: '[Ne] 3s² 3p⁴', shells: [2, 8, 6], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 4 }], desc: 'হলুদ রঙের গন্ধক; সালফিউরিক এসিড ও রাবার ভলকানাইজিংয়ে ব্যবহৃত।' },
+  { n: 17, sym: 'Cl', nameBn: 'ক্লোরিন', nameEn: 'Chlorine', mass: '35.45', group: 17, period: 3, block: 'p', cat: 'halogen', state: 'Gas', en: 3.16, val: '1, 3, 5, 7', ec: '[Ne] 3s² 3p⁵', shells: [2, 8, 7], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 5 }], desc: 'পানিশোধন ও জীবাণুনাশক; খাবার লবণ NaCl-এর প্রধান উপাদান।' },
+  { n: 18, sym: 'Ar', nameBn: 'আর্গন', nameEn: 'Argon', mass: '39.948', group: 18, period: 3, block: 'p', cat: 'noble', state: 'Gas', en: 0, val: '0', ec: '[Ne] 3s² 3p⁶', shells: [2, 8, 8], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 6 }], desc: 'বায়ুমণ্ডলের সবচেয়ে সহজলভ্য নিষ্ক্রিয় গ্যাস; বৈদ্যুতিক বাল্বে ব্যবহৃত।' },
 
-  // Period 4 Representative Metals
-  { number: 19, symbol: 'K', nameBn: 'পটাশিয়াম', nameEn: 'Potassium', mass: '39.098', group: 'alkali', period: 4, col: 1, valency: '1', config: '[Ar] 4s¹', shells: [2, 8, 8, 1], state: 'Solid', color: '#EF4444', desc: 'উদ্ভিদের বৃদ্ধির জন্য অত্যাবশ্যকীয় সার।' },
-  { number: 20, symbol: 'Ca', nameBn: 'ক্যালসিয়াম', nameEn: 'Calcium', mass: '40.078', group: 'alkaline', period: 4, col: 2, valency: '2', config: '[Ar] 4s²', shells: [2, 8, 8, 2], state: 'Solid', color: '#F97316', desc: 'হাড় ও দাঁতের মূল গাঠনিক মৌল।' },
-  { number: 26, symbol: 'Fe', nameBn: 'আয়রন (লোহা)', nameEn: 'Iron', mass: '55.845', group: 'transition', period: 4, col: 8, valency: '2, 3', config: '[Ar] 3d⁶ 4s²', shells: [2, 8, 14, 2], state: 'Solid', color: '#EC4899', desc: 'রক্তের হিমোগ্লোবিনের অন্যতম প্রধান অংশ।' },
-  { number: 29, symbol: 'Cu', nameBn: 'কপার (তামা)', nameEn: 'Copper', mass: '63.546', group: 'transition', period: 4, col: 11, valency: '1, 2', config: '[Ar] 3d¹⁰ 4s¹', shells: [2, 8, 18, 1], state: 'Solid', color: '#EC4899', desc: 'উচ্চ বিদ্যুৎ পরিবাহী সোনালি-লাল ধাতু।' },
-  { number: 30, symbol: 'Zn', nameBn: 'জিঙ্ক (দস্তা)', nameEn: 'Zinc', mass: '65.38', group: 'transition', period: 4, col: 12, valency: '2', config: '[Ar] 3d¹⁰ 4s²', shells: [2, 8, 18, 2], state: 'Solid', color: '#EC4899', desc: 'গ্যালভানাইজিং ও ইমিউনিটি বৃদ্ধিতে সহায়ক।' },
-  { number: 47, symbol: 'Ag', nameBn: 'সিলভার (রূপা)', nameEn: 'Silver', mass: '107.87', group: 'transition', period: 5, col: 11, valency: '1', config: '[Kr] 4d¹⁰ 5s¹', shells: [2, 8, 18, 18, 1], state: 'Solid', color: '#EC4899', desc: 'সর্বাধিক বিদ্যুৎ ও তাপ পরিবাহী ধাতু।' },
-  { number: 79, symbol: 'Au', nameBn: 'গোল্ড (স্বর্ণ)', nameEn: 'Gold', mass: '196.97', group: 'transition', period: 6, col: 11, valency: '1, 3', config: '[Xe] 4f¹⁴ 5d¹⁰ 6s¹', shells: [2, 8, 18, 32, 18, 1], state: 'Solid', color: '#EC4899', desc: 'অভিজাত ধাতু, সহজে ক্ষয় বা মরিচা ধরে না।' },
-  { number: 80, symbol: 'Hg', nameBn: 'মার্কারি (পারদ)', nameEn: 'Mercury', mass: '200.59', group: 'transition', period: 6, col: 12, valency: '1, 2', config: '[Xe] 4f¹⁴ 5d¹⁰ 6s²', shells: [2, 8, 18, 32, 18, 2], state: 'Liquid', color: '#EC4899', desc: 'একমাত্র সাধারণ তাপমাত্রায় তরল ধাতু।' },
-  { number: 92, symbol: 'U', nameBn: 'ইউরেনিয়াম', nameEn: 'Uranium', mass: '238.03', group: 'actinide', period: 7, col: 3, valency: '3, 4, 5, 6', config: '[Rn] 5f³ 6d¹ 7s²', shells: [2, 8, 18, 32, 21, 9, 2], state: 'Solid', color: '#84CC16', desc: 'পারমাণবিক শক্তির প্রধান তেজস্ক্রিয় জ্বালানি।' }
+  // Period 4
+  { n: 19, sym: 'K', nameBn: 'পটাশিয়াম', nameEn: 'Potassium', mass: '39.098', group: 1, period: 4, block: 's', cat: 'alkali', state: 'Solid', en: 0.82, val: '1', ec: '[Ar] 4s¹', shells: [2, 8, 8, 1], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 6 }, { name: '4s', cap: 2, count: 1 }], desc: 'অত্যাবশ্যকীয় ক্ষার ধাতু সার; স্নায়ু উদ্দীপনা পরিবহনে ভূমিকা রাখে।' },
+  { n: 20, sym: 'Ca', nameBn: 'ক্যালসিয়াম', nameEn: 'Calcium', mass: '40.078', group: 2, period: 4, block: 's', cat: 'alkaline', state: 'Solid', en: 1.00, val: '2', ec: '[Ar] 4s²', shells: [2, 8, 8, 2], subshells: [{ name: '1s', cap: 2, count: 2 }, { name: '2s', cap: 2, count: 2 }, { name: '2p', cap: 6, count: 6 }, { name: '3s', cap: 2, count: 2 }, { name: '3p', cap: 6, count: 6 }, { name: '4s', cap: 2, count: 2 }], desc: 'হাড়, দাঁত ও সিমেন্ট-চুনাপাথরের প্রধান গাঠনিক উপাদান।' },
+  { n: 21, sym: 'Sc', nameBn: 'স্ক্যান্ডিয়াম', nameEn: 'Scandium', mass: '44.956', group: 3, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.36, val: '3', ec: '[Ar] 3d¹ 4s²', shells: [2, 8, 9, 2], subshells: [{ name: '3d', cap: 10, count: 1 }, { name: '4s', cap: 2, count: 2 }], desc: 'প্রথম ডি-ব্লক মৌল; অ্যালুমিনিয়াম সংকর তৈরিতে ব্যবহৃত।' },
+  { n: 22, sym: 'Ti', nameBn: 'টাইটানিয়াম', nameEn: 'Titanium', mass: '47.867', group: 4, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.54, val: '4', ec: '[Ar] 3d² 4s²', shells: [2, 8, 10, 2], subshells: [{ name: '3d', cap: 10, count: 2 }, { name: '4s', cap: 2, count: 2 }], desc: 'ইস্পাতের মতো শক্ত কিন্তু ৪৫% হালকা মহাকাশযান ধাতু।' },
+  { n: 23, sym: 'V', nameBn: 'ভ্যানাডিয়াম', nameEn: 'Vanadium', mass: '50.942', group: 5, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.63, val: '2, 3, 4, 5', ec: '[Ar] 3d³ 4s²', shells: [2, 8, 11, 2], subshells: [{ name: '3d', cap: 10, count: 3 }, { name: '4s', cap: 2, count: 2 }], desc: 'সালফিউরিক এসিড তৈরিতে V2O5 প্রভাবক হিসেবে সুপরিচিত।' },
+  { n: 24, sym: 'Cr', nameBn: 'ক্রোমিয়াম', nameEn: 'Chromium', mass: '51.996', group: 6, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.66, val: '2, 3, 6', ec: '[Ar] 3d⁵ 4s¹ (ব্যতিক্রম)', shells: [2, 8, 13, 1], subshells: [{ name: '3d', cap: 10, count: 5 }, { name: '4s', cap: 2, count: 1 }], desc: 'আউফবাউ নিয়মের ব্যতিক্রম! অর্ধপূর্ণ d⁵ অরবিটালের অধিক স্থিতিশীলতা।' },
+  { n: 25, sym: 'Mn', nameBn: 'ম্যাঙ্গানিজ', nameEn: 'Manganese', mass: '54.938', group: 7, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.55, val: '2, 4, 7', ec: '[Ar] 3d⁵ 4s²', shells: [2, 8, 13, 2], subshells: [{ name: '3d', cap: 10, count: 5 }, { name: '4s', cap: 2, count: 2 }], desc: 'KMnO4 তীব্র জারক পদার্থ তৈরিতে ব্যবহৃত অবস্থান্তর ধাতু।' },
+  { n: 26, sym: 'Fe', nameBn: 'আয়রন (লোহা)', nameEn: 'Iron', mass: '55.845', group: 8, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.83, val: '2, 3', ec: '[Ar] 3d⁶ 4s²', shells: [2, 8, 14, 2], subshells: [{ name: '3d', cap: 10, count: 6 }, { name: '4s', cap: 2, count: 2 }], desc: 'রক্তের হিমোগ্লোবিনের মূল ধাতু এবং আধুনিক সভ্যতার মূল মেরুদণ্ড।' },
+  { n: 27, sym: 'Co', nameBn: 'কোবাল্ট', nameEn: 'Cobalt', mass: '58.933', group: 9, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.88, val: '2, 3', ec: '[Ar] 3d⁷ 4s²', shells: [2, 8, 15, 2], subshells: [{ name: '3d', cap: 10, count: 7 }, { name: '4s', cap: 2, count: 2 }], desc: 'ভিটামিন বি-১২ এর কেন্দ্রীয় মৌল; ক্যান্সার থেরাপিতে Co-60 ব্যবহৃত।' },
+  { n: 28, sym: 'Ni', nameBn: 'নিকেল', nameEn: 'Nickel', mass: '58.693', group: 10, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.91, val: '2', ec: '[Ar] 3d⁸ 4s²', shells: [2, 8, 16, 2], subshells: [{ name: '3d', cap: 10, count: 8 }, { name: '4s', cap: 2, count: 2 }], desc: 'তেল থেকে ডালডা তৈরির হাইড্রোজিনেশন বিক্রিয়ায় নিকেল প্রভাবক।' },
+  { n: 29, sym: 'Cu', nameBn: 'কপার (তামা)', nameEn: 'Copper', mass: '63.546', group: 11, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.90, val: '1, 2', ec: '[Ar] 3d¹⁰ 4s¹ (ব্যতিক্রম)', shells: [2, 8, 18, 1], subshells: [{ name: '3d', cap: 10, count: 10 }, { name: '4s', cap: 2, count: 1 }], desc: 'আউফবাউ নিয়মের ব্যতিক্রম! পূর্ণ d¹⁰ অরবিটালের অধিক স্থিতিশীলতা।' },
+  { n: 30, sym: 'Zn', nameBn: 'জিঙ্ক (দস্তা)', nameEn: 'Zinc', mass: '65.38', group: 12, period: 4, block: 'd', cat: 'transition', state: 'Solid', en: 1.65, val: '2', ec: '[Ar] 3d¹⁰ 4s²', shells: [2, 8, 18, 2], subshells: [{ name: '3d', cap: 10, count: 10 }, { name: '4s', cap: 2, count: 2 }], desc: 'লোহায় মরিচা রোধে গ্যালভানাইজিং ও মানবদেহে রোগ প্রতিরোধে কার্যকর।' },
+  { n: 31, sym: 'Ga', nameBn: 'গ্যালিয়াম', nameEn: 'Gallium', mass: '69.723', group: 13, period: 4, block: 'p', cat: 'post-transition', state: 'Solid', en: 1.81, val: '3', ec: '[Ar] 3d¹⁰ 4s² 4p¹', shells: [2, 8, 18, 3], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 1 }], desc: 'হাতে রাখলেই শরীরের উত্তাপে গলে যাওয়া অদ্ভুত ধাতু (গলনাঙ্ক ২৯.৭°C)।' },
+  { n: 32, sym: 'Ge', nameBn: 'জার্মেনিয়াম', nameEn: 'Germanium', mass: '72.63', group: 14, period: 4, block: 'p', cat: 'metalloid', state: 'Solid', en: 2.01, val: '4', ec: '[Ar] 3d¹⁰ 4s² 4p²', shells: [2, 8, 18, 4], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 2 }], desc: 'ফাইবার অপটিক্স ও ইনফ্রারেড অপটিক্সে ব্যবহৃত অপধাতু।' },
+  { n: 33, sym: 'As', nameBn: 'আর্সেনিক', nameEn: 'Arsenic', mass: '74.922', group: 15, period: 4, block: 'p', cat: 'metalloid', state: 'Solid', en: 2.18, val: '3, 5', ec: '[Ar] 3d¹⁰ 4s² 4p³', shells: [2, 8, 18, 5], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 3 }], desc: 'বিষাক্ত অপধাতু; ভূগর্ভস্থ পানির আর্সেনিক দূষণ জনস্বাস্থ্যের সমস্যা।' },
+  { n: 34, sym: 'Se', nameBn: 'সেলেনিয়াম', nameEn: 'Selenium', mass: '78.971', group: 16, period: 4, block: 'p', cat: 'nonmetal', state: 'Solid', en: 2.55, val: '2, 4, 6', ec: '[Ar] 3d¹⁰ 4s² 4p⁴', shells: [2, 8, 18, 6], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 4 }], desc: 'আলো পড়লে বিদ্যুৎ পরিবাহিতা বৃদ্ধি পায় (ফটোইলেকট্রিক সেল)।' },
+  { n: 35, sym: 'Br', nameBn: 'ব্রোমিন', nameEn: 'Bromine', mass: '79.904', group: 17, period: 4, block: 'p', cat: 'halogen', state: 'Liquid', en: 2.96, val: '1, 3, 5', ec: '[Ar] 3d¹⁰ 4s² 4p⁵', shells: [2, 8, 18, 7], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 5 }], desc: 'একমাত্র সাধারণ তাপমাত্রায় তরল লালচে-বাদামি অধাতু।' },
+  { n: 36, sym: 'Kr', nameBn: 'ক্রিপ্টন', nameEn: 'Krypton', mass: '83.798', group: 18, period: 4, block: 'p', cat: 'noble', state: 'Gas', en: 3.00, val: '0', ec: '[Ar] 3d¹⁰ 4s² 4p⁶', shells: [2, 8, 18, 8], subshells: [{ name: '4s', cap: 2, count: 2 }, { name: '4p', cap: 6, count: 6 }], desc: 'ফ্ল্যাশ লাইট ও লেজারে ব্যবহৃত উজ্জ্বল নিষ্ক্রিয় গ্যাস।' },
+
+  // Period 5
+  { n: 37, sym: 'Rb', nameBn: 'রুবিডিয়াম', nameEn: 'Rubidium', mass: '85.468', group: 1, period: 5, block: 's', cat: 'alkali', state: 'Solid', en: 0.82, val: '1', ec: '[Kr] 5s¹', shells: [2, 8, 18, 8, 1], subshells: [{ name: '5s', cap: 2, count: 1 }], desc: 'অতি সক্রিয় ক্ষার ধাতু; পরমাণু ঘড়িতে ব্যবহৃত।' },
+  { n: 38, sym: 'Sr', nameBn: 'স্ট্রনশিয়াম', nameEn: 'Strontium', mass: '87.62', group: 2, period: 5, block: 's', cat: 'alkaline', state: 'Solid', en: 0.95, val: '2', ec: '[Kr] 5s²', shells: [2, 8, 18, 8, 2], subshells: [{ name: '5s', cap: 2, count: 2 }], desc: 'আতশবাজিতে গাঢ় লাল শিখা সৃষ্টি করে।' },
+  { n: 47, sym: 'Ag', nameBn: 'সিলভার (রূপা)', nameEn: 'Silver', mass: '107.87', group: 11, period: 5, block: 'd', cat: 'transition', state: 'Solid', en: 1.93, val: '1', ec: '[Kr] 4d¹⁰ 5s¹', shells: [2, 8, 18, 18, 1], subshells: [{ name: '4d', cap: 10, count: 10 }, { name: '5s', cap: 2, count: 1 }], desc: 'সর্বাধিক বিদ্যুৎ ও তাপ পরিবাহী ধাতব মৌল।' },
+  { n: 50, sym: 'Sn', nameBn: 'টিন (রাং)', nameEn: 'Tin', mass: '118.71', group: 14, period: 5, block: 'p', cat: 'post-transition', state: 'Solid', en: 1.96, val: '2, 4', ec: '[Kr] 4d¹⁰ 5s² 5p²', shells: [2, 8, 18, 18, 4], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 2 }], desc: 'খাবারের ক্যান প্লেটিং ও ব্রোঞ্জ সংকর তৈরিতে ব্যবহৃত।' },
+  { n: 53, sym: 'I', nameBn: 'আয়োডিন', nameEn: 'Iodine', mass: '126.90', group: 17, period: 5, block: 'p', cat: 'halogen', state: 'Solid', en: 2.66, val: '1, 5, 7', ec: '[Kr] 4d¹⁰ 5s² 5p⁵', shells: [2, 8, 18, 18, 7], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 5 }], desc: 'থাইরয়েড গ্রন্থির হরমোন তৈরিতে অত্যাবশ্যকীয় হ্যালাইড।' },
+  { n: 54, sym: 'Xe', nameBn: 'জেনন', nameEn: 'Xenon', mass: '131.29', group: 18, period: 5, block: 'p', cat: 'noble', state: 'Gas', en: 2.60, val: '0, 2, 4, 6', ec: '[Kr] 4d¹⁰ 5s² 5p⁶', shells: [2, 8, 18, 18, 8], subshells: [{ name: '5s', cap: 2, count: 2 }, { name: '5p', cap: 6, count: 6 }], desc: 'নিষ্ক্রিয় গ্যাস হওয়া সত্ত্বেও ফ্লোরিনের সাথে যৌগ গঠন করে।' },
+
+  // Period 6
+  { n: 55, sym: 'Cs', nameBn: 'সিজিয়াম', nameEn: 'Caesium', mass: '132.91', group: 1, period: 6, block: 's', cat: 'alkali', state: 'Solid', en: 0.79, val: '1', ec: '[Xe] 6s¹', shells: [2, 8, 18, 18, 8, 1], subshells: [{ name: '6s', cap: 2, count: 1 }], desc: 'সর্বাধিক তড়িৎ-ধনাত্মক ধাতু; পারমাণবিক ঘড়ির মান নির্ধারণকারী।' },
+  { n: 56, sym: 'Ba', nameBn: 'বেরিয়াম', nameEn: 'Barium', mass: '137.33', group: 2, period: 6, block: 's', cat: 'alkaline', state: 'Solid', en: 0.89, val: '2', ec: '[Xe] 6s²', shells: [2, 8, 18, 18, 8, 2], subshells: [{ name: '6s', cap: 2, count: 2 }], desc: 'আতশবাজিতে উজ্জ্বল সবুজ শিখা প্রদানকারী মৃৎক্ষার ধাতু।' },
+  { n: 74, sym: 'W', nameBn: 'টাংস্টেন', nameEn: 'Tungsten', mass: '183.84', group: 6, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.36, val: '6', ec: '[Xe] 4f¹⁴ 5d⁴ 6s²', shells: [2, 8, 18, 32, 12, 2], subshells: [{ name: '5d', cap: 10, count: 4 }, { name: '6s', cap: 2, count: 2 }], desc: 'সর্বোচ্চ গলনাঙ্কবিশিষ্ট ধাতু (৩৪২২°C); বৈদ্যুতিক ফিলামেন্টের উৎস।' },
+  { n: 78, sym: 'Pt', nameBn: 'প্লাটিনাম', nameEn: 'Platinum', mass: '195.08', group: 10, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.28, val: '2, 4', ec: '[Xe] 4f¹⁴ 5d⁹ 6s¹', shells: [2, 8, 18, 32, 17, 1], subshells: [{ name: '5d', cap: 10, count: 9 }, { name: '6s', cap: 2, count: 1 }], desc: 'মূল্যবান অনুঘটক ও ক্যান্সার প্রতিরোধী ওষুধ সিসপ্ল্যাটিনের ভিত্তি।' },
+  { n: 79, sym: 'Au', nameBn: 'গোল্ড (স্বর্ণ)', nameEn: 'Gold', mass: '196.97', group: 11, period: 6, block: 'd', cat: 'transition', state: 'Solid', en: 2.54, val: '1, 3', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s¹', shells: [2, 8, 18, 32, 18, 1], subshells: [{ name: '5d', cap: 10, count: 10 }, { name: '6s', cap: 2, count: 1 }], desc: 'অভিজাত ধাতু, সহজে ক্ষয় বা অক্সিডাইজড হয় না; উৎকৃষ্ট পরিবাহী।' },
+  { n: 80, sym: 'Hg', nameBn: 'মার্কারি (পারদ)', nameEn: 'Mercury', mass: '200.59', group: 12, period: 6, block: 'd', cat: 'transition', state: 'Liquid', en: 2.00, val: '1, 2', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s²', shells: [2, 8, 18, 32, 18, 2], subshells: [{ name: '5d', cap: 10, count: 10 }, { name: '6s', cap: 2, count: 2 }], desc: 'একমাত্র সাধারণ তাপমাত্রায় তরল ধাতু; থার্মোমিটারে ব্যবহৃত।' },
+  { n: 82, sym: 'Pb', nameBn: 'লেড (সীসা)', nameEn: 'Lead', mass: '207.2', group: 14, period: 6, block: 'p', cat: 'post-transition', state: 'Solid', en: 2.33, val: '2, 4', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²', shells: [2, 8, 18, 32, 18, 4], subshells: [{ name: '6s', cap: 2, count: 2 }, { name: '6p', cap: 6, count: 2 }], desc: 'তেজস্ক্রিয় রশ্মি প্রতিরোধক ও ভারী ক্ষতিকর ধাতু।' },
+  { n: 86, sym: 'Rn', nameBn: 'রেডন', nameEn: 'Radon', mass: '222', group: 18, period: 6, block: 'p', cat: 'noble', state: 'Gas', en: 2.2, val: '0', ec: '[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶', shells: [2, 8, 18, 32, 18, 8], subshells: [{ name: '6s', cap: 2, count: 2 }, { name: '6p', cap: 6, count: 6 }], desc: 'তেজস্ক্রিয় নিষ্ক্রিয় গ্যাস; রেডিয়াম ক্ষয়ে উৎপন্ন হয়।' },
+
+  // Period 7
+  { n: 92, sym: 'U', nameBn: 'ইউরেনিয়াম', nameEn: 'Uranium', mass: '238.03', group: 3, period: 7, block: 'f', cat: 'actinide', state: 'Solid', en: 1.38, val: '3, 4, 5, 6', ec: '[Rn] 5f³ 6d¹ 7s²', shells: [2, 8, 18, 32, 21, 9, 2], subshells: [{ name: '5f', cap: 14, count: 3 }, { name: '6d', cap: 10, count: 1 }, { name: '7s', cap: 2, count: 2 }], desc: 'পারমাণবিক চুল্লি ও পারমাণবিক বোমার প্রধান ফিশন জ্বালানি।' },
+  { n: 94, sym: 'Pu', nameBn: 'প্লুটোনিয়াম', nameEn: 'Plutonium', mass: '244', group: 3, period: 7, block: 'f', cat: 'actinide', state: 'Solid', en: 1.28, val: '4', ec: '[Rn] 5f⁶ 7s²', shells: [2, 8, 18, 32, 24, 8, 2], subshells: [{ name: '5f', cap: 14, count: 6 }, { name: '7s', cap: 2, count: 2 }], desc: 'কৃত্রিম তেজস্ক্রিয় মৌল ও পারমাণবিক শক্তির অন্যতম উৎস।' },
+  { n: 118, sym: 'Og', nameBn: 'ওগানেসন', nameEn: 'Oganesson', mass: '294', group: 18, period: 7, block: 'p', cat: 'noble', state: 'Synthetic', en: 0, val: '0', ec: '[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶', shells: [2, 8, 18, 32, 32, 18, 8], subshells: [{ name: '7s', cap: 2, count: 2 }, { name: '7p', cap: 6, count: 6 }], desc: 'পর্যায় সারণির ১১৮তম ও সর্বশেষ সংশ্লেষিত অতিভারী মৌল।' }
 ];
 
 const CATEGORIES = [
-  { id: 'ALL', name: 'সকল মৌল' },
+  { id: 'ALL', name: 'সকল ক্যাটাগরি', color: '#38BDF8' },
   { id: 'alkali', name: 'ক্ষার ধাতু (Alkali)', color: '#EF4444' },
-  { id: 'alkaline', name: 'মৃৎক্ষার ধাতু (Alkaline)', color: '#F97316' },
+  { id: 'alkaline', name: 'মৃৎক্ষার ধাতু (Alkaline Earth)', color: '#F97316' },
   { id: 'transition', name: 'অবস্থান্তর ধাতু (Transition)', color: '#EC4899' },
   { id: 'metalloid', name: 'অপধাতু (Metalloid)', color: '#10B981' },
   { id: 'nonmetal', name: 'অধাতু (Non-metal)', color: '#38BDF8' },
   { id: 'halogen', name: 'হ্যালোজেন (Halogen)', color: '#FBBF24' },
-  { id: 'noble', name: 'নিষ্ক্রিয় গ্যাস (Noble Gas)', color: '#A855F7' }
+  { id: 'noble', name: 'নিষ্ক্রিয় গ্যাস (Noble Gas)', color: '#A855F7' },
+  { id: 'post-transition', name: 'পোস্ট-অবস্থান্তর ধাতু', color: '#06B6D4' },
+  { id: 'actinide', name: 'অ্যাক্টিনাইড (Actinide)', color: '#84CC16' }
 ];
 
+const BLOCKS = [
+  { id: 'ALL', name: 'সকল ব্লক' },
+  { id: 's', name: 's-Block (গ্রুপ ১, ২ + He)', desc: 'সর্বশেষ ইলেকট্রন s উপস্তরে প্রবেশ করে' },
+  { id: 'p', name: 'p-Block (গ্রুপ ১৩-১৮)', desc: 'সর্বশেষ ইলেকট্রন p উপস্তরে প্রবেশ করে' },
+  { id: 'd', name: 'd-Block (গ্রুপ ৩-১২)', desc: 'সর্বশেষ ইলেকট্রন d উপস্তরে প্রবেশ করে' },
+  { id: 'f', name: 'f-Block (ল্যান্থানাইড/অ্যাক্টিনাইড)', desc: 'সর্বশেষ ইলেকট্রন f উপস্তরে প্রবেশ করে' }
+];
+
+// =========================================================================
+// 2. ORBITAL SPIN BOX GENERATOR (HUND'S RULE & PAULI EXCLUSION PRINCIPLE)
+// =========================================================================
+function renderOrbitalBoxes(subshellName, electronCount) {
+  let boxCount = 1;
+  let subLabels = ['s'];
+  if (subshellName.includes('p')) {
+    boxCount = 3;
+    subLabels = ['p_x', 'p_y', 'p_z'];
+  } else if (subshellName.includes('d')) {
+    boxCount = 5;
+    subLabels = ['d_{xy}', 'd_{yz}', 'd_{zx}', 'd_{x^2-y^2}', 'd_{z^2}'];
+  } else if (subshellName.includes('f')) {
+    boxCount = 7;
+    subLabels = ['f_1', 'f_2', 'f_3', 'f_4', 'f_5', 'f_6', 'f_7'];
+  }
+
+  const boxes = [];
+  for (let i = 0; i < boxCount; i++) {
+    const hasSpinUp = electronCount > i;
+    const hasSpinDown = electronCount > (i + boxCount);
+    boxes.push({
+      id: i,
+      label: subLabels[i],
+      hasSpinUp,
+      hasSpinDown,
+      isFull: hasSpinUp && hasSpinDown,
+      isUnpaired: hasSpinUp && !hasSpinDown
+    });
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="flex items-center gap-1.5 p-1.5 rounded-xl bg-slate-950/80 border border-slate-700/80 shadow-inner">
+        {boxes.map((box) => (
+          <div
+            key={box.id}
+            className={`w-9 h-11 rounded-lg border flex flex-col items-center justify-center relative transition-all ${
+              box.isFull
+                ? 'border-cyan-500/60 bg-cyan-950/40 shadow-sm shadow-cyan-500/20'
+                : box.isUnpaired
+                ? 'border-emerald-500/60 bg-emerald-950/30'
+                : 'border-slate-700/60 bg-slate-900/50 border-dashed'
+            }`}
+          >
+            <div className="flex items-center justify-center gap-1">
+              {box.hasSpinUp && (
+                <span className="text-cyan-400 font-bold text-base leading-none animate-in fade-in zoom-in" title="Spin Up (+1/2)">
+                  ↑
+                </span>
+              )}
+              {box.hasSpinDown && (
+                <span className="text-amber-400 font-bold text-base leading-none animate-in fade-in zoom-in" title="Spin Down (-1/2)">
+                  ↓
+                </span>
+              )}
+              {!box.hasSpinUp && !box.hasSpinDown && (
+                <span className="text-[10px] text-slate-600 font-mono">-</span>
+              )}
+            </div>
+            <span className="text-[8px] text-slate-500 font-mono mt-0.5">{box.label}</span>
+          </div>
+        ))}
+      </div>
+      <span className="text-[10px] font-bold text-slate-300 font-mono bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700">
+        {subshellName}<sup>{electronCount}</sup>
+      </span>
+    </div>
+  );
+}
+
+// =========================================================================
+// 3. MAIN COMPONENT: INTERACTIVE PERIODIC TABLE & ELECTRON CONFIG LAB
+// =========================================================================
 export default function PeriodicTable3D() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedBlock, setSelectedBlock] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeElement, setActiveElement] = useState(null);
+  const [activeElement, setActiveElement] = useState(ALL_ELEMENTS[25]); // Iron (Fe) default
   const [isExporting, setIsExporting] = useState(false);
+  const [activeTab, setActiveTab] = useState('table'); // 'table' | 'visualizer' | 'quiz'
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizAnswered, setQuizAnswered] = useState(null);
   const flashcardRef = useRef(null);
 
-  const filteredElements = ELEMENTS.filter((el) => {
-    const matchesCat = selectedCategory === 'ALL' || el.group === selectedCategory;
-    const q = searchQuery.toLowerCase();
-    const matchesQ = !q || el.nameBn.toLowerCase().includes(q) || el.nameEn.toLowerCase().includes(q) || el.symbol.toLowerCase().includes(q) || String(el.number).includes(q);
-    return matchesCat && matchesQ;
-  });
+  // Filter elements by category, block, and search query
+  const filteredElements = useMemo(() => {
+    return ALL_ELEMENTS.filter((el) => {
+      const matchesCat = selectedCategory === 'ALL' || el.cat === selectedCategory;
+      const matchesBlock = selectedBlock === 'ALL' || el.block === selectedBlock;
+      const q = searchQuery.toLowerCase().trim();
+      const matchesQ =
+        !q ||
+        el.nameBn.toLowerCase().includes(q) ||
+        el.nameEn.toLowerCase().includes(q) ||
+        el.sym.toLowerCase().includes(q) ||
+        String(el.n) === q ||
+        el.ec.toLowerCase().includes(q);
+      return matchesCat && matchesBlock && matchesQ;
+    });
+  }, [selectedCategory, selectedBlock, searchQuery]);
 
+  // Flashcard Export Handler
   const handleExportFlashcard = async () => {
     if (!flashcardRef.current || !activeElement) return;
     setIsExporting(true);
     try {
       await exportBrandedGraphic(flashcardRef.current, {
-        fileName: `NextGen_Element_${activeElement.symbol}_${activeElement.nameEn}`,
-        cardTitle: `মৌল ফ্ল্যাশকার্ড: ${activeElement.nameBn} (${activeElement.symbol})`,
+        fileName: `NextGen_Periodic_Element_${activeElement.sym}_${activeElement.nameEn}`,
+        cardTitle: `মৌল ফ্ল্যাশকার্ড ও ইলেকট্রন বিন্যাস: ${activeElement.nameBn} (${activeElement.sym})`,
         scale: 2
       });
     } catch (err) {
@@ -95,213 +238,482 @@ export default function PeriodicTable3D() {
     }
   };
 
+  // Unpaired electron calculator
+  const unpairedElectronsCount = useMemo(() => {
+    if (!activeElement?.subshells) return 0;
+    let unpaired = 0;
+    activeElement.subshells.forEach(sub => {
+      let boxCount = 1;
+      if (sub.name.includes('p')) boxCount = 3;
+      else if (sub.name.includes('d')) boxCount = 5;
+      else if (sub.name.includes('f')) boxCount = 7;
+
+      for (let i = 0; i < boxCount; i++) {
+        const hasUp = sub.count > i;
+        const hasDown = sub.count > (i + boxCount);
+        if (hasUp && !hasDown) unpaired++;
+      }
+    });
+    return unpaired;
+  }, [activeElement]);
+
   return (
     <div className="space-y-6">
       {/* Top Header Banner */}
       <div className="p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 rounded-3xl shadow-xl text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
-          <div className="p-3.5 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-            <Atom className="w-8 h-8 animate-spin-slow" />
+          <div className="p-3.5 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-inner">
+            <Atom className="w-9 h-9 animate-spin-slow" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-black text-white">ইন্টারেক্টিভ ৩ডি পর্যায় সারণি ও পরমাণু মডেল</h2>
+              <h2 className="text-2xl font-black text-white">ইন্টারেক্টিভ পর্যায় সারণি ও ইলেকট্রন বিন্যাস ল্যাব</h2>
               <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold font-mono">
-                Chemistry 3D
+                Aufbau & Hund's Rule 3D
               </span>
             </div>
             <p className="text-sm text-slate-400 mt-1">
-              মৌলের পারমাণবিক ভর, যোজনী, ইলেকট্রন বিন্যাস এবং লাইভ ৩ডি বোর মডেল অ্যানিমেশন
+              মৌলের বোর মডেল (2n²), উপস্তর অরবিটাল স্পিন (↑ ↓), আউফবাউ নিয়মের ব্যতিক্রম ও বোর্ড পরীক্ষার গুরুত্বপূর্ণ প্রশ্নোত্তর
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Search & Category Filter Toolbar */}
-      <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
-        {/* Search Bar */}
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="প্রতীক, নাম বা পারমাণবিক সংখ্যা লিখুন..."
-            className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-        </div>
-
-        {/* Category Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none w-full sm:w-auto">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all text-xs font-bold ${
-                selectedCategory === cat.id
-                  ? 'bg-cyan-600 text-white shadow-md'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Modern Periodic Grid Layout */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-9 gap-3">
-          {filteredElements.map((el) => (
-            <button
-              key={el.number}
-              type="button"
-              onClick={() => setActiveElement(el)}
-              style={{ borderColor: `${el.color}40` }}
-              className="p-3.5 rounded-2xl bg-slate-950/80 hover:bg-slate-800/90 border-2 transition-all hover:scale-105 hover:shadow-xl text-left flex flex-col justify-between group relative overflow-hidden active:scale-95"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-slate-400 font-bold">{el.number}</span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-bold font-mono">
-                  {el.state}
-                </span>
-              </div>
-
-              <div className="my-2">
-                <span
-                  className="font-black text-2xl font-mono block leading-none transition-transform group-hover:scale-110"
-                  style={{ color: el.color }}
-                >
-                  {el.symbol}
-                </span>
-                <p className="text-xs font-bold text-slate-200 mt-1 truncate">{el.nameBn}</p>
-                <span className="text-[10px] text-slate-500 font-mono block truncate">{el.nameEn}</span>
-              </div>
-
-              <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[9px] text-slate-400 font-mono">
-                <span>ভর: {el.mass}</span>
-                <span className="text-cyan-400 font-bold">যোজনী: {el.valency}</span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 3D ELEMENT DETAILS & BOHR MODEL MODAL */}
-      {/* ========================================================================= */}
-      {activeElement && (
-        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div
-            ref={flashcardRef}
-            className="bg-slate-900 border-2 border-cyan-500/50 rounded-3xl max-w-2xl w-full p-6 sm:p-8 text-white shadow-2xl space-y-6 relative overflow-hidden animate-in zoom-in-95 duration-150"
+        {/* View Mode Switcher */}
+        <div className="flex items-center gap-1 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 text-xs font-bold shadow-inner">
+          <button
+            type="button"
+            onClick={() => setActiveTab('table')}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === 'table' ? 'bg-cyan-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+            }`}
           >
-            {/* Modal Header */}
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center font-mono text-2xl font-black shadow-lg"
-                  style={{ backgroundColor: `${activeElement.color}25`, color: activeElement.color, border: `2px solid ${activeElement.color}` }}
-                >
-                  {activeElement.symbol}
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-black text-2xl text-white">{activeElement.nameBn}</h3>
-                    <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-cyan-300 font-mono text-xs font-bold">
-                      Z = {activeElement.number}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400 font-mono mt-0.5">
-                    {activeElement.nameEn} • {activeElement.state} • {activeElement.group.toUpperCase()}
-                  </p>
-                </div>
-              </div>
+            <Layers className="w-3.5 h-3.5" />
+            <span>পর্যায় সারণি</span>
+          </button>
 
-              <button
-                type="button"
-                onClick={() => setActiveElement(null)}
-                className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('visualizer')}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === 'visualizer' ? 'bg-emerald-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>ইলেকট্রন স্পিন ল্যাব</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('quiz')}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === 'quiz' ? 'bg-amber-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Award className="w-3.5 h-3.5" />
+            <span>অনুশীলন কুইজ</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* TAB 1: INTERACTIVE PERIODIC TABLE GRID VIEW */}
+      {/* ========================================================================= */}
+      {activeTab === 'table' && (
+        <div className="space-y-6">
+          {/* Search & Category Filter Toolbar */}
+          <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-lg">
+            {/* Search Bar */}
+            <div className="relative w-full md:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="প্রতীক, নাম, সংখ্যা (Z) বা বিন্যাস খুঁজুন..."
+                className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
             </div>
 
-            {/* 3D Animated Bohr Atomic Model Simulator Canvas Box */}
-            <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-center justify-center gap-8 shadow-inner relative overflow-hidden">
-              {/* Concentric Bohr Shells with Orbiting Electrons */}
-              <div className="relative w-48 h-48 flex items-center justify-center flex-shrink-0">
-                {/* Nucleus */}
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-amber-400 flex items-center justify-center text-[10px] font-black text-slate-950 shadow-lg shadow-rose-500/50 z-20 animate-pulse">
-                  <span>{activeElement.symbol}⁺</span>
-                </div>
+            {/* Block Pills */}
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+              {BLOCKS.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => setSelectedBlock(b.id)}
+                  className={`px-2.5 py-1 rounded-lg transition-all text-[11px] ${
+                    selectedBlock === b.id ? 'bg-cyan-500 text-slate-950 font-black' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {b.name}
+                </button>
+              ))}
+            </div>
 
-                {/* Shell 1 */}
-                {activeElement.shells.length >= 1 && (
-                  <div className="absolute w-20 h-20 rounded-full border border-cyan-500/50 animate-spin-slow">
-                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400 absolute -top-1 left-1/2 -translate-x-1/2" />
-                  </div>
-                )}
+            {/* Category Pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none w-full md:w-auto">
+              {CATEGORIES.slice(0, 6).map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all text-xs font-bold ${
+                    selectedCategory === cat.id ? 'bg-cyan-600 text-white shadow-md' : 'bg-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          </div>
 
-                {/* Shell 2 */}
-                {activeElement.shells.length >= 2 && (
-                  <div className="absolute w-32 h-32 rounded-full border border-indigo-500/50 animate-spin-reverse">
-                    <div className="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-md shadow-indigo-400 absolute top-1/2 -right-1 -translate-y-1/2" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-md shadow-indigo-400 absolute top-1/2 -left-1 -translate-y-1/2" />
-                  </div>
-                )}
-
-                {/* Shell 3 */}
-                {activeElement.shells.length >= 3 && (
-                  <div className="absolute w-44 h-44 rounded-full border border-emerald-500/50 animate-spin-slow">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-md shadow-emerald-400 absolute -bottom-1 left-1/2 -translate-x-1/2" />
-                  </div>
-                )}
+          {/* Interactive Elements Grid */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-wider">উপলব্ধ মৌলিক পদার্থসমূহ</span>
+                <span className="px-2 py-0.5 rounded-full bg-slate-800 text-cyan-400 font-mono text-xs font-bold">
+                  {filteredElements.length}টি মৌল
+                </span>
               </div>
+              <span className="text-xs text-slate-500 italic hidden sm:inline">
+                💡 যেকোনো মৌলে ক্লিক করে বোর মডেল ও সাবশেল অরবিটাল স্পিন বিস্তারিত দেখুন
+              </span>
+            </div>
 
-              {/* Chemical Specifications */}
-              <div className="space-y-2.5 text-xs flex-1">
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">ইলেকট্রন বিন্যাস (Configuration):</span>
-                  <p className="font-mono text-sm font-bold text-cyan-300">{activeElement.config}</p>
-                  <p className="text-[11px] text-slate-400 font-mono">
-                    শেল বিন্যাস: K({activeElement.shells[0] || 0}), L({activeElement.shells[1] || 0}), M({activeElement.shells[2] || 0})
-                  </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-9 gap-3">
+              {filteredElements.map((el) => {
+                const catObj = CATEGORIES.find((c) => c.id === el.cat) || CATEGORIES[0];
+                const isCurrentActive = activeElement?.n === el.n;
+
+                return (
+                  <button
+                    key={el.n}
+                    type="button"
+                    onClick={() => setActiveElement(el)}
+                    style={{ borderColor: isCurrentActive ? catObj.color : `${catObj.color}40` }}
+                    className={`p-3.5 rounded-2xl bg-slate-950/90 hover:bg-slate-800/90 border-2 transition-all hover:scale-105 hover:shadow-xl text-left flex flex-col justify-between group relative overflow-hidden active:scale-95 ${
+                      isCurrentActive ? 'ring-2 ring-cyan-400 shadow-lg shadow-cyan-500/20' : ''
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] text-slate-400 font-bold">Z={el.n}</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-bold font-mono">
+                        {el.block}-block
+                      </span>
+                    </div>
+
+                    <div className="my-2">
+                      <span
+                        className="font-black text-2xl font-mono block leading-none transition-transform group-hover:scale-110"
+                        style={{ color: catObj.color }}
+                      >
+                        {el.sym}
+                      </span>
+                      <p className="text-xs font-bold text-slate-200 mt-1 truncate">{el.nameBn}</p>
+                      <span className="text-[10px] text-slate-500 font-mono block truncate">{el.nameEn}</span>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[9px] text-slate-400 font-mono">
+                      <span>ভর: {el.mass}</span>
+                      <span className="text-cyan-400 font-bold">যোজনী: {el.val}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 2: LIVE ELECTRON CONFIGURATION & ORBITAL SPIN VISUALIZER LAB */}
+      {/* ========================================================================= */}
+      {(activeTab === 'visualizer' || activeTab === 'table') && activeElement && (
+        <div className="bg-slate-900 border-2 border-cyan-500/40 rounded-3xl p-6 sm:p-8 text-white shadow-2xl space-y-6 relative overflow-hidden" ref={flashcardRef}>
+          {/* Header Card with Element Overview */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div className="flex items-center gap-4">
+              <div
+                className="w-16 h-16 rounded-2xl flex flex-col items-center justify-center font-mono font-black shadow-xl border-2"
+                style={{
+                  backgroundColor: `${CATEGORIES.find((c) => c.id === activeElement.cat)?.color || '#38BDF8'}20`,
+                  color: CATEGORIES.find((c) => c.id === activeElement.cat)?.color || '#38BDF8',
+                  borderColor: CATEGORIES.find((c) => c.id === activeElement.cat)?.color || '#38BDF8'
+                }}
+              >
+                <span className="text-2xl leading-none">{activeElement.sym}</span>
+                <span className="text-[10px] mt-0.5 opacity-80">Z={activeElement.n}</span>
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-black text-2xl text-white">{activeElement.nameBn} ({activeElement.nameEn})</h3>
+                  <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">
+                    {activeElement.cat.toUpperCase()}
+                  </span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                    <span className="text-[10px] text-slate-400 block">পারমাণবিক ভর:</span>
-                    <strong className="text-white font-mono text-sm">{activeElement.mass} u</strong>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                    <span className="text-[10px] text-slate-400 block">যোজনী (Valency):</span>
-                    <strong className="text-emerald-400 font-mono text-sm">{activeElement.valency}</strong>
-                  </div>
-                </div>
-
-                <p className="text-[11px] text-slate-300 italic pt-1">
-                  💡 {activeElement.desc}
+                <p className="text-xs text-slate-400 font-mono mt-1">
+                  গ্রুপ: {activeElement.group} • পর্যায়: {activeElement.period} • ব্লক: {activeElement.block.toUpperCase()} • অবস্থা: {activeElement.state}
                 </p>
               </div>
             </div>
 
-            {/* Modal Bottom Actions */}
-            <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-              <span className="text-[11px] text-slate-400 font-mono">
-                NextGen Academy • রসায়ন ও পরমাণু মডেল
-              </span>
+            {/* Download Branded Flashcard Button */}
+            <button
+              type="button"
+              onClick={handleExportFlashcard}
+              disabled={isExporting}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+            >
+              {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <span>ফ্ল্যাশকার্ড ডাউনলোড (Export Flashcard)</span>
+            </button>
+          </div>
 
-              <button
-                type="button"
-                onClick={handleExportFlashcard}
-                disabled={isExporting}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
-              >
-                {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                <span>ফ্ল্যাশকার্ড ডাউনলোড (Download Flashcard)</span>
-              </button>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Column (5 Cols): Bohr Atomic Multi-Orbit Simulator */}
+            <div className="lg:col-span-5 p-6 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center shadow-inner relative overflow-hidden">
+              <div className="w-full flex items-center justify-between mb-4">
+                <span className="text-xs font-black text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <Atom className="w-4 h-4 text-cyan-400 animate-spin-slow" />
+                  বোর মডেল অরবিট সিমুলেটর
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono">
+                  শেল সংখ্যা: {activeElement.shells?.length || 1}
+                </span>
+              </div>
+
+              {/* Concentric Bohr Shells Visualizer */}
+              <div className="relative w-56 h-56 flex items-center justify-center my-2">
+                {/* Central Nucleus with Protons & Neutrons */}
+                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 to-rose-600 flex flex-col items-center justify-center text-[10px] font-black text-slate-950 shadow-xl shadow-rose-500/40 z-20 animate-pulse border-2 border-white/40 text-center">
+                  <span className="font-mono font-black text-xs leading-none">{activeElement.sym}</span>
+                  <span className="text-[8px] font-mono leading-none mt-0.5 font-bold">p={activeElement.n}</span>
+                </div>
+
+                {/* Concentric Shells (K, L, M, N, O, P, Q) */}
+                {activeElement.shells?.map((electronCount, sIdx) => {
+                  const size = 70 + (sIdx + 1) * 32;
+                  const shellNames = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'];
+                  const shellColors = ['border-cyan-500/50', 'border-indigo-500/50', 'border-emerald-500/50', 'border-amber-500/50', 'border-rose-500/50', 'border-purple-500/50', 'border-teal-500/50'];
+                  const spinClass = sIdx % 2 === 0 ? 'animate-spin-slow' : 'animate-spin-reverse';
+
+                  return (
+                    <div
+                      key={sIdx}
+                      style={{ width: `${size}px`, height: `${size}px` }}
+                      className={`absolute rounded-full border ${shellColors[sIdx % shellColors.length]} ${spinClass} flex items-center justify-center`}
+                    >
+                      {/* Place electrons around circumference */}
+                      {Array.from({ length: Math.min(electronCount, 16) }).map((_, eIdx) => {
+                        const angle = (eIdx / Math.min(electronCount, 16)) * 2 * Math.PI;
+                        const radius = size / 2;
+                        const x = Math.cos(angle) * radius;
+                        const y = Math.sin(angle) * radius;
+
+                        return (
+                          <div
+                            key={eIdx}
+                            style={{
+                              transform: `translate(${x}px, ${y}px)`
+                            }}
+                            className="absolute w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400/80 border border-white"
+                          />
+                        );
+                      })}
+                      <span className="absolute -top-3 text-[9px] font-bold text-slate-500 font-mono">
+                        {shellNames[sIdx]}({electronCount})
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Shells Breakdown Pill Bar */}
+              <div className="w-full mt-4 p-3 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs font-mono">
+                <span className="text-slate-400 font-bold">শেল ইলেকট্রন:</span>
+                <div className="flex items-center gap-1.5">
+                  {activeElement.shells?.map((count, idx) => {
+                    const shellNames = ['K', 'L', 'M', 'N', 'O', 'P', 'Q'];
+                    return (
+                      <span key={idx} className="px-2 py-0.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs font-bold">
+                        {shellNames[idx]}={count}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column (7 Cols): Hund's Rule Orbital Spin Box Visualizer */}
+            <div className="lg:col-span-7 space-y-4">
+              {/* Electronic Configuration Notation */}
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 shadow-inner">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    আউফবাউ উপস্তর ইলেকট্রন বিন্যাস (Aufbau Principle)
+                  </span>
+                  {activeElement.ec.includes('ব্যতিক্রম') && (
+                    <span className="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-bold animate-pulse">
+                      ⚠️ ব্যতিক্রমী বিন্যাস
+                    </span>
+                  )}
+                </div>
+
+                <p className="font-mono text-base font-black text-cyan-300 tracking-wide bg-slate-900/90 p-3 rounded-xl border border-slate-800 shadow-sm">
+                  {activeElement.ec}
+                </p>
+              </div>
+
+              {/* Subshell Orbital Spin Boxes (Hund's Rule) */}
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-inner">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-amber-400" />
+                    হুন্ডের নীতি ও অরবিটাল স্পিন ডায়াগ্রাম (Orbital Spins)
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    অযুগ্ম ইলেকট্রন: <strong className="text-cyan-400">{unpairedElectronsCount}টি</strong>
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800 overflow-x-auto">
+                  {activeElement.subshells?.map((sub, sIdx) => (
+                    <div key={sIdx}>
+                      {renderOrbitalBoxes(sub.name, sub.count)}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-4 text-[10px] text-slate-400 pt-1">
+                  <div className="flex items-center gap-1">
+                    <span className="text-cyan-400 font-bold text-xs">↑</span>
+                    <span>Spin Up (ms = +1/2)</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-amber-400 font-bold text-xs">↓</span>
+                    <span>Spin Down (ms = -1/2)</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3 h-3 rounded border border-dashed border-slate-600 bg-slate-900 inline-block"></span>
+                    <span>ফাঁকা অরবিটাল</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Properties Grid */}
+              <div className="grid grid-cols-3 gap-3 text-xs">
+                <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block font-bold">পারমাণবিক ভর (Mass):</span>
+                  <strong className="text-white font-mono text-sm">{activeElement.mass} u</strong>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block font-bold">তড়িৎ-ঋণাত্মকতা:</span>
+                  <strong className="text-cyan-400 font-mono text-sm">{activeElement.en || 'N/A'}</strong>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block font-bold">যোজনী (Valency):</span>
+                  <strong className="text-emerald-400 font-mono text-sm">{activeElement.val}</strong>
+                </div>
+              </div>
+
+              {/* Board Exam Note */}
+              <div className="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-100 flex items-start gap-2.5">
+                <Brain className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-emerald-300 block font-black mb-0.5">বোর্ড পরীক্ষার স্মার্ট নোট (Exam Keynote):</strong>
+                  <p className="text-emerald-100/90 leading-relaxed text-[11px]">{activeElement.desc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Academy Branding */}
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+            <span>NextGen Academy • পরিচালক: মো: আলমগীর হোসেন (সাগর) • ০১৭৯২৮১৮০০৫</span>
+            <span>পশ্চিম জয়দেবপুর, গাজীপুর • LEARN · GROW · SUCCEED</span>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 3: PRACTICE QUIZ & REVISION MODE */}
+      {/* ========================================================================= */}
+      {activeTab === 'quiz' && (
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <h3 className="text-xl font-black text-white flex items-center gap-2">
+                <Award className="w-6 h-6 text-amber-400" />
+                ইলেকট্রন বিন্যাস ও পর্যায় সারণি কুইজ (Practice Zone)
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                এসএসসি ও এইচএসসি রসায়ন পরীক্ষার বোর্ড স্ট্যান্ডার্ড বহুনির্বাচনী প্রশ্ন অনুশীলন করুন
+              </p>
+            </div>
+            <div className="px-4 py-2 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono font-bold text-sm">
+              স্কোর: {quizScore} পয়েন্ট
+            </div>
+          </div>
+
+          {/* Question 1: Chromium Exception */}
+          <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <span className="text-xs font-black text-cyan-400 uppercase tracking-wider">প্রশ্ন ১: আউফবাউ নিয়মের ব্যতিক্রম</span>
+            <p className="text-sm font-bold text-white">
+              ক্রোমিয়াম (Z=24) মৌলটির সঠিক এবং স্থিতিশীল ইলেকট্রন বিন্যাস কোনটি?
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+              {[
+                { id: 'a', text: '[Ar] 3d⁴ 4s²', correct: false, note: 'ভুল। d⁴ কাঠামো d⁵ এর চেয়ে কম স্থিতিশীল।' },
+                { id: 'b', text: '[Ar] 3d⁵ 4s¹', correct: true, note: 'সঠিক! অর্ধপূর্ণ d⁵ অরবিটালের প্রতিসাম্য ও উচ্চ বিনিময় শক্তির কারণে এটি অধিক স্থিতিশীল।' },
+                { id: 'c', text: '[Ar] 3d⁶ 4s⁰', correct: false, note: 'ভুল।' },
+                { id: 'd', text: '[Ar] 3d³ 4s² 4p¹', correct: false, note: 'ভুল।' }
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => {
+                    setQuizAnswered(opt.id);
+                    if (opt.correct) setQuizScore((s) => s + 10);
+                  }}
+                  className={`p-3 rounded-xl border text-left text-xs font-mono font-bold transition-all ${
+                    quizAnswered === opt.id
+                      ? opt.correct
+                        ? 'border-emerald-500 bg-emerald-950/60 text-emerald-300'
+                        : 'border-rose-500 bg-rose-950/60 text-rose-300'
+                      : 'border-slate-800 bg-slate-900 text-slate-300 hover:border-slate-700'
+                  }`}
+                >
+                  <span className="text-slate-400 mr-2">({opt.id.toUpperCase()})</span>
+                  {opt.text}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Question 2: Hund's Rule Unpaired Electrons */}
+          <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <span className="text-xs font-black text-cyan-400 uppercase tracking-wider">প্রশ্ন ২: হুন্ডের নীতি ও অযুগ্ম ইলেকট্রন</span>
+            <p className="text-sm font-bold text-white">
+              ফসফরাস (Z=15) মৌলের যোজনী স্তরের 3p উপস্তরে অযুগ্ম (unpaired) ইলেকট্রন সংখ্যা কত?
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+              {['১টি', '২টি', '৩টি', '৫টি'].map((ans, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    if (ans === '৩টি') alert('সঠিক উত্তর! হুন্ডের নীতি অনুসারে ৩টি p অরবিটালে (px, py, pz) ১টি করে সমমুখী স্পিনের ৩টি অযুগ্ম ইলেকট্রন থাকে।');
+                    else alert('ভুল উত্তর। আবার চেষ্টা করুন।');
+                  }}
+                  className="p-3 rounded-xl border border-slate-800 bg-slate-900 hover:border-cyan-500 text-center font-bold text-xs text-white"
+                >
+                  {ans}
+                </button>
+              ))}
             </div>
           </div>
         </div>
