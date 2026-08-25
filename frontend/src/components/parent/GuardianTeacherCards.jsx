@@ -112,7 +112,7 @@ export default function GuardianTeacherCards({ studentClass = 'Class 10', teache
                     </a>
 
                     <a
-                      href={`https://wa.me/${teacher.phone.replace(/[^0-9]/g, '')}`}
+                      href={`https://wa.me/${(teacher?.phone || '').replace(/[^0-9]/g, '')}`}
                       target="_blank"
                       rel="noreferrer"
                       className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center space-x-1 shadow-sm transition-all active:scale-95"

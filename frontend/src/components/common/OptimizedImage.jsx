@@ -17,7 +17,7 @@ export default function OptimizedImage({
   const [error, setError] = useState(false);
 
   // Convert extension to webp if not explicitly provided and src is local/relative
-  const computedWebpSrc = webpSrc || (src && !src.startsWith('data:') && !src.endsWith('.webp') ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : null);
+  const computedWebpSrc = webpSrc || (src && typeof src === 'string' && !src.startsWith('data:') && !src.endsWith('.webp') ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : null);
 
   useEffect(() => {
     setLoaded(false);

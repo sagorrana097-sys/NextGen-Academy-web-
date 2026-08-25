@@ -63,7 +63,7 @@ export async function uploadToSupabaseStorage(file, options = {}) {
   const onProgress = options.onProgress || (() => {});
 
   // Clean and sanitize file name
-  const sanitizedName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const sanitizedName = (file?.name || 'file').replace(/[^a-zA-Z0-9._-]/g, '_');
   const timestamp = Date.now();
   const filePath = `${folder}/${timestamp}_${sanitizedName}`;
 
@@ -71,7 +71,7 @@ export async function uploadToSupabaseStorage(file, options = {}) {
   if (isSupabaseConfigured()) {
     try {
       onProgress(15);
-      const endpoint = `${SUPABASE_URL.replace(/\/$/, '')}/storage/v1/object/${bucket}/${filePath}`;
+      const endpoint = `${(SUPABASE_URL || '').replace(/\/$/, '')}/storage/v1/object/${bucket}/${filePath}`;
 
       const headers = {
         'apikey': SUPABASE_ANON_KEY,
@@ -96,7 +96,7 @@ export async function uploadToSupabaseStorage(file, options = {}) {
       onProgress(85);
 
       // Generate public URL
-      const publicUrl = `${SUPABASE_URL.replace(/\/$/, '')}/storage/v1/object/public/${bucket}/${filePath}`;
+      const publicUrl = `${(SUPABASE_URL || '').replace(/\/$/, '')}/storage/v1/object/public/${bucket}/${filePath}`;
 
       onProgress(100);
 

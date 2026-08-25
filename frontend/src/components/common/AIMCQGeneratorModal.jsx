@@ -248,7 +248,7 @@ export default function AIMCQGeneratorModal({
         classGrade: currentClassObj?.nameBn || currentClassObj?.name || classGrade,
         classId: selectedClassId,
         subjectId: selectedSubjectId,
-        topic: topic.trim() || (selectedDriveFiles[0]?.name ? selectedDriveFiles[0].name.replace(/\.[^/.]+$/, '') : 'গুগল ড্রাইভ স্টাডি মেটেরিয়াল'),
+        topic: topic.trim() || (selectedDriveFiles[0]?.name ? (selectedDriveFiles[0].name || '').replace(/\.[^/.]+$/, '') : 'গুগল ড্রাইভ স্টাডি মেটেরিয়াল'),
         difficulty,
         questionCount: Number(questionCount)
       });

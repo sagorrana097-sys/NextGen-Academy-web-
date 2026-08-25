@@ -105,7 +105,7 @@ export default function GazipurCampusLocationCard() {
           {/* Action Button Strip */}
           <div className="grid grid-cols-2 gap-3 pt-2">
             <a
-              href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
+              href={`tel:${(phone || '').replace(/[^0-9+]/g, '')}`}
               className="py-2.5 px-3 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-sm active:scale-95"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-400" />
@@ -113,7 +113,7 @@ export default function GazipurCampusLocationCard() {
             </a>
 
             <a
-              href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('আসসালামু আলাইকুম, আমি গাজীপুর ক্যাম্পাসে ভর্তি ও তথ্য বিষয়ে জানতে চাচ্ছি।')}`}
+              href={`https://wa.me/${(whatsapp || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent('আসসালামু আলাইকুম, আমি গাজীপুর ক্যাম্পাসে ভর্তি ও তথ্য বিষয়ে জানতে চাচ্ছি।')}`}
               target="_blank"
               rel="noreferrer"
               className="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-sm active:scale-95"

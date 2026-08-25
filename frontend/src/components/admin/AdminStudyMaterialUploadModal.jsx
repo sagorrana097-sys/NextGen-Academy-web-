@@ -86,7 +86,7 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
       }
       setSelectedFile(file);
       if (!title.trim()) {
-        const nameWithoutExt = file.name.replace(/\.[^/.]+$/, '');
+        const nameWithoutExt = (file?.name || '').replace(/\.[^/.]+$/, '');
         setTitle(nameWithoutExt);
       }
 

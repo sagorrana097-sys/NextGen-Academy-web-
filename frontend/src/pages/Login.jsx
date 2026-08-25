@@ -228,7 +228,7 @@ export default function Login() {
                     maxLength={6}
                     autoFocus
                     value={twoFactorCode}
-                    onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) => setTwoFactorCode((e.target?.value || '').replace(/\D/g, ''))}
                     required
                     placeholder="123456"
                     className="w-full text-center text-xl font-mono tracking-widest pl-10 pr-4 py-3 bg-slate-50 rounded-2xl border border-slate-300 focus:bg-white focus:ring-2 focus:ring-rose-500 focus:outline-none font-black text-slate-900"
