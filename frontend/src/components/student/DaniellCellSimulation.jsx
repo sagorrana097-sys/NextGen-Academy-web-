@@ -20,33 +20,39 @@ import {
   ArrowRight,
   ShieldCheck,
   Eye,
-  Loader2
+  Loader2,
+  Atom,
+  HelpCircle
 } from 'lucide-react';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
 
 export default function DaniellCellSimulation() {
-  // Simulation Controls State
-  const [isCircuitClosed, setIsCircuitClosed] = useState(true);
+  // Standard Daniell Cell strictly uses Zn Anode in ZnSO4 and Cu Cathode in CuSO4
+  const [znConc, setZnConc] = useState(1.0); // 1.0 M ZnSO4
+  const [cuConc, setCuConc] = useState(1.0); // 1.0 M CuSO4
   const [hasSaltBridge, setHasSaltBridge] = useState(true);
-  const [znConc, setZnConc] = useState(1.0); // 0.01M to 2.0M Zn2+
-  const [cuConc, setCuConc] = useState(1.0); // 0.01M to 2.0M Cu2+
-  const [activeTab, setActiveTab] = useState('simulation'); // 'simulation' | 'microscopic' | 'theory'
+  const [isCircuitClosed, setIsCircuitClosed] = useState(true);
+  const [isZoomMode, setIsZoomMode] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const cellRef = useRef(null);
 
-  // Standard Standard EMF: E0(Zn2+/Zn) = -0.76V, E0(Cu2+/Cu) = +0.34V
-  const E0_CELL = 1.10;
+  // Standard Constants for Daniell Cell
+  const E0_ANODE_OX = 0.762; // Zn(s) -> Zn2+(aq) + 2e-
+  const E0_CATHODE_RED = 0.340; // Cu2+(aq) + 2e- -> Cu(s)
+  const E0_CELL = E0_ANODE_OX + E0_CATHODE_RED; // Exactly 1.102 V (Standard 1.10 V)
 
-  // Real-time Nernst Equation Cell Potential Calculation:
-  // E_cell = E0_cell - (0.0592 / 2) * log10([Zn2+] / [Cu2+])
-  const cellMetrics = useMemo(() => {
+  // Nernst Equation Calculation:
+  // E_cell = E0_cell - (0.0592 / n) * log10([Zn2+] / [Cu2+])
+  const simulationMetrics = useMemo(() => {
     if (!isCircuitClosed || !hasSaltBridge) {
       return {
-        e_cell: '0.00',
-        e0_cell: '1.10',
+        e_cell: '0.000',
+        e0_cell: E0_CELL.toFixed(2),
         deltaG: '0.0',
         bulbGlow: 0,
-        status: !hasSaltBridge ? 'লবণ সেতু অনুপস্থিত (সার্কিট বিচ্ছিন্ন)' : 'সার্কিট অফ (Open Circuit)',
+        status: !hasSaltBridge
+          ? 'লবণ সেতু অনুপস্থিত! অভ্যন্তরীণ বর্তনী ছিন্ন (E = 0V)'
+          : 'সার্কিট খোলা (Open Circuit - কারেন্ট বন্ধ)',
         statusType: 'off'
       };
     }
@@ -107,13 +113,13 @@ export default function DaniellCellSimulation() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-black text-white">আদর্শ ড্যানিয়েল কোষ ল্যাব (Daniell Cell Simulator)</h2>
+              <h2 className="text-2xl font-black text-white">আদর্শ ড্যানিয়েল কোষ ল্যাব (Classic Daniell Cell Simulator)</h2>
               <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold font-mono">
-                E°cell = 1.10 V ⚡
+                E°cell = 1.10 V • Zn-Cu Benchmark ⚡
               </span>
             </div>
             <p className="text-sm text-slate-400 mt-1">
-              জিঙ্ক ও কপার তড়িৎদ্বার, লবণ সেতু আয়ন পরিবহন এবং ইলেকট্রন প্রবাহের ডায়নামিক সায়েন্টিফিক সিমুলেটর
+              চিরায়ত জিংক-কপার ($Zn-Cu$) তড়িৎদ্বার, বর্ণহীন $ZnSO_4$ ও নীল $CuSO_4$ দ্রবণ এবং $KCl$ লবণ সেতুর ইন্টারঅ্যাক্টিভ সিমুলেটর
             </p>
           </div>
         </div>
@@ -139,7 +145,7 @@ export default function DaniellCellSimulation() {
             type="button"
             onClick={handleResetStandard}
             className="px-3.5 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5 border border-slate-700"
-            title="আদর্শ ড্যানিয়েল কোষে ফিরে যান (1.0M/1.0M)"
+            title="আদর্শ ড্যানিয়েল কোষে ফিরে যান (1.0M/1.0M, E°=1.10V)"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>আদর্শ রূপ (1.10V)</span>
@@ -155,6 +161,19 @@ export default function DaniellCellSimulation() {
             {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             <span>ডাউনলোড (HD)</span>
           </button>
+        </div>
+      </div>
+
+      {/* Educational Distinction Banner (Daniell is a specific Galvanic Cell) */}
+      <div className="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/40 text-amber-200 text-xs flex items-start gap-3 shadow-lg">
+        <Info className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-bold text-amber-300 text-sm">
+            💡 গুরুত্বপূর্ণ বৈজ্ঞানিক পার্থক্য: ড্যানিয়েল কোষ বনাম সাধারণ গ্যালভানিক কোষ
+          </p>
+          <p className="text-slate-300 leading-relaxed">
+            <strong className="text-amber-400">"সকল ড্যানিয়েল কোষই গ্যালভানিক কোষ, কিন্তু সকল গ্যালভানিক কোষ ড্যানিয়েল কোষ নয়।"</strong> ড্যানিয়েল কোষ হলো গ্যালভানিক কোষ পরিবারের সবচেয়ে আদর্শ ও সুনির্দিষ্ট মডেল—যার অ্যানোড সর্বদাই <strong className="text-rose-400">ZnSO₄ দ্রবণে Zn দণ্ড</strong> এবং ক্যাথোড সর্বদাই <strong className="text-cyan-400">CuSO₄ দ্রবণে Cu দণ্ড</strong>। প্রমাণ অবস্থায় এর কোষ বিভব নির্দিষ্টভাবে <strong className="text-white font-mono font-bold">১.১০ ভোল্ট (1.10 V)</strong>।
+          </p>
         </div>
       </div>
 
@@ -176,7 +195,7 @@ export default function DaniellCellSimulation() {
             className="w-full accent-rose-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
           />
           <div className="text-[10px] text-slate-400 flex justify-between font-mono">
-            <span>ZnSO₄ (জারণ)</span>
+            <span>ZnSO₄ (দস্তা দণ্ড)</span>
             <span className="text-rose-300 font-bold">E°(ox) = +0.76V</span>
           </div>
         </div>
@@ -197,7 +216,7 @@ export default function DaniellCellSimulation() {
             className="w-full accent-cyan-500 cursor-pointer h-2 bg-slate-800 rounded-lg"
           />
           <div className="text-[10px] text-slate-400 flex justify-between font-mono">
-            <span>CuSO₄ (বিজারণ)</span>
+            <span>CuSO₄ (তামা দণ্ড)</span>
             <span className="text-cyan-300 font-bold">E°(red) = +0.34V</span>
           </div>
         </div>
@@ -219,39 +238,32 @@ export default function DaniellCellSimulation() {
               hasSaltBridge ? 'bg-slate-800 text-amber-400 hover:bg-slate-700' : 'bg-amber-600 text-white shadow-md'
             }`}
           >
-            {hasSaltBridge ? 'লবণ সেতু অপসারণ করুন' : 'লবণ সেতু পুনঃস্থাপন করুন'}
+            {hasSaltBridge ? '❌ সেতু বিচ্ছিন্ন করুন' : '✅ সেতু সংযুক্ত করুন'}
           </button>
         </div>
 
-        {/* 4. Sub-Tab Switcher */}
-        <div className="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col justify-between space-y-2">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">ভিউ মোড নির্বাচন:</span>
-          <div className="grid grid-cols-2 gap-1.5 text-xs font-bold">
-            <button
-              type="button"
-              onClick={() => setActiveTab('simulation')}
-              className={`py-1.5 rounded-xl transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'simulation' ? 'bg-amber-600 text-white font-black' : 'bg-slate-900 text-slate-400 hover:text-white'
-              }`}
-            >
-              <BatteryCharging className="w-3.5 h-3.5" />
-              <span>মূল বর্তনী</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('microscopic')}
-              className={`py-1.5 rounded-xl transition-all flex items-center justify-center gap-1 ${
-                activeTab === 'microscopic' ? 'bg-cyan-600 text-white font-black' : 'bg-slate-900 text-slate-400 hover:text-white'
-              }`}
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>আণবিক জুম</span>
-            </button>
+        {/* 4. Microscopic Atomic Zoom Toggle */}
+        <div className="space-y-2 p-3.5 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-indigo-300">ইন্টারফেস জুম:</span>
+            <span className="text-[10px] font-mono text-slate-400 font-bold">
+              {isZoomMode ? 'আণবিক ভিউ (On)' : 'ম্যাক্রো ভিউ'}
+            </span>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsZoomMode(z => !z)}
+            className={`w-full py-1.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              isZoomMode ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30' : 'bg-slate-800 text-slate-300 hover:text-white'
+            }`}
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span>{isZoomMode ? 'সাধারণ দৃশ্য' : '🔬 আণবিক জুম ভিউ'}</span>
+          </button>
         </div>
       </div>
 
-      {/* Main Simulation Stage Card */}
+      {/* Main Vector Simulation Stage */}
       <div
         ref={cellRef}
         className="bg-slate-900 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-8 text-white shadow-2xl space-y-6 relative overflow-hidden"
@@ -260,348 +272,361 @@ export default function DaniellCellSimulation() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div className="p-3.5 bg-slate-950 border border-amber-500/40 rounded-2xl shadow-inner">
             <span className="text-[10px] text-amber-300 block font-bold uppercase tracking-wider">
-              ড্যানিয়েল সেল ভোল্টেজ (E_cell):
+              নার্নস্ট কোষ বিভব (E_cell):
             </span>
             <span className="text-2xl font-black text-amber-400 font-mono mt-0.5 block flex items-baseline gap-1">
-              {cellMetrics.e_cell} <span className="text-xs text-amber-300 font-bold">Volts</span>
+              {simulationMetrics.e_cell} <span className="text-xs text-amber-300 font-bold">V</span>
             </span>
             <span className="text-[10px] text-slate-400 font-mono">আদর্শ E° = 1.10 V</span>
           </div>
 
           <div className="p-3.5 bg-slate-950 border border-rose-500/40 rounded-2xl shadow-inner">
             <span className="text-[10px] text-rose-300 block font-bold uppercase tracking-wider">
-              অ্যানোড অর্ধ-বিক্রিয়া (Oxidation):
+              অ্যানোড অর্ধ-কোষ (ZnSO₄):
             </span>
             <span className="text-base font-black text-rose-300 font-mono mt-1 block truncate">
               Zn(s) → Zn²⁺ + 2e⁻
             </span>
-            <span className="text-[10px] text-slate-400 block truncate">ইলেকট্রন ত্যাগ (ক্ষয়প্রাপ্ত হয়)</span>
+            <span className="text-[10px] text-slate-400 font-mono">E°_ox = +0.76 V (দস্তা ক্ষয়)</span>
           </div>
 
           <div className="p-3.5 bg-slate-950 border border-cyan-500/40 rounded-2xl shadow-inner">
             <span className="text-[10px] text-cyan-300 block font-bold uppercase tracking-wider">
-              ক্যাথোড অর্ধ-বিক্রিয়া (Reduction):
+              ক্যাথোড অর্ধ-কোষ (CuSO₄):
             </span>
             <span className="text-base font-black text-cyan-300 font-mono mt-1 block truncate">
               Cu²⁺ + 2e⁻ → Cu(s)
             </span>
-            <span className="text-[10px] text-slate-400 block truncate">ইলেকট্রন গ্রহণ (সঞ্চিত হয়)</span>
+            <span className="text-[10px] text-slate-400 font-mono">E°_red = +0.34 V (তামা জমা)</span>
           </div>
 
           <div className="p-3.5 bg-slate-950 border border-emerald-500/40 rounded-2xl shadow-inner">
             <span className="text-[10px] text-emerald-300 block font-bold uppercase tracking-wider">
-              মুক্ত শক্তি পরিবর্তন (ΔG°):
+              মুক্ত শক্তি ও বাল্ব গ্লো:
             </span>
-            <span className="text-xl font-black text-emerald-400 font-mono mt-1 block">
-              {cellMetrics.deltaG} <span className="text-xs text-slate-400">kJ/mol</span>
-            </span>
-            <span className="text-[10px] text-slate-400">ΔG &lt; 0 (স্বতঃস্ফূর্ত বিক্রিয়া)</span>
+            <div className="flex items-center gap-2 mt-1">
+              <Lightbulb
+                className="w-6 h-6 transition-all"
+                style={{
+                  color: simulationMetrics.bulbGlow > 0 ? '#fbbf24' : '#64748b',
+                  filter: simulationMetrics.bulbGlow > 0 ? `drop-shadow(0 0 ${simulationMetrics.bulbGlow / 6}px #f59e0b)` : 'none'
+                }}
+              />
+              <span className="text-base font-black text-emerald-400 font-mono">
+                {simulationMetrics.bulbGlow}%
+              </span>
+            </div>
+            <span className="text-[10px] text-slate-400 font-mono truncate">ΔG° = {simulationMetrics.deltaG} kJ/mol</span>
           </div>
         </div>
 
-        {/* 2D Vector Circuit Simulation Canvas */}
-        {activeTab === 'simulation' && (
-          <div className="relative w-full h-[420px] bg-slate-950 rounded-3xl border border-slate-800 flex items-center justify-center overflow-hidden p-4 shadow-inner">
-            <style>{`
-              @keyframes electronDashFlow {
-                from { stroke-dashoffset: 32; }
-                to { stroke-dashoffset: 0; }
-              }
-            `}</style>
+        {/* 2D Vector Graphic Simulation Canvas */}
+        <div className="relative w-full h-[450px] bg-slate-950 rounded-3xl border border-slate-800 flex items-center justify-center overflow-hidden p-4 shadow-inner">
+          <style>{`
+            @keyframes daniellElectronFlow {
+              from { stroke-dashoffset: 32; }
+              to { stroke-dashoffset: 0; }
+            }
+          `}</style>
 
-            <svg className="w-full h-full max-w-4xl" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="bulbGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation={cellMetrics.bulbGlow / 8} result="glow" />
-                  <feMerge>
-                    <feMergeNode in="glow" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="eGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="glow" />
-                  <feMerge>
-                    <feMergeNode in="glow" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <linearGradient id="znGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#94a3b8" />
-                  <stop offset="100%" stopColor="#475569" />
-                </linearGradient>
-                <linearGradient id="cuGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#f97316" />
-                  <stop offset="100%" stopColor="#9a3412" />
-                </linearGradient>
-              </defs>
+          <svg className="w-full h-full max-w-4xl" viewBox="0 0 800 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="bulbGlowDnl" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation={simulationMetrics.bulbGlow / 8} result="glow" />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="eGlowDnl" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="glow" />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
 
-              {/* EXTERNAL CIRCUIT COPPER WIRE */}
-              <path
-                d="M 180 160 L 180 50 L 620 50 L 620 160"
-                stroke="#b45309"
-                strokeWidth="6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-              <path
-                d="M 180 160 L 180 50 L 620 50 L 620 160"
-                stroke="#fbbf24"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
+            {/* EXTERNAL CIRCUIT WIRE: FROM ZN ANODE (200, 100) -> VOLTMETER & BULB (400, 50) -> CU CATHODE (600, 100) */}
+            <path
+              d="M 200 130 L 200 50 L 370 50"
+              stroke="#b45309"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+            <path
+              d="M 430 50 L 600 50 L 600 130"
+              stroke="#b45309"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
 
-              {/* Animated Current Overlay Track */}
-              {isCircuitClosed && hasSaltBridge && Number(cellMetrics.e_cell) > 0 && (
+            {/* Animated Electron Dash Line */}
+            {isCircuitClosed && hasSaltBridge && Number(simulationMetrics.e_cell) > 0 && (
+              <>
                 <path
-                  d="M 180 160 L 180 50 L 620 50 L 620 160"
+                  d="M 200 130 L 200 50 L 370 50"
                   stroke="#38bdf8"
                   strokeWidth="3"
                   strokeDasharray="8 8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
                   fill="none"
-                  style={{ animation: 'electronDashFlow 0.8s linear infinite' }}
+                  style={{ animation: 'daniellElectronFlow 0.8s linear infinite' }}
                 />
-              )}
+                <path
+                  d="M 430 50 L 600 50 L 600 130"
+                  stroke="#38bdf8"
+                  strokeWidth="3"
+                  strokeDasharray="8 8"
+                  fill="none"
+                  style={{ animation: 'daniellElectronFlow 0.8s linear infinite' }}
+                />
+              </>
+            )}
 
-              {/* 10 Continuous Flowing Electron Particles along Wire */}
-              {isCircuitClosed && hasSaltBridge && Number(cellMetrics.e_cell) > 0 && [0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6].map((delay, idx) => (
-                <g key={idx}>
-                  <circle r="6.5" fill="#0284c7" opacity="0.6">
-                    <animateMotion
-                      dur="4s"
-                      repeatCount="indefinite"
-                      begin={`${delay}s`}
-                      path="M 180 160 L 180 50 L 620 50 L 620 160"
-                      calcMode="linear"
-                    />
-                  </circle>
-                  <circle r="4.5" fill="#38bdf8" filter="url(#eGlow)">
-                    <animateMotion
-                      dur="4s"
-                      repeatCount="indefinite"
-                      begin={`${delay}s`}
-                      path="M 180 160 L 180 50 L 620 50 L 620 160"
-                      calcMode="linear"
-                    />
-                  </circle>
-                  <circle r="2" fill="#ffffff">
-                    <animateMotion
-                      dur="4s"
-                      repeatCount="indefinite"
-                      begin={`${delay}s`}
-                      path="M 180 160 L 180 50 L 620 50 L 620 160"
-                      calcMode="linear"
-                    />
-                  </circle>
-                </g>
-              ))}
+            {/* Flowing Glowing Electron Dots (Zn -> Voltmeter -> Cu) */}
+            {isCircuitClosed && hasSaltBridge && Number(simulationMetrics.e_cell) > 0 && [0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8].map((delay, idx) => (
+              <g key={`e-flow-${idx}`}>
+                <circle r="4.5" fill="#38bdf8" filter="url(#eGlowDnl)">
+                  <animateMotion
+                    dur="3s"
+                    repeatCount="indefinite"
+                    begin={`${delay}s`}
+                    path="M 200 130 L 200 50 L 600 50 L 600 130"
+                    calcMode="linear"
+                  />
+                </circle>
+                <circle r="2" fill="#ffffff">
+                  <animateMotion
+                    dur="3s"
+                    repeatCount="indefinite"
+                    begin={`${delay}s`}
+                    path="M 200 130 L 200 50 L 600 50 L 600 130"
+                    calcMode="linear"
+                  />
+                </circle>
+              </g>
+            ))}
 
-              {/* Direction Badges */}
-              {isCircuitClosed && hasSaltBridge && (
-                <>
-                  <rect x="200" y="24" width="150" height="20" rx="6" fill="#0f172a" stroke="#38bdf8" strokeWidth="1" />
-                  <text x="275" y="38" fill="#38bdf8" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                    ইলেকট্রন প্রবাহ (e⁻ ➔ ➔)
-                  </text>
+            {/* VOLTMETER & LIGHT BULB */}
+            <g transform="translate(360, 20)">
+              {/* Voltmeter Housing */}
+              <rect x="0" y="0" width="80" height="55" rx="12" fill="#0f172a" stroke="#475569" strokeWidth="2" />
+              <rect x="10" y="8" width="60" height="22" rx="6" fill="#020617" stroke="#334155" />
+              <text x="40" y="24" fill="#38bdf8" fontSize="13" fontWeight="900" textAnchor="middle" fontFamily="monospace">
+                {simulationMetrics.e_cell}V
+              </text>
+              <text x="40" y="44" fill="#94a3b8" fontSize="9" fontWeight="bold" textAnchor="middle">
+                DANIELL E° 1.10V
+              </text>
 
-                  <rect x="450" y="24" width="155" height="20" rx="6" fill="#0f172a" stroke="#f59e0b" strokeWidth="1" />
-                  <text x="527" y="38" fill="#fbbf24" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                    বিদ্যুৎ প্রবাহ (I ⬅ ⬅)
-                  </text>
-                </>
-              )}
-
-              {/* CENTRAL VOLTMETER & LIGHT BULB */}
-              <g transform="translate(360, 20)">
-                <rect x="0" y="0" width="80" height="55" rx="12" fill="#0f172a" stroke="#475569" strokeWidth="2" />
-                <rect x="10" y="8" width="60" height="22" rx="6" fill="#020617" stroke="#334155" />
-                <text x="40" y="24" fill="#38bdf8" fontSize="13" fontWeight="900" textAnchor="middle" fontFamily="monospace">
-                  {cellMetrics.e_cell}V
-                </text>
-                <text x="40" y="44" fill="#94a3b8" fontSize="9" fontWeight="bold" textAnchor="middle">
-                  DANIELL CELL
-                </text>
-
-                {/* Light Bulb */}
-                <g transform="translate(40, -25)">
-                  {cellMetrics.bulbGlow > 0 && (
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r={18 + cellMetrics.bulbGlow / 5}
-                      fill="#f59e0b"
-                      opacity={cellMetrics.bulbGlow / 180}
-                      filter="url(#bulbGlow)"
-                    />
-                  )}
+              {/* Light Bulb */}
+              <g transform="translate(40, -25)">
+                {simulationMetrics.bulbGlow > 0 && (
                   <circle
                     cx="0"
                     cy="0"
-                    r="14"
-                    fill={cellMetrics.bulbGlow > 0 ? '#fbbf24' : '#334155'}
-                    stroke="#e2e8f0"
-                    strokeWidth="1.5"
+                    r={18 + simulationMetrics.bulbGlow / 5}
+                    fill="#f59e0b"
+                    opacity={simulationMetrics.bulbGlow / 180}
+                    filter="url(#bulbGlowDnl)"
                   />
-                  <path
-                    d="M -4 2 L 0 -5 L 4 2"
-                    stroke={cellMetrics.bulbGlow > 0 ? '#fff' : '#64748b'}
-                    strokeWidth="1.5"
-                    fill="none"
-                  />
-                  <rect x="-5" y="10" width="10" height="5" fill="#64748b" rx="1" />
-                </g>
-              </g>
-
-              {/* LEFT BEAKER: ZINC ANODE HALF-CELL */}
-              <g transform="translate(100, 150)">
-                <rect x="0" y="0" width="160" height="210" rx="16" fill="rgba(15, 23, 42, 0.6)" stroke="#475569" strokeWidth="2.5" />
-                <rect x="4" y="50" width="152" height="154" rx="12" fill="rgba(148, 163, 184, 0.2)" />
-
-                {/* Zinc Electrode Bar */}
-                <rect
-                  x="65"
-                  y="10"
-                  width="30"
-                  height="150"
-                  rx="4"
-                  fill="url(#znGrad)"
-                  stroke="#64748b"
+                )}
+                <circle
+                  cx="0"
+                  cy="0"
+                  r="14"
+                  fill={simulationMetrics.bulbGlow > 0 ? '#fbbf24' : '#334155'}
+                  stroke="#e2e8f0"
                   strokeWidth="1.5"
                 />
-
-                <text x="80" y="-12" fill="#f43f5e" fontSize="13" fontWeight="900" textAnchor="middle">
-                  অ্যানোড (-) [Zn দণ্ড]
-                </text>
-                <text x="80" y="190" fill="#f8fafc" fontSize="11" fontWeight="bold" textAnchor="middle">
-                  ZnSO₄ দ্রবণ ({znConc}M)
-                </text>
-
-                {/* Zn2+ dissolving ions */}
-                {isCircuitClosed && hasSaltBridge && (
-                  <g className="animate-pulse">
-                    <circle cx="48" cy="105" r="10" fill="#f43f5e" opacity="0.35" />
-                    <text x="48" y="108" fill="#fda4af" fontSize="9" fontWeight="bold" textAnchor="middle">Zn²⁺</text>
-                    <circle cx="112" cy="125" r="10" fill="#f43f5e" opacity="0.35" />
-                    <text x="112" y="128" fill="#fda4af" fontSize="9" fontWeight="bold" textAnchor="middle">Zn²⁺</text>
-                  </g>
-                )}
-              </g>
-
-              {/* RIGHT BEAKER: COPPER CATHODE HALF-CELL */}
-              <g transform="translate(540, 150)">
-                <rect x="0" y="0" width="160" height="210" rx="16" fill="rgba(15, 23, 42, 0.6)" stroke="#475569" strokeWidth="2.5" />
-                <rect x="4" y="50" width="152" height="154" rx="12" fill="rgba(14, 165, 233, 0.35)" />
-
-                {/* Copper Electrode Bar */}
-                <rect
-                  x="65"
-                  y="10"
-                  width="30"
-                  height="150"
-                  rx="4"
-                  fill="url(#cuGrad)"
-                  stroke="#c2410c"
+                <path
+                  d="M -4 2 L 0 -5 L 4 2"
+                  stroke={simulationMetrics.bulbGlow > 0 ? '#fff' : '#64748b'}
                   strokeWidth="1.5"
+                  fill="none"
                 />
-
-                <text x="80" y="-12" fill="#38bdf8" fontSize="13" fontWeight="900" textAnchor="middle">
-                  ক্যাথোড (+) [Cu দণ্ড]
-                </text>
-                <text x="80" y="190" fill="#f8fafc" fontSize="11" fontWeight="bold" textAnchor="middle">
-                  CuSO₄ দ্রবণ ({cuConc}M)
-                </text>
-
-                {/* Cu2+ depositing ions */}
-                {isCircuitClosed && hasSaltBridge && (
-                  <g className="animate-pulse">
-                    <circle cx="50" cy="115" r="10" fill="#38bdf8" opacity="0.4" />
-                    <text x="50" y="118" fill="#bae6fd" fontSize="9" fontWeight="bold" textAnchor="middle">Cu²⁺</text>
-                    <circle cx="110" cy="95" r="10" fill="#38bdf8" opacity="0.4" />
-                    <text x="110" y="98" fill="#bae6fd" fontSize="9" fontWeight="bold" textAnchor="middle">Cu²⁺</text>
-                  </g>
-                )}
+                <rect x="-5" y="10" width="10" height="5" fill="#64748b" rx="1" />
               </g>
+            </g>
 
-              {/* U-TUBE SALT BRIDGE (KCl) */}
-              {hasSaltBridge ? (
-                <g transform="translate(230, 135)">
-                  <path
-                    d="M 15 130 L 15 25 Q 15 0 40 0 L 300 0 Q 325 0 325 25 L 325 130"
-                    fill="none"
-                    stroke="#64748b"
-                    strokeWidth="24"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M 15 130 L 15 25 Q 15 0 40 0 L 300 0 Q 325 0 325 130"
-                    fill="none"
-                    stroke="#fef08a"
-                    strokeWidth="16"
-                    strokeLinecap="round"
-                    opacity="0.85"
-                  />
+            {/* ========================================================= */}
+            {/* LEFT BEAKER: ANODE HALF-CELL (Zinc in ZnSO4) */}
+            {/* ========================================================= */}
+            <g transform="translate(100, 160)">
+              {/* Glass Beaker Body */}
+              <rect x="0" y="0" width="200" height="210" rx="10" fill="none" stroke="#64748b" strokeWidth="3" />
+              {/* ZnSO4 Solution (Clear with slight tint) */}
+              <rect x="5" y="50" width="190" height="155" rx="6" fill="rgba(226, 232, 240, 0.15)" />
+              {/* Liquid Level Line */}
+              <line x1="5" y1="50" x2="195" y2="50" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 2" />
 
-                  <rect x="110" y="-14" width="120" height="22" rx="8" fill="#0f172a" stroke="#eab308" strokeWidth="1.5" />
-                  <text x="170" y="1" fill="#facc15" fontSize="10" fontWeight="bold" textAnchor="middle">
-                    লবণ সেতু (KCl)
-                  </text>
+              {/* Zinc Metal Electrode Rod (Zn) */}
+              <rect
+                x="85"
+                y="-30"
+                width="30"
+                height="190"
+                rx="4"
+                fill="#94a3b8"
+                stroke="#64748b"
+                strokeWidth="2"
+                className="transition-all"
+              />
+              <text x="100" y="-8" fill="#0f172a" fontSize="12" fontWeight="black" textAnchor="middle">
+                Zn
+              </text>
 
-                  {isCircuitClosed && (
-                    <>
-                      <text x="65" y="16" fill="#f43f5e" fontSize="9" fontWeight="black" textAnchor="middle">
-                        ← Cl⁻ (অ্যানায়ন)
-                      </text>
-                      <text x="275" y="16" fill="#38bdf8" fontSize="9" fontWeight="black" textAnchor="middle">
-                        (ক্যাটায়ন) K⁺ →
-                      </text>
+              {/* Dissolving Zn2+ Particles (Oxidation) */}
+              {isCircuitClosed && hasSaltBridge && (
+                <>
+                  <circle cx="80" cy="90" r="8" fill="#f43f5e" opacity="0.85" className="animate-pulse" />
+                  <text x="80" y="93" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">Zn²⁺</text>
 
-                      {/* Moving Cl- Anions Leftwards */}
-                      {[0, 1.5, 3.0].map((delay, idx) => (
-                        <circle key={`anion-${idx}`} r="4" fill="#f43f5e">
-                          <animateMotion
-                            dur="4.5s"
-                            repeatCount="indefinite"
-                            begin={`${delay}s`}
-                            path="M 325 110 L 325 25 Q 325 0 300 0 L 40 0 Q 15 0 15 25 L 15 110"
-                            calcMode="linear"
-                          />
-                        </circle>
-                      ))}
-
-                      {/* Moving K+ Cations Rightwards */}
-                      {[0.75, 2.25, 3.75].map((delay, idx) => (
-                        <circle key={`cation-${idx}`} r="4" fill="#38bdf8">
-                          <animateMotion
-                            dur="4.5s"
-                            repeatCount="indefinite"
-                            begin={`${delay}s`}
-                            path="M 15 110 L 15 25 Q 15 0 40 0 L 300 0 Q 325 0 325 25 L 325 110"
-                            calcMode="linear"
-                          />
-                        </circle>
-                      ))}
-                    </>
-                  )}
-                </g>
-              ) : (
-                <g transform="translate(340, 160)">
-                  <rect x="0" y="0" width="120" height="30" rx="8" fill="#450a0a" stroke="#f43f5e" strokeWidth="1.5" />
-                  <text x="60" y="19" fill="#fca5a5" fontSize="10" fontWeight="bold" textAnchor="middle">
-                    ⚠️ লবণ সেতু বিচ্ছিন্ন
-                  </text>
-                </g>
+                  <circle cx="120" cy="130" r="8" fill="#f43f5e" opacity="0.85" className="animate-pulse" />
+                  <text x="120" y="133" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">Zn²⁺</text>
+                </>
               )}
-            </svg>
-          </div>
-        )}
 
-        {/* Microscopic Interface Zoom Lens Mode */}
-        {activeTab === 'microscopic' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Anode Labels */}
+              <rect x="15" y="165" width="170" height="32" rx="8" fill="#0f172a" stroke="#f43f5e" strokeWidth="1" />
+              <text x="100" y="178" fill="#f43f5e" fontSize="10" fontWeight="black" textAnchor="middle">
+                অ্যানোড: দস্তা দণ্ড (Zn)
+              </text>
+              <text x="100" y="191" fill="#cbd5e1" fontSize="9" fontWeight="bold" textAnchor="middle">
+                দ্রবণ: {znConc}M ZnSO₄ (বর্ণহীন)
+              </text>
+            </g>
+
+            {/* ========================================================= */}
+            {/* RIGHT BEAKER: CATHODE HALF-CELL (Copper in CuSO4) */}
+            {/* ========================================================= */}
+            <g transform="translate(500, 160)">
+              {/* Glass Beaker Body */}
+              <rect x="0" y="0" width="200" height="210" rx="10" fill="none" stroke="#64748b" strokeWidth="3" />
+              {/* CuSO4 Solution (Deep Vibrant Blue) */}
+              <rect x="5" y="50" width="190" height="155" rx="6" fill="rgba(14, 165, 233, 0.55)" />
+              {/* Liquid Level Line */}
+              <line x1="5" y1="50" x2="195" y2="50" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="4 2" />
+
+              {/* Copper Metal Electrode Rod (Cu) */}
+              <rect
+                x="85"
+                y="-30"
+                width="30"
+                height="190"
+                rx="4"
+                fill="#ea580c"
+                stroke="#c2410c"
+                strokeWidth="2"
+                className="transition-all"
+              />
+              <text x="100" y="-8" fill="#fff" fontSize="12" fontWeight="black" textAnchor="middle">
+                Cu
+              </text>
+
+              {/* Depositing Cu2+ Particles (Reduction) */}
+              {isCircuitClosed && hasSaltBridge && (
+                <>
+                  <circle cx="80" cy="110" r="8" fill="#38bdf8" opacity="0.85" className="animate-pulse" />
+                  <text x="80" y="113" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">Cu²⁺</text>
+
+                  <circle cx="120" cy="80" r="8" fill="#38bdf8" opacity="0.85" className="animate-pulse" />
+                  <text x="120" y="83" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">Cu²⁺</text>
+                </>
+              )}
+
+              {/* Cathode Labels */}
+              <rect x="15" y="165" width="170" height="32" rx="8" fill="#0f172a" stroke="#38bdf8" strokeWidth="1" />
+              <text x="100" y="178" fill="#38bdf8" fontSize="10" fontWeight="black" textAnchor="middle">
+                ক্যাথোড: তামা দণ্ড (Cu)
+              </text>
+              <text x="100" y="191" fill="#cbd5e1" fontSize="9" fontWeight="bold" textAnchor="middle">
+                দ্রবণ: {cuConc}M CuSO₄ (গাঢ় নীল)
+              </text>
+            </g>
+
+            {/* ========================================================= */}
+            {/* U-TUBE SALT BRIDGE (KCl in Agar-Agar Gel) */}
+            {/* ========================================================= */}
+            {hasSaltBridge ? (
+              <g transform="translate(0, 0)">
+                {/* U-Tube Outer Glass */}
+                <path
+                  d="M 270 240 L 270 140 Q 270 110 300 110 L 500 110 Q 530 110 530 140 L 530 240"
+                  stroke="#475569"
+                  strokeWidth="28"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                />
+                {/* Gel Core with Electrolyte (Agar-Agar + KCl) */}
+                <path
+                  d="M 270 240 L 270 140 Q 270 110 300 110 L 500 110 Q 530 110 530 140 L 530 240"
+                  stroke="#fbbf24"
+                  strokeWidth="18"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  opacity="0.8"
+                />
+
+                {/* Salt Bridge Label */}
+                <rect x="340" y="125" width="120" height="24" rx="6" fill="#020617" stroke="#f59e0b" strokeWidth="1" />
+                <text x="400" y="141" fill="#fbbf24" fontSize="10" fontWeight="black" textAnchor="middle">
+                  লবণ সেতু (KCl)
+                </text>
+
+                {/* Ion Migration Particles */}
+                {isCircuitClosed && (
+                  <>
+                    {/* Cl- moving left to Anode to neutralize excess Zn2+ */}
+                    <g transform="translate(310, 110)">
+                      <circle cx="0" cy="0" r="6" fill="#f43f5e" />
+                      <text x="0" y="3" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">Cl⁻</text>
+                      <text x="-12" y="3" fill="#f43f5e" fontSize="9" fontWeight="bold">⬅</text>
+                    </g>
+                    {/* K+ moving right to Cathode to compensate consumed Cu2+ */}
+                    <g transform="translate(490, 110)">
+                      <circle cx="0" cy="0" r="6" fill="#0ea5e9" />
+                      <text x="0" y="3" fill="#fff" fontSize="8" fontWeight="bold" textAnchor="middle">K⁺</text>
+                      <text x="12" y="3" fill="#0ea5e9" fontSize="9" fontWeight="bold">➔</text>
+                    </g>
+                  </>
+                )}
+              </g>
+            ) : (
+              <g transform="translate(340, 120)">
+                <rect x="0" y="0" width="120" height="30" rx="8" fill="#450a0a" stroke="#ef4444" strokeWidth="1.5" />
+                <text x="60" y="19" fill="#fca5a5" fontSize="11" fontWeight="black" textAnchor="middle">
+                  ⚠️ সেতু বিচ্ছিন্ন!
+                </text>
+              </g>
+            )}
+
+            {/* Electron Flow Direction Badges */}
+            <g transform="translate(200, 395)" className="text-xs">
+              <rect x="0" y="0" width="190" height="20" rx="6" fill="#020617" stroke="#38bdf8" strokeWidth="1" />
+              <text x="95" y="14" fill="#38bdf8" fontSize="9" fontWeight="bold" textAnchor="middle">
+                🔵 ইলেকট্রন প্রবাহ (e⁻ ➔ ➔) Zn হতে Cu-তে
+              </text>
+            </g>
+
+            <g transform="translate(410, 395)" className="text-xs">
+              <rect x="0" y="0" width="190" height="20" rx="6" fill="#020617" stroke="#f43f5e" strokeWidth="1" />
+              <text x="95" y="14" fill="#f43f5e" fontSize="9" fontWeight="bold" textAnchor="middle">
+                🔴 বিদ্যুৎ প্রবাহ (I ⬅ ⬅) Cu হতে Zn-এ
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        {/* Microscopic Atomic Interface Overlay */}
+        {isZoomMode && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-300">
             {/* Anode Microscopic Interface */}
             <div className="p-6 rounded-3xl bg-slate-950 border-2 border-rose-500/50 space-y-4 shadow-inner">
               <div className="flex items-center justify-between pb-2 border-b border-slate-800">
