@@ -7,7 +7,7 @@ import {
   FlaskConical, Atom, Table2, Zap, Flame, Download, Loader2, 
   ChevronDown, ChevronUp, Brain, Calculator, Droplets, Rotate3d, 
   Move, Sparkles, Search, Filter, HelpCircle, Layers, CheckCircle2,
-  Share2, Activity, Play, RefreshCw, X, ArrowRight, Dna, Sliders, Scale, Beaker, Info
+  Share2, Activity, Play, RefreshCw, X, ArrowRight, Dna, Sliders, Scale, Beaker, Info, BatteryCharging
 } from 'lucide-react';
 import { exportBrandedGraphic } from '../../utils/exportBrandedGraphic';
 
@@ -792,11 +792,13 @@ function StoichiometryAndRadicalsSandbox() {
 
 import ChemistryChapter6MathSolver from './ChemistryChapter6MathSolver';
 import ChemistryChapter5BondingSolver from './ChemistryChapter5BondingSolver';
+import GalvanicCellSimulation from './GalvanicCellSimulation';
 
 // ============================================================
 // MAIN COMPONENT EXPORT
 // ============================================================
 const MODULES = [
+  { id: 'galvanic', label: 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন', icon: BatteryCharging, Component: GalvanicCellSimulation },
   { id: 'bonding-solver', label: '৫ম অধ্যায়: বন্ধন ও লুইস ডট-ক্রস', icon: Atom, Component: ChemistryChapter5BondingSolver },
   { id: 'math-solver', label: '৬ষ্ঠ অধ্যায়: AI ম্যাথ সলভার', icon: Calculator, Component: ChemistryChapter6MathSolver },
   { id: 'stoichiometry', label: 'স্টয়কিওমিতি ও কণা গণনা', icon: Scale, Component: StoichiometryAndRadicalsSandbox },

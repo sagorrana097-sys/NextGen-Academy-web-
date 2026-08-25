@@ -56,7 +56,8 @@ import {
   Settings,
   FolderOpen,
   TestTube2,
-  TrendingUp
+  TrendingUp,
+  BatteryCharging
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
@@ -160,6 +161,11 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
               id: 'electron-config',
               label: lang === 'bn' ? 'ইলেকট্রন বিন্যাস ও বোর অরবিট ল্যাব' : 'Electron Configuration & Bohr Lab',
               icon: Sparkles
+            },
+            {
+              id: 'galvanic-cell',
+              label: lang === 'bn' ? 'গ্যালভানিক কোষ ও তড়িৎ-রসায়ন ল্যাব' : 'Galvanic Cell & Electrochemistry',
+              icon: BatteryCharging
             }
           ]
         },

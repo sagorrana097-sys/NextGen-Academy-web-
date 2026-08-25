@@ -46,6 +46,7 @@ const MasterMathICTLab = lazy(() => import('../components/student/MasterMathICTL
 const VirtualBiologyLab3D = lazy(() => import('../components/student/VirtualBiologyLab3D'));
 const Science3DHub = lazy(() => import('../components/student/Science3DHub'));
 const ElectronConfigurationVisualizer = lazy(() => import('../components/student/ElectronConfigurationVisualizer'));
+const GalvanicCellSimulation = lazy(() => import('../components/student/GalvanicCellSimulation'));
 const ICTSmartQuizZone = lazy(() => import('../components/student/ICTSmartQuizZone'));
 const TeacherDirectory = lazy(() => import('../components/common/TeacherDirectory'));
 
@@ -665,6 +666,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             <Science3DHub defaultSubTab={activeTab === 'periodic-table' ? 'periodic' : activeTab === 'biology-3d' ? 'biology' : 'lab'} />
           ) : activeTab === 'electron-config' || activeTab === 'electron-visualizer' || activeTab === 'bohr-model' ? (
             <ElectronConfigurationVisualizer />
+          ) : activeTab === 'galvanic-cell' || activeTab === 'galvanic' || activeTab === 'electrochemistry' ? (
+            <GalvanicCellSimulation />
           ) : activeTab === 'ict-quiz' || activeTab === 'ict' ? (
             <ICTSmartQuizZone />
           ) : activeTab === 'helpdesk' || activeTab === 'feedback' ? (
