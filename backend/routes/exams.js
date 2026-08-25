@@ -770,22 +770,26 @@ const { generateMCQs } = require('../services/mcqAiGeneratorService');
 
 router.post('/generate-mcq', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const { topic, subject, classGrade, difficulty, questionCount, chapterNotes } = req.body;
+    const { topic, prompt, subject, classGrade, difficulty, questionCount, chapterNotes, board, examYear, distribution } = req.body;
+    const finalTopic = (prompt || topic || '').trim();
 
-    if (!topic && !chapterNotes && !subject) {
+    if (!finalTopic && !chapterNotes && !subject && (!Array.isArray(distribution) || distribution.length === 0)) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম অথবা বিষয় উল্লেখ করা আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম, প্রম্পট অথবা বিষয় উল্লেখ করা আবশ্যক' }
       });
     }
 
     const result = await generateMCQs({
-      topic,
+      topic: finalTopic,
       subject,
       classGrade,
       difficulty: difficulty || 'MEDIUM',
       questionCount: Number(questionCount) || 10,
-      chapterNotes
+      chapterNotes,
+      board: board || 'সকল বোর্ড',
+      examYear: examYear || '2025',
+      distribution
     });
 
     await AuditService.log({
@@ -793,13 +797,18 @@ router.post('/generate-mcq', authenticate, requireRole(['ADMIN', 'TEACHER']), as
       userId: req.user.id,
       action: 'AI_GENERATE_MCQ',
       entityType: 'exam_mcq_ai',
-      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন জেনারেট করেছেন (টপিক: "${topic || subject}")`
+      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন জেনারেট করেছেন (টপিক: "${finalTopic || subject}")`
     });
 
     res.json({
       success: true,
-      message: `সফলভাবে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন প্রস্তুত হয়েছে!`,
+      message: result.isMultiBoard
+        ? `মাল্টি-বোর্ড ডিস্ট্রিবিউশন অনুযায়ী ${result.questions.length}টি প্রশ্ন প্রস্তুত হয়েছে! (${result.distributionSummary || ''})`
+        : `সফলভাবে ${result.questions.length}টি বহুনির্বাচনী প্রশ্ন প্রস্তুত হয়েছে!`,
       source: result.source,
+      isMultiBoard: !!result.isMultiBoard,
+      distributionSummary: result.distributionSummary || null,
+      distributions: result.distributions || null,
       data: result.questions
     });
   } catch (err) {
@@ -815,22 +824,26 @@ const { generateCreativeQuestions } = require('../services/cqAiGeneratorService'
 
 router.post('/generate-cq', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const { subject, classGrade, chapterTopic, difficulty, questionCount, chapterNotes } = req.body;
+    const { subject, classGrade, chapterTopic, prompt, difficulty, questionCount, chapterNotes, board, examYear, distribution } = req.body;
+    const finalTopic = (prompt || chapterTopic || '').trim();
 
-    if (!chapterTopic && !chapterNotes && !subject) {
+    if (!finalTopic && !chapterNotes && !subject && (!Array.isArray(distribution) || distribution.length === 0)) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম অথবা বিষয় উল্লেখ করা আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'অধ্যায়/টপিকের নাম, প্রম্পট অথবা বিষয় উল্লেখ করা আবশ্যক' }
       });
     }
 
     const result = await generateCreativeQuestions({
       subject,
       classGrade,
-      chapterTopic,
+      chapterTopic: finalTopic,
       difficulty: difficulty || 'MEDIUM',
       questionCount: Number(questionCount) || 2,
-      chapterNotes
+      chapterNotes,
+      board: board || 'সকল বোর্ড',
+      examYear: examYear || '2025',
+      distribution
     });
 
     await AuditService.log({
@@ -838,13 +851,18 @@ router.post('/generate-cq', authenticate, requireRole(['ADMIN', 'TEACHER']), asy
       userId: req.user.id,
       action: 'AI_GENERATE_CQ',
       entityType: 'exam_cq_ai',
-      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি সৃজনশীল প্রশ্ন জেনারেট করেছেন (টপিক: "${chapterTopic || subject}")`
+      details: `${req.user.name} এআই দিয়ে ${result.questions.length}টি সৃজনশীল প্রশ্ন জেনারেট করেছেন (টপিক: "${finalTopic || subject}")`
     });
 
     res.json({
       success: true,
-      message: `সফলভাবে ${result.questions.length}টি সৃজনশীল প্রশ্ন প্রস্তুত হয়েছে!`,
+      message: result.isMultiBoard
+        ? `মাল্টি-বোর্ড ডিস্ট্রিবিউশন অনুযায়ী ${result.questions.length}টি সৃজনশীল প্রশ্ন প্রস্তুত হয়েছে! (${result.distributionSummary || ''})`
+        : `সফলভাবে ${result.questions.length}টি সৃজনশীল প্রশ্ন প্রস্তুত হয়েছে!`,
       source: result.source,
+      isMultiBoard: !!result.isMultiBoard,
+      distributionSummary: result.distributionSummary || null,
+      distributions: result.distributions || null,
       data: result.questions
     });
   } catch (err) {

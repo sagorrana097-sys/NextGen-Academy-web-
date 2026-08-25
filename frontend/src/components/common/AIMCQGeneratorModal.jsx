@@ -31,6 +31,108 @@ import {
   HardDrive
 } from 'lucide-react';
 
+
+const BENGALI_DIGITS = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+function normalizeBengaliDigits(str) {
+  if (!str) return '';
+  return String(str).replace(/[০-৯]/g, d => BENGALI_DIGITS.indexOf(d));
+}
+function toBengaliDigits(num) {
+  if (num === undefined || num === null) return '';
+  return String(num).replace(/[0-9]/g, d => BENGALI_DIGITS[Number(d)]);
+}
+
+const BOARDS_MAP = {
+  'ঢাকা': 'ঢাকা', 'dhaka': 'ঢাকা',
+  'চট্টগ্রাম': 'চট্টগ্রাম', 'চট্রগ্রাম': 'চট্টগ্রাম', 'chattogram': 'চট্টগ্রাম', 'chittagong': 'চট্টগ্রাম',
+  'রাজশাহী': 'রাজশাহী', 'rajshahi': 'রাজশাহী',
+  'কুমিল্লা': 'কুমিল্লা', 'cumilla': 'কুমিল্লা', 'comilla': 'কুমিল্লা',
+  'যশোর': 'যশোর', 'jashore': 'যশোর', 'jessore': 'যশোর',
+  'বরিশাল': 'বরিশাল', 'barishal': 'বরিশাল', 'barisal': 'বরিশাল',
+  'সিলেট': 'সিলেট', 'sylhet': 'সিলেট',
+  'দিনাজপুর': 'দিনাজপুর', 'dinajpur': 'দিনাজপুর',
+  'ময়মনসিংহ': 'ময়মনসিংহ', 'mymensingh': 'ময়মনসিংহ',
+  'মাদ্রাসা': 'মাদ্রাসা', 'madrasah': 'মাদ্রাসা',
+  'কারিগরি': 'কারিগরি', 'technical': 'কারিগরি',
+  'সকল বোর্ড': 'সকল বোর্ড', 'সকল': 'সকল বোর্ড', 'all boards': 'সকল বোর্ড'
+};
+
+export function formatAcademicBadge(board, year, qType = 'MCQ') {
+  const cleanBoard = (board || 'সকল বোর্ড').trim();
+  const cleanYear = year ? String(year).trim() : '';
+  const shortYear = cleanYear ? cleanYear.replace(/^20/, '').replace(/^২০/, '') : '';
+  const cleanType = (qType || 'MCQ').trim();
+
+  if (cleanBoard && shortYear && cleanType) return `${cleanBoard} - ${shortYear} (${cleanType})`;
+  if (cleanBoard && shortYear) return `${cleanBoard} - ${shortYear}`;
+  if (cleanBoard && cleanType) return `${cleanBoard} (${cleanType})`;
+  return `${cleanBoard}`;
+}
+
+export function parseMultiBoardPrompt(rawPrompt, defaultType = 'MCQ') {
+  if (!rawPrompt || typeof rawPrompt !== 'string') return null;
+  const text = rawPrompt.trim();
+  const normalized = normalizeBengaliDigits(text);
+
+  let qType = defaultType;
+  if (/cq|সৃজনশীল|রচনামূলক/i.test(normalized)) qType = 'CQ';
+  else if (/mcq|বহুনির্বাচনি|নৈর্ব্যক্তিক|এমসিকিউ/i.test(normalized)) qType = 'MCQ';
+  else if (/sq|সংক্ষিপ্ত/i.test(normalized)) qType = 'SQ';
+
+  const boardNames = Object.keys(BOARDS_MAP).sort((a, b) => b.length - a.length);
+  const boardPattern = boardNames.map(b => b.replace(/[.*+?^${}()|[\]\\]/g, '\\export default function AIMCQGeneratorModal({')).join('|');
+
+  const segmentRegex = new RegExp(
+    `(${boardPattern})\\s*(?:বোর্ড)?\\s*([০-৯0-9]{2,4})?\\s*(?:সাল|সালের|থেকে|হতে|এর|-|:)?\\s*([০-৯0-9]{1,3})\\s*(?:টি|টা|টি প্রশ্ন|questions|mcq|cq)?`,
+    'gi'
+  );
+
+  const distributions = [];
+  let match;
+  let totalParsedCount = 0;
+
+  while ((match = segmentRegex.exec(normalized)) !== null) {
+    const rawBoard = match[1].toLowerCase().trim();
+    const standardBoard = BOARDS_MAP[rawBoard] || rawBoard;
+    let rawYear = match[2] ? match[2].trim() : '';
+    let rawCount = match[3] ? parseInt(match[3].trim(), 10) : 0;
+
+    let fullYear = rawYear;
+    if (rawYear) {
+      if (rawYear.length === 2) {
+        const yNum = parseInt(rawYear, 10);
+        fullYear = yNum > 50 ? `19${rawYear}` : `20${rawYear}`;
+      }
+    } else {
+      fullYear = '2025';
+    }
+
+    if (rawCount > 0) {
+      const badge = formatAcademicBadge(standardBoard, fullYear, qType);
+      distributions.push({
+        board: standardBoard,
+        examYear: fullYear,
+        yearShort: fullYear.slice(-2),
+        count: rawCount,
+        questionType: qType,
+        badge
+      });
+      totalParsedCount += rawCount;
+    }
+  }
+
+  if (distributions.length === 0) return null;
+
+  return {
+    isMultiBoard: distributions.length > 1 || distributions[0].count > 0,
+    distributions,
+    totalCount: totalParsedCount,
+    questionType: qType,
+    summaryBn: distributions.map(d => `${d.board} '${d.yearShort} (${toBengaliDigits(d.count)}টি)`).join(' + ') + ` = মোট ${toBengaliDigits(totalParsedCount)}টি`
+  };
+}
+
+
 export default function AIMCQGeneratorModal({
   isOpen,
   onClose,
@@ -54,6 +156,17 @@ export default function AIMCQGeneratorModal({
 
   // Generator State
   const [topic, setTopic] = useState('');
+  const [showMultiBoardBuilder, setShowMultiBoardBuilder] = useState(false);
+  const [manualDistributions, setManualDistributions] = useState([
+    { id: 1, board: 'ঢাকা', examYear: '2025', count: 20 },
+    { id: 2, board: 'কুমিল্লা', examYear: '2022', count: 12 },
+    { id: 3, board: 'যশোর', examYear: '2013', count: 18 }
+  ]);
+
+  // Real-Time Multi-Board Prompt Parser
+  const parsedPromptDist = useMemo(() => {
+    return parseMultiBoardPrompt(topic, 'MCQ');
+  }, [topic]);
   const [difficulty, setDifficulty] = useState('MEDIUM'); // 'EASY' | 'MEDIUM' | 'HARD'
   const [questionCount, setQuestionCount] = useState(10);
   const [chapterNotes, setChapterNotes] = useState('');
@@ -298,16 +411,26 @@ export default function AIMCQGeneratorModal({
         setGenerationStep('৪টি মানসম্মত অপশন, সঠিক উত্তর ও ব্যাখ্যা তৈরি হচ্ছে...');
       }, 1200);
 
+      const distPayload = parsedPromptDist?.distributions || (showMultiBoardBuilder ? manualDistributions.map(d => ({
+        board: d.board,
+        examYear: d.examYear,
+        count: Number(d.count) || 5,
+        badge: formatAcademicBadge(d.board, d.examYear, 'MCQ'),
+        questionType: 'MCQ'
+      })) : null);
+
       const res = await examAPI.generateMCQs({
         topic: topic.trim(),
+        prompt: topic.trim(),
         subject,
         classGrade,
         classId: selectedClassId ? Number(selectedClassId) : null,
         subjectId: selectedSubjectId ? Number(selectedSubjectId) : null,
         difficulty,
-        questionCount: Number(questionCount),
+        questionCount: parsedPromptDist?.totalCount || Number(questionCount),
         chapterNotes: chapterNotes.trim(),
-        sourceMaterialId: selectedSourceMaterialId ? Number(selectedSourceMaterialId) : null
+        sourceMaterialId: selectedSourceMaterialId ? Number(selectedSourceMaterialId) : null,
+        distribution: distPayload
       });
 
       if (res.success && Array.isArray(res.data)) {
@@ -319,7 +442,11 @@ export default function AIMCQGeneratorModal({
             : ['অপশন ক', 'অপশন খ', 'অপশন গ', 'অপশন ঘ'],
           correctOptionIndex: typeof q.correctAnswer === 'number' ? q.correctAnswer : 0,
           marks: 1,
-          explanation: q.explanation || 'সঠিক উত্তর।'
+          explanation: q.explanation || 'সঠিক উত্তর।',
+          board: q.board || 'সকল বোর্ড',
+          examYear: q.examYear || '2025',
+          questionType: 'MCQ',
+          badge: q.badge || formatAcademicBadge(q.board, q.examYear, 'MCQ')
         })));
         setEngineSource(res.source || 'GEMINI_AI');
         setSuccessMsg(res.message || `${res.data.length}টি প্রশ্ন সফলভাবে জেনারেট হয়েছে!`);
@@ -737,18 +864,200 @@ export default function AIMCQGeneratorModal({
                 )}
               </div>
 
-              {/* Topic Input */}
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">
-                  অধ্যায় বা টপিকের নাম (Chapter / Topic) <span className="text-rose-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  placeholder="যেমন: গতির সমীকরণ ও বল, কাজ শক্তি ও ক্ষমতা, পর্যায় সারণি, কোষ বিভাজন..."
-                  className="w-full p-3 rounded-2xl border border-slate-700 bg-slate-800/90 text-slate-100 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
+              {/* Topic & Composite Multi-Board Prompt Input Box */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-300">
+                    অধ্যায়, টপিক অথবা সমন্বিত মাল্টি-বোর্ড প্রম্পট কমান্ড (AI Prompt / Command) <span className="text-rose-400">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowMultiBoardBuilder(!showMultiBoardBuilder)}
+                    className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 flex items-center space-x-1"
+                  >
+                    <Layers className="w-3.5 h-3.5" />
+                    <span>{showMultiBoardBuilder ? 'ম্যাট্রিক্স লুকান' : '🎯 মাল্টি-বোর্ড ম্যাট্রিক্স বিল্ডার'}</span>
+                  </button>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    placeholder='যেমন: "ঢাকা ২৫ থেকে ২০টি, কুমিল্লা ২২ থেকে ১২টি, যশোর ১৩ থেকে ১৮টি মোট ৫০টি এমসিকিউ দাও"'
+                    className="w-full p-3 rounded-2xl border border-indigo-500/40 bg-slate-800/90 text-slate-100 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  />
+                  {topic && (
+                    <button
+                      type="button"
+                      onClick={() => setTopic('')}
+                      className="absolute right-3 top-3 text-slate-400 hover:text-white"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Quick Multi-Board Prompt Chips */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[11px] text-slate-400 font-bold">কুইক প্রম্পট কমান্ড:</span>
+                  {[
+                    'ঢাকা ২৫ থেকে ২০টি, কুমিল্লা ২২ থেকে ১২টি, যশোর ১৩ থেকে ১৮টি মোট ৫০টি এমসিকিউ দাও',
+                    'ঢাকা ২০২৫ থেকে ১৫টি এবং রাজশাহী ২০২৪ থেকে ১০টি MCQ দাও',
+                    'চট্টগ্রাম ২৪ থেকে ১০টি, বরিশাল ২৩ থেকে ৮টি, সিলেট ২৫ থেকে ১২টি মোট ৩০টি নৈর্ব্যক্তিক'
+                  ].map((preset, pIdx) => (
+                    <button
+                      key={pIdx}
+                      type="button"
+                      onClick={() => setTopic(preset)}
+                      className="px-2.5 py-1 rounded-lg bg-indigo-950/60 border border-indigo-500/30 hover:bg-indigo-900/80 hover:border-indigo-400 text-indigo-200 text-[10px] font-bold transition-all truncate max-w-xs"
+                      title={preset}
+                    >
+                      ⚡ {preset.slice(0, 32)}...
+                    </button>
+                  ))}
+                </div>
+
+                {/* Live Real-Time Multi-Board Distribution Preview Banner */}
+                {parsedPromptDist && parsedPromptDist.distributions && (
+                  <div className="p-3.5 rounded-2xl bg-gradient-to-r from-indigo-950/80 via-purple-950/80 to-slate-900 border border-indigo-400/50 shadow-md shadow-indigo-500/10 animate-in fade-in space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-black text-indigo-300 flex items-center space-x-1.5">
+                        <Sparkles className="w-4 h-4 text-amber-300" />
+                        <span>শনাক্তকৃত মাল্টি-বোর্ড ডিস্ট্রিবিউশন (Auto-Parsed Distribution):</span>
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-black">
+                        মোট {parsedPromptDist.totalCount}টি প্রশ্ন
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      {parsedPromptDist.distributions.map((d, dIdx) => (
+                        <span
+                          key={dIdx}
+                          className="px-3 py-1 rounded-xl bg-indigo-600/30 border border-indigo-400/40 text-indigo-100 text-xs font-black flex items-center space-x-1.5 shadow-sm"
+                        >
+                          <Award className="w-3 h-3 text-amber-400" />
+                          <span>{d.board} '{d.yearShort}</span>
+                          <span className="px-1.5 py-0.2 rounded bg-indigo-500 text-white font-black text-[10px]">
+                            {d.count}টি
+                          </span>
+                          <span className="text-[10px] text-indigo-300 font-mono">[{d.badge}]</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Visual Multi-Board Matrix Builder (Interactive Rows) */}
+                {showMultiBoardBuilder && (
+                  <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3 animate-in fade-in">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-200">
+                      <span>🎯 ম্যানুয়াল মাল্টি-বোর্ড ও সাল ডিস্ট্রিবিউশন বিল্ডার:</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newId = manualDistributions.length + 1;
+                          setManualDistributions([...manualDistributions, { id: newId, board: 'রাজশাহী', examYear: '2024', count: 10 }]);
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold flex items-center space-x-1"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>+ নতুন বোর্ড যোগ করুন</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-2">
+                      {manualDistributions.map((row, rIdx) => (
+                        <div key={row.id || rIdx} className="grid grid-cols-12 gap-2 items-center text-xs bg-slate-900/70 p-2.5 rounded-xl border border-slate-700/60">
+                          {/* Board */}
+                          <div className="col-span-4">
+                            <select
+                              value={row.board}
+                              onChange={(e) => {
+                                const copy = [...manualDistributions];
+                                copy[rIdx].board = e.target.value;
+                                setManualDistributions(copy);
+                              }}
+                              className="w-full p-2 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold text-xs"
+                            >
+                              {['ঢাকা', 'চট্টগ্রাম', 'রাজশাহী', 'কুমিল্লা', 'যশোর', 'বরিশাল', 'সিলেট', 'দিনাজপুর', 'ময়মনসিংহ', 'মাদ্রাসা', 'কারিগরি', 'সকল বোর্ড'].map(b => (
+                                <option key={b} value={b}>{b} বোর্ড</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Year */}
+                          <div className="col-span-3">
+                            <select
+                              value={row.examYear}
+                              onChange={(e) => {
+                                const copy = [...manualDistributions];
+                                copy[rIdx].examYear = e.target.value;
+                                setManualDistributions(copy);
+                              }}
+                              className="w-full p-2 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold text-xs"
+                            >
+                              {['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2015', '2013'].map(y => (
+                                <option key={y} value={y}>{y} সাল</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Count */}
+                          <div className="col-span-3 flex items-center space-x-1">
+                            <input
+                              type="number"
+                              min="1"
+                              max="50"
+                              value={row.count}
+                              onChange={(e) => {
+                                const copy = [...manualDistributions];
+                                copy[rIdx].count = parseInt(e.target.value, 10) || 1;
+                                setManualDistributions(copy);
+                              }}
+                              className="w-full p-2 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold text-xs text-center"
+                            />
+                            <span className="text-[11px] text-slate-400">টি</span>
+                          </div>
+
+                          {/* Delete */}
+                          <div className="col-span-2 flex justify-end">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (manualDistributions.length > 1) {
+                                  setManualDistributions(manualDistributions.filter((_, i) => i !== rIdx));
+                                }
+                              }}
+                              className="p-1.5 text-rose-400 hover:text-rose-300 rounded-lg"
+                              title="মুছে ফেলুন"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs pt-1">
+                      <span className="text-slate-400">
+                        মোট নির্ধারিত: <strong className="text-emerald-400">{manualDistributions.reduce((sum, d) => sum + (Number(d.count) || 0), 0)}টি MCQ</strong>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const summary = manualDistributions.map(d => `${d.board} ${d.examYear.slice(-2)} থেকে ${d.count}টি`).join(', ') + ` মোট ${manualDistributions.reduce((s, d) => s + Number(d.count), 0)}টি এমসিকিউ`;
+                          setTopic(summary);
+                        }}
+                        className="text-[11px] text-indigo-400 hover:text-indigo-300 font-bold underline"
+                      >
+                        প্রম্পট বক্সে প্রয়োগ করুন
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Question Count Selector & Notes */}
@@ -839,10 +1148,29 @@ export default function AIMCQGeneratorModal({
                     key={q.id || qIdx}
                     className="p-4 rounded-3xl bg-slate-900 border border-slate-800 space-y-3 relative group hover:border-slate-700 transition-colors"
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-black shrink-0">
-                        Q{qIdx + 1}
-                      </span>
+                    {/* Question Header with Academic Board-Year Badge */}
+                    <div className="flex items-center justify-between gap-2 pb-1 border-b border-slate-800/60">
+                      <div className="flex items-center space-x-2">
+                        <span className="px-2.5 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-black shrink-0">
+                          Q{qIdx + 1}
+                        </span>
+                        {/* Prominent Academic Badge */}
+                        <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-900/60 to-indigo-900/60 border border-blue-400/50 text-blue-200 text-[11px] font-black shadow-xs flex items-center space-x-1">
+                          <Award className="w-3 h-3 text-amber-300" />
+                          <span>{q.badge || formatAcademicBadge(q.board, q.examYear, 'MCQ')}</span>
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveQuestion(qIdx)}
+                        className="p-1.5 rounded-xl text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition-colors"
+                        title="প্রশ্নটি মুছে ফেলুন"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="flex items-start justify-between gap-2 pt-1">
                       <input
                         type="text"
                         value={q.questionBn}
