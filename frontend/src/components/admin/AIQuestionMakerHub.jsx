@@ -30,8 +30,41 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
 
-const CLASSES_LIST = ['Class 6', 'Class 7', 'Class 8', 'Class 9-10 (SSC)', 'Class 11-12 (HSC)'];
-const SUBJECTS_LIST = ['পদার্থবিজ্ঞান', 'রসায়ন', 'উচ্চতর গণিত', 'জীববিজ্ঞান', 'সাধারণ গণিত', 'তথ্য ও যোগাযোগ প্রযুক্তি', 'ইংরেজি', 'বাংলা'];
+const CLASSES_LIST = [
+  'ষষ্ঠ শ্রেণি (Class 6)',
+  'সপ্তম শ্রেণি (Class 7)',
+  'অষ্টম শ্রেণি (Class 8)',
+  'নবম শ্রেণি (Class 9)',
+  'দশম শ্রেণি (Class 10)',
+  'একাদশ শ্রেণি (Class 11)',
+  'দ্বাদশ শ্রেণি (Class 12)',
+  'Class 9-10 (SSC)',
+  'Class 11-12 (HSC)'
+];
+
+const SUBJECTS_LIST = [
+  'সাধারণ গণিত (General Math)',
+  'উচ্চতর গণিত (Higher Math)',
+  'পদার্থবিজ্ঞান (Physics)',
+  'রসায়ন (Chemistry)',
+  'জীববিজ্ঞান (Biology)',
+  'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+  'বাংলাদেশ ও বিশ্বপরিচয় (BGS)',
+  'সাধারণ বিজ্ঞান (General Science)',
+  'ইসলাম ও নৈতিক শিক্ষা',
+  'হিন্দুধর্ম ও নৈতিক শিক্ষা',
+  'বাংলা ১ম পত্র (সাহিত্য)',
+  'বাংলা ২য় পত্র (বাংলা ব্যাকরণ ও নির্মিতি)',
+  'ইংরেজি ১ম পত্র (English 1st Paper)',
+  'ইংরেজি ২য় পত্র (English 2nd Paper - Grammar)',
+  'হিসাববিজ্ঞান (Accounting)',
+  'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
+  'ব্যবসায় উদ্যোগ (Business Studies)',
+  'অর্থনীতি (Economics)',
+  'পৌরনীতি ও সুশাসন (Civics)',
+  'ইতিহাস (History)',
+  'ভূগোল ও পরিবেশ (Geography)'
+];
 
 const PROMPT_SUGGESTIONS = [
   'নটর ডেম কলেজ ২৫ ৫টি, ঢাকা বোর্ড ২৫ ১০টি, কুমিল্লা বোর্ড ২৪ ৫টি',

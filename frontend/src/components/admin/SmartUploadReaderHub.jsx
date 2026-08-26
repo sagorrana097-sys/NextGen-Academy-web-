@@ -24,36 +24,164 @@ import {
   ListOrdered,
   HelpCircle,
   Eye,
-  RefreshCw
+  RefreshCw,
+  Edit3,
+  Settings2,
+  Filter,
+  CheckSquare,
+  BookMarked
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, curriculumAPI } from '../../services/api';
 
-const BOARDS_LIST = [
-  'ঢাকা বোর্ড', 'রাজশাহী বোর্ড', 'কুমিল্লা বোর্ড', 'যশোর বোর্ড', 'চট্টগ্রাম বোর্ড',
-  'বরিশাল বোর্ড', 'সিলেট বোর্ড', 'দিনাজপুর বোর্ড', 'ময়মনসিংহ বোর্ড', 'মাদ্রাসা বোর্ড', 'কারিগরি বোর্ড'
+// =========================================================================
+// Exhaustive Default Metadata Master Lists
+// =========================================================================
+const DEFAULT_CLASSES = [
+  'ষষ্ঠ শ্রেণি (Class 6)',
+  'সপ্তম শ্রেণি (Class 7)',
+  'অষ্টম শ্রেণি (Class 8)',
+  'নবম শ্রেণি (Class 9)',
+  'দশম শ্রেণি (Class 10)',
+  'একাদশ শ্রেণি (Class 11)',
+  'দ্বাদশ শ্রেণি (Class 12)',
+  'Class 9-10 (SSC)',
+  'Class 11-12 (HSC)'
 ];
 
-const RENOWNED_INSTITUTIONS = [
-  'নটর ডেম কলেজ', 'রাজউক উত্তরা মডেল কলেজ', 'ঢাকা রেসিডেনসিয়াল মডেল কলেজ',
-  'ভিকারুননিসা নূন স্কুল ও কলেজ', 'আইডিয়াল স্কুল ও কলেজ', 'মির্জাপুর ক্যাডেট কলেজ',
-  'কুমিল্লা ক্যাডেট কলেজ', 'ফৌজি ক্যাডেট কলেজ', 'চট্টগ্রাম কলেজিয়েট স্কুল', 'মতিঝিল সরকারি বালক উচ্চ বিদ্যালয়'
+const DEFAULT_SUBJECTS = [
+  'সাধারণ গণিত (General Math)',
+  'উচ্চতর গণিত (Higher Math)',
+  'পদার্থবিজ্ঞান (Physics)',
+  'রসায়ন (Chemistry)',
+  'জীববিজ্ঞান (Biology)',
+  'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+  'বাংলাদেশ ও বিশ্বপরিচয় (BGS)',
+  'সাধারণ বিজ্ঞান (General Science)',
+  'ইসলাম ও নৈতিক শিক্ষা',
+  'হিন্দুধর্ম ও নৈতিক শিক্ষা',
+  'বাংলা ১ম পত্র (সাহিত্য)',
+  'বাংলা ২য় পত্র (বাংলা ব্যাকরণ ও নির্মিতি)',
+  'ইংরেজি ১ম পত্র (English 1st Paper)',
+  'ইংরেজি ২য় পত্র (English 2nd Paper - Grammar)',
+  'হিসাববিজ্ঞান (Accounting)',
+  'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
+  'ব্যবসায় উদ্যোগ (Business Studies)',
+  'অর্থনীতি (Economics)',
+  'পৌরনীতি ও সুশাসন (Civics)',
+  'ইতিহাস (History)',
+  'ভূগোল ও পরিবেশ (Geography)'
 ];
 
-const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015'];
-const CLASSES_LIST = ['Class 6', 'Class 7', 'Class 8', 'Class 9-10 (SSC)', 'Class 11-12 (HSC)'];
-const SUBJECTS_LIST = ['পদার্থবিজ্ঞান', 'রসায়ন', 'উচ্চতর গণিত', 'জীববিজ্ঞান', 'সাধারণ গণিত', 'তথ্য ও যোগাযোগ প্রযুক্তি', 'ইংরেজি', 'বাংলা'];
+const DEFAULT_GRAMMAR_TOPICS = [
+  'বাংলা ব্যাকরণ: ধ্বনিতত্ত্ব ও ধ্বনি পরিবর্তন',
+  'বাংলা ব্যাকরণ: রূপতত্ত্ব ও শব্দ গঠন',
+  'বাংলা ব্যাকরণ: বাক্যতত্ত্ব ও পদক্রম',
+  'বাংলা ব্যাকরণ: সমাস (দ্বন্দ্ব, দ্বিগু, তৎপুরুষ, কর্মধারয়, বহুব্রীহি)',
+  'বাংলা ব্যাকরণ: কারক ও বিভক্তি',
+  'বাংলা ব্যাকরণ: প্রবাদ ও প্রবচন',
+  'বাংলা ব্যাকরণ: বানান শুদ্ধি ও ণ-ত্ব ষ-ত্ব বিধান',
+  'বাংলা ব্যাকরণ: সন্ধি (স্বরসন্ধি, ব্যঞ্জনসন্ধি ও বিসর্গ সন্ধি)',
+  'বাংলা ব্যাকরণ: উপসর্গ ও অনুসর্গ',
+  'বাংলা ব্যাকরণ: প্রত্যয় (কৃৎ প্রত্যয় ও তদ্ধিত প্রত্যয়)',
+  'বাংলা ব্যাকরণ: পারিভাষিক শব্দ ও অনুবাদ',
+  'English Grammar: Tense & Time Frame',
+  'English Grammar: Parts of Speech & Identifications',
+  'English Grammar: Voice Change (Active & Passive)',
+  'English Grammar: Narration (Direct & Indirect)',
+  'English Grammar: Prepositions & Appropriate Prepositions',
+  'English Grammar: Right Forms of Verbs',
+  'English Grammar: Subject-Verb Agreement',
+  'English Grammar: Transformation of Sentences (Simple, Complex, Compound)',
+  'English Grammar: Modifiers & Determiners',
+  'English Grammar: Completing Sentences & Conditionals',
+  'English Grammar: Tag Questions & Connectors / Linkers',
+  'English Grammar: Punctuation & Capitalization',
+  'English Grammar: Synonym & Antonym (Vocabulary)'
+];
+
+const DEFAULT_BOARDS = [
+  'ঢাকা বোর্ড (Dhaka Board)',
+  'রাজশাহী বোর্ড (Rajshahi Board)',
+  'কুমিল্লা বোর্ড (Cumilla Board)',
+  'যশোর বোর্ড (Jashore Board)',
+  'চট্টগ্রাম বোর্ড (Chattogram Board)',
+  'বরিশাল বোর্ড (Barishal Board)',
+  'সিলেট বোর্ড (Sylhet Board)',
+  'দিনাজপুর বোর্ড (Dinajpur Board)',
+  'ময়মনসিংহ বোর্ড (Mymensingh Board)',
+  'মাদ্রাসা শিক্ষা বোর্ড (Madrasah Board)',
+  'কারিগরি শিক্ষা বোর্ড (Technical Board)'
+];
+
+const DEFAULT_INSTITUTIONS = [
+  'নটর ডেম কলেজ (Notre Dame College)',
+  'রাজউক উত্তরা মডেল কলেজ (RAJUK Uttara Model College)',
+  'ঢাকা রেসিডেনসিয়াল মডেল কলেজ (DRMC)',
+  'ভিকারুননিসা নূন স্কুল ও কলেজ (Viqarunnisa Noon)',
+  'আইডিয়াল স্কুল ও কলেজ, মতিঝিল',
+  'মির্জাপুর ক্যাডেট কলেজ (Mirzapur Cadet College)',
+  'কুমিল্লা ক্যাডেট কলেজ (Cumilla Cadet College)',
+  'ফৌজি ক্যাডেট কলেজ (Faujdarhat Cadet College)',
+  'ঝিনাইদহ ক্যাডেট কলেজ (Jhenaidah Cadet College)',
+  'চট্টগ্রাম কলেজিয়েট স্কুল (Chattogram Collegiate)',
+  'মতিঝিল সরকারি বালক উচ্চ বিদ্যালয়',
+  'গাজীপুর ক্যান্টনমেন্ট বোর্ড স্কুল ও কলেজ',
+  'রানী বিলাসমণি সরকারি বালক উচ্চ বিদ্যালয়, গাজীপুর',
+  'ভাওয়াল বদরে আলম সরকারি কলেজ, গাজীপুর'
+];
+
+const DEFAULT_YEARS = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015'];
+
+const STORAGE_KEY_TAGS = 'nextgen_custom_smartupload_tags';
 
 export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOMR }) {
   const { lang, t } = useLanguage();
 
+  // Dynamic & Custom Tags State
+  const [customTags, setCustomTags] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_TAGS);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return {
+      classes: DEFAULT_CLASSES,
+      subjects: DEFAULT_SUBJECTS,
+      grammarTopics: DEFAULT_GRAMMAR_TOPICS,
+      boards: DEFAULT_BOARDS,
+      institutions: DEFAULT_INSTITUTIONS
+    };
+  });
+
+  // Save tags persistently
+  const saveCustomTags = (newTags) => {
+    setCustomTags(newTags);
+    try {
+      localStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify(newTags));
+    } catch (e) {}
+  };
+
   // Ingestion Form State
-  const [targetClass, setTargetClass] = useState('Class 9-10 (SSC)');
-  const [targetBook, setTargetBook] = useState('পদার্থবিজ্ঞান');
-  const [targetInstitution, setTargetInstitution] = useState('নটর ডেম কলেজ');
+  const [targetClass, setTargetClass] = useState('দশম শ্রেণি (Class 10)');
+  const [targetBook, setTargetBook] = useState('পদার্থবিজ্ঞান (Physics)');
+  const [targetInstitution, setTargetInstitution] = useState('ঢাকা বোর্ড (Dhaka Board)');
   const [targetYear, setTargetYear] = useState('2025');
   const [hasChapter, setHasChapter] = useState(true);
   const [targetChapter, setTargetChapter] = useState('অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি');
+
+  // Tag Search / Filter in Form
+  const [subjectSearch, setSubjectSearch] = useState('');
+  const [selectedSubTab, setSelectedSubTab] = useState('core'); // 'core' | 'grammar'
+
+  // Dynamic Tag Manager Modal State
+  const [tagModalConfig, setTagModalConfig] = useState({
+    isOpen: false,
+    categoryKey: 'subjects', // 'classes' | 'subjects' | 'grammarTopics' | 'boards' | 'institutions'
+    title: 'বিষয় ও বই ট্যাগ ম্যানেজ করুন'
+  });
+  const [newTagInput, setNewTagInput] = useState('');
+  const [editingTagIdx, setEditingTagIdx] = useState(null);
+  const [editingTagText, setEditingTagText] = useState('');
 
   // Input Data
   const [rawText, setRawText] = useState('');
@@ -87,6 +215,73 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     } finally {
       setLoadingRepo(false);
     }
+  };
+
+  // Open Tag Manager Modal
+  const handleOpenTagManager = (categoryKey, title) => {
+    setTagModalConfig({
+      isOpen: true,
+      categoryKey,
+      title
+    });
+    setNewTagInput('');
+    setEditingTagIdx(null);
+  };
+
+  // Add new tag to category
+  const handleAddTag = () => {
+    const val = newTagInput.trim();
+    if (!val) return;
+    const cat = tagModalConfig.categoryKey;
+    const currentList = customTags[cat] || [];
+    if (currentList.includes(val)) {
+      alert('এই ট্যাগটি ইতোমধ্যে তালিকায় উপস্থিত রয়েছে!');
+      return;
+    }
+    const updated = [val, ...currentList];
+    const newCustomTags = { ...customTags, [cat]: updated };
+    saveCustomTags(newCustomTags);
+    setNewTagInput('');
+
+    // Auto-select the newly added tag in the active form
+    if (cat === 'classes') setTargetClass(val);
+    if (cat === 'subjects' || cat === 'grammarTopics') setTargetBook(val);
+    if (cat === 'boards' || cat === 'institutions') setTargetInstitution(val);
+  };
+
+  // Save edited tag
+  const handleSaveEditTag = (index) => {
+    const val = editingTagText.trim();
+    if (!val) return;
+    const cat = tagModalConfig.categoryKey;
+    const currentList = [...(customTags[cat] || [])];
+    currentList[index] = val;
+    const newCustomTags = { ...customTags, [cat]: currentList };
+    saveCustomTags(newCustomTags);
+    setEditingTagIdx(null);
+    setEditingTagText('');
+  };
+
+  // Delete tag
+  const handleDeleteTag = (index) => {
+    const cat = tagModalConfig.categoryKey;
+    const currentList = (customTags[cat] || []).filter((_, i) => i !== index);
+    const newCustomTags = { ...customTags, [cat]: currentList };
+    saveCustomTags(newCustomTags);
+  };
+
+  // Reset category to defaults
+  const handleResetCategoryTags = () => {
+    const cat = tagModalConfig.categoryKey;
+    let def = [];
+    if (cat === 'classes') def = DEFAULT_CLASSES;
+    if (cat === 'subjects') def = DEFAULT_SUBJECTS;
+    if (cat === 'grammarTopics') def = DEFAULT_GRAMMAR_TOPICS;
+    if (cat === 'boards') def = DEFAULT_BOARDS;
+    if (cat === 'institutions') def = DEFAULT_INSTITUTIONS;
+
+    const newCustomTags = { ...customTags, [cat]: def };
+    saveCustomTags(newCustomTags);
   };
 
   // Parser
@@ -148,59 +343,68 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             stem: stemLines.join(' ') || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
             subQuestions: subQs,
             difficulty: 'MEDIUM',
-            marks: 10
+            boardOrInstitute: targetInstitution,
+            year: targetYear,
+            subject: targetBook,
+            class: targetClass,
+            chapter: hasChapter ? targetChapter : null
           });
-          return;
-        }
+        } 
+        // Otherwise treat as MCQ
+        else {
+          const qLine = lines[0] || '';
+          const options = [];
+          let ans = 'ক';
+          let explanation = '';
 
-        // Check if MCQ with 4 options
-        const optionLines = lines.filter(l => /^[a-dক-ঘ১-৪][\)\.\:\-]\s*/i.test(l) || /^\([a-dক-ঘ১-৪]\)\s*/i.test(l));
-        if (optionLines.length >= 2) {
-          const qStem = lines.filter(l => !optionLines.includes(l)).join(' ').replace(/^[০-৯0-9]+[\.\)\-]\s*/, '');
-          const cleanOptions = optionLines.map(o => o.replace(/^[a-dক-ঘ১-৪\(\)\[\]\.\:\-]+\s*/i, '').trim());
+          lines.slice(1).forEach(line => {
+            if (line.includes('উত্তর:') || line.includes('Ans:')) {
+              const matched = line.match(/(?:উত্তর:|Ans:)s*([ক-ঘa-dA-D1-4])/i);
+              if (matched) ans = matched[1];
+            } else if (line.includes('ব্যাখ্যা:') || line.includes('Explanation:')) {
+              explanation = line.replace(/(?:ব্যাখ্যা:|Explanation:)s*/i, '');
+            } else {
+              const cleanedOpt = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '').trim();
+              if (cleanedOpt) options.push(cleanedOpt);
+            }
+          });
 
-          while (cleanOptions.length < 4) {
-            cleanOptions.push('বিকল্প ' + (cleanOptions.length + 1));
+          // Ensure 4 options
+          while (options.length < 4) {
+            options.push('বিকল্প ' + (options.length + 1));
           }
 
           results.push({
             id: 'mcq-' + Date.now() + '-' + idx,
             type: 'MCQ',
-            question: qStem || lines[0],
-            options: cleanOptions.slice(0, 4),
-            correctAnswer: 0,
-            explanation: 'সঠিক উত্তর নির্বাচন করা হয়েছে।',
+            question: qLine.replace(/^[0-9]+.s*/, '') || 'বহুনির্বাচনী প্রশ্ন ' + (idx + 1),
+            options: options.slice(0, 4),
+            correctAnswer: ans,
+            explanation,
             difficulty: 'MEDIUM',
-            marks: 1
+            boardOrInstitute: targetInstitution,
+            year: targetYear,
+            subject: targetBook,
+            class: targetClass,
+            chapter: hasChapter ? targetChapter : null
           });
-          return;
         }
-
-        // Fallback: Short Question
-        results.push({
-          id: 'sq-' + Date.now() + '-' + idx,
-          type: 'SHORT',
-          question: lines.join(' ').replace(/^[০-৯0-9]+[\.\)\-]\s*/, ''),
-          explanation: '',
-          difficulty: 'EASY',
-          marks: 2
-        });
       });
 
       if (results.length > 0) {
         setParsedQuestions(results);
-        setFeedbackMsg({ type: 'success', text: 'সফলভাবে ' + results.length + 'টি প্রশ্ন বিশ্লেষণ করা হয়েছে!' });
+        setFeedbackMsg({ type: 'success', text: '🎉 ' + results.length + 'টি প্রশ্ন সফলভাবে পার্স করা হয়েছে!' });
       } else {
-        setFeedbackMsg({ type: 'error', text: 'কোনো বৈধ প্রশ্ন শনাক্ত করা যায়নি। অনুচ্ছেদগুলো সঠিকভাবে আলাদা করুন।' });
+        setFeedbackMsg({ type: 'error', text: 'কোনো প্রশ্ন সনাক্ত করা যায়নি। সঠিক ফরম্যাটে টেক্সট পেস্ট করুন।' });
       }
     } catch (err) {
-      setFeedbackMsg({ type: 'error', text: 'বিশ্লেষণ করতে সমস্যা হয়েছে: ' + err.message });
+      setFeedbackMsg({ type: 'error', text: 'পার্সিংয়ে ত্রুটি: ' + err.message });
     } finally {
       setIsParsing(false);
     }
   };
 
-  // File Upload Handlers
+  // Handle File Upload
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -208,45 +412,35 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     setUploadedFileName(file.name);
     const reader = new FileReader();
 
-    if (file.name.endsWith('.json') || file.name.endsWith('.txt') || file.name.endsWith('.csv')) {
-      reader.onload = (ev) => {
-        const text = ev.target?.result;
-        setRawText(text);
-        handleParseRawText(text);
-      };
-      reader.readAsText(file);
-    } else {
-      // Mock instant preview for binary documents
-      setTimeout(() => {
-        const sampleExtracted = '১. ১ কিলোওয়াট-ঘণ্টা (1 kWh) সমান কত জুল?\n(ক) 3.6 × 10⁶ J\n(খ) 3.6 × 10⁵ J\n(গ) 3.6 × 10⁴ J\n(ঘ) 3.6 × 10³ J\n\n২. উদ্দীপক: ৬০ কেজি ভরের একজন দৌড়বিদ ৫ মিটার পার সেকেন্ড সমবেগে ২০ মিটার দূরত্ব অতিক্রম করলেন।\n(ক) ভরবেগ কাকে বলে?\n(খ) গতিশক্তি ও ভরবেগের সম্পর্ক ব্যাখ্যা করো।\n(গ) দৌড়বিদের গতিশক্তি নির্ণয় করো।\n(ঘ) যদি বেগ দ্বিগুণ করা হয় তবে গতিশক্তির শতকরা কত পরিবর্তন ঘটবে গাণিতিকভাবে দেখাও।';
-        setRawText(sampleExtracted);
-        handleParseRawText(sampleExtracted);
-      }, 500);
-    }
+    reader.onload = (event) => {
+      const content = event.target?.result;
+      if (typeof content === 'string') {
+        setRawText(content);
+        handleParseRawText(content);
+      }
+    };
+
+    reader.readAsText(file);
   };
 
-  // Submit to Central Question Repository
+  // Submit to Repository
   const handleSaveToRepository = async () => {
-    if (!targetYear || !targetYear.trim()) {
-      setFeedbackMsg({ type: 'error', text: 'সাল (Year) নির্বাচন করা বাধ্যতামূলক!' });
-      return;
-    }
     if (parsedQuestions.length === 0) {
-      setFeedbackMsg({ type: 'error', text: 'সংরক্ষণ করার জন্য কোনো প্রশ্ন নেই। প্রথমে পার্স করুন।' });
+      setFeedbackMsg({ type: 'error', text: 'সংরক্ষণ করার জন্য কোনো পার্সড প্রশ্ন নেই।' });
       return;
     }
 
     setIsSubmitting(true);
-    setFeedbackMsg(null);
-
     try {
       const payload = {
-        className: targetClass,
-        book: targetBook,
-        institutionOrBoard: targetInstitution,
-        year: targetYear,
-        chapter: hasChapter ? targetChapter : '',
-        hasChapter: !!hasChapter,
+        metadata: {
+          className: targetClass,
+          book: targetBook,
+          institutionOrBoard: targetInstitution,
+          year: targetYear,
+          chapter: hasChapter ? targetChapter : null,
+          badge: '[' + targetInstitution + ' - \'' + targetYear.slice(-2) + ']'
+        },
         questions: parsedQuestions
       };
 
@@ -294,6 +488,13 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     });
   }, [repoQuestions, repoSearch, filterType]);
 
+  // Filtered Subject/Grammar Pills for Quick Selection
+  const activeSubjectPills = useMemo(() => {
+    const list = selectedSubTab === 'core' ? (customTags.subjects || []) : (customTags.grammarTopics || []);
+    if (!subjectSearch) return list;
+    return list.filter(item => item.toLowerCase().includes(subjectSearch.toLowerCase()));
+  }, [customTags, selectedSubTab, subjectSearch]);
+
   return (
     <div className="space-y-6">
       {/* Top Banner */}
@@ -310,7 +511,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               স্মার্ট আপলোড ও এআই রিডার হাব (Smart Upload & AI Reader)
             </h1>
             <p className="text-slate-300 text-xs sm:text-sm mt-1.5 max-w-2xl leading-relaxed">
-              পিডিএফ, ওয়ার্ড, টেক্সট বা যেকোনো বিগত সালের বোর্ড ও শীর্ষ কলেজের প্রশ্নপত্র আপলোড করুন। এআই অটোমেটিক বিশ্লেষণ ও মেটাডেটা ট্যাগিং করে কেন্দ্রীয় রিপোজিটরিতে সংরক্ষণ করবে।
+              পিডিএফ, ওয়ার্ড, টেক্সট বা বিগত সালের বোর্ড ও শীর্ষ কলেজের প্রশ্নপত্র আপলোড করুন। ৬ষ্ঠ থেকে ১২শ শ্রেণি এবং বাংলা ও ইংলিশ গ্রামারের পূর্ণাঙ্গ বিষয় ভিত্তিক মেটাডেটা ট্যাগিং করুন।
             </p>
           </div>
 
@@ -366,113 +567,219 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
         {/* Left Column: Metadata Tagging Configuration */}
         <div className="lg:col-span-5 space-y-5">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100 uppercase tracking-wider">
-              <Tag className="w-4 h-4 text-indigo-600" />
-              <span>১. মেটাডেটা ও ট্যাগিং কনফিগারেশন</span>
-            </h3>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 uppercase tracking-wider">
+                <Tag className="w-4 h-4 text-indigo-600" />
+                <span>১. মেটাডেটা ও ট্যাগিং কনফিগারেশন</span>
+              </h3>
+            </div>
 
-            {/* Class */}
+            {/* 1. Class Dropdown & Live Manager */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">🎓 শ্রেণি (Class) *</label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700">🎓 শ্রেণি (Class - ৬ষ্ঠ থেকে ১২শ) *</label>
+                <button
+                  type="button"
+                  onClick={() => handleOpenTagManager('classes', 'শ্রেণি তালিকা ম্যানেজ ও এডিট করুন')}
+                  className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 hover:underline cursor-pointer"
+                >
+                  <Settings2 className="w-3 h-3" />
+                  <span>ট্যাগ এডিট ও ম্যানেজ</span>
+                </button>
+              </div>
+
               <select
                 value={targetClass}
                 onChange={(e) => setTargetClass(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
               >
-                {CLASSES_LIST.map(c => (
+                {(customTags.classes || DEFAULT_CLASSES).map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
-            </div>
 
-            {/* Book / Subject */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">📖 বই / বিষয় (Book / Subject) *</label>
-              <input
-                type="text"
-                value={targetBook}
-                onChange={(e) => setTargetBook(e.target.value)}
-                placeholder="যেমন: পদার্থবিজ্ঞান, রসায়ন, উচ্চতর গণিত"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {SUBJECTS_LIST.slice(0, 5).map(s => (
+              {/* Quick Class Pills */}
+              <div className="flex flex-wrap gap-1 pt-1">
+                {(customTags.classes || DEFAULT_CLASSES).slice(0, 7).map(c => (
                   <button
-                    key={s}
+                    key={c}
                     type="button"
-                    onClick={() => setTargetBook(s)}
-                    className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all ' + (
-                      targetBook === s ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    onClick={() => setTargetClass(c)}
+                    className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
+                      targetClass === c ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     )}
                   >
-                    {s}
+                    {c.split(' ')[0]}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Institution / Board (Editable text + Chips) */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">🏛️ ইস্কুল / শিক্ষা বোর্ড নাম (Board / Institution) *</label>
+            {/* 2. Book / Subject & Grammar Topics Selection */}
+            <div className="space-y-2 pt-1 border-t border-slate-100">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700">📖 বিষয় / বই / গ্রামার টপিক *</label>
+                <button
+                  type="button"
+                  onClick={() => handleOpenTagManager(selectedSubTab === 'core' ? 'subjects' : 'grammarTopics', selectedSubTab === 'core' ? 'মূল বিষয় ও পাঠ্যবই ট্যাগ এডিট' : 'বাংলা ও ইংলিশ গ্রামার টপিক ট্যাগ এডিট')}
+                  className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 hover:underline cursor-pointer"
+                >
+                  <Settings2 className="w-3 h-3" />
+                  <span>ট্যাগ এডিট ও ম্যানেজ</span>
+                </button>
+              </div>
+
+              {/* Free Text Input Field with Active Value */}
+              <input
+                type="text"
+                value={targetBook}
+                onChange={(e) => setTargetBook(e.target.value)}
+                placeholder="সিলেক্ট করুন অথবা নিজে টাইপ করুন (যেমন: পদার্থবিজ্ঞান, সমাস, Tense)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
+              />
+
+              {/* Sub-Tabs: Core Subjects vs. Grammar Topics */}
+              <div className="flex items-center justify-between gap-1 pt-1">
+                <div className="flex items-center bg-slate-100 rounded-xl p-0.5 border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSubTab('core')}
+                    className={'px-2.5 py-1 rounded-lg text-[10px] font-black transition-all cursor-pointer ' + (
+                      selectedSubTab === 'core' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    )}
+                  >
+                    📚 মূল বিষয়সমূহ ({customTags.subjects?.length || 0})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSubTab('grammar')}
+                    className={'px-2.5 py-1 rounded-lg text-[10px] font-black transition-all cursor-pointer ' + (
+                      selectedSubTab === 'grammar' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    )}
+                  >
+                    📝 গ্রামার ও ব্যাকরণ ({customTags.grammarTopics?.length || 0})
+                  </button>
+                </div>
+
+                <div className="relative flex-1 max-w-[130px]">
+                  <Search className="w-3 h-3 text-slate-400 absolute left-2 top-2" />
+                  <input
+                    type="text"
+                    value={subjectSearch}
+                    onChange={(e) => setSubjectSearch(e.target.value)}
+                    placeholder="ট্যাগ খুঁজুন..."
+                    className="w-full pl-6 pr-2 py-0.5 text-[10px] bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Quick Select Scrollable Tag Cloud */}
+              <div className="max-h-32 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap gap-1.5 custom-scrollbar">
+                {activeSubjectPills.map(s => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setTargetBook(s)}
+                    className={'px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all text-left cursor-pointer ' + (
+                      targetBook === s
+                        ? selectedSubTab === 'core' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-purple-600 text-white shadow-xs'
+                        : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200/60 shadow-2xs'
+                    )}
+                  >
+                    {s}
+                  </button>
+                ))}
+                {activeSubjectPills.length === 0 && (
+                  <span className="text-[10px] text-slate-400 italic p-1">কোনো ট্যাগ মিলেনি</span>
+                )}
+              </div>
+            </div>
+
+            {/* 3. Institution / Board Name */}
+            <div className="space-y-1.5 pt-1 border-t border-slate-100">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700">🏛️ শিক্ষা বোর্ড / শীর্ষ প্রতিষ্ঠান নাম *</label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenTagManager('boards', 'শিক্ষা বোর্ড তালিকা এডিট')}
+                    className="text-[10px] font-bold text-indigo-600 hover:underline cursor-pointer"
+                  >
+                    বোর্ড এডিট
+                  </button>
+                  <span className="text-slate-300">|</span>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenTagManager('institutions', 'শীর্ষ কলেজ/প্রতিষ্ঠান তালিকা এডিট')}
+                    className="text-[10px] font-bold text-rose-600 hover:underline cursor-pointer"
+                  >
+                    প্রতিষ্ঠান এডিট
+                  </button>
+                </div>
+              </div>
+
               <input
                 type="text"
                 value={targetInstitution}
                 onChange={(e) => setTargetInstitution(e.target.value)}
-                placeholder="যেমন: ঢাকা বোর্ড, নটর ডেম কলেজ, ক্যাডেট কলেজ"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                placeholder="যেমন: ঢাকা বোর্ড, নটর ডেম কলেজ, রাজউক উত্তরা মডেল কলেজ"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
               />
+
+              {/* Board Pills */}
               <div className="space-y-1.5 pt-1">
                 <span className="text-[10px] font-bold text-slate-400 block">কুইক সিলেক্ট (বোর্ডসমূহ):</span>
-                <div className="flex flex-wrap gap-1">
-                  {BOARDS_LIST.map(b => (
+                <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto custom-scrollbar">
+                  {(customTags.boards || DEFAULT_BOARDS).map(b => (
                     <button
                       key={b}
                       type="button"
                       onClick={() => setTargetInstitution(b)}
-                      className={'px-2 py-0.5 rounded-md text-[10px] font-bold transition-all ' + (
+                      className={'px-2 py-0.5 rounded-md text-[10px] font-bold transition-all cursor-pointer ' + (
                         targetInstitution === b ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                       )}
                     >
-                      {b}
+                      {b.split(' ')[0]}
                     </button>
                   ))}
                 </div>
+
                 <span className="text-[10px] font-bold text-slate-400 block pt-1">শীর্ষ কলেজ / প্রতিষ্ঠান:</span>
-                <div className="flex flex-wrap gap-1">
-                  {RENOWNED_INSTITUTIONS.slice(0, 6).map(inst => (
+                <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto custom-scrollbar">
+                  {(customTags.institutions || DEFAULT_INSTITUTIONS).map(inst => (
                     <button
                       key={inst}
                       type="button"
                       onClick={() => setTargetInstitution(inst)}
-                      className={'px-2 py-0.5 rounded-md text-[10px] font-bold transition-all ' + (
+                      className={'px-2 py-0.5 rounded-md text-[10px] font-bold transition-all cursor-pointer ' + (
                         targetInstitution === inst ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
                       )}
                     >
-                      {inst}
+                      {inst.split('(')[0].trim()}
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Year (Mandatory) */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">📅 সাল (Year - Mandatory) *</label>
+            {/* 4. Year (Mandatory) */}
+            <div className="space-y-1.5 pt-1 border-t border-slate-100">
+              <label className="block text-xs font-bold text-slate-700">📅 শিক্ষাবর্ষ / সাল (Year) *</label>
               <select
                 value={targetYear}
                 onChange={(e) => setTargetYear(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
               >
-                {YEARS_LIST.map(y => (
-                  <option key={y} value={y}>{y} শিক্ষাবর্ষ</option>
+                {DEFAULT_YEARS.map(y => (
+                  <option key={y} value={y}>{y} শিক্ষাবর্ষ (Year {y})</option>
                 ))}
               </select>
             </div>
 
-            {/* Optional Chapter Toggle */}
+            {/* 5. Optional Chapter / Sub-Topic Tag */}
             <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-700">📑 অধ্যায় ট্যাগ সংযুক্ত করুন</span>
+                <span className="text-xs font-bold text-slate-700">📑 অধ্যায় / সাব-টপিক ট্যাগ সংযুক্ত করুন</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -489,7 +796,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                   type="text"
                   value={targetChapter}
                   onChange={(e) => setTargetChapter(e.target.value)}
-                  placeholder="যেমন: অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি"
+                  placeholder="যেমন: অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি অথবা Tense Practice Set"
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
               )}
@@ -497,9 +804,9 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
 
             {/* Live Generated Badge Preview */}
             <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 flex items-center justify-between">
-              <span className="text-[11px] font-bold text-indigo-900">তৈরিকৃত ব্যাজ প্রিভিউ:</span>
+              <span className="text-[11px] font-bold text-indigo-900">অটো ব্যাজ প্রিভিউ:</span>
               <span className="px-2.5 py-1 rounded-full bg-indigo-600 text-white font-mono font-bold text-[11px] shadow-sm">
-                {'[' + targetInstitution + ' - \'' + targetYear.slice(-2) + ' (MCQ/CQ)]'}
+                {`[${targetInstitution.split('(')[0].trim()} - '${targetYear.slice(-2)}]`}
               </span>
             </div>
           </div>
@@ -521,154 +828,183 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.docx,.doc,.txt,.json,.csv,.xlsx,image/*"
+                accept=".txt,.json,.csv,.doc,.docx"
                 onChange={handleFileUpload}
                 className="hidden"
               />
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform shadow-inner">
                 <FolderOpen className="w-6 h-6" />
               </div>
               <p className="text-xs font-bold text-slate-700">
-                {uploadedFileName ? (
-                  <span className="text-indigo-600">📄 আপলোডকৃত ফাইল: {uploadedFileName}</span>
-                ) : (
-                  'পিডিএফ, ওয়ার্ড, টেক্সট অথবা প্রশ্নপত্রের ইমেজ ফাইল এখানে ড্রপ করুন'
-                )}
+                {uploadedFileName ? 'নির্বাচিত ফাইল: ' + uploadedFileName : 'ফাইল আপলোড করতে ক্লিক করুন (TXT, CSV, JSON, DOC)'}
               </p>
-              <p className="text-[10px] text-slate-400 mt-1">সাপোর্টেড ফরম্যাট: PDF, DOCX, TXT, JSON, CSV, JPG, PNG (সর্বোচ্চ 100MB)</p>
+              <p className="text-[11px] text-slate-400 mt-1">অথবা নিচের বক্সে সরাসরি কপি-পেস্ট করুন</p>
             </div>
 
-            {/* Raw Text Box */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">অথবা সরাসরি প্রশ্নপত্র এখানে পেস্ট করুন (Paste Raw Question Text)</label>
+            {/* Text Paste Box */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-slate-700">সরাসরি প্রশ্নপত্র পেস্ট করুন:</label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const sampleMCQ = '১. বল ও সরণের গুণফলকে কী বলে?\nক) ক্ষমতা\nখ) শক্তি\nগ) কাজ\nঘ) বেগ\nউত্তর: গ\nব্যাখ্যা: কাজ = বল × বলের অভিমুখে সরণ।';
+                      setRawText(sampleMCQ);
+                      handleParseRawText(sampleMCQ);
+                    }}
+                    className="text-[11px] font-bold text-indigo-600 hover:underline cursor-pointer"
+                  >
+                    + ডেমো MCQ
+                  </button>
+                  <span className="text-slate-300">|</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const sampleCQ = 'উদ্দীপক: ৫০ কেজি ভরের একজন ব্যক্তি ৫ মিনিটে ৫০ মিটার উঁচু পাহাড়ে উঠলেন।\n(ক) কাজ কাকে বলে?\n(খ) ধনাত্মক কাজ বলতে কী বোঝায়?\n(গ) ব্যক্তির দ্বারা কৃতকাজের পরিমাণ নির্ণয় করো।\n(ঘ) ব্যক্তির ক্ষমতা নির্ণয় করো।';
+                      setRawText(sampleCQ);
+                      handleParseRawText(sampleCQ);
+                    }}
+                    className="text-[11px] font-bold text-purple-600 hover:underline cursor-pointer"
+                  >
+                    + ডেমো CQ
+                  </button>
+                </div>
+              </div>
+
               <textarea
                 rows={6}
                 value={rawText}
                 onChange={(e) => setRawText(e.target.value)}
-                placeholder={'১. কাজের মাত্রা সমীকরণ কোনটি?\n(ক) [ML²T⁻²]  (খ) [MLT⁻²]  (গ) [ML²T⁻¹]  (ঘ) [MLT⁻¹]\n\n২. ১ কিলোওয়াট-ঘণ্টা সমান কত জুল?\n(ক) 3.6 × 10⁶ J  (খ) 3.6 × 10⁵ J'}
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-mono text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
+                placeholder="এখানে বহুনির্বাচনী বা সৃজনশীল প্রশ্ন পেস্ট করুন..."
+                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono leading-relaxed"
               />
-            </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => handleParseRawText()}
-                disabled={isParsing || !rawText.trim()}
-                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
-              >
-                <Zap className="w-4 h-4 text-amber-400" />
-                <span>{isParsing ? 'এআই বিশ্লেষণ চলছে...' : '⚡ এআই বিশ্লেষণ ও পার্স করুন'}</span>
-              </button>
-
-              {parsedQuestions.length > 0 && (
+              <div className="flex items-center justify-end space-x-2 pt-1">
                 <button
                   type="button"
-                  onClick={handleSaveToRepository}
-                  disabled={isSubmitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-lg shadow-emerald-600/30 flex items-center space-x-2 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
-                >
-                  <Database className="w-4 h-4" />
-                  <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : '🎓 ডেটাবেজে সংরক্ষণ ও এআই মডেল ট্রেন করুন (' + parsedQuestions.length + 'টি)'}</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Parsed Live Questions Preview */}
-          {parsedQuestions.length > 0 && (
-            <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <h4 className="font-bold text-xs text-slate-800 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>বিশ্লেষিত প্রশ্ন প্রিভিউ ({parsedQuestions.length}টি)</span>
-                </h4>
-                <button
-                  type="button"
-                  onClick={() => setParsedQuestions([])}
-                  className="text-xs text-rose-500 hover:text-rose-700 font-bold"
+                  onClick={() => {
+                    setRawText('');
+                    setParsedQuestions([]);
+                    setUploadedFileName(null);
+                  }}
+                  className="px-3 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 cursor-pointer"
                 >
                   ক্লিয়ার করুন
                 </button>
-              </div>
-
-              <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
-                {parsedQuestions.map((q, idx) => (
-                  <div key={q.id || idx} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-indigo-700 font-mono">প্রশ্ন #{idx + 1} ({q.type})</span>
-                      <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-bold">
-                        {targetInstitution} - '{targetYear.slice(-2)}
-                      </span>
-                    </div>
-
-                    {q.type === 'MCQ' ? (
-                      <>
-                        <p className="font-bold text-slate-800">{q.question}</p>
-                        <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-                          {q.options?.map((opt, optIdx) => (
-                            <div key={optIdx} className="p-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium">
-                              <span className="font-bold text-slate-400 mr-1">({String.fromCharCode(97 + optIdx)})</span>
-                              {opt}
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    ) : q.type === 'CQ' ? (
-                      <>
-                        <p className="font-medium text-slate-700 bg-white p-2 rounded-lg border border-slate-200">{q.stem}</p>
-                        <div className="space-y-1 text-[11px] pt-1">
-                          <p><span className="font-bold text-indigo-600">ক.</span> {q.subQuestions?.a?.q} [১]</p>
-                          <p><span className="font-bold text-indigo-600">খ.</span> {q.subQuestions?.b?.q} [২]</p>
-                          <p><span className="font-bold text-indigo-600">গ.</span> {q.subQuestions?.c?.q} [৩]</p>
-                          <p><span className="font-bold text-indigo-600">ঘ.</span> {q.subQuestions?.d?.q} [৪]</p>
-                        </div>
-                      </>
-                    ) : (
-                      <p className="font-bold text-slate-800">{q.question}</p>
-                    )}
-                  </div>
-                ))}
+                <button
+                  type="button"
+                  onClick={() => handleParseRawText()}
+                  disabled={isParsing || !rawText.trim()}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/30 flex items-center space-x-1.5 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>{isParsing ? 'পার্সিং হচ্ছে...' : 'এআই পার্স করুন (Parse)'}</span>
+                </button>
               </div>
             </div>
-          )}
+
+            {/* Parsed Output & Staging Preview */}
+            {parsedQuestions.length > 0 && (
+              <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                      পার্সড প্রশ্ন তালিকা ({parsedQuestions.length} টি)
+                    </h4>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSaveToRepository}
+                    disabled={isSubmitting}
+                    className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/30 flex items-center space-x-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <Database className="w-4 h-4" />
+                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'রিপোজিটরিতে সংরক্ষণ করুন'}</span>
+                  </button>
+                </div>
+
+                <div className="max-h-72 overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
+                  {parsedQuestions.map((q, idx) => (
+                    <div key={q.id || idx} className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-bold text-[10px]">
+                          {q.type === 'CQ' ? 'সৃজনশীল (CQ)' : 'বহুনির্বাচনী (MCQ)'}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-mono">#{idx + 1}</span>
+                      </div>
+
+                      {q.type === 'CQ' ? (
+                        <div className="space-y-1">
+                          <p className="font-bold text-slate-900">{q.stem}</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-700 pt-1">
+                            <div>(ক) {q.subQuestions?.a?.q || 'ক নম্বর প্রশ্ন'} [১]</div>
+                            <div>(খ) {q.subQuestions?.b?.q || 'খ নম্বর প্রশ্ন'} [২]</div>
+                            <div>(গ) {q.subQuestions?.c?.q || 'গ নম্বর প্রশ্ন'} [৩]</div>
+                            <div>(ঘ) {q.subQuestions?.d?.q || 'ঘ নম্বর প্রশ্ন'} [৪]</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <p className="font-bold text-slate-900">{q.question}</p>
+                          <div className="grid grid-cols-2 gap-1 text-[11px] text-slate-600">
+                            {q.options?.map((opt, oIdx) => (
+                              <div key={oIdx} className={q.correctAnswer === ['ক','খ','গ','ঘ'][oIdx] ? 'font-bold text-emerald-700' : ''}>
+                                {['ক', 'খ', 'গ', 'ঘ'][oIdx]}) {opt}
+                              </div>
+                            ))}
+                          </div>
+                          {q.explanation && (
+                            <p className="text-[10px] text-slate-500 pt-0.5">💡 ব্যাখ্যা: {q.explanation}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Bottom Section: Central Question Repository Storage & Archive Explorer */}
+      {/* Central Question Repository Stored Database */}
       <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div>
-            <h3 className="font-black text-sm text-slate-900 flex items-center gap-2">
-              <Database className="w-4 h-4 text-indigo-600" />
-              <span>কেন্দ্রীয় প্রশ্ন ভান্ডার ও সংরক্ষিত রেকর্ড ({filteredRepo.length}টি প্রশ্ন)</span>
+            <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+              <Database className="w-5 h-5 text-indigo-600" />
+              <span>কেন্দ্রীয় এআই প্রশ্ন ভান্ডার (Stored Question Repository)</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">সবগুলো সংরক্ষিত ও এআই-ট্রেইন্ড প্রশ্ন এখানে তালিকাভুক্ত</p>
+            <p className="text-xs text-slate-500 mt-0.5">
+              সকল সংরক্ষিত ও প্রশিক্ষিত বিগত সালের প্রশ্নপত্রসমূহ
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="relative w-64">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <div className="flex items-center space-x-2">
+            <div className="relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={repoSearch}
                 onChange={(e) => setRepoSearch(e.target.value)}
-                placeholder="বোর্ড, বিষয় বা প্রশ্ন খুঁজুন..."
-                className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="প্রশ্ন, বই বা প্রতিষ্ঠান খুঁজুন..."
+                className="pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none w-56 font-medium"
               />
             </div>
 
-            <div className="inline-flex bg-slate-100 p-1 rounded-xl gap-1">
-              {['ALL', 'MCQ', 'CQ', 'SHORT'].map(t => (
+            <div className="flex items-center bg-slate-100 rounded-xl p-0.5 border border-slate-200">
+              {['ALL', 'MCQ', 'CQ'].map((tType) => (
                 <button
-                  key={t}
+                  key={tType}
                   type="button"
-                  onClick={() => setFilterType(t)}
-                  className={'px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ' + (
-                    filterType === t ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+                  onClick={() => setFilterType(tType)}
+                  className={'px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ' + (
+                    filterType === tType ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
                   )}
                 >
-                  {t}
+                  {tType === 'ALL' ? 'সকল' : tType}
                 </button>
               ))}
             </div>
@@ -676,58 +1012,62 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             <button
               type="button"
               onClick={fetchRepoQuestions}
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+              className="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-600 cursor-pointer"
               title="রিফ্রেশ করুন"
             >
-              <RefreshCw className={'w-3.5 h-3.5 ' + (loadingRepo ? 'animate-spin' : '')} />
+              <RefreshCw className={'w-4 h-4 ' + (loadingRepo ? 'animate-spin' : '')} />
             </button>
           </div>
         </div>
 
-        {/* Repository Questions Table / List */}
-        {loadingRepo ? (
-          <div className="p-8 text-center text-slate-400">
-            <div className="w-7 h-7 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-xs">লোড হচ্ছে...</p>
-          </div>
-        ) : filteredRepo.length === 0 ? (
-          <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-1">
-            <Database className="w-8 h-8 mx-auto text-slate-300" />
-            <p className="text-xs font-bold text-slate-600">কোনো প্রশ্ন পাওয়া যায়নি</p>
-            <p className="text-[11px]">উপরে ফাইল আপলোড করে প্রশ্ন সংরক্ষণ করুন।</p>
+        {/* Repository Items List */}
+        {filteredRepo.length === 0 ? (
+          <div className="py-12 text-center text-slate-400 space-y-2">
+            <Database className="w-10 h-10 mx-auto text-slate-300" />
+            <p className="text-xs font-bold">রিপোজিটরিতে এখনো কোনো প্রশ্ন পাওয়া যায়নি</p>
           </div>
         ) : (
-          <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
-            {filteredRepo.map((item, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {filteredRepo.map((item) => (
               <div
-                key={item.id || idx}
-                className="p-3.5 rounded-2xl bg-slate-50/80 hover:bg-indigo-50/30 border border-slate-200 transition-all flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs"
+                key={item.id}
+                className="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/80 transition-all space-y-2 flex flex-col justify-between"
               >
-                <div className="space-y-1 flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono font-bold text-slate-400">#{idx + 1}</span>
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-black">
-                      {item.type}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-bold text-[10px]">
+                      {item.type || 'MCQ'}
                     </span>
-                    <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-bold">
-                      {item.badge || (item.institutionOrBoard + ' - \'' + (item.year?.slice(-2) || '২৫'))}
+                    <span className="text-[10px] font-bold text-slate-400 font-mono">
+                      {item.year || '2025'}
                     </span>
-                    <span className="text-[11px] text-slate-500 font-semibold">{item.book} • {item.className}</span>
                   </div>
 
-                  <p className="font-bold text-slate-800 truncate">
-                    {item.question || item.stem || 'প্রশ্ন বিবরণ'}
+                  <p className="text-xs font-bold text-slate-900 line-clamp-2">
+                    {item.question || item.stem || 'প্রশ্ন'}
                   </p>
+
+                  <div className="flex flex-wrap gap-1 pt-1 text-[10px] font-medium text-slate-500">
+                    <span className="bg-white px-2 py-0.5 rounded border border-slate-200">
+                      📖 {item.book || item.subject || 'সাধারণ'}
+                    </span>
+                    <span className="bg-white px-2 py-0.5 rounded border border-slate-200">
+                      🏛️ {item.institutionOrBoard || item.board || 'বোর্ড'}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-center space-x-2 shrink-0">
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 mt-2">
+                  <span className="text-[10px] text-slate-400">
+                    {item.className || item.class || 'Class 9-10'}
+                  </span>
                   <button
                     type="button"
                     onClick={() => handleDeleteRepoItem(item.id)}
-                    className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-100 transition-colors"
+                    className="p-1 text-slate-400 hover:text-rose-600 rounded-lg transition-colors cursor-pointer"
                     title="মুছে ফেলুন"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -735,6 +1075,141 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           </div>
         )}
       </div>
+
+      {/* ========================================================== */}
+      {/* Dynamic & Live Editable Tags Manager Modal */}
+      {/* ========================================================== */}
+      {tagModalConfig.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center space-x-2">
+                <Settings2 className="w-5 h-5 text-indigo-600" />
+                <h3 className="text-sm font-black text-slate-900">
+                  {tagModalConfig.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setTagModalConfig({ ...tagModalConfig, isOpen: false })}
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Add New Custom Tag Form */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold text-slate-700">নতুন ট্যাগ যোগ করুন:</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={newTagInput}
+                  onChange={(e) => setNewTagInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleAddTag(); }}
+                  placeholder="যেমন: বাংলা ব্যাকরণ: কারক, Voice Change, Class 9..."
+                  className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddTag}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center space-x-1 cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>যোগ করুন</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Existing Tags List (Live Editable & Deletable) */}
+            <div className="space-y-1.5 pt-2">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                <span>বর্তমান ট্যাগসমূহ (মোট: {customTags[tagModalConfig.categoryKey]?.length || 0} টি)</span>
+                <button
+                  type="button"
+                  onClick={handleResetCategoryTags}
+                  className="text-[11px] text-rose-600 hover:underline cursor-pointer"
+                >
+                  ডিফল্ট তালিকায় রিসেট করুন
+                </button>
+              </div>
+
+              <div className="max-h-60 overflow-y-auto space-y-1.5 p-2 bg-slate-50 rounded-2xl border border-slate-200 custom-scrollbar">
+                {(customTags[tagModalConfig.categoryKey] || []).map((tagItem, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs"
+                  >
+                    {editingTagIdx === idx ? (
+                      <div className="flex items-center space-x-1.5 flex-1">
+                        <input
+                          type="text"
+                          value={editingTagText}
+                          onChange={(e) => setEditingTagText(e.target.value)}
+                          onKeyDown={(e) => { if (e.key === 'Enter') handleSaveEditTag(idx); }}
+                          autoFocus
+                          className="flex-1 px-2.5 py-1 text-xs border border-indigo-300 rounded-lg focus:outline-none font-bold"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleSaveEditTag(idx)}
+                          className="p-1 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 cursor-pointer"
+                          title="সংরক্ষণ"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingTagIdx(null)}
+                          className="p-1 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 cursor-pointer"
+                          title="বাতিল"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="font-bold text-slate-800 truncate flex-1">{tagItem}</span>
+                        <div className="flex items-center space-x-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingTagIdx(idx);
+                              setEditingTagText(tagItem);
+                            }}
+                            className="p-1 text-slate-400 hover:text-indigo-600 rounded-lg transition-colors cursor-pointer"
+                            title="এডিট করুন"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteTag(idx)}
+                            className="p-1 text-slate-400 hover:text-rose-600 rounded-lg transition-colors cursor-pointer"
+                            title="মুছে ফেলুন"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end pt-3 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setTagModalConfig({ ...tagModalConfig, isOpen: false })}
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer"
+              >
+                সম্পন্ন করুন (Done)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
