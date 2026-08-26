@@ -497,7 +497,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
   const [parsedActiveTab, setParsedActiveTab] = useState('ALL');
 
   // Strict Categorization Parser Engine
-  const handleParseRawText = (textToParse = rawText) => {
+  const handleParseRawText = async (textToParse = rawText) => {
     if (!textToParse || !textToParse.trim()) {
       setFeedbackMsg({ type: 'error', text: 'অনুগ্রহ করে প্রশ্নপত্র পেস্ট করুন অথবা ফাইল আপলোড করুন।' });
       return;
@@ -506,22 +506,98 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     setIsParsing(true);
     setFeedbackMsg(null);
 
-    try {
-      const clean = textToParse.trim();
+    const clean = textToParse.trim();
 
-      // Check if JSON
-      if (clean.startsWith('[') || clean.startsWith('{')) {
-        try {
-          const parsed = JSON.parse(clean);
-          const list = Array.isArray(parsed) ? parsed : [parsed];
-          setParsedQuestions(list);
-          setFeedbackMsg({ type: 'success', text: 'সফলভাবে ' + list.length + 'টি প্রশ্ন পার্স করা হয়েছে!' });
+    // Check if directly JSON
+    if (clean.startsWith('[') || clean.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(clean);
+        const list = Array.isArray(parsed) ? parsed : [parsed];
+        const normalized = list.map((item, idx) => ({
+          id: item.id || `json-${Date.now()}-${idx}`,
+          type: item.type === 'CQ' ? 'CQ' : item.type === 'SHORT' || item.type === 'SQ' ? 'SQ' : 'MCQ',
+          question: item.question || item.stem || `প্রশ্ন ${idx + 1}`,
+          stem: item.stem || item.question || '',
+          subQuestions: item.subQuestions || (item.type === 'CQ' ? { a: { q: 'ক নম্বর প্রশ্ন', marks: 1 }, b: { q: 'খ নম্বর প্রশ্ন', marks: 2 }, c: { q: 'গ নম্বর প্রশ্ন', marks: 3 }, d: { q: 'ঘ নম্বর প্রশ্ন', marks: 4 } } : null),
+          options: item.options || (item.type === 'MCQ' ? ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'] : []),
+          correctAnswer: item.correctAnswer !== undefined ? item.correctAnswer : 'ক',
+          explanation: item.explanation || '',
+          shortAnswer: item.shortAnswer || item.answer || '',
+          diagramUrl: item.diagramUrl || null,
+          diagramCaption: item.diagramCaption || null,
+          marks: item.marks || (item.type === 'CQ' ? 10 : item.type === 'SQ' ? 2 : 1),
+          difficulty: item.difficulty || 'MEDIUM',
+          boardOrInstitute: targetInstitution,
+          year: targetYear,
+          subject: targetBook,
+          class: targetClass,
+          chapter: hasChapter ? targetChapter : null
+        }));
+        setParsedQuestions(normalized);
+        const mcqCount = normalized.filter(q => q.type === 'MCQ').length;
+        const cqCount = normalized.filter(q => q.type === 'CQ').length;
+        const sqCount = normalized.filter(q => q.type === 'SQ').length;
+        setFeedbackMsg({ type: 'success', text: `🎉 সফলভাবে ${normalized.length}টি প্রশ্ন পার্স করা হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})` });
+        setIsParsing(false);
+        return;
+      } catch (e) {}
+    }
+
+    // Try Backend AI Server Parser First
+    try {
+      const apiRes = await questionRepositoryAPI.parseDocument({
+        rawText: clean,
+        metadata: {
+          className: targetClass,
+          book: targetBook,
+          institutionOrBoard: targetInstitution,
+          year: targetYear,
+          chapter: targetChapter
+        }
+      });
+
+      if (apiRes?.success && apiRes?.data) {
+        const list = apiRes.data.all || apiRes.data.questions || (Array.isArray(apiRes.data) ? apiRes.data : []);
+        if (list.length > 0) {
+          const normalized = list.map((item, idx) => ({
+            id: item.id || `api-${Date.now()}-${idx}`,
+            type: item.type === 'CQ' ? 'CQ' : item.type === 'SHORT' || item.type === 'SQ' ? 'SQ' : 'MCQ',
+            question: item.question || item.stem || `প্রশ্ন ${idx + 1}`,
+            stem: item.stem || item.question || '',
+            subQuestions: item.subQuestions || (item.type === 'CQ' ? { a: { q: 'ক নম্বর প্রশ্ন', marks: 1 }, b: { q: 'খ নম্বর প্রশ্ন', marks: 2 }, c: { q: 'গ নম্বর প্রশ্ন', marks: 3 }, d: { q: 'ঘ নম্বর প্রশ্ন', marks: 4 } } : null),
+            options: Array.isArray(item.options) && item.options.length > 0 ? item.options : ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'],
+            correctAnswer: item.correctAnswer !== undefined ? item.correctAnswer : 'ক',
+            explanation: item.explanation || '',
+            shortAnswer: item.shortAnswer || item.answer || '',
+            diagramUrl: item.diagramUrl || null,
+            diagramCaption: item.diagramCaption || null,
+            marks: item.marks || (item.type === 'CQ' ? 10 : item.type === 'SQ' ? 2 : 1),
+            difficulty: item.difficulty || 'MEDIUM',
+            boardOrInstitute: item.institutionOrBoard || targetInstitution,
+            year: item.year || targetYear,
+            subject: item.book || targetBook,
+            class: item.className || targetClass,
+            chapter: hasChapter ? targetChapter : null
+          }));
+
+          setParsedQuestions(normalized);
+          const mcqCount = normalized.filter(q => q.type === 'MCQ').length;
+          const cqCount = normalized.filter(q => q.type === 'CQ').length;
+          const sqCount = normalized.filter(q => q.type === 'SQ').length;
+          setFeedbackMsg({
+            type: 'success',
+            text: `🎉 AI ও স্মার্ট ইঞ্জিনের মাধ্যমে ${normalized.length}টি প্রশ্ন পার্স করা হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})`
+          });
           setIsParsing(false);
           return;
-        } catch (e) {}
+        }
       }
+    } catch (apiErr) {
+      console.warn('Backend parseDocument fallback to client parser:', apiErr);
+    }
 
-            // Text block parser
+    // Client-Side Regex Parser Fallback
+    try {
       const blocks = clean.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
       const results = [];
 
@@ -668,8 +744,6 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
       } else {
         setFeedbackMsg({ type: 'error', text: 'কোনো প্রশ্ন সনাক্ত করা যায়নি। সঠিক ফরম্যাটে টেক্সট পেস্ট করুন।' });
       }
-      setIsParsing(false);
-      return;
     } catch (err) {
       setFeedbackMsg({ type: 'error', text: 'পার্সিংয়ে ত্রুটি: ' + err.message });
     } finally {

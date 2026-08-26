@@ -9,9 +9,9 @@ const router = express.Router();
  * POST /api/question-repository/parse-document
  * Server-side robust parser for document text / payload
  */
-router.post('/parse-document', authenticate, async (req, res, next) => {
+router.post('/parse-document', async (req, res, next) => {
   try {
-    const { rawText, metadata } = req.body;
+    const { rawText, metadata } = req.body || {};
     if (!rawText || !rawText.trim()) {
       return res.status(400).json({ success: false, error: { message: 'কোনো টেক্সট বা ফাইল ডেটা পাওয়া যায়নি।' } });
     }

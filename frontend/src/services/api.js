@@ -479,6 +479,7 @@ export const questionRepositoryAPI = {
     const q = new URLSearchParams(params).toString();
     return request(`/question-repository?${q}`);
   },
+  parseDocument: (data) => request('/question-repository/parse-document', { method: 'POST', body: JSON.stringify(data) }),
   uploadAndTrain: (data) => request('/question-repository/upload-and-train', { method: 'POST', body: JSON.stringify(data) }),
   generateAIExam: (data) => request('/question-repository/generate-ai-exam', { method: 'POST', body: JSON.stringify(data) }),
   publishToOnlineExam: (data) => request('/question-repository/publish-to-online-exam', { method: 'POST', body: JSON.stringify(data) }),
