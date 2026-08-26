@@ -747,11 +747,13 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             setIsParsing(false);
           }
         };
-        reader.onerror = () => {
-          setFeedbackMsg({ type: 'error', text: 'PDF ফাইল লোড করতে ব্যর্থ হয়েছে।' });
-          setIsParsing(false);
-        };
-        reader.readAsArrayBuffer(file);
+      } else if (file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(fileNameLower)) {
+        setIsParsing(false);
+        setFeedbackMsg({
+          type: 'info',
+          text: `📷 "${file.name}" ইমেজ ফাইলটি সফলভাবে সংযুক্ত হয়েছে। প্রশ্নের লেখাগুলো নিচের বক্সে কপি-পেস্ট করুন অথবা সরাসরি .txt / .pdf ফাইল আপলোড করুন।`
+        });
+        return;
       } else {
         // .txt, .csv, .json, etc.
         const reader = new FileReader();
@@ -1212,7 +1214,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.docx,.doc,.txt,.json,.csv,application/pdf"
+                accept=".pdf,.doc,.docx,.txt,.csv,.json,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/*"
                 onChange={handleFileUpload}
                 className="hidden"
               />
@@ -1228,10 +1230,10 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                   ? 'ফাইল প্রসেসিং ও প্রশ্ন বিশ্লেষণ চলছে...'
                   : uploadedFileName
                   ? 'নির্বাচিত ফাইল: ' + uploadedFileName
-                  : 'ফাইল আপলোড করতে ক্লিক করুন (PDF, TXT, CSV)'}
+                  : 'ফাইল আপলোড করতে ক্লিক করুন (PDF, DOCX, DOC, TXT, CSV, Image)'}
               </p>
               <p className="text-[11px] text-slate-400 mt-1">
-                {isParsing ? 'দয়া করে কিছুক্ষণ অপেক্ষা করুন' : 'ওয়ার্ড (.docx / .doc) ফাইলের লেখা সরাসরি নিচের বক্সে কপি-পেস্ট করুন'}
+                {isParsing ? 'দয়া করে কিছুক্ষণ অপেক্ষা করুন' : 'সকল ফরম্যাট সমর্থিত • অথবা নিচের বক্সে সরাসরি কপি-পেস্ট করুন'}
               </p>
             </div>
 
