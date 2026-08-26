@@ -277,58 +277,7 @@ export default function Login() {
             /* STEP 1: REGULAR CREDENTIALS LOGIN */
             /* ========================================================== */
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Quick Role Fill Pills */}
-              <div className="space-y-1.5 pb-1">
-                <div className="flex items-center justify-between text-[11px] font-bold text-slate-500">
-                  <span>{lang === 'bn' ? 'দ্রুত রোল নির্বাচন করুন (Quick Fill):' : 'Quick Role Fill:'}</span>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIdentifier('Alomgir005');
-                      setPassword('01792818005');
-                      setLocalError(null);
-                    }}
-                    className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 text-[11px] font-bold text-slate-700 hover:text-emerald-700 text-center transition-all shadow-xs"
-                  >
-                    👑 অ্যাডমিন
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIdentifier('teacher@nextgen.edu.bd');
-                      setPassword('password123');
-                      setLocalError(null);
-                    }}
-                    className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-[11px] font-bold text-slate-700 hover:text-blue-700 text-center transition-all shadow-xs"
-                  >
-                    👨‍🏫 শিক্ষক
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIdentifier('NGA-26-4821');
-                      setPassword('password123');
-                      setLocalError(null);
-                    }}
-                    className="p-1.5 rounded-xl border border-emerald-300 bg-emerald-50/70 hover:bg-emerald-100 text-[11px] font-black text-emerald-800 text-center transition-all shadow-xs ring-1 ring-emerald-400/50"
-                  >
-                    🎓 শিক্ষার্থী
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIdentifier('01712345678');
-                      setPassword('password123');
-                      setLocalError(null);
-                    }}
-                    className="p-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-purple-50 hover:border-purple-300 text-[11px] font-bold text-slate-700 hover:text-purple-700 text-center transition-all shadow-xs"
-                  >
-                    👨‍👩‍👧 অভিভাবক
-                  </button>
-                </div>
-              </div>
+              
 
               <div>
                 <label className="block text-xs font-bold text-slate-900 mb-1">

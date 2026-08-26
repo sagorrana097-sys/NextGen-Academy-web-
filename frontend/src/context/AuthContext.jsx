@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { authAPI } from '../services/api';
 
 const AuthContext = createContext();
@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
       return saved && saved !== 'undefined' && saved !== 'null' ? JSON.parse(saved) : null;
     } catch (e) {
       console.warn('Failed to parse nextgen_user from localStorage', e);
-      localStorage.removeItem('nextgen_user');
       return null;
     }
   });
@@ -36,6 +35,41 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Background Session Verification and Silent Token Refresh
+  const verifySession = useCallback(async () => {
+    const currentToken = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
+    const currentRefresh = localStorage.getItem('nextgen_refresh_token');
+
+    if (!currentToken && !currentRefresh) return;
+
+    try {
+      const res = await authAPI.getMe();
+      if (res.success && res.data?.user) {
+        setUser(res.data.user);
+        localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
+      } else if (currentRefresh) {
+        // Try silent refresh
+        const refreshRes = await authAPI.refreshToken(currentRefresh);
+        if (refreshRes.success && refreshRes.data?.token) {
+          setToken(refreshRes.data.token);
+          localStorage.setItem('nextgen_token', refreshRes.data.token);
+          localStorage.setItem('token', refreshRes.data.token);
+          if (refreshRes.data.refreshToken) {
+            setRefreshToken(refreshRes.data.refreshToken);
+            localStorage.setItem('nextgen_refresh_token', refreshRes.data.refreshToken);
+          }
+        }
+      }
+    } catch (err) {
+      // Silently keep local state during temporary network glitches
+      console.debug('Session check background notification:', err?.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    verifySession();
+  }, [verifySession]);
+
   const login = async (identifier, password) => {
     setLoading(true);
     setError(null);
@@ -53,19 +87,23 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (res.success && res.data) {
-        setUser(res.data.user);
-        setToken(res.data.token);
-        if (res.data.refreshToken) {
-          setRefreshToken(res.data.refreshToken);
-          localStorage.setItem('nextgen_refresh_token', res.data.refreshToken);
+        const u = res.data.user;
+        const tok = res.data.token || res.data.accessToken;
+        const rTok = res.data.refreshToken;
+
+        setUser(u);
+        setToken(tok);
+        if (rTok) {
+          setRefreshToken(rTok);
+          localStorage.setItem('nextgen_refresh_token', rTok);
         }
-        localStorage.setItem('nextgen_token', res.data.token);
-        localStorage.setItem('token', res.data.token);
-        if (res.data.user?.role === 'ADMIN' || res.data.user?.role === 'SUPER_ADMIN') {
-          localStorage.setItem('adminToken', res.data.token);
+        localStorage.setItem('nextgen_token', tok);
+        localStorage.setItem('token', tok);
+        if (u?.role === 'ADMIN' || u?.role === 'SUPER_ADMIN') {
+          localStorage.setItem('adminToken', tok);
         }
-        localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
-        return { success: true, user: res.data.user };
+        localStorage.setItem('nextgen_user', JSON.stringify(u));
+        return { success: true, user: u };
       }
 
       const errorMsg = res.error?.message || res.message || 'ইমেইল, ইউজার আইডি অথবা পাসওয়ার্ড সঠিক নয়';
@@ -96,19 +134,23 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await authAPI.login2FA(tempToken, code);
       if (res.success && res.data) {
-        setUser(res.data.user);
-        setToken(res.data.token);
-        if (res.data.refreshToken) {
-          setRefreshToken(res.data.refreshToken);
-          localStorage.setItem('nextgen_refresh_token', res.data.refreshToken);
+        const u = res.data.user;
+        const tok = res.data.token || res.data.accessToken;
+        const rTok = res.data.refreshToken;
+
+        setUser(u);
+        setToken(tok);
+        if (rTok) {
+          setRefreshToken(rTok);
+          localStorage.setItem('nextgen_refresh_token', rTok);
         }
-        localStorage.setItem('nextgen_token', res.data.token);
-        localStorage.setItem('token', res.data.token);
-        if (res.data.user?.role === 'ADMIN' || res.data.user?.role === 'SUPER_ADMIN') {
-          localStorage.setItem('adminToken', res.data.token);
+        localStorage.setItem('nextgen_token', tok);
+        localStorage.setItem('token', tok);
+        if (u?.role === 'ADMIN' || u?.role === 'SUPER_ADMIN') {
+          localStorage.setItem('adminToken', tok);
         }
-        localStorage.setItem('nextgen_user', JSON.stringify(res.data.user));
-        return { success: true, user: res.data.user };
+        localStorage.setItem('nextgen_user', JSON.stringify(u));
+        return { success: true, user: u };
       }
       throw new Error(res.error?.message || '2FA verification failed');
     } catch (err) {
@@ -122,20 +164,6 @@ export const AuthProvider = ({ children }) => {
       };
     } finally {
       setLoading(false);
-    }
-  };
-
-  const demoLogin = async (role) => {
-    const credentials = {
-      ADMIN: { email: 'Alomgir005', password: '01792818005' },
-      SUPER_ADMIN: { email: 'Alomgir005', password: '01792818005' },
-      TEACHER: { email: 'teacher@nextgen.edu.bd', password: 'teacher123' },
-      PARENT: { email: 'parent@nextgen.edu.bd', password: 'parent123' },
-      STUDENT: { email: 'student@nextgen.edu.bd', password: 'student123' }
-    };
-    const cred = credentials[role];
-    if (cred) {
-      return await login(cred.email, cred.password);
     }
   };
 
@@ -179,9 +207,9 @@ export const AuthProvider = ({ children }) => {
         clearError,
         login,
         loginWith2FA,
-        demoLogin,
         logout,
         updateUserProfile,
+        verifySession,
         isAuthenticated: !!token && !!user,
         isAdmin: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN',
         isSuperAdmin: user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN',

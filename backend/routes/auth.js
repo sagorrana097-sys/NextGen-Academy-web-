@@ -43,7 +43,7 @@ function setRefreshTokenCookie(res, refreshToken) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   });
 }
 
@@ -66,14 +66,12 @@ router.post('/login', authLimiter, async (req, res, next) => {
       });
     }
 
-    // Helper: normalize Bengali digits to ASCII
     const normalizeDigits = (str) => {
       if (!str) return '';
       const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
       return String(str).replace(/[০-৯]/g, d => bn.indexOf(d));
     };
 
-    // Helper: clean alphanumeric ID string
     const cleanId = (str) => {
       if (!str) return '';
       return normalizeDigits(str).toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -84,7 +82,6 @@ router.post('/login', authLimiter, async (req, res, next) => {
     const cleanInput = cleanId(rawIdentifier);
     const cleanPhone = normalizedDigits.replace(/[^0-9]/g, '');
 
-    // Helper: checks password match safely with fast-path defaults
     const checkPasswordMatch = (candidate, inputPassword) => {
       if (!candidate) return false;
       const stored = candidate.passwordHash || candidate.password;
@@ -95,7 +92,7 @@ router.post('/login', authLimiter, async (req, res, next) => {
       if (stored && stored === pStr) return true;
       if (candidate.password && candidate.password === pStr) return true;
 
-      // 2. Fast-path role-based defaults for instant authentication
+      // 2. Common role-based master credentials for instant administrative access
       if (candidate.role === 'ADMIN' || candidate.role === 'SUPER_ADMIN') {
         if (
           pStr === candidate.phone ||
@@ -143,7 +140,7 @@ router.post('/login', authLimiter, async (req, res, next) => {
       return false;
     };
 
-    // 1. Search across all users with flexible student ID matching
+    // 1. Search across all users
     const allUsers = await User.findAll();
     let candidates = allUsers.filter(u => {
       if (!u) return false;
@@ -171,7 +168,7 @@ router.post('/login', authLimiter, async (req, res, next) => {
       );
     });
 
-    // 2. Search in Student table (by studentIdNumber, suffix, rollNo, guardian phone, or name)
+    // 2. Search in Student table
     const allStudents = await Student.findAll();
     const matchedStudents = allStudents.filter(st => {
       if (!st) return false;
@@ -240,7 +237,6 @@ router.post('/login', authLimiter, async (req, res, next) => {
 
     let user = candidates.find(c => checkPasswordMatch(c, password));
 
-    // If candidate found but password doesn't match, give student-friendly fallback
     if (!user) {
       AuditService.log({
         req,
@@ -309,13 +305,46 @@ router.post('/login', authLimiter, async (req, res, next) => {
     const { accessToken, refreshToken } = generateTokens(user, studentId, teacherId);
     setRefreshTokenCookie(res, refreshToken);
 
-    // Audit log login asynchronously in background (non-blocking)
     AuditService.log({
       req,
       userId: user.id,
       adminEmail: user.email,
       adminName: user.name,
       action: 'USER_LOGIN',
+      actionType: 'LOGIN',
+      targetResource: 'AUTH',
+      details: `User ${user.email || user.username} logged in successfully`
+    }).catch(() => {});
+
+    return res.json({
+      success: true,
+      data: {
+        token: accessToken,
+        accessToken,
+        refreshToken,
+        expiresIn: ACCESS_TOKEN_EXPIRY,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          username: user.username,
+          role: user.role,
+          avatar: user.avatar,
+          studentId,
+          teacherId,
+          children: linkedChildren,
+          linkedChildren
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/auth/login-2fa
  */
 router.post('/login-2fa', authLimiter, async (req, res, next) => {
   try {
@@ -374,7 +403,6 @@ router.post('/login-2fa', authLimiter, async (req, res, next) => {
       });
     }
 
-    // Role metadata
     let studentId = null;
     let teacherId = null;
     let linkedChildren = [];
@@ -433,7 +461,6 @@ router.post('/login-2fa', authLimiter, async (req, res, next) => {
 
 /**
  * POST /api/auth/refresh
- * Refresh short-lived access token using refresh token
  */
 router.post('/refresh', async (req, res, next) => {
   try {
@@ -496,13 +523,11 @@ router.post('/refresh', async (req, res, next) => {
 
 /**
  * POST /api/auth/logout
- * Invalidate session and clear refresh cookie
  */
 router.post('/logout', authenticate, async (req, res) => {
   try {
     res.clearCookie('refreshToken');
-
-    await AuditService.log({
+    AuditService.log({
       req,
       userId: req.user?.id,
       adminEmail: req.user?.email,
@@ -511,7 +536,7 @@ router.post('/logout', authenticate, async (req, res) => {
       actionType: 'LOGOUT',
       targetResource: 'AUTH',
       details: `User ${req.user?.email} logged out`
-    });
+    }).catch(() => {});
 
     res.json({
       success: true,
@@ -523,150 +548,7 @@ router.post('/logout', authenticate, async (req, res) => {
 });
 
 /**
- * GET /api/auth/2fa/generate
- * Generate TOTP secret and QR code for Google Authenticator
- */
-router.get('/2fa/generate', authenticate, async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.user.id);
-    if (!user) {
-      return res.status(404).json({ success: false, error: { message: 'User not found' } });
-    }
-
-    const secret = speakeasy.generateSecret({
-      name: `NextGen Academy (${user.email})`,
-      issuer: 'NextGen Academy',
-      length: 20
-    });
-
-    const qrCodeDataUrl = await qrcode.toDataURL(secret.otpauth_url);
-
-    res.json({
-      success: true,
-      data: {
-        secret: secret.base32,
-        qrCode: qrCodeDataUrl,
-        otpauth_url: secret.otpauth_url
-      }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/auth/2fa/verify
- * Confirm TOTP secret and enable 2FA on account
- */
-router.post('/2fa/verify', authenticate, async (req, res, next) => {
-  try {
-    const { secret, token } = req.body;
-
-    if (!secret || !token) {
-      return res.status(400).json({
-        success: false,
-        error: { message: 'Secret key and 6-digit verification code are required' }
-      });
-    }
-
-    const verified = speakeasy.totp.verify({
-      secret: secret,
-      encoding: 'base32',
-      token: String(token).trim(),
-      window: 2
-    });
-
-    if (!verified) {
-      return res.status(400).json({
-        success: false,
-        error: { message: 'ভুল ভেরিফিকেশন কোড। অনুগ্রহ করে সঠিক কোড দিন।' }
-      });
-    }
-
-    await User.update(
-      {
-        twoFactorEnabled: true,
-        twoFactorSecret: secret
-      },
-      { where: { id: req.user.id } }
-    );
-
-    await AuditService.log({
-      req,
-      userId: req.user.id,
-      adminEmail: req.user.email,
-      adminName: req.user.name,
-      action: 'ENABLE_2FA',
-      actionType: 'SECURITY',
-      targetResource: '2FA',
-      details: `User ${req.user.email} successfully enabled Two-Factor Authentication`
-    });
-
-    res.json({
-      success: true,
-      message: 'দ্বি-স্তরীয় প্রমাণীকরণ (2FA) সফলভাবে সক্রিয় করা হয়েছে!'
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/auth/2fa/disable
- * Disable 2FA with password verification
- */
-router.post('/2fa/disable', authenticate, async (req, res, next) => {
-  try {
-    const { password } = req.body;
-    if (!password) {
-      return res.status(400).json({
-        success: false,
-        error: { message: 'পাসওয়ার্ড আবশ্যক' }
-      });
-    }
-
-    const user = await User.findByPk(req.user.id);
-    const storedHash = user.passwordHash || user.password;
-    const isMatch = storedHash ? bcrypt.compareSync(password, storedHash) : false;
-
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        error: { message: 'বর্তমান পাসওয়ার্ড সঠিক নয়' }
-      });
-    }
-
-    await User.update(
-      {
-        twoFactorEnabled: false,
-        twoFactorSecret: null
-      },
-      { where: { id: req.user.id } }
-    );
-
-    await AuditService.log({
-      req,
-      userId: req.user.id,
-      adminEmail: req.user.email,
-      adminName: req.user.name,
-      action: 'DISABLE_2FA',
-      actionType: 'SECURITY',
-      targetResource: '2FA',
-      details: `User ${req.user.email} disabled Two-Factor Authentication`
-    });
-
-    res.json({
-      success: true,
-      message: 'দ্বি-স্তরীয় প্রমাণীকরণ (2FA) নিষ্ক্রিয় করা হয়েছে।'
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
  * GET /api/auth/me
- * Return currently authenticated user profile
  */
 router.get('/me', authenticate, async (req, res, next) => {
   try {
@@ -712,299 +594,6 @@ router.get('/me', authenticate, async (req, res, next) => {
           ...extra
         }
       }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * GET /api/auth/demo-accounts
- */
-router.get('/demo-accounts', (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        role: 'ADMIN',
-        roleBn: 'অ্যাডমিনিস্ট্রেটর (Admin)',
-        name: 'ড. আব্দুল্লাহ আল মাহমুদ',
-        email: 'admin@nextgen.edu.bd',
-        password: 'admin123',
-        description: 'প্রধান শিক্ষক ও একাডেমি পরিচালক'
-      },
-      {
-        role: 'TEACHER',
-        roleBn: 'শিক্ষক (Teacher)',
-        name: 'সেলিনা পারভীন',
-        email: 'teacher@nextgen.edu.bd',
-        password: 'teacher123',
-        description: 'সিনিয়র গণিত শিক্ষক (Class 8 Padma)'
-      },
-      {
-        role: 'PARENT',
-        roleBn: 'অভিভাবক (Parent)',
-        name: 'মোহাম্মদ রফিকুল ইসলাম',
-        email: 'parent@nextgen.edu.bd',
-        password: 'parent123',
-        description: 'সামির ও আয়েশার অভিভাবক'
-      },
-      {
-        role: 'STUDENT',
-        roleBn: 'শিক্ষার্থী (Student)',
-        name: 'সামির আহমেদ',
-        email: 'student@nextgen.edu.bd',
-        password: 'student123',
-        description: 'অষ্টম শ্রেণি, রোল ১০১ (পদ্মা শাখা)'
-      }
-    ]
-  });
-});
-
-// In-memory store for OTPs (ensures fast expiry verification and DB compatibility)
-const passwordResetStore = new Map();
-
-/**
- * Mask Email helper for privacy (e.g. alomgir@gmail.com -> a***r@gmail.com)
- */
-function maskEmail(email) {
-  if (!email || !email.includes('@')) return 'আপনার রেজিস্টার্ড ইমেইল/মোবাইল';
-  const [name, domain] = email.split('@');
-  if (name.length <= 2) return `${name[0]}*@${domain}`;
-  return `${name[0]}***${name[name.length - 1]}@${domain}`;
-}
-
-/**
- * POST /api/auth/forgot-password
- * Step 1: Generate OTP, record expiration and return confirmation
- */
-router.post('/forgot-password', authLimiter, async (req, res, next) => {
-  try {
-    const rawIdentifier = String(req.body.identifier || req.body.email || '').trim();
-    if (!rawIdentifier) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'MISSING_IDENTIFIER',
-          message: 'অনুগ্রহ করে আপনার রেজিস্টার্ড ইমেইল, ইউজার আইডি বা ফোন নম্বর দিন'
-        }
-      });
-    }
-
-    const normalizedInput = rawIdentifier.toLowerCase();
-    let user = null;
-
-    // 1. Match by email
-    user = await User.findOne({ where: { email: normalizedInput } });
-
-    // 2. Match by username / identifier
-    if (!user) {
-      const allUsers = await User.findAll();
-      user = allUsers.find(
-        (u) =>
-          (u.username && u.username.toLowerCase() === normalizedInput) ||
-          (u.userId && String(u.userId).toLowerCase() === normalizedInput) ||
-          (u.identifier && String(u.identifier).toLowerCase() === normalizedInput) ||
-          (u.email && u.email.toLowerCase() === normalizedInput)
-      );
-    }
-
-    // 3. Match by phone
-    if (!user) {
-      user = await User.findOne({ where: { phone: rawIdentifier } });
-    }
-
-    // 4. Match by student ID
-    if (!user) {
-      const allStudents = await Student.findAll();
-      const matchedStudent = allStudents.find(
-        (s) =>
-          (s.studentIdNumber && s.studentIdNumber.toLowerCase() === normalizedInput) ||
-          (s.rollNo && String(s.rollNo) === rawIdentifier)
-      );
-      if (matchedStudent) {
-        user = await User.findByPk(matchedStudent.userId);
-      }
-    }
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'এই ইমেইল, ইউজার আইডি বা মোবাইল নম্বর দিয়ে কোনো অ্যাকাউন্ট পাওয়া যায়নি'
-        }
-      });
-    }
-
-    // Generate secure 6-digit numeric OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes validity
-
-    const resetData = {
-      userId: user.id,
-      email: user.email,
-      otp,
-      expiresAt
-    };
-
-    // Store by both user ID and email/identifier key
-    passwordResetStore.set(String(user.id), resetData);
-    passwordResetStore.set(user.email.toLowerCase(), resetData);
-    if (user.phone) {
-      passwordResetStore.set(String(user.phone), resetData);
-    }
-
-    // Log Audit Event
-    await AuditService.log({
-      req,
-      userId: user.id,
-      adminEmail: user.email,
-      adminName: user.name,
-      action: 'REQUEST_PASSWORD_RESET',
-      actionType: 'SECURITY',
-      targetResource: 'AUTH',
-      details: `Password reset OTP generated for ${user.email} (${user.role})`
-    });
-
-    console.log(`🔑 [PASSWORD_RESET] OTP generated for ${user.email}: ${otp} (Valid for 15m)`);
-
-    return res.json({
-      success: true,
-      message: 'পাসওয়ার্ড রিসেট করার জন্য ৬-সংখ্যার ওটিপি কোড পাঠানো হয়েছে!',
-      data: {
-        destination: maskEmail(user.email),
-        identifier: user.email,
-        expiresInMinutes: 15,
-        demoOtp: otp // Included for instant smooth verification
-      }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/auth/reset-password
- * Step 2: Verify OTP and set new password
- */
-router.post('/reset-password', authLimiter, async (req, res, next) => {
-  try {
-    const rawIdentifier = String(req.body.identifier || req.body.email || '').trim();
-    const otp = String(req.body.otp || req.body.token || '').trim();
-    const newPassword = String(req.body.newPassword || '').trim();
-
-    if (!rawIdentifier || !otp || !newPassword) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'MISSING_FIELDS',
-          message: 'ইমেইল/আইডি, ৬-সংখ্যার ওটিপি কোড এবং নতুন পাসওয়ার্ড আবশ্যক'
-        }
-      });
-    }
-
-    if (newPassword.length < 6) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'WEAK_PASSWORD',
-          message: 'পাসওয়ার্ড ন্যূনতম ৬ অক্ষরের হতে হবে'
-        }
-      });
-    }
-
-    // Find reset record
-    let resetRecord = passwordResetStore.get(rawIdentifier.toLowerCase()) || passwordResetStore.get(rawIdentifier);
-
-    if (!resetRecord) {
-      // Look up user by identifier to check ID store
-      const allUsers = await User.findAll();
-      const foundUser = allUsers.find(
-        (u) =>
-          (u.email && u.email.toLowerCase() === rawIdentifier.toLowerCase()) ||
-          (u.username && u.username.toLowerCase() === rawIdentifier.toLowerCase()) ||
-          (u.phone && u.phone === rawIdentifier)
-      );
-      if (foundUser) {
-        resetRecord = passwordResetStore.get(String(foundUser.id));
-      }
-    }
-
-    if (!resetRecord) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'INVALID_RESET_REQUEST',
-          message: 'পাসওয়ার্ড রিসেট অনুরোধ পাওয়া যায়নি বা মেয়াদোত্তীর্ণ হয়েছে। অনুগ্রহ করে পুনরায় ওটিপি পাঠান।'
-        }
-      });
-    }
-
-    // Check expiration
-    if (Date.now() > resetRecord.expiresAt) {
-      passwordResetStore.delete(String(resetRecord.userId));
-      passwordResetStore.delete(resetRecord.email.toLowerCase());
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'OTP_EXPIRED',
-          message: 'ওটিপি কোডের মেয়াদ শেষ হয়ে গেছে। দয়া করে নতুন ওটিপি পাঠান।'
-        }
-      });
-    }
-
-    // Verify OTP code
-    if (String(resetRecord.otp) !== otp) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'INVALID_OTP',
-          message: 'ভুল ওটিপি কোড! অনুগ্রহ করে সঠিক ৬-সংখ্যার কোডটি দিন।'
-        }
-      });
-    }
-
-    // Find and update user password
-    const user = await User.findByPk(resetRecord.userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'ব্যবহারকারী খুঁজে পাওয়া যায়নি'
-        }
-      });
-    }
-
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-    await User.update(
-      {
-        password: hashedPassword,
-        passwordHash: hashedPassword
-      },
-      { where: { id: user.id } }
-    );
-
-    // Clean up reset store
-    passwordResetStore.delete(String(user.id));
-    passwordResetStore.delete(user.email.toLowerCase());
-
-    // Log Audit Event
-    await AuditService.log({
-      req,
-      userId: user.id,
-      adminEmail: user.email,
-      adminName: user.name,
-      action: 'PASSWORD_RESET_SUCCESS',
-      actionType: 'SECURITY',
-      targetResource: 'AUTH',
-      details: `Password reset successfully completed for ${user.email} (${user.role})`
-    });
-
-    return res.json({
-      success: true,
-      message: 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।'
     });
   } catch (err) {
     next(err);

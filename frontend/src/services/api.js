@@ -531,6 +531,10 @@ export const accountsAPI = {
 };
 
 export const analyticsAPI = {
+  getSummary: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/analytics/overview?${q}`);
+  },
   getOverview: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/analytics/overview?${q}`);
@@ -583,6 +587,7 @@ export const admissionsAPI = {
 export const admissionAPI = admissionsAPI;
 
 export const backupAPI = {
+  getSummary: () => request('/backup/summary'),
   getBackups: () => request('/backup/list'),
   createBackup: () => request('/backup/create', { method: 'POST' }),
   restoreBackup: (fileName) => request('/backup/restore', { method: 'POST', body: JSON.stringify({ fileName }) }),
@@ -601,6 +606,7 @@ export const backupAPI = {
 };
 
 export const smsAPI = {
+  getSummary: () => request('/sms/summary'),
   getLogs: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/sms/logs?${q}`);
