@@ -32,7 +32,6 @@ import {
   Lock,
   Wallet
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
   const { t, lang } = useLanguage();
@@ -327,11 +326,13 @@ export default function OnlineAdmissionForm({ onClose, onOpenLogin }) {
         setSubmittedData(res.data);
         setShowSlipModal(true);
         try {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
+          if (typeof window !== 'undefined' && typeof window.confetti === 'function') {
+            window.confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
+          }
         } catch (e) {}
       }
     } catch (err) {
