@@ -80,8 +80,16 @@ const STUDENT_MOCKS = {
     allowHomeworkSubmit: true,
     allowDigitalBookstore: true
   },
+  '/settings': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01700000000', email: 'info@nextgenacademy.edu.bd' },
+  '/settings/public': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01700000000', email: 'info@nextgenacademy.edu.bd' },
+  '/settings/student-menus': [],
+  '/notices': [],
   '/admin/students': [],
-  '/students': []
+  '/students': [],
+  '/classes': [],
+  '/subjects': [],
+  '/teachers': [],
+  '/batches': []
 };
 
 // In-Memory SWR Cache & In-Flight Request Deduplication Store
@@ -324,15 +332,23 @@ export const parentAPI = {
 };
 
 export const noticeAPI = {
+  getAll: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/notices?${q}`);
+  },
   getNotices: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/notices?${q}`);
   },
+  getById: (id) => request(`/notices/${id}`),
+  getNoticeDetails: (id) => request(`/notices/${id}`),
+  create: (data) => request('/notices', { method: 'POST', body: JSON.stringify(data) }),
   postNotice: (data) => request('/notices', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/notices/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   updateNotice: (id, data) => request(`/notices/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/notices/${id}`, { method: 'DELETE' }),
   deleteNotice: (id) => request(`/notices/${id}`, { method: 'DELETE' }),
-  togglePin: (id) => request(`/notices/${id}/toggle-pin`, { method: 'PATCH' }),
-  getNoticeDetails: (id) => request(`/notices/${id}`)
+  togglePin: (id) => request(`/notices/${id}/toggle-pin`, { method: 'PATCH' })
 };
 
 export const homeworkAPI = {
