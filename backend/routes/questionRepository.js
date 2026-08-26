@@ -5,6 +5,43 @@ const AuditService = require('../services/auditService');
 
 const router = express.Router();
 
+/**
+ * POST /api/question-repository/parse-document
+ * Server-side robust parser for document text / payload
+ */
+router.post('/parse-document', authenticate, async (req, res, next) => {
+  try {
+    const { rawText, metadata } = req.body;
+    if (!rawText || !rawText.trim()) {
+      return res.status(400).json({ success: false, error: { message: 'কোনো টেক্সট বা ফাইল ডেটা পাওয়া যায়নি।' } });
+    }
+
+    const parsed = parseRawQuestionText(rawText, metadata || {});
+    const mcqs = parsed.filter(q => q.type === 'MCQ');
+    const cqs = parsed.filter(q => q.type === 'CQ');
+    const sqs = parsed.filter(q => q.type === 'SQ' || q.type === 'SHORT');
+
+    res.json({
+      success: true,
+      data: {
+        total: parsed.length,
+        mcqs,
+        cqs,
+        sqs,
+        all: parsed,
+        stats: {
+          mcqCount: mcqs.length,
+          cqCount: cqs.length,
+          sqCount: sqs.length
+        }
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 const BENGALI_DIGITS = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
 function toBengaliDigits(num) {
   if (num === undefined || num === null) return '';
@@ -17,117 +54,180 @@ function normalizeBengaliDigits(str) {
 }
 
 /**
- * Intelligent Text Parser for Raw Ingested Question Files / Paste
- * Extracts MCQs, CQs, and Short Questions
+ * Robust Multi-Format AI & Regex Parser for Question Extraction
+ * Classifies with strict fidelity into MCQ, CQ, and SQ (Short Question)
  */
 function parseRawQuestionText(rawText, defaultMeta = {}) {
   if (!rawText || !rawText.trim()) return [];
-  const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const clean = rawText.trim();
   const questions = [];
 
-  let currentBlock = [];
-  let mode = 'MCQ';
-
-  // Check if text looks like CSV / TSV
-  if (lines.length > 1 && lines[0].includes(',') && (lines[0].toLowerCase().includes('question') || lines[0].toLowerCase().includes('প্রশ্ন') || lines[0].toLowerCase().includes('option'))) {
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-    for (let i = 1; i < lines.length; i++) {
-      const vals = lines[i].split(',').map(v => v.trim());
-      if (vals.length < 2) continue;
-      const row = {};
-      headers.forEach((h, idx) => { row[h] = vals[idx] || ''; });
-      
-      const qText = row.question || row['প্রশ্ন'] || vals[0];
-      const opt1 = row.option1 || row['অপশন ১'] || row.a || vals[1] || '';
-      const opt2 = row.option2 || row['অপশন ২'] || row.b || vals[2] || '';
-      const opt3 = row.option3 || row['অপশন ৩'] || row.c || vals[3] || '';
-      const opt4 = row.option4 || row['অপশন ৪'] || row.d || vals[4] || '';
-      const ans = row.answer || row['উত্তর'] || row.correct || vals[5] || '0';
-      const exp = row.explanation || row['ব্যাখ্যা'] || vals[6] || '';
-
-      if (qText) {
-        let correctIdx = 0;
-        if (typeof ans === 'string') {
-          if (ans.match(/^[0-3]$/)) correctIdx = Number(ans);
-          else if (ans.toLowerCase() === 'a' || ans === 'ক') correctIdx = 0;
-          else if (ans.toLowerCase() === 'b' || ans === 'খ') correctIdx = 1;
-          else if (ans.toLowerCase() === 'c' || ans === 'গ') correctIdx = 2;
-          else if (ans.toLowerCase() === 'd' || ans === 'ঘ') correctIdx = 3;
-        }
-
-        questions.push({
-          type: 'MCQ',
-          question: qText,
-          options: [opt1 || 'ক', opt2 || 'খ', opt3 || 'গ', opt4 || 'ঘ'],
-          correctAnswer: correctIdx,
-          explanation: exp || '',
-          difficulty: 'MEDIUM',
-          marks: 1
-        });
-      }
-    }
-    if (questions.length > 0) return questions;
+  // Check if JSON format
+  if (clean.startsWith('[') || clean.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(clean);
+      const list = Array.isArray(parsed) ? parsed : [parsed];
+      return list.map((item, idx) => ({
+        id: item.id || `parsed-${Date.now()}-${idx}`,
+        type: item.type === 'CQ' ? 'CQ' : item.type === 'SHORT' || item.type === 'SQ' ? 'SQ' : 'MCQ',
+        question: item.question || item.stem || `প্রশ্ন ${idx + 1}`,
+        stem: item.stem || item.question || '',
+        subQuestions: item.subQuestions || (item.type === 'CQ' ? { a: { q: 'ক নম্বর প্রশ্ন', marks: 1 }, b: { q: 'খ নম্বর প্রশ্ন', marks: 2 }, c: { q: 'গ নম্বর প্রশ্ন', marks: 3 }, d: { q: 'ঘ নম্বর প্রশ্ন', marks: 4 } } : null),
+        options: item.options || (item.type === 'MCQ' ? ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'] : []),
+        correctAnswer: item.correctAnswer !== undefined ? item.correctAnswer : 0,
+        explanation: item.explanation || '',
+        shortAnswer: item.shortAnswer || item.answer || '',
+        diagramUrl: item.diagramUrl || null,
+        diagramCaption: item.diagramCaption || null,
+        marks: item.marks || (item.type === 'CQ' ? 10 : item.type === 'SQ' ? 2 : 1),
+        difficulty: item.difficulty || 'MEDIUM',
+        className: item.className || defaultMeta.className || 'Class 9-10',
+        book: item.book || defaultMeta.book || 'সাধারণ',
+        institutionOrBoard: item.institutionOrBoard || defaultMeta.institutionOrBoard || 'বোর্ড',
+        year: item.year || defaultMeta.year || '2025'
+      }));
+    } catch (e) {}
   }
 
-  // Parse structured text blocks (Numbered questions 1. 2. 3. or ১. ২. ৩.)
-  let currentQ = null;
+  // Parse Text Blocks separated by blank lines
+  const blocks = clean.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const isNewQHeader = /^[0-9১-৯]+[.)\]\s+/.test(line) || /^প্রশ্ন\s*[0-9১-৯]*[:.]/i.test(line);
+  blocks.forEach((block, idx) => {
+    const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return;
 
-    if (isNewQHeader) {
-      if (currentQ && currentQ.question) {
-        finalizeParsedQuestion(currentQ, questions);
-      }
-      currentQ = {
-        type: 'MCQ',
-        question: line.replace(/^[0-9১-৯]+[.)\]\s+/, '').replace(/^প্রশ্ন\s*[0-9১-৯]*[:.]\s*/i, '').trim(),
-        options: [],
-        correctAnswer: 0,
-        explanation: '',
-        subQuestions: {},
-        marks: 1
+    // Check for diagram/image
+    let diagramUrl = null;
+    let diagramCaption = null;
+    const imgMatch = block.match(/!\[(.*?)\]\((.*?)\)/);
+    if (imgMatch) {
+      diagramCaption = imgMatch[1] || 'চিত্র';
+      diagramUrl = imgMatch[2];
+    } else if (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram')) {
+      diagramCaption = 'উদ্দীপকের সংশ্লিষ্ট চিত্র / বর্তনী / লেখচিত্র';
+    }
+
+    // 1. Creative Question (CQ) Pattern Detection
+    const hasCQMarker = block.includes('উদ্দীপক') || block.includes('অনুচ্ছেদ') || block.includes('দৃশ্যকল্প');
+    const hasSubA = lines.some(l => /^[(\[]?(?:ক|a)[)\]\.\s]/i.test(l));
+    const hasSubB = lines.some(l => /^[(\[]?(?:খ|b)[)\]\.\s]/i.test(l));
+
+    if (hasCQMarker || (hasSubA && hasSubB)) {
+      const stemLines = [];
+      const subQs = {
+        a: { q: '', marks: 1 },
+        b: { q: '', marks: 2 },
+        c: { q: '', marks: 3 },
+        d: { q: '', marks: 4 }
       };
-    } else if (currentQ) {
-      // Check for options (ক), (খ), (গ), (ঘ) or a), b), c), d) or 1), 2), 3), 4)
-      const isOption = /^[(]?[কখগঘabcd1234][).]\s+/i.test(line);
-      const isAns = /^উত্তর[:.]\s*/i.test(line) || /^Ans[:.]\s*/i.test(line);
-      const isExp = /^ব্যাখ্যা[:.]\s*/i.test(line) || /^Explanation[:.]\s*/i.test(line);
-      const isCQSub = /^[(]?[কখগঘ][)]\s+/i.test(line) && line.includes('[');
 
-      if (isCQSub) {
-        currentQ.type = 'CQ';
-        const match = line.match(/^[(]?([কখগঘ])[)]\s+(.*?)(\s*\[([0-9১-৯]+)\])?$/);
-        if (match) {
-          const key = match[1] === 'ক' ? 'a' : match[1] === 'খ' ? 'b' : match[1] === 'গ' ? 'c' : 'd';
-          currentQ.subQuestions[key] = {
-            q: match[2],
-            ans: '',
-            marks: match[4] ? Number(normalizeBengaliDigits(match[4])) : (key === 'a' ? 1 : key === 'b' ? 2 : key === 'c' ? 3 : 4)
-          };
+      lines.forEach(line => {
+        const cleanLine = line.replace(/!\[.*?\]\(.*?\)/g, '').trim();
+        if (/^[(\[]?(?:ক|a)[)\]\.\s]/i.test(cleanLine)) {
+          subQs.a.q = cleanLine.replace(/^[(\[]?(?:ক|a)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+        } else if (/^[(\[]?(?:খ|b)[)\]\.\s]/i.test(cleanLine)) {
+          subQs.b.q = cleanLine.replace(/^[(\[]?(?:খ|b)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+        } else if (/^[(\[]?(?:গ|c)[)\]\.\s]/i.test(cleanLine)) {
+          subQs.c.q = cleanLine.replace(/^[(\[]?(?:গ|c)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+        } else if (/^[(\[]?(?:ঘ|d)[)\]\.\s]/i.test(cleanLine)) {
+          subQs.d.q = cleanLine.replace(/^[(\[]?(?:ঘ|d)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+        } else {
+          stemLines.push(cleanLine);
         }
-      } else if (isOption) {
-        const cleanOpt = line.replace(/^[(]?[কখগঘabcd1234][).]\s+/i, '').trim();
-        currentQ.options.push(cleanOpt);
-      } else if (isAns) {
-        const ansVal = line.replace(/^উত্তর[:.]\s*/i, '').replace(/^Ans[:.]\s*/i, '').trim();
-        if (ansVal === 'ক' || ansVal.toLowerCase() === 'a' || ansVal === '1' || ansVal === '১') currentQ.correctAnswer = 0;
-        else if (ansVal === 'খ' || ansVal.toLowerCase() === 'b' || ansVal === '2' || ansVal === '২') currentQ.correctAnswer = 1;
-        else if (ansVal === 'গ' || ansVal.toLowerCase() === 'c' || ansVal === '3' || ansVal === '৩') currentQ.correctAnswer = 2;
-        else if (ansVal === 'ঘ' || ansVal.toLowerCase() === 'd' || ansVal === '4' || ansVal === '৪') currentQ.correctAnswer = 3;
-        else currentQ.correctAnswer = ansVal;
-      } else if (isExp) {
-        currentQ.explanation = line.replace(/^ব্যাখ্যা[:.]\s*/i, '').replace(/^Explanation[:.]\s*/i, '').trim();
-      } else {
-        currentQ.question += ' ' + line;
-      }
-    }
-  }
+      });
 
-  if (currentQ && currentQ.question) {
-    finalizeParsedQuestion(currentQ, questions);
-  }
+      questions.push({
+        id: `cq-${Date.now()}-${idx}`,
+        type: 'CQ',
+        stem: stemLines.join(' ') || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
+        question: stemLines.join(' ') || 'সৃজনশীল প্রশ্ন',
+        subQuestions: subQs,
+        diagramUrl,
+        diagramCaption,
+        marks: 10,
+        difficulty: 'MEDIUM',
+        className: defaultMeta.className || 'Class 9-10',
+        book: defaultMeta.book || 'সাধারণ',
+        institutionOrBoard: defaultMeta.institutionOrBoard || 'বোর্ড',
+        year: defaultMeta.year || '2025'
+      });
+      return;
+    }
+
+    // 2. Multiple Choice Question (MCQ) Pattern Detection
+    const optMatches = lines.filter(l => /^[(\[]?[কখগঘabcd1234][)\]\.\s]/i.test(l));
+    const isMCQ = optMatches.length >= 2 || block.includes('উত্তর:') || block.includes('Ans:');
+
+    if (isMCQ) {
+      const qLine = lines[0] || '';
+      const options = [];
+      let ans = 0;
+      let explanation = '';
+
+      lines.slice(1).forEach(line => {
+        if (/^(?:উত্তর|Ans)[:.]/i.test(line)) {
+          const m = line.match(/(?:উত্তর|Ans)[:.]\s*([ক-ঘa-dA-D1-4])/i);
+          if (m) {
+            const raw = m[1].toLowerCase();
+            if (raw === 'ক' || raw === 'a' || raw === '1' || raw === '১') ans = 0;
+            else if (raw === 'খ' || raw === 'b' || raw === '2' || raw === '২') ans = 1;
+            else if (raw === 'গ' || raw === 'c' || raw === '3' || raw === '৩') ans = 2;
+            else if (raw === 'ঘ' || raw === 'd' || raw === '4' || raw === '৪') ans = 3;
+          }
+        } else if (/^(?:ব্যাখ্যা|Explanation)[:.]/i.test(line)) {
+          explanation = line.replace(/^(?:ব্যাখ্যা|Explanation)[:.]\s*/i, '').trim();
+        } else if (/^[(\[]?[কখগঘabcd1234][)\]\.\s]/i.test(line)) {
+          const opt = line.replace(/^[(\[]?[কখগঘabcd1234][)\]\.\s]+/i, '').trim();
+          if (opt) options.push(opt);
+        }
+      });
+
+      while (options.length < 4) {
+        options.push(`বিকল্প ${options.length + 1}`);
+      }
+
+      questions.push({
+        id: `mcq-${Date.now()}-${idx}`,
+        type: 'MCQ',
+        question: qLine.replace(/^[0-9১-৯]+[.)\]\s+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || `বহুনির্বাচনী প্রশ্ন ${idx + 1}`,
+        options: options.slice(0, 4),
+        correctAnswer: ans,
+        explanation,
+        diagramUrl,
+        diagramCaption,
+        marks: 1,
+        difficulty: 'MEDIUM',
+        className: defaultMeta.className || 'Class 9-10',
+        book: defaultMeta.book || 'সাধারণ',
+        institutionOrBoard: defaultMeta.institutionOrBoard || 'বোর্ড',
+        year: defaultMeta.year || '2025'
+      });
+      return;
+    }
+
+    // 3. Short Question / Knowledge / Comprehension (SQ) Detection
+    const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
+    let sqAns = '';
+    const ansMatch = sqLine.match(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*(.*)/i);
+    if (ansMatch) {
+      sqAns = ansMatch[1].trim();
+    }
+
+    questions.push({
+      id: `sq-${Date.now()}-${idx}`,
+      type: 'SQ',
+      question: sqLine.replace(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*.*$/i, '').trim() || `সংক্ষিপ্ত প্রশ্ন ${idx + 1}`,
+      shortAnswer: sqAns,
+      diagramUrl,
+      diagramCaption,
+      marks: 2,
+      difficulty: 'MEDIUM',
+      className: defaultMeta.className || 'Class 9-10',
+      book: defaultMeta.book || 'সাধারণ',
+      institutionOrBoard: defaultMeta.institutionOrBoard || 'বোর্ড',
+      year: defaultMeta.year || '2025'
+    });
+  });
 
   return questions;
 }

@@ -286,7 +286,10 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     saveCustomTags(newCustomTags);
   };
 
-  // Parser
+  // Active Tab for Parsed Staging Questions ('ALL' | 'MCQ' | 'CQ' | 'SQ')
+  const [parsedActiveTab, setParsedActiveTab] = useState('ALL');
+
+  // Strict Categorization Parser Engine
   const handleParseRawText = (textToParse = rawText) => {
     if (!textToParse || !textToParse.trim()) {
       setFeedbackMsg({ type: 'error', text: 'অনুগ্রহ করে প্রশ্নপত্র পেস্ট করুন অথবা ফাইল আপলোড করুন।' });
@@ -311,31 +314,51 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
         } catch (e) {}
       }
 
-      // Text block parser
-      const blocks = clean.split(/\n\s*\n+/).map(b => b.trim()).filter(Boolean);
+            // Text block parser
+      const blocks = clean.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
       const results = [];
 
       blocks.forEach((block, idx) => {
-        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+        const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
         if (lines.length === 0) return;
 
-        // Check if CQ
-        if (block.includes('উদ্দীপক') || (lines.some(l => l.startsWith('ক)') || l.startsWith('(ক)')) && lines.some(l => l.startsWith('খ)') || l.startsWith('(খ)')))) {
+        // Check for diagram/image
+        let diagramUrl = null;
+        let diagramCaption = null;
+        const imgMatch = block.match(/!\[(.*?)\]\((.*?)\)/);
+        if (imgMatch) {
+          diagramCaption = imgMatch[1] || 'চিত্র';
+          diagramUrl = imgMatch[2];
+        } else if (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram')) {
+          diagramCaption = 'উদ্দীপকের সংশ্লিষ্ট চিত্র / বর্তনী / লেখচিত্র';
+        }
+
+        // 1. Creative Question (CQ) Pattern Detection
+        const hasCQMarker = block.includes('উদ্দীপক') || block.includes('অনুচ্ছেদ') || block.includes('দৃশ্যকল্প');
+        const hasSubA = lines.some(l => /^[(\[]?(?:ক|a)[)\]\.\s]/i.test(l));
+        const hasSubB = lines.some(l => /^[(\[]?(?:খ|b)[)\]\.\s]/i.test(l));
+
+        if (hasCQMarker || (hasSubA && hasSubB)) {
           const stemLines = [];
-          const subQs = { a: { q: '', marks: 1 }, b: { q: '', marks: 2 }, c: { q: '', marks: 3 }, d: { q: '', marks: 4 } };
-          
+          const subQs = {
+            a: { q: '', marks: 1 },
+            b: { q: '', marks: 2 },
+            c: { q: '', marks: 3 },
+            d: { q: '', marks: 4 }
+          };
+
           lines.forEach(line => {
-            const lower = line.toLowerCase();
-            if (lower.includes('ক)') || lower.includes('(ক)') || lower.includes('a)')) {
-              subQs.a.q = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '');
-            } else if (lower.includes('খ)') || lower.includes('(খ)') || lower.includes('b)')) {
-              subQs.b.q = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '');
-            } else if (lower.includes('গ)') || lower.includes('(গ)') || lower.includes('c)')) {
-              subQs.c.q = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '');
-            } else if (lower.includes('ঘ)') || lower.includes('(ঘ)') || lower.includes('d)')) {
-              subQs.d.q = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '');
+            const cleanLine = line.replace(/!\[.*?\]\(.*?\)/g, '').trim();
+            if (/^[(\[]?(?:ক|a)[)\]\.\s]/i.test(cleanLine)) {
+              subQs.a.q = cleanLine.replace(/^[(\[]?(?:ক|a)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+            } else if (/^[(\[]?(?:খ|b)[)\]\.\s]/i.test(cleanLine)) {
+              subQs.b.q = cleanLine.replace(/^[(\[]?(?:খ|b)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+            } else if (/^[(\[]?(?:গ|c)[)\]\.\s]/i.test(cleanLine)) {
+              subQs.c.q = cleanLine.replace(/^[(\[]?(?:গ|c)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+            } else if (/^[(\[]?(?:ঘ|d)[)\]\.\s]/i.test(cleanLine)) {
+              subQs.d.q = cleanLine.replace(/^[(\[]?(?:ঘ|d)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
             } else {
-              stemLines.push(line);
+              stemLines.push(cleanLine);
             }
           });
 
@@ -344,6 +367,8 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             type: 'CQ',
             stem: stemLines.join(' ') || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
             subQuestions: subQs,
+            diagramUrl,
+            diagramCaption,
             difficulty: 'MEDIUM',
             boardOrInstitute: targetInstitution,
             year: targetYear,
@@ -351,27 +376,31 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             class: targetClass,
             chapter: hasChapter ? targetChapter : null
           });
-        } 
-        // Otherwise treat as MCQ
-        else {
+          return;
+        }
+
+        // 2. Multiple Choice Question (MCQ) Pattern Detection
+        const optMatches = lines.filter(l => /^[([]?[কখগঘabcd1234][).\]\s]/i.test(l));
+        const isMCQ = optMatches.length >= 2 || block.includes('উত্তর:') || block.includes('Ans:');
+
+        if (isMCQ) {
           const qLine = lines[0] || '';
           const options = [];
           let ans = 'ক';
           let explanation = '';
 
           lines.slice(1).forEach(line => {
-            if (line.includes('উত্তর:') || line.includes('Ans:')) {
-              const matched = line.match(/(?:উত্তর:|Ans:)s*([ক-ঘa-dA-D1-4])/i);
+            if (/^(?:উত্তর|Ans)[:.]/i.test(line)) {
+              const matched = line.match(/(?:উত্তর:|Ans:)\s*([ক-ঘa-dA-D1-4])/i);
               if (matched) ans = matched[1];
-            } else if (line.includes('ব্যাখ্যা:') || line.includes('Explanation:')) {
-              explanation = line.replace(/(?:ব্যাখ্যা:|Explanation:)s*/i, '');
-            } else {
-              const cleanedOpt = line.replace(/^[^a-zA-Zক-ঘ0-9]*[a-zA-Zক-ঘ0-9]+[^a-zA-Zক-ঘ0-9]*/i, '').trim();
+            } else if (/^(?:ব্যাখ্যা|Explanation)[:.]/i.test(line)) {
+              explanation = line.replace(/^(?:ব্যাখ্যা:|Explanation:)\s*/i, '');
+            } else if (/^[([]?[কখগঘabcd1234][).\]\s]/i.test(line)) {
+              const cleanedOpt = line.replace(/^[([]?[কখগঘabcd1234][).\]\s]+/i, '').trim();
               if (cleanedOpt) options.push(cleanedOpt);
             }
           });
 
-          // Ensure 4 options
           while (options.length < 4) {
             options.push('বিকল্প ' + (options.length + 1));
           }
@@ -379,10 +408,12 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           results.push({
             id: 'mcq-' + Date.now() + '-' + idx,
             type: 'MCQ',
-            question: qLine.replace(/^[0-9]+.s*/, '') || 'বহুনির্বাচনী প্রশ্ন ' + (idx + 1),
+            question: qLine.replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || 'বহুনির্বাচনী প্রশ্ন ' + (idx + 1),
             options: options.slice(0, 4),
             correctAnswer: ans,
             explanation,
+            diagramUrl,
+            diagramCaption,
             difficulty: 'MEDIUM',
             boardOrInstitute: targetInstitution,
             year: targetYear,
@@ -390,15 +421,48 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             class: targetClass,
             chapter: hasChapter ? targetChapter : null
           });
+          return;
         }
+
+        // 3. Short Question / Knowledge / Comprehension (SQ) Detection
+        const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
+        let sqAns = '';
+        const ansMatch = sqLine.match(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*(.*)/i);
+        if (ansMatch) {
+          sqAns = ansMatch[1].trim();
+        }
+
+        results.push({
+          id: 'sq-' + Date.now() + '-' + idx,
+          type: 'SQ',
+          question: sqLine.replace(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*.*$/i, '').trim() || 'সংক্ষিপ্ত প্রশ্ন ' + (idx + 1),
+          shortAnswer: sqAns,
+          diagramUrl,
+          diagramCaption,
+          marks: 2,
+          difficulty: 'MEDIUM',
+          boardOrInstitute: targetInstitution,
+          year: targetYear,
+          subject: targetBook,
+          class: targetClass,
+          chapter: hasChapter ? targetChapter : null
+        });
       });
 
       if (results.length > 0) {
         setParsedQuestions(results);
-        setFeedbackMsg({ type: 'success', text: '🎉 ' + results.length + 'টি প্রশ্ন সফলভাবে পার্স করা হয়েছে!' });
+        const mcqCount = results.filter(q => q.type === 'MCQ').length;
+        const cqCount = results.filter(q => q.type === 'CQ').length;
+        const sqCount = results.filter(q => q.type === 'SQ').length;
+        setFeedbackMsg({
+          type: 'success',
+          text: `🎉 মোট ${results.length}টি প্রশ্ন অটো-ক্যাটাগরি হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})`
+        });
       } else {
         setFeedbackMsg({ type: 'error', text: 'কোনো প্রশ্ন সনাক্ত করা যায়নি। সঠিক ফরম্যাটে টেক্সট পেস্ট করুন।' });
       }
+      setIsParsing(false);
+      return;
     } catch (err) {
       setFeedbackMsg({ type: 'error', text: 'পার্সিংয়ে ত্রুটি: ' + err.message });
     } finally {
@@ -489,6 +553,22 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
       return matchesSearch && matchesType;
     });
   }, [repoQuestions, repoSearch, filterType]);
+
+  
+  // Categorized Staging Questions
+  const filteredParsedQuestions = useMemo(() => {
+    if (parsedActiveTab === 'ALL') return parsedQuestions;
+    return parsedQuestions.filter(q => q.type === parsedActiveTab);
+  }, [parsedQuestions, parsedActiveTab]);
+
+  const parsedStats = useMemo(() => {
+    return {
+      all: parsedQuestions.length,
+      mcq: parsedQuestions.filter(q => q.type === 'MCQ').length,
+      cq: parsedQuestions.filter(q => q.type === 'CQ').length,
+      sq: parsedQuestions.filter(q => q.type === 'SQ').length
+    };
+  }, [parsedQuestions]);
 
   // Filtered Subject/Grammar Pills for Quick Selection
   const activeSubjectPills = useMemo(() => {
@@ -912,9 +992,49 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <div>
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                      পার্সড প্রশ্ন তালিকা ({parsedQuestions.length} টি)
+                      পার্সড প্রশ্ন তালিকা (মোট: {parsedQuestions.length} টি)
                     </h4>
+                    <div className="flex items-center gap-1.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setParsedActiveTab('ALL')}
+                        className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
+                          parsedActiveTab === 'ALL' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        )}
+                      >
+                        সকল ({parsedStats.all})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setParsedActiveTab('MCQ')}
+                        className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
+                          parsedActiveTab === 'MCQ' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                        )}
+                      >
+                        বহুনির্বাচনী MCQ ({parsedStats.mcq})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setParsedActiveTab('CQ')}
+                        className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
+                          parsedActiveTab === 'CQ' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                        )}
+                      >
+                        সৃজনশীল CQ ({parsedStats.cq})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setParsedActiveTab('SQ')}
+                        className={'px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
+                          parsedActiveTab === 'SQ' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        )}
+                      >
+                        সংক্ষিপ্ত SQ ({parsedStats.sq})
+                      </button>
+                    </div>
+                  </div>
                   </div>
                   <button
                     type="button"
@@ -928,11 +1048,15 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                 </div>
 
                 <div className="max-h-72 overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
-                  {parsedQuestions.map((q, idx) => (
+                  {filteredParsedQuestions.map((q, idx) => (
                     <div key={q.id || idx} className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-bold text-[10px]">
-                          {q.type === 'CQ' ? 'সৃজনশীল (CQ)' : 'বহুনির্বাচনী (MCQ)'}
+                        <span className={'px-2 py-0.5 rounded-md font-bold text-[10px] ' + (
+                          q.type === 'CQ' ? 'bg-purple-100 text-purple-800' :
+                          q.type === 'SQ' ? 'bg-emerald-100 text-emerald-800' :
+                          'bg-indigo-100 text-indigo-800'
+                        )}>
+                          {q.type === 'CQ' ? 'সৃজনশীল (CQ)' : q.type === 'SQ' ? 'সংক্ষিপ্ত (SQ)' : 'বহুনির্বাচনী (MCQ)'}
                         </span>
                         <span className="text-[10px] text-slate-400 font-mono">#{idx + 1}</span>
                       </div>
