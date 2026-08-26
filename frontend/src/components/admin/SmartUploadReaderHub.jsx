@@ -137,6 +137,108 @@ const DEFAULT_YEARS = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '
 
 const STORAGE_KEY_TAGS = 'nextgen_custom_smartupload_tags';
 
+// =========================================================================
+// Advanced Document Text Decoders & UTF-8 Normalizers
+// =========================================================================
+function cleanExtractedText(text) {
+  if (!text) return '';
+  return text
+    // Replace XML entities
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    // Remove binary control characters (preserve \n, \r, \t, Bengali, English, punctuation)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+    // Normalize newlines
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    // Remove excessive empty lines
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+async function extractTextFromDocxBuffer(arrayBuffer) {
+  try {
+    // 1. Try extracting word/document.xml from ZIP stream
+    const uint8 = new Uint8Array(arrayBuffer);
+    
+    // Look for word/document.xml in ZIP header
+    // ZIP local file header starts with PK\x03\x04
+    let xmlContent = '';
+    const decoder = new TextDecoder('utf-8');
+    const rawString = decoder.decode(uint8);
+
+    // If raw uncompressed XML is present in stream
+    if (rawString.includes('<w:document') || rawString.includes('<w:p>')) {
+      const startIdx = rawString.indexOf('<w:document');
+      const endIdx = rawString.indexOf('</w:document>');
+      if (startIdx !== -1 && endIdx !== -1) {
+        xmlContent = rawString.substring(startIdx, endIdx + 13);
+      } else {
+        xmlContent = rawString;
+      }
+    }
+
+    if (xmlContent) {
+      let text = xmlContent.replace(/<\/w:p>/g, '\n');
+      text = text.replace(/<w:tab\/>/g, '\t');
+      text = text.replace(/<w:t[^>]*>(.*?)<\/w:t>/g, '$1');
+      text = text.replace(/<[^>]+>/g, '');
+      const cleaned = cleanExtractedText(text);
+      if (cleaned && cleaned.length > 10) return cleaned;
+    }
+
+    // 2. Fallback: extract all Bengali and English text fragments of length >= 3
+    const textFragments = rawString.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
+    return cleanExtractedText(textFragments.join(' '));
+  } catch (err) {
+    console.warn('Docx extraction fallback error:', err);
+    const decoder = new TextDecoder('utf-8');
+    return cleanExtractedText(decoder.decode(arrayBuffer));
+  }
+}
+
+function extractTextFromPdfBuffer(arrayBuffer) {
+  try {
+    const decoder = new TextDecoder('utf-8');
+    const rawPdf = decoder.decode(arrayBuffer);
+
+    const lines = [];
+    // Match text in Tj operators: (text) Tj
+    const tjRegex = /\(([^)]+)\)\s*Tj/g;
+    let match;
+    while ((match = tjRegex.exec(rawPdf)) !== null) {
+      lines.push(match[1]);
+    }
+
+    // Match text in TJ array operators: [(t)(e)(x)(t)] TJ
+    const tjArrayRegex = /\[(.*?)\]\s*TJ/g;
+    while ((match = tjArrayRegex.exec(rawPdf)) !== null) {
+      const inner = match[1];
+      const innerMatches = inner.match(/\(([^)]*)\)/g);
+      if (innerMatches) {
+        lines.push(innerMatches.map(m => m.slice(1, -1)).join(''));
+      }
+    }
+
+    if (lines.length > 0) {
+      return cleanExtractedText(lines.join('\n'));
+    }
+
+    // Fallback: extract continuous text blocks containing Bengali/English
+    const words = rawPdf.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
+    return cleanExtractedText(words.join(' '));
+  } catch (err) {
+    const decoder = new TextDecoder('utf-8');
+    return cleanExtractedText(decoder.decode(arrayBuffer));
+  }
+}
+
+
 export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOMR }) {
   const { lang, t } = useLanguage();
 
@@ -470,23 +572,53 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Handle File Upload
-  const handleFileUpload = (e) => {
+  // Handle Multi-Format File Upload with Clean UTF-8 Extraction
+  const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploadedFileName(file.name);
-    const reader = new FileReader();
+    setIsParsing(true);
+    setFeedbackMsg(null);
 
-    reader.onload = (event) => {
-      const content = event.target?.result;
-      if (typeof content === 'string') {
-        setRawText(content);
-        handleParseRawText(content);
+    const fileNameLower = file.name.toLowerCase();
+
+    try {
+      if (fileNameLower.endsWith('.docx')) {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          const buffer = event.target?.result;
+          const extracted = await extractTextFromDocxBuffer(buffer);
+          setRawText(extracted);
+          handleParseRawText(extracted);
+        };
+        reader.readAsArrayBuffer(file);
+      } else if (fileNameLower.endsWith('.pdf')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const buffer = event.target?.result;
+          const extracted = extractTextFromPdfBuffer(buffer);
+          setRawText(extracted);
+          handleParseRawText(extracted);
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        // .txt, .csv, .json, .doc, etc.
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const content = event.target?.result;
+          if (typeof content === 'string') {
+            const cleaned = cleanExtractedText(content);
+            setRawText(cleaned);
+            handleParseRawText(cleaned);
+          }
+        };
+        reader.readAsText(file, 'utf-8');
       }
-    };
-
-    reader.readAsText(file);
+    } catch (err) {
+      setFeedbackMsg({ type: 'error', text: 'ফাইল থেকে টেক্সট এক্সট্রাক্ট করতে সমস্যা হয়েছে: ' + err.message });
+      setIsParsing(false);
+    }
   };
 
   // Submit to Repository
