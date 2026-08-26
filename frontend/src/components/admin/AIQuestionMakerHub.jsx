@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Award,
+  Image as ImageIcon,
+  Camera,
   Bot,
   Sparkles,
   PlayCircle,
@@ -494,6 +496,18 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                       {q.type === 'MCQ' ? (
                         <>
                           <p className="font-bold text-slate-800">{q.question}</p>
+                          {(q.diagramUrl || q.diagramCaption) && (
+                            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/90 my-1.5 flex items-center space-x-3">
+                              {q.diagramUrl ? (
+                                <img src={q.diagramUrl} alt="Diagram" className="max-h-32 object-contain rounded-lg border bg-white mx-auto shadow-xs" />
+                              ) : (
+                                <div className="flex items-center space-x-2 text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 text-[11px] font-bold">
+                                  <ImageIcon className="w-4 h-4 text-emerald-600" />
+                                  <span>📊 {q.diagramCaption || 'চিত্র / লেখচিত্র: উদ্দীপক দ্রষ্টব্য'}</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-1.5 text-[11px] pt-1">
                             {q.options?.map((opt, optIdx) => (
                               <div
@@ -517,9 +531,23 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                         </>
                       ) : q.type === 'CQ' ? (
                         <>
-                          <p className="font-medium text-slate-800 bg-slate-50 p-2 rounded-xl border border-slate-200 leading-relaxed">
-                            {q.stem || q.question}
-                          </p>
+                          <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-2">
+                            <p className="font-medium text-slate-800 leading-relaxed">
+                              {q.stem || q.question}
+                            </p>
+                            {(q.diagramUrl || q.diagramCaption) && (
+                              <div className="p-2 rounded-lg bg-white border border-slate-200 flex items-center space-x-3 shadow-xs">
+                                {q.diagramUrl ? (
+                                  <img src={q.diagramUrl} alt="Diagram" className="max-h-36 object-contain rounded border bg-slate-50" />
+                                ) : (
+                                  <div className="flex items-center space-x-2 text-indigo-900 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200 text-[10px] font-bold">
+                                    <ImageIcon className="w-3.5 h-3.5 text-indigo-600" />
+                                    <span>📊 {q.diagramCaption || 'উদ্দীপকের সংশ্লিষ্ট চিত্র / সার্কিট ডায়াগ্রাম'}</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                           {q.subQuestions && (
                             <div className="space-y-1 text-[11px] pt-1 font-medium">
                               <p className="flex justify-between"><span><strong className="text-emerald-700">ক.</strong> {q.subQuestions.a?.q}</span> <span className="text-slate-400">[১]</span></p>

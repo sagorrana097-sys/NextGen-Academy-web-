@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Award,
+  Image as ImageIcon,
+  Camera,
   Upload,
   FolderOpen,
   Sparkles,
@@ -938,6 +940,26 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                       {q.type === 'CQ' ? (
                         <div className="space-y-1">
                           <p className="font-bold text-slate-900">{q.stem}</p>
+                          {(q.diagramUrl || q.diagramCaption) && (
+                            <div className="p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-200/80 my-1.5 flex items-center space-x-3">
+                              {q.diagramUrl ? (
+                                <img src={q.diagramUrl} alt="Diagram" className="w-20 h-16 object-contain rounded-lg border bg-white" />
+                              ) : (
+                                <div className="w-14 h-12 rounded-lg bg-indigo-100 border border-indigo-200 flex flex-col items-center justify-center text-indigo-700 font-mono text-[9px] shrink-0">
+                                  <ImageIcon className="w-4 h-4 text-indigo-600 mb-0.5" />
+                                  <span>[চিত্র]</span>
+                                </div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <span className="text-[11px] font-bold text-indigo-900 block truncate">
+                                  📊 {q.diagramCaption || 'উদ্দীপকের চিত্র / লেখচিত্র / বর্তনী'}
+                                </span>
+                                <span className="text-[10px] text-slate-500">
+                                  {q.diagramUrl ? 'চিত্র সংযুক্ত রয়েছে' : 'ভিজ্যুয়াল প্লেসহোল্ডার সংরক্ষিত'}
+                                </span>
+                              </div>
+                            </div>
+                          )}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-700 pt-1">
                             <div>(ক) {q.subQuestions?.a?.q || 'ক নম্বর প্রশ্ন'} [১]</div>
                             <div>(খ) {q.subQuestions?.b?.q || 'খ নম্বর প্রশ্ন'} [২]</div>
@@ -948,6 +970,20 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                       ) : (
                         <div className="space-y-1">
                           <p className="font-bold text-slate-900">{q.question}</p>
+                          {(q.diagramUrl || q.diagramCaption) && (
+                            <div className="p-2 rounded-xl bg-indigo-50/70 border border-indigo-200/80 my-1 flex items-center space-x-2.5">
+                              {q.diagramUrl ? (
+                                <img src={q.diagramUrl} alt="Diagram" className="w-16 h-12 object-contain rounded-lg border bg-white" />
+                              ) : (
+                                <div className="w-10 h-10 rounded-lg bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                                  <ImageIcon className="w-4 h-4" />
+                                </div>
+                              )}
+                              <span className="text-[10px] font-bold text-indigo-900 truncate">
+                                📊 {q.diagramCaption || 'প্রশ্নের সংশ্লিষ্ট চিত্র / গ্রাফ'}
+                              </span>
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-1 text-[11px] text-slate-600">
                             {q.options?.map((opt, oIdx) => (
                               <div key={oIdx} className={q.correctAnswer === ['ক','খ','গ','ঘ'][oIdx] ? 'font-bold text-emerald-700' : ''}>
