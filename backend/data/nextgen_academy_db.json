@@ -20,12 +20,18 @@
     },
     {
       "id": 2,
-      "name": "সাদিয়া ইসলাম",
+      "name": "সাদিয়া ইসলাম (Sadia Islam)",
       "email": "sadia@nextgen.edu.bd",
       "role": "STUDENT",
       "isActive": true,
       "createdAt": "2026-08-25T18:53:36.262Z",
-      "updatedAt": "2026-08-25T18:53:36.262Z"
+      "updatedAt": "2026-08-26T04:51:53.372Z",
+      "username": "STD2026102",
+      "userId": "STD2026102",
+      "identifier": "STD2026102",
+      "password": "student123",
+      "passwordHash": "$2a$10$EipSDExCPlxFAKwyzBqvs.dmVI.b28dGCXACvZOM1QvOWuhccsTtK",
+      "phone": "01792818005"
     }
   ],
   "classes": [
@@ -1915,7 +1921,12 @@
       "classId": 1,
       "sectionId": 1,
       "createdAt": "2026-08-25T18:53:36.876Z",
-      "updatedAt": "2026-08-25T18:53:36.876Z"
+      "updatedAt": "2026-08-26T04:51:53.436Z",
+      "nameBn": "সাদিয়া ইসলাম",
+      "nameEn": "Sadia Islam",
+      "studentIdNumber": "STD2026102",
+      "guardianPhone": "01792818005",
+      "status": "ACTIVE"
     }
   ],
   "teachers": [],
