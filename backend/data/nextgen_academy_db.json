@@ -1930,5 +1930,20 @@
       "createdAt": "2026-08-26T14:32:09.615Z",
       "updatedAt": "2026-08-26T14:32:09.615Z"
     }
-  ]
+  ],
+  "attendance": [],
+  "routines": [],
+  "sms_logs": [],
+  "exams": [],
+  "batch_transfer_logs": [],
+  "payment_methods": [],
+  "system_errors": [],
+  "syllabus_tracking": [],
+  "helpdesk_tickets": [],
+  "menu_settings": [],
+  "grammar_lessons": [],
+  "referral_profiles": [],
+  "promo_settings": [],
+  "page_announcements": [],
+  "question_repositories": []
 }

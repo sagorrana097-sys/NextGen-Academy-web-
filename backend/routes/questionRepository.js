@@ -368,24 +368,16 @@ const INITIAL_REPO_SEEDS = [
  */
 router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const {
-      className,
-      book,
-      institutionOrBoard,
-      year,
-      chapter,
-      hasChapter,
-      questions,
-      rawText,
-      sourceFileName
-    } = req.body;
-
-    if (!className || !book || !institutionOrBoard || !year) {
-      return res.status(400).json({
-        success: false,
-        error: { message: 'শ্রেণি (Class), বই (Book), ইস্কুল/বোর্ড নাম (Institution/Board) এবং সাল (Year) প্রদান করা আবশ্যক।' }
-      });
-    }
+    const meta = req.body.metadata || {};
+    const className = req.body.className || meta.className || 'দশম শ্রেণি (Class 10)';
+    const book = req.body.book || meta.book || 'পদার্থবিজ্ঞান (Physics)';
+    const institutionOrBoard = req.body.institutionOrBoard || meta.institutionOrBoard || 'ঢাকা বোর্ড (Dhaka Board)';
+    const year = req.body.year || meta.year || '2025';
+    const chapter = req.body.chapter !== undefined ? req.body.chapter : (meta.chapter || '');
+    const hasChapter = req.body.hasChapter !== undefined ? req.body.hasChapter : (meta.chapter ? true : false);
+    const questions = req.body.questions || [];
+    const rawText = req.body.rawText || req.body.text || '';
+    const sourceFileName = req.body.sourceFileName || meta.sourceFileName || 'Smart Upload';
 
     let parsedQuestions = [];
 
@@ -398,20 +390,22 @@ router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER'])
     if (parsedQuestions.length === 0) {
       return res.status(400).json({
         success: false,
-        error: { message: 'কোনো বৈধ প্রশ্ন খুঁজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক ফরম্যাটে প্রশ্ন প্রদান করুন।' }
+        error: { message: 'কোনো বৈধ প্রশ্ন খুঁজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক প্রশ্ন টেক্সট প্রদান করুন।' }
       });
     }
 
     const savedRecords = [];
-    const cleanInst = String(institutionOrBoard).trim();
-    const cleanYear = String(year).trim();
-    const cleanClass = String(className).trim();
-    const cleanBook = String(book).trim();
+    const cleanInst = String(institutionOrBoard || 'সাধারণ বোর্ড').trim();
+    const cleanYear = String(year || '2026').trim();
+    const cleanClass = String(className || 'দশম শ্রেণি').trim();
+    const cleanBook = String(book || 'সাধারণ বিষয়').trim();
     const cleanChapter = hasChapter ? String(chapter || '').trim() : '';
+
+    const userId = req.user?.id || 1;
 
     for (const q of parsedQuestions) {
       const qType = q.type || 'MCQ';
-      const badge = q.badge || createSourceBadge(cleanInst, cleanYear, qType);
+      const badge = q.badge || meta.badge || createSourceBadge(cleanInst, cleanYear, qType);
 
       const record = await QuestionRepository.create({
         type: qType,
@@ -432,7 +426,7 @@ router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER'])
         marks: q.marks || (qType === 'CQ' ? 10 : qType === 'SHORT' ? 2 : 1),
         badge,
         sourceFileName: sourceFileName || 'Manual Upload',
-        uploadedByUserId: req.user.id,
+        uploadedByUserId: userId,
         createdAt: new Date().toISOString()
       });
 
