@@ -225,25 +225,26 @@ export default function StudentManager() {
   };
 
   const handleOpenEdit = (student) => {
+    if (!student) return;
     setEditingStudent(student);
-    const primaryParent = student.guardians?.find((g) => g.isPrimary)?.parent || student.guardians?.[0]?.parent;
+    const primaryParent = student?.guardians?.find((g) => g.isPrimary)?.parent || student?.guardians?.[0]?.parent;
     setFormData({
-      name: student.user?.name || '',
-      nameBn: student.user?.name || '',
-      rollNo: student.rollNo || '',
-      classId: String(student.classId || '1'),
-      sectionId: String(student.sectionId || '1'),
-      batchId: student.batchId ? String(student.batchId) : '',
-      group: student.group || '',
+      name: student?.user?.name || student?.nameBn || student?.name || '',
+      nameBn: student?.user?.name || student?.nameBn || student?.name || '',
+      rollNo: student?.rollNo || '',
+      classId: String(student?.classId || '1'),
+      sectionId: String(student?.sectionId || '1'),
+      batchId: student?.batchId ? String(student.batchId) : '',
+      group: student?.group || '',
       guardianName: primaryParent?.name || '',
-      guardianPhone: primaryParent?.phone || student.user?.phone || '',
-      bloodGroup: student.bloodGroup || 'B+',
-      dob: student.dob || '2014-01-01',
-      gender: student.gender || 'MALE',
-      photo: student.photo || student.user?.avatar || '',
-      address: student.address || 'ঢাকা, বাংলাদেশ',
-      admissionDate: student.admissionDate || new Date().toISOString().split('T')[0],
-      isActive: student.user?.isActive !== false
+      guardianPhone: primaryParent?.phone || student?.user?.phone || '',
+      bloodGroup: student?.bloodGroup || 'B+',
+      dob: student?.dob || '2014-01-01',
+      gender: student?.gender || 'MALE',
+      photo: student?.photo || student?.user?.avatar || '',
+      address: student?.address || 'ঢাকা, বাংলাদেশ',
+      admissionDate: student?.admissionDate || new Date().toISOString().split('T')[0],
+      isActive: student?.user?.isActive !== false
     });
     setShowAddEditModal(true);
   };
@@ -253,7 +254,7 @@ export default function StudentManager() {
     setSubmitting(true);
     try {
       const selectedClassObj = currentAvailableClasses.find(
-        (c) => String(c.id) === String(formData.classId)
+        (c) => String(c?.id || c?.M_ID) === String(formData.classId)
       );
       const selectedClassName = selectedClassObj?.nameBn || selectedClassObj?.nameEn || selectedClassObj?.name || '';
       const requiresGroup = ['Class 9', 'Class 10', 'Class 11', 'Class 12', '9', '10', '11', '12', '৯ম', '১০ম', 'একাদশ', 'দ্বাদশ', 'SSC', 'HSC'].some(
@@ -266,7 +267,8 @@ export default function StudentManager() {
       };
 
       if (editingStudent) {
-        const res = await studentAPI.update(editingStudent.id, payload);
+        const studentIdToUpdate = editingStudent?.id || editingStudent?.M_ID || editingStudent?.studentId;
+        const res = await studentAPI.update(studentIdToUpdate, payload);
         if (res.success) {
           showFeedback('শিক্ষার্থীর তথ্য সফলভাবে আপডেট করা হয়েছে!');
           setShowAddEditModal(false);
@@ -289,15 +291,18 @@ export default function StudentManager() {
   };
 
   const handleToggleStatus = async (student) => {
-    const currentStatus = student.user?.isActive !== false;
+    if (!student) return;
+    const currentStatus = student?.user?.isActive !== false;
     const newStatus = !currentStatus;
+    const studentIdToToggle = student?.id || student?.M_ID || student?.studentId;
+    const studentDisplayName = student?.user?.name || student?.nameBn || student?.name || 'শিক্ষার্থী';
     try {
-      const res = await studentAPI.toggleStatus(student.id, newStatus);
+      const res = await studentAPI.toggleStatus(studentIdToToggle, newStatus);
       if (res.success) {
         showFeedback(
           newStatus
-            ? `'${student.user?.name}' এর অ্যাকাউন্ট সক্রিয় করা হয়েছে`
-            : `'${student.user?.name}' এর অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে`
+            ? `'${studentDisplayName}' এর অ্যাকাউন্ট সক্রিয় করা হয়েছে`
+            : `'${studentDisplayName}' এর অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে`
         );
         fetchData();
       }
@@ -310,8 +315,9 @@ export default function StudentManager() {
   const handleDeleteConfirm = async () => {
     if (!deletingStudent) return;
     setSubmitting(true);
+    const studentIdToDelete = deletingStudent?.id || deletingStudent?.M_ID || deletingStudent?.studentId;
     try {
-      const res = await studentAPI.delete(deletingStudent.id);
+      const res = await studentAPI.delete(studentIdToDelete);
       if (res.success) {
         showFeedback('শিক্ষার্থী প্রোফাইল সফলভাবে মুছে ফেলা হয়েছে!');
         setShowDeleteModal(false);
@@ -657,35 +663,38 @@ export default function StudentManager() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredStudents.map((st) => {
-                  const isActive = st.user ? st.user.isActive !== false : true;
+                {filteredStudents.map((st, idx) => {
+                  const isActive = st?.user ? st.user.isActive !== false : true;
                   const primaryParent =
-                    st.guardians?.find((g) => g.isPrimary)?.parent || st.guardians?.[0]?.parent;
+                    st?.guardians?.find((g) => g.isPrimary)?.parent || st?.guardians?.[0]?.parent;
+                  const studentId = st?.id || st?.M_ID || st?.studentId || idx;
+                  const studentIdDisplay = st?.studentIdNumber || st?.M_ID || `NG-${String(st?.rollNo || studentId).padStart(4, '0')}`;
+                  const studentName = st?.user?.name || st?.nameBn || st?.name || 'শিক্ষার্থী';
 
                   return (
-                    <tr key={st.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={studentId} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-3">
                           <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-700 font-black flex items-center justify-center border border-indigo-100 overflow-hidden flex-shrink-0">
-                            {st.photo || st.user?.avatar ? (
+                            {st?.photo || st?.user?.avatar ? (
                               <img
-                                src={st.photo || st.user?.avatar}
-                                alt={st.user?.name}
+                                src={st?.photo || st?.user?.avatar}
+                                alt={studentName}
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span>{st.user?.name?.slice(0, 1) || 'শ'}</span>
+                              <span>{studentName?.slice(0, 1) || 'শ'}</span>
                             )}
                           </div>
                           <div>
                             <div className="font-bold text-slate-900 text-xs flex items-center space-x-1.5">
-                              <span>{st.user?.name || 'শিক্ষার্থী'}</span>
+                              <span>{studentName}</span>
                               <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-slate-100 text-slate-600">
-                                {st.bloodGroup || 'B+'}
+                                {st?.bloodGroup || 'B+'}
                               </span>
                             </div>
                             <div className="text-[10px] font-mono text-indigo-600 font-bold">
-                              {st.studentIdNumber}
+                              {studentIdDisplay}
                             </div>
                           </div>
                         </div>
@@ -693,16 +702,16 @@ export default function StudentManager() {
 
                       <td className="py-3 px-4">
                         <span className="px-2 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 font-bold text-[11px] border border-indigo-100">
-                          {st.class?.nameBn || `শ্রেণি ${st.classId}`}
+                          {st?.class?.nameBn || `শ্রেণি ${st?.classId || '১'}`}
                         </span>
                         <div className="text-[11px] text-slate-500 font-mono mt-0.5">
-                          রোল: <span className="font-bold text-slate-800">#{st.rollNo}</span>
+                          রোল: <span className="font-bold text-slate-800">#{st?.rollNo || '০১'}</span>
                         </div>
                       </td>
 
                       <td className="py-3 px-4">
                         <span className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-medium text-[11px] border border-emerald-100">
-                          {batches.find((b) => Number(b.id) === Number(st.batchId))?.nameBn || 'সাধারণ ব্যাচ'}
+                          {batches.find((b) => Number(b?.id || b?.M_ID) === Number(st?.batchId))?.nameBn || 'সাধারণ ব্যাচ'}
                         </span>
                       </td>
 
@@ -710,7 +719,7 @@ export default function StudentManager() {
                         <div className="text-slate-800 font-bold">{primaryParent?.name || 'অভিভাবক'}</div>
                         <div className="text-[10px] font-mono text-slate-500 flex items-center space-x-1 mt-0.5">
                           <Phone className="w-3 h-3 text-slate-400" />
-                          <span>{primaryParent?.phone || st.user?.phone || '০১৭০০০০০০০০'}</span>
+                          <span>{primaryParent?.phone || st?.user?.phone || '০১৭০০০০০০০০'}</span>
                         </div>
                       </td>
 
@@ -739,7 +748,7 @@ export default function StudentManager() {
                             <Printer className="w-3.5 h-3.5" />
                           </button>
                           <button
-                            onClick={() => setSelectedStudentFor360(st.id)}
+                            onClick={() => setSelectedStudentFor360(studentId)}
                             className="p-1.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
                             title="৩৬০° সম্পূর্ণ প্রোফাইল ও রেজাল্ট"
                           >
@@ -773,33 +782,36 @@ export default function StudentManager() {
         </div>
       ) : (
         /* CARDS GRID VIEW */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredStudents.map((st) => {
-            const isActive = st.user ? st.user.isActive !== false : true;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredStudents.map((st, idx) => {
+            const isActive = st?.user ? st.user.isActive !== false : true;
             const primaryParent =
-              st.guardians?.find((g) => g.isPrimary)?.parent || st.guardians?.[0]?.parent;
+              st?.guardians?.find((g) => g.isPrimary)?.parent || st?.guardians?.[0]?.parent;
+            const studentId = st?.id || st?.M_ID || st?.studentId || idx;
+            const studentIdDisplay = st?.studentIdNumber || st?.M_ID || `NG-${String(st?.rollNo || studentId).padStart(4, '0')}`;
+            const studentName = st?.user?.name || st?.nameBn || st?.name || 'শিক্ষার্থী';
 
             return (
               <div
-                key={st.id}
+                key={studentId}
                 className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all space-y-4"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 font-black flex items-center justify-center border border-indigo-100 overflow-hidden flex-shrink-0">
-                      {st.photo || st.user?.avatar ? (
+                      {st?.photo || st?.user?.avatar ? (
                         <img
-                          src={st.photo || st.user?.avatar}
-                          alt={st.user?.name}
+                          src={st?.photo || st?.user?.avatar}
+                          alt={studentName}
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <span className="text-base">{st.user?.name?.slice(0, 1) || 'শ'}</span>
+                        <span className="text-base">{studentName?.slice(0, 1) || 'শ'}</span>
                       )}
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-slate-900 text-sm">{st.user?.name}</h4>
-                      <p className="text-xs font-mono font-bold text-indigo-600">{st.studentIdNumber}</p>
+                      <h4 className="font-extrabold text-slate-900 text-sm">{studentName}</h4>
+                      <p className="text-xs font-mono font-bold text-indigo-600">{studentIdDisplay}</p>
                     </div>
                   </div>
 
@@ -819,24 +831,24 @@ export default function StudentManager() {
                   <div>
                     <span className="text-slate-400 block">শ্রেণি ও রোল:</span>
                     <span className="font-bold text-slate-800">
-                      {st.class?.nameBn || `শ্রেণি ${st.classId}`} • #{st.rollNo}
+                      {st?.class?.nameBn || `শ্রেণি ${st?.classId || '১'}`} • #{st?.rollNo || '০১'}
                     </span>
                   </div>
                   <div>
                     <span className="text-slate-400 block">রক্তের গ্রুপ:</span>
-                    <span className="font-bold text-slate-800">{st.bloodGroup || 'B+'}</span>
+                    <span className="font-bold text-slate-800">{st?.bloodGroup || 'B+'}</span>
                   </div>
                   <div className="col-span-2 pt-1 border-t border-slate-200/60">
                     <span className="text-slate-400 block">অভিভাবক ও ফোন:</span>
                     <span className="font-bold text-slate-800">
-                      {primaryParent?.name || 'অভিভাবক'} ({primaryParent?.phone || st.user?.phone || 'N/A'})
+                      {primaryParent?.name || 'অভিভাবক'} ({primaryParent?.phone || st?.user?.phone || 'N/A'})
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                   <button
-                    onClick={() => setSelectedStudentFor360(st.id)}
+                    onClick={() => setSelectedStudentFor360(studentId)}
                     className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center space-x-1.5"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -1205,8 +1217,8 @@ export default function StudentManager() {
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              আপনি কি নিশ্চিতভাবে <span className="font-bold text-slate-900">'{deletingStudent.user?.name}'</span>{' '}
-              (আইডি: {deletingStudent.studentIdNumber}, রোল: {deletingStudent.rollNo}) এর সম্পূর্ণ ডাটা মুছে ফেলতে চান?
+              আপনি কি নিশ্চিতভাবে <span className="font-bold text-slate-900">'{deletingStudent?.user?.name || deletingStudent?.nameBn || deletingStudent?.name || 'শিক্ষার্থী'}'</span>{' '}
+              (আইডি: {deletingStudent?.studentIdNumber || deletingStudent?.M_ID || deletingStudent?.id || 'N/A'}, রোল: {deletingStudent?.rollNo || '০১'}) এর সম্পূর্ণ ডাটা মুছে ফেলতে চান?
             </p>
 
             <div className="p-3 bg-rose-50 rounded-2xl border border-rose-200 text-[11px] text-rose-700 font-medium">

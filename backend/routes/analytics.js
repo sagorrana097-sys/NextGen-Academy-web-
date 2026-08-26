@@ -72,7 +72,7 @@ function getDateRange(period, customStart, customEnd) {
  * GET /api/analytics/summary
  * Executive analytics and performance report generator
  */
-router.get('/summary', async (req, res, next) => {
+router.get(['/summary', '/overview'], async (req, res, next) => {
   try {
     const { period = 'today', startDate: qStart, endDate: qEnd } = req.query;
     const { startDate, endDate, label } = getDateRange(period, qStart, qEnd);

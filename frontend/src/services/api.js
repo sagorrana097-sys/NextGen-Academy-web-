@@ -41,7 +41,47 @@ const STUDENT_MOCKS = {
   '/student/attendance': { present: 22, absent: 1, leave: 1, rate: 95.5, records: [] },
   '/student/results': { gpa: 4.85, marks: [] },
   '/student/routine': { todayClasses: [], weeklySchedule: [] },
-  '/student/invoices': []
+  '/student/invoices': [],
+  '/analytics/overview': {
+    totalStudents: 45,
+    totalTeachers: 12,
+    totalClasses: 10,
+    attendanceRateToday: 94.5,
+    studentAttendanceRate: 94.5,
+    teacherAttendanceRate: 98.0,
+    financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
+    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 }
+  },
+  '/analytics/summary': {
+    totalStudents: 45,
+    totalTeachers: 12,
+    totalClasses: 10,
+    attendanceRateToday: 94.5,
+    studentAttendanceRate: 94.5,
+    teacherAttendanceRate: 98.0,
+    financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
+    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 }
+  },
+  '/settings/student-portal-control': {
+    allowOnlineAdmission: true,
+    allowExamResultView: true,
+    allowFeePayment: true,
+    allowGamification: true,
+    allowLiveClass: true,
+    allowHomeworkSubmit: true,
+    allowDigitalBookstore: true
+  },
+  '/settings/student-portal': {
+    allowOnlineAdmission: true,
+    allowExamResultView: true,
+    allowFeePayment: true,
+    allowGamification: true,
+    allowLiveClass: true,
+    allowHomeworkSubmit: true,
+    allowDigitalBookstore: true
+  },
+  '/admin/students': [],
+  '/students': []
 };
 
 // In-Memory SWR Cache & In-Flight Request Deduplication Store
@@ -218,6 +258,18 @@ export const adminAPI = {
 };
 
 export const studentAPI = {
+  getAll: (params = {}) => adminAPI.getStudents(params),
+  getStudents: (params = {}) => adminAPI.getStudents(params),
+  getById: (id) => request(`/admin/students/${id}`),
+  getFullSummary: (id) => request(`/student/${id}/full-summary`),
+  getStudentFullSummary: (id) => request(`/student/${id}/full-summary`),
+  create: (data) => adminAPI.createStudent(data),
+  createStudent: (data) => adminAPI.createStudent(data),
+  update: (id, data) => adminAPI.updateStudent(id, data),
+  updateStudent: (id, data) => adminAPI.updateStudent(id, data),
+  delete: (id) => adminAPI.deleteStudent(id),
+  deleteStudent: (id) => adminAPI.deleteStudent(id),
+  toggleStatus: (id, status) => request(`/admin/students/${id}/toggle-status`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   getDashboardAggregate: () => request('/student/dashboard-aggregate', { cacheTtl: 20000 }),
   getProfile: () => request('/student/profile', { cacheTtl: 30000 }),
   getDashboard: () => request('/student/dashboard', { cacheTtl: 20000 }),
@@ -558,6 +610,11 @@ export const settingsAPI = {
   getSettings: () => request('/settings'),
   updateSettings: (data) => request('/settings', { method: 'PUT', body: JSON.stringify(data) }),
   getPublicSettings: () => request('/settings/public'),
+  getStudentPortalControl: () => request('/settings/student-portal-control'),
+  updateStudentPortalControl: (data) => request('/settings/student-portal-control', { method: 'PUT', body: JSON.stringify(data) }),
+  resetStudentPortalControl: () => request('/settings/student-portal-control/reset', { method: 'POST' }),
+  getStudentMenus: () => request('/settings/student-menus'),
+  updateStudentMenus: (data) => request('/settings/student-menus', { method: 'PUT', body: JSON.stringify(data) }),
   uploadLogo: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
     const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

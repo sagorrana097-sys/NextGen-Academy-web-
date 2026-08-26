@@ -978,7 +978,7 @@ function getOrInitStudentPortal(db) {
  * GET /api/settings/student-portal
  * Fetch centralized student portal configuration and active module toggles
  */
-router.get('/student-portal', (req, res) => {
+router.get(['/student-portal', '/student-portal-control'], (req, res) => {
   try {
     const db = getDB();
     const config = getOrInitStudentPortal(db);
@@ -995,7 +995,7 @@ router.get('/student-portal', (req, res) => {
  * PUT /api/settings/student-portal
  * Admin update centralized student portal configuration
  */
-router.put('/student-portal', authenticate, (req, res) => {
+router.put(['/student-portal', '/student-portal-control'], authenticate, (req, res) => {
   try {
     const db = getDB();
     const current = getOrInitStudentPortal(db);
@@ -1025,7 +1025,7 @@ router.put('/student-portal', authenticate, (req, res) => {
  * POST /api/settings/student-portal/reset
  * Reset student portal configuration to factory defaults
  */
-router.post('/student-portal/reset', authenticate, (req, res) => {
+router.post(['/student-portal/reset', '/student-portal-control/reset'], authenticate, (req, res) => {
   try {
     const db = getDB();
     db.student_portal_config = JSON.parse(JSON.stringify(DEFAULT_STUDENT_PORTAL_CONFIG));

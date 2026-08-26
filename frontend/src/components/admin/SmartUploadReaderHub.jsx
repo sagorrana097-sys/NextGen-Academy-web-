@@ -468,36 +468,184 @@ function extractTextFromDocBuffer(arrayBuffer) {
   }
 }
 
-function extractTextFromPdfBuffer(arrayBuffer) {
-  try {
-    const decoder = new TextDecoder('utf-8');
-    const rawPdf = decoder.decode(arrayBuffer);
+/**
+ * Helper to decode PDF Hexadecimal strings <...> (supports UTF-16BE and ASCII)
+ */
+function decodePdfHexString(hex) {
+  const cleanHex = hex.replace(/[^0-9a-fA-F]/g, '');
+  if (!cleanHex) return '';
 
-    const lines = [];
-    const tjRegex = /\(([^)]+)\)\s*Tj/g;
-    let match;
-    while ((match = tjRegex.exec(rawPdf)) !== null) {
-      lines.push(match[1]);
+  // Check UTF-16BE (2 bytes / 4 hex chars per char)
+  if (cleanHex.length % 4 === 0) {
+    let utf16Str = '';
+    for (let i = 0; i < cleanHex.length; i += 4) {
+      const code = parseInt(cleanHex.substring(i, i + 4), 16);
+      if (!isNaN(code) && code > 0) {
+        utf16Str += String.fromCharCode(code);
+      }
     }
+    if (/[\u0980-\u09FFa-zA-Z0-9]/.test(utf16Str)) {
+      return utf16Str;
+    }
+  }
 
-    const tjArrayRegex = /\[(.*?)\]\s*TJ/g;
-    while ((match = tjArrayRegex.exec(rawPdf)) !== null) {
-      const inner = match[1];
-      const innerMatches = inner.match(/\(([^)]*)\)/g);
-      if (innerMatches) {
-        lines.push(innerMatches.map(m => m.slice(1, -1)).join(''));
+  // Fallback 1 byte per char
+  let byteStr = '';
+  for (let i = 0; i < cleanHex.length; i += 2) {
+    const code = parseInt(cleanHex.substring(i, i + 2), 16);
+    if (!isNaN(code) && code > 0) {
+      byteStr += String.fromCharCode(code);
+    }
+  }
+  return byteStr;
+}
+
+/**
+ * Helper to decode PDF literal string escapes: \n, \r, \t, \ddd (octal)
+ */
+function decodePdfLiteralString(str) {
+  return str
+    .replace(/\\([0-7]{1,3})/g, (_, oct) => String.fromCharCode(parseInt(oct, 8)))
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r')
+    .replace(/\\t/g, '\t')
+    .replace(/\\b/g, '\b')
+    .replace(/\\f/g, '\f')
+    .replace(/\\\(/g, '(')
+    .replace(/\\\)/g, ')')
+    .replace(/\\\\/g, '\\');
+}
+
+/**
+ * Extract text from PDF content stream (uncompressed or inflated)
+ */
+function parsePdfContentStream(text) {
+  const lines = [];
+
+  // Match all Tj (single string)
+  const tjRegex = /(?:\(([\s\S]*?)\)|<([0-9a-fA-F\s]+)>)\s*Tj/g;
+  let match;
+  while ((match = tjRegex.exec(text)) !== null) {
+    if (match[1] !== undefined) {
+      lines.push(decodePdfLiteralString(match[1]));
+    } else if (match[2] !== undefined) {
+      lines.push(decodePdfHexString(match[2]));
+    }
+  }
+
+  // Match all TJ (array of strings and kerning offsets)
+  const tjArrayRegex = /\[([\s\S]*?)\]\s*TJ/g;
+  while ((match = tjArrayRegex.exec(text)) !== null) {
+    const inner = match[1];
+    let chunk = '';
+    const tokenRegex = /(?:\(([\s\S]*?)\)|<([0-9a-fA-F\s]+)>)/g;
+    let tokenMatch;
+    while ((tokenMatch = tokenRegex.exec(inner)) !== null) {
+      if (tokenMatch[1] !== undefined) {
+        chunk += decodePdfLiteralString(tokenMatch[1]);
+      } else if (tokenMatch[2] !== undefined) {
+        chunk += decodePdfHexString(tokenMatch[2]);
+      }
+    }
+    if (chunk) lines.push(chunk);
+  }
+
+  // Match single quote ' (move to next line and show text)
+  const quoteRegex = /(?:\(([\s\S]*?)\)|<([0-9a-fA-F\s]+)>)\s*'/g;
+  while ((match = quoteRegex.exec(text)) !== null) {
+    if (match[1] !== undefined) {
+      lines.push('\n' + decodePdfLiteralString(match[1]));
+    } else if (match[2] !== undefined) {
+      lines.push('\n' + decodePdfHexString(match[2]));
+    }
+  }
+
+  return lines;
+}
+
+/**
+ * Robust async PDF text extraction supporting Flate streams and native decompression
+ */
+async function extractTextFromPdfBuffer(arrayBuffer) {
+  try {
+    const uint8 = new Uint8Array(arrayBuffer);
+    const latinDecoder = new TextDecoder('latin1');
+    const rawPdf = latinDecoder.decode(uint8);
+
+    const allLines = [];
+
+    // 1. Parse direct uncompressed text in PDF
+    const directLines = parsePdfContentStream(rawPdf);
+    allLines.push(...directLines);
+
+    // 2. Scan and decompress all stream objects
+    const streamRegex = /stream\r?\n([\s\S]*?)\r?\nendstream/g;
+    let streamMatch;
+
+    while ((streamMatch = streamRegex.exec(rawPdf)) !== null) {
+      const streamStart = streamMatch.index + streamMatch[0].indexOf('\n') + 1;
+      const streamEnd = streamMatch.index + streamMatch[0].lastIndexOf('endstream');
+      if (streamEnd > streamStart) {
+        const streamBytes = uint8.slice(streamStart, streamEnd);
+
+        // Try DecompressionStream deflate / deflate-raw
+        if (typeof DecompressionStream !== 'undefined') {
+          for (const format of ['deflate', 'deflate-raw']) {
+            try {
+              const ds = new DecompressionStream(format);
+              const writer = ds.writable.getWriter();
+              writer.write(streamBytes);
+              writer.close();
+              const response = new Response(ds.readable);
+              const decompressed = await response.text();
+
+              if (decompressed && (decompressed.includes('BT') || decompressed.includes('Tj') || decompressed.includes('TJ'))) {
+                const streamLines = parsePdfContentStream(decompressed);
+                if (streamLines.length > 0) {
+                  allLines.push(...streamLines);
+                }
+              }
+              break;
+            } catch (e) {
+              // Try next format
+            }
+          }
+        }
       }
     }
 
-    if (lines.length > 0) {
-      return cleanExtractedText(lines.join('\n'));
+    // 3. Fallback to direct UTF-8 & Bengali regex scanner
+    if (allLines.length === 0) {
+      const utf8Decoder = new TextDecoder('utf-8', { fatal: false });
+      const utf8Text = utf8Decoder.decode(uint8);
+      const bengaliChunks = utf8Text.match(/[\u0980-\u09FFa-zA-Z0-9\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
+      if (bengaliChunks.length > 0) {
+        allLines.push(bengaliChunks.join(' '));
+      }
     }
 
-    const words = rawPdf.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
-    return cleanExtractedText(words.join(' '));
+    const joinedText = allLines.join('\n');
+    const cleaned = cleanExtractedText(joinedText);
+
+    if (cleaned && cleaned.trim().length > 20) {
+      return { success: true, text: cleaned };
+    }
+
+    return {
+      success: false,
+      reason: 'scanned_or_encrypted',
+      text: cleaned
+    };
   } catch (err) {
-    const decoder = new TextDecoder('utf-8');
-    return cleanExtractedText(decoder.decode(arrayBuffer));
+    console.warn('PDF extraction error:', err);
+    try {
+      const utf8Decoder = new TextDecoder('utf-8', { fatal: false });
+      const fallbackText = cleanExtractedText(utf8Decoder.decode(arrayBuffer));
+      if (fallbackText && fallbackText.trim().length > 20) {
+        return { success: true, text: fallbackText };
+      }
+    } catch (e) {}
+    return { success: false, reason: 'parse_error', error: err.message };
   }
 }
 
@@ -843,6 +991,16 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     // Reset input value so re-uploading triggers properly
     e.target.value = '';
 
+    // Check 100MB size limit
+    const MAX_FILE_SIZE = 100 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      setFeedbackMsg({
+        type: 'error',
+        text: `ফাইলের আকার ১০০MB এর চেয়ে বেশি হতে পারবে না (বর্তমান আকার: ${(file.size / (1024 * 1024)).toFixed(1)}MB)`
+      });
+      return;
+    }
+
     setUploadedFileName(file.name);
     setIsParsing(true);
     setFeedbackMsg(null);
@@ -914,22 +1072,36 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           }
         };
         reader.readAsArrayBuffer(file);
-      } else if (fileNameLower.endsWith('.pdf')) {
+      } else if (fileNameLower.endsWith('.pdf') || file.type === 'application/pdf') {
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = async (event) => {
           try {
             const buffer = event.target?.result;
-            const extracted = extractTextFromPdfBuffer(buffer);
-            if (!extracted || !extracted.trim()) {
+            const pdfResult = await extractTextFromPdfBuffer(buffer);
+            const extractedText = typeof pdfResult === 'string' ? pdfResult : (pdfResult?.text || '');
+
+            if (pdfResult?.success && extractedText && extractedText.trim()) {
+              setRawText(extractedText);
+              handleParseRawText(extractedText);
               setFeedbackMsg({
-                type: 'error',
-                text: 'PDF ফাইল থেকে টেক্সট এক্সট্রাক্ট করা যায়নি। অনুগ্রহ করে .docx বা .txt ফাইল ব্যবহার করুন।'
+                type: 'success',
+                text: `PDF ফাইল সফলভাবে প্রসেস করা হয়েছে! (${extractedText.length} অক্ষর এক্সট্রাক্ট হয়েছে)`
               });
-              setIsParsing(false);
               return;
             }
-            setRawText(extracted);
-            handleParseRawText(extracted);
+
+            if (extractedText && extractedText.trim().length > 30) {
+              setRawText(extractedText);
+              handleParseRawText(extractedText);
+              return;
+            }
+
+            // Scanned / protected PDF notice
+            setFeedbackMsg({
+              type: 'error',
+              text: '⚠️ এই PDF ফাইলটি স্ক্যান করা ছবি অথবা পাসওয়ার্ড প্রটেক্টেড হতে পারে। ১০০% নির্ভুল বাংলা পার্সিংয়ের জন্য প্রশ্নপত্রটি Word (.docx) বা .txt ফরম্যাটে সেভ করে আপলোড করুন অথবা সরাসরি টেক্সট কপি-পেস্ট করুন।'
+            });
+            setIsParsing(false);
           } catch (pdfErr) {
             setFeedbackMsg({
               type: 'error',
@@ -937,6 +1109,10 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             });
             setIsParsing(false);
           }
+        };
+        reader.onerror = () => {
+          setFeedbackMsg({ type: 'error', text: 'PDF ফাইল লোড করতে ব্যর্থ হয়েছে।' });
+          setIsParsing(false);
         };
         reader.readAsArrayBuffer(file);
       } else {
@@ -1389,23 +1565,37 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
 
             {/* File Dropzone */}
             <div
-              onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-6 text-center bg-slate-50/60 hover:bg-indigo-50/30 transition-all cursor-pointer group"
+              onClick={() => !isParsing && fileInputRef.current?.click()}
+              className={`border-2 border-dashed rounded-3xl p-6 text-center transition-all cursor-pointer group ${
+                isParsing
+                  ? 'border-indigo-400 bg-indigo-50/40 cursor-wait'
+                  : 'border-slate-300 hover:border-indigo-500 bg-slate-50/60 hover:bg-indigo-50/30'
+              }`}
             >
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".txt,.json,.csv,.doc,.docx"
+                accept=".pdf,.docx,.doc,.txt,.json,.csv,application/pdf"
                 onChange={handleFileUpload}
                 className="hidden"
               />
               <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform shadow-inner">
-                <FolderOpen className="w-6 h-6" />
+                {isParsing ? (
+                  <RefreshCw className="w-6 h-6 animate-spin text-indigo-600" />
+                ) : (
+                  <FolderOpen className="w-6 h-6" />
+                )}
               </div>
               <p className="text-xs font-bold text-slate-700">
-                {uploadedFileName ? 'নির্বাচিত ফাইল: ' + uploadedFileName : 'ফাইল আপলোড করতে ক্লিক করুন (TXT, CSV, JSON, DOC)'}
+                {isParsing
+                  ? 'ফাইল প্রসেসিং ও প্রশ্ন বিশ্লেষণ চলছে...'
+                  : uploadedFileName
+                  ? 'নির্বাচিত ফাইল: ' + uploadedFileName
+                  : 'ফাইল আপলোড করতে ক্লিক করুন (PDF, DOCX, DOC, TXT, CSV)'}
               </p>
-              <p className="text-[11px] text-slate-400 mt-1">অথবা নিচের বক্সে সরাসরি কপি-পেস্ট করুন</p>
+              <p className="text-[11px] text-slate-400 mt-1">
+                {isParsing ? 'দয়া করে কিছুক্ষণ অপেক্ষা করুন' : 'অথবা নিচের বক্সে সরাসরি কপি-পেস্ট করুন'}
+              </p>
             </div>
 
             {/* Text Paste Box */}
