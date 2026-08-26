@@ -1374,6 +1374,17 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               </div>
             </div>
 
+            {/* Active Parsing Loader */}
+            {isParsing && (
+              <div className="mt-4 p-4 bg-indigo-50/80 border border-indigo-200/90 rounded-2xl flex items-center space-x-3.5 shadow-sm animate-pulse">
+                <RefreshCw className="w-5 h-5 text-indigo-600 animate-spin shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <h5 className="text-xs font-bold text-indigo-900">এআই ও স্মার্ট ইঞ্জিন প্রশ্ন বিশ্লেষণ করছে...</h5>
+                  <p className="text-[11px] text-indigo-700">বহুনির্বাচনী (MCQ), সৃজনশীল (CQ), এবং সংক্ষিপ্ত প্রশ্ন (SQ) স্বয়ংক্রিয়ভাবে আলাদা ও বিন্যাস করা হচ্ছে</p>
+                </div>
+              </div>
+            )}
+
             {/* Parsed Output & Staging Preview */}
             {parsedQuestions.length > 0 && (
               <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
