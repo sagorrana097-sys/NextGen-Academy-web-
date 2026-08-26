@@ -131,11 +131,15 @@ export default function StudentManager() {
         batchAPI.getBatches()
       ]);
 
-      if (stRes.success && stRes.data) setStudents(stRes.data);
-      if (clsRes.success && clsRes.data && clsRes.data.length > 0) {
-        setClasses(clsRes.data);
+      if (stRes?.success && stRes?.data) {
+        setStudents(Array.isArray(stRes.data) ? stRes.data : (stRes.data?.students || []));
       }
-      if (bRes.success && bRes.data) setBatches(bRes.data);
+      if (clsRes?.success && clsRes?.data && (clsRes.data.length > 0 || Array.isArray(clsRes.data))) {
+        setClasses(Array.isArray(clsRes.data) ? clsRes.data : (clsRes.data?.classes || []));
+      }
+      if (bRes?.success && bRes?.data) {
+        setBatches(Array.isArray(bRes.data) ? bRes.data : (bRes.data?.batches || []));
+      }
     } catch (err) {
       console.error('Error fetching student manager data:', err);
       showFeedback('শিক্ষার্থী ডাটাবেজ লোড করতে সমস্যা হয়েছে', 'error');
@@ -178,37 +182,39 @@ export default function StudentManager() {
   };
 
   // Filtered Students
-  const filteredStudents = students.filter((st) => {
-    const userObj = st.user || {};
-    const guardian = st.guardians?.[0]?.parent || {};
+  const safeStudents = Array.isArray(students) ? students : [];
+  const filteredStudents = safeStudents.filter((st) => {
+    if (!st) return false;
+    const userObj = st?.user || st || {};
+    const guardian = st?.guardians?.[0]?.parent || st?.guardian || {};
 
     const matchSearch =
       !search ||
-      userObj.name?.toLowerCase().includes(search.toLowerCase()) ||
-      st.studentIdNumber?.toLowerCase().includes(search.toLowerCase()) ||
-      String(st.rollNo).includes(search) ||
-      userObj.phone?.includes(search) ||
-      guardian.name?.toLowerCase().includes(search.toLowerCase()) ||
-      guardian.phone?.includes(search);
+      userObj?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      st?.studentIdNumber?.toLowerCase().includes(search.toLowerCase()) ||
+      String(st?.rollNo || '').includes(search) ||
+      userObj?.phone?.includes(search) ||
+      guardian?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      guardian?.phone?.includes(search);
 
-    const matchClass = !selectedClass || String(st.classId) === String(selectedClass);
-    const matchBatch = !selectedBatch || String(st.batchId) === String(selectedBatch);
+    const matchClass = !selectedClass || String(st?.classId || '') === String(selectedClass);
+    const matchBatch = !selectedBatch || String(st?.batchId || '') === String(selectedBatch);
     const matchStatus =
       statusFilter === 'ALL'
         ? true
         : statusFilter === 'ACTIVE'
-        ? userObj.isActive !== false
-        : userObj.isActive === false;
+        ? userObj?.isActive !== false
+        : userObj?.isActive === false;
 
     return matchSearch && matchClass && matchBatch && matchStatus;
   });
 
   // KPI calculations
-  const totalStudents = students.length;
-  const activeCount = students.filter((s) => s.user?.isActive !== false).length;
+  const totalStudents = safeStudents.length;
+  const activeCount = safeStudents.filter((s) => s?.user?.isActive !== false).length;
   const inactiveCount = totalStudents - activeCount;
-  const maleCount = students.filter((s) => s.gender === 'MALE').length;
-  const femaleCount = students.filter((s) => s.gender === 'FEMALE').length;
+  const maleCount = safeStudents.filter((s) => s?.gender === 'MALE').length;
+  const femaleCount = safeStudents.filter((s) => s?.gender === 'FEMALE').length;
 
   const currentAvailableClasses = classes.length > 0 ? classes : defaultClassesList;
 
