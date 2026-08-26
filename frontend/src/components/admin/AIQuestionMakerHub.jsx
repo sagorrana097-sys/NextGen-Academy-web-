@@ -169,9 +169,264 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     alert('✅ প্রশ্নপত্র ক্লিপবোর্ডে কপি করা হয়েছে!');
   };
 
-  // Print Exam
+  // High-Resolution Branded Question Paper Printer (A4 Format with Diagrams)
   const handlePrintExam = () => {
-    window.print();
+    if (!generatedExam || !generatedExam.questions) return;
+
+    const printWin = window.open('', '_blank', 'width=850,height=1000');
+    if (!printWin) {
+      window.print();
+      return;
+    }
+
+    const title = generatedExam.title || (selectedSubject + ' - বিশেষ মডেল টেস্ট');
+    const subject = generatedExam.subject || selectedSubject;
+    const className = generatedExam.className || selectedClass;
+    const duration = generatedExam.durationMinutes || examDuration || 30;
+    const totalMarks = generatedExam.totalMarks || (generatedExam.questions.length * (genFormat === 'CQ' ? 10 : 1));
+
+    let html = `
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>${title} - NextGen Academy</title>
+  <style>
+    @page { size: A4 portrait; margin: 15mm 12mm 15mm 12mm; }
+    body {
+      font-family: 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.45;
+      font-size: 13px;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .inst-name {
+      font-size: 22px;
+      font-weight: 900;
+      color: #047857;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .inst-sub {
+      font-size: 11px;
+      color: #475569;
+      margin: 2px 0;
+      font-weight: 600;
+    }
+    .exam-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 4px 0;
+      background: #f1f5f9;
+      display: inline-block;
+      padding: 3px 14px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+    }
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 6px;
+      padding: 4px 8px;
+      background: #f8fafc;
+      border-radius: 4px;
+    }
+    .instructions {
+      font-size: 11px;
+      font-style: italic;
+      color: #334155;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .q-card {
+      page-break-inside: avoid;
+      margin-bottom: 10px;
+    }
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      color: #0f172a;
+      font-size: 13px;
+    }
+    .q-badge {
+      font-size: 10px;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+    .q-text {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 4px 0;
+      color: #1e293b;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 16px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+    .option-item {
+      padding: 2px 4px;
+    }
+    .diagram-box {
+      margin: 6px 0;
+      padding: 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #f8fafc;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+    .diagram-img {
+      max-height: 140px;
+      max-width: 100%;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+    }
+    .diagram-caption {
+      font-size: 10.5px;
+      font-weight: bold;
+      color: #047857;
+      margin-top: 4px;
+    }
+    .cq-stem {
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-left: 3px solid #047857;
+      border-radius: 4px;
+      margin: 4px 0 6px 0;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .cq-sub-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+      font-size: 12px;
+    }
+    .footer {
+      margin-top: 24px;
+      padding-top: 8px;
+      border-top: 1px solid #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="inst-name">NextGen Academy</h1>
+    <div class="inst-sub">পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর • হেল্পলাইন: ০১৭৯২৮১৮০০৫</div>
+    <div class="exam-title">${title}</div>
+    <div class="meta-bar">
+      <span>শ্রেণি: ${className}</span>
+      <span>বিষয়: ${subject}</span>
+      <span>সময়: ${duration} মিনিট</span>
+      <span>পূর্ণমান: ${totalMarks}</span>
+    </div>
+  </div>
+
+  <div class="instructions">
+    * সকল প্রশ্নের মান ডানপাশে উল্লেখ করা হয়েছে। বহুনির্বাচনী ও সৃজনশীল প্রশ্নসমূহের উত্তর যথানিয়মে প্রদান করো।
+  </div>
+
+  <div class="question-list">
+    ${generatedExam.questions.map((q, idx) => `
+      <div class="q-card">
+        <div class="q-header">
+          <span>প্রশ্ন ${idx + 1}.</span>
+          <span class="q-badge">${q.sourceBadge || q.badge || "NextGen AI - '২৬"}</span>
+        </div>
+
+        ${q.type === 'MCQ' ? `
+          <div class="q-text">${q.question}</div>
+          ${(q.diagramUrl || q.diagramCaption) ? `
+            <div class="diagram-box">
+              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
+              <div class="diagram-caption">📊 ${q.diagramCaption || 'উদ্দীপকের চিত্র / লেখচিত্র'}</div>
+            </div>
+          ` : ''}
+          <div class="options-grid">
+            ${(q.options || []).map((opt, oIdx) => `
+              <div class="option-item">
+                <strong>(${['ক', 'খ', 'গ', 'ঘ'][oIdx] || String.fromCharCode(97 + oIdx)})</strong> ${opt}
+              </div>
+            `).join('')}
+          </div>
+        ` : q.type === 'CQ' ? `
+          <div class="cq-stem">
+            <strong>উদ্দীপক:</strong> ${q.stem || q.question}
+          </div>
+          ${(q.diagramUrl || q.diagramCaption) ? `
+            <div class="diagram-box">
+              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
+              <div class="diagram-caption">📊 ${q.diagramCaption || 'উদ্দীপকের সংশ্লিষ্ট চিত্র / সার্কিট ডায়াগ্রাম'}</div>
+            </div>
+          ` : ''}
+          ${q.subQuestions ? `
+            <div class="cq-sub-list">
+              <div class="cq-sub-item"><span><strong>(ক)</strong> ${q.subQuestions.a?.q || ''}</span> <span>[১]</span></div>
+              <div class="cq-sub-item"><span><strong>(খ)</strong> ${q.subQuestions.b?.q || ''}</span> <span>[২]</span></div>
+              <div class="cq-sub-item"><span><strong>(গ)</strong> ${q.subQuestions.c?.q || ''}</span> <span>[৩]</span></div>
+              <div class="cq-sub-item"><span><strong>(ঘ)</strong> ${q.subQuestions.d?.q || ''}</span> <span>[৪]</span></div>
+            </div>
+          ` : ''}
+        ` : `
+          <div class="q-text">${q.question}</div>
+          ${(q.diagramUrl || q.diagramCaption) ? `
+            <div class="diagram-box">
+              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
+              <div class="diagram-caption">📊 ${q.diagramCaption || 'চিত্র দ্রষ্টব্য'}</div>
+            </div>
+          ` : ''}
+        `}
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="footer">
+    <span>পরিচালক ও শিক্ষক: মো: আলমগীর হোসেন (সাগর)</span>
+    <span>NextGen Academy • LEARN · GROW · SUCCEED</span>
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() { window.print(); }, 400);
+    };
+  </script>
+</body>
+</html>`;
+
+    printWin.document.open();
+    printWin.document.write(html);
+    printWin.document.close();
   };
 
   // 1-Click Publish to Live Online Exam
