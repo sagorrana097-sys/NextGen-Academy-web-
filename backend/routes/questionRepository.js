@@ -437,10 +437,10 @@ router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER'])
 
     await AuditService.log({
       req,
-      userId: req.user.id,
+      userId: req.user?.id || 1,
       action: 'TRAIN_QUESTION_REPOSITORY',
       entityType: 'question_repository',
-      details: `${req.user.name} প্রশ্ন রিপোজিটরিতে ${savedRecords.length}টি প্রশ্ন আপলোড ও ট্রেন করেছেন (${cleanInst}, ${cleanYear}, ${cleanBook})`
+      details: `${req.user?.name || 'শিক্ষক/এডমিন'} প্রশ্ন রিপোজিটরিতে ${savedRecords.length}টি প্রশ্ন আপলোড ও ট্রেন করেছেন (${cleanInst}, ${cleanYear}, ${cleanBook})`
     });
 
     res.status(201).json({
