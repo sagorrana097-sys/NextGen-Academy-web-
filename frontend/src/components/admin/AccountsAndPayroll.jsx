@@ -6,6 +6,7 @@ import OfflineCashPaymentModal from './OfflineCashPaymentModal';
 import MoneyReceiptModal from '../common/MoneyReceiptModal';
 import { exportToCSV } from '../../utils/exportUtils';
 import {
+  ArrowRightLeft,
   DollarSign,
   TrendingUp,
   TrendingDown,

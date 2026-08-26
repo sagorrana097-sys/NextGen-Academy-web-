@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fabric } from 'fabric';
 import {
+  Loader2,
   PenTool, Eraser, MousePointer, Download, RotateCcw,
   Grid, Compass, Ruler, HelpCircle, Layers, Sliders,
   Trash2, Maximize2, Sparkles, CheckCircle2, ChevronDown,

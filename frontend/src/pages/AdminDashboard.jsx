@@ -53,6 +53,7 @@ import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner'
 
 
 import {
+  Receipt,
   Banknote,
   Users,
   GraduationCap,
