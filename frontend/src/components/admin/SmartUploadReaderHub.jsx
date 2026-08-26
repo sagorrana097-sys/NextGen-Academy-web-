@@ -151,7 +151,8 @@ function cleanExtractedText(text) {
     .replace(/&apos;/g, "'")
     .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
     .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-    // Remove binary control characters (preserve \n, \r, \t, Bengali, English, punctuation)
+    // Remove BOM and binary control characters (preserve \n, \r, \t, Bengali, English, punctuation)
+    .replace(/[\uFEFF\uFFFE]/g, '')
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
     // Normalize newlines
     .replace(/\r\n/g, '\n')
@@ -161,44 +162,309 @@ function cleanExtractedText(text) {
     .trim();
 }
 
+/**
+ * Parses WordprocessingML XML string into clean Bengali/English text with paragraph breaks
+ */
+function parseDocxXmlToText(xmlString) {
+  if (!xmlString) return '';
+  try {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+    
+    // Find all paragraph elements: w:p
+    const pElements = xmlDoc.getElementsByTagName('w:p');
+    const paragraphList = pElements.length > 0 ? pElements : xmlDoc.getElementsByTagName('p');
+    
+    if (paragraphList && paragraphList.length > 0) {
+      const extractedLines = [];
+      
+      for (let i = 0; i < paragraphList.length; i++) {
+        const p = paragraphList[i];
+        let pText = '';
+        
+        // Find text nodes, tabs, and line breaks in document order
+        const textElements = p.querySelectorAll('w\\:t, t, w\\:tab, tab, w\\:br, br, w\\:cr, cr');
+        if (textElements && textElements.length > 0) {
+          textElements.forEach(node => {
+            const tag = (node.localName || node.nodeName || '').toLowerCase().replace(/^w:/, '');
+            if (tag === 't') {
+              pText += node.textContent || '';
+            } else if (tag === 'tab') {
+              pText += '\t';
+            } else if (tag === 'br' || tag === 'cr') {
+              pText += '\n';
+            }
+          });
+        } else {
+          pText = p.textContent || '';
+        }
+        
+        const cleaned = cleanExtractedText(pText);
+        if (cleaned) {
+          extractedLines.push(cleaned);
+        }
+      }
+      
+      if (extractedLines.length > 0) {
+        return extractedLines.join('\n');
+      }
+    }
+  } catch (domErr) {
+    console.warn('DOMParser failed, utilizing XML regex fallback:', domErr);
+  }
+
+  // Robust regex parser fallback
+  let text = xmlString;
+  text = text.replace(/<w:p[^>]*>/gi, '\n');
+  text = text.replace(/<\/w:p>/gi, '\n');
+  text = text.replace(/<w:tab\s*\/?>/gi, '\t');
+  text = text.replace(/<w:br\s*\/?>/gi, '\n');
+  text = text.replace(/<w:cr\s*\/?>/gi, '\n');
+  text = text.replace(/<w:t[^>]*>(.*?)<\/w:t>/gi, '$1');
+  text = text.replace(/<[^>]+>/g, '');
+  return cleanExtractedText(text);
+}
+
+/**
+ * Pure JavaScript ZIP archive unpacker using native Web Stream DecompressionStream
+ */
+async function unzipDocxEntries(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  const view = new DataView(arrayBuffer);
+  const entries = {};
+
+  if (bytes.length < 30 || bytes[0] !== 0x50 || bytes[1] !== 0x4b || bytes[2] !== 0x03 || bytes[3] !== 0x04) {
+    return entries;
+  }
+
+  async function decompressChunk(compressedBytes, compMethod) {
+    if (compMethod === 0) {
+      return new TextDecoder('utf-8').decode(compressedBytes);
+    }
+    if (compMethod === 8 && typeof DecompressionStream !== 'undefined') {
+      try {
+        const ds = new DecompressionStream('deflate-raw');
+        const stream = new Blob([compressedBytes]).stream().pipeThrough(ds);
+        const res = new Response(stream);
+        const buf = await res.arrayBuffer();
+        return new TextDecoder('utf-8').decode(buf);
+      } catch (e1) {
+        try {
+          const ds2 = new DecompressionStream('deflate');
+          const stream2 = new Blob([compressedBytes]).stream().pipeThrough(ds2);
+          const res2 = new Response(stream2);
+          const buf2 = await res2.arrayBuffer();
+          return new TextDecoder('utf-8').decode(buf2);
+        } catch (e2) {}
+      }
+    }
+    return null;
+  }
+
+  // Search for End of Central Directory (EOCD)
+  let eocdOffset = -1;
+  for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 65557); i--) {
+    if (bytes[i] === 0x50 && bytes[i + 1] === 0x4b && bytes[i + 2] === 0x05 && bytes[i + 3] === 0x06) {
+      eocdOffset = i;
+      break;
+    }
+  }
+
+  if (eocdOffset !== -1) {
+    const cdCount = view.getUint16(eocdOffset + 10, true);
+    const cdOffset = view.getUint32(eocdOffset + 16, true);
+    let currCdOffset = cdOffset;
+
+    for (let c = 0; c < cdCount && currCdOffset < eocdOffset; c++) {
+      if (
+        bytes[currCdOffset] !== 0x50 ||
+        bytes[currCdOffset + 1] !== 0x4b ||
+        bytes[currCdOffset + 2] !== 0x01 ||
+        bytes[currCdOffset + 3] !== 0x02
+      ) {
+        break;
+      }
+      const compMethod = view.getUint16(currCdOffset + 10, true);
+      const compSize = view.getUint32(currCdOffset + 20, true);
+      const fnLen = view.getUint16(currCdOffset + 28, true);
+      const extraLen = view.getUint16(currCdOffset + 30, true);
+      const commentLen = view.getUint16(currCdOffset + 32, true);
+      const localHeaderOffset = view.getUint32(currCdOffset + 42, true);
+
+      const fnBytes = bytes.subarray(currCdOffset + 46, currCdOffset + 46 + fnLen);
+      const filename = new TextDecoder('utf-8').decode(fnBytes);
+
+      if (
+        localHeaderOffset + 30 <= bytes.length &&
+        bytes[localHeaderOffset] === 0x50 &&
+        bytes[localHeaderOffset + 1] === 0x4b &&
+        bytes[localHeaderOffset + 2] === 0x03 &&
+        bytes[localHeaderOffset + 3] === 0x04
+      ) {
+        const localFnLen = view.getUint16(localHeaderOffset + 26, true);
+        const localExtraLen = view.getUint16(localHeaderOffset + 28, true);
+        const dataStart = localHeaderOffset + 30 + localFnLen + localExtraLen;
+        const dataEnd = dataStart + compSize;
+        if (dataEnd <= bytes.length) {
+          const compData = bytes.subarray(dataStart, dataEnd);
+          const decompressedText = await decompressChunk(compData, compMethod);
+          if (decompressedText) {
+            entries[filename] = decompressedText;
+          }
+        }
+      }
+
+      currCdOffset += 46 + fnLen + extraLen + commentLen;
+    }
+  }
+
+  // Direct local header scan fallback
+  if (Object.keys(entries).length === 0) {
+    let offset = 0;
+    while (offset < bytes.length - 30) {
+      if (
+        bytes[offset] === 0x50 &&
+        bytes[offset + 1] === 0x4b &&
+        bytes[offset + 2] === 0x03 &&
+        bytes[offset + 3] === 0x04
+      ) {
+        const compMethod = view.getUint16(offset + 8, true);
+        let compSize = view.getUint32(offset + 18, true);
+        const fnLen = view.getUint16(offset + 26, true);
+        const extraLen = view.getUint16(offset + 28, true);
+        const fnBytes = bytes.subarray(offset + 30, offset + 30 + fnLen);
+        const filename = new TextDecoder('utf-8').decode(fnBytes);
+        const dataStart = offset + 30 + fnLen + extraLen;
+
+        if (compSize === 0) {
+          let nextHeader = bytes.length;
+          for (let k = dataStart; k < bytes.length - 4; k++) {
+            if (bytes[k] === 0x50 && bytes[k + 1] === 0x4b && (bytes[k + 2] === 0x03 || bytes[k + 2] === 0x01 || bytes[k + 2] === 0x05)) {
+              nextHeader = k;
+              break;
+            }
+          }
+          compSize = nextHeader - dataStart;
+        }
+
+        const dataEnd = dataStart + compSize;
+        if (dataEnd <= bytes.length) {
+          const compData = bytes.subarray(dataStart, dataEnd);
+          const decompressedText = await decompressChunk(compData, compMethod);
+          if (decompressedText) {
+            entries[filename] = decompressedText;
+          }
+        }
+        offset = dataStart + compSize;
+      } else {
+        offset++;
+      }
+    }
+  }
+
+  return entries;
+}
+
+/**
+ * Extracts pure Bengali & English text from modern .docx files
+ */
 async function extractTextFromDocxBuffer(arrayBuffer) {
   try {
-    // 1. Try extracting word/document.xml from ZIP stream
-    const uint8 = new Uint8Array(arrayBuffer);
+    const entries = await unzipDocxEntries(arrayBuffer);
     
-    // Look for word/document.xml in ZIP header
-    // ZIP local file header starts with PK\x03\x04
-    let xmlContent = '';
-    const decoder = new TextDecoder('utf-8');
-    const rawString = decoder.decode(uint8);
+    let mainDocXml = entries['word/document.xml'] || entries['word/document2.xml'];
+    let combinedXml = mainDocXml || '';
 
-    // If raw uncompressed XML is present in stream
-    if (rawString.includes('<w:document') || rawString.includes('<w:p>')) {
-      const startIdx = rawString.indexOf('<w:document');
-      const endIdx = rawString.indexOf('</w:document>');
-      if (startIdx !== -1 && endIdx !== -1) {
-        xmlContent = rawString.substring(startIdx, endIdx + 13);
-      } else {
-        xmlContent = rawString;
+    // Also include headers/footers or footnotes if any
+    for (const [filename, content] of Object.entries(entries)) {
+      if (filename.startsWith('word/') && filename.endsWith('.xml') && filename !== 'word/document.xml' && filename !== 'word/document2.xml') {
+        if (!mainDocXml) {
+          combinedXml += '\n' + content;
+        }
       }
     }
 
-    if (xmlContent) {
-      let text = xmlContent.replace(/<\/w:p>/g, '\n');
-      text = text.replace(/<w:tab\/>/g, '\t');
-      text = text.replace(/<w:t[^>]*>(.*?)<\/w:t>/g, '$1');
-      text = text.replace(/<[^>]+>/g, '');
-      const cleaned = cleanExtractedText(text);
-      if (cleaned && cleaned.length > 10) return cleaned;
+    if (combinedXml) {
+      const parsed = parseDocxXmlToText(combinedXml);
+      if (parsed && parsed.trim().length > 0) {
+        return parsed;
+      }
     }
 
-    // 2. Fallback: extract all Bengali and English text fragments of length >= 3
+    // Fallback: uncompressed XML fragment scan
+    const decoder = new TextDecoder('utf-8');
+    const rawString = decoder.decode(new Uint8Array(arrayBuffer));
+    if (rawString.includes('<w:p') || rawString.includes('<w:t')) {
+      const parsed = parseDocxXmlToText(rawString);
+      if (parsed && parsed.trim().length > 0) {
+        return parsed;
+      }
+    }
+
+    // Safe Bengali and English word tokens
     const textFragments = rawString.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
     return cleanExtractedText(textFragments.join(' '));
   } catch (err) {
-    console.warn('Docx extraction fallback error:', err);
+    console.warn('DOCX extraction error:', err);
     const decoder = new TextDecoder('utf-8');
     return cleanExtractedText(decoder.decode(arrayBuffer));
+  }
+}
+
+/**
+ * Extracts readable text from legacy .doc binary files or safely signals conversion need
+ */
+function extractTextFromDocBuffer(arrayBuffer) {
+  try {
+    const uint8 = new Uint8Array(arrayBuffer);
+
+    // 1. Check if it is actually a renamed .docx file
+    if (uint8.length >= 4 && uint8[0] === 0x50 && uint8[1] === 0x4b && uint8[2] === 0x03 && uint8[3] === 0x04) {
+      return { isDocx: true };
+    }
+
+    // 2. Extract UTF-16LE characters (common in Microsoft Word binary .doc)
+    const utf16Chars = [];
+    for (let i = 0; i < uint8.length - 1; i += 2) {
+      const code = uint8[i] | (uint8[i + 1] << 8);
+      // Bengali (\u0980-\u09FF), Printable ASCII (0x20-0x7E), or Newline/Tab
+      if ((code >= 0x0980 && code <= 0x09FF) || (code >= 0x20 && code <= 0x7E) || code === 0x0A || code === 0x0D || code === 0x09) {
+        utf16Chars.push(String.fromCharCode(code));
+      }
+    }
+    const utf16Text = utf16Chars.join('');
+    const cleanUtf16 = cleanExtractedText(utf16Text);
+
+    // Test if meaningful Bengali question content was recovered
+    const hasBengali = /[\u0980-\u09FF]/.test(cleanUtf16);
+    const hasStructure = cleanUtf16.length > 50 && (
+      cleanUtf16.includes('উদ্দীপক') ||
+      cleanUtf16.includes('ক)') ||
+      cleanUtf16.includes('খ)') ||
+      cleanUtf16.includes('১.') ||
+      cleanUtf16.includes('উত্তর') ||
+      cleanUtf16.includes('ক.') ||
+      cleanUtf16.includes('MCQ') ||
+      cleanUtf16.includes('CQ')
+    );
+
+    if (hasBengali && hasStructure) {
+      return { success: true, text: cleanUtf16 };
+    }
+
+    // 3. Extract UTF-8 character sequences
+    const utf8Decoder = new TextDecoder('utf-8', { fatal: false });
+    const rawString = utf8Decoder.decode(uint8);
+    const fragments = rawString.match(/[\u0980-\u09FFa-zA-Z0-9\s.,?!:;()\-–—'"/+=%]{6,}/g) || [];
+    const joined = cleanExtractedText(fragments.join(' '));
+
+    if (joined && joined.length > 60 && /[\u0980-\u09FF]/.test(joined)) {
+      return { success: true, text: joined };
+    }
+
+    return { success: false, reason: 'legacy_doc' };
+  } catch (err) {
+    return { success: false, reason: 'parse_error', error: err.message };
   }
 }
 
@@ -208,14 +474,12 @@ function extractTextFromPdfBuffer(arrayBuffer) {
     const rawPdf = decoder.decode(arrayBuffer);
 
     const lines = [];
-    // Match text in Tj operators: (text) Tj
     const tjRegex = /\(([^)]+)\)\s*Tj/g;
     let match;
     while ((match = tjRegex.exec(rawPdf)) !== null) {
       lines.push(match[1]);
     }
 
-    // Match text in TJ array operators: [(t)(e)(x)(t)] TJ
     const tjArrayRegex = /\[(.*?)\]\s*TJ/g;
     while ((match = tjArrayRegex.exec(rawPdf)) !== null) {
       const inner = match[1];
@@ -229,7 +493,6 @@ function extractTextFromPdfBuffer(arrayBuffer) {
       return cleanExtractedText(lines.join('\n'));
     }
 
-    // Fallback: extract continuous text blocks containing Bengali/English
     const words = rawPdf.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
     return cleanExtractedText(words.join(' '));
   } catch (err) {
@@ -577,6 +840,9 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Reset input value so re-uploading triggers properly
+    e.target.value = '';
+
     setUploadedFileName(file.name);
     setIsParsing(true);
     setFeedbackMsg(null);
@@ -587,30 +853,117 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
       if (fileNameLower.endsWith('.docx')) {
         const reader = new FileReader();
         reader.onload = async (event) => {
-          const buffer = event.target?.result;
-          const extracted = await extractTextFromDocxBuffer(buffer);
-          setRawText(extracted);
-          handleParseRawText(extracted);
+          try {
+            const buffer = event.target?.result;
+            const extracted = await extractTextFromDocxBuffer(buffer);
+            if (!extracted || !extracted.trim()) {
+              setFeedbackMsg({
+                type: 'error',
+                text: 'Word (.docx) ফাইল থেকে কোনো প্রশ্ন টেক্সট পাওয়া যায়নি। অনুগ্রহ করে ফাইলটি চেক করুন।'
+              });
+              setIsParsing(false);
+              return;
+            }
+            setRawText(extracted);
+            handleParseRawText(extracted);
+          } catch (docxErr) {
+            setFeedbackMsg({
+              type: 'error',
+              text: 'Word (.docx) ফাইল পড়তে সমস্যা হয়েছে: ' + docxErr.message
+            });
+            setIsParsing(false);
+          }
+        };
+        reader.onerror = () => {
+          setFeedbackMsg({ type: 'error', text: 'ফাইল লোড করতে ব্যর্থ হয়েছে।' });
+          setIsParsing(false);
+        };
+        reader.readAsArrayBuffer(file);
+      } else if (fileNameLower.endsWith('.doc')) {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          try {
+            const buffer = event.target?.result;
+            const docResult = extractTextFromDocBuffer(buffer);
+
+            if (docResult.isDocx) {
+              const extracted = await extractTextFromDocxBuffer(buffer);
+              if (extracted && extracted.trim()) {
+                setRawText(extracted);
+                handleParseRawText(extracted);
+                return;
+              }
+            } else if (docResult.success && docResult.text) {
+              setRawText(docResult.text);
+              handleParseRawText(docResult.text);
+              return;
+            }
+
+            // Fallback for binary .doc files without readable text
+            setFeedbackMsg({
+              type: 'error',
+              text: '⚠️ এটি একটি পুরোনো বাইনারি .doc ফাইল। ১০০% সঠিক বাংলা ফন্ট ও MCQ/CQ ফরম্যাটের জন্য ফাইলটি Word-এ ওপেন করে .docx অথবা .txt হিসেবে সেভ করে আপলোড করুন।'
+            });
+            setIsParsing(false);
+          } catch (docErr) {
+            setFeedbackMsg({
+              type: 'error',
+              text: 'ফাইলটি পড়তে সমস্যা হয়েছে। অনুগ্রহ করে .docx অথবা .txt ফরম্যাটে রূপান্তর করে আপলোড করুন।'
+            });
+            setIsParsing(false);
+          }
         };
         reader.readAsArrayBuffer(file);
       } else if (fileNameLower.endsWith('.pdf')) {
         const reader = new FileReader();
         reader.onload = (event) => {
-          const buffer = event.target?.result;
-          const extracted = extractTextFromPdfBuffer(buffer);
-          setRawText(extracted);
-          handleParseRawText(extracted);
+          try {
+            const buffer = event.target?.result;
+            const extracted = extractTextFromPdfBuffer(buffer);
+            if (!extracted || !extracted.trim()) {
+              setFeedbackMsg({
+                type: 'error',
+                text: 'PDF ফাইল থেকে টেক্সট এক্সট্রাক্ট করা যায়নি। অনুগ্রহ করে .docx বা .txt ফাইল ব্যবহার করুন।'
+              });
+              setIsParsing(false);
+              return;
+            }
+            setRawText(extracted);
+            handleParseRawText(extracted);
+          } catch (pdfErr) {
+            setFeedbackMsg({
+              type: 'error',
+              text: 'PDF ফাইল পড়তে সমস্যা হয়েছে: ' + pdfErr.message
+            });
+            setIsParsing(false);
+          }
         };
         reader.readAsArrayBuffer(file);
       } else {
-        // .txt, .csv, .json, .doc, etc.
+        // .txt, .csv, .json, etc.
         const reader = new FileReader();
         reader.onload = (event) => {
-          const content = event.target?.result;
-          if (typeof content === 'string') {
-            const cleaned = cleanExtractedText(content);
-            setRawText(cleaned);
-            handleParseRawText(cleaned);
+          try {
+            const content = event.target?.result;
+            if (typeof content === 'string') {
+              const cleaned = cleanExtractedText(content);
+              if (!cleaned || !cleaned.trim()) {
+                setFeedbackMsg({
+                  type: 'error',
+                  text: 'টেক্সট ফাইলটি খালি বা কোনো প্রশ্ন পাওয়া যায়নি।'
+                });
+                setIsParsing(false);
+                return;
+              }
+              setRawText(cleaned);
+              handleParseRawText(cleaned);
+            }
+          } catch (txtErr) {
+            setFeedbackMsg({
+              type: 'error',
+              text: 'টেক্সট ফাইল প্রসেস করতে ব্যর্থ হয়েছে: ' + txtErr.message
+            });
+            setIsParsing(false);
           }
         };
         reader.readAsText(file, 'utf-8');
@@ -1223,6 +1576,35 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                             <div>(ঘ) {q.subQuestions?.d?.q || 'ঘ নম্বর প্রশ্ন'} [৪]</div>
                           </div>
                         </div>
+                      ) : q.type === 'SQ' ? (
+                        <div className="space-y-1">
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="font-bold text-slate-900">{q.question}</p>
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-mono font-bold text-[10px] shrink-0 border border-emerald-200">
+                              [{q.marks || 2} নম্বর]
+                            </span>
+                          </div>
+                          {(q.diagramUrl || q.diagramCaption) && (
+                            <div className="p-2 rounded-xl bg-indigo-50/70 border border-indigo-200/80 my-1 flex items-center space-x-2.5">
+                              {q.diagramUrl ? (
+                                <img src={q.diagramUrl} alt="Diagram" className="w-16 h-12 object-contain rounded-lg border bg-white" />
+                              ) : (
+                                <div className="w-10 h-10 rounded-lg bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                                  <ImageIcon className="w-4 h-4" />
+                                </div>
+                              )}
+                              <span className="text-[10px] font-bold text-indigo-900 truncate">
+                                📊 {q.diagramCaption || 'প্রশ্নের সংশ্লিষ্ট চিত্র / গ্রাফ'}
+                              </span>
+                            </div>
+                          )}
+                          {q.shortAnswer && (
+                            <div className="p-2 rounded-xl bg-emerald-50/80 border border-emerald-200 text-emerald-900 text-[11px]">
+                              <span className="font-bold text-emerald-800">✅ নমুনা উত্তর: </span>
+                              <span>{q.shortAnswer}</span>
+                            </div>
+                          )}
+                        </div>
                       ) : (
                         <div className="space-y-1">
                           <p className="font-bold text-slate-900">{q.question}</p>
@@ -1242,7 +1624,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                           )}
                           <div className="grid grid-cols-2 gap-1 text-[11px] text-slate-600">
                             {q.options?.map((opt, oIdx) => (
-                              <div key={oIdx} className={q.correctAnswer === ['ক','খ','গ','ঘ'][oIdx] ? 'font-bold text-emerald-700' : ''}>
+                              <div key={oIdx} className={q.correctAnswer === ['ক','খ','গ','ঘ'][oIdx] ? 'font-bold text-emerald-700 bg-emerald-50/80 px-1.5 py-0.5 rounded border border-emerald-200' : ''}>
                                 {['ক', 'খ', 'গ', 'ঘ'][oIdx]}) {opt}
                               </div>
                             ))}

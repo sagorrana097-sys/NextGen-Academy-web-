@@ -189,7 +189,7 @@ function parseRawQuestionText(rawText, defaultMeta = {}) {
       questions.push({
         id: `mcq-${Date.now()}-${idx}`,
         type: 'MCQ',
-        question: qLine.replace(/^[0-9১-৯]+[.)\]\s+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || `বহুনির্বাচনী প্রশ্ন ${idx + 1}`,
+        question: qLine.replace(/^[0-9১-৯]+[.)\]\s]+/g, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || `বহুনির্বাচনী প্রশ্ন ${idx + 1}`,
         options: options.slice(0, 4),
         correctAnswer: ans,
         explanation,
@@ -206,7 +206,7 @@ function parseRawQuestionText(rawText, defaultMeta = {}) {
     }
 
     // 3. Short Question / Knowledge / Comprehension (SQ) Detection
-    const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
+    const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s]+/g, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
     let sqAns = '';
     const ansMatch = sqLine.match(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*(.*)/i);
     if (ansMatch) {
