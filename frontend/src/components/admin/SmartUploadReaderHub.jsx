@@ -138,102 +138,122 @@ const DEFAULT_YEARS = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '
 const STORAGE_KEY_TAGS = 'nextgen_custom_smartupload_tags';
 
 // =========================================================================
-// Advanced Document Text Decoders & UTF-8 Normalizers
+// Advanced Document Text Decoders & Zero-Garble UTF-8 Normalizers
 // =========================================================================
 function cleanExtractedText(text) {
-  if (!text) return '';
+  if (!text) return "";
   return text
-    // Replace XML entities
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
     .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
     .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-    // Remove binary control characters (preserve \n, \r, \t, Bengali, English, punctuation)
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
-    // Normalize newlines
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    // Remove excessive empty lines
-    .replace(/\n{3,}/g, '\n\n')
+    .replace(/\uFFFD/g, "")
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "")
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
 async function extractTextFromDocxBuffer(arrayBuffer) {
   try {
-    // 1. Try extracting word/document.xml from ZIP stream
-    const uint8 = new Uint8Array(arrayBuffer);
-    
-    // Look for word/document.xml in ZIP header
-    // ZIP local file header starts with PK\x03\x04
-    let xmlContent = '';
-    const decoder = new TextDecoder('utf-8');
-    const rawString = decoder.decode(uint8);
+    const bytes = new Uint8Array(arrayBuffer);
+    const view = new DataView(arrayBuffer);
+    let offset = 0;
 
-    // If raw uncompressed XML is present in stream
-    if (rawString.includes('<w:document') || rawString.includes('<w:p>')) {
-      const startIdx = rawString.indexOf('<w:document');
-      const endIdx = rawString.indexOf('</w:document>');
-      if (startIdx !== -1 && endIdx !== -1) {
-        xmlContent = rawString.substring(startIdx, endIdx + 13);
-      } else {
-        xmlContent = rawString;
+    while (offset < bytes.length - 30) {
+      if (view.getUint32(offset, true) !== 0x04034b50) {
+        offset++;
+        continue;
       }
+
+      const compressionMethod = view.getUint16(offset + 8, true);
+      const compressedSize = view.getUint32(offset + 18, true);
+      const fileNameLen = view.getUint16(offset + 26, true);
+      const extraFieldLen = view.getUint16(offset + 28, true);
+
+      const fileNameBytes = bytes.subarray(offset + 30, offset + 30 + fileNameLen);
+      const fileName = new TextDecoder("utf-8").decode(fileNameBytes);
+      const dataStart = offset + 30 + fileNameLen + extraFieldLen;
+
+      if (fileName === "word/document.xml" || fileName.endsWith("document.xml")) {
+        const fileData = bytes.subarray(dataStart, dataStart + (compressedSize || (bytes.length - dataStart)));
+
+        let xmlContent = "";
+        if (compressionMethod === 0) {
+          xmlContent = new TextDecoder("utf-8").decode(fileData);
+        } else if (compressionMethod === 8 && typeof DecompressionStream !== "undefined") {
+          try {
+            const ds = new DecompressionStream("deflate-raw");
+            const writer = ds.writable.getWriter();
+            writer.write(fileData);
+            writer.close();
+            const response = new Response(ds.readable);
+            xmlContent = await response.text();
+          } catch (e) {
+            console.warn("DecompressionStream error:", e);
+          }
+        }
+
+        if (xmlContent) {
+          let text = xmlContent.replace(/<\/w:p>/g, "\n");
+          text = text.replace(/<w:br\/>/g, "\n");
+          text = text.replace(/<w:tab\/>/g, "\t");
+          text = text.replace(/<w:t[^>]*>(.*?)<\/w:t>/g, "$1");
+          text = text.replace(/<[^>]+>/g, "");
+          const cleaned = cleanExtractedText(text);
+          if (cleaned && cleaned.length > 5) return cleaned;
+        }
+      }
+
+      offset = dataStart + (compressedSize || 1);
     }
 
-    if (xmlContent) {
-      let text = xmlContent.replace(/<\/w:p>/g, '\n');
-      text = text.replace(/<w:tab\/>/g, '\t');
-      text = text.replace(/<w:t[^>]*>(.*?)<\/w:t>/g, '$1');
-      text = text.replace(/<[^>]+>/g, '');
-      const cleaned = cleanExtractedText(text);
-      if (cleaned && cleaned.length > 10) return cleaned;
-    }
-
-    // 2. Fallback: extract all Bengali and English text fragments of length >= 3
+    const decoder = new TextDecoder("utf-8", { fatal: false });
+    const rawString = decoder.decode(bytes);
     const textFragments = rawString.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
-    return cleanExtractedText(textFragments.join(' '));
+    return cleanExtractedText(textFragments.join(" "));
   } catch (err) {
-    console.warn('Docx extraction fallback error:', err);
-    const decoder = new TextDecoder('utf-8');
+    console.warn("Docx extraction error:", err);
+    const decoder = new TextDecoder("utf-8", { fatal: false });
     return cleanExtractedText(decoder.decode(arrayBuffer));
   }
 }
 
 function extractTextFromPdfBuffer(arrayBuffer) {
   try {
-    const decoder = new TextDecoder('utf-8');
-    const rawPdf = decoder.decode(arrayBuffer);
+    const bytes = new Uint8Array(arrayBuffer);
+    const decoder = new TextDecoder("utf-8", { fatal: false });
+    const rawPdf = decoder.decode(bytes);
 
     const lines = [];
-    // Match text in Tj operators: (text) Tj
     const tjRegex = /\(([^)]+)\)\s*Tj/g;
     let match;
     while ((match = tjRegex.exec(rawPdf)) !== null) {
       lines.push(match[1]);
     }
 
-    // Match text in TJ array operators: [(t)(e)(x)(t)] TJ
     const tjArrayRegex = /\[(.*?)\]\s*TJ/g;
     while ((match = tjArrayRegex.exec(rawPdf)) !== null) {
       const inner = match[1];
       const innerMatches = inner.match(/\(([^)]*)\)/g);
       if (innerMatches) {
-        lines.push(innerMatches.map(m => m.slice(1, -1)).join(''));
+        lines.push(innerMatches.map(m => m.slice(1, -1)).join(""));
       }
     }
 
     if (lines.length > 0) {
-      return cleanExtractedText(lines.join('\n'));
+      return cleanExtractedText(lines.join("\n"));
     }
 
-    // Fallback: extract continuous text blocks containing Bengali/English
     const words = rawPdf.match(/[a-zA-Z0-9\u0980-\u09FF\s.,?!:;()\-–—'"/+=%]{4,}/g) || [];
-    return cleanExtractedText(words.join(' '));
+    return cleanExtractedText(words.join(" "));
   } catch (err) {
-    const decoder = new TextDecoder('utf-8');
+    const decoder = new TextDecoder("utf-8", { fatal: false });
     return cleanExtractedText(decoder.decode(arrayBuffer));
   }
 }
@@ -572,7 +592,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Handle Multi-Format File Upload with Clean UTF-8 Extraction
+    // Handle Multi-Format File Upload with Clean UTF-8 Extraction
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -584,22 +604,32 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     const fileNameLower = file.name.toLowerCase();
 
     try {
-      if (fileNameLower.endsWith('.docx')) {
+      if (fileNameLower.endsWith(".docx")) {
         const reader = new FileReader();
         reader.onload = async (event) => {
           const buffer = event.target?.result;
           const extracted = await extractTextFromDocxBuffer(buffer);
-          setRawText(extracted);
-          handleParseRawText(extracted);
+          if (extracted && extracted.length > 5) {
+            setRawText(extracted);
+            handleParseRawText(extracted);
+          } else {
+            setFeedbackMsg({ type: "error", text: "ফাইল থেকে পাঠযোগ্য টেক্সট পাওয়া যায়নি। অনুগ্রহ করে সরাসরি টেক্সট পেস্ট করুন।" });
+            setIsParsing(false);
+          }
         };
         reader.readAsArrayBuffer(file);
-      } else if (fileNameLower.endsWith('.pdf')) {
+      } else if (fileNameLower.endsWith(".pdf")) {
         const reader = new FileReader();
         reader.onload = (event) => {
           const buffer = event.target?.result;
           const extracted = extractTextFromPdfBuffer(buffer);
-          setRawText(extracted);
-          handleParseRawText(extracted);
+          if (extracted && extracted.length > 5) {
+            setRawText(extracted);
+            handleParseRawText(extracted);
+          } else {
+            setFeedbackMsg({ type: "error", text: "পিডিএফ থেকে টেক্সট পাওয়া যায়নি। অনুগ্রহ করে টেক্সট পেস্ট করুন।" });
+            setIsParsing(false);
+          }
         };
         reader.readAsArrayBuffer(file);
       } else {
@@ -607,16 +637,16 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
         const reader = new FileReader();
         reader.onload = (event) => {
           const content = event.target?.result;
-          if (typeof content === 'string') {
+          if (typeof content === "string") {
             const cleaned = cleanExtractedText(content);
             setRawText(cleaned);
             handleParseRawText(cleaned);
           }
         };
-        reader.readAsText(file, 'utf-8');
+        reader.readAsText(file, "utf-8");
       }
     } catch (err) {
-      setFeedbackMsg({ type: 'error', text: 'ফাইল থেকে টেক্সট এক্সট্রাক্ট করতে সমস্যা হয়েছে: ' + err.message });
+      setFeedbackMsg({ type: "error", text: "ফাইল থেকে টেক্সট এক্সট্রাক্ট করতে সমস্যা হয়েছে: " + err.message });
       setIsParsing(false);
     }
   };
