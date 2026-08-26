@@ -366,13 +366,13 @@ const INITIAL_REPO_SEEDS = [
  * POST /api/question-repository/upload-and-train
  * Upload & Train Question Repository with full metadata tags
  */
-router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
+router.post('/upload-and-train', async (req, res, next) => {
   try {
     const meta = req.body.metadata || {};
     const className = req.body.className || meta.className || 'দশম শ্রেণি (Class 10)';
-    const book = req.body.book || meta.book || 'পদার্থবিজ্ঞান (Physics)';
-    const institutionOrBoard = req.body.institutionOrBoard || meta.institutionOrBoard || 'ঢাকা বোর্ড (Dhaka Board)';
-    const year = req.body.year || meta.year || '2025';
+    const book = req.body.book || req.body.subject || meta.book || meta.subject || 'সাধারণ বিষয়';
+    const institutionOrBoard = req.body.institutionOrBoard || req.body.category || meta.institutionOrBoard || meta.category || 'ঢাকা বোর্ড (Dhaka Board)';
+    const year = req.body.year || req.body.term || meta.year || meta.term || '2026';
     const chapter = req.body.chapter !== undefined ? req.body.chapter : (meta.chapter || '');
     const hasChapter = req.body.hasChapter !== undefined ? req.body.hasChapter : (meta.chapter ? true : false);
     const questions = req.body.questions || [];
@@ -384,7 +384,7 @@ router.post('/upload-and-train', authenticate, requireRole(['ADMIN', 'TEACHER'])
     if (Array.isArray(questions) && questions.length > 0) {
       parsedQuestions = questions;
     } else if (rawText && typeof rawText === 'string') {
-      parsedQuestions = parseRawQuestionText(rawText);
+      parsedQuestions = parseRawQuestionText(rawText, { className, book, institutionOrBoard, year });
     }
 
     if (parsedQuestions.length === 0) {

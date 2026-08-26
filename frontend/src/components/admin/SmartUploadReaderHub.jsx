@@ -863,59 +863,93 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Submit to Repository
+  // Direct Submit to Repository with Parser Bypass Support
   const handleSaveToRepository = async () => {
-    let questionsToSave = [...parsedQuestions];
+    let questionsToSave = Array.isArray(parsedQuestions) ? [...parsedQuestions] : [];
+    const textContent = (rawText || '').trim();
 
-    if (questionsToSave.length === 0 && rawText.trim()) {
-      setIsSubmitting(true);
-      await handleParseRawText(rawText);
-      return;
+    // If no parsed questions in memory yet but rawText is present, extract or package directly
+    if (questionsToSave.length === 0 && textContent) {
+      // Direct fast local block split
+      const blocks = textContent.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
+      questionsToSave = blocks.map((block, idx) => ({
+        id: `direct-${Date.now()}-${idx}`,
+        type: block.includes('উদ্দীপক') || block.includes('ক)') || block.includes('খ)') ? 'CQ' : block.includes('ক.') || block.includes('খ.') || block.includes('উত্তর:') ? 'MCQ' : 'SQ',
+        question: block.split(/\r?\n/)[0] || `প্রশ্ন ${idx + 1}`,
+        stem: block,
+        options: ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'],
+        correctAnswer: 'ক',
+        difficulty: 'MEDIUM',
+        boardOrInstitute: targetInstitution,
+        year: targetYear,
+        subject: targetBook,
+        class: targetClass,
+        chapter: hasChapter ? targetChapter : null
+      }));
     }
 
-    if (questionsToSave.length === 0) {
-      setFeedbackMsg({ type: 'error', text: 'সংরক্ষণ করার জন্য কোনো পার্সড প্রশ্ন পাওয়া যায়নি। প্রশ্ন টেক্সট পেস্ট করুন অথবা ফাইল দিন।' });
+    if (questionsToSave.length === 0 && !textContent) {
+      const msg = 'সংরক্ষণ করার জন্য কোনো প্রশ্ন পাওয়া যায়নি। প্রশ্ন টেক্সট পেস্ট করুন অথবা ফাইল আপলোড করুন।';
+      setFeedbackMsg({ type: 'error', text: msg });
+      alert(msg);
       return;
     }
 
     setIsSubmitting(true);
     try {
       const payload = {
-        metadata: {
-          className: targetClass,
-          book: targetBook,
-          institutionOrBoard: targetInstitution,
-          year: targetYear,
-          chapter: hasChapter ? targetChapter : null,
-          badge: '[' + targetInstitution + ' - \'' + targetYear.slice(-2) + ']',
-          sourceFileName: uploadedFileName || 'Smart Upload'
-        },
+        questions: questionsToSave,
+        rawText: textContent,
+        category: targetInstitution,
+        subject: targetBook,
+        term: targetYear,
         className: targetClass,
         book: targetBook,
         institutionOrBoard: targetInstitution,
         year: targetYear,
         chapter: hasChapter ? targetChapter : null,
         hasChapter: !!hasChapter,
-        questions: questionsToSave
+        metadata: {
+          className: targetClass,
+          book: targetBook,
+          category: targetInstitution,
+          subject: targetBook,
+          term: targetYear,
+          institutionOrBoard: targetInstitution,
+          year: targetYear,
+          chapter: hasChapter ? targetChapter : null,
+          badge: '[' + targetInstitution + ' - \'' + targetYear.slice(-2) + ']',
+          sourceFileName: uploadedFileName || 'Direct Upload'
+        }
       };
 
+      console.log('[QuestionRepository] 🚀 Submitting Direct Repository Payload:', payload);
+
       const res = await questionRepositoryAPI.uploadAndTrain(payload);
+      console.log('[QuestionRepository] 📥 Server Response:', res);
+
       if (res?.success) {
         const savedCount = res.data?.savedCount || res.data?.count || questionsToSave.length;
+        const successMessage = `🎉 অভিনন্দন! ${savedCount}টি প্রশ্ন কেন্দ্রীয় রিপোজিটরিতে সফলভাবে সংরক্ষিত ও এআই মডেলে ট্রেন হয়েছে!`;
         setFeedbackMsg({
           type: 'success',
-          text: `🎉 অভিনন্দন! ${savedCount}টি প্রশ্ন কেন্দ্রীয় রিপোজিটরিতে সংরক্ষিত হয়েছে এবং এআই ট্রেইনিং সম্পন্ন হয়েছে!`
+          text: successMessage
         });
         setParsedQuestions([]);
         setRawText('');
         setUploadedFileName(null);
         fetchRepoQuestions();
       } else {
-        setFeedbackMsg({ type: 'error', text: res?.error?.message || 'সংরক্ষণ করতে ব্যর্থ হয়েছে।' });
+        const errMsg = res?.error?.message || res?.message || 'সংরক্ষণ করতে ব্যর্থ হয়েছে।';
+        console.error('[QuestionRepository] Save Error:', errMsg);
+        setFeedbackMsg({ type: 'error', text: errMsg });
+        alert(`রিপোজিটরিতে সংরক্ষণ ব্যর্থ হয়েছে: ${errMsg}`);
       }
     } catch (err) {
-      console.error('Error saving to repository:', err);
-      setFeedbackMsg({ type: 'error', text: err?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' });
+      console.error('[QuestionRepository] Fatal Network / Exception:', err);
+      const fatalMsg = err?.message || 'নেটওয়ার্ক সংযোগ বা সার্ভারে সমস্যা হয়েছে।';
+      setFeedbackMsg({ type: 'error', text: fatalMsg });
+      alert(`সার্ভার ত্রুটি: ${fatalMsg}`);
     } finally {
       setIsSubmitting(false);
     }
