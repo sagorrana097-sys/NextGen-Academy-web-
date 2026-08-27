@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
+import MathRenderer from '../common/MathRenderer';
 
 const CLASSES_LIST = [
   'ষষ্ঠ শ্রেণি (Class 6)',
@@ -565,9 +566,9 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                         </span>
                       </div>
 
-                      <p className="font-bold text-slate-800 line-clamp-2">
-                        {q?.question || q?.stem}
-                      </p>
+                      <div className="font-bold text-slate-800 line-clamp-2">
+                        <MathRenderer text={q?.question || q?.stem} />
+                      </div>
                     </div>
                   );
                 })
@@ -682,14 +683,16 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                         </div>
                       </div>
 
-                      <p className="font-bold text-slate-800">{q?.question || q?.stem}</p>
+                      <div className="font-bold text-slate-800">
+                        <MathRenderer text={q?.question || q?.stem} />
+                      </div>
 
                       {/* Options for MCQ */}
                       {q?.type === 'MCQ' && Array.isArray(q?.options) && (
                         <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] text-slate-600">
                           {q.options.map((opt, oIdx) => (
                             <div key={oIdx}>
-                              <span className="font-bold text-indigo-600">({String.fromCharCode(97 + oIdx)})</span> {opt}
+                              <span className="font-bold text-indigo-600">({String.fromCharCode(97 + oIdx)})</span> <MathRenderer text={opt} />
                             </div>
                           ))}
                         </div>
@@ -698,10 +701,10 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                       {/* Sub-questions for CQ */}
                       {q?.type === 'CQ' && q?.subQuestions && (
                         <div className="space-y-0.5 pt-1 text-[11px] text-slate-600">
-                          <div>(ক) {q.subQuestions.a?.q || q.subQuestions.a || ''} [১]</div>
-                          <div>(খ) {q.subQuestions.b?.q || q.subQuestions.b || ''} [২]</div>
-                          <div>(গ) {q.subQuestions.c?.q || q.subQuestions.c || ''} [৩]</div>
-                          <div>(ঘ) {q.subQuestions.d?.q || q.subQuestions.d || ''} [৪]</div>
+                          <div>(ক) <MathRenderer text={q.subQuestions.a?.q || q.subQuestions.a || ''} /> [১]</div>
+                          <div>(খ) <MathRenderer text={q.subQuestions.b?.q || q.subQuestions.b || ''} /> [২]</div>
+                          <div>(গ) <MathRenderer text={q.subQuestions.c?.q || q.subQuestions.c || ''} /> [৩]</div>
+                          <div>(ঘ) <MathRenderer text={q.subQuestions.d?.q || q.subQuestions.d || ''} /> [৪]</div>
                         </div>
                       )}
                     </div>

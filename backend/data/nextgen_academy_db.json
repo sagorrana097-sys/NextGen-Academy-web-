@@ -395,6 +395,49 @@
       "uploadedByUserId": 1,
       "createdAt": "2026-08-27T04:52:03.227Z",
       "updatedAt": "2026-08-27T04:52:03.228Z"
+    },
+    {
+      "id": 9,
+      "type": "CQ",
+      "className": "দশম শ্রেণি (Class 10)",
+      "book": "পদার্থবিজ্ঞান (Physics)",
+      "institutionOrBoard": "ঢাকা বোর্ড (Dhaka Board)",
+      "year": "2026",
+      "chapter": null,
+      "hasChapter": false,
+      "question": "একটি কার 2.5 m s2 সমত্বরণে স্থিরাবস্থা থেকে যাত্রা শুরু করল এবং একই সময়ে অপর একটি কার প্রথম কারটির 50 m পিছন থেকে 63 km য1 সমবেগে যাত্রা শুরু করল।",
+      "stem": "একটি কার 2.5 m s2 সমত্বরণে স্থিরাবস্থা থেকে যাত্রা শুরু করল এবং একই সময়ে অপর একটি কার প্রথম কারটির 50 m পিছন থেকে 63 km য1 সমবেগে যাত্রা শুরু করল।",
+      "options": [],
+      "correctAnswer": "ক",
+      "subQuestions": {
+        "a": {
+          "q": "পিচ (Pitch) কাকে বলে?",
+          "marks": 1
+        },
+        "b": {
+          "q": "“দোলন গতি একটি পর্যায়বৃত্ত গতি।” ব্যাখ্যা করো।",
+          "marks": 2
+        },
+        "c": {
+          "q": "যাত্রা শুরুর কত সময় পরে কার দুটির বেগ একই হবে? নির্ণয় করো।",
+          "marks": 3
+        },
+        "d": {
+          "q": "কার দুটি তাদের চলার পথে একবারের অধিক একে অপরকে অতিক্রম করবে কিনা? গাণিতিকভাবে বিশ্লেষণ করো।",
+          "marks": 4
+        }
+      },
+      "shortAnswer": "",
+      "explanation": "",
+      "difficulty": "MEDIUM",
+      "marks": 10,
+      "diagramUrl": null,
+      "diagramCaption": null,
+      "badge": "[ঢাকা বোর্ড (Dhaka Board) - '26]",
+      "sourceFileName": "Smart Upload",
+      "uploadedByUserId": 1,
+      "createdAt": "2026-08-27T04:54:15.901Z",
+      "updatedAt": "2026-08-27T04:54:15.901Z"
     }
   ],
   "sections": [
@@ -2253,6 +2296,26 @@
       "createdAt": "2026-08-27T04:52:03.243Z",
       "timestamp": "2026-08-27T04:52:03.243Z",
       "updatedAt": "2026-08-27T04:52:03.243Z"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "adminEmail": "admin@nextgen.edu.bd",
+      "adminName": "মো: আলমগীর হোসেন (Md. Alomgir Hossain)",
+      "action": "TRAIN_QUESTION_REPOSITORY",
+      "actionType": "TRAIN_QUESTION_REPOSITORY",
+      "targetResource": "question_repository",
+      "entityType": "question_repository",
+      "entityId": "",
+      "status": "SUCCESS",
+      "oldValue": null,
+      "newValue": null,
+      "details": "শিক্ষক/এডমিন প্রশ্ন রিপোজিটরিতে 1টি প্রশ্ন আপলোড ও ট্রেন করেছেন (ঢাকা বোর্ড (Dhaka Board), 2026, পদার্থবিজ্ঞান (Physics))",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:154.0) Gecko/20100101 Firefox/154.0",
+      "createdAt": "2026-08-27T04:54:15.903Z",
+      "timestamp": "2026-08-27T04:54:15.903Z",
+      "updatedAt": "2026-08-27T04:54:15.904Z"
     }
   ],
   "student_portal_config": {

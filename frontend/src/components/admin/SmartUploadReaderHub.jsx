@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
+import MathRenderer from '../common/MathRenderer';
 
 const CLASSES_LIST = [
   'ষষ্ঠ শ্রেণি (Class 6)',
@@ -1029,6 +1030,15 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Math & Equation Font Isolation */
+        .utf8-bangla-root .katex,
+        .utf8-bangla-root .katex *,
+        .katex,
+        .katex * {
+          font-family: KaTeX_Main, KaTeX_Math, 'Times New Roman', 'Cambria Math', 'STIX Two Math', serif !important;
+          text-rendering: auto !important;
+        }
+
         .utf8-bangla-input {
           font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Nikosh', 'NikoshBAN', 'Siyam Rupali', 'Vrinda', 'SutonnyMJ', 'AponaLohit', 'Tiro Bangla', 'Noto Serif Bengali', 'Segoe UI', sans-serif !important;
           line-height: 1.75 !important;
@@ -1771,9 +1781,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       </div>
 
                       {/* Question Text / Stem */}
-                      <p className="font-bold text-slate-800 leading-relaxed text-xs sm:text-sm">
-                        {q?.question || q?.stem || 'প্রশ্নের শিরোনাম নেই'}
-                      </p>
+                      <div className="font-bold text-slate-800 leading-relaxed text-xs sm:text-sm">
+                        <MathRenderer text={q?.question || q?.stem || 'প্রশ্নের শিরোনাম নেই'} />
+                      </div>
 
                       {/* Options for MCQ */}
                       {activeVault === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 && (
@@ -1789,7 +1799,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                                 )}
                               >
                                 <span className="mr-1 font-bold">({optLetter})</span>
-                                <span>{opt}</span>
+                                <MathRenderer text={opt} />
                               </div>
                             );
                           })}
@@ -1802,7 +1812,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                           {Object.entries(q.subQuestions).map(([key, val]) => (
                             <div key={key} className="flex items-start space-x-1">
                               <span className="font-bold text-purple-700">({key === 'a' ? 'ক' : key === 'b' ? 'খ' : key === 'c' ? 'গ' : 'ঘ'})</span>
-                              <span className="leading-relaxed">{typeof val === 'object' ? val?.q : val}</span>
+                              <div className="leading-relaxed inline-block">
+                                <MathRenderer text={typeof val === 'object' ? val?.q : val} />
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -1811,7 +1823,8 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       {/* Answer for SQ */}
                       {activeVault === 'SQ' && q?.shortAnswer && (
                         <div className="p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-200 text-[11px] sm:text-xs text-emerald-900">
-                          <span className="font-bold">উত্তর: </span>{q.shortAnswer}
+                          <span className="font-bold">উত্তর: </span>
+                          <MathRenderer text={q.shortAnswer} />
                         </div>
                       )}
 

@@ -160,3 +160,29 @@
     box-shadow: none !important;
   }
 }
+
+/* =========================================================
+   Universal Mathematical Formula & KaTeX Font Styles
+   ========================================================= */
+.katex,
+.katex * {
+  font-family: KaTeX_Main, KaTeX_Math, 'Times New Roman', 'Cambria Math', 'STIX Two Math', serif !important;
+  text-rendering: auto !important;
+}
+
+.katex-display {
+  margin: 0.75em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0;
+}
+
+.katex-html {
+  font-family: KaTeX_Main, KaTeX_Math, 'Times New Roman', 'Cambria Math', serif !important;
+}
+
+.math-equation-container,
+.math-equation-text {
+  font-feature-settings: normal;
+}
+
