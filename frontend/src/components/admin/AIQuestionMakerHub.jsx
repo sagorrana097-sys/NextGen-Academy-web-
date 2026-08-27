@@ -87,16 +87,38 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     setLoadingRepo(true);
     try {
       const res = await questionRepositoryAPI.getQuestions();
-      if (res?.success && Array.isArray(res?.data)) {
-        setRepoQuestions(res.data);
+      let list = [];
+      if (res?.data?.questions && Array.isArray(res.data.questions)) {
+        list = res.data.questions;
+      } else if (Array.isArray(res?.data)) {
+        list = res.data;
+      } else if (Array.isArray(res?.questions)) {
+        list = res.questions;
       } else if (Array.isArray(res)) {
-        setRepoQuestions(res);
-      } else {
-        setRepoQuestions([]);
+        list = res;
       }
+
+      // Sync with localStorage
+      try {
+        const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+        if (localCache.length > 0) {
+          const apiIds = new Set(list.map(q => String(q.id || q.M_ID)));
+          const localOnly = localCache.filter(q => !apiIds.has(String(q.id || q.M_ID)));
+          if (localOnly.length > 0) {
+            list = [...localOnly, ...list];
+          }
+        }
+      } catch (e) {}
+
+      setRepoQuestions(list);
     } catch (err) {
       console.warn('Could not load repository questions:', err);
-      setRepoQuestions([]);
+      try {
+        const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+        setRepoQuestions(localCache);
+      } catch (e) {
+        setRepoQuestions([]);
+      }
     } finally {
       setLoadingRepo(false);
     }
@@ -106,11 +128,26 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   const filteredVaultQuestions = useMemo(() => {
     const safe = Array.isArray(repoQuestions) ? repoQuestions : [];
     return safe.filter(q => {
-      const matchesType = vaultFilter === 'ALL' || q?.type === vaultFilter;
+      const rawType = String(q?.type || '').toUpperCase().trim();
+      const targetFilter = String(vaultFilter || 'ALL').toUpperCase().trim();
+      
+      let matchesType = targetFilter === 'ALL';
+      if (!matchesType) {
+        if (targetFilter === 'MCQ') {
+          matchesType = rawType === 'MCQ' || rawType === 'MULTIPLE_CHOICE' || (Array.isArray(q?.options) && q.options.length > 0);
+        } else if (targetFilter === 'CQ') {
+          matchesType = rawType === 'CQ' || rawType === 'CREATIVE' || Boolean(q?.subQuestions && Object.keys(q.subQuestions).length > 0);
+        } else if (targetFilter === 'SQ') {
+          matchesType = rawType === 'SQ' || rawType === 'SHORT' || rawType === 'SHORT_QUESTION' || Boolean(q?.shortAnswer);
+        } else {
+          matchesType = rawType === targetFilter;
+        }
+      }
+
       const qText = String(q?.question || q?.stem || '').toLowerCase();
-      const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || '').toLowerCase();
+      const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || q?.category || '').toLowerCase();
       const qSubject = String(q?.book || q?.subject || '').toLowerCase();
-      const search = (searchTerm || '').toLowerCase();
+      const search = (searchTerm || '').toLowerCase().trim();
 
       const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qSubject.includes(search);
       return matchesType && matchesSearch;

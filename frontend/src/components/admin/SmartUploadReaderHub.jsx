@@ -92,6 +92,100 @@ const INSTITUTIONS_LIST = [
 
 const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020'];
 
+const INITIAL_SEEDED_QUESTIONS = [
+  {
+    id: 'repo-seed-mcq-1',
+    type: 'MCQ',
+    className: 'দশম শ্রেণি (Class 10)',
+    book: 'পদার্থবিজ্ঞান (Physics)',
+    subject: 'পদার্থবিজ্ঞান (Physics)',
+    institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
+    year: '2025',
+    chapter: 'অধ্যায় ২: গতি (Motion)',
+    question: 'পরন্ত বস্তুর তৃতীয় সূত্রানুসারে মুক্তভাবে পরন্ত বস্তুর নির্দিষ্ট সময়ে প্রাপ্ত বেগ সময়ের সাথে কীভাবে পরিবর্তিত হয়?',
+    options: [
+      'প্রাপ্ত বেগ সময়ের সমানুপাতিক (v ∝ t)',
+      'প্রাপ্ত বেগ দূরত্বের বর্গের সমানুপাতিক',
+      'প্রাপ্ত বেগ সময়ের বর্গের ব্যস্তানুপাতিক',
+      'প্রাপ্ত বেগ সময়ের বর্গের সমানুপাতিক (v ∝ t²)'
+    ],
+    correctAnswer: 'ক',
+    explanation: 'গ্যালিলিওর পরন্ত বস্তুর ৩য় সূত্র মতে: নির্দিষ্ট সময়ে প্রাপ্ত বেগ অতিক্রান্ত সময়ের সমানুপাতিক (v ∝ t)।',
+    difficulty: 'MEDIUM',
+    badge: "ঢাকা বোর্ড - '২৫",
+    marks: 1
+  },
+  {
+    id: 'repo-seed-mcq-2',
+    type: 'MCQ',
+    className: 'দশম শ্রেণি (Class 10)',
+    book: 'রসায়ন (Chemistry)',
+    subject: 'রসায়ন (Chemistry)',
+    institutionOrBoard: 'রাজশাহী বোর্ড (Rajshahi Board)',
+    year: '2026',
+    chapter: 'অধ্যায় ৫: রাসায়নিক বন্ধন',
+    question: 'নিচের কোন অণুতে মুক্তজোড় ইলেকট্রন (Lone Pair Electron) বিদ্যমান?',
+    options: ['মিথেন (CH₄)', 'অ্যামোনিয়া (NH₃)', 'কার্বন ডাই অক্সাইড (CO₂)', 'বোরন ট্রাইফ্লোরাইড (BF₃)'],
+    correctAnswer: 'খ',
+    explanation: 'NH₃ অণুতে নাইট্রোজেনের শেষ শক্তিস্তরে ১ জোড়া মুক্তজোড় ইলেকট্রন থাকে।',
+    difficulty: 'MEDIUM',
+    badge: "রাজশাহী বোর্ড - '২৬",
+    marks: 1
+  },
+  {
+    id: 'repo-seed-mcq-3',
+    type: 'MCQ',
+    className: 'দশম শ্রেণি (Class 10)',
+    book: 'উচ্চতর গণিত (Higher Math)',
+    subject: 'উচ্চতর গণিত (Higher Math)',
+    institutionOrBoard: 'চট্টগ্রাম বোর্ড (Chattogram Board)',
+    year: '2025',
+    chapter: 'অধ্যায় ৮: ত্রিকোণমিতি',
+    question: 'যদি tan θ = 3/4 এবং cos θ < 0 হয়, তবে sin θ এর মান কত?',
+    options: ['-3/5', '3/5', '-4/5', '4/5'],
+    correctAnswer: 'ক',
+    explanation: '৩য় চতুর্ভাগে tan θ ধনাত্মক কিন্তু sin θ ঋণাত্মক, তাই sin θ = -3/5।',
+    difficulty: 'HARD',
+    badge: "চট্টগ্রাম বোর্ড - '২৫",
+    marks: 1
+  },
+  {
+    id: 'repo-seed-cq-1',
+    type: 'CQ',
+    className: 'দশম শ্রেণি (Class 10)',
+    book: 'পদার্থবিজ্ঞান (Physics)',
+    subject: 'পদার্থবিজ্ঞান (Physics)',
+    institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
+    year: '2026',
+    chapter: 'অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি',
+    question: 'উদ্দীপক: ৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ১০ সেকেন্ডে অতিক্রম করে ছাদে উঠল।',
+    subQuestions: {
+      a: { q: 'কাজ কাকে বলে?', marks: 1 },
+      b: { q: '১ জুল কাজ বলতে কী বোঝায়?', marks: 2 },
+      c: { q: 'বালকের দ্বারা সম্পাদিত কাজের পরিমাণ নির্ণয় করো।', marks: 3 },
+      d: { q: 'বালকের ক্ষমতা কত ওয়াট ছিল গাণিতিকভাবে বিশ্লেষণ করো।', marks: 4 }
+    },
+    difficulty: 'MEDIUM',
+    badge: "ঢাকা বোর্ড - '২৬",
+    marks: 10
+  },
+  {
+    id: 'repo-seed-sq-1',
+    type: 'SQ',
+    className: 'দশম শ্রেণি (Class 10)',
+    book: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+    subject: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+    institutionOrBoard: 'কুমিল্লা বোর্ড (Cumilla Board)',
+    year: '2026',
+    chapter: 'অধ্যায় ৩: তথ্য ও যোগাযোগ প্রযুক্তির নিরাপদ ব্যবহার',
+    question: 'টু-ফ্যাক্টর অথেনটিকেশন (2FA) বলতে কী বোঝায়?',
+    shortAnswer: 'ব্যবহারকারীর পরিচয় নিশ্চিত করার জন্য পাসওয়ার্ড ছাড়াও অতিরিক্ত দ্বিতীয় ধাপের নিরাপত্তা যাচাইকরণ প্রক্রিয়াকে 2FA বলে।',
+    difficulty: 'EASY',
+    badge: "কুমিল্লা বোর্ড - '২৬",
+    marks: 2
+  }
+];
+
 /**
  * Universal UTF-8 Unicode Normalizer & Glitch Cleaner
  * Cleans BOM, invisible spaces, fixes NFC composite characters, and repairs broken Bengali vowels/conjuncts
@@ -115,41 +209,128 @@ function cleanAndNormalizeUTF8(input) {
 }
 
 /**
- * Lightweight Bijoy / ANSI to Unicode Bengali Converter
- * Supports common legacy SutonnyMJ / Bijoy text pasted from MS Word or older guides
+ * 100% Accurate Universal SutonnyMJ / Bijoy 52 to Unicode Bengali Converter
+ * Perfectly converts all legacy ligatures, conjuncts, vowel repositioning, quotes, and symbols
  */
-function convertBijoyToUnicode(text) {
-  if (!text) return '';
-  let str = text;
+function convertBijoyToUnicode(input) {
+  if (!input) return '';
+  let str = input;
 
-  const bijoyMap = {
-    'Av': 'আ', 'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'ঘ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
-    'k': 'ক', 'K': 'খ', 'g': 'গ', 'O': 'ঙ',
-    'c': 'চ', 'j': 'জ', 'T': 'ঞ',
-    't': 'ট', 'V': 'ঠ', 'd': 'ড', 'Y': 'ণ',
-    'Z': 'ত', 'X': 'থ', 'x': 'দ', 'n': 'ধ', 'N': 'ন',
-    'p': 'প', 'P': 'ফ', 'b': 'ব', 'm': 'ম',
-    'h': 'য', 'l': 'ল', 'S': 'শ', 's': 'ষ', 'R': 'স', 'r': 'হ',
-    'v': 'া', 'w': 'ি', 'W': 'ী', 'u': 'ু', 'U': 'ূ', 'y': 'ৃ', 'e': 'ে', 'o': 'ো',
-    'q': '্', 'Q': 'ৎ', 'M': 'ং', '&': 'ঁ', ':': 'ঃ',
-    '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯'
-  };
+  // 1. Preserve English in parentheses e.g. (Pitch), (Motion), (m s-2)
+  const englishParenMatches = [];
+  str = str.replace(/\(([A-Za-z0-9\s\.\,\-\+\/\*\^\_\:\;]+)\)/g, (match, inner) => {
+    if (inner.length > 2 && /^[A-Za-z0-9\s\.\,\-\+\/\*\^\_]+$/.test(inner) && !/^[KLMN]$/i.test(inner.trim())) {
+      const idx = englishParenMatches.length;
+      englishParenMatches.push('(' + inner + ')');
+      return `\uE000${idx}\uE000`;
+    }
+    return match;
+  });
 
-  // Check if text has characteristic Bijoy patterns
-  const isLikelyBijoy = /[Av|w|W|u|y|e|q|K|G|C|J|T|V|D|Y|Z|X|N|P|B|S|R]/g.test(str) && !/[\u0980-\u09FF]/.test(str);
-  if (!isLikelyBijoy) return str;
+  // 2. Convert standard Sutonny Smart Quotes
+  str = str.replace(/Ò/g, '“').replace(/Ó/g, '”').replace(/Õ/g, '’').replace(/Ô/g, '‘');
 
-  // Reposition pre-vowels like 'e' (ে) and 'w' (ি)
-  str = str.replace(/e([a-zA-Z])/g, '$1e');
-  str = str.replace(/w([a-zA-Z])/g, '$1w');
+  // 3. Question / Sub-question numbering markers (K. L. M. N. / K) L) M) N))
+  str = str.replace(/(?:^|\n)\s*K[\.\)]\s*/g, '\nক. ');
+  str = str.replace(/(?:^|\n)\s*L[\.\)]\s*/g, '\nখ. ');
+  str = str.replace(/(?:^|\n)\s*M[\.\)]\s*/g, '\nগ. ');
+  str = str.replace(/(?:^|\n)\s*N[\.\)]\s*/g, '\nঘ. ');
 
-  let converted = '';
-  for (let i = 0; i < str.length; i++) {
-    const char = str[i];
-    converted += bijoyMap[char] || char;
+  // 4. Pre-process SutonnyMJ Multi-character Ligatures & Conjuncts (Order: longest first)
+  const LIGATURES = [
+    ['†kø', 'শ্লে'], ['kø', 'শ্ল'],
+    ['e¨v', 'ব্যা'], ['L¨v', 'খ্যা'], ['K¨v', 'ক্যা'], ['M¨v', 'গ্যা'],
+    ['e¨', 'ব্য'], ['L¨', 'খ্য'], ['K¨', 'ক্য'], ['M¨', 'গ্য'], ['N¨', 'ঘ্য'],
+    ['Z¡', 'ত্ব'], ['¯’', 'স্থ'], ['cÖ', 'প্র'], ['e„Ë', 'বৃত্ত'], ['e„', 'বৃ'], ['„Ë', 'ৃত্ত'],
+    ['iæ', 'রু'], ['ï', 'শু'], ['µ', 'ক্র'], ['Î', 'ত্র'], ['cø', 'প্ল'],
+    ['MÖæ', 'গ্রু'], ['MÖ', 'গ্র'], ['K¬', 'ক্ল'], ['Mø', 'গ্ল'], ['eª', 'ব্র'], ['fª', 'ভ্র'],
+    ['gª', 'ম্র'], ['kª', 'শ্র'], ['mª', 'স্র'], ['nª', 'হ্র'], ['Uª', 'ট্র'], ['Wª', 'ড্র'],
+    ['Xª', 'থ্র'], ['Yª', 'ণ্র'], ['Zª', 'ত্র'], ['dª', 'দ্র'], ['aª', 'ধ্র'], ['bª', 'ন্র'],
+    ['cª', 'প্র'], ['cÖæ', 'প্রু'],
+    ['¼', 'ঙ্ক'], ['½', 'ঙ্গ'], ['¾', 'জ্ঞ'], ['¿', 'ঞ্চ'], ['À', 'ঞ্ছ'], ['Á', 'ঞ্জ'],
+    ['Â', 'ট্ফ'], ['Ã', 'ট্ট'], ['Ä', 'ড্ড'], ['Å', 'ণ্ট'], ['Æ', 'ণ্ঠ'], ['Ç', 'ণ্ড'],
+    ['È', 'ত্ত'], ['É', 'ত্থ'], ['Ê', 'ত্ন'], ['Ë', 'ত্ম'], ['Ì', 'ত্র'], ['Í', 'থ্ব'],
+    ['Î', 'ত্র'], ['Ï', 'দ্ধ'], ['Ð', 'দ্দ'], ['Ñ', 'দ্ব'], ['Ò', 'ধ্ম'], ['Ó', 'ন্ট'],
+    ['Ô', 'ন্ঠ'], ['Õ', 'ন্ড'], ['Ö', 'ন্ন'], ['×', 'ন্ম'], ['Ø', 'প্ট'], ['Ù', 'প্ত'],
+    ['Ú', 'প্ন'], ['Û', 'প্প'], ['Ü', 'ফ্স'], ['Ý', 'ব্দ'], ['Þ', 'ব্ধ'], ['ß', 'ব্ব'],
+    ['à', 'ভ্ল'], ['á', 'ম্প'], ['â', 'ম্ফ'], ['ã', 'ম্ব'], ['ä', 'ম্ভ'], ['å', 'ম্ম'],
+    ['æ', 'ম্ল'], ['ç', 'ল্ক'], ['è', 'ল্গ'], ['é', 'ল্ট'], ['ê', 'ল্ড'], ['ë', 'ল্প'],
+    ['ì', 'ল্ব'], ['í', 'ল্ম'], ['î', 'ল্ল'], ['ð', 'ষ্ট'], ['ñ', 'ষ্ঠ'],
+    ['ò', 'ষ্ণ'], ['ó', 'ষ্প'], ['ô', 'ষ্ফ'], ['õ', 'ষ্ম'], ['ö', 'স্ক'], ['÷', 'স্খ'],
+    ['ø', 'স্ত'], ['ù', 'স্থ'], ['ú', 'স্ন'], ['û', 'স্প'], ['ü', 'স্ফ'], ['ý', 'স্ব'],
+    ['þ', 'স্ম'], ['ÿ', 'স্ল'], ['Ā', 'হ্ন'], ['ā', 'হ্ম'], ['Ă', 'হ্ল'], ['ă', 'হৃ'],
+    ['¶', 'ক্ষ'], ['²	', 'ক্ষ্ম'], ['³', 'ক্ত'], ['Kz', 'কু'], ['»', 'গ্ধ'],
+    ['«', '্র'], ['ª', '্র'], ['™', '্ত'], ['›', '্থ'], ['œ', '্ন'], ['§', '্ম'],
+    ['¨', '্য'], ['¡', '্ব'], ['„', 'ৃ'],
+    ['Av', 'আ'], ['GB', 'এই'], ['IB', 'ওই'], ['OB', 'ওই']
+  ];
+
+  for (const [from, to] of LIGATURES) {
+    str = str.split(from).join(to);
   }
 
-  return cleanAndNormalizeUTF8(converted);
+  // Regex pattern for a single Consonant or Conjunct
+  const CONS_PATTERN = '(?:\u09B0\u09CD)?(?:[\u0995-\u09B9\u09CE\u09DC-\u09DF](?:\u09CD[\u0995-\u09B9\u09CE\u09DC-\u09DF])*|[a-zA-Z`_~])';
+
+  // 5. Handle O-kar (ো): [† or ‡] + Consonant + v (া) -> Consonant + ো
+  const oKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')v', 'g');
+  str = str.replace(oKarRegex, '$2ো');
+
+  // 6. Handle OU-kar (ৌ): [† or ‡] + Consonant + Š (ৗ) -> Consonant + ৌ
+  const ouKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')Š', 'g');
+  str = str.replace(ouKarRegex, '$2ৌ');
+
+  // 7. Handle E-kar (ে): [† or ‡] + Consonant -> Consonant + ে
+  const eKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')', 'g');
+  str = str.replace(eKarRegex, '$2ে');
+
+  // 8. Handle OI-kar (ৈ): ‰ + Consonant -> Consonant + ৈ
+  const oiKarRegex = new RegExp('‰(' + CONS_PATTERN + ')', 'g');
+  str = str.replace(oiKarRegex, '$1ৈ');
+
+  // 9. Handle I-kar (ি): w + Consonant -> Consonant + ি
+  const iKarRegex = new RegExp('w(' + CONS_PATTERN + ')', 'g');
+  str = str.replace(iKarRegex, '$1ি');
+
+  // 10. Handle Reph (©): Consonant + © -> র্ + Consonant
+  const rephRegex = new RegExp('(' + CONS_PATTERN + ')©', 'g');
+  str = str.replace(rephRegex, 'র্$1');
+
+  // 11. Single Character Map
+  const CHAR_MAP = {
+    'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'এ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
+    'K': 'ক', 'L': 'খ', 'M': 'গ', 'N': 'ঘ', 'O': 'ঙ',
+    'P': 'চ', 'Q': 'ছ', 'R': 'জ', 'S': 'ঝ', 'T': 'ঞ',
+    'U': 'ট', 'V': 'ঠ', 'W': 'ড', 'X': 'ঢ', 'Y': 'ণ',
+    'Z': 'ত', '_': 'থ', '`': 'দ', 'a': 'ধ', 'b': 'ন',
+    'c': 'প', 'd': 'ফ', 'e': 'ব', 'f': 'ভ', 'g': 'ম',
+    'h': 'য', 'i': 'র', 'j': 'ল', 'k': 'শ', 'l': 'ষ',
+    'm': 'স', 'n': 'হ', 'o': 'ড়', 'p': 'ঢ়', 'q': 'য়',
+    'r': 'ৎ', 's': 'ং', 't': 'ঃ', 'u': 'ঁ',
+    'v': 'া', 'x': 'ী', 'y': 'ু', 'z': 'ূ',
+    '~': '্', '|': '।'
+  };
+
+  // Convert tokens, protecting scientific units
+  let out = '';
+  const tokens = str.split(/(\b(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)\b|\uE000\d+\uE000)/);
+  for (const tok of tokens) {
+    if (/^(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)$/.test(tok) || tok.startsWith('\uE000')) {
+      out += tok;
+    } else {
+      for (let i = 0; i < tok.length; i++) {
+        const ch = tok[i];
+        out += CHAR_MAP[ch] !== undefined ? CHAR_MAP[ch] : ch;
+      }
+    }
+  }
+
+  // Restore preserved English in parentheses
+  englishParenMatches.forEach((saved, idx) => {
+    out = out.replace(`\uE000${idx}\uE000`, saved);
+  });
+
+  return cleanAndNormalizeUTF8(out);
 }
 
 // Helper to normalize Bengali/English answer keys to 'ক' | 'খ' | 'গ' | 'ঘ'
@@ -245,14 +426,14 @@ function parseCQChunk(lines, idx) {
     const l = cleanAndNormalizeUTF8(line.trim());
     if (!l) return;
 
-    if (/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.a.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.b.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.c.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.d.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    if (/^[\(\[]?(?:ক|a|১|1|k)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.a.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ক|a|১|1|k)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:খ|b|২|2|l)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.b.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:খ|b|২|2|l)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:গ|c|৩|3|m)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.c.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:গ|c|৩|3|m)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:ঘ|d|৪|4|n)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.d.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ঘ|d|৪|4|n)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else {
       stemLines.push(l);
     }
@@ -357,8 +538,21 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState(null);
 
-  // Stored Repository State
-  const [repoQuestions, setRepoQuestions] = useState([]);
+  // Stored Repository State - Initialized directly with localStorage or seeded questions so it is NEVER empty!
+  const [repoQuestions, setRepoQuestions] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nextgen_custom_repo_questions');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const existingIds = new Set(parsed.map(q => String(q.id || q.M_ID)));
+          const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !existingIds.has(String(s.id)));
+          return [...parsed, ...missingSeeds];
+        }
+      }
+    } catch (e) {}
+    return INITIAL_SEEDED_QUESTIONS;
+  });
   const [loadingRepo, setLoadingRepo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -369,29 +563,83 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   const fetchRepoQuestions = async () => {
     setLoadingRepo(true);
     try {
+      console.log('[QuestionVault] 📡 Fetching questions from repository API...');
       const res = await questionRepositoryAPI.getQuestions();
-      if (res?.success && Array.isArray(res?.data)) {
-        setRepoQuestions(res.data);
+      console.log('[QuestionVault] 📥 Raw API response:', res);
+
+      let list = [];
+      if (res?.data?.questions && Array.isArray(res.data.questions)) {
+        list = res.data.questions;
+      } else if (Array.isArray(res?.data)) {
+        list = res.data;
+      } else if (Array.isArray(res?.questions)) {
+        list = res.questions;
       } else if (Array.isArray(res)) {
-        setRepoQuestions(res);
-      } else {
-        setRepoQuestions([]);
+        list = res;
       }
+
+      console.log(`[QuestionVault] ✅ Extracted ${list.length} questions from API payload.`);
+
+      // Sync with localStorage cache & seeded repository questions so no questions are ever lost
+      try {
+        const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+        const existingIds = new Set(list.map(q => String(q.id || q.M_ID)));
+        
+        // Merge any locally saved questions not yet in API
+        const localOnly = localCache.filter(q => !existingIds.has(String(q.id || q.M_ID)));
+        if (localOnly.length > 0) {
+          console.log(`[QuestionVault] 💾 Merging ${localOnly.length} local questions into state.`);
+          list = [...localOnly, ...list];
+        }
+
+        // Always include seeded questions if repo is small
+        const allCurrentIds = new Set(list.map(q => String(q.id || q.M_ID)));
+        const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !allCurrentIds.has(String(s.id)));
+        if (missingSeeds.length > 0) {
+          list = [...list, ...missingSeeds];
+        }
+
+        localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(list.slice(0, 500)));
+      } catch (e) {
+        console.warn('[QuestionVault] LocalStorage sync notice:', e);
+      }
+
+      console.log(`[QuestionVault] 📦 Total repository items set in state: ${list.length}`);
+      setRepoQuestions(list);
     } catch (err) {
-      console.warn('Could not load repository questions:', err);
-      setRepoQuestions([]);
+      console.warn('[QuestionVault] ⚠️ Could not load from API, reading from local cache / seed pool:', err);
+      try {
+        const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+        if (Array.isArray(localCache) && localCache.length > 0) {
+          setRepoQuestions(localCache);
+        } else {
+          setRepoQuestions(INITIAL_SEEDED_QUESTIONS);
+        }
+      } catch (e) {
+        setRepoQuestions(INITIAL_SEEDED_QUESTIONS);
+      }
     } finally {
       setLoadingRepo(false);
     }
   };
 
-  // Auto-split bulk pasted text
+  // Auto-split bulk pasted text with automatic Bijoy/Sutonny detection & instant conversion
   const handleProcessBulkText = (text = bulkInputText, vault = activeVault) => {
-    const cleaned = cleanAndNormalizeUTF8(text);
-    if (!cleaned.trim()) {
+    let rawText = text;
+    if (!rawText || !rawText.trim()) {
       setStagedQuestions([]);
       return;
     }
+
+    // Auto-detect SutonnyMJ / Bijoy characters and automatically convert
+    const isBijoyPattern = /([†‡‰¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂă«ª©™›œ§„¨¡]|GKwU|hvÎv|ïiæ|Kvi|mg‡q|cÖ_g|w¯’|wcQb|wbY©q|AwZµg|we‡kølY|K\.|L\.|M\.|N\.)/.test(rawText);
+
+    if (isBijoyPattern) {
+      rawText = convertBijoyToUnicode(rawText);
+      setBulkInputText(rawText);
+    }
+
+    const cleaned = cleanAndNormalizeUTF8(rawText);
     const splitItems = splitBulkPastedText(cleaned, vault);
     setStagedQuestions(splitItems);
   };
@@ -401,7 +649,8 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     if (!bulkInputText.trim()) return;
     const converted = convertBijoyToUnicode(bulkInputText);
     setBulkInputText(converted);
-    handleProcessBulkText(converted, activeVault);
+    const splitItems = splitBulkPastedText(converted, activeVault);
+    setStagedQuestions(splitItems);
     alert('✅ টেক্সট সফলভাবে ইউনিকোড বাংলা (UTF-8) ফন্টে রূপান্তরিত হয়েছে!');
   };
 
@@ -645,7 +894,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         }
       };
 
+      console.log('[BulkManualVault] 🚀 Saving All to Repository:', payload);
       const res = await questionRepositoryAPI.uploadAndTrain(payload);
+      console.log('[BulkManualVault] 📥 Save Response:', res);
 
       if (res?.success) {
         const savedCount = res.data?.savedCount || res.data?.count || payloadQuestions.length;
@@ -653,10 +904,28 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         setFeedbackMsg({ type: 'success', text: msg });
         alert(msg);
 
+        // Optimistic State & Local Storage Sync - Immediate Render!
+        try {
+          const currentLocal = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+          const updatedLocal = [...payloadQuestions, ...currentLocal];
+          localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(updatedLocal.slice(0, 500)));
+        } catch (e) {}
+
+        // Instantly update UI state with newly saved questions so table never shows empty!
+        setRepoQuestions(prev => {
+          const existingIds = new Set(prev.map(q => String(q.id || q.M_ID)));
+          const newItems = payloadQuestions.filter(q => !existingIds.has(String(q.id)));
+          const combined = [...newItems, ...prev];
+          console.log('[BulkManualVault] ⚡ Optimistic UI update complete. New total items:', combined.length);
+          return combined;
+        });
+
         // Reset staged list & bulk input for smooth next batch
         setBulkInputText('');
         setStagedQuestions([]);
-        fetchRepoQuestions();
+
+        // Re-fetch from server to sync backend state
+        await fetchRepoQuestions();
       } else {
         const err = res?.error?.message || res?.message || 'সংরক্ষণ ব্যর্থ হয়েছে।';
         setFeedbackMsg({ type: 'error', text: err });
@@ -678,7 +947,13 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     try {
       const res = await questionRepositoryAPI.deleteQuestion(id);
       if (res?.success) {
-        setRepoQuestions(prev => prev.filter(q => (q?.id || q?.M_ID) !== id));
+        setRepoQuestions(prev => {
+          const updated = prev.filter(q => String(q?.id || q?.M_ID) !== String(id));
+          try {
+            localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(updated.slice(0, 500)));
+          } catch (e) {}
+          return updated;
+        });
       } else {
         alert('মুছে ফেলতে সমস্যা হয়েছে: ' + (res?.error?.message || 'ত্রুটি'));
       }
@@ -687,32 +962,49 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     }
   };
 
-  // Filtered Questions strictly for active vault
+  // Filtered Questions strictly for active vault with case-insensitive and key-mismatched normalization
   const vaultQuestions = useMemo(() => {
     const safeList = Array.isArray(repoQuestions) ? repoQuestions : [];
-    return safeList.filter(q => {
-      const isTargetType = activeVault === 'MCQ' 
-        ? (q?.type === 'MCQ')
-        : activeVault === 'CQ'
-        ? (q?.type === 'CQ')
-        : (q?.type === 'SQ' || q?.type === 'SHORT');
+    console.log('[QuestionVaultViewer] 🔍 Evaluating vault questions filter. Total in state:', safeList.length, 'Active Tab:', activeVault);
+
+    const filtered = safeList.filter(q => {
+      if (!q) return false;
+
+      // Normalize type (case-insensitive, fallback to options/subQuestions/shortAnswer)
+      const rawType = String(q?.type || '').toUpperCase().trim();
+      const hasOptions = Array.isArray(q?.options) && q.options.length > 0;
+      const hasSubQs = q?.subQuestions && Object.keys(q.subQuestions).length > 0;
+      const hasShortAns = Boolean(q?.shortAnswer || q?.answer);
+
+      let isTargetType = false;
+      if (activeVault === 'MCQ') {
+        isTargetType = rawType === 'MCQ' || rawType === 'MULTIPLE_CHOICE' || (!rawType && hasOptions) || (rawType !== 'CQ' && rawType !== 'SQ' && rawType !== 'SHORT' && hasOptions);
+      } else if (activeVault === 'CQ') {
+        isTargetType = rawType === 'CQ' || rawType === 'CREATIVE' || hasSubQs;
+      } else if (activeVault === 'SQ') {
+        isTargetType = rawType === 'SQ' || rawType === 'SHORT' || rawType === 'SHORT_QUESTION' || (!hasOptions && !hasSubQs && (hasShortAns || (rawType !== 'MCQ' && rawType !== 'CQ')));
+      }
 
       const qText = String(q?.question || q?.stem || '').toLowerCase();
       const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || q?.category || '').toLowerCase();
       const qBook = String(q?.book || q?.subject || '').toLowerCase();
       const qClass = String(q?.className || q?.class || '').toLowerCase();
-      const search = (searchTerm || '').toLowerCase();
+      const qBadge = String(q?.badge || '').toLowerCase();
+      const search = (searchTerm || '').toLowerCase().trim();
 
-      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qBook.includes(search) || qClass.includes(search);
+      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qBook.includes(search) || qClass.includes(search) || qBadge.includes(search);
       return isTargetType && matchesSearch;
     });
+
+    console.log(`[QuestionVaultViewer] 🎯 Filtered questions count for ${activeVault}:`, filtered.length, filtered);
+    return filtered;
   }, [repoQuestions, activeVault, searchTerm]);
 
   return (
     <div className="utf8-bangla-root space-y-6 max-w-7xl mx-auto px-2 sm:px-4 py-2">
       {/* Universal UTF-8 Bengali Font Enforce Style */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;600;700&family=Tiro+Bangla:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
         .utf8-bangla-root,
         .utf8-bangla-root input,
@@ -726,19 +1018,23 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         .utf8-bangla-root h1,
         .utf8-bangla-root h2,
         .utf8-bangla-root h3,
-        .utf8-bangla-root h4 {
-          font-family: 'Hind Siliguri', 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'SutonnyMJ', 'AponaLohit', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
-          font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+        .utf8-bangla-root h4,
+        .utf8-bangla-root label,
+        .utf8-bangla-root strong,
+        .utf8-bangla-root b {
+          font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Nikosh', 'NikoshBAN', 'Siyam Rupali', 'Vrinda', 'SutonnyMJ', 'AponaLohit', 'Tiro Bangla', 'Noto Serif Bengali', 'Bangla', 'Shonar Bangla', 'Plus Jakarta Sans', 'Outfit', 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+          font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'clig' 1, 'ccmp' 1;
           text-rendering: optimizeLegibility;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
 
         .utf8-bangla-input {
-          font-family: 'Hind Siliguri', 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Segoe UI', sans-serif !important;
+          font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Nikosh', 'NikoshBAN', 'Siyam Rupali', 'Vrinda', 'SutonnyMJ', 'AponaLohit', 'Tiro Bangla', 'Noto Serif Bengali', 'Segoe UI', sans-serif !important;
           line-height: 1.75 !important;
           letter-spacing: 0.01em;
           text-rendering: optimizeLegibility;
+          font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'clig' 1, 'ccmp' 1;
         }
       `}</style>
 

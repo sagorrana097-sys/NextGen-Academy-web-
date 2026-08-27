@@ -13,7 +13,11 @@
 
   body {
     @apply bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Nikosh', 'NikoshBAN', 'Siyam Rupali', 'Vrinda', 'SutonnyMJ', 'AponaLohit', 'Tiro Bangla', 'Noto Serif Bengali', 'Plus Jakarta Sans', 'Outfit', 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "clig" 1, "ccmp" 1, "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }

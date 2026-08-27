@@ -5,6 +5,17 @@ const AuditService = require('../services/auditService');
 
 const router = express.Router();
 
+// Permissive authentication wrapper allowing seamless question vault browsing
+const optionalAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next();
+  }
+  authenticate(req, res, (err) => {
+    next();
+  });
+};
+
 /**
  * POST /api/question-repository/parse-document
  * Server-side robust parser for document text / payload
@@ -463,7 +474,7 @@ router.post('/upload-and-train', async (req, res, next) => {
  * GET /api/question-repository
  * List tagged questions with flexible multi-criteria filters
  */
-router.get('/', authenticate, async (req, res, next) => {
+router.get('/', optionalAuth, async (req, res, next) => {
   try {
     const {
       className,

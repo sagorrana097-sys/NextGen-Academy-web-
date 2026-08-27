@@ -398,6 +398,126 @@ async function seedDatabase() {
   db['live_classes'] = [];
   db['live_class_comments'] = [];
   db['admission_applications'] = [];
+  db['question_repositories'] = [
+    {
+      id: 1,
+      type: 'MCQ',
+      className: 'দশম শ্রেণি (Class 10)',
+      book: 'পদার্থবিজ্ঞান (Physics)',
+      subject: 'পদার্থবিজ্ঞান (Physics)',
+      institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
+      year: '2025',
+      chapter: 'অধ্যায় ২: গতি (Motion)',
+      hasChapter: true,
+      question: 'পরন্ত বস্তুর তৃতীয় সূত্রানুসারে মুক্তভাবে পরন্ত বস্তুর নির্দিষ্ট সময়ে প্রাপ্ত বেগ সময়ের সাথে কীভাবে পরিবর্তিত হয়?',
+      options: [
+        'প্রাপ্ত বেগ সময়ের সমানুপাতিক (v ∝ t)',
+        'প্রাপ্ত বেগ দূরত্বের বর্গের সমানুপাতিক',
+        'প্রাপ্ত বেগ সময়ের বর্গের ব্যস্তানুপাতিক',
+        'প্রাপ্ত বেগ সময়ের বর্গের সমানুপাতিক (v ∝ t²)'
+      ],
+      correctAnswer: 'ক',
+      explanation: 'গ্যালিলিওর পরন্ত বস্তুর ৩য় সূত্র মতে: নির্দিষ্ট সময়ে প্রাপ্ত বেগ অতিক্রান্ত সময়ের সমানুপাতিক (v ∝ t)।',
+      difficulty: 'MEDIUM',
+      badge: "ঢাকা বোর্ড - '২৫ (MCQ)",
+      marks: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 2,
+      type: 'MCQ',
+      className: 'দশম শ্রেণি (Class 10)',
+      book: 'রসায়ন (Chemistry)',
+      subject: 'রসায়ন (Chemistry)',
+      institutionOrBoard: 'রাজশাহী বোর্ড (Rajshahi Board)',
+      year: '2026',
+      chapter: 'অধ্যায় ৫: রাসায়নিক বন্ধন',
+      hasChapter: true,
+      question: 'নিচের কোন অণুতে মুক্তজোড় ইলেকট্রন (Lone Pair Electron) বিদ্যমান?',
+      options: [
+        'মিথেন (CH₄)',
+        'অ্যামোনিয়া (NH₃)',
+        'কার্বন ডাই অক্সাইড (CO₂)',
+        'বোরন ট্রাইফ্লোরাইড (BF₃)'
+      ],
+      correctAnswer: 'খ',
+      explanation: 'NH₃ অণুতে নাইট্রোজেনের শেষ শক্তিস্তরে ১ জোড়া মুক্তজোড় ইলেকট্রন থাকে।',
+      difficulty: 'MEDIUM',
+      badge: "রাজশাহী বোর্ড - '২৬ (MCQ)",
+      marks: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 3,
+      type: 'MCQ',
+      className: 'দশম শ্রেণি (Class 10)',
+      book: 'উচ্চতর গণিত (Higher Math)',
+      subject: 'উচ্চতর গণিত (Higher Math)',
+      institutionOrBoard: 'চট্টগ্রাম বোর্ড (Chattogram Board)',
+      year: '2025',
+      chapter: 'অধ্যায় ৮: ত্রিকোণমিতি',
+      hasChapter: true,
+      question: 'যদি tan θ = 3/4 এবং cos θ < 0 হয়, তবে sin θ এর মান কত?',
+      options: [
+        '-3/5',
+        '3/5',
+        '-4/5',
+        '4/5'
+      ],
+      correctAnswer: 'ক',
+      explanation: '৩য় চতুর্ভাগে tan θ ধনাত্মক কিন্তু sin θ ঋণাত্মক, তাই sin θ = -3/5।',
+      difficulty: 'HARD',
+      badge: "চট্টগ্রাম বোর্ড - '২৫ (MCQ)",
+      marks: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 4,
+      type: 'CQ',
+      className: 'দশম শ্রেণি (Class 10)',
+      book: 'পদার্থবিজ্ঞান (Physics)',
+      subject: 'পদার্থবিজ্ঞান (Physics)',
+      institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
+      year: '2026',
+      chapter: 'অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি',
+      hasChapter: true,
+      stem: '৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ১০ সেকেন্ডে অতিক্রম করে ছাদে উঠল।',
+      question: '৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ১০ সেকেন্ডে অতিক্রম করে ছাদে উঠল।',
+      subQuestions: {
+        a: { q: 'কাজ কাকে বলে?', marks: 1 },
+        b: { q: '১ জুল কাজ বলতে কী বোঝায়?', marks: 2 },
+        c: { q: 'বালকের দ্বারা সম্পাদিত কাজের পরিমাণ নির্ণয় করো।', marks: 3 },
+        d: { q: 'বালকের ক্ষমতা কত ওয়াট ছিল গাণিতিকভাবে বিশ্লেষণ করো।', marks: 4 }
+      },
+      difficulty: 'MEDIUM',
+      badge: "ঢাকা বোর্ড - '২৬ (CQ)",
+      marks: 10,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 5,
+      type: 'SHORT',
+      className: 'দশম শ্রেণি (Class 10)',
+      book: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+      subject: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
+      institutionOrBoard: 'কুমিল্লা বোর্ড (Cumilla Board)',
+      year: '2026',
+      chapter: 'অধ্যায় ৩: তথ্য ও যোগাযোগ প্রযুক্তির নিরাপদ ব্যবহার',
+      hasChapter: true,
+      question: 'টু-ফ্যাক্টর অথেনটিকেশন (2FA) বলতে কী বোঝায়?',
+      shortAnswer: 'ব্যবহারকারীর পরিচয় নিশ্চিত করার জন্য পাসওয়ার্ড ছাড়াও অতিরিক্ত দ্বিতীয় ধাপের নিরাপত্তা যাচাইকরণ প্রক্রিয়াকে 2FA বলে।',
+      explanation: 'সাইবার নিরাপত্তা জোরদার করার জন্য পাসওয়ার্ডের পাশাপাশি অতিরিক্ত ওটিপি পিন কোড ব্যবহৃত হয়।',
+      difficulty: 'EASY',
+      badge: "কুমিল্লা বোর্ড - '২৬ (SHORT)",
+      marks: 2,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+  ];
 
   // 12. Initial Audit Log
   await AuditLog.create({

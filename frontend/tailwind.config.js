@@ -8,8 +8,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Hind Siliguri"', '"Plus Jakarta Sans"', '"Outfit"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        english: ['"Outfit"', '"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Hind Siliguri"', '"Noto Sans Bengali"', '"SolaimanLipi"', '"Kalpurush"', '"Nikosh"', '"NikoshBAN"', '"Siyam Rupali"', '"Vrinda"', '"SutonnyMJ"', '"AponaLohit"', '"Tiro Bangla"', '"Noto Serif Bengali"', '"Plus Jakarta Sans"', '"Outfit"', '"Inter"', '"Segoe UI"', 'Roboto', 'system-ui', 'sans-serif'],
+        bengali: ['"Hind Siliguri"', '"Noto Sans Bengali"', '"SolaimanLipi"', '"Kalpurush"', '"Nikosh"', '"NikoshBAN"', '"Siyam Rupali"', '"Vrinda"', '"SutonnyMJ"', '"AponaLohit"', '"Tiro Bangla"', '"Noto Serif Bengali"', '"Segoe UI"', 'sans-serif'],
+        english: ['"Outfit"', '"Plus Jakarta Sans"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         brand: ['"Outfit"', '"Plus Jakarta Sans"', 'ui-sans-serif', 'sans-serif']
       },
       colors: {
