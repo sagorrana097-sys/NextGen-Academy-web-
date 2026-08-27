@@ -189,7 +189,7 @@ const INITIAL_SEEDED_QUESTIONS = [
 
 /**
  * Universal UTF-8 Unicode Normalizer & Glitch Cleaner
- * Cleans BOM, invisible spaces, fixes NFC composite characters, and repairs broken Bengali vowels/conjuncts
+ * Cleans BOM, invisible spaces, fixes NFC composite characters, and repairs broken Bengali vowels/conjuncts and Math symbols
  */
 function cleanAndNormalizeUTF8(input) {
   if (!input) return '';
@@ -203,7 +203,42 @@ function cleanAndNormalizeUTF8(input) {
   clean = clean.replace(/[\u200B\u200E\u200F]/g, ''); // Zero-width spaces & directional marks
   clean = clean.replace(/\u00A0/g, ' '); // Non-breaking space to regular space
 
-  // 3. Normalize all line breaks to standard Unix format
+  // 3. Symbol font PUA characters conversion
+  const SYMBOL_MAP = {
+    '\uF0CE': '∈', '\u00CE': '∈',
+    '\uF0CF': '∉', '\u00CF': '∉',
+    '\uF0A3': '≤', '\u00A3': '≤',
+    '\uF0B3': '≥', '\u00B3': '≥',
+    '\uF0B9': '≠', '\u00B9': '≠',
+    '\uF0C6': '∅', '\u00C6': '∅',
+    '\uF0C8': '∪', '\u00C8': '∪',
+    '\uF0C7': '∩', '\u00C7': '∩',
+    '\uF0CC': '⊂', '\u00CC': '⊂',
+    '\uF0CD': '⊆', '\u00CD': '⊆',
+    '\uF0D6': '√', '\u00D6': '√',
+    '\uF0B1': '±', '\u00B1': '±',
+    '\uF0B4': '×', '\u00B4': '×',
+    '\uF0B8': '÷', '\u00B8': '÷',
+    '\uF071': 'θ',
+    '\uF070': 'π',
+    '\uF02D': '−'
+  };
+
+  for (const [k, v] of Object.entries(SYMBOL_MAP)) {
+    clean = clean.split(k).join(v);
+  }
+
+  // 4. Fix collapsed inequalities and set expressions:
+  clean = clean.replace(/(\d+)\s{2,}([a-zA-Z])\s*<\s*(\d+)/g, '$1 < $2 < $3');
+  clean = clean.replace(/(\d+)\s*<\s*([a-zA-Z])\s{2,}(\d+)/g, '$1 < $2 < $3');
+  clean = clean.replace(/(\d+)\s{2,}([a-zA-Z])\s*([≤<=])\s*(\d+)/g, '$1 ≤ $2 $3 $4');
+  clean = clean.replace(/(\d+)\s*([≤<=])\s*([a-zA-Z])\s{2,}(\d+)/g, '$1 $2 $3 ≤ $4');
+  clean = clean.replace(/x\s{2,}:\s*/g, 'x : ');
+  clean = clean.replace(/x\s+N\s*:/gi, 'x ∈ N : ');
+  clean = clean.replace(/x\s+R\s*:/gi, 'x ∈ R : ');
+  clean = clean.replace(/x\s+Z\s*:/gi, 'x ∈ Z : ');
+
+  // 5. Normalize all line breaks to standard Unix format
   clean = clean.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
   return clean;
