@@ -441,11 +441,36 @@ function repairPdfMixedStreamBengali(text) {
   str = str.replace(/([\u0980-\u09FF])b\b/g, '$1ন');
   str = str.replace(/([\u0980-\u09FF])g\b/g, '$1ম');
 
-  // Options & subquestion keys K, L, M, N (when standing alone before options):
-  str = str.replace(/(?:^|[\s\t])K[\s\t]+(?=[^\s\:\=])/g, ' (ক) ');
-  str = str.replace(/(?:^|[\s\t])L[\s\t]+(?=[^\s\:\=])/g, ' (খ) ');
-  str = str.replace(/(?:^|[\s\t])M[\s\t]+(?=[^\s\:\=])/g, ' (গ) ');
-  str = str.replace(/(?:^|[\s\t])N[\s\t]+(?=[^\s\:\=])/g, ' (ঘ) ');
+  // 5. Google Lens & OCR Bengali Spaced Syllable Restorations:
+  const BENGALI_CONS = '[\u0995-\u09B9\u09CE\u09DC-\u09DF]';
+  const BENGALI_KARS = '[\u09BE\u09BF\u09C0\u09C1\u09C2\u09C3\u09C7\u09C8\u09CB\u09CC]';
+  str = str.replace(new RegExp(`(${BENGALI_CONS})\\s+(${BENGALI_KARS})`, 'g'), '$1$2');
+  str = str.replace(new RegExp(`(${BENGALI_CONS})\\s+\u09CD\\s*(${BENGALI_CONS})`, 'g'), '$1\u09CD$2');
+  str = str.replace(new RegExp(`(${BENGALI_CONS})\u09CD\\s+(${BENGALI_CONS})`, 'g'), '$1\u09CD$2');
+
+  // Spaced digits from OCR: "২ ০ ২ ৬" -> "২০২৬", "১ ২ ৫" -> "১২৫"
+  str = str.replace(/([০-৯0-9])\s+([০-৯0-9])\s+([০-৯0-9])\s+([০-৯0-9])/g, '$1$2$3$4');
+  str = str.replace(/([০-৯0-9])\s+([০-৯0-9])\s+([০-৯0-9])/g, '$1$2$3');
+  str = str.replace(/([০-৯0-9])\s+([০-৯0-9])/g, '$1$2');
+
+  // Common Google Lens spaced words
+  str = str.replace(/(?:^|\s)বি\s+স্তৃ\s+তি\s+তে(?=$|\s|[\,\.\;\?])/g, ' বিস্তৃতিতে');
+  str = str.replace(/(?:^|\s)প\s+রী\s+ক্ষা(?=$|\s|[\,\.\;\?])/g, ' পরীক্ষা');
+  str = str.replace(/(?:^|\s)শ্রে\s+ণি(?=$|\s|[\,\.\;\?])/g, ' শ্রেণি');
+  str = str.replace(/(?:^|\s)উ\s+চ্চ\s+ত\s+র(?=$|\s|[\,\.\;\?])/g, ' উচ্চতর');
+  str = str.replace(/(?:^|\s)বি\s+জ্ঞা\s+ন(?=$|\s|[\,\.\;\?])/g, ' বিজ্ঞান');
+  str = str.replace(/(?:^|\s)প্র\s+যু\s+ক্তি(?=$|\s|[\,\.\;\?])/g, ' প্রযুক্তি');
+  str = str.replace(/(?:^|\s)উ\s+দ্দী\s+প\s+ক(?=$|\s|[\,\.\;\?])/g, ' উদ্দীপক');
+  str = str.replace(/(?:^|\s)প্র\s+শ্ন(?=$|\s|[\,\.\;\?])/g, ' প্রশ্ন');
+  str = str.replace(/(?:^|\s)উ\s+ত্ত\s+র(?=$|\s|[\,\.\;\?])/g, ' উত্তর');
+  str = str.replace(/(?:^|\s)নি\s+র্ণ\s+য়(?=$|\s|[\,\.\;\?])/g, ' নির্ণয়');
+  str = str.replace(/(?:^|\s)নি\s+র্ণ\s+য়(?=$|\s|[\,\.\;\?])/g, ' নির্ণয়');
+  str = str.replace(/(?:^|\s)প্র\s+মা\s+ণ(?=$|\s|[\,\.\;\?])/g, ' প্রমাণ');
+  str = str.replace(/(?:^|\s)ক্ষে\s+ত্র\s+ফ\s+ল(?=$|\s|[\,\.\;\?])/g, ' ক্ষেত্রফল');
+  str = str.replace(/(?:^|\s)ব\s+হু\s+নি\s+র্বা\s+চ\s+নী(?=$|\s|[\,\.\;\?])/g, ' বহুনির্বাচনী');
+  str = str.replace(/(?:^|\s)সৃ\s+জ\s+ন\s+শী\s+ল(?=$|\s|[\,\.\;\?])/g, ' সৃজনশীল');
+  str = str.replace(/(?:^|\s)সং\s+খ্যা(?=$|\s|[\,\.\;\?])/g, ' সংখ্যা');
+  str = str.replace(/(?:^|\s)অ\s+নু\s+পা\s+ত(?=$|\s|[\,\.\;\?])/g, ' অনুপাত');
 
   // Single word particles
   str = str.replace(/\bKে\b/g, 'কে');
@@ -1036,7 +1061,64 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     reader.readAsDataURL(file);
   };
 
-  // Upload and Read PDF / Word / Text files directly into questions
+  // Global Clipboard Paste Listener for Screenshots (Ctrl + V from Google Lens / Snipping Tool)
+  useEffect(() => {
+    const handleGlobalPaste = async (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.startsWith('image/')) {
+          const imageFile = items[i].getAsFile();
+          if (imageFile) {
+            setReadingPdf(true);
+            setFeedbackMsg({
+              type: 'info',
+              text: '📸 ক্লিপবোর্ড থেকে স্ক্রিনশট পাওয়া গেছে! অপটিক্যাল ক্যারেক্টার রিকগনিশন (OCR) দিয়ে টেক্সট পড়া হচ্ছে...'
+            });
+            try {
+              if (!window.Tesseract) {
+                await new Promise((resolve, reject) => {
+                  const script = document.createElement('script');
+                  script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+                  script.onload = resolve;
+                  script.onerror = reject;
+                  document.head.appendChild(script);
+                });
+              }
+              const worker = await window.Tesseract.createWorker('ben+eng');
+              const ret = await worker.recognize(imageFile);
+              await worker.terminate();
+              let extracted = ret.data.text;
+              if (extracted && extracted.trim()) {
+                if (isBijoyEncoded(extracted)) {
+                  extracted = convertBijoyToUnicode(extracted);
+                }
+                extracted = cleanAndNormalizeUTF8(extracted);
+                setBulkInputText(extracted);
+                handleProcessBulkText(extracted, activeVault);
+                setFeedbackMsg({
+                  type: 'success',
+                  text: '✅ স্ক্রিনশট/গুগল লেন্স ছবি থেকে সফলভাবে প্রশ্নসমূহ তৈরি হয়েছে!'
+                });
+              }
+            } catch (err) {
+              console.error('Clipboard OCR error:', err);
+              alert('স্ক্রিনশট পড়তে সমস্যা হয়েছে: ' + (err.message || 'অজানা ত্রুটি'));
+            } finally {
+              setReadingPdf(false);
+            }
+          }
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('paste', handleGlobalPaste);
+    return () => window.removeEventListener('paste', handleGlobalPaste);
+  }, [activeVault]);
+
+  // Upload and Read PDF / Images / Word / Text files directly into questions
   const handleDocumentUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -1046,7 +1128,26 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
     try {
       let extractedText = '';
-      if (file.name.endsWith('.txt') || file.type === 'text/plain') {
+      if (file.type.startsWith('image/')) {
+        // Image / Google Lens OCR extraction
+        setFeedbackMsg({
+          type: 'info',
+          text: `📸 ${file.name} থেকে বাংলা OCR স্ক্যান করা হচ্ছে... অনুগ্রহ করে একটু অপেক্ষা করুন।`
+        });
+        if (!window.Tesseract) {
+          await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+        const worker = await window.Tesseract.createWorker('ben+eng');
+        const ret = await worker.recognize(file);
+        await worker.terminate();
+        extractedText = ret.data.text;
+      } else if (file.name.endsWith('.txt') || file.type === 'text/plain') {
         extractedText = await file.text();
       } else if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
         const arrayBuffer = await file.arrayBuffer();
@@ -1661,11 +1762,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               </label>
 
               <div className="flex items-center space-x-2">
-                {/* Hidden File Input for PDF / Text reading */}
+                {/* Hidden File Input for PDF / Images / Text reading */}
                 <input
                   type="file"
                   ref={pdfFileInputRef}
-                  accept=".pdf,.txt,.doc,.docx"
+                  accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.txt,.doc,.docx"
                   onChange={handleDocumentUpload}
                   className="hidden"
                 />
@@ -1674,7 +1775,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                   type="button"
                   onClick={() => pdfFileInputRef.current?.click()}
                   disabled={readingPdf}
-                  title="PDF বা টেক্সট ফাইল আপলোড করে স্বয়ংক্রিয় প্রশ্ন বের করুন"
+                  title="PDF, ছবি বা গুগল লেন্স স্ক্যান আপলোড করে স্বয়ংক্রিয় প্রশ্ন বের করুন"
                   className="text-[11px] font-bold text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1.5 border border-indigo-200 shadow-xs"
                 >
                   {readingPdf ? (
@@ -1682,7 +1783,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                   ) : (
                     <UploadCloud className="w-3.5 h-3.5 text-indigo-600" />
                   )}
-                  <span>{readingPdf ? 'PDF পড়া হচ্ছে...' : '📄 PDF / ফাইল আপলোড'}</span>
+                  <span>{readingPdf ? 'স্ক্যান করা হচ্ছে...' : '📷 PDF / ছবি / লেন্স স্ক্যান আপলোড'}</span>
                 </button>
 
                 <button
