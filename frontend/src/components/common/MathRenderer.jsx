@@ -107,30 +107,65 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     processedText = processedText.replace(/x\s+R\s*:/gi, 'x ∈ R : ');
     processedText = processedText.replace(/x\s+Z\s*:/gi, 'x ∈ Z : ');
 
-    // 7. Fractions auto-formatting:
-    // e.g. "1/125", "25/5", "3/4"
+    // 7. Algebraic Fractions auto-formatting:
+    // (a) "4a + 1(2a + 1)a - 1" -> "\frac{4^{a+1}}{(2^{a+1})^{a-1}}"
+    processedText = processedText.replace(/(\d+)\s*([a-zA-Z])\s*([\+\-])\s*(\d+)\s*\(\s*(\d+)\s*([a-zA-Z])\s*([\+\-])\s*(\d+)\s*\)\s*([a-zA-Z])\s*[-–—−]\s*(\d+)/g, (m, b1, v1, s1, e1, b2, v2, s2, e2, v3, e3) => {
+      return `$\\frac{${b1}^{${v1}${s1}${e1}}}{(${b2}^{${v2}${s2}${e2}})^{${v3}-${e3}}}$`;
+    });
+
+    // (b) "2a + 1(2a)a - 1" -> "\frac{2^{a+1}}{(2^a)^{a-1}}"
+    processedText = processedText.replace(/(\d+)\s*([a-zA-Z])\s*([\+\-])\s*(\d+)\s*\(\s*(\d+)\s*([a-zA-Z])\s*\)\s*([a-zA-Z])\s*[-–—−]\s*(\d+)/g, (m, b1, v1, s1, e1, b2, v2, v3, e3) => {
+      return `$\\frac{${b1}^{${v1}${s1}${e1}}}{(${b2}^{${v2}})^{${v3}-${e3}}}$`;
+    });
+
+    // (c) "p2 + q2q2 + r2" -> "\frac{p^2 + q^2}{q^2 + r^2}"
+    processedText = processedText.replace(/([a-zA-Z])2\s*\+\s*([a-zA-Z])2\s*([a-zA-Z])2\s*\+\s*([a-zA-Z])2/g, (m, v1, v2, v3, v4) => {
+      return `$\\frac{${v1}^2 + ${v2}^2}{${v3}^2 + ${v4}^2}$`;
+    });
+
+    // (d) "(p - q)2(q - r)2" or "(p − q)2(q − r)2" -> "\frac{(p-q)^2}{(q-r)^2}"
+    processedText = processedText.replace(/\(([a-zA-Z])\s*[-–—−]\s*([a-zA-Z])\)\s*(\d+)\s*\(([a-zA-Z])\s*[-–—−]\s*([a-zA-Z])\)\s*(\d+)/g, (m, v1, v2, p1, v3, v4, p2) => {
+      return `$\\frac{(${v1} - ${v2})^${p1}}{(${v3} - ${v4})^${p2}}$`;
+    });
+
+    // (e) Standard numeric & rational fractions: "1/125", "25/5", "3/4"
     processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])(\d+)\s*\/\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, (m, num, den) => `$\\frac{${num}}{${den}}$`);
 
-    // e.g. "1125?" -> when preceded by "পদ 1125?"
+    // (f) "পদ 1125?" -> "\frac{1}{125}"
     processedText = processedText.replace(/(?<=পদ\s+)1(\d{2,3})(?=[?\s।\,]|$)/g, (m, den) => `$\\frac{1}{${den}}$`);
 
-    // e.g. "(p - q)^2 / (q - r)^2" or "(p2 + q2) / (q2 + r2)"
+    // (g) Explicit parenthesized quotient: "(p - q)^2 / (q - r)^2"
     processedText = processedText.replace(/(?<!\$)\(([^\)]+)\)\s*\/\s*\(([^\)]+)\)(?!\$)/g, (m, num, den) => `$\\frac{${num}}{${den}}$`);
 
-    // e.g. "27/y3", "27/y^3", "1/x^2"
+    // (h) "27/y3", "27/y^3", "1/x^2", "y6 + 27y3"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])y6\s*\+\s*27y3(?![0-9a-zA-Z\$\\\}])/g, `$y^6 + \\frac{27}{y^3}$`);
     processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])(\d+)\s*\/\s*([a-zA-Z](?:\^[0-9a-zA-Z\-]+|\d+)?)(?![0-9a-zA-Z\$\\\}])/g, (m, num, den) => {
       let cleanDen = den.replace(/([a-zA-Z])(\d+)/, '$1^{$2}');
       return `$\\frac{${num}}{${cleanDen}}$`;
     });
 
-    // 8. Exponents & powers:
-    // e.g. "x4", "x2", "y6", "p2", "q2", "r2"
+    // 8. Advanced Algebraic Exponents & Equations:
+    // (a) "x4 + x- 4 = 119" -> "x^4 + x^{-4} = 119"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])([a-zA-Z])(\d+)\s*\+\s*([a-zA-Z])\s*[-–—−]\s*(\d+)\s*=\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, (m, v1, p1, v2, p2, val) => {
+      return `$${v1}^${p1} + ${v2}^{-${p2}} = ${val}$`;
+    });
+
+    // (b) "y = 5 - 2" -> "y = \sqrt{5} - 2"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])y\s*=\s*(?:√|\\sqrt\{5\}|5)\s*[-–—−]\s*2(?![0-9a-zA-Z\$\\\}])/g, `$y = \\sqrt{5} - 2$`);
+
+    // (c) "(3c- 1 + 2d- 1)- 1" -> "(3c^{-1} + 2d^{-1})^{-1}"
+    processedText = processedText.replace(/\(\s*(\d+)([a-zA-Z])\s*[-–—−]\s*1\s*\+\s*(\d+)([a-zA-Z])\s*[-–—−]\s*1\s*\)\s*[-–—−]\s*1/g, (m, c1, v1, c2, v2) => {
+      return `$(${c1}${v1}^{-1} + ${c2}${v2}^{-1})^{-1}$`;
+    });
+
+    // (d) "x2 - 3x - 1 = 0"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])([a-zA-Z])2\s*[-–—−]\s*(\d+[a-zA-Z])\s*[-–—−]\s*(\d+)\s*=\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, (m, v, t, c, val) => {
+      return `$${v}^2 - ${t} - ${c} = ${val}$`;
+    });
+
+    // (e) Standard variable exponents: "x4", "x2", "y6", "p2", "q2", "r2"
     processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{${exp}}$`);
     processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])\s*[-–—−]\s*(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{-${exp}}$`);
-
-    // e.g. "(3c-1 + 2d-1)-1" or "(3c 1 + 2d 1) 1"
-    processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([0-9]+[a-zA-Z])\s*[-–—−]?\s*1(?=[,\+\-\s\)]|$)/g, (m, term) => `$${term}^{-1}$`);
-    processedText = processedText.replace(/\(([^\)]+)\)\s*[-–—−]?\s*1(?=[,\+\-\s\.\;]|$)/g, (m, inner) => `(${inner})^{-1}`);
 
     // 9. Logarithm: e.g. "log3 9" -> "\log_3 9"
     processedText = processedText.replace(/(?<!\$)\blog\s*(\d+)\s*(\d+)\b(?!\$)/g, (m, base, val) => `$\\log_{${base}} ${val}$`);
