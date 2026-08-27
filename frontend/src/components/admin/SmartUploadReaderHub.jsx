@@ -835,6 +835,20 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     setFeedbackMsg(null);
   };
 
+  // Upload image from file to base64 Data URL
+  const handleImageUpload = (cardId, file) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('দয়া করে একটি ইমেজ ফাইল (.png, .jpg, .jpeg, .svg, .webp) নির্বাচন করুন।');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      updateStagedCard(cardId, { diagramUrl: e.target.result });
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Add 1 Empty Question Card
   const handleAddNewEmptyCard = () => {
     const newId = `${activeVault.toLowerCase()}-staged-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
@@ -1797,16 +1811,80 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                           </div>
                         </div>
 
-                        {/* Diagram URL */}
-                        <div className="pt-1">
-                          <label className="text-[10px] font-bold text-slate-500 block mb-0.5">চিত্র / ডায়াগ্রামের লিঙ্ক (ঐচ্ছিক):</label>
-                          <input
-                            type="text"
-                            value={q.diagramUrl || ''}
-                            onChange={(e) => updateStagedCard(q.id, { diagramUrl: e.target.value })}
-                            placeholder="https://example.com/diagram.png"
-                            className="utf8-bangla-input w-full p-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                          />
+                        {/* Comprehensive Diagram / Image Upload Box */}
+                        <div className="p-3 bg-purple-100/40 rounded-2xl border border-purple-200/80 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <label className="text-[11px] font-bold text-purple-950 flex items-center space-x-1.5">
+                              <UploadCloud className="w-3.5 h-3.5 text-purple-600" />
+                              <span>উদ্দীপকের চিত্র / ডায়াগ্রাম (ঐচ্ছিক):</span>
+                            </label>
+                            {q.diagramUrl && (
+                              <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-md font-bold">
+                                চিত্র যুক্ত আছে ✓
+                              </span>
+                            )}
+                          </div>
+
+                          {q.diagramUrl ? (
+                            <div className="relative group bg-white p-2.5 rounded-xl border border-purple-200 flex flex-col items-center">
+                              <img
+                                src={q.diagramUrl}
+                                alt="উদ্দীপকের চিত্র"
+                                className="max-h-48 max-w-full rounded-lg object-contain border border-slate-100 shadow-xs"
+                              />
+                              <div className="flex items-center space-x-2 mt-2.5">
+                                <label className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold rounded-lg cursor-pointer transition-colors flex items-center space-x-1">
+                                  <UploadCloud className="w-3 h-3" />
+                                  <span>ছবি পরিবর্তন করুন</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      if (e.target.files?.[0]) handleImageUpload(q.id, e.target.files[0]);
+                                    }}
+                                  />
+                                </label>
+                                <button
+                                  type="button"
+                                  onClick={() => updateStagedCard(q.id, { diagramUrl: '' })}
+                                  className="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-bold rounded-lg cursor-pointer transition-colors flex items-center space-x-1 border border-rose-200"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                  <span>মুছে ফেলুন</span>
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {/* File Upload Button */}
+                              <label className="p-3 bg-white hover:bg-purple-50 border-2 border-dashed border-purple-300 hover:border-purple-500 rounded-xl cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-1 group">
+                                <UploadCloud className="w-5 h-5 text-purple-500 group-hover:scale-110 transition-transform" />
+                                <span className="text-xs font-bold text-purple-900">📁 কম্পিউটার / ডিভাইস থেকে ছবি দিন</span>
+                                <span className="text-[10px] text-slate-500">PNG, JPG, SVG বা স্ক্রিনশট</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    if (e.target.files?.[0]) handleImageUpload(q.id, e.target.files[0]);
+                                  }}
+                                />
+                              </label>
+
+                              {/* URL Input */}
+                              <div className="p-3 bg-white border border-slate-200 rounded-xl flex flex-col justify-center space-y-1.5">
+                                <span className="text-[10px] font-bold text-slate-600">বা সরাসরি অনলাইন ছবির লিঙ্ক দিন:</span>
+                                <input
+                                  type="text"
+                                  value={q.diagramUrl || ''}
+                                  onChange={(e) => updateStagedCard(q.id, { diagramUrl: e.target.value })}
+                                  placeholder="https://example.com/diagram.png"
+                                  className="utf8-bangla-input w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                />
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1956,6 +2034,17 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       <div className="font-bold text-slate-800 leading-relaxed text-xs sm:text-sm">
                         <MathRenderer text={q?.question || q?.stem || 'প্রশ্নের শিরোনাম নেই'} />
                       </div>
+
+                      {/* Diagram Image if present */}
+                      {q?.diagramUrl && (
+                        <div className="p-1.5 bg-white rounded-xl border border-slate-200 inline-block my-1 max-w-full">
+                          <img
+                            src={q.diagramUrl}
+                            alt="উদ্দীপকের চিত্র"
+                            className="max-h-40 max-w-full rounded-lg object-contain"
+                          />
+                        </div>
+                      )}
 
                       {/* Options for MCQ */}
                       {activeVault === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 && (

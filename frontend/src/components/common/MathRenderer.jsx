@@ -106,7 +106,35 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     processedText = processedText.replace(/x\s+R\s*:/gi, 'x ∈ R : ');
     processedText = processedText.replace(/x\s+Z\s*:/gi, 'x ∈ Z : ');
 
-    // 7. Auto-delimit standalone math expressions if no $ are present
+    // 7. Fractions auto-formatting:
+    // e.g. "1/125", "25/5", "3/4"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])(\d+)\s*\/\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, (m, num, den) => `$\\frac{${num}}{${den}}$`);
+
+    // e.g. "1125?" -> when preceded by "পদ 1125?"
+    processedText = processedText.replace(/(?<=পদ\s+)1(\d{2,3})(?=[?\s।\,]|$)/g, (m, den) => `$\\frac{1}{${den}}$`);
+
+    // e.g. "(p - q)^2 / (q - r)^2" or "(p2 + q2) / (q2 + r2)"
+    processedText = processedText.replace(/(?<!\$)\(([^\)]+)\)\s*\/\s*\(([^\)]+)\)(?!\$)/g, (m, num, den) => `$\\frac{${num}}{${den}}$`);
+
+    // e.g. "27/y3", "27/y^3", "1/x^2"
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])(\d+)\s*\/\s*([a-zA-Z](?:\^[0-9a-zA-Z\-]+|\d+)?)(?![0-9a-zA-Z\$\\\}])/g, (m, num, den) => {
+      let cleanDen = den.replace(/([a-zA-Z])(\d+)/, '$1^{$2}');
+      return `$\\frac{${num}}{${cleanDen}}$`;
+    });
+
+    // 8. Exponents & powers:
+    // e.g. "x4", "x2", "y6", "p2", "q2", "r2"
+    processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{${exp}}$`);
+    processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])\s*[-–—−]\s*(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{-${exp}}$`);
+
+    // e.g. "(3c-1 + 2d-1)-1" or "(3c 1 + 2d 1) 1"
+    processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([0-9]+[a-zA-Z])\s*[-–—−]?\s*1(?=[,\+\-\s\)]|$)/g, (m, term) => `$${term}^{-1}$`);
+    processedText = processedText.replace(/\(([^\)]+)\)\s*[-–—−]?\s*1(?=[,\+\-\s\.\;]|$)/g, (m, inner) => `(${inner})^{-1}`);
+
+    // 9. Logarithm: e.g. "log3 9" -> "\log_3 9"
+    processedText = processedText.replace(/(?<!\$)\blog\s*(\d+)\s*(\d+)\b(?!\$)/g, (m, base, val) => `$\\log_{${base}} ${val}$`);
+
+    // 10. Auto-delimit standalone math expressions if no $ are present
     if (!/\$\$[\s\S]+?\$\$|\$[^\$]+?\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)/.test(processedText)) {
       // Auto-wrap set equations: Q = { ... }, S = { ... }
       processedText = processedText.replace(/(?<!\$)\b([A-Z])\s*=\s*\{([^\}]+)\}(?!\$)/g, (m, name, setContent) => {
@@ -143,8 +171,8 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
       });
 
       // Auto-wrap physics units: 2.5 m s-2 or 63 km h-1
-      processedText = processedText.replace(/(?<!\$)\b(\d+(?:\.\d+)?)\s*(?:m\s*s\s*[-–—−]?\s*2|ms\s*[-–—−]?\s*2)\b(?!\$)/g, '$$$1\\text{ m s}^{-2}$');
-      processedText = processedText.replace(/(?<!\$)\b(\d+(?:\.\d+)?)\s*(?:km\s*h\s*[-–—−]?\s*1|kmh\s*[-–—−]?\s*1)\b(?!\$)/g, '$$$1\\text{ km h}^{-1}$');
+      processedText = processedText.replace(/(?<!\$)\b(\d+(?:\.\d+)?)\s*(?:m\s*s\s*[-–—−]?\s*2|ms\s*[-–—−]?\s*2)\b(?!\$)/g, (m, val) => `$${val}\\text{ m s}^{-2}$`);
+      processedText = processedText.replace(/(?<!\$)\b(\d+(?:\.\d+)?)\s*(?:km\s*h\s*[-–—−]?\s*1|kmh\s*[-–—−]?\s*1)\b(?!\$)/g, (m, val) => `$${val}\\text{ km h}^{-1}$`);
     }
 
     // Check if text contains LaTeX math delimiters ($...$, $$...$$, \(...\), \[...\])

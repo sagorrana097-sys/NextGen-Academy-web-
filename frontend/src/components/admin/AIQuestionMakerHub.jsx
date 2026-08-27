@@ -306,6 +306,11 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
           <span>[${q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)}]</span>
         </div>
         <div class="q-stem">${q?.question || q?.stem || ''}</div>
+        ${q?.diagramUrl ? `
+          <div style="text-align: center; margin: 6px 0;">
+            <img src="${q.diagramUrl}" style="max-height: 160px; max-width: 100%; object-fit: contain; border-radius: 6px;" alt="চিত্র" />
+          </div>
+        ` : ''}
         ${q?.type === 'MCQ' && Array.isArray(q?.options) ? `
           <div class="options-grid">
             ${q.options.map((opt, oIdx) => `<div>(${String.fromCharCode(97 + oIdx)}) ${opt}</div>`).join('')}
@@ -686,6 +691,17 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                       <div className="font-bold text-slate-800">
                         <MathRenderer text={q?.question || q?.stem} />
                       </div>
+
+                      {/* Diagram Image for CQ / Stimulus */}
+                      {q?.diagramUrl && (
+                        <div className="p-1.5 bg-slate-50 rounded-xl border border-slate-200 inline-block my-1 max-w-full">
+                          <img
+                            src={q.diagramUrl}
+                            alt="চিত্র"
+                            className="max-h-40 max-w-full rounded-lg object-contain"
+                          />
+                        </div>
+                      )}
 
                       {/* Options for MCQ */}
                       {q?.type === 'MCQ' && Array.isArray(q?.options) && (
