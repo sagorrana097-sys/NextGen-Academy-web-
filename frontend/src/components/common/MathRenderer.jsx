@@ -38,7 +38,65 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
       processedText = processedText.split(k).join(v);
     }
 
-    // 2. Fix collapsed inequalities and set expressions:
+    // 2. Fix mixed Bijoy fragments embedded in Unicode text:
+    const BIJOY_FRAGMENT_MAP = {
+      '‡K': 'কে', '†K': 'কে',
+      '‡L': 'খে', '†L': 'খে',
+      '‡M': 'গে', '†M': 'গে',
+      '‡N': 'ঘে', '†N': 'ঘে',
+      '‡P': 'চে', '†P': 'চে',
+      '‡Q': 'ছে', '†Q': 'ছে',
+      '‡R': 'জে', '†R': 'জে',
+      '‡S': 'ঝে', '†S': 'ঝে',
+      '‡T': 'ঞে', '†T': 'ঞে',
+      '‡U': 'টে', '†U': 'টে',
+      '‡V': 'ঠে', '†V': 'ঠে',
+      '‡W': 'ডে', '†W': 'ডে',
+      '‡X': 'ঢে', '†X': 'ঢে',
+      '‡Y': 'ণে', '†Y': 'ণে',
+      '‡Z': 'তে', '†Z': 'তে',
+      '‡_': 'থে', '†_': 'থে',
+      '‡`': 'দে', '†`': 'দে',
+      '‡a': 'ধে', '†a': 'ধে',
+      '‡b': 'নে', '†b': 'নে',
+      '‡c': 'পে', '†c': 'পে',
+      '‡d': 'ফে', '†d': 'ফে',
+      '‡e': 'বে', '†e': 'বে',
+      '‡f': 'ভে', '†f': 'ভে',
+      '‡g': 'মে', '†g': 'মে',
+      '‡h': 'যে', '†h': 'যে',
+      '‡i': 'রে', '†i': 'রে',
+      '‡j': 'লে', '†j': 'লে',
+      '‡k': 'শে', '†k': 'শে',
+      '‡l': 'ষে', '†l': 'ষে',
+      '‡m': 'সে', '†m': 'সে',
+      '‡n': 'হে', '†n': 'হে',
+      '‡q': 'য়ে', '†q': 'য়ে'
+    };
+
+    for (const [k, v] of Object.entries(BIJOY_FRAGMENT_MAP)) {
+      processedText = processedText.split(k).join(v);
+    }
+
+    // 3. Fix Radical/Square root symbol used as Ro-phala (্র) after Bengali consonants:
+    processedText = processedText.replace(/([\u0995-\u09B9\u09DC-\u09DF])√/g, '$1\u09CD\u09B0');
+
+    // 4. Fix misplaced Kar signs placed before Virama:
+    const VOWEL_KARS = '[\u09BE\u09BF\u09C0\u09C1\u09C2\u09C3\u09C7\u09C8\u09CB\u09CC]';
+    const BENGALI_CONS = '[\u0995-\u09B9\u09CE\u09DC-\u09DF]';
+    const misplacedKarRegex = new RegExp(`(${BENGALI_CONS})(${VOWEL_KARS})\u09CD(${BENGALI_CONS})`, 'g');
+    for (let round = 0; round < 3; round++) {
+      processedText = processedText.replace(misplacedKarRegex, '$1\u09CD$3$2');
+    }
+
+    // 5. Fix common OCR/Sutonny typo replacements:
+    processedText = processedText.replace(/উত্মর([া-ৌ্]|\b|\s|$)/g, 'উত্তর$1');
+    processedText = processedText.replace(/উত্মর/g, 'উত্তর');
+    processedText = processedText.replace(/উদীপক/g, 'উদ্দীপক');
+    processedText = processedText.replace(/তথে্য/g, 'তথ্যে');
+    processedText = processedText.replace(/প√শে্নর/g, 'প্রশ্নের');
+
+    // 6. Fix collapsed inequalities and set expressions:
     processedText = processedText.replace(/(\d+)\s{2,}([a-zA-Z])\s*<\s*(\d+)/g, '$1 < $2 < $3');
     processedText = processedText.replace(/(\d+)\s*<\s*([a-zA-Z])\s{2,}(\d+)/g, '$1 < $2 < $3');
     processedText = processedText.replace(/(\d+)\s{2,}([a-zA-Z])\s*([≤<=])\s*(\d+)/g, '$1 ≤ $2 $3 $4');
@@ -48,7 +106,7 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     processedText = processedText.replace(/x\s+R\s*:/gi, 'x ∈ R : ');
     processedText = processedText.replace(/x\s+Z\s*:/gi, 'x ∈ Z : ');
 
-    // 3. Auto-delimit standalone math expressions if no $ are present
+    // 7. Auto-delimit standalone math expressions if no $ are present
     if (!/\$\$[\s\S]+?\$\$|\$[^\$]+?\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)/.test(processedText)) {
       // Auto-wrap set equations: Q = { ... }, S = { ... }
       processedText = processedText.replace(/(?<!\$)\b([A-Z])\s*=\s*\{([^\}]+)\}(?!\$)/g, (m, name, setContent) => {
