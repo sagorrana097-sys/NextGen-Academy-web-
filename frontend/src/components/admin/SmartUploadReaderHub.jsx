@@ -20,7 +20,18 @@ import {
   Check,
   X,
   ListOrdered,
-  BookMarked
+  BookMarked,
+  Sliders,
+  Send,
+  Zap,
+  Copy,
+  ArrowUp,
+  ArrowDown,
+  CheckSquare,
+  Edit3,
+  Save,
+  UploadCloud,
+  Info
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
@@ -80,6 +91,190 @@ const INSTITUTIONS_LIST = [
 
 const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020'];
 
+// Helper to normalize Bengali/English answer keys to 'ক' | 'খ' | 'গ' | 'ঘ'
+function normalizeOptionKey(val) {
+  if (!val) return 'ক';
+  const clean = String(val).trim().toLowerCase();
+  if (clean === 'b' || clean === 'খ' || clean === '2' || clean === '২' || clean.includes('খ') || clean.includes('b')) return 'খ';
+  if (clean === 'c' || clean === 'গ' || clean === '3' || clean === '৩' || clean.includes('গ') || clean.includes('c')) return 'গ';
+  if (clean === 'd' || clean === 'ঘ' || clean === '4' || clean === '৪' || clean.includes('ঘ') || clean.includes('d')) return 'ঘ';
+  return 'ক';
+}
+
+// Extract MCQ details from raw lines
+function parseMCQChunk(lines, idx) {
+  let options = [];
+  let ans = 'ক';
+  let explanation = '';
+  const qLines = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Check for Answer line (Bengali or English)
+    const ansMatch = line.match(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|Correct\s*Ans(?:wer)?)\s*[:.\-=\s]+\s*[\(\[]?([ক-ঘa-dA-D1-4১২৩৪])[\)\]\.\s\-]*/i);
+    if (ansMatch) {
+      ans = normalizeOptionKey(ansMatch[1]);
+      continue;
+    }
+
+    // Check for Explanation / Solution line
+    const expMatch = line.match(/^(?:ব্যাখ্যা|Explanation|Explain|সমাধান|Note|ব্যাখ্যা\s*সহ)\s*[:.\-=\s]+(.*)/i);
+    if (expMatch) {
+      explanation = expMatch[1].trim();
+      continue;
+    }
+
+    // Check for inline options on a single line (e.g. "(ক) অপ ১ (খ) অপ ২ (গ) অপ ৩ (ঘ) অপ ৪" or "ক. ১  খ. ২  গ. ৩  ঘ. ৪")
+    const inlineMatches = [...line.matchAll(/(?:^|\s+)[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*?)(?=(?:\s+[\(\[]?[ক-ঘa-dA-D][\)\]\.\:\-\|\।\s]+)|$)/gi)];
+    if (inlineMatches.length >= 2) {
+      inlineMatches.forEach(m => {
+        const optVal = m[2].trim();
+        if (optVal) options.push(optVal);
+      });
+      continue;
+    }
+
+    // Check for single line option (e.g. "ক) অপশন টেক্সট" or "A. Option text")
+    const singleOptMatch = line.match(/^[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*)/i);
+    if (singleOptMatch && options.length < 4 && i > 0) {
+      const optVal = singleOptMatch[2].trim();
+      if (optVal) options.push(optVal);
+      continue;
+    }
+
+    // Otherwise it's part of the question title
+    qLines.push(line);
+  }
+
+  // Pad options to 4 if fewer
+  const defaultLabels = ['বিকল্প ক', 'বিকল্প খ', 'বিকল্প গ', 'বিকল্প ঘ'];
+  while (options.length < 4) {
+    options.push(defaultLabels[options.length] || `বিকল্প ${options.length + 1}`);
+  }
+
+  const rawTitle = qLines.join(' ')
+    .replace(/^(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]+|Q[0-9]+[:.]\s*|\[[0-9১-৯]+\]\s*)/i, '')
+    .trim();
+
+  return {
+    id: `mcq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+    type: 'MCQ',
+    question: rawTitle || lines[0] || `প্রশ্ন ${idx + 1}`,
+    options: options.slice(0, 4),
+    correctAnswer: ans,
+    explanation: explanation,
+    difficulty: 'MEDIUM',
+    marks: 1
+  };
+}
+
+// Extract CQ details from raw lines
+function parseCQChunk(lines, idx) {
+  const stemLines = [];
+  const subQs = {
+    a: { q: 'জ্ঞানমূলক প্রশ্ন লিখুন', marks: 1 },
+    b: { q: 'অনুধাবনমূলক প্রশ্ন লিখুন', marks: 2 },
+    c: { q: 'প্রয়োগমূলক প্রশ্ন লিখুন', marks: 3 },
+    d: { q: 'উচ্চতর দক্ষতামূলক প্রশ্ন লিখুন', marks: 4 }
+  };
+
+  lines.forEach(line => {
+    const l = line.trim();
+    if (!l) return;
+
+    if (/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.a.q = l.replace(/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+    } else if (/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.b.q = l.replace(/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+    } else if (/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.c.q = l.replace(/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+    } else if (/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      subQs.d.q = l.replace(/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+    } else {
+      stemLines.push(l);
+    }
+  });
+
+  const rawStem = stemLines.join(' ')
+    .replace(/^(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]+|Q[0-9]+[:.]\s*|\[[0-9১-৯]+\]\s*)/i, '')
+    .trim();
+
+  return {
+    id: `cq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+    type: 'CQ',
+    question: rawStem || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
+    subQuestions: subQs,
+    diagramUrl: '',
+    difficulty: 'MEDIUM',
+    marks: 10
+  };
+}
+
+// Extract SQ details from raw lines
+function parseSQChunk(lines, idx) {
+  let sqAns = '';
+  const qLines = [];
+
+  lines.forEach(line => {
+    const l = line.trim();
+    if (!l) return;
+
+    if (/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|সমাধান)\s*[:.\-=\s]+/i.test(l)) {
+      sqAns = l.replace(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|সমাধান)\s*[:.\-=\s]+/i, '').trim();
+    } else {
+      qLines.push(l);
+    }
+  });
+
+  const rawTitle = qLines.join(' ')
+    .replace(/^(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]+|Q[0-9]+[:.]\s*|\[[0-9১-৯]+\]\s*)/i, '')
+    .trim();
+
+  return {
+    id: `sq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+    type: 'SQ',
+    question: rawTitle || lines[0] || `সংক্ষিপ্ত প্রশ্ন ${idx + 1}`,
+    shortAnswer: sqAns,
+    difficulty: 'MEDIUM',
+    marks: 2
+  };
+}
+
+// Auto-Split Bulk Text into Question Objects dynamically
+function splitBulkPastedText(text, vaultType) {
+  if (!text || !text.trim()) return [];
+
+  // Normalize line endings
+  const clean = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+
+  // Split by Question Numbering (e.g. "১.", "1.", "প্রশ্ন ১:", "Q1:", "[1]", "১।")
+  const regexSplitter = /(?:^|\n+)(?=(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]|Q[0-9]+[:.]|\[[0-9১-৯]+\]))/i;
+  let rawChunks = clean.split(regexSplitter).map(c => c.trim()).filter(Boolean);
+
+  // If regex found only 1 chunk or failed, fallback to double line breaks
+  if (rawChunks.length <= 1) {
+    const doubleNewlineChunks = clean.split(/\n\s*\n+/).map(c => c.trim()).filter(Boolean);
+    if (doubleNewlineChunks.length > 1) {
+      rawChunks = doubleNewlineChunks;
+    }
+  }
+
+  return rawChunks.map((chunk, idx) => {
+    const lines = chunk.split('\n').map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return null;
+
+    if (vaultType === 'MCQ') {
+      return parseMCQChunk(lines, idx);
+    } else if (vaultType === 'CQ') {
+      return parseCQChunk(lines, idx);
+    } else {
+      return parseSQChunk(lines, idx);
+    }
+  }).filter(Boolean);
+}
+
 export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNavigateToMaker, onNavigateToOMR }) {
   const { lang } = useLanguage();
 
@@ -93,27 +288,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   const [selectedYear, setSelectedYear] = useState('2026');
   const [selectedChapter, setSelectedChapter] = useState('');
 
-  // 1. MCQ Form State
-  const [mcqQuestion, setMcqQuestion] = useState('');
-  const [optionA, setOptionA] = useState('');
-  const [optionB, setOptionB] = useState('');
-  const [optionC, setOptionC] = useState('');
-  const [optionD, setOptionD] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState('ক');
-  const [mcqExplanation, setMcqExplanation] = useState('');
-
-  // 2. CQ Form State
-  const [cqStem, setCqStem] = useState('');
-  const [subQA, setSubQA] = useState('');
-  const [subQB, setSubQB] = useState('');
-  const [subQC, setSubQC] = useState('');
-  const [subQD, setSubQD] = useState('');
-  const [cqDiagramUrl, setCqDiagramUrl] = useState('');
-
-  // 3. SQ Form State
-  const [sqQuestion, setSqQuestion] = useState('');
-  const [sqAnswer, setSqAnswer] = useState('');
-  const [sqMarks, setSqMarks] = useState(2);
+  // Bulk Raw Text Input & Dynamic Staged Cards
+  const [bulkInputText, setBulkInputText] = useState('');
+  const [stagedQuestions, setStagedQuestions] = useState([]);
 
   // Status & Feedback State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -147,37 +324,223 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     }
   };
 
-  // 1. Save MCQ Question
-  const handleSaveMCQ = async (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    if (!mcqQuestion.trim()) {
-      alert('অনুগ্রহ করে MCQ প্রশ্নের বিবরণ বা উদ্দীপক লিখুন।');
+  // Auto-split bulk pasted text
+  const handleProcessBulkText = (text = bulkInputText, vault = activeVault) => {
+    if (!text || !text.trim()) {
+      setStagedQuestions([]);
       return;
+    }
+    const splitItems = splitBulkPastedText(text, vault);
+    setStagedQuestions(splitItems);
+  };
+
+  // Switch vault tab
+  const handleTabChange = (vault) => {
+    setActiveVault(vault);
+    setBulkInputText('');
+    setStagedQuestions([]);
+    setFeedbackMsg(null);
+  };
+
+  // Add 1 Empty Question Card
+  const handleAddNewEmptyCard = () => {
+    const newId = `${activeVault.toLowerCase()}-staged-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+    if (activeVault === 'MCQ') {
+      setStagedQuestions(prev => [
+        ...prev,
+        {
+          id: newId,
+          type: 'MCQ',
+          question: '',
+          options: ['বিকল্প ক', 'বিকল্প খ', 'বিকল্প গ', 'বিকল্প ঘ'],
+          correctAnswer: 'ক',
+          explanation: '',
+          difficulty: 'MEDIUM',
+          marks: 1
+        }
+      ]);
+    } else if (activeVault === 'CQ') {
+      setStagedQuestions(prev => [
+        ...prev,
+        {
+          id: newId,
+          type: 'CQ',
+          question: '',
+          subQuestions: {
+            a: { q: '', marks: 1 },
+            b: { q: '', marks: 2 },
+            c: { q: '', marks: 3 },
+            d: { q: '', marks: 4 }
+          },
+          diagramUrl: '',
+          difficulty: 'MEDIUM',
+          marks: 10
+        }
+      ]);
+    } else {
+      setStagedQuestions(prev => [
+        ...prev,
+        {
+          id: newId,
+          type: 'SQ',
+          question: '',
+          shortAnswer: '',
+          difficulty: 'MEDIUM',
+          marks: 2
+        }
+      ]);
+    }
+  };
+
+  // Quick Demo Templates
+  const handleLoadDemo = () => {
+    if (activeVault === 'MCQ') {
+      const demoMCQ = `১. বল ও সরণের গুণফলকে কী বলে?
+(ক) ক্ষমতা  (খ) শক্তি  (গ) কাজ  (ঘ) বেগ
+উত্তর: গ
+ব্যাখ্যা: কাজ = বল × বলের অভিমুখে সরণ (W = F × s)।
+
+২. কাজের আন্তর্জাতিক (SI) একক কোনটি?
+ক) জুল (J)
+খ) ওয়াট (W)
+গ) নিউটন (N)
+ঘ) প্যাসকেল (Pa)
+উত্তর: ক
+
+৩. ১ অশ্বক্ষমতা (1 Horsepower) সমান কত ওয়াট?
+(ক) ৭৪৬ ওয়াট
+(খ) ৫০০ ওয়াট
+(গ) ১০০০ ওয়াট
+(ঘ) ২৫০ ওয়াট
+উত্তর: ক
+
+৪. শক্তির সবচেয়ে সাধারণ রূপ কোনটি?
+ক. গতিশক্তি
+খ. যান্ত্রিক শক্তি
+গ. তাপ শক্তি
+ঘ. রাসায়নিক শক্তি
+উত্তরঃ খ`;
+      setBulkInputText(demoMCQ);
+      handleProcessBulkText(demoMCQ, 'MCQ');
+    } else if (activeVault === 'CQ') {
+      const demoCQ = `১. উদ্দীপক: ৫০ কেজি ভরের একজন ব্যক্তি ৫ মিনিটে ৫০ মিটার উঁচু পাহাড়ে উঠলেন।
+(ক) কাজ কাকে বলে? [১]
+(খ) ধনাত্মক কাজ বলতে কী বোঝায়? [২]
+(গ) ব্যক্তির দ্বারা কৃতকাজের পরিমাণ নির্ণয় করো। [৩]
+(ঘ) ব্যক্তির ক্ষমতা নির্ণয় করে দক্ষতা বিশ্লেষণ করো। [৪]
+
+২. উদ্দীপক: ২০ মিটার উচ্চতা থেকে একটি ২ কেজি ভরের বস্তুকে মুক্তভাবে নিচে ছেড়ে দেওয়া হলো।
+(ক) বিভব শক্তি কী? [১]
+(খ) শক্তির সংরক্ষণশীলতা নীতিটি ব্যাখ্যা করো। [২]
+(গ) ভূমি স্পর্শ করার পূর্ব মুহূর্তে গতিশক্তি নির্ণয় করো। [৩]
+(ঘ) উক্ত ঘটনায় শক্তির নিত্যতা নীতি রক্ষিত হয়েছে কি না গাণিতিকভাবে বিশ্লেষণ করো। [৪]`;
+      setBulkInputText(demoCQ);
+      handleProcessBulkText(demoCQ, 'CQ');
+    } else {
+      const demoSQ = `১. কাজ কাকে বলে? এর এসআই একক কী?
+উত্তর: কোনো বস্তুর ওপর বল প্রয়োগে বলের দিকে সরণ ঘটলে বল ও সরণের গুণফলকে কাজ বলে। কাজের একক জুল (J)।
+
+২. ১ ওয়াট ক্ষমতা বলতে কী বোঝায়?
+উত্তর: প্রতি সেকেন্ডে ১ জুল পরিমাণ কাজ করার ক্ষমতাকে ১ ওয়াট (1 W) বলে।
+
+৩. গতিশক্তি কাকে বলে?
+উত্তর: কোনো গতিশীল বস্তু তার গতির জন্য কাজ করার যে সামর্থ্য অর্জন করে, তাকে গতিশক্তি বলে।`;
+      setBulkInputText(demoSQ);
+      handleProcessBulkText(demoSQ, 'SQ');
+    }
+  };
+
+  // Update Individual Staged Card
+  const updateStagedCard = (id, updates) => {
+    setStagedQuestions(prev => prev.map(q => q.id === id ? { ...q, ...updates } : q));
+  };
+
+  // Remove Individual Staged Card
+  const removeStagedCard = (id) => {
+    setStagedQuestions(prev => prev.filter(q => q.id !== id));
+  };
+
+  // Duplicate Individual Staged Card
+  const duplicateStagedCard = (q) => {
+    const newId = `${activeVault.toLowerCase()}-staged-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+    const cloned = { ...JSON.parse(JSON.stringify(q)), id: newId };
+    setStagedQuestions(prev => {
+      const idx = prev.findIndex(item => item.id === q.id);
+      if (idx === -1) return [...prev, cloned];
+      const next = [...prev];
+      next.splice(idx + 1, 0, cloned);
+      return next;
+    });
+  };
+
+  // Move Card Up
+  const moveCardUp = (index) => {
+    if (index === 0) return;
+    setStagedQuestions(prev => {
+      const next = [...prev];
+      const temp = next[index - 1];
+      next[index - 1] = next[index];
+      next[index] = temp;
+      return next;
+    });
+  };
+
+  // Move Card Down
+  const moveCardDown = (index) => {
+    setStagedQuestions(prev => {
+      if (index >= prev.length - 1) return prev;
+      const next = [...prev];
+      const temp = next[index + 1];
+      next[index + 1] = next[index];
+      next[index] = temp;
+      return next;
+    });
+  };
+
+  // Save ALL Staged Questions to Repository Database cleanly at once
+  const handleSaveAllToRepository = async () => {
+    if (stagedQuestions.length === 0) {
+      alert('ভাণ্ডারে জমা করার জন্য কোনো প্রশ্ন পাওয়া যায়নি। অনুগ্রহ করে প্রশ্ন পেস্ট বা টাইপ করুন।');
+      return;
+    }
+
+    // Validate that questions are not empty
+    const emptyCount = stagedQuestions.filter(q => !q.question || !q.question.trim()).length;
+    if (emptyCount > 0) {
+      if (!window.confirm(`${emptyCount}টি প্রশ্নের বিবরণ ফাঁকা রয়েছে। আপনি কি তবুও জমা করতে চান?`)) {
+        return;
+      }
     }
 
     setIsSubmitting(true);
     setFeedbackMsg(null);
 
     try {
-      const questionObj = {
-        id: `mcq-${Date.now()}`,
-        type: 'MCQ',
-        question: mcqQuestion.trim(),
-        stem: mcqQuestion.trim(),
-        options: [optionA || 'বিকল্প ১', optionB || 'বিকল্প ২', optionC || 'বিকল্প ৩', optionD || 'বিকল্প ৪'],
-        correctAnswer: correctAnswer || 'ক',
-        explanation: mcqExplanation.trim() || '',
-        marks: 1,
-        difficulty: 'MEDIUM',
+      const payloadQuestions = stagedQuestions.map((q, idx) => ({
+        id: `${activeVault.toLowerCase()}-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+        type: q.type || activeVault,
+        question: q.question || `প্রশ্ন ${idx + 1}`,
+        stem: q.question || '',
+        options: Array.isArray(q.options) ? q.options : [],
+        correctAnswer: q.correctAnswer || 'ক',
+        explanation: q.explanation || '',
+        subQuestions: q.subQuestions || null,
+        shortAnswer: q.shortAnswer || '',
+        marks: q.marks || (activeVault === 'CQ' ? 10 : activeVault === 'SQ' ? 2 : 1),
+        difficulty: q.difficulty || 'MEDIUM',
+        diagramUrl: q.diagramUrl || null,
         boardOrInstitute: selectedInstitution,
+        institutionOrBoard: selectedInstitution,
         year: selectedYear,
         subject: selectedSubject,
+        book: selectedSubject,
         class: selectedClass,
+        className: selectedClass,
         chapter: selectedChapter || null
-      };
+      }));
 
       const payload = {
-        questions: [questionObj],
+        questions: payloadQuestions,
         category: selectedInstitution,
         subject: selectedSubject,
         term: selectedYear,
@@ -201,175 +564,35 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
       };
 
       const res = await questionRepositoryAPI.uploadAndTrain(payload);
+
       if (res?.success) {
-        alert('🎉 অভিনন্দন! MCQ প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
-        setFeedbackMsg({ type: 'success', text: 'MCQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
-        setMcqQuestion('');
-        setOptionA('');
-        setOptionB('');
-        setOptionC('');
-        setOptionD('');
-        setMcqExplanation('');
+        const savedCount = res.data?.savedCount || res.data?.count || payloadQuestions.length;
+        const msg = `🎉 সফলভাবে মোট ${savedCount}টি ${activeVault} প্রশ্ন কেন্দ্রীয় রিপোজিটরিতে জমা ও সংরক্ষিত হয়েছে!`;
+        setFeedbackMsg({ type: 'success', text: msg });
+        alert(msg);
+
+        // Reset staged list & bulk input for smooth next batch
+        setBulkInputText('');
+        setStagedQuestions([]);
         fetchRepoQuestions();
       } else {
-        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
+        const err = res?.error?.message || res?.message || 'সংরক্ষণ ব্যর্থ হয়েছে।';
+        setFeedbackMsg({ type: 'error', text: err });
+        alert(`সংরক্ষণ ব্যর্থ: ${err}`);
       }
     } catch (err) {
-      alert('সার্ভার ত্রুটি: ' + err.message);
+      console.error('[BulkManualVault] Save Exception:', err);
+      const fatal = err.message || 'সার্ভারে সমস্যা হয়েছে।';
+      setFeedbackMsg({ type: 'error', text: fatal });
+      alert(`সার্ভার ত্রুটি: ${fatal}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // 2. Save CQ Question
-  const handleSaveCQ = async (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    if (!cqStem.trim()) {
-      alert('অনুগ্রহ করে সৃজনশীল উদ্দীপক বা অনুচ্ছেদ লিখুন।');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setFeedbackMsg(null);
-
-    try {
-      const questionObj = {
-        id: `cq-${Date.now()}`,
-        type: 'CQ',
-        question: cqStem.trim(),
-        stem: cqStem.trim(),
-        subQuestions: {
-          a: { q: subQA.trim() || 'জ্ঞানমূলক প্রশ্ন', marks: 1 },
-          b: { q: subQB.trim() || 'অনুধাবনমূলক প্রশ্ন', marks: 2 },
-          c: { q: subQC.trim() || 'প্রয়োগমূলক প্রশ্ন', marks: 3 },
-          d: { q: subQD.trim() || 'উচ্চতর দক্ষতামূলক প্রশ্ন', marks: 4 }
-        },
-        diagramUrl: cqDiagramUrl.trim() || null,
-        marks: 10,
-        difficulty: 'MEDIUM',
-        boardOrInstitute: selectedInstitution,
-        year: selectedYear,
-        subject: selectedSubject,
-        class: selectedClass,
-        chapter: selectedChapter || null
-      };
-
-      const payload = {
-        questions: [questionObj],
-        category: selectedInstitution,
-        subject: selectedSubject,
-        term: selectedYear,
-        className: selectedClass,
-        book: selectedSubject,
-        institutionOrBoard: selectedInstitution,
-        year: selectedYear,
-        chapter: selectedChapter || null,
-        hasChapter: !!selectedChapter,
-        metadata: {
-          className: selectedClass,
-          book: selectedSubject,
-          category: selectedInstitution,
-          subject: selectedSubject,
-          term: selectedYear,
-          institutionOrBoard: selectedInstitution,
-          year: selectedYear,
-          chapter: selectedChapter || null,
-          badge: '[' + selectedInstitution + ' - \'' + selectedYear.slice(-2) + ']'
-        }
-      };
-
-      const res = await questionRepositoryAPI.uploadAndTrain(payload);
-      if (res?.success) {
-        alert('🎉 অভিনন্দন! সৃজনশীল (CQ) প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
-        setFeedbackMsg({ type: 'success', text: 'CQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
-        setCqStem('');
-        setSubQA('');
-        setSubQB('');
-        setSubQC('');
-        setSubQD('');
-        setCqDiagramUrl('');
-        fetchRepoQuestions();
-      } else {
-        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
-      }
-    } catch (err) {
-      alert('সার্ভার ত্রুটি: ' + err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // 3. Save SQ Question
-  const handleSaveSQ = async (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    if (!sqQuestion.trim()) {
-      alert('অনুগ্রহ করে সংক্ষিপ্ত প্রশ্নটি লিখুন।');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setFeedbackMsg(null);
-
-    try {
-      const questionObj = {
-        id: `sq-${Date.now()}`,
-        type: 'SQ',
-        question: sqQuestion.trim(),
-        stem: sqQuestion.trim(),
-        shortAnswer: sqAnswer.trim() || '',
-        marks: Number(sqMarks) || 2,
-        difficulty: 'MEDIUM',
-        boardOrInstitute: selectedInstitution,
-        year: selectedYear,
-        subject: selectedSubject,
-        class: selectedClass,
-        chapter: selectedChapter || null
-      };
-
-      const payload = {
-        questions: [questionObj],
-        category: selectedInstitution,
-        subject: selectedSubject,
-        term: selectedYear,
-        className: selectedClass,
-        book: selectedSubject,
-        institutionOrBoard: selectedInstitution,
-        year: selectedYear,
-        chapter: selectedChapter || null,
-        hasChapter: !!selectedChapter,
-        metadata: {
-          className: selectedClass,
-          book: selectedSubject,
-          category: selectedInstitution,
-          subject: selectedSubject,
-          term: selectedYear,
-          institutionOrBoard: selectedInstitution,
-          year: selectedYear,
-          chapter: selectedChapter || null,
-          badge: '[' + selectedInstitution + ' - \'' + selectedYear.slice(-2) + ']'
-        }
-      };
-
-      const res = await questionRepositoryAPI.uploadAndTrain(payload);
-      if (res?.success) {
-        alert('🎉 অভিনন্দন! সংক্ষিপ্ত (SQ) প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
-        setFeedbackMsg({ type: 'success', text: 'SQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
-        setSqQuestion('');
-        setSqAnswer('');
-        fetchRepoQuestions();
-      } else {
-        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
-      }
-    } catch (err) {
-      alert('সার্ভার ত্রুটি: ' + err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Delete question item
+  // Delete from Stored Repository
   const handleDeleteItem = async (id) => {
-    if (!window.confirm('আপনি কি নিশ্চিত যে এই প্রশ্নটি মুছে ফেলতে চান?')) return;
+    if (!window.confirm('আপনি কি নিশ্চিত যে এই প্রশ্নটি ভাণ্ডার থেকে মুছে ফেলতে চান?')) return;
     try {
       const res = await questionRepositoryAPI.deleteQuestion(id);
       if (res?.success) {
@@ -382,7 +605,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     }
   };
 
-  // Filtered Questions strictly for the active vault
+  // Filtered Questions strictly for active vault
   const vaultQuestions = useMemo(() => {
     const safeList = Array.isArray(repoQuestions) ? repoQuestions : [];
     return safeList.filter(q => {
@@ -395,40 +618,57 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
       const qText = String(q?.question || q?.stem || '').toLowerCase();
       const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || q?.category || '').toLowerCase();
       const qBook = String(q?.book || q?.subject || '').toLowerCase();
+      const qClass = String(q?.className || q?.class || '').toLowerCase();
       const search = (searchTerm || '').toLowerCase();
 
-      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qBook.includes(search);
+      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qBook.includes(search) || qClass.includes(search);
       return isTargetType && matchesSearch;
     });
   }, [repoQuestions, activeVault, searchTerm]);
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-indigo-500/30">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md mb-2">
-              <Database className="w-3.5 h-3.5 text-indigo-400" />
-              <span>১০০% সুরক্ষিত পৃথক ম্যানুয়াল প্রশ্ন ভাণ্ডার</span>
+    <div className="space-y-6 max-w-7xl mx-auto px-2 sm:px-4 py-2">
+      {/* Top Banner Header */}
+      <div className="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-7 text-white shadow-xl relative overflow-hidden border border-indigo-500/30">
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-8 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div className="space-y-1.5">
+            <div className="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md">
+              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <span>বাল্ক স্মার্ট পেস্ট ও ইন্টারেক্টিভ ১-ক্লিক উত্তর নির্বাচক</span>
             </div>
-            <h2 className="text-xl md:text-2xl font-black tracking-tight">
-              ম্যানুয়াল প্রশ্ন ভাণ্ডার সংগ্রহশালা (Question Vaults)
-            </h2>
-            <p className="text-xs md:text-sm text-slate-300 mt-1">
-              MCQ, সৃজনশীল (CQ) ও সংক্ষিপ্ত (SQ) প্রশ্ন আলাদা ক্যাটাগরিতে নির্ভুলভাবে সংরক্ষণ করুন।
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+              <span>ম্যানুয়াল প্রশ্ন ভাণ্ডার সংগ্রহশালা</span>
+              <span className="text-xs sm:text-sm font-bold bg-indigo-600/80 text-indigo-100 px-2.5 py-0.5 rounded-lg border border-indigo-400/30">
+                Bulk Smart Vault
+              </span>
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+              একসাথে বহু প্রশ্ন পেস্ট করুন। স্বয়ংক্রিয়ভাবে কার্ডে বিভক্ত হয়ে যাবে এবং ১-ক্লিকে সঠিক উত্তর নির্বাচন করে ডাটাবেজে জমা দিন।
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5 flex-wrap">
             {onNavigateToMaker && (
               <button
                 type="button"
                 onClick={onNavigateToMaker}
-                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-2xl shadow-lg shadow-emerald-600/30 transition-all cursor-pointer flex items-center space-x-2 border border-emerald-400/30 hover:scale-[1.02]"
               >
                 <FileText className="w-4 h-4" />
-                <span>প্রশ্নপত্র বিল্ডার ও প্রিন্টারে যান ➔</span>
+                <span>প্রশ্নপত্র বিল্ডারে যান ➔</span>
+              </button>
+            )}
+            {onNavigateToOMR && (
+              <button
+                type="button"
+                onClick={onNavigateToOMR}
+                className="px-4 py-2.5 bg-indigo-600/80 hover:bg-indigo-600 text-white font-bold text-xs rounded-2xl border border-indigo-400/30 transition-all cursor-pointer flex items-center space-x-1.5"
+              >
+                <CheckSquare className="w-4 h-4" />
+                <span>OMR স্ক্যানার</span>
               </button>
             )}
           </div>
@@ -436,14 +676,14 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
       </div>
 
       {/* 3 Dedicated Vault Selector Tabs */}
-      <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-xs flex-wrap">
+      <div className="flex items-center gap-2 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80 shadow-xs flex-wrap">
         <button
           type="button"
-          onClick={() => { setActiveVault('MCQ'); setFeedbackMsg(null); }}
-          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+          onClick={() => handleTabChange('MCQ')}
+          className={'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
             activeVault === 'MCQ'
-              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/40'
+              : 'text-slate-700 hover:bg-white hover:text-indigo-600'
           )}
         >
           <BookMarked className="w-4 h-4" />
@@ -452,11 +692,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
         <button
           type="button"
-          onClick={() => { setActiveVault('CQ'); setFeedbackMsg(null); }}
-          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+          onClick={() => handleTabChange('CQ')}
+          className={'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
             activeVault === 'CQ'
-              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 ring-2 ring-purple-400/40'
+              : 'text-slate-700 hover:bg-white hover:text-purple-600'
           )}
         >
           <Layers className="w-4 h-4" />
@@ -465,11 +705,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
         <button
           type="button"
-          onClick={() => { setActiveVault('SQ'); setFeedbackMsg(null); }}
-          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+          onClick={() => handleTabChange('SQ')}
+          className={'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
             activeVault === 'SQ'
-              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400/40'
+              : 'text-slate-700 hover:bg-white hover:text-emerald-600'
           )}
         >
           <CheckCircle2 className="w-4 h-4" />
@@ -477,364 +717,537 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         </button>
       </div>
 
-      {/* Main Grid */}
+      {/* Main Grid: Left Side Bulk Paste & Interactive Editor (7 Cols), Right Side Stored Repo (5 Cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Dedicated Form for the Active Vault */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 uppercase tracking-wider">
-                <Plus className="w-4 h-4 text-indigo-600" />
-                <span>
-                  {activeVault === 'MCQ' && 'নতুন বহুনির্বাচনী (MCQ) প্রশ্ন যুক্ত করুন'}
-                  {activeVault === 'CQ' && 'নতুন সৃজনশীল (CQ) প্রশ্ন যুক্ত করুন'}
-                  {activeVault === 'SQ' && 'নতুন সংক্ষিপ্ত (SQ) প্রশ্ন যুক্ত করুন'}
-                </span>
+        {/* Left Column: Metadata, Bulk Paste Textarea & Interactive Staged Cards */}
+        <div className="lg:col-span-7 space-y-5">
+          {/* Metadata Card */}
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-black text-xs text-slate-800 flex items-center gap-2 uppercase tracking-wider">
+                <Sliders className="w-4 h-4 text-indigo-600" />
+                <span>শ্রেণি, বিষয় ও প্রতিষ্ঠান সিলেক্ট করুন</span>
               </h3>
+              <span className="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200">
+                স্বয়ংক্রিয় ট্যাগিং
+              </span>
             </div>
 
-            {/* Category Selectors */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">শ্রেণি (Class):</label>
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">শ্রেণি (Class):</label>
                 <select
                   value={selectedClass}
                   onChange={(e) => setSelectedClass(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {CLASSES_LIST.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">বিষয় (Subject):</label>
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">বিষয় (Subject):</label>
                 <select
                   value={selectedSubject}
                   onChange={(e) => setSelectedSubject(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {SUBJECTS_LIST.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">বোর্ড / প্রতিষ্ঠান (Category):</label>
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">বোর্ড / প্রতিষ্ঠান (Source):</label>
                 <select
                   value={selectedInstitution}
                   onChange={(e) => setSelectedInstitution(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {INSTITUTIONS_LIST.map(inst => <option key={inst} value={inst}>{inst}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">সাল / টার্ম (Year):</label>
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">সাল / টার্ম (Year):</label>
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {YEARS_LIST.map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
 
-              <div className="md:col-span-2">
-                <label className="text-xs font-bold text-slate-700 block mb-1">অধ্যায় (ঐচ্ছিক):</label>
+              <div className="sm:col-span-2">
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">অধ্যায় / টপিক (ঐচ্ছিক):</label>
                 <input
                   type="text"
                   value={selectedChapter}
                   onChange={(e) => setSelectedChapter(e.target.value)}
                   placeholder="যেমন: অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি"
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
               </div>
             </div>
-
-            {/* 1. Dedicated MCQ Form */}
-            {activeVault === 'MCQ' && (
-              <form onSubmit={handleSaveMCQ} className="space-y-4 pt-3 border-t border-slate-100">
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-slate-800">MCQ মূল প্রশ্ন / উদ্দীপক:</label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMcqQuestion('বল ও সরণের গুণফলকে কী বলে?');
-                        setOptionA('ক্ষমতা');
-                        setOptionB('শক্তি');
-                        setOptionC('কাজ');
-                        setOptionD('বেগ');
-                        setCorrectAnswer('গ');
-                        setMcqExplanation('কাজ = বল × বলের অভিমুখে সরণ।');
-                      }}
-                      className="text-[11px] font-bold text-indigo-600 hover:underline cursor-pointer"
-                    >
-                      + ডেমো MCQ লোড করুন
-                    </button>
-                  </div>
-                  <textarea
-                    rows={3}
-                    value={mcqQuestion}
-                    onChange={(e) => setMcqQuestion(e.target.value)}
-                    placeholder="এখানে বহুনির্বাচনী প্রশ্নটি লিখুন বা পেস্ট করুন..."
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
-                  <div>
-                    <label className="text-[11px] font-bold text-slate-700 block mb-1">ক) অপশন ১:</label>
-                    <input
-                      type="text"
-                      value={optionA}
-                      onChange={(e) => setOptionA(e.target.value)}
-                      placeholder="অপশন ক"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-slate-700 block mb-1">খ) অপশন ২:</label>
-                    <input
-                      type="text"
-                      value={optionB}
-                      onChange={(e) => setOptionB(e.target.value)}
-                      placeholder="অপশন খ"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-slate-700 block mb-1">গ) অপশন ৩:</label>
-                    <input
-                      type="text"
-                      value={optionC}
-                      onChange={(e) => setOptionC(e.target.value)}
-                      placeholder="অপশন গ"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-slate-700 block mb-1">ঘ) অপশন ৪:</label>
-                    <input
-                      type="text"
-                      value={optionD}
-                      onChange={(e) => setOptionD(e.target.value)}
-                      placeholder="অপশন ঘ"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2 flex items-center justify-between pt-1">
-                    <div className="flex items-center space-x-2">
-                      <label className="text-[11px] font-bold text-slate-700">সঠিক উত্তর:</label>
-                      <select
-                        value={correctAnswer}
-                        onChange={(e) => setCorrectAnswer(e.target.value)}
-                        className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-indigo-700"
-                      >
-                        <option value="ক">ক</option>
-                        <option value="খ">খ</option>
-                        <option value="গ">গ</option>
-                        <option value="ঘ">ঘ</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">ব্যাখ্যা / সমাধান (ঐচ্ছিক):</label>
-                  <input
-                    type="text"
-                    value={mcqExplanation}
-                    onChange={(e) => setMcqExplanation(e.target.value)}
-                    placeholder="সঠিক উত্তরের ব্যাখ্যা"
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
-                  />
-                </div>
-
-                <div className="flex justify-end pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !mcqQuestion.trim()}
-                    className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md shadow-indigo-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <Database className="w-4 h-4" />
-                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'MCQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* 2. Dedicated CQ Form */}
-            {activeVault === 'CQ' && (
-              <form onSubmit={handleSaveCQ} className="space-y-4 pt-3 border-t border-slate-100">
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-slate-800">সৃজনশীল দৃশ্যকল্প / উদ্দীপক:</label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCqStem('উদ্দীপক: ৫০ কেজি ভরের একজন ব্যক্তি ৫ মিনিটে ৫০ মিটার উঁচু পাহাড়ে উঠলেন।');
-                        setSubQA('কাজ কাকে বলে?');
-                        setSubQB('ধনাত্মক কাজ বলতে কী বোঝায়?');
-                        setSubQC('ব্যক্তির দ্বারা কৃতকাজের পরিমাণ নির্ণয় করো।');
-                        setSubQD('ব্যক্তির ক্ষমতা নির্ণয় করো।');
-                      }}
-                      className="text-[11px] font-bold text-purple-600 hover:underline cursor-pointer"
-                    >
-                      + ডেমো CQ লোড করুন
-                    </button>
-                  </div>
-                  <textarea
-                    rows={4}
-                    value={cqStem}
-                    onChange={(e) => setCqStem(e.target.value)}
-                    placeholder="এখানে সৃজনশীল উদ্দীপকটি লিখুন..."
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none leading-relaxed"
-                  />
-                </div>
-
-                <div className="space-y-2 p-3.5 bg-purple-50/40 rounded-2xl border border-purple-200/70">
-                  <h4 className="text-xs font-bold text-purple-900">উপ-প্রশ্নসমূহ (ক, খ, গ, ঘ):</h4>
-                  <div>
-                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(ক) জ্ঞানমূলক প্রশ্ন [১ নম্বর]:</label>
-                    <input
-                      type="text"
-                      value={subQA}
-                      onChange={(e) => setSubQA(e.target.value)}
-                      placeholder="ক নম্বর প্রশ্ন লিখুন"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(খ) অনুধাবনমূলক প্রশ্ন [২ নম্বর]:</label>
-                    <input
-                      type="text"
-                      value={subQB}
-                      onChange={(e) => setSubQB(e.target.value)}
-                      placeholder="খ নম্বর প্রশ্ন লিখুন"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(গ) প্রয়োগমূলক প্রশ্ন [৩ নম্বর]:</label>
-                    <input
-                      type="text"
-                      value={subQC}
-                      onChange={(e) => setSubQC(e.target.value)}
-                      placeholder="গ নম্বর প্রশ্ন লিখুন"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন [৪ নম্বর]:</label>
-                    <input
-                      type="text"
-                      value={subQD}
-                      onChange={(e) => setSubQD(e.target.value)}
-                      placeholder="ঘ নম্বর প্রশ্ন লিখুন"
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">চিত্রের লিংক (ঐচ্ছিক):</label>
-                  <input
-                    type="text"
-                    value={cqDiagramUrl}
-                    onChange={(e) => setCqDiagramUrl(e.target.value)}
-                    placeholder="https://... (চিত্রের URL)"
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
-                  />
-                </div>
-
-                <div className="flex justify-end pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !cqStem.trim()}
-                    className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md shadow-purple-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <Database className="w-4 h-4" />
-                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'CQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* 3. Dedicated SQ Form */}
-            {activeVault === 'SQ' && (
-              <form onSubmit={handleSaveSQ} className="space-y-4 pt-3 border-t border-slate-100">
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-slate-800">সংক্ষিপ্ত প্রশ্ন:</label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSqQuestion('কাজ কাকে বলে? এর এসআই (SI) একক কী?');
-                        setSqAnswer('কোনো বস্তুর ওপর বল প্রয়োগে সরণ ঘটলে বল ও সরণের গুণফলকে কাজ বলে। একক জুল (J)।');
-                        setSqMarks(2);
-                      }}
-                      className="text-[11px] font-bold text-emerald-600 hover:underline cursor-pointer"
-                    >
-                      + ডেমো SQ লোড করুন
-                    </button>
-                  </div>
-                  <textarea
-                    rows={3}
-                    value={sqQuestion}
-                    onChange={(e) => setSqQuestion(e.target.value)}
-                    placeholder="সংক্ষিপ্ত প্রশ্নটি লিখুন..."
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">উত্তর / সমাধান (ঐচ্ছিক):</label>
-                  <textarea
-                    rows={3}
-                    value={sqAnswer}
-                    onChange={(e) => setSqAnswer(e.target.value)}
-                    placeholder="সংক্ষিপ্ত প্রশ্নের উত্তর বা সমাধান..."
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <label className="text-xs font-bold text-slate-700">নম্বর (Marks):</label>
-                  <input
-                    type="number"
-                    value={sqMarks}
-                    onChange={(e) => setSqMarks(e.target.value)}
-                    className="w-20 p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
-                  />
-                </div>
-
-                <div className="flex justify-end pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !sqQuestion.trim()}
-                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <Database className="w-4 h-4" />
-                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'SQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
-                  </button>
-                </div>
-              </form>
-            )}
           </div>
+
+          {/* Bulk Paste Textarea Card */}
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-sm space-y-3 relative">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center space-x-1.5">
+                <FileText className="w-4 h-4 text-indigo-600" />
+                <span>এখানে একসাথে একাধিক {activeVault} প্রশ্ন পেস্ট করুন:</span>
+              </label>
+              <button
+                type="button"
+                onClick={handleLoadDemo}
+                className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-indigo-200"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <span>+ ডেমো {activeVault} পেস্ট করুন</span>
+              </button>
+            </div>
+
+            <textarea
+              rows={5}
+              value={bulkInputText}
+              onChange={(e) => {
+                const val = e.target.value;
+                setBulkInputText(val);
+                handleProcessBulkText(val, activeVault);
+              }}
+              placeholder={
+                activeVault === 'MCQ'
+                  ? `এখানে ১ বা একাধিক MCQ প্রশ্ন পেস্ট করুন...\n\n১. বলের এসআই একক কী?\n(ক) জুল (খ) নিউটন (গ) ওয়াট (ঘ) প্যাসকেল\nউত্তর: খ\nব্যাখ্যা: বলের একক নিউটন।`
+                  : activeVault === 'CQ'
+                  ? `এখানে সৃজনশীল প্রশ্ন পেস্ট করুন...\n\n১. উদ্দীপক: একটি গাড়ি স্থির অবস্থান থেকে যাত্রা শুরু করে...\n(ক) ত্বরণ কাকে বলে? [১]\n(খ) সুষম বেগ বলতে কী বোঝায়? [২]\n(গ) গাড়িটির ত্বরণ নির্ণয় করো। [৩]\n(ঘ) মোট অতিক্রান্ত দূরত্ব বিশ্লেষণ করো। [৪]`
+                  : `এখানে সংক্ষিপ্ত প্রশ্ন পেস্ট করুন...\n\n১. কাজ কাকে বলে? এর একক কী?\nউত্তর: বল ও সরণের গুণফলকে কাজ বলে। একক জুল (J)।`
+              }
+              className="w-full p-4 bg-slate-50 border border-slate-200/90 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono leading-relaxed"
+            />
+
+            <div className="flex items-center justify-between pt-1 flex-wrap gap-2">
+              <div className="flex items-center space-x-2">
+                <span className="text-xs font-bold text-slate-600">
+                  সনাক্তকৃত প্রশ্ন: <strong className="text-indigo-600 font-black text-sm">{stagedQuestions.length}</strong> টি
+                </span>
+                {stagedQuestions.length > 0 && (
+                  <span className="inline-flex items-center space-x-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                    <span>প্রস্তুত</span>
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => { setBulkInputText(''); setStagedQuestions([]); }}
+                  className="px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl cursor-pointer transition-colors"
+                >
+                  ক্লিয়ার
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleProcessBulkText(bulkInputText, activeVault)}
+                  className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-xl cursor-pointer flex items-center space-x-1 border border-indigo-200 transition-all"
+                  title="পুনরায় পার্স করুন"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>স্মার্ট পার্স</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddNewEmptyCard}
+                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer flex items-center space-x-1 shadow-sm transition-all"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ ১টি ফাঁকা প্রশ্ন</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Parsed Staged Cards List */}
+          {stagedQuestions.length > 0 && (
+            <div className="space-y-4">
+              {/* Sticky Action Bar */}
+              <div className="sticky top-2 z-20 flex items-center justify-between bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-indigo-200 shadow-lg shadow-indigo-500/10 flex-wrap gap-3">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shadow-md">
+                    {stagedQuestions.length}
+                  </div>
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-black text-slate-900">
+                      ইন্টারেক্টিভ প্রশ্ন কার্ড তালিকা ({stagedQuestions.length} টি)
+                    </h4>
+                    <p className="text-[11px] text-slate-500">
+                      {activeVault === 'MCQ'
+                        ? 'নিচে যেকোনো অপশনে ক্লিক করে তাৎক্ষণিক সঠিক উত্তর সিলেক্ট করুন'
+                        : 'নিচে প্রশ্ন ও উপ-প্রশ্নগুলো চেক বা এডিট করুন'}
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSaveAllToRepository}
+                  disabled={isSubmitting}
+                  className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50 hover:scale-[1.02]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>জমা হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Database className="w-4 h-4" />
+                      <span>সব প্রশ্ন ভাণ্ডারে জমা করুন ({stagedQuestions.length})</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Cards Loop */}
+              <div className="space-y-4">
+                {stagedQuestions.map((q, qIdx) => (
+                  <div
+                    key={q.id}
+                    className="p-5 bg-white border border-slate-200/90 rounded-3xl shadow-xs space-y-4 relative group hover:border-indigo-400 hover:shadow-md transition-all"
+                  >
+                    {/* Card Top Row: Number, Type Badge, Difficulty, Controls */}
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-xs shadow-xs">
+                          {qIdx + 1}
+                        </span>
+                        <span className={'px-2.5 py-0.5 rounded-lg font-bold text-xs ' + (
+                          activeVault === 'MCQ' ? 'bg-indigo-100 text-indigo-800' : activeVault === 'CQ' ? 'bg-purple-100 text-purple-800' : 'bg-emerald-100 text-emerald-800'
+                        )}>
+                          {activeVault === 'MCQ' ? '🔘 বহুনির্বাচনী (MCQ)' : activeVault === 'CQ' ? '📑 সৃজনশীল (CQ)' : '📝 সংক্ষিপ্ত (SQ)'}
+                        </span>
+                        <span className="text-[10px] font-bold text-slate-400">
+                          ID: {q.id.slice(-6)}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center space-x-1.5">
+                        {/* Difficulty Selector */}
+                        <select
+                          value={q.difficulty || 'MEDIUM'}
+                          onChange={(e) => updateStagedCard(q.id, { difficulty: e.target.value })}
+                          className="text-[11px] font-bold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700"
+                        >
+                          <option value="EASY">সহজ (Easy)</option>
+                          <option value="MEDIUM">মাঝারি (Medium)</option>
+                          <option value="HARD">কঠিন (Hard)</option>
+                        </select>
+
+                        {/* Reorder Buttons */}
+                        <button
+                          type="button"
+                          onClick={() => moveCardUp(qIdx)}
+                          disabled={qIdx === 0}
+                          className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg disabled:opacity-30 cursor-pointer"
+                          title="উপরে নিন"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveCardDown(qIdx)}
+                          disabled={qIdx === stagedQuestions.length - 1}
+                          className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg disabled:opacity-30 cursor-pointer"
+                          title="নিচে নিন"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+
+                        {/* Duplicate Button */}
+                        <button
+                          type="button"
+                          onClick={() => duplicateStagedCard(q)}
+                          className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg cursor-pointer"
+                          title="ডুপ্লিকেট করুন"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                        </button>
+
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          onClick={() => removeStagedCard(q.id)}
+                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg cursor-pointer transition-colors"
+                          title="এই প্রশ্নটি বাদ দিন"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Question Title / Stem Input */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-[11px] font-bold text-slate-700">
+                          {activeVault === 'CQ' ? 'উদ্দীপক / মূল অনুচ্ছেদ (Stem):' : 'প্রশ্নের বিবরণ:'}
+                        </label>
+                      </div>
+                      <textarea
+                        rows={2}
+                        value={q.question}
+                        onChange={(e) => updateStagedCard(q.id, { question: e.target.value })}
+                        placeholder="এখানে প্রশ্নের বিবরণ বা উদ্দীপক লিখুন..."
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
+                      />
+                    </div>
+
+                    {/* INTERACTIVE MCQ OPTIONS & 1-CLICK ANSWER SELECTOR */}
+                    {activeVault === 'MCQ' && (
+                      <div className="space-y-3 pt-1">
+                        {/* Quick Answer Selector Bar */}
+                        <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-2xl border border-slate-200/80 flex-wrap gap-2">
+                          <div className="flex items-center space-x-1.5">
+                            <span className="text-[11px] font-bold text-slate-700">১-ক্লিক সঠিক উত্তর:</span>
+                            <span className="text-[10px] text-slate-500">(সরাসরি প্রেস করুন)</span>
+                          </div>
+
+                          <div className="flex items-center space-x-1.5">
+                            {['ক', 'খ', 'গ', 'ঘ'].map((key) => {
+                              const isSelected = (q.correctAnswer || 'ক') === key;
+                              return (
+                                <button
+                                  key={key}
+                                  type="button"
+                                  onClick={() => updateStagedCard(q.id, { correctAnswer: key })}
+                                  className={'px-3 py-1 rounded-xl font-black text-xs transition-all cursor-pointer flex items-center space-x-1 ' + (
+                                    isSelected
+                                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400 scale-105'
+                                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700'
+                                  )}
+                                >
+                                  {isSelected && <Check className="w-3.5 h-3.5" />}
+                                  <span>({key})</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* 4 Interactive Option Cards Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                          {['ক', 'খ', 'গ', 'ঘ'].map((optKey, oIdx) => {
+                            const isSelected = (q.correctAnswer || 'ক') === optKey;
+                            const optVal = Array.isArray(q.options) ? (q.options[oIdx] || '') : '';
+
+                            return (
+                              <div
+                                key={optKey}
+                                className={'p-2.5 rounded-2xl border transition-all flex items-center space-x-2.5 ' + (
+                                  isSelected
+                                    ? 'bg-emerald-50/90 border-emerald-400 ring-2 ring-emerald-500/20 shadow-xs'
+                                    : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                                )}
+                              >
+                                {/* 1-Click Select Button */}
+                                <button
+                                  type="button"
+                                  onClick={() => updateStagedCard(q.id, { correctAnswer: optKey })}
+                                  className={'w-7 h-7 rounded-xl font-black text-xs flex items-center justify-center shrink-0 transition-all cursor-pointer ' + (
+                                    isSelected
+                                      ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-300'
+                                      : 'bg-white text-slate-600 border border-slate-300 hover:bg-emerald-100 hover:text-emerald-800'
+                                  )}
+                                  title={`(${optKey}) কে সঠিক উত্তর হিসেবে নির্ধারণ করুন`}
+                                >
+                                  {isSelected ? <Check className="w-4 h-4" /> : optKey}
+                                </button>
+
+                                {/* Option Text Input */}
+                                <div className="flex-1">
+                                  <input
+                                    type="text"
+                                    value={optVal}
+                                    onChange={(e) => {
+                                      const nextOpts = [...(q.options || ['বিকল্প ক', 'বিকল্প খ', 'বিকল্প গ', 'বিকল্প ঘ'])];
+                                      nextOpts[oIdx] = e.target.value;
+                                      updateStagedCard(q.id, { options: nextOpts });
+                                    }}
+                                    placeholder={`অপশন (${optKey}) লিখুন`}
+                                    className="w-full bg-transparent border-none text-xs text-slate-800 font-semibold focus:outline-none"
+                                  />
+                                </div>
+
+                                {isSelected && (
+                                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-md shrink-0">
+                                    সঠিক ✓
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Explanation Input */}
+                        <div className="pt-1">
+                          <label className="text-[10px] font-bold text-slate-500 block mb-0.5">ব্যাখ্যা বা সমাধান (ঐচ্ছিক):</label>
+                          <input
+                            type="text"
+                            value={q.explanation || ''}
+                            onChange={(e) => updateStagedCard(q.id, { explanation: e.target.value })}
+                            placeholder="ব্যাখ্যা বা প্রাসঙ্গিক নোট লিখুন (ঐচ্ছিক)"
+                            className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* CQ SUB-QUESTIONS INPUTS */}
+                    {activeVault === 'CQ' && q.subQuestions && (
+                      <div className="space-y-3 p-4 bg-purple-50/40 rounded-2xl border border-purple-200/70">
+                        <div className="grid grid-cols-1 gap-2.5 text-xs">
+                          <div>
+                            <label className="text-[11px] font-bold text-purple-950 flex items-center justify-between mb-1">
+                              <span>(ক) জ্ঞানমূলক প্রশ্ন:</span>
+                              <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-md font-black">১ নম্বর</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={q.subQuestions.a?.q || q.subQuestions.a || ''}
+                              onChange={(e) => updateStagedCard(q.id, {
+                                subQuestions: { ...q.subQuestions, a: { q: e.target.value, marks: 1 } }
+                              })}
+                              placeholder="(ক) জ্ঞানমূলক প্রশ্ন লিখুন..."
+                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-purple-950 flex items-center justify-between mb-1">
+                              <span>(খ) অনুধাবনমূলক প্রশ্ন:</span>
+                              <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-md font-black">২ নম্বর</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={q.subQuestions.b?.q || q.subQuestions.b || ''}
+                              onChange={(e) => updateStagedCard(q.id, {
+                                subQuestions: { ...q.subQuestions, b: { q: e.target.value, marks: 2 } }
+                              })}
+                              placeholder="(খ) অনুধাবনমূলক প্রশ্ন লিখুন..."
+                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-purple-950 flex items-center justify-between mb-1">
+                              <span>(গ) প্রয়োগমূলক প্রশ্ন:</span>
+                              <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-md font-black">৩ নম্বর</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={q.subQuestions.c?.q || q.subQuestions.c || ''}
+                              onChange={(e) => updateStagedCard(q.id, {
+                                subQuestions: { ...q.subQuestions, c: { q: e.target.value, marks: 3 } }
+                              })}
+                              placeholder="(গ) প্রয়োগমূলক প্রশ্ন লিখুন..."
+                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-purple-950 flex items-center justify-between mb-1">
+                              <span>(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন:</span>
+                              <span className="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-md font-black">৪ নম্বর</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={q.subQuestions.d?.q || q.subQuestions.d || ''}
+                              onChange={(e) => updateStagedCard(q.id, {
+                                subQuestions: { ...q.subQuestions, d: { q: e.target.value, marks: 4 } }
+                              })}
+                              placeholder="(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন লিখুন..."
+                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Diagram URL */}
+                        <div className="pt-1">
+                          <label className="text-[10px] font-bold text-slate-500 block mb-0.5">চিত্র / ডায়াগ্রামের লিঙ্ক (ঐচ্ছিক):</label>
+                          <input
+                            type="text"
+                            value={q.diagramUrl || ''}
+                            onChange={(e) => updateStagedCard(q.id, { diagramUrl: e.target.value })}
+                            placeholder="https://example.com/diagram.png"
+                            className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SQ SHORT ANSWER INPUT */}
+                    {activeVault === 'SQ' && (
+                      <div className="space-y-1.5 pt-1">
+                        <label className="text-[11px] font-bold text-emerald-900 flex items-center justify-between">
+                          <span>উত্তর / সমাধান (Short Answer):</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md font-black">
+                            {q.marks || 2} নম্বর
+                          </span>
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={q.shortAnswer || ''}
+                          onChange={(e) => updateStagedCard(q.id, { shortAnswer: e.target.value })}
+                          placeholder="এখানে সংক্ষিপ্ত উত্তর বা সমাধান লিখুন..."
+                          className="w-full p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Large Save Button */}
+              <div className="flex items-center justify-between bg-white p-4 rounded-3xl border border-slate-200 shadow-sm flex-wrap gap-3">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs font-bold text-slate-600">
+                    মোট প্রস্তুত প্রশ্ন: <strong className="text-indigo-600 font-black">{stagedQuestions.length}</strong> টি
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSaveAllToRepository}
+                  disabled={isSubmitting}
+                  className="px-8 py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs sm:text-sm rounded-2xl shadow-xl shadow-emerald-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50 hover:scale-[1.02]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>ভাণ্ডারে সংরক্ষিত হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Database className="w-4 h-4" />
+                      <span>সব প্রশ্ন ভাণ্ডারে জমা করুন ({stagedQuestions.length} টি)</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Right Column: Stored Questions List for Active Vault */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+        {/* Right Column: Stored Questions Repository for Active Vault (5 Cols) */}
+        <div className="lg:col-span-5 space-y-5">
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
               <div className="flex items-center space-x-2">
                 <Database className="w-4 h-4 text-indigo-600" />
-                <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
-                  {activeVault === 'MCQ' && `সংরক্ষিত বহুনির্বাচনী প্রশ্ন (${vaultQuestions.length} টি)`}
-                  {activeVault === 'CQ' && `সংরক্ষিত সৃজনশীল প্রশ্ন (${vaultQuestions.length} টি)`}
-                  {activeVault === 'SQ' && `সংরক্ষিত সংক্ষিপ্ত প্রশ্ন (${vaultQuestions.length} টি)`}
+                <h3 className="font-black text-xs sm:text-sm text-slate-900 uppercase tracking-wider">
+                  {activeVault === 'MCQ' && `সংরক্ষিত MCQ ভাণ্ডার (${vaultQuestions.length} টি)`}
+                  {activeVault === 'CQ' && `সংরক্ষিত CQ ভাণ্ডার (${vaultQuestions.length} টি)`}
+                  {activeVault === 'SQ' && `সংরক্ষিত SQ ভাণ্ডার (${vaultQuestions.length} টি)`}
                 </h3>
               </div>
               <button
@@ -861,9 +1274,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
             </div>
 
             {/* Questions List */}
-            <div className="max-h-[580px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+            <div className="max-h-[680px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
               {loadingRepo ? (
-                <div className="p-8 text-center text-slate-400 space-y-2">
+                <div className="p-10 text-center text-slate-400 space-y-2">
                   <RefreshCw className="w-6 h-6 animate-spin mx-auto text-indigo-600" />
                   <p className="text-xs font-bold">ভাণ্ডার লোড হচ্ছে...</p>
                 </div>
@@ -871,16 +1284,19 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
                   <FolderOpen className="w-8 h-8 mx-auto text-slate-300" />
                   <p className="text-xs font-bold text-slate-700">এই ভাণ্ডারে কোনো প্রশ্ন নেই</p>
-                  <p className="text-[11px] text-slate-400">বাম পাশের ফরম ব্যবহার করে প্রশ্ন সংরক্ষণ করুন।</p>
+                  <p className="text-[11px] text-slate-400">বামে বাল্ক পেস্ট করে প্রশ্ন জমা দিন।</p>
                 </div>
               ) : (
                 vaultQuestions.map((q, idx) => {
                   const qId = q?.id || q?.M_ID || idx;
 
                   return (
-                    <div key={qId} className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-2 relative group hover:bg-white hover:shadow-sm transition-all">
+                    <div
+                      key={qId}
+                      className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs space-y-2.5 relative group hover:bg-white hover:border-indigo-300 hover:shadow-sm transition-all"
+                    >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-1.5">
+                        <div className="flex items-center space-x-1.5 flex-wrap gap-1">
                           <span className={'px-2 py-0.5 rounded-md font-bold text-[10px] ' + (
                             activeVault === 'CQ' ? 'bg-purple-100 text-purple-800' : activeVault === 'SQ' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
                           )}>
@@ -889,6 +1305,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                           <span className="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 font-bold text-[10px]">
                             {q?.badge || `[${q?.institutionOrBoard || q?.boardOrInstitute || 'বোর্ড'} - '${(q?.year || '26').slice(-2)}]`}
                           </span>
+                          {q?.chapter && (
+                            <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 font-bold text-[10px]">
+                              {q.chapter}
+                            </span>
+                          )}
                         </div>
 
                         <button
@@ -909,12 +1330,21 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       {/* Options for MCQ */}
                       {activeVault === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 && (
                         <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] text-slate-600">
-                          {q.options.map((opt, oIdx) => (
-                            <div key={oIdx} className="px-2 py-1 bg-white border border-slate-200/80 rounded-lg">
-                              <span className="font-bold text-indigo-600 mr-1">{String.fromCharCode(97 + oIdx)})</span>
-                              <span>{opt}</span>
-                            </div>
-                          ))}
+                          {q.options.map((opt, oIdx) => {
+                            const optLetter = ['ক', 'খ', 'গ', 'ঘ'][oIdx];
+                            const isCorrect = q.correctAnswer === optLetter || q.correctAnswer === oIdx || normalizeOptionKey(q.correctAnswer) === optLetter;
+                            return (
+                              <div
+                                key={oIdx}
+                                className={'px-2 py-1 rounded-lg border ' + (
+                                  isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold' : 'bg-white border-slate-200/80'
+                                )}
+                              >
+                                <span className="mr-1">({optLetter})</span>
+                                <span>{opt}</span>
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
 
@@ -932,7 +1362,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
                       {/* Answer for SQ */}
                       {activeVault === 'SQ' && q?.shortAnswer && (
-                        <div className="p-2 bg-white rounded-lg border border-slate-200 text-[11px] text-emerald-800">
+                        <div className="p-2 bg-emerald-50/50 rounded-lg border border-emerald-200 text-[11px] text-emerald-900">
                           <span className="font-bold">উত্তর: </span>{q.shortAnswer}
                         </div>
                       )}
@@ -941,7 +1371,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-200/60">
                         <span>{q?.book || q?.subject || 'সাধারণ বিষয়'} • {q?.className || 'দশম শ্রেণি'}</span>
                         {q?.correctAnswer !== undefined && activeVault === 'MCQ' && (
-                          <span className="font-bold text-emerald-700">উত্তর: {q.correctAnswer}</span>
+                          <span className="font-bold text-emerald-700">সঠিক উত্তর: ({q.correctAnswer})</span>
                         )}
                       </div>
                     </div>

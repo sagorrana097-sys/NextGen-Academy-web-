@@ -7,13 +7,13 @@
       "userId": "Alomgir005",
       "identifier": "Alomgir005",
       "email": "admin@nextgen.edu.bd",
-      "password": "$2a$12$GjZK05X4.x61d0pBRFBnk.phZ3LNqrtLThjN17elccnBBl2DRijvK",
-      "passwordHash": "$2a$12$GjZK05X4.x61d0pBRFBnk.phZ3LNqrtLThjN17elccnBBl2DRijvK",
+      "password": "$2a$12$F6hZTChiIr4zwxSijrUsgeWnkVSgJpJizQQBNZ9AvtPBWDHjGklMa",
+      "passwordHash": "$2a$12$F6hZTChiIr4zwxSijrUsgeWnkVSgJpJizQQBNZ9AvtPBWDHjGklMa",
       "role": "SUPER_ADMIN",
       "phone": "01792818005",
       "isActive": true,
-      "createdAt": "2026-08-26T14:32:09.179Z",
-      "updatedAt": "2026-08-26T14:32:09.179Z"
+      "createdAt": "2026-08-27T03:56:55.280Z",
+      "updatedAt": "2026-08-27T03:56:55.280Z"
     }
   ],
   "classes": [
@@ -23,8 +23,8 @@
       "nameEn": "Play Group",
       "numericGrade": -2,
       "stage": "PRE_PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.180Z",
-      "updatedAt": "2026-08-26T14:32:09.180Z"
+      "createdAt": "2026-08-27T03:56:55.290Z",
+      "updatedAt": "2026-08-27T03:56:55.290Z"
     },
     {
       "id": 2,
@@ -32,8 +32,8 @@
       "nameEn": "Nursery",
       "numericGrade": -1,
       "stage": "PRE_PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.181Z",
-      "updatedAt": "2026-08-26T14:32:09.181Z"
+      "createdAt": "2026-08-27T03:56:55.293Z",
+      "updatedAt": "2026-08-27T03:56:55.293Z"
     },
     {
       "id": 3,
@@ -41,8 +41,8 @@
       "nameEn": "Kindergarten (KG)",
       "numericGrade": 0,
       "stage": "PRE_PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.182Z",
-      "updatedAt": "2026-08-26T14:32:09.182Z"
+      "createdAt": "2026-08-27T03:56:55.294Z",
+      "updatedAt": "2026-08-27T03:56:55.294Z"
     },
     {
       "id": 4,
@@ -50,8 +50,8 @@
       "nameEn": "Class 1",
       "numericGrade": 1,
       "stage": "PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.182Z",
-      "updatedAt": "2026-08-26T14:32:09.182Z"
+      "createdAt": "2026-08-27T03:56:55.296Z",
+      "updatedAt": "2026-08-27T03:56:55.296Z"
     },
     {
       "id": 5,
@@ -59,8 +59,8 @@
       "nameEn": "Class 2",
       "numericGrade": 2,
       "stage": "PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.183Z",
-      "updatedAt": "2026-08-26T14:32:09.183Z"
+      "createdAt": "2026-08-27T03:56:55.298Z",
+      "updatedAt": "2026-08-27T03:56:55.298Z"
     },
     {
       "id": 6,
@@ -68,8 +68,8 @@
       "nameEn": "Class 3",
       "numericGrade": 3,
       "stage": "PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.184Z",
-      "updatedAt": "2026-08-26T14:32:09.184Z"
+      "createdAt": "2026-08-27T03:56:55.299Z",
+      "updatedAt": "2026-08-27T03:56:55.299Z"
     },
     {
       "id": 7,
@@ -77,8 +77,8 @@
       "nameEn": "Class 4",
       "numericGrade": 4,
       "stage": "PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.184Z",
-      "updatedAt": "2026-08-26T14:32:09.184Z"
+      "createdAt": "2026-08-27T03:56:55.300Z",
+      "updatedAt": "2026-08-27T03:56:55.300Z"
     },
     {
       "id": 8,
@@ -86,8 +86,8 @@
       "nameEn": "Class 5",
       "numericGrade": 5,
       "stage": "PRIMARY",
-      "createdAt": "2026-08-26T14:32:09.187Z",
-      "updatedAt": "2026-08-26T14:32:09.187Z"
+      "createdAt": "2026-08-27T03:56:55.301Z",
+      "updatedAt": "2026-08-27T03:56:55.301Z"
     },
     {
       "id": 9,
@@ -95,8 +95,8 @@
       "nameEn": "Class 6",
       "numericGrade": 6,
       "stage": "JUNIOR_SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.200Z",
-      "updatedAt": "2026-08-26T14:32:09.200Z"
+      "createdAt": "2026-08-27T03:56:55.301Z",
+      "updatedAt": "2026-08-27T03:56:55.301Z"
     },
     {
       "id": 10,
@@ -104,8 +104,8 @@
       "nameEn": "Class 7",
       "numericGrade": 7,
       "stage": "JUNIOR_SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.200Z",
-      "updatedAt": "2026-08-26T14:32:09.200Z"
+      "createdAt": "2026-08-27T03:56:55.303Z",
+      "updatedAt": "2026-08-27T03:56:55.303Z"
     },
     {
       "id": 11,
@@ -113,8 +113,8 @@
       "nameEn": "Class 8",
       "numericGrade": 8,
       "stage": "JUNIOR_SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.201Z",
-      "updatedAt": "2026-08-26T14:32:09.201Z"
+      "createdAt": "2026-08-27T03:56:55.304Z",
+      "updatedAt": "2026-08-27T03:56:55.304Z"
     },
     {
       "id": 12,
@@ -122,8 +122,8 @@
       "nameEn": "Class 9",
       "numericGrade": 9,
       "stage": "SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.201Z",
-      "updatedAt": "2026-08-26T14:32:09.201Z"
+      "createdAt": "2026-08-27T03:56:55.305Z",
+      "updatedAt": "2026-08-27T03:56:55.305Z"
     },
     {
       "id": 13,
@@ -131,8 +131,8 @@
       "nameEn": "Class 10",
       "numericGrade": 10,
       "stage": "SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.202Z",
-      "updatedAt": "2026-08-26T14:32:09.202Z"
+      "createdAt": "2026-08-27T03:56:55.306Z",
+      "updatedAt": "2026-08-27T03:56:55.306Z"
     },
     {
       "id": 14,
@@ -140,8 +140,8 @@
       "nameEn": "Class 11",
       "numericGrade": 11,
       "stage": "HIGHER_SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.203Z",
-      "updatedAt": "2026-08-26T14:32:09.203Z"
+      "createdAt": "2026-08-27T03:56:55.306Z",
+      "updatedAt": "2026-08-27T03:56:55.306Z"
     },
     {
       "id": 15,
@@ -149,8 +149,133 @@
       "nameEn": "Class 12",
       "numericGrade": 12,
       "stage": "HIGHER_SECONDARY",
-      "createdAt": "2026-08-26T14:32:09.203Z",
-      "updatedAt": "2026-08-26T14:32:09.203Z"
+      "createdAt": "2026-08-27T03:56:55.307Z",
+      "updatedAt": "2026-08-27T03:56:55.307Z"
+    }
+  ],
+  "question_repositories": [
+    {
+      "id": 1,
+      "type": "MCQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "পদার্থবিজ্ঞান",
+      "institutionOrBoard": "ঢাকা বোর্ড",
+      "year": "2025",
+      "chapter": "অধ্যায় ২: গতি (Motion)",
+      "hasChapter": true,
+      "question": "পরন্ত বস্তুর তৃতীয় সূত্রানুসারে মুক্তভাবে পরন্ত বস্তুর নির্দিষ্ট সময়ে প্রাপ্ত বেগ সময়ের সাথে কীভাবে পরিবর্তিত হয়?",
+      "options": [
+        "প্রাপ্ত বেগ সময়ের সমানুপাতিক (v ∝ t)",
+        "প্রাপ্ত বেগ দূরত্বের বর্গের সমানুপাতিক",
+        "প্রাপ্ত বেগ সময়ের বর্গের ব্যস্তানুপাতিক",
+        "প্রাপ্ত বেগ সময়ের বর্গের সমানুপাতিক (v ∝ t²)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "গ্যালিলিওর পরন্ত বস্তুর ৩য় সূত্র মতে: নির্দিষ্ট সময়ে প্রাপ্ত বেগ অতিক্রান্ত সময়ের সমানুপাতিক (v ∝ t)।",
+      "difficulty": "MEDIUM",
+      "badge": "ঢাকা বোর্ড - '২৫ (MCQ)",
+      "createdAt": "2026-08-27T03:56:55.292Z",
+      "updatedAt": "2026-08-27T03:56:55.292Z"
+    },
+    {
+      "id": 2,
+      "type": "MCQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "রসায়ন",
+      "institutionOrBoard": "নটর ডেম কলেজ",
+      "year": "2025",
+      "chapter": "অধ্যায় ৫: রাসায়নিক বন্ধন",
+      "hasChapter": true,
+      "question": "নিচের কোন অণুতে মুক্তজোড় ইলেকট্রন (Lone Pair) সংখ্যা সর্বাধিক?",
+      "options": [
+        "CH₄",
+        "NH₃",
+        "H₂O",
+        "HF"
+      ],
+      "correctAnswer": 3,
+      "explanation": "HF অণুতে ফ্লোরিনের সর্ববহিস্থ স্তরে ৩ জোড়া (৬টি) মুক্তজোড় ইলেকট্রন বিদ্যমান থাকে।",
+      "difficulty": "HARD",
+      "badge": "নটর ডেম কলেজ - '২৫ (MCQ)",
+      "createdAt": "2026-08-27T03:56:55.293Z",
+      "updatedAt": "2026-08-27T03:56:55.293Z"
+    },
+    {
+      "id": 3,
+      "type": "MCQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "উচ্চতর গণিত",
+      "institutionOrBoard": "রাজউক উত্তরা মডেল কলেজ",
+      "year": "2024",
+      "chapter": "অধ্যায় ৮: ত্রিকোণমিতি",
+      "hasChapter": true,
+      "question": "যদি tan θ = 3/4 এবং cos θ < 0 হয়, তবে sin θ এর মান কত?",
+      "options": [
+        "3/5",
+        "-3/5",
+        "-4/5",
+        "4/5"
+      ],
+      "correctAnswer": 1,
+      "explanation": "tan θ ধনাত্মক কিন্তু cos θ ঋণাত্মক, সুতরাং θ ৩য় চতুর্ভাগে অবস্থিত যেখানে sin θ ঋণাত্মক = -3/5।",
+      "difficulty": "HARD",
+      "badge": "রাজউক উত্তরা মডেল কলেজ - '২৪ (MCQ)",
+      "createdAt": "2026-08-27T03:56:55.295Z",
+      "updatedAt": "2026-08-27T03:56:55.295Z"
+    },
+    {
+      "id": 4,
+      "type": "CQ",
+      "className": "Class 9-10 (SSC)",
+      "book": "পদার্থবিজ্ঞান",
+      "institutionOrBoard": "কুমিল্লা বোর্ড",
+      "year": "2024",
+      "chapter": "অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি",
+      "hasChapter": true,
+      "stem": "৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ২০ সেকেন্ডে অতিক্রম করে ছাদে পৌঁছাল। (g = 9.8 ms⁻²)",
+      "subQuestions": {
+        "a": {
+          "q": "কাজের মাত্রা সমীকরণ কী?",
+          "ans": "[ML²T⁻²]",
+          "marks": 1
+        },
+        "b": {
+          "q": "বায়োগ্যাসকে পরিবেশবান্ধব জ্বালানি বলা হয় কেন?",
+          "ans": "বায়োগ্যাস মিথেন গ্যাস সমৃদ্ধ এবং এতে কার্বন নিঃসরণ কম হয় ও পরিবেশ দূষণ ঘটায় না।",
+          "marks": 2
+        },
+        "c": {
+          "q": "বালকটি কত কাজ সম্পাদন করেছে নির্ণয় করো।",
+          "ans": "W = mgh = 50 × 9.8 × (20 × 0.5) = 50 × 9.8 × 10 = 4900 জুল।",
+          "marks": 3
+        },
+        "d": {
+          "q": "যদি বালকটি একই উচ্চতায় ওঠার সময় অর্ধেক করে ফেলে, তবে ক্ষমতার কী রূপ পরিবর্তন ঘটবে? গাণিতিক যুক্তিসহ বিশ্লেষণ করো।",
+          "ans": "P = W/t। সময় অর্ধেক হলে ক্ষমতা দ্বিগুণ হবে: P1 = 4900/20 = 245 W, P2 = 4900/10 = 490 W।",
+          "marks": 4
+        }
+      },
+      "difficulty": "MEDIUM",
+      "badge": "কুমিল্লা বোর্ড - '২৪ (CQ)",
+      "createdAt": "2026-08-27T03:56:55.297Z",
+      "updatedAt": "2026-08-27T03:56:55.297Z"
+    },
+    {
+      "id": 5,
+      "type": "SHORT",
+      "className": "Class 9-10 (SSC)",
+      "book": "তথ্য ও যোগাযোগ প্রযুক্তি",
+      "institutionOrBoard": "চট্টগ্রাম বোর্ড",
+      "year": "2025",
+      "chapter": "অধ্যায় ৩: তথ্য ও যোগাযোগ প্রযুক্তির নিরাপদ ও নৈতিক ব্যবহার",
+      "hasChapter": true,
+      "question": "টু-ফ্যাক্টর অথেনটিকেশন (2FA) বলতে কী বোঝায়?",
+      "shortAnswer": "টু-ফ্যাক্টর অথেনটিকেশন হলো দ্বি-স্তরবিশিষ্ট নিরাপত্তা ব্যবস্থা যেখানে পাসওয়ার্ড ছাড়াও ফোনে প্রেরিত ওটিপি বা বায়োমেট্রিক ভেরিফিকেশন দিয়ে পরিচয় নিশ্চিত করা হয়।",
+      "explanation": "সাইবার নিরাপত্তা জোরদার করার জন্য পাসওয়ার্ডের পাশাপাশি অতিরিক্ত ওটিপি পিন কোড ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "badge": "চট্টগ্রাম বোর্ড - '২৫ (SHORT)",
+      "createdAt": "2026-08-27T03:56:55.298Z",
+      "updatedAt": "2026-08-27T03:56:55.299Z"
     }
   ],
   "sections": [
@@ -159,360 +284,360 @@
       "classId": 1,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.204Z",
-      "updatedAt": "2026-08-26T14:32:09.204Z"
+      "createdAt": "2026-08-27T03:56:55.308Z",
+      "updatedAt": "2026-08-27T03:56:55.308Z"
     },
     {
       "id": 2,
       "classId": 1,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.205Z",
-      "updatedAt": "2026-08-26T14:32:09.205Z"
+      "createdAt": "2026-08-27T03:56:55.309Z",
+      "updatedAt": "2026-08-27T03:56:55.309Z"
     },
     {
       "id": 3,
       "classId": 1,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.207Z",
-      "updatedAt": "2026-08-26T14:32:09.207Z"
+      "createdAt": "2026-08-27T03:56:55.310Z",
+      "updatedAt": "2026-08-27T03:56:55.310Z"
     },
     {
       "id": 4,
       "classId": 2,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.208Z",
-      "updatedAt": "2026-08-26T14:32:09.208Z"
+      "createdAt": "2026-08-27T03:56:55.311Z",
+      "updatedAt": "2026-08-27T03:56:55.311Z"
     },
     {
       "id": 5,
       "classId": 2,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.209Z",
-      "updatedAt": "2026-08-26T14:32:09.209Z"
+      "createdAt": "2026-08-27T03:56:55.312Z",
+      "updatedAt": "2026-08-27T03:56:55.312Z"
     },
     {
       "id": 6,
       "classId": 2,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.209Z",
-      "updatedAt": "2026-08-26T14:32:09.209Z"
+      "createdAt": "2026-08-27T03:56:55.313Z",
+      "updatedAt": "2026-08-27T03:56:55.313Z"
     },
     {
       "id": 7,
       "classId": 3,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.210Z",
-      "updatedAt": "2026-08-26T14:32:09.210Z"
+      "createdAt": "2026-08-27T03:56:55.314Z",
+      "updatedAt": "2026-08-27T03:56:55.314Z"
     },
     {
       "id": 8,
       "classId": 3,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.211Z",
-      "updatedAt": "2026-08-26T14:32:09.211Z"
+      "createdAt": "2026-08-27T03:56:55.324Z",
+      "updatedAt": "2026-08-27T03:56:55.324Z"
     },
     {
       "id": 9,
       "classId": 3,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.212Z",
-      "updatedAt": "2026-08-26T14:32:09.212Z"
+      "createdAt": "2026-08-27T03:56:55.326Z",
+      "updatedAt": "2026-08-27T03:56:55.326Z"
     },
     {
       "id": 10,
       "classId": 4,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.213Z",
-      "updatedAt": "2026-08-26T14:32:09.213Z"
+      "createdAt": "2026-08-27T03:56:55.327Z",
+      "updatedAt": "2026-08-27T03:56:55.327Z"
     },
     {
       "id": 11,
       "classId": 4,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.214Z",
-      "updatedAt": "2026-08-26T14:32:09.214Z"
+      "createdAt": "2026-08-27T03:56:55.328Z",
+      "updatedAt": "2026-08-27T03:56:55.328Z"
     },
     {
       "id": 12,
       "classId": 4,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.215Z",
-      "updatedAt": "2026-08-26T14:32:09.215Z"
+      "createdAt": "2026-08-27T03:56:55.329Z",
+      "updatedAt": "2026-08-27T03:56:55.329Z"
     },
     {
       "id": 13,
       "classId": 5,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.215Z",
-      "updatedAt": "2026-08-26T14:32:09.215Z"
+      "createdAt": "2026-08-27T03:56:55.330Z",
+      "updatedAt": "2026-08-27T03:56:55.330Z"
     },
     {
       "id": 14,
       "classId": 5,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.216Z",
-      "updatedAt": "2026-08-26T14:32:09.216Z"
+      "createdAt": "2026-08-27T03:56:55.331Z",
+      "updatedAt": "2026-08-27T03:56:55.331Z"
     },
     {
       "id": 15,
       "classId": 5,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.217Z",
-      "updatedAt": "2026-08-26T14:32:09.217Z"
+      "createdAt": "2026-08-27T03:56:55.332Z",
+      "updatedAt": "2026-08-27T03:56:55.332Z"
     },
     {
       "id": 16,
       "classId": 6,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.219Z",
-      "updatedAt": "2026-08-26T14:32:09.219Z"
+      "createdAt": "2026-08-27T03:56:55.333Z",
+      "updatedAt": "2026-08-27T03:56:55.333Z"
     },
     {
       "id": 17,
       "classId": 6,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.222Z",
-      "updatedAt": "2026-08-26T14:32:09.222Z"
+      "createdAt": "2026-08-27T03:56:55.333Z",
+      "updatedAt": "2026-08-27T03:56:55.333Z"
     },
     {
       "id": 18,
       "classId": 6,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.225Z",
-      "updatedAt": "2026-08-26T14:32:09.225Z"
+      "createdAt": "2026-08-27T03:56:55.334Z",
+      "updatedAt": "2026-08-27T03:56:55.334Z"
     },
     {
       "id": 19,
       "classId": 7,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.226Z",
-      "updatedAt": "2026-08-26T14:32:09.226Z"
+      "createdAt": "2026-08-27T03:56:55.335Z",
+      "updatedAt": "2026-08-27T03:56:55.335Z"
     },
     {
       "id": 20,
       "classId": 7,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.227Z",
-      "updatedAt": "2026-08-26T14:32:09.227Z"
+      "createdAt": "2026-08-27T03:56:55.336Z",
+      "updatedAt": "2026-08-27T03:56:55.336Z"
     },
     {
       "id": 21,
       "classId": 7,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.228Z",
-      "updatedAt": "2026-08-26T14:32:09.228Z"
+      "createdAt": "2026-08-27T03:56:55.337Z",
+      "updatedAt": "2026-08-27T03:56:55.337Z"
     },
     {
       "id": 22,
       "classId": 8,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.229Z",
-      "updatedAt": "2026-08-26T14:32:09.229Z"
+      "createdAt": "2026-08-27T03:56:55.338Z",
+      "updatedAt": "2026-08-27T03:56:55.338Z"
     },
     {
       "id": 23,
       "classId": 8,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.230Z",
-      "updatedAt": "2026-08-26T14:32:09.230Z"
+      "createdAt": "2026-08-27T03:56:55.339Z",
+      "updatedAt": "2026-08-27T03:56:55.339Z"
     },
     {
       "id": 24,
       "classId": 8,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.231Z",
-      "updatedAt": "2026-08-26T14:32:09.231Z"
+      "createdAt": "2026-08-27T03:56:55.339Z",
+      "updatedAt": "2026-08-27T03:56:55.339Z"
     },
     {
       "id": 25,
       "classId": 9,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.232Z",
-      "updatedAt": "2026-08-26T14:32:09.232Z"
+      "createdAt": "2026-08-27T03:56:55.340Z",
+      "updatedAt": "2026-08-27T03:56:55.340Z"
     },
     {
       "id": 26,
       "classId": 9,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.233Z",
-      "updatedAt": "2026-08-26T14:32:09.233Z"
+      "createdAt": "2026-08-27T03:56:55.341Z",
+      "updatedAt": "2026-08-27T03:56:55.341Z"
     },
     {
       "id": 27,
       "classId": 9,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.233Z",
-      "updatedAt": "2026-08-26T14:32:09.233Z"
+      "createdAt": "2026-08-27T03:56:55.342Z",
+      "updatedAt": "2026-08-27T03:56:55.342Z"
     },
     {
       "id": 28,
       "classId": 10,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.234Z",
-      "updatedAt": "2026-08-26T14:32:09.234Z"
+      "createdAt": "2026-08-27T03:56:55.343Z",
+      "updatedAt": "2026-08-27T03:56:55.343Z"
     },
     {
       "id": 29,
       "classId": 10,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.235Z",
-      "updatedAt": "2026-08-26T14:32:09.235Z"
+      "createdAt": "2026-08-27T03:56:55.344Z",
+      "updatedAt": "2026-08-27T03:56:55.344Z"
     },
     {
       "id": 30,
       "classId": 10,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.236Z",
-      "updatedAt": "2026-08-26T14:32:09.236Z"
+      "createdAt": "2026-08-27T03:56:55.345Z",
+      "updatedAt": "2026-08-27T03:56:55.345Z"
     },
     {
       "id": 31,
       "classId": 11,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.237Z",
-      "updatedAt": "2026-08-26T14:32:09.237Z"
+      "createdAt": "2026-08-27T03:56:55.346Z",
+      "updatedAt": "2026-08-27T03:56:55.346Z"
     },
     {
       "id": 32,
       "classId": 11,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.238Z",
-      "updatedAt": "2026-08-26T14:32:09.238Z"
+      "createdAt": "2026-08-27T03:56:55.346Z",
+      "updatedAt": "2026-08-27T03:56:55.346Z"
     },
     {
       "id": 33,
       "classId": 11,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.238Z",
-      "updatedAt": "2026-08-26T14:32:09.238Z"
+      "createdAt": "2026-08-27T03:56:55.347Z",
+      "updatedAt": "2026-08-27T03:56:55.347Z"
     },
     {
       "id": 34,
       "classId": 12,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.239Z",
-      "updatedAt": "2026-08-26T14:32:09.239Z"
+      "createdAt": "2026-08-27T03:56:55.361Z",
+      "updatedAt": "2026-08-27T03:56:55.361Z"
     },
     {
       "id": 35,
       "classId": 12,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.240Z",
-      "updatedAt": "2026-08-26T14:32:09.240Z"
+      "createdAt": "2026-08-27T03:56:55.362Z",
+      "updatedAt": "2026-08-27T03:56:55.362Z"
     },
     {
       "id": 36,
       "classId": 12,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.241Z",
-      "updatedAt": "2026-08-26T14:32:09.241Z"
+      "createdAt": "2026-08-27T03:56:55.363Z",
+      "updatedAt": "2026-08-27T03:56:55.363Z"
     },
     {
       "id": 37,
       "classId": 13,
       "nameBn": "পদ্মা (Padma)",
       "nameEn": "Padma",
-      "createdAt": "2026-08-26T14:32:09.242Z",
-      "updatedAt": "2026-08-26T14:32:09.242Z"
+      "createdAt": "2026-08-27T03:56:55.364Z",
+      "updatedAt": "2026-08-27T03:56:55.364Z"
     },
     {
       "id": 38,
       "classId": 13,
       "nameBn": "মেঘনা (Meghna)",
       "nameEn": "Meghna",
-      "createdAt": "2026-08-26T14:32:09.243Z",
-      "updatedAt": "2026-08-26T14:32:09.243Z"
+      "createdAt": "2026-08-27T03:56:55.365Z",
+      "updatedAt": "2026-08-27T03:56:55.365Z"
     },
     {
       "id": 39,
       "classId": 13,
       "nameBn": "যমুনা (Jamuna)",
       "nameEn": "Jamuna",
-      "createdAt": "2026-08-26T14:32:09.243Z",
-      "updatedAt": "2026-08-26T14:32:09.243Z"
+      "createdAt": "2026-08-27T03:56:55.365Z",
+      "updatedAt": "2026-08-27T03:56:55.365Z"
     },
     {
       "id": 40,
       "classId": 14,
       "nameBn": "বিজ্ঞান (Science-A)",
       "nameEn": "Science-A",
-      "createdAt": "2026-08-26T14:32:09.244Z",
-      "updatedAt": "2026-08-26T14:32:09.244Z"
+      "createdAt": "2026-08-27T03:56:55.366Z",
+      "updatedAt": "2026-08-27T03:56:55.366Z"
     },
     {
       "id": 41,
       "classId": 14,
       "nameBn": "ব্যবসায় শিক্ষা (Commerce-A)",
       "nameEn": "Commerce-A",
-      "createdAt": "2026-08-26T14:32:09.244Z",
-      "updatedAt": "2026-08-26T14:32:09.244Z"
+      "createdAt": "2026-08-27T03:56:55.367Z",
+      "updatedAt": "2026-08-27T03:56:55.367Z"
     },
     {
       "id": 42,
       "classId": 14,
       "nameBn": "মানবিক (Humanities-A)",
       "nameEn": "Humanities-A",
-      "createdAt": "2026-08-26T14:32:09.245Z",
-      "updatedAt": "2026-08-26T14:32:09.245Z"
+      "createdAt": "2026-08-27T03:56:55.368Z",
+      "updatedAt": "2026-08-27T03:56:55.368Z"
     },
     {
       "id": 43,
       "classId": 15,
       "nameBn": "বিজ্ঞান (Science-A)",
       "nameEn": "Science-A",
-      "createdAt": "2026-08-26T14:32:09.246Z",
-      "updatedAt": "2026-08-26T14:32:09.246Z"
+      "createdAt": "2026-08-27T03:56:55.368Z",
+      "updatedAt": "2026-08-27T03:56:55.368Z"
     },
     {
       "id": 44,
       "classId": 15,
       "nameBn": "ব্যবসায় শিক্ষা (Commerce-A)",
       "nameEn": "Commerce-A",
-      "createdAt": "2026-08-26T14:32:09.246Z",
-      "updatedAt": "2026-08-26T14:32:09.246Z"
+      "createdAt": "2026-08-27T03:56:55.369Z",
+      "updatedAt": "2026-08-27T03:56:55.369Z"
     },
     {
       "id": 45,
       "classId": 15,
       "nameBn": "মানবিক (Humanities-A)",
       "nameEn": "Humanities-A",
-      "createdAt": "2026-08-26T14:32:09.247Z",
-      "updatedAt": "2026-08-26T14:32:09.247Z"
+      "createdAt": "2026-08-27T03:56:55.370Z",
+      "updatedAt": "2026-08-27T03:56:55.370Z"
     }
   ],
   "subjects": [
@@ -523,8 +648,8 @@
       "nameEn": "Bangla Alphabet & Rhymes",
       "code": "PRE-BAN",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.248Z",
-      "updatedAt": "2026-08-26T14:32:09.248Z"
+      "createdAt": "2026-08-27T03:56:55.371Z",
+      "updatedAt": "2026-08-27T03:56:55.371Z"
     },
     {
       "id": 2,
@@ -533,8 +658,8 @@
       "nameEn": "English Phonics & Rhymes",
       "code": "PRE-ENG",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.248Z",
-      "updatedAt": "2026-08-26T14:32:09.248Z"
+      "createdAt": "2026-08-27T03:56:55.372Z",
+      "updatedAt": "2026-08-27T03:56:55.372Z"
     },
     {
       "id": 3,
@@ -543,8 +668,8 @@
       "nameEn": "Early Math & Numbers",
       "code": "PRE-MAT",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.249Z",
-      "updatedAt": "2026-08-26T14:32:09.249Z"
+      "createdAt": "2026-08-27T03:56:55.372Z",
+      "updatedAt": "2026-08-27T03:56:55.372Z"
     },
     {
       "id": 4,
@@ -553,8 +678,8 @@
       "nameEn": "Drawing & Coloring Art",
       "code": "PRE-ART",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.250Z",
-      "updatedAt": "2026-08-26T14:32:09.250Z"
+      "createdAt": "2026-08-27T03:56:55.373Z",
+      "updatedAt": "2026-08-27T03:56:55.373Z"
     },
     {
       "id": 5,
@@ -563,8 +688,8 @@
       "nameEn": "General Knowledge & Moral Habits",
       "code": "PRE-GK",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.250Z",
-      "updatedAt": "2026-08-26T14:32:09.250Z"
+      "createdAt": "2026-08-27T03:56:55.374Z",
+      "updatedAt": "2026-08-27T03:56:55.374Z"
     },
     {
       "id": 6,
@@ -573,8 +698,8 @@
       "nameEn": "Bangla Alphabet & Rhymes",
       "code": "PRE-BAN",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.251Z",
-      "updatedAt": "2026-08-26T14:32:09.251Z"
+      "createdAt": "2026-08-27T03:56:55.375Z",
+      "updatedAt": "2026-08-27T03:56:55.375Z"
     },
     {
       "id": 7,
@@ -583,8 +708,8 @@
       "nameEn": "English Phonics & Rhymes",
       "code": "PRE-ENG",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.257Z",
-      "updatedAt": "2026-08-26T14:32:09.257Z"
+      "createdAt": "2026-08-27T03:56:55.376Z",
+      "updatedAt": "2026-08-27T03:56:55.376Z"
     },
     {
       "id": 8,
@@ -593,8 +718,8 @@
       "nameEn": "Early Math & Numbers",
       "code": "PRE-MAT",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.261Z",
-      "updatedAt": "2026-08-26T14:32:09.261Z"
+      "createdAt": "2026-08-27T03:56:55.377Z",
+      "updatedAt": "2026-08-27T03:56:55.377Z"
     },
     {
       "id": 9,
@@ -603,8 +728,8 @@
       "nameEn": "Drawing & Coloring Art",
       "code": "PRE-ART",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.265Z",
-      "updatedAt": "2026-08-26T14:32:09.265Z"
+      "createdAt": "2026-08-27T03:56:55.378Z",
+      "updatedAt": "2026-08-27T03:56:55.378Z"
     },
     {
       "id": 10,
@@ -613,8 +738,8 @@
       "nameEn": "General Knowledge & Moral Habits",
       "code": "PRE-GK",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.268Z",
-      "updatedAt": "2026-08-26T14:32:09.268Z"
+      "createdAt": "2026-08-27T03:56:55.379Z",
+      "updatedAt": "2026-08-27T03:56:55.379Z"
     },
     {
       "id": 11,
@@ -623,8 +748,8 @@
       "nameEn": "Bangla Alphabet & Rhymes",
       "code": "PRE-BAN",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.268Z",
-      "updatedAt": "2026-08-26T14:32:09.268Z"
+      "createdAt": "2026-08-27T03:56:55.379Z",
+      "updatedAt": "2026-08-27T03:56:55.379Z"
     },
     {
       "id": 12,
@@ -633,8 +758,8 @@
       "nameEn": "English Phonics & Rhymes",
       "code": "PRE-ENG",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.269Z",
-      "updatedAt": "2026-08-26T14:32:09.269Z"
+      "createdAt": "2026-08-27T03:56:55.381Z",
+      "updatedAt": "2026-08-27T03:56:55.381Z"
     },
     {
       "id": 13,
@@ -643,8 +768,8 @@
       "nameEn": "Early Math & Numbers",
       "code": "PRE-MAT",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.270Z",
-      "updatedAt": "2026-08-26T14:32:09.270Z"
+      "createdAt": "2026-08-27T03:56:55.389Z",
+      "updatedAt": "2026-08-27T03:56:55.389Z"
     },
     {
       "id": 14,
@@ -653,8 +778,8 @@
       "nameEn": "Drawing & Coloring Art",
       "code": "PRE-ART",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.271Z",
-      "updatedAt": "2026-08-26T14:32:09.271Z"
+      "createdAt": "2026-08-27T03:56:55.391Z",
+      "updatedAt": "2026-08-27T03:56:55.391Z"
     },
     {
       "id": 15,
@@ -663,8 +788,8 @@
       "nameEn": "General Knowledge & Moral Habits",
       "code": "PRE-GK",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.272Z",
-      "updatedAt": "2026-08-26T14:32:09.272Z"
+      "createdAt": "2026-08-27T03:56:55.392Z",
+      "updatedAt": "2026-08-27T03:56:55.392Z"
     },
     {
       "id": 16,
@@ -673,8 +798,8 @@
       "nameEn": "Bangla",
       "code": "PRI-BAN-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.272Z",
-      "updatedAt": "2026-08-26T14:32:09.272Z"
+      "createdAt": "2026-08-27T03:56:55.393Z",
+      "updatedAt": "2026-08-27T03:56:55.393Z"
     },
     {
       "id": 17,
@@ -683,8 +808,8 @@
       "nameEn": "English for Today",
       "code": "PRI-ENG-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.273Z",
-      "updatedAt": "2026-08-26T14:32:09.273Z"
+      "createdAt": "2026-08-27T03:56:55.394Z",
+      "updatedAt": "2026-08-27T03:56:55.394Z"
     },
     {
       "id": 18,
@@ -693,8 +818,8 @@
       "nameEn": "Elementary Mathematics",
       "code": "PRI-MAT-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.274Z",
-      "updatedAt": "2026-08-26T14:32:09.274Z"
+      "createdAt": "2026-08-27T03:56:55.395Z",
+      "updatedAt": "2026-08-27T03:56:55.395Z"
     },
     {
       "id": 19,
@@ -703,8 +828,8 @@
       "nameEn": "Elementary Science",
       "code": "PRI-SCI-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.275Z",
-      "updatedAt": "2026-08-26T14:32:09.275Z"
+      "createdAt": "2026-08-27T03:56:55.395Z",
+      "updatedAt": "2026-08-27T03:56:55.395Z"
     },
     {
       "id": 20,
@@ -713,8 +838,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "PRI-BGS-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.276Z",
-      "updatedAt": "2026-08-26T14:32:09.276Z"
+      "createdAt": "2026-08-27T03:56:55.397Z",
+      "updatedAt": "2026-08-27T03:56:55.397Z"
     },
     {
       "id": 21,
@@ -723,8 +848,8 @@
       "nameEn": "Religious & Moral Studies",
       "code": "PRI-REL-4",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.277Z",
-      "updatedAt": "2026-08-26T14:32:09.277Z"
+      "createdAt": "2026-08-27T03:56:55.399Z",
+      "updatedAt": "2026-08-27T03:56:55.399Z"
     },
     {
       "id": 22,
@@ -733,8 +858,8 @@
       "nameEn": "Bangla",
       "code": "PRI-BAN-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.278Z",
-      "updatedAt": "2026-08-26T14:32:09.278Z"
+      "createdAt": "2026-08-27T03:56:55.400Z",
+      "updatedAt": "2026-08-27T03:56:55.400Z"
     },
     {
       "id": 23,
@@ -743,8 +868,8 @@
       "nameEn": "English for Today",
       "code": "PRI-ENG-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.279Z",
-      "updatedAt": "2026-08-26T14:32:09.279Z"
+      "createdAt": "2026-08-27T03:56:55.403Z",
+      "updatedAt": "2026-08-27T03:56:55.403Z"
     },
     {
       "id": 24,
@@ -753,8 +878,8 @@
       "nameEn": "Elementary Mathematics",
       "code": "PRI-MAT-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.280Z",
-      "updatedAt": "2026-08-26T14:32:09.280Z"
+      "createdAt": "2026-08-27T03:56:55.404Z",
+      "updatedAt": "2026-08-27T03:56:55.404Z"
     },
     {
       "id": 25,
@@ -763,8 +888,8 @@
       "nameEn": "Elementary Science",
       "code": "PRI-SCI-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.280Z",
-      "updatedAt": "2026-08-26T14:32:09.280Z"
+      "createdAt": "2026-08-27T03:56:55.405Z",
+      "updatedAt": "2026-08-27T03:56:55.405Z"
     },
     {
       "id": 26,
@@ -773,8 +898,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "PRI-BGS-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.281Z",
-      "updatedAt": "2026-08-26T14:32:09.281Z"
+      "createdAt": "2026-08-27T03:56:55.407Z",
+      "updatedAt": "2026-08-27T03:56:55.407Z"
     },
     {
       "id": 27,
@@ -783,8 +908,8 @@
       "nameEn": "Religious & Moral Studies",
       "code": "PRI-REL-5",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.282Z",
-      "updatedAt": "2026-08-26T14:32:09.282Z"
+      "createdAt": "2026-08-27T03:56:55.408Z",
+      "updatedAt": "2026-08-27T03:56:55.408Z"
     },
     {
       "id": 28,
@@ -793,8 +918,8 @@
       "nameEn": "Bangla",
       "code": "PRI-BAN-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.283Z",
-      "updatedAt": "2026-08-26T14:32:09.283Z"
+      "createdAt": "2026-08-27T03:56:55.409Z",
+      "updatedAt": "2026-08-27T03:56:55.409Z"
     },
     {
       "id": 29,
@@ -803,8 +928,8 @@
       "nameEn": "English for Today",
       "code": "PRI-ENG-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.283Z",
-      "updatedAt": "2026-08-26T14:32:09.283Z"
+      "createdAt": "2026-08-27T03:56:55.412Z",
+      "updatedAt": "2026-08-27T03:56:55.412Z"
     },
     {
       "id": 30,
@@ -813,8 +938,8 @@
       "nameEn": "Elementary Mathematics",
       "code": "PRI-MAT-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.284Z",
-      "updatedAt": "2026-08-26T14:32:09.284Z"
+      "createdAt": "2026-08-27T03:56:55.412Z",
+      "updatedAt": "2026-08-27T03:56:55.412Z"
     },
     {
       "id": 31,
@@ -823,8 +948,8 @@
       "nameEn": "Elementary Science",
       "code": "PRI-SCI-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.303Z",
-      "updatedAt": "2026-08-26T14:32:09.303Z"
+      "createdAt": "2026-08-27T03:56:55.413Z",
+      "updatedAt": "2026-08-27T03:56:55.413Z"
     },
     {
       "id": 32,
@@ -833,8 +958,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "PRI-BGS-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.305Z",
-      "updatedAt": "2026-08-26T14:32:09.305Z"
+      "createdAt": "2026-08-27T03:56:55.414Z",
+      "updatedAt": "2026-08-27T03:56:55.414Z"
     },
     {
       "id": 33,
@@ -843,8 +968,8 @@
       "nameEn": "Religious & Moral Studies",
       "code": "PRI-REL-6",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.307Z",
-      "updatedAt": "2026-08-26T14:32:09.307Z"
+      "createdAt": "2026-08-27T03:56:55.417Z",
+      "updatedAt": "2026-08-27T03:56:55.417Z"
     },
     {
       "id": 34,
@@ -853,8 +978,8 @@
       "nameEn": "Bangla",
       "code": "PRI-BAN-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.308Z",
-      "updatedAt": "2026-08-26T14:32:09.308Z"
+      "createdAt": "2026-08-27T03:56:55.418Z",
+      "updatedAt": "2026-08-27T03:56:55.418Z"
     },
     {
       "id": 35,
@@ -863,8 +988,8 @@
       "nameEn": "English for Today",
       "code": "PRI-ENG-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.310Z",
-      "updatedAt": "2026-08-26T14:32:09.310Z"
+      "createdAt": "2026-08-27T03:56:55.419Z",
+      "updatedAt": "2026-08-27T03:56:55.419Z"
     },
     {
       "id": 36,
@@ -873,8 +998,8 @@
       "nameEn": "Elementary Mathematics",
       "code": "PRI-MAT-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.311Z",
-      "updatedAt": "2026-08-26T14:32:09.311Z"
+      "createdAt": "2026-08-27T03:56:55.420Z",
+      "updatedAt": "2026-08-27T03:56:55.420Z"
     },
     {
       "id": 37,
@@ -883,8 +1008,8 @@
       "nameEn": "Elementary Science",
       "code": "PRI-SCI-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.312Z",
-      "updatedAt": "2026-08-26T14:32:09.312Z"
+      "createdAt": "2026-08-27T03:56:55.421Z",
+      "updatedAt": "2026-08-27T03:56:55.421Z"
     },
     {
       "id": 38,
@@ -893,8 +1018,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "PRI-BGS-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.313Z",
-      "updatedAt": "2026-08-26T14:32:09.313Z"
+      "createdAt": "2026-08-27T03:56:55.421Z",
+      "updatedAt": "2026-08-27T03:56:55.421Z"
     },
     {
       "id": 39,
@@ -903,8 +1028,8 @@
       "nameEn": "Religious & Moral Studies",
       "code": "PRI-REL-7",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.314Z",
-      "updatedAt": "2026-08-26T14:32:09.314Z"
+      "createdAt": "2026-08-27T03:56:55.422Z",
+      "updatedAt": "2026-08-27T03:56:55.422Z"
     },
     {
       "id": 40,
@@ -913,8 +1038,8 @@
       "nameEn": "Bangla",
       "code": "PRI-BAN-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.315Z",
-      "updatedAt": "2026-08-26T14:32:09.315Z"
+      "createdAt": "2026-08-27T03:56:55.423Z",
+      "updatedAt": "2026-08-27T03:56:55.423Z"
     },
     {
       "id": 41,
@@ -923,8 +1048,8 @@
       "nameEn": "English for Today",
       "code": "PRI-ENG-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.316Z",
-      "updatedAt": "2026-08-26T14:32:09.316Z"
+      "createdAt": "2026-08-27T03:56:55.424Z",
+      "updatedAt": "2026-08-27T03:56:55.424Z"
     },
     {
       "id": 42,
@@ -933,8 +1058,8 @@
       "nameEn": "Elementary Mathematics",
       "code": "PRI-MAT-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.317Z",
-      "updatedAt": "2026-08-26T14:32:09.317Z"
+      "createdAt": "2026-08-27T03:56:55.424Z",
+      "updatedAt": "2026-08-27T03:56:55.424Z"
     },
     {
       "id": 43,
@@ -943,8 +1068,8 @@
       "nameEn": "Elementary Science",
       "code": "PRI-SCI-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.323Z",
-      "updatedAt": "2026-08-26T14:32:09.323Z"
+      "createdAt": "2026-08-27T03:56:55.425Z",
+      "updatedAt": "2026-08-27T03:56:55.425Z"
     },
     {
       "id": 44,
@@ -953,8 +1078,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "PRI-BGS-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.325Z",
-      "updatedAt": "2026-08-26T14:32:09.325Z"
+      "createdAt": "2026-08-27T03:56:55.426Z",
+      "updatedAt": "2026-08-27T03:56:55.426Z"
     },
     {
       "id": 45,
@@ -963,8 +1088,8 @@
       "nameEn": "Religious & Moral Studies",
       "code": "PRI-REL-8",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.326Z",
-      "updatedAt": "2026-08-26T14:32:09.326Z"
+      "createdAt": "2026-08-27T03:56:55.426Z",
+      "updatedAt": "2026-08-27T03:56:55.426Z"
     },
     {
       "id": 46,
@@ -973,8 +1098,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "JSC-BAN-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.330Z",
-      "updatedAt": "2026-08-26T14:32:09.330Z"
+      "createdAt": "2026-08-27T03:56:55.427Z",
+      "updatedAt": "2026-08-27T03:56:55.427Z"
     },
     {
       "id": 47,
@@ -983,8 +1108,8 @@
       "nameEn": "English Grammar & Comp",
       "code": "JSC-ENG-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.333Z",
-      "updatedAt": "2026-08-26T14:32:09.333Z"
+      "createdAt": "2026-08-27T03:56:55.428Z",
+      "updatedAt": "2026-08-27T03:56:55.428Z"
     },
     {
       "id": 48,
@@ -993,8 +1118,8 @@
       "nameEn": "General Mathematics",
       "code": "JSC-MAT-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.335Z",
-      "updatedAt": "2026-08-26T14:32:09.335Z"
+      "createdAt": "2026-08-27T03:56:55.429Z",
+      "updatedAt": "2026-08-27T03:56:55.429Z"
     },
     {
       "id": 49,
@@ -1003,8 +1128,8 @@
       "nameEn": "General Science",
       "code": "JSC-SCI-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.338Z",
-      "updatedAt": "2026-08-26T14:32:09.338Z"
+      "createdAt": "2026-08-27T03:56:55.430Z",
+      "updatedAt": "2026-08-27T03:56:55.430Z"
     },
     {
       "id": 50,
@@ -1013,8 +1138,8 @@
       "nameEn": "Information & Comm. Technology (ICT)",
       "code": "JSC-ICT-9",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.339Z",
-      "updatedAt": "2026-08-26T14:32:09.339Z"
+      "createdAt": "2026-08-27T03:56:55.430Z",
+      "updatedAt": "2026-08-27T03:56:55.430Z"
     },
     {
       "id": 51,
@@ -1023,8 +1148,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "JSC-BGS-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.339Z",
-      "updatedAt": "2026-08-26T14:32:09.339Z"
+      "createdAt": "2026-08-27T03:56:55.431Z",
+      "updatedAt": "2026-08-27T03:56:55.431Z"
     },
     {
       "id": 52,
@@ -1033,8 +1158,8 @@
       "nameEn": "Islamic Studies & Ethics",
       "code": "JSC-ISL-9",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.340Z",
-      "updatedAt": "2026-08-26T14:32:09.340Z"
+      "createdAt": "2026-08-27T03:56:55.432Z",
+      "updatedAt": "2026-08-27T03:56:55.432Z"
     },
     {
       "id": 53,
@@ -1043,8 +1168,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "JSC-BAN-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.341Z",
-      "updatedAt": "2026-08-26T14:32:09.341Z"
+      "createdAt": "2026-08-27T03:56:55.433Z",
+      "updatedAt": "2026-08-27T03:56:55.433Z"
     },
     {
       "id": 54,
@@ -1053,8 +1178,8 @@
       "nameEn": "English Grammar & Comp",
       "code": "JSC-ENG-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.342Z",
-      "updatedAt": "2026-08-26T14:32:09.342Z"
+      "createdAt": "2026-08-27T03:56:55.434Z",
+      "updatedAt": "2026-08-27T03:56:55.434Z"
     },
     {
       "id": 55,
@@ -1063,8 +1188,8 @@
       "nameEn": "General Mathematics",
       "code": "JSC-MAT-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.342Z",
-      "updatedAt": "2026-08-26T14:32:09.342Z"
+      "createdAt": "2026-08-27T03:56:55.434Z",
+      "updatedAt": "2026-08-27T03:56:55.434Z"
     },
     {
       "id": 56,
@@ -1073,8 +1198,8 @@
       "nameEn": "General Science",
       "code": "JSC-SCI-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.447Z",
-      "updatedAt": "2026-08-26T14:32:09.447Z"
+      "createdAt": "2026-08-27T03:56:55.435Z",
+      "updatedAt": "2026-08-27T03:56:55.435Z"
     },
     {
       "id": 57,
@@ -1083,8 +1208,8 @@
       "nameEn": "Information & Comm. Technology (ICT)",
       "code": "JSC-ICT-10",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.448Z",
-      "updatedAt": "2026-08-26T14:32:09.448Z"
+      "createdAt": "2026-08-27T03:56:55.436Z",
+      "updatedAt": "2026-08-27T03:56:55.436Z"
     },
     {
       "id": 58,
@@ -1093,8 +1218,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "JSC-BGS-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.451Z",
-      "updatedAt": "2026-08-26T14:32:09.451Z"
+      "createdAt": "2026-08-27T03:56:55.437Z",
+      "updatedAt": "2026-08-27T03:56:55.437Z"
     },
     {
       "id": 59,
@@ -1103,8 +1228,8 @@
       "nameEn": "Islamic Studies & Ethics",
       "code": "JSC-ISL-10",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.459Z",
-      "updatedAt": "2026-08-26T14:32:09.459Z"
+      "createdAt": "2026-08-27T03:56:55.439Z",
+      "updatedAt": "2026-08-27T03:56:55.439Z"
     },
     {
       "id": 60,
@@ -1113,8 +1238,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "JSC-BAN-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.465Z",
-      "updatedAt": "2026-08-26T14:32:09.465Z"
+      "createdAt": "2026-08-27T03:56:55.440Z",
+      "updatedAt": "2026-08-27T03:56:55.440Z"
     },
     {
       "id": 61,
@@ -1123,8 +1248,8 @@
       "nameEn": "English Grammar & Comp",
       "code": "JSC-ENG-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.469Z",
-      "updatedAt": "2026-08-26T14:32:09.469Z"
+      "createdAt": "2026-08-27T03:56:55.441Z",
+      "updatedAt": "2026-08-27T03:56:55.441Z"
     },
     {
       "id": 62,
@@ -1133,8 +1258,8 @@
       "nameEn": "General Mathematics",
       "code": "JSC-MAT-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.472Z",
-      "updatedAt": "2026-08-26T14:32:09.472Z"
+      "createdAt": "2026-08-27T03:56:55.442Z",
+      "updatedAt": "2026-08-27T03:56:55.442Z"
     },
     {
       "id": 63,
@@ -1143,8 +1268,8 @@
       "nameEn": "General Science",
       "code": "JSC-SCI-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.474Z",
-      "updatedAt": "2026-08-26T14:32:09.474Z"
+      "createdAt": "2026-08-27T03:56:55.443Z",
+      "updatedAt": "2026-08-27T03:56:55.443Z"
     },
     {
       "id": 64,
@@ -1153,8 +1278,8 @@
       "nameEn": "Information & Comm. Technology (ICT)",
       "code": "JSC-ICT-11",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.478Z",
-      "updatedAt": "2026-08-26T14:32:09.478Z"
+      "createdAt": "2026-08-27T03:56:55.444Z",
+      "updatedAt": "2026-08-27T03:56:55.444Z"
     },
     {
       "id": 65,
@@ -1163,8 +1288,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "JSC-BGS-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.480Z",
-      "updatedAt": "2026-08-26T14:32:09.480Z"
+      "createdAt": "2026-08-27T03:56:55.445Z",
+      "updatedAt": "2026-08-27T03:56:55.445Z"
     },
     {
       "id": 66,
@@ -1173,8 +1298,8 @@
       "nameEn": "Islamic Studies & Ethics",
       "code": "JSC-ISL-11",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.483Z",
-      "updatedAt": "2026-08-26T14:32:09.483Z"
+      "createdAt": "2026-08-27T03:56:55.446Z",
+      "updatedAt": "2026-08-27T03:56:55.446Z"
     },
     {
       "id": 67,
@@ -1183,8 +1308,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "SSC-BAN-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.495Z",
-      "updatedAt": "2026-08-26T14:32:09.495Z"
+      "createdAt": "2026-08-27T03:56:55.447Z",
+      "updatedAt": "2026-08-27T03:56:55.447Z"
     },
     {
       "id": 68,
@@ -1193,8 +1318,8 @@
       "nameEn": "English 1st & 2nd Paper",
       "code": "SSC-ENG-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.509Z",
-      "updatedAt": "2026-08-26T14:32:09.509Z"
+      "createdAt": "2026-08-27T03:56:55.448Z",
+      "updatedAt": "2026-08-27T03:56:55.448Z"
     },
     {
       "id": 69,
@@ -1203,8 +1328,8 @@
       "nameEn": "General Mathematics",
       "code": "SSC-MAT-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.511Z",
-      "updatedAt": "2026-08-26T14:32:09.511Z"
+      "createdAt": "2026-08-27T03:56:55.450Z",
+      "updatedAt": "2026-08-27T03:56:55.450Z"
     },
     {
       "id": 70,
@@ -1213,8 +1338,8 @@
       "nameEn": "Higher Mathematics",
       "code": "SSC-HMAT-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.516Z",
-      "updatedAt": "2026-08-26T14:32:09.516Z"
+      "createdAt": "2026-08-27T03:56:55.451Z",
+      "updatedAt": "2026-08-27T03:56:55.451Z"
     },
     {
       "id": 71,
@@ -1223,8 +1348,8 @@
       "nameEn": "Physics",
       "code": "SSC-PHY-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.518Z",
-      "updatedAt": "2026-08-26T14:32:09.518Z"
+      "createdAt": "2026-08-27T03:56:55.452Z",
+      "updatedAt": "2026-08-27T03:56:55.452Z"
     },
     {
       "id": 72,
@@ -1233,8 +1358,8 @@
       "nameEn": "Chemistry",
       "code": "SSC-CHEM-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.525Z",
-      "updatedAt": "2026-08-26T14:32:09.525Z"
+      "createdAt": "2026-08-27T03:56:55.453Z",
+      "updatedAt": "2026-08-27T03:56:55.453Z"
     },
     {
       "id": 73,
@@ -1243,8 +1368,8 @@
       "nameEn": "Biology",
       "code": "SSC-BIO-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.536Z",
-      "updatedAt": "2026-08-26T14:32:09.536Z"
+      "createdAt": "2026-08-27T03:56:55.454Z",
+      "updatedAt": "2026-08-27T03:56:55.454Z"
     },
     {
       "id": 74,
@@ -1253,8 +1378,8 @@
       "nameEn": "ICT",
       "code": "SSC-ICT-12",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.538Z",
-      "updatedAt": "2026-08-26T14:32:09.538Z"
+      "createdAt": "2026-08-27T03:56:55.455Z",
+      "updatedAt": "2026-08-27T03:56:55.455Z"
     },
     {
       "id": 75,
@@ -1263,8 +1388,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "SSC-BGS-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.540Z",
-      "updatedAt": "2026-08-26T14:32:09.540Z"
+      "createdAt": "2026-08-27T03:56:55.456Z",
+      "updatedAt": "2026-08-27T03:56:55.456Z"
     },
     {
       "id": 76,
@@ -1273,8 +1398,8 @@
       "nameEn": "Religious Education",
       "code": "SSC-REL-12",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.542Z",
-      "updatedAt": "2026-08-26T14:32:09.542Z"
+      "createdAt": "2026-08-27T03:56:55.457Z",
+      "updatedAt": "2026-08-27T03:56:55.457Z"
     },
     {
       "id": 77,
@@ -1283,8 +1408,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "SSC-BAN-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.543Z",
-      "updatedAt": "2026-08-26T14:32:09.543Z"
+      "createdAt": "2026-08-27T03:56:55.458Z",
+      "updatedAt": "2026-08-27T03:56:55.458Z"
     },
     {
       "id": 78,
@@ -1293,8 +1418,8 @@
       "nameEn": "English 1st & 2nd Paper",
       "code": "SSC-ENG-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.544Z",
-      "updatedAt": "2026-08-26T14:32:09.544Z"
+      "createdAt": "2026-08-27T03:56:55.459Z",
+      "updatedAt": "2026-08-27T03:56:55.459Z"
     },
     {
       "id": 79,
@@ -1303,8 +1428,8 @@
       "nameEn": "General Mathematics",
       "code": "SSC-MAT-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.545Z",
-      "updatedAt": "2026-08-26T14:32:09.545Z"
+      "createdAt": "2026-08-27T03:56:55.460Z",
+      "updatedAt": "2026-08-27T03:56:55.460Z"
     },
     {
       "id": 80,
@@ -1313,8 +1438,8 @@
       "nameEn": "Higher Mathematics",
       "code": "SSC-HMAT-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.546Z",
-      "updatedAt": "2026-08-26T14:32:09.546Z"
+      "createdAt": "2026-08-27T03:56:55.461Z",
+      "updatedAt": "2026-08-27T03:56:55.461Z"
     },
     {
       "id": 81,
@@ -1323,8 +1448,8 @@
       "nameEn": "Physics",
       "code": "SSC-PHY-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.547Z",
-      "updatedAt": "2026-08-26T14:32:09.547Z"
+      "createdAt": "2026-08-27T03:56:55.462Z",
+      "updatedAt": "2026-08-27T03:56:55.462Z"
     },
     {
       "id": 82,
@@ -1333,8 +1458,8 @@
       "nameEn": "Chemistry",
       "code": "SSC-CHEM-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.548Z",
-      "updatedAt": "2026-08-26T14:32:09.548Z"
+      "createdAt": "2026-08-27T03:56:55.463Z",
+      "updatedAt": "2026-08-27T03:56:55.463Z"
     },
     {
       "id": 83,
@@ -1343,8 +1468,8 @@
       "nameEn": "Biology",
       "code": "SSC-BIO-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.548Z",
-      "updatedAt": "2026-08-26T14:32:09.548Z"
+      "createdAt": "2026-08-27T03:56:55.464Z",
+      "updatedAt": "2026-08-27T03:56:55.464Z"
     },
     {
       "id": 84,
@@ -1353,8 +1478,8 @@
       "nameEn": "ICT",
       "code": "SSC-ICT-13",
       "totalMarks": 50,
-      "createdAt": "2026-08-26T14:32:09.549Z",
-      "updatedAt": "2026-08-26T14:32:09.549Z"
+      "createdAt": "2026-08-27T03:56:55.465Z",
+      "updatedAt": "2026-08-27T03:56:55.465Z"
     },
     {
       "id": 85,
@@ -1363,8 +1488,8 @@
       "nameEn": "Bangladesh & Global Studies",
       "code": "SSC-BGS-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.550Z",
-      "updatedAt": "2026-08-26T14:32:09.550Z"
+      "createdAt": "2026-08-27T03:56:55.467Z",
+      "updatedAt": "2026-08-27T03:56:55.467Z"
     },
     {
       "id": 86,
@@ -1373,8 +1498,8 @@
       "nameEn": "Religious Education",
       "code": "SSC-REL-13",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.551Z",
-      "updatedAt": "2026-08-26T14:32:09.551Z"
+      "createdAt": "2026-08-27T03:56:55.468Z",
+      "updatedAt": "2026-08-27T03:56:55.468Z"
     },
     {
       "id": 87,
@@ -1383,8 +1508,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "HSC-BAN-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.559Z",
-      "updatedAt": "2026-08-26T14:32:09.559Z"
+      "createdAt": "2026-08-27T03:56:55.469Z",
+      "updatedAt": "2026-08-27T03:56:55.469Z"
     },
     {
       "id": 88,
@@ -1393,8 +1518,8 @@
       "nameEn": "English 1st & 2nd Paper",
       "code": "HSC-ENG-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.562Z",
-      "updatedAt": "2026-08-26T14:32:09.562Z"
+      "createdAt": "2026-08-27T03:56:55.470Z",
+      "updatedAt": "2026-08-27T03:56:55.470Z"
     },
     {
       "id": 89,
@@ -1403,8 +1528,8 @@
       "nameEn": "ICT (Compulsory)",
       "code": "HSC-ICT-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.566Z",
-      "updatedAt": "2026-08-26T14:32:09.566Z"
+      "createdAt": "2026-08-27T03:56:55.472Z",
+      "updatedAt": "2026-08-27T03:56:55.472Z"
     },
     {
       "id": 90,
@@ -1413,8 +1538,8 @@
       "nameEn": "Physics 1st & 2nd Paper",
       "code": "HSC-PHY-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.569Z",
-      "updatedAt": "2026-08-26T14:32:09.569Z"
+      "createdAt": "2026-08-27T03:56:55.474Z",
+      "updatedAt": "2026-08-27T03:56:55.474Z"
     },
     {
       "id": 91,
@@ -1423,8 +1548,8 @@
       "nameEn": "Chemistry 1st & 2nd Paper",
       "code": "HSC-CHEM-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.571Z",
-      "updatedAt": "2026-08-26T14:32:09.571Z"
+      "createdAt": "2026-08-27T03:56:55.475Z",
+      "updatedAt": "2026-08-27T03:56:55.475Z"
     },
     {
       "id": 92,
@@ -1433,8 +1558,8 @@
       "nameEn": "Higher Mathematics 1st & 2nd",
       "code": "HSC-HMAT-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.573Z",
-      "updatedAt": "2026-08-26T14:32:09.573Z"
+      "createdAt": "2026-08-27T03:56:55.476Z",
+      "updatedAt": "2026-08-27T03:56:55.476Z"
     },
     {
       "id": 93,
@@ -1443,8 +1568,8 @@
       "nameEn": "Biology 1st & 2nd Paper",
       "code": "HSC-BIO-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.575Z",
-      "updatedAt": "2026-08-26T14:32:09.575Z"
+      "createdAt": "2026-08-27T03:56:55.478Z",
+      "updatedAt": "2026-08-27T03:56:55.478Z"
     },
     {
       "id": 94,
@@ -1453,8 +1578,8 @@
       "nameEn": "Accounting 1st & 2nd Paper",
       "code": "HSC-ACC-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.576Z",
-      "updatedAt": "2026-08-26T14:32:09.576Z"
+      "createdAt": "2026-08-27T03:56:55.479Z",
+      "updatedAt": "2026-08-27T03:56:55.479Z"
     },
     {
       "id": 95,
@@ -1463,8 +1588,8 @@
       "nameEn": "Business Organization & Mgmt",
       "code": "HSC-BOM-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.577Z",
-      "updatedAt": "2026-08-26T14:32:09.577Z"
+      "createdAt": "2026-08-27T03:56:55.480Z",
+      "updatedAt": "2026-08-27T03:56:55.480Z"
     },
     {
       "id": 96,
@@ -1473,8 +1598,8 @@
       "nameEn": "Finance, Banking & Insurance",
       "code": "HSC-FIN-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.578Z",
-      "updatedAt": "2026-08-26T14:32:09.578Z"
+      "createdAt": "2026-08-27T03:56:55.483Z",
+      "updatedAt": "2026-08-27T03:56:55.483Z"
     },
     {
       "id": 97,
@@ -1483,8 +1608,8 @@
       "nameEn": "Economics 1st & 2nd Paper",
       "code": "HSC-ECO-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.579Z",
-      "updatedAt": "2026-08-26T14:32:09.579Z"
+      "createdAt": "2026-08-27T03:56:55.484Z",
+      "updatedAt": "2026-08-27T03:56:55.484Z"
     },
     {
       "id": 98,
@@ -1493,8 +1618,8 @@
       "nameEn": "Civics & Good Governance",
       "code": "HSC-CIV-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.580Z",
-      "updatedAt": "2026-08-26T14:32:09.580Z"
+      "createdAt": "2026-08-27T03:56:55.485Z",
+      "updatedAt": "2026-08-27T03:56:55.485Z"
     },
     {
       "id": 99,
@@ -1503,8 +1628,8 @@
       "nameEn": "Sociology & Islamic History",
       "code": "HSC-SOC-14",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.581Z",
-      "updatedAt": "2026-08-26T14:32:09.581Z"
+      "createdAt": "2026-08-27T03:56:55.487Z",
+      "updatedAt": "2026-08-27T03:56:55.487Z"
     },
     {
       "id": 100,
@@ -1513,8 +1638,8 @@
       "nameEn": "Bangla 1st & 2nd Paper",
       "code": "HSC-BAN-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.582Z",
-      "updatedAt": "2026-08-26T14:32:09.582Z"
+      "createdAt": "2026-08-27T03:56:55.488Z",
+      "updatedAt": "2026-08-27T03:56:55.488Z"
     },
     {
       "id": 101,
@@ -1523,8 +1648,8 @@
       "nameEn": "English 1st & 2nd Paper",
       "code": "HSC-ENG-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.582Z",
-      "updatedAt": "2026-08-26T14:32:09.582Z"
+      "createdAt": "2026-08-27T03:56:55.490Z",
+      "updatedAt": "2026-08-27T03:56:55.490Z"
     },
     {
       "id": 102,
@@ -1533,8 +1658,8 @@
       "nameEn": "ICT (Compulsory)",
       "code": "HSC-ICT-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.583Z",
-      "updatedAt": "2026-08-26T14:32:09.583Z"
+      "createdAt": "2026-08-27T03:56:55.491Z",
+      "updatedAt": "2026-08-27T03:56:55.491Z"
     },
     {
       "id": 103,
@@ -1543,8 +1668,8 @@
       "nameEn": "Physics 1st & 2nd Paper",
       "code": "HSC-PHY-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.584Z",
-      "updatedAt": "2026-08-26T14:32:09.584Z"
+      "createdAt": "2026-08-27T03:56:55.493Z",
+      "updatedAt": "2026-08-27T03:56:55.493Z"
     },
     {
       "id": 104,
@@ -1553,8 +1678,8 @@
       "nameEn": "Chemistry 1st & 2nd Paper",
       "code": "HSC-CHEM-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.585Z",
-      "updatedAt": "2026-08-26T14:32:09.585Z"
+      "createdAt": "2026-08-27T03:56:55.494Z",
+      "updatedAt": "2026-08-27T03:56:55.494Z"
     },
     {
       "id": 105,
@@ -1563,8 +1688,8 @@
       "nameEn": "Higher Mathematics 1st & 2nd",
       "code": "HSC-HMAT-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.589Z",
-      "updatedAt": "2026-08-26T14:32:09.589Z"
+      "createdAt": "2026-08-27T03:56:55.496Z",
+      "updatedAt": "2026-08-27T03:56:55.496Z"
     },
     {
       "id": 106,
@@ -1573,8 +1698,8 @@
       "nameEn": "Biology 1st & 2nd Paper",
       "code": "HSC-BIO-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.592Z",
-      "updatedAt": "2026-08-26T14:32:09.592Z"
+      "createdAt": "2026-08-27T03:56:55.498Z",
+      "updatedAt": "2026-08-27T03:56:55.498Z"
     },
     {
       "id": 107,
@@ -1583,8 +1708,8 @@
       "nameEn": "Accounting 1st & 2nd Paper",
       "code": "HSC-ACC-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.595Z",
-      "updatedAt": "2026-08-26T14:32:09.595Z"
+      "createdAt": "2026-08-27T03:56:55.499Z",
+      "updatedAt": "2026-08-27T03:56:55.499Z"
     },
     {
       "id": 108,
@@ -1593,8 +1718,8 @@
       "nameEn": "Business Organization & Mgmt",
       "code": "HSC-BOM-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.599Z",
-      "updatedAt": "2026-08-26T14:32:09.599Z"
+      "createdAt": "2026-08-27T03:56:55.500Z",
+      "updatedAt": "2026-08-27T03:56:55.500Z"
     },
     {
       "id": 109,
@@ -1603,8 +1728,8 @@
       "nameEn": "Finance, Banking & Insurance",
       "code": "HSC-FIN-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.602Z",
-      "updatedAt": "2026-08-26T14:32:09.602Z"
+      "createdAt": "2026-08-27T03:56:55.501Z",
+      "updatedAt": "2026-08-27T03:56:55.501Z"
     },
     {
       "id": 110,
@@ -1613,8 +1738,8 @@
       "nameEn": "Economics 1st & 2nd Paper",
       "code": "HSC-ECO-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.603Z",
-      "updatedAt": "2026-08-26T14:32:09.603Z"
+      "createdAt": "2026-08-27T03:56:55.505Z",
+      "updatedAt": "2026-08-27T03:56:55.505Z"
     },
     {
       "id": 111,
@@ -1623,8 +1748,8 @@
       "nameEn": "Civics & Good Governance",
       "code": "HSC-CIV-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.605Z",
-      "updatedAt": "2026-08-26T14:32:09.605Z"
+      "createdAt": "2026-08-27T03:56:55.508Z",
+      "updatedAt": "2026-08-27T03:56:55.508Z"
     },
     {
       "id": 112,
@@ -1633,8 +1758,8 @@
       "nameEn": "Sociology & Islamic History",
       "code": "HSC-SOC-15",
       "totalMarks": 100,
-      "createdAt": "2026-08-26T14:32:09.607Z",
-      "updatedAt": "2026-08-26T14:32:09.607Z"
+      "createdAt": "2026-08-27T03:56:55.510Z",
+      "updatedAt": "2026-08-27T03:56:55.510Z"
     }
   ],
   "exam_terms": [
@@ -1643,24 +1768,24 @@
       "titleBn": "১ম সাময়িক পরীক্ষা ২০২৬",
       "titleEn": "1st Term Examination 2026",
       "academicYear": 2026,
-      "createdAt": "2026-08-26T14:32:09.608Z",
-      "updatedAt": "2026-08-26T14:32:09.608Z"
+      "createdAt": "2026-08-27T03:56:55.511Z",
+      "updatedAt": "2026-08-27T03:56:55.511Z"
     },
     {
       "id": 2,
       "titleBn": "২য় সাময়িক পরীক্ষা ২০২৬",
       "titleEn": "2nd Term Examination 2026",
       "academicYear": 2026,
-      "createdAt": "2026-08-26T14:32:09.609Z",
-      "updatedAt": "2026-08-26T14:32:09.609Z"
+      "createdAt": "2026-08-27T03:56:55.512Z",
+      "updatedAt": "2026-08-27T03:56:55.512Z"
     },
     {
       "id": 3,
       "titleBn": "বার্ষিক পরীক্ষা ও প্রি-টেস্ট ২০২৬",
       "titleEn": "Annual & Pre-Test Exam 2026",
       "academicYear": 2026,
-      "createdAt": "2026-08-26T14:32:09.610Z",
-      "updatedAt": "2026-08-26T14:32:09.610Z"
+      "createdAt": "2026-08-27T03:56:55.522Z",
+      "updatedAt": "2026-08-27T03:56:55.522Z"
     }
   ],
   "batches": [
@@ -1751,7 +1876,7 @@
       "author": "নেক্সটজেন শিক্ষক প্যানেল",
       "isFree": true,
       "downloadCount": 154,
-      "created_at": "2026-08-26T14:32:09.611Z"
+      "created_at": "2026-08-27T03:56:55.523Z"
     },
     {
       "id": 2,
@@ -1770,7 +1895,7 @@
       "author": "নেক্সটজেন শিক্ষক প্যানেল",
       "isFree": false,
       "downloadCount": 88,
-      "created_at": "2026-08-26T14:32:09.611Z"
+      "created_at": "2026-08-27T03:56:55.523Z"
     }
   ],
   "notices": [
@@ -1784,9 +1909,9 @@
       "priority": "URGENT",
       "targetRole": "ALL",
       "authorUserId": 1,
-      "publishedAt": "2026-08-26T14:32:09.611Z",
-      "createdAt": "2026-08-26T14:32:09.611Z",
-      "updatedAt": "2026-08-26T14:32:09.611Z"
+      "publishedAt": "2026-08-27T03:56:55.523Z",
+      "createdAt": "2026-08-27T03:56:55.523Z",
+      "updatedAt": "2026-08-27T03:56:55.523Z"
     },
     {
       "id": 2,
@@ -1798,9 +1923,9 @@
       "priority": "HIGH",
       "targetRole": "ALL",
       "authorUserId": 1,
-      "publishedAt": "2026-08-26T14:32:09.611Z",
-      "createdAt": "2026-08-26T14:32:09.612Z",
-      "updatedAt": "2026-08-26T14:32:09.612Z"
+      "publishedAt": "2026-08-27T03:56:55.523Z",
+      "createdAt": "2026-08-27T03:56:55.527Z",
+      "updatedAt": "2026-08-27T03:56:55.527Z"
     }
   ],
   "achievers": [
@@ -1817,8 +1942,8 @@
       "quoteBn": "নেক্সটজেন একাডেমির নিয়মিত পরীক্ষা ও মানসম্মত লেকচার আমার সাফল্যের মূল চাবিকাঠি।",
       "order": 1,
       "isActive": true,
-      "createdAt": "2026-08-26T14:32:09.613Z",
-      "updatedAt": "2026-08-26T14:32:09.613Z"
+      "createdAt": "2026-08-27T03:56:55.529Z",
+      "updatedAt": "2026-08-27T03:56:55.529Z"
     },
     {
       "id": 2,
@@ -1833,8 +1958,8 @@
       "quoteBn": "অনলাইন লাইভ ক্লাস এবং নিয়মিত হোমওয়ার্ক ট্র্যাকিং আমাকে পড়ালেখায় ধারাবাহিক রাখতে সাহায্য করেছে।",
       "order": 2,
       "isActive": true,
-      "createdAt": "2026-08-26T14:32:09.614Z",
-      "updatedAt": "2026-08-26T14:32:09.614Z"
+      "createdAt": "2026-08-27T03:56:55.530Z",
+      "updatedAt": "2026-08-27T03:56:55.530Z"
     }
   ],
   "settings": {
@@ -1927,23 +2052,8 @@
       "details": "NextGen Academy production database initialized. Primary Super Admin (Alomgir005) configured with zero dummy students/teachers.",
       "ipAddress": "127.0.0.1",
       "userAgent": "SeederScript/Production",
-      "createdAt": "2026-08-26T14:32:09.615Z",
-      "updatedAt": "2026-08-26T14:32:09.615Z"
+      "createdAt": "2026-08-27T03:56:55.531Z",
+      "updatedAt": "2026-08-27T03:56:55.531Z"
     }
-  ],
-  "attendance": [],
-  "routines": [],
-  "sms_logs": [],
-  "exams": [],
-  "batch_transfer_logs": [],
-  "payment_methods": [],
-  "system_errors": [],
-  "syllabus_tracking": [],
-  "helpdesk_tickets": [],
-  "menu_settings": [],
-  "grammar_lessons": [],
-  "referral_profiles": [],
-  "promo_settings": [],
-  "page_announcements": [],
-  "question_repositories": []
+  ]
 }
