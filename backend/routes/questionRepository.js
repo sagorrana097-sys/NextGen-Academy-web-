@@ -405,25 +405,27 @@ router.post('/upload-and-train', async (req, res, next) => {
 
     for (const q of parsedQuestions) {
       const qType = q.type || 'MCQ';
-      const badge = q.badge || meta.badge || createSourceBadge(cleanInst, cleanYear, qType);
+      const badge = q.badge || q.sourceBadge || meta.badge || createSourceBadge(cleanInst, cleanYear, qType);
 
       const record = await QuestionRepository.create({
         type: qType,
-        className: cleanClass,
-        book: cleanBook,
-        institutionOrBoard: cleanInst,
-        year: cleanYear,
-        chapter: cleanChapter,
-        hasChapter: !!hasChapter,
+        className: q.className || q.class || cleanClass,
+        book: q.book || q.subject || cleanBook,
+        institutionOrBoard: q.institutionOrBoard || q.boardOrInstitute || q.category || cleanInst,
+        year: q.year || q.term || cleanYear,
+        chapter: q.chapter !== undefined ? q.chapter : cleanChapter,
+        hasChapter: q.chapter ? true : !!hasChapter,
         question: q.question || q.stem || '',
         stem: q.stem || q.question || '',
         options: Array.isArray(q.options) ? q.options : [],
         correctAnswer: q.correctAnswer !== undefined ? q.correctAnswer : 0,
         subQuestions: q.subQuestions || null,
-        shortAnswer: q.shortAnswer || '',
+        shortAnswer: q.shortAnswer || q.answer || '',
         explanation: q.explanation || '',
         difficulty: q.difficulty || 'MEDIUM',
-        marks: q.marks || (qType === 'CQ' ? 10 : qType === 'SHORT' ? 2 : 1),
+        marks: q.marks || (qType === 'CQ' ? 10 : qType === 'SHORT' || qType === 'SQ' ? 2 : 1),
+        diagramUrl: q.diagramUrl || null,
+        diagramCaption: q.diagramCaption || null,
         badge,
         sourceFileName: sourceFileName || 'Manual Upload',
         uploadedByUserId: userId,

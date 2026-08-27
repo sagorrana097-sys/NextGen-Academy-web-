@@ -27,7 +27,8 @@ import {
   Trash2,
   Check,
   X,
-  Upload
+  Upload,
+  Database
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
@@ -97,6 +98,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   const [publishTitle, setPublishTitle] = useState('');
   const [publishDate, setPublishDate] = useState(new Date().toISOString().split('T')[0]);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isSavingRepo, setIsSavingRepo] = useState(false);
 
   const printAreaRef = useRef(null);
 
@@ -474,6 +476,52 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     }
   };
 
+  // Save Generated Questions Directly to Central Repository
+  const handleSaveToRepository = async () => {
+    if (!generatedExam || !generatedExam.questions || generatedExam.questions.length === 0) {
+      alert('সংরক্ষণ করার জন্য কোনো প্রশ্ন পাওয়া যায়নি।');
+      return;
+    }
+
+    setIsSavingRepo(true);
+    try {
+      const payload = {
+        questions: generatedExam.questions,
+        className: generatedExam.className || selectedClass,
+        book: generatedExam.subject || selectedSubject,
+        subject: generatedExam.subject || selectedSubject,
+        institutionOrBoard: 'NextGen AI প্রশ্ন ব্যাংক',
+        category: 'NextGen AI প্রশ্ন ব্যাংক',
+        year: '2026',
+        term: '2026',
+        metadata: {
+          className: generatedExam.className || selectedClass,
+          book: generatedExam.subject || selectedSubject,
+          institutionOrBoard: 'NextGen AI প্রশ্ন ব্যাংক',
+          year: '2026',
+          badge: "[NextGen AI - '26]"
+        }
+      };
+
+      console.log('[AIQuestionMaker] 🚀 Saving Generated Questions to Repository:', payload);
+      const res = await questionRepositoryAPI.uploadAndTrain(payload);
+      console.log('[AIQuestionMaker] 📥 Repository Save Response:', res);
+
+      if (res?.success) {
+        const count = res.data?.savedCount || res.data?.count || generatedExam.questions.length;
+        alert(`🎉 অভিনন্দন! মোট ${count}টি প্রশ্ন কেন্দ্রীয় রিপোজিটরিতে সফলভাবে সংরক্ষিত ও ডাটাবেজে যুক্ত হয়েছে!`);
+      } else {
+        const errMsg = res?.error?.message || res?.message || 'সংরক্ষণ করতে সমস্যা হয়েছে।';
+        alert(`রিপোজিটরিতে সংরক্ষণ ব্যর্থ: ${errMsg}`);
+      }
+    } catch (err) {
+      console.error('[AIQuestionMaker] Save Exception:', err);
+      alert(`সার্ভার ত্রুটি: ${err.message || 'নেটওয়ার্ক সমস্যা'}`);
+    } finally {
+      setIsSavingRepo(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Top Banner */}
@@ -708,6 +756,15 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                   >
                     <PlayCircle className="w-3.5 h-3.5" />
                     <span>১-ক্লিকে প্রকাশ</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveToRepository}
+                    disabled={isSavingRepo}
+                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-bold shadow-md shadow-teal-600/20 flex items-center space-x-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <Database className="w-3.5 h-3.5" />
+                    <span>{isSavingRepo ? 'সংরক্ষণ হচ্ছে...' : 'রিপোজিটরিতে সংরক্ষণ করুন'}</span>
                   </button>
                 </div>
               )}
