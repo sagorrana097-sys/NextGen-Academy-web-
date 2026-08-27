@@ -31,7 +31,8 @@ import {
   Edit3,
   Save,
   UploadCloud,
-  Info
+  Info,
+  Type
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
@@ -91,6 +92,66 @@ const INSTITUTIONS_LIST = [
 
 const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020'];
 
+/**
+ * Universal UTF-8 Unicode Normalizer & Glitch Cleaner
+ * Cleans BOM, invisible spaces, fixes NFC composite characters, and repairs broken Bengali vowels/conjuncts
+ */
+function cleanAndNormalizeUTF8(input) {
+  if (!input) return '';
+  if (typeof input !== 'string') return String(input);
+
+  // 1. Unicode NFC Normalization (composes base characters and vowel signs/kar properly)
+  let clean = input.normalize('NFC');
+
+  // 2. Remove UTF-8 BOM and corrupt invisible control characters
+  clean = clean.replace(/\uFEFF/g, ''); // UTF-8 Byte Order Mark
+  clean = clean.replace(/[\u200B\u200E\u200F]/g, ''); // Zero-width spaces & directional marks
+  clean = clean.replace(/\u00A0/g, ' '); // Non-breaking space to regular space
+
+  // 3. Normalize all line breaks to standard Unix format
+  clean = clean.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  return clean;
+}
+
+/**
+ * Lightweight Bijoy / ANSI to Unicode Bengali Converter
+ * Supports common legacy SutonnyMJ / Bijoy text pasted from MS Word or older guides
+ */
+function convertBijoyToUnicode(text) {
+  if (!text) return '';
+  let str = text;
+
+  const bijoyMap = {
+    'Av': 'আ', 'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'ঘ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
+    'k': 'ক', 'K': 'খ', 'g': 'গ', 'O': 'ঙ',
+    'c': 'চ', 'j': 'জ', 'T': 'ঞ',
+    't': 'ট', 'V': 'ঠ', 'd': 'ড', 'Y': 'ণ',
+    'Z': 'ত', 'X': 'থ', 'x': 'দ', 'n': 'ধ', 'N': 'ন',
+    'p': 'প', 'P': 'ফ', 'b': 'ব', 'm': 'ম',
+    'h': 'য', 'l': 'ল', 'S': 'শ', 's': 'ষ', 'R': 'স', 'r': 'হ',
+    'v': 'া', 'w': 'ি', 'W': 'ী', 'u': 'ু', 'U': 'ূ', 'y': 'ৃ', 'e': 'ে', 'o': 'ো',
+    'q': '্', 'Q': 'ৎ', 'M': 'ং', '&': 'ঁ', ':': 'ঃ',
+    '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯'
+  };
+
+  // Check if text has characteristic Bijoy patterns
+  const isLikelyBijoy = /[Av|w|W|u|y|e|q|K|G|C|J|T|V|D|Y|Z|X|N|P|B|S|R]/g.test(str) && !/[\u0980-\u09FF]/.test(str);
+  if (!isLikelyBijoy) return str;
+
+  // Reposition pre-vowels like 'e' (ে) and 'w' (ি)
+  str = str.replace(/e([a-zA-Z])/g, '$1e');
+  str = str.replace(/w([a-zA-Z])/g, '$1w');
+
+  let converted = '';
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    converted += bijoyMap[char] || char;
+  }
+
+  return cleanAndNormalizeUTF8(converted);
+}
+
 // Helper to normalize Bengali/English answer keys to 'ক' | 'খ' | 'গ' | 'ঘ'
 function normalizeOptionKey(val) {
   if (!val) return 'ক';
@@ -109,7 +170,7 @@ function parseMCQChunk(lines, idx) {
   const qLines = [];
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+    const line = cleanAndNormalizeUTF8(lines[i].trim());
     if (!line) continue;
 
     // Check for Answer line (Bengali or English)
@@ -122,7 +183,7 @@ function parseMCQChunk(lines, idx) {
     // Check for Explanation / Solution line
     const expMatch = line.match(/^(?:ব্যাখ্যা|Explanation|Explain|সমাধান|Note|ব্যাখ্যা\s*সহ)\s*[:.\-=\s]+(.*)/i);
     if (expMatch) {
-      explanation = expMatch[1].trim();
+      explanation = cleanAndNormalizeUTF8(expMatch[1].trim());
       continue;
     }
 
@@ -130,7 +191,7 @@ function parseMCQChunk(lines, idx) {
     const inlineMatches = [...line.matchAll(/(?:^|\s+)[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*?)(?=(?:\s+[\(\[]?[ক-ঘa-dA-D][\)\]\.\:\-\|\।\s]+)|$)/gi)];
     if (inlineMatches.length >= 2) {
       inlineMatches.forEach(m => {
-        const optVal = m[2].trim();
+        const optVal = cleanAndNormalizeUTF8(m[2].trim());
         if (optVal) options.push(optVal);
       });
       continue;
@@ -139,7 +200,7 @@ function parseMCQChunk(lines, idx) {
     // Check for single line option (e.g. "ক) অপশন টেক্সট" or "A. Option text")
     const singleOptMatch = line.match(/^[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*)/i);
     if (singleOptMatch && options.length < 4 && i > 0) {
-      const optVal = singleOptMatch[2].trim();
+      const optVal = cleanAndNormalizeUTF8(singleOptMatch[2].trim());
       if (optVal) options.push(optVal);
       continue;
     }
@@ -161,10 +222,10 @@ function parseMCQChunk(lines, idx) {
   return {
     id: `mcq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
     type: 'MCQ',
-    question: rawTitle || lines[0] || `প্রশ্ন ${idx + 1}`,
+    question: cleanAndNormalizeUTF8(rawTitle || lines[0] || `প্রশ্ন ${idx + 1}`),
     options: options.slice(0, 4),
     correctAnswer: ans,
-    explanation: explanation,
+    explanation: cleanAndNormalizeUTF8(explanation),
     difficulty: 'MEDIUM',
     marks: 1
   };
@@ -181,17 +242,17 @@ function parseCQChunk(lines, idx) {
   };
 
   lines.forEach(line => {
-    const l = line.trim();
+    const l = cleanAndNormalizeUTF8(line.trim());
     if (!l) return;
 
     if (/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.a.q = l.replace(/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+      subQs.a.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ক|a|১|1)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else if (/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.b.q = l.replace(/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+      subQs.b.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:খ|b|২|2)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else if (/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.c.q = l.replace(/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+      subQs.c.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:গ|c|৩|3)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else if (/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.d.q = l.replace(/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+      subQs.d.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ঘ|d|৪|4)[\)\]\.\:\-\|\।\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else {
       stemLines.push(l);
     }
@@ -204,7 +265,7 @@ function parseCQChunk(lines, idx) {
   return {
     id: `cq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
     type: 'CQ',
-    question: rawStem || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
+    question: cleanAndNormalizeUTF8(rawStem || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:'),
     subQuestions: subQs,
     diagramUrl: '',
     difficulty: 'MEDIUM',
@@ -218,11 +279,11 @@ function parseSQChunk(lines, idx) {
   const qLines = [];
 
   lines.forEach(line => {
-    const l = line.trim();
+    const l = cleanAndNormalizeUTF8(line.trim());
     if (!l) return;
 
     if (/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|সমাধান)\s*[:.\-=\s]+/i.test(l)) {
-      sqAns = l.replace(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|সমাধান)\s*[:.\-=\s]+/i, '').trim();
+      sqAns = cleanAndNormalizeUTF8(l.replace(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|সমাধান)\s*[:.\-=\s]+/i, '').trim());
     } else {
       qLines.push(l);
     }
@@ -235,8 +296,8 @@ function parseSQChunk(lines, idx) {
   return {
     id: `sq-staged-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
     type: 'SQ',
-    question: rawTitle || lines[0] || `সংক্ষিপ্ত প্রশ্ন ${idx + 1}`,
-    shortAnswer: sqAns,
+    question: cleanAndNormalizeUTF8(rawTitle || lines[0] || `সংক্ষিপ্ত প্রশ্ন ${idx + 1}`),
+    shortAnswer: cleanAndNormalizeUTF8(sqAns),
     difficulty: 'MEDIUM',
     marks: 2
   };
@@ -246,8 +307,8 @@ function parseSQChunk(lines, idx) {
 function splitBulkPastedText(text, vaultType) {
   if (!text || !text.trim()) return [];
 
-  // Normalize line endings
-  const clean = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  // Normalize UTF-8 clean text
+  const clean = cleanAndNormalizeUTF8(text);
 
   // Split by Question Numbering (e.g. "১.", "1.", "প্রশ্ন ১:", "Q1:", "[1]", "১।")
   const regexSplitter = /(?:^|\n+)(?=(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]|Q[0-9]+[:.]|\[[0-9১-৯]+\]))/i;
@@ -326,12 +387,22 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
   // Auto-split bulk pasted text
   const handleProcessBulkText = (text = bulkInputText, vault = activeVault) => {
-    if (!text || !text.trim()) {
+    const cleaned = cleanAndNormalizeUTF8(text);
+    if (!cleaned.trim()) {
       setStagedQuestions([]);
       return;
     }
-    const splitItems = splitBulkPastedText(text, vault);
+    const splitItems = splitBulkPastedText(cleaned, vault);
     setStagedQuestions(splitItems);
+  };
+
+  // Convert Bijoy/ANSI to Unicode Bengali in-place
+  const handleConvertBijoy = () => {
+    if (!bulkInputText.trim()) return;
+    const converted = convertBijoyToUnicode(bulkInputText);
+    setBulkInputText(converted);
+    handleProcessBulkText(converted, activeVault);
+    alert('✅ টেক্সট সফলভাবে ইউনিকোড বাংলা (UTF-8) ফন্টে রূপান্তরিত হয়েছে!');
   };
 
   // Switch vault tab
@@ -452,7 +523,18 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
   // Update Individual Staged Card
   const updateStagedCard = (id, updates) => {
-    setStagedQuestions(prev => prev.map(q => q.id === id ? { ...q, ...updates } : q));
+    setStagedQuestions(prev => prev.map(q => {
+      if (q.id !== id) return q;
+      const cleanUpdates = {};
+      Object.keys(updates).forEach(k => {
+        if (typeof updates[k] === 'string') {
+          cleanUpdates[k] = cleanAndNormalizeUTF8(updates[k]);
+        } else {
+          cleanUpdates[k] = updates[k];
+        }
+      });
+      return { ...q, ...cleanUpdates };
+    }));
   };
 
   // Remove Individual Staged Card
@@ -519,13 +601,13 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
       const payloadQuestions = stagedQuestions.map((q, idx) => ({
         id: `${activeVault.toLowerCase()}-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
         type: q.type || activeVault,
-        question: q.question || `প্রশ্ন ${idx + 1}`,
-        stem: q.question || '',
-        options: Array.isArray(q.options) ? q.options : [],
+        question: cleanAndNormalizeUTF8(q.question || `প্রশ্ন ${idx + 1}`),
+        stem: cleanAndNormalizeUTF8(q.question || ''),
+        options: Array.isArray(q.options) ? q.options.map(opt => cleanAndNormalizeUTF8(opt)) : [],
         correctAnswer: q.correctAnswer || 'ক',
-        explanation: q.explanation || '',
+        explanation: cleanAndNormalizeUTF8(q.explanation || ''),
         subQuestions: q.subQuestions || null,
-        shortAnswer: q.shortAnswer || '',
+        shortAnswer: cleanAndNormalizeUTF8(q.shortAnswer || ''),
         marks: q.marks || (activeVault === 'CQ' ? 10 : activeVault === 'SQ' ? 2 : 1),
         difficulty: q.difficulty || 'MEDIUM',
         diagramUrl: q.diagramUrl || null,
@@ -536,7 +618,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         book: selectedSubject,
         class: selectedClass,
         className: selectedClass,
-        chapter: selectedChapter || null
+        chapter: selectedChapter ? cleanAndNormalizeUTF8(selectedChapter) : null
       }));
 
       const payload = {
@@ -548,7 +630,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         book: selectedSubject,
         institutionOrBoard: selectedInstitution,
         year: selectedYear,
-        chapter: selectedChapter || null,
+        chapter: selectedChapter ? cleanAndNormalizeUTF8(selectedChapter) : null,
         hasChapter: !!selectedChapter,
         metadata: {
           className: selectedClass,
@@ -558,7 +640,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           term: selectedYear,
           institutionOrBoard: selectedInstitution,
           year: selectedYear,
-          chapter: selectedChapter || null,
+          chapter: selectedChapter ? cleanAndNormalizeUTF8(selectedChapter) : null,
           badge: '[' + selectedInstitution + ' - \'' + selectedYear.slice(-2) + ']'
         }
       };
@@ -627,7 +709,39 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   }, [repoQuestions, activeVault, searchTerm]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-2 sm:px-4 py-2">
+    <div className="utf8-bangla-root space-y-6 max-w-7xl mx-auto px-2 sm:px-4 py-2">
+      {/* Universal UTF-8 Bengali Font Enforce Style */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+
+        .utf8-bangla-root,
+        .utf8-bangla-root input,
+        .utf8-bangla-root textarea,
+        .utf8-bangla-root select,
+        .utf8-bangla-root button,
+        .utf8-bangla-root table,
+        .utf8-bangla-root p,
+        .utf8-bangla-root span,
+        .utf8-bangla-root div,
+        .utf8-bangla-root h1,
+        .utf8-bangla-root h2,
+        .utf8-bangla-root h3,
+        .utf8-bangla-root h4 {
+          font-family: 'Hind Siliguri', 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'SutonnyMJ', 'AponaLohit', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+          font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+          text-rendering: optimizeLegibility;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        .utf8-bangla-input {
+          font-family: 'Hind Siliguri', 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', 'Nikosh', 'Segoe UI', sans-serif !important;
+          line-height: 1.75 !important;
+          letter-spacing: 0.01em;
+          text-rendering: optimizeLegibility;
+        }
+      `}</style>
+
       {/* Top Banner Header */}
       <div className="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-7 text-white shadow-xl relative overflow-hidden border border-indigo-500/30">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -637,16 +751,16 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           <div className="space-y-1.5">
             <div className="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md">
               <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-              <span>বাল্ক স্মার্ট পেস্ট ও ইন্টারেক্টিভ ১-ক্লিক উত্তর নির্বাচক</span>
+              <span>বাল্ক স্মার্ট পেস্ট • ইউনিভার্সাল বাংলা UTF-8 এনফোর্সড</span>
             </div>
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
               <span>ম্যানুয়াল প্রশ্ন ভাণ্ডার সংগ্রহশালা</span>
               <span className="text-xs sm:text-sm font-bold bg-indigo-600/80 text-indigo-100 px-2.5 py-0.5 rounded-lg border border-indigo-400/30">
-                Bulk Smart Vault
+                UTF-8 Safe Vault
               </span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-              একসাথে বহু প্রশ্ন পেস্ট করুন। স্বয়ংক্রিয়ভাবে কার্ডে বিভক্ত হয়ে যাবে এবং ১-ক্লিকে সঠিক উত্তর নির্বাচন করে ডাটাবেজে জমা দিন।
+              একসাথে বহু প্রশ্ন পেস্ট করুন। সোলাইমানলিপি, কালপুরুষ, ইউনিকোড কিংবা বিজয় ফন্ট সব ধরনের বাংলা যুক্তবর্ণ নির্বিঘ্নে রেন্ডার হবে।
             </p>
           </div>
 
@@ -729,7 +843,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <span>শ্রেণি, বিষয় ও প্রতিষ্ঠান সিলেক্ট করুন</span>
               </h3>
               <span className="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200">
-                স্বয়ংক্রিয় ট্যাগিং
+                UTF-8 এনকোডেড
               </span>
             </div>
 
@@ -739,7 +853,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <select
                   value={selectedClass}
                   onChange={(e) => setSelectedClass(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {CLASSES_LIST.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
@@ -750,7 +864,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <select
                   value={selectedSubject}
                   onChange={(e) => setSelectedSubject(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {SUBJECTS_LIST.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -761,7 +875,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <select
                   value={selectedInstitution}
                   onChange={(e) => setSelectedInstitution(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {INSTITUTIONS_LIST.map(inst => <option key={inst} value={inst}>{inst}</option>)}
                 </select>
@@ -772,7 +886,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
                   {YEARS_LIST.map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
@@ -782,10 +896,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <label className="text-[11px] font-bold text-slate-600 block mb-1">অধ্যায় / টপিক (ঐচ্ছিক):</label>
                 <input
                   type="text"
+                  dir="ltr"
+                  lang="bn"
                   value={selectedChapter}
-                  onChange={(e) => setSelectedChapter(e.target.value)}
+                  onChange={(e) => setSelectedChapter(cleanAndNormalizeUTF8(e.target.value))}
                   placeholder="যেমন: অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি"
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -796,23 +912,41 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
             <div className="flex items-center justify-between flex-wrap gap-2">
               <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center space-x-1.5">
                 <FileText className="w-4 h-4 text-indigo-600" />
-                <span>এখানে একসাথে একাধিক {activeVault} প্রশ্ন পেস্ট করুন:</span>
+                <span>এখানে একসাথে একাধিক {activeVault} প্রশ্ন পেস্ট করুন (UTF-8 বাংলা):</span>
               </label>
-              <button
-                type="button"
-                onClick={handleLoadDemo}
-                className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-indigo-200"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                <span>+ ডেমো {activeVault} পেস্ট করুন</span>
-              </button>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={handleConvertBijoy}
+                  title="বিজয় বা পুরানো ফন্টের টেক্সট ইউনিকোডে রূপান্তর করুন"
+                  className="text-[11px] font-bold text-teal-700 hover:text-teal-800 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-teal-200"
+                >
+                  <Type className="w-3.5 h-3.5" />
+                  <span>বিজয় ➔ ইউনিকোড ফিক্স</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleLoadDemo}
+                  className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-indigo-200"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                  <span>+ ডেমো {activeVault}</span>
+                </button>
+              </div>
             </div>
 
             <textarea
-              rows={5}
+              rows={6}
+              dir="ltr"
+              lang="bn"
+              spellCheck="false"
+              autoCapitalize="none"
+              autoCorrect="off"
               value={bulkInputText}
               onChange={(e) => {
-                const val = e.target.value;
+                const val = cleanAndNormalizeUTF8(e.target.value);
                 setBulkInputText(val);
                 handleProcessBulkText(val, activeVault);
               }}
@@ -823,7 +957,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                   ? `এখানে সৃজনশীল প্রশ্ন পেস্ট করুন...\n\n১. উদ্দীপক: একটি গাড়ি স্থির অবস্থান থেকে যাত্রা শুরু করে...\n(ক) ত্বরণ কাকে বলে? [১]\n(খ) সুষম বেগ বলতে কী বোঝায়? [২]\n(গ) গাড়িটির ত্বরণ নির্ণয় করো। [৩]\n(ঘ) মোট অতিক্রান্ত দূরত্ব বিশ্লেষণ করো। [৪]`
                   : `এখানে সংক্ষিপ্ত প্রশ্ন পেস্ট করুন...\n\n১. কাজ কাকে বলে? এর একক কী?\nউত্তর: বল ও সরণের গুণফলকে কাজ বলে। একক জুল (J)।`
               }
-              className="w-full p-4 bg-slate-50 border border-slate-200/90 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono leading-relaxed"
+              className="utf8-bangla-input w-full p-4 bg-slate-50 border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed tracking-wide"
             />
 
             <div className="flex items-center justify-between pt-1 flex-wrap gap-2">
@@ -834,7 +968,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 {stagedQuestions.length > 0 && (
                   <span className="inline-flex items-center space-x-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
                     <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                    <span>প্রস্তুত</span>
+                    <span>ইউনিকোড প্রস্তুত</span>
                   </span>
                 )}
               </div>
@@ -937,7 +1071,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                         <select
                           value={q.difficulty || 'MEDIUM'}
                           onChange={(e) => updateStagedCard(q.id, { difficulty: e.target.value })}
-                          className="text-[11px] font-bold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700"
+                          className="utf8-bangla-input text-[11px] font-bold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700"
                         >
                           <option value="EASY">সহজ (Easy)</option>
                           <option value="MEDIUM">মাঝারি (Medium)</option>
@@ -995,10 +1129,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       </div>
                       <textarea
                         rows={2}
+                        dir="ltr"
+                        lang="bn"
                         value={q.question}
-                        onChange={(e) => updateStagedCard(q.id, { question: e.target.value })}
+                        onChange={(e) => updateStagedCard(q.id, { question: cleanAndNormalizeUTF8(e.target.value) })}
                         placeholder="এখানে প্রশ্নের বিবরণ বা উদ্দীপক লিখুন..."
-                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
+                        className="utf8-bangla-input w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
                       />
                     </div>
 
@@ -1067,14 +1203,16 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                                 <div className="flex-1">
                                   <input
                                     type="text"
+                                    dir="ltr"
+                                    lang="bn"
                                     value={optVal}
                                     onChange={(e) => {
                                       const nextOpts = [...(q.options || ['বিকল্প ক', 'বিকল্প খ', 'বিকল্প গ', 'বিকল্প ঘ'])];
-                                      nextOpts[oIdx] = e.target.value;
+                                      nextOpts[oIdx] = cleanAndNormalizeUTF8(e.target.value);
                                       updateStagedCard(q.id, { options: nextOpts });
                                     }}
                                     placeholder={`অপশন (${optKey}) লিখুন`}
-                                    className="w-full bg-transparent border-none text-xs text-slate-800 font-semibold focus:outline-none"
+                                    className="utf8-bangla-input w-full bg-transparent border-none text-xs sm:text-sm text-slate-800 font-semibold focus:outline-none"
                                   />
                                 </div>
 
@@ -1093,10 +1231,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                           <label className="text-[10px] font-bold text-slate-500 block mb-0.5">ব্যাখ্যা বা সমাধান (ঐচ্ছিক):</label>
                           <input
                             type="text"
+                            dir="ltr"
+                            lang="bn"
                             value={q.explanation || ''}
-                            onChange={(e) => updateStagedCard(q.id, { explanation: e.target.value })}
+                            onChange={(e) => updateStagedCard(q.id, { explanation: cleanAndNormalizeUTF8(e.target.value) })}
                             placeholder="ব্যাখ্যা বা প্রাসঙ্গিক নোট লিখুন (ঐচ্ছিক)"
-                            className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="utf8-bangla-input w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1113,12 +1253,14 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                             </label>
                             <input
                               type="text"
+                              dir="ltr"
+                              lang="bn"
                               value={q.subQuestions.a?.q || q.subQuestions.a || ''}
                               onChange={(e) => updateStagedCard(q.id, {
-                                subQuestions: { ...q.subQuestions, a: { q: e.target.value, marks: 1 } }
+                                subQuestions: { ...q.subQuestions, a: { q: cleanAndNormalizeUTF8(e.target.value), marks: 1 } }
                               })}
                               placeholder="(ক) জ্ঞানমূলক প্রশ্ন লিখুন..."
-                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                              className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
                           </div>
 
@@ -1129,12 +1271,14 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                             </label>
                             <input
                               type="text"
+                              dir="ltr"
+                              lang="bn"
                               value={q.subQuestions.b?.q || q.subQuestions.b || ''}
                               onChange={(e) => updateStagedCard(q.id, {
-                                subQuestions: { ...q.subQuestions, b: { q: e.target.value, marks: 2 } }
+                                subQuestions: { ...q.subQuestions, b: { q: cleanAndNormalizeUTF8(e.target.value), marks: 2 } }
                               })}
                               placeholder="(খ) অনুধাবনমূলক প্রশ্ন লিখুন..."
-                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                              className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
                           </div>
 
@@ -1145,12 +1289,14 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                             </label>
                             <input
                               type="text"
+                              dir="ltr"
+                              lang="bn"
                               value={q.subQuestions.c?.q || q.subQuestions.c || ''}
                               onChange={(e) => updateStagedCard(q.id, {
-                                subQuestions: { ...q.subQuestions, c: { q: e.target.value, marks: 3 } }
+                                subQuestions: { ...q.subQuestions, c: { q: cleanAndNormalizeUTF8(e.target.value), marks: 3 } }
                               })}
                               placeholder="(গ) প্রয়োগমূলক প্রশ্ন লিখুন..."
-                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                              className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
                           </div>
 
@@ -1161,12 +1307,14 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                             </label>
                             <input
                               type="text"
+                              dir="ltr"
+                              lang="bn"
                               value={q.subQuestions.d?.q || q.subQuestions.d || ''}
                               onChange={(e) => updateStagedCard(q.id, {
-                                subQuestions: { ...q.subQuestions, d: { q: e.target.value, marks: 4 } }
+                                subQuestions: { ...q.subQuestions, d: { q: cleanAndNormalizeUTF8(e.target.value), marks: 4 } }
                               })}
                               placeholder="(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন লিখুন..."
-                              className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                              className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
                           </div>
                         </div>
@@ -1179,7 +1327,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                             value={q.diagramUrl || ''}
                             onChange={(e) => updateStagedCard(q.id, { diagramUrl: e.target.value })}
                             placeholder="https://example.com/diagram.png"
-                            className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="utf8-bangla-input w-full p-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                           />
                         </div>
                       </div>
@@ -1196,10 +1344,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                         </label>
                         <textarea
                           rows={2}
+                          dir="ltr"
+                          lang="bn"
                           value={q.shortAnswer || ''}
-                          onChange={(e) => updateStagedCard(q.id, { shortAnswer: e.target.value })}
+                          onChange={(e) => updateStagedCard(q.id, { shortAnswer: cleanAndNormalizeUTF8(e.target.value) })}
                           placeholder="এখানে সংক্ষিপ্ত উত্তর বা সমাধান লিখুন..."
-                          className="w-full p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                          className="utf8-bangla-input w-full p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl text-xs sm:text-sm text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none leading-relaxed"
                         />
                       </div>
                     )}
@@ -1266,10 +1416,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
+                dir="ltr"
+                lang="bn"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(cleanAndNormalizeUTF8(e.target.value))}
                 placeholder="প্রশ্ন, বিষয় বা বোর্ড দিয়ে খুঁজুন..."
-                className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="utf8-bangla-input w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               />
             </div>
 
@@ -1323,24 +1475,24 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                       </div>
 
                       {/* Question Text / Stem */}
-                      <p className="font-bold text-slate-800 leading-relaxed">
+                      <p className="font-bold text-slate-800 leading-relaxed text-xs sm:text-sm">
                         {q?.question || q?.stem || 'প্রশ্নের শিরোনাম নেই'}
                       </p>
 
                       {/* Options for MCQ */}
                       {activeVault === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 && (
-                        <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] text-slate-600">
+                        <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] sm:text-xs text-slate-700">
                           {q.options.map((opt, oIdx) => {
                             const optLetter = ['ক', 'খ', 'গ', 'ঘ'][oIdx];
                             const isCorrect = q.correctAnswer === optLetter || q.correctAnswer === oIdx || normalizeOptionKey(q.correctAnswer) === optLetter;
                             return (
                               <div
                                 key={oIdx}
-                                className={'px-2 py-1 rounded-lg border ' + (
+                                className={'px-2.5 py-1.5 rounded-lg border ' + (
                                   isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold' : 'bg-white border-slate-200/80'
                                 )}
                               >
-                                <span className="mr-1">({optLetter})</span>
+                                <span className="mr-1 font-bold">({optLetter})</span>
                                 <span>{opt}</span>
                               </div>
                             );
@@ -1350,11 +1502,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
                       {/* Sub-questions for CQ */}
                       {activeVault === 'CQ' && q?.subQuestions && (
-                        <div className="space-y-1 pt-1 text-[11px] text-slate-600">
+                        <div className="space-y-1.5 pt-1 text-[11px] sm:text-xs text-slate-700">
                           {Object.entries(q.subQuestions).map(([key, val]) => (
                             <div key={key} className="flex items-start space-x-1">
                               <span className="font-bold text-purple-700">({key === 'a' ? 'ক' : key === 'b' ? 'খ' : key === 'c' ? 'গ' : 'ঘ'})</span>
-                              <span>{typeof val === 'object' ? val?.q : val}</span>
+                              <span className="leading-relaxed">{typeof val === 'object' ? val?.q : val}</span>
                             </div>
                           ))}
                         </div>
@@ -1362,7 +1514,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
                       {/* Answer for SQ */}
                       {activeVault === 'SQ' && q?.shortAnswer && (
-                        <div className="p-2 bg-emerald-50/50 rounded-lg border border-emerald-200 text-[11px] text-emerald-900">
+                        <div className="p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-200 text-[11px] sm:text-xs text-emerald-900">
                           <span className="font-bold">উত্তর: </span>{q.shortAnswer}
                         </div>
                       )}
