@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Database,
   Plus,
@@ -32,7 +32,8 @@ import {
   Save,
   UploadCloud,
   Info,
-  Type
+  Type,
+  Loader2
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
@@ -858,6 +859,10 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     setFeedbackMsg(null);
   };
 
+  // Document & PDF Uploader State
+  const [readingPdf, setReadingPdf] = useState(false);
+  const pdfFileInputRef = useRef(null);
+
   // Upload image from file to base64 Data URL
   const handleImageUpload = (cardId, file) => {
     if (!file) return;
@@ -870,6 +875,72 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
       updateStagedCard(cardId, { diagramUrl: e.target.result });
     };
     reader.readAsDataURL(file);
+  };
+
+  // Upload and Read PDF / Word / Text files directly into questions
+  const handleDocumentUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setReadingPdf(true);
+    setFeedbackMsg(null);
+
+    try {
+      let extractedText = '';
+      if (file.name.endsWith('.txt') || file.type === 'text/plain') {
+        extractedText = await file.text();
+      } else if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
+        const arrayBuffer = await file.arrayBuffer();
+        if (!window.pdfjsLib) {
+          await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+            script.onload = () => {
+              window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+              resolve();
+            };
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+        const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        let fullText = '';
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const textContent = await page.getTextContent();
+          const pageStrings = textContent.items.map(item => item.str);
+          fullText += pageStrings.join(' ') + '\n\n';
+        }
+        extractedText = fullText;
+      } else {
+        extractedText = await file.text();
+      }
+
+      if (!extractedText || !extractedText.trim()) {
+        alert('ফাইল থেকে কোনো টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা ইমেজ PDF হলে দয়া করে টেক্সট কপি করে পেস্ট করুন।');
+        return;
+      }
+
+      let processed = extractedText;
+      if (isBijoyEncoded(processed)) {
+        processed = convertBijoyToUnicode(processed);
+      }
+      processed = cleanAndNormalizeUTF8(processed);
+
+      setBulkInputText(processed);
+      handleProcessBulkText(processed, activeVault);
+      setFeedbackMsg({
+        type: 'success',
+        text: `✅ ${file.name} থেকে সফলভাবে প্রশ্নসমূহ পড়া হয়েছে এবং স্টেজিং কার্ডে যুক্ত করা হয়েছে!`
+      });
+    } catch (err) {
+      console.error('Error reading document:', err);
+      alert('ফাইলটি পড়তে সমস্যা হয়েছে: ' + (err.message || 'অজানা ত্রুটি'));
+    } finally {
+      setReadingPdf(false);
+      if (e.target) e.target.value = '';
+    }
   };
 
   // Add 1 Empty Question Card
@@ -1431,6 +1502,30 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               </label>
 
               <div className="flex items-center space-x-2">
+                {/* Hidden File Input for PDF / Text reading */}
+                <input
+                  type="file"
+                  ref={pdfFileInputRef}
+                  accept=".pdf,.txt,.doc,.docx"
+                  onChange={handleDocumentUpload}
+                  className="hidden"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => pdfFileInputRef.current?.click()}
+                  disabled={readingPdf}
+                  title="PDF বা টেক্সট ফাইল আপলোড করে স্বয়ংক্রিয় প্রশ্ন বের করুন"
+                  className="text-[11px] font-bold text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1.5 border border-indigo-200 shadow-xs"
+                >
+                  {readingPdf ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                  ) : (
+                    <UploadCloud className="w-3.5 h-3.5 text-indigo-600" />
+                  )}
+                  <span>{readingPdf ? 'PDF পড়া হচ্ছে...' : '📄 PDF / ফাইল আপলোড'}</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={handleConvertBijoy}
@@ -1444,7 +1539,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 <button
                   type="button"
                   onClick={handleLoadDemo}
-                  className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-indigo-200"
+                  className="text-[11px] font-bold text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-xl transition-all cursor-pointer flex items-center space-x-1 border border-slate-200"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                   <span>+ ডেমো {activeVault}</span>
