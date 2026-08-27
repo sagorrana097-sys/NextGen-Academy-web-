@@ -397,6 +397,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [parsedQuestions, setParsedQuestions] = useState([]);
   const [isParsing, setIsParsing] = useState(false);
+  const [uploadQueue, setUploadQueue] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState(null);
 
@@ -496,25 +497,157 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
   // Active Tab for Parsed Staging Questions ('ALL' | 'MCQ' | 'CQ' | 'SQ')
   const [parsedActiveTab, setParsedActiveTab] = useState('ALL');
 
-  // Strict Categorization Parser Engine
-  const handleParseRawText = async (textToParse = rawText) => {
-    if (!textToParse || !textToParse.trim()) {
-      setFeedbackMsg({ type: 'error', text: 'অনুগ্রহ করে প্রশ্নপত্র পেস্ট করুন অথবা ফাইল আপলোড করুন।' });
-      return;
-    }
+  // Robust Client-Side Regex Parser
+  const parseQuestionsFromTextRegex = (clean, institution, year, book, className, chapter) => {
+    const blocks = clean.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
+    const results = [];
 
-    setIsParsing(true);
-    setFeedbackMsg(null);
+    blocks.forEach((block, idx) => {
+      const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (lines.length === 0) return;
 
-    const clean = textToParse.trim();
+      // Check for diagram/image
+      let diagramUrl = null;
+      let diagramCaption = null;
+      const imgMatch = block.match(/!\[(.*?)\]\((.*?)\)/);
+      if (imgMatch) {
+        diagramCaption = imgMatch[1] || 'চিত্র';
+        diagramUrl = imgMatch[2];
+      } else if (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram')) {
+        diagramCaption = 'উদ্দীপকের সংশ্লিষ্ট চিত্র / বর্তনী / লেখচিত্র';
+      }
 
-    // Check if directly JSON
+      // 1. Creative Question (CQ) Pattern Detection
+      const hasCQMarker = block.includes('উদ্দীপক') || block.includes('অনুচ্ছেদ') || block.includes('দৃশ্যকল্প');
+      const hasSubA = lines.some(l => /^[(\[]?(?:ক|a)[)\]\.\s]/i.test(l));
+      const hasSubB = lines.some(l => /^[(\[]?(?:খ|b)[)\]\.\s]/i.test(l));
+
+      if (hasCQMarker || (hasSubA && hasSubB)) {
+        const stemLines = [];
+        const subQs = {
+          a: { q: '', marks: 1 },
+          b: { q: '', marks: 2 },
+          c: { q: '', marks: 3 },
+          d: { q: '', marks: 4 }
+        };
+
+        lines.forEach(line => {
+          const cleanLine = line.replace(/!\[.*?\]\(.*?\)/g, '').trim();
+          if (/^[(\[]?(?:ক|a)[)\]\.\s]/i.test(cleanLine)) {
+            subQs.a.q = cleanLine.replace(/^[(\[]?(?:ক|a)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+          } else if (/^[(\[]?(?:খ|b)[)\]\.\s]/i.test(cleanLine)) {
+            subQs.b.q = cleanLine.replace(/^[(\[]?(?:খ|b)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+          } else if (/^[(\[]?(?:গ|c)[)\]\.\s]/i.test(cleanLine)) {
+            subQs.c.q = cleanLine.replace(/^[(\[]?(?:গ|c)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+          } else if (/^[(\[]?(?:ঘ|d)[)\]\.\s]/i.test(cleanLine)) {
+            subQs.d.q = cleanLine.replace(/^[(\[]?(?:ঘ|d)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
+          } else {
+            stemLines.push(cleanLine);
+          }
+        });
+
+        results.push({
+          id: `cq-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${idx}`,
+          type: 'CQ',
+          stem: stemLines.join(' ') || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
+          subQuestions: subQs,
+          diagramUrl,
+          diagramCaption,
+          difficulty: 'MEDIUM',
+          boardOrInstitute: institution,
+          year: year,
+          subject: book,
+          class: className,
+          chapter: chapter
+        });
+        return;
+      }
+
+      // 2. Multiple Choice Question (MCQ) Pattern Detection
+      const optMatches = lines.filter(l => /^[([]?[কখগঘabcd1234][).\]\s]/i.test(l));
+      const isMCQ = optMatches.length >= 2 || block.includes('উত্তর:') || block.includes('Ans:');
+
+      if (isMCQ) {
+        const qLine = lines[0] || '';
+        const options = [];
+        let ans = 'ক';
+        let explanation = '';
+
+        lines.slice(1).forEach(line => {
+          if (/^(?:উত্তর|Ans)[:.]/i.test(line)) {
+            const matched = line.match(/(?:উত্তর:|Ans:)\s*([ক-ঘa-dA-D1-4])/i);
+            if (matched) ans = matched[1];
+          } else if (/^(?:ব্যাখ্যা|Explanation)[:.]/i.test(line)) {
+            explanation = line.replace(/^(?:ব্যাখ্যা:|Explanation:)\s*/i, '');
+          } else if (/^[([]?[কখগঘabcd1234][).\]\s]/i.test(line)) {
+            const cleanedOpt = line.replace(/^[([]?[কখগঘabcd1234][).\]\s]+/i, '').trim();
+            if (cleanedOpt) options.push(cleanedOpt);
+          }
+        });
+
+        while (options.length < 4) {
+          options.push('বিকল্প ' + (options.length + 1));
+        }
+
+        results.push({
+          id: `mcq-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${idx}`,
+          type: 'MCQ',
+          question: qLine.replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || 'বহুনির্বাচনী প্রশ্ন ' + (idx + 1),
+          options: options.slice(0, 4),
+          correctAnswer: ans,
+          explanation,
+          diagramUrl,
+          diagramCaption,
+          difficulty: 'MEDIUM',
+          boardOrInstitute: institution,
+          year: year,
+          subject: book,
+          class: className,
+          chapter: chapter
+        });
+        return;
+      }
+
+      // 3. Short Question / Knowledge / Comprehension (SQ) Detection
+      const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
+      let sqAns = '';
+      const ansMatch = sqLine.match(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*(.*)/i);
+      if (ansMatch) {
+        sqAns = ansMatch[1].trim();
+      }
+
+      results.push({
+        id: `sq-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${idx}`,
+        type: 'SQ',
+        question: sqLine.replace(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*.*$/i, '').trim() || 'সংক্ষিপ্ত প্রশ্ন ' + (idx + 1),
+        shortAnswer: sqAns,
+        diagramUrl,
+        diagramCaption,
+        marks: 2,
+        difficulty: 'MEDIUM',
+        boardOrInstitute: institution,
+        year: year,
+        subject: book,
+        class: className,
+        chapter: chapter
+      });
+    });
+
+    return results;
+  };
+
+  // Pure asynchronous question extractor
+  const extractQuestionsFromText = async (cleanText) => {
+    if (!cleanText || !cleanText.trim()) return [];
+    const clean = cleanText.trim();
+
+    // Check JSON
     if (clean.startsWith('[') || clean.startsWith('{')) {
       try {
         const parsed = JSON.parse(clean);
         const list = Array.isArray(parsed) ? parsed : [parsed];
-        const normalized = list.map((item, idx) => ({
-          id: item.id || `json-${Date.now()}-${idx}`,
+        return list.map((item, idx) => ({
+          id: item.id || `json-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${idx}`,
           type: item.type === 'CQ' ? 'CQ' : item.type === 'SHORT' || item.type === 'SQ' ? 'SQ' : 'MCQ',
           question: item.question || item.stem || `প্রশ্ন ${idx + 1}`,
           stem: item.stem || item.question || '',
@@ -533,17 +666,10 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           class: targetClass,
           chapter: hasChapter ? targetChapter : null
         }));
-        setParsedQuestions(normalized);
-        const mcqCount = normalized.filter(q => q.type === 'MCQ').length;
-        const cqCount = normalized.filter(q => q.type === 'CQ').length;
-        const sqCount = normalized.filter(q => q.type === 'SQ').length;
-        setFeedbackMsg({ type: 'success', text: `🎉 সফলভাবে ${normalized.length}টি প্রশ্ন পার্স করা হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})` });
-        setIsParsing(false);
-        return;
       } catch (e) {}
     }
 
-    // Try Backend AI Server Parser First
+    // Try Backend AI Server Parser
     try {
       const apiRes = await questionRepositoryAPI.parseDocument({
         rawText: clean,
@@ -555,12 +681,11 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           chapter: targetChapter
         }
       });
-
       if (apiRes?.success && apiRes?.data) {
         const list = apiRes.data.all || apiRes.data.questions || (Array.isArray(apiRes.data) ? apiRes.data : []);
         if (list.length > 0) {
-          const normalized = list.map((item, idx) => ({
-            id: item.id || `api-${Date.now()}-${idx}`,
+          return list.map((item, idx) => ({
+            id: item.id || `api-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${idx}`,
             type: item.type === 'CQ' ? 'CQ' : item.type === 'SHORT' || item.type === 'SQ' ? 'SQ' : 'MCQ',
             question: item.question || item.stem || `প্রশ্ন ${idx + 1}`,
             stem: item.stem || item.question || '',
@@ -579,167 +704,36 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
             class: item.className || targetClass,
             chapter: hasChapter ? targetChapter : null
           }));
-
-          setParsedQuestions(normalized);
-          const mcqCount = normalized.filter(q => q.type === 'MCQ').length;
-          const cqCount = normalized.filter(q => q.type === 'CQ').length;
-          const sqCount = normalized.filter(q => q.type === 'SQ').length;
-          setFeedbackMsg({
-            type: 'success',
-            text: `🎉 AI ও স্মার্ট ইঞ্জিনের মাধ্যমে ${normalized.length}টি প্রশ্ন পার্স করা হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})`
-          });
-          setIsParsing(false);
-          return;
         }
       }
     } catch (apiErr) {
       console.warn('Backend parseDocument fallback to client parser:', apiErr);
     }
 
-    // Client-Side Regex Parser Fallback
+    // Client-side regex fallback
+    return parseQuestionsFromTextRegex(clean, targetInstitution, targetYear, targetBook, targetClass, hasChapter ? targetChapter : null);
+  };
+
+  // Strict Categorization Parser Engine for Manual Text
+  const handleParseRawText = async (textToParse = rawText) => {
+    if (!textToParse || !textToParse.trim()) {
+      setFeedbackMsg({ type: 'error', text: 'অনুগ্রহ করে প্রশ্নপত্র পেস্ট করুন অথবা ফাইল আপলোড করুন।' });
+      return;
+    }
+
+    setIsParsing(true);
+    setFeedbackMsg(null);
+
     try {
-      const blocks = clean.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
-      const results = [];
-
-      blocks.forEach((block, idx) => {
-        const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-        if (lines.length === 0) return;
-
-        // Check for diagram/image
-        let diagramUrl = null;
-        let diagramCaption = null;
-        const imgMatch = block.match(/!\[(.*?)\]\((.*?)\)/);
-        if (imgMatch) {
-          diagramCaption = imgMatch[1] || 'চিত্র';
-          diagramUrl = imgMatch[2];
-        } else if (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram')) {
-          diagramCaption = 'উদ্দীপকের সংশ্লিষ্ট চিত্র / বর্তনী / লেখচিত্র';
-        }
-
-        // 1. Creative Question (CQ) Pattern Detection
-        const hasCQMarker = block.includes('উদ্দীপক') || block.includes('অনুচ্ছেদ') || block.includes('দৃশ্যকল্প');
-        const hasSubA = lines.some(l => /^[(\[]?(?:ক|a)[)\]\.\s]/i.test(l));
-        const hasSubB = lines.some(l => /^[(\[]?(?:খ|b)[)\]\.\s]/i.test(l));
-
-        if (hasCQMarker || (hasSubA && hasSubB)) {
-          const stemLines = [];
-          const subQs = {
-            a: { q: '', marks: 1 },
-            b: { q: '', marks: 2 },
-            c: { q: '', marks: 3 },
-            d: { q: '', marks: 4 }
-          };
-
-          lines.forEach(line => {
-            const cleanLine = line.replace(/!\[.*?\]\(.*?\)/g, '').trim();
-            if (/^[(\[]?(?:ক|a)[)\]\.\s]/i.test(cleanLine)) {
-              subQs.a.q = cleanLine.replace(/^[(\[]?(?:ক|a)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
-            } else if (/^[(\[]?(?:খ|b)[)\]\.\s]/i.test(cleanLine)) {
-              subQs.b.q = cleanLine.replace(/^[(\[]?(?:খ|b)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
-            } else if (/^[(\[]?(?:গ|c)[)\]\.\s]/i.test(cleanLine)) {
-              subQs.c.q = cleanLine.replace(/^[(\[]?(?:গ|c)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
-            } else if (/^[(\[]?(?:ঘ|d)[)\]\.\s]/i.test(cleanLine)) {
-              subQs.d.q = cleanLine.replace(/^[(\[]?(?:ঘ|d)[)\]\.\s]+/i, '').replace(/\[[0-9১-৯]+\]$/, '').trim();
-            } else {
-              stemLines.push(cleanLine);
-            }
-          });
-
-          results.push({
-            id: 'cq-' + Date.now() + '-' + idx,
-            type: 'CQ',
-            stem: stemLines.join(' ') || 'উদ্দীপকটি পড়ে নিচের প্রশ্নগুলোর উত্তর দাও:',
-            subQuestions: subQs,
-            diagramUrl,
-            diagramCaption,
-            difficulty: 'MEDIUM',
-            boardOrInstitute: targetInstitution,
-            year: targetYear,
-            subject: targetBook,
-            class: targetClass,
-            chapter: hasChapter ? targetChapter : null
-          });
-          return;
-        }
-
-        // 2. Multiple Choice Question (MCQ) Pattern Detection
-        const optMatches = lines.filter(l => /^[([]?[কখগঘabcd1234][).\]\s]/i.test(l));
-        const isMCQ = optMatches.length >= 2 || block.includes('উত্তর:') || block.includes('Ans:');
-
-        if (isMCQ) {
-          const qLine = lines[0] || '';
-          const options = [];
-          let ans = 'ক';
-          let explanation = '';
-
-          lines.slice(1).forEach(line => {
-            if (/^(?:উত্তর|Ans)[:.]/i.test(line)) {
-              const matched = line.match(/(?:উত্তর:|Ans:)\s*([ক-ঘa-dA-D1-4])/i);
-              if (matched) ans = matched[1];
-            } else if (/^(?:ব্যাখ্যা|Explanation)[:.]/i.test(line)) {
-              explanation = line.replace(/^(?:ব্যাখ্যা:|Explanation:)\s*/i, '');
-            } else if (/^[([]?[কখগঘabcd1234][).\]\s]/i.test(line)) {
-              const cleanedOpt = line.replace(/^[([]?[কখগঘabcd1234][).\]\s]+/i, '').trim();
-              if (cleanedOpt) options.push(cleanedOpt);
-            }
-          });
-
-          while (options.length < 4) {
-            options.push('বিকল্প ' + (options.length + 1));
-          }
-
-          results.push({
-            id: 'mcq-' + Date.now() + '-' + idx,
-            type: 'MCQ',
-            question: qLine.replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim() || 'বহুনির্বাচনী প্রশ্ন ' + (idx + 1),
-            options: options.slice(0, 4),
-            correctAnswer: ans,
-            explanation,
-            diagramUrl,
-            diagramCaption,
-            difficulty: 'MEDIUM',
-            boardOrInstitute: targetInstitution,
-            year: targetYear,
-            subject: targetBook,
-            class: targetClass,
-            chapter: hasChapter ? targetChapter : null
-          });
-          return;
-        }
-
-        // 3. Short Question / Knowledge / Comprehension (SQ) Detection
-        const sqLine = lines.join(' ').replace(/^[0-9১-৯]+[.)\]\s]+/, '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
-        let sqAns = '';
-        const ansMatch = sqLine.match(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*(.*)/i);
-        if (ansMatch) {
-          sqAns = ansMatch[1].trim();
-        }
-
-        results.push({
-          id: 'sq-' + Date.now() + '-' + idx,
-          type: 'SQ',
-          question: sqLine.replace(/(?:উত্তর|Ans|উত্তরঃ)[:.]\s*.*$/i, '').trim() || 'সংক্ষিপ্ত প্রশ্ন ' + (idx + 1),
-          shortAnswer: sqAns,
-          diagramUrl,
-          diagramCaption,
-          marks: 2,
-          difficulty: 'MEDIUM',
-          boardOrInstitute: targetInstitution,
-          year: targetYear,
-          subject: targetBook,
-          class: targetClass,
-          chapter: hasChapter ? targetChapter : null
-        });
-      });
-
-      if (results.length > 0) {
-        setParsedQuestions(results);
-        const mcqCount = results.filter(q => q.type === 'MCQ').length;
-        const cqCount = results.filter(q => q.type === 'CQ').length;
-        const sqCount = results.filter(q => q.type === 'SQ').length;
+      const extracted = await extractQuestionsFromText(textToParse);
+      if (extracted.length > 0) {
+        setParsedQuestions(extracted);
+        const mcqCount = extracted.filter(q => q.type === 'MCQ').length;
+        const cqCount = extracted.filter(q => q.type === 'CQ').length;
+        const sqCount = extracted.filter(q => q.type === 'SQ').length;
         setFeedbackMsg({
           type: 'success',
-          text: `🎉 মোট ${results.length}টি প্রশ্ন অটো-ক্যাটাগরি হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})`
+          text: `🎉 মোট ${extracted.length}টি প্রশ্ন সফলভাবে পার্স করা হয়েছে! (MCQ: ${mcqCount}, CQ: ${cqCount}, SQ: ${sqCount})`
         });
       } else {
         setFeedbackMsg({ type: 'error', text: 'কোনো প্রশ্ন সনাক্ত করা যায়নি। সঠিক ফরম্যাটে টেক্সট পেস্ট করুন।' });
@@ -751,116 +745,133 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Handle Multi-Format File Upload with Clean UTF-8 Extraction
-  const handleFileUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Reset input value so re-uploading triggers properly
-    e.target.value = '';
-
-    // Check 100MB size limit
-    const MAX_FILE_SIZE = 100 * 1024 * 1024;
-    if (file.size > MAX_FILE_SIZE) {
-      setFeedbackMsg({
-        type: 'error',
-        text: `ফাইলের আকার ১০০MB এর চেয়ে বেশি হতে পারবে না (বর্তমান আকার: ${(file.size / (1024 * 1024)).toFixed(1)}MB)`
-      });
-      return;
-    }
-
-    setUploadedFileName(file.name);
-    setIsParsing(true);
-    setFeedbackMsg(null);
-
+  // Process a single file in the background asynchronously
+  const processSingleFileInBackground = async (fileItem) => {
+    const { id, file } = fileItem;
     const fileNameLower = file.name.toLowerCase();
+
+    const updateItem = (updates) => {
+      setUploadQueue(prev => prev.map(q => q.id === id ? { ...q, ...updates } : q));
+    };
+
+    updateItem({ status: 'PROCESSING', progress: 30 });
 
     try {
       if (fileNameLower.endsWith('.docx') || fileNameLower.endsWith('.doc')) {
-        setIsParsing(false);
-        setFeedbackMsg({
-          type: 'info',
-          text: 'ওয়ার্ড ফাইলের বাইনারি পড়ার দরকার নেই। অনুগ্রহ করে আপনার প্রশ্নের লেখাগুলো সরাসরি নিচের বক্সে কপি-পেস্ট করুন অথবা .txt / .pdf ফাইল দিন।'
+        updateItem({
+          status: 'DONE',
+          progress: 100,
+          count: 0,
+          note: 'Word ফাইল প্রাপ্ত। প্রশ্নের টেক্সট সরাসরি নিচের বক্সে পেস্ট করতে পারেন।'
         });
         return;
-      } else if (fileNameLower.endsWith('.pdf') || file.type === 'application/pdf') {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          try {
-            const buffer = event.target?.result;
-            const pdfResult = await extractTextFromPdfBuffer(buffer);
-            const extractedText = typeof pdfResult === 'string' ? pdfResult : (pdfResult?.text || '');
+      }
 
-            if (pdfResult?.success && extractedText && extractedText.trim()) {
-              setRawText(extractedText);
-              handleParseRawText(extractedText);
-              setFeedbackMsg({
-                type: 'success',
-                text: `PDF ফাইল সফলভাবে প্রসেস করা হয়েছে! (${extractedText.length} অক্ষর এক্সট্রাক্ট হয়েছে)`
-              });
-              return;
-            }
+      if (file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(fileNameLower)) {
+        updateItem({
+          status: 'DONE',
+          progress: 100,
+          count: 0,
+          note: 'ছবি সংযুক্ত হয়েছে।'
+        });
+        return;
+      }
 
-            if (extractedText && extractedText.trim().length > 30) {
-              setRawText(extractedText);
-              handleParseRawText(extractedText);
-              return;
-            }
+      if (fileNameLower.endsWith('.pdf') || file.type === 'application/pdf') {
+        const buffer = await file.arrayBuffer();
+        updateItem({ progress: 60 });
+        const pdfResult = await extractTextFromPdfBuffer(buffer);
+        const extractedText = typeof pdfResult === 'string' ? pdfResult : (pdfResult?.text || '');
 
-            // Scanned / protected PDF notice
-            setFeedbackMsg({
-              type: 'error',
-              text: '⚠️ এই PDF ফাইলটি স্ক্যান করা ছবি অথবা পাসওয়ার্ড প্রটেক্টেড হতে পারে। ১০০% নির্ভুল বাংলা পার্সিংয়ের জন্য প্রশ্নপত্রটি Word (.docx) বা .txt ফরম্যাটে সেভ করে আপলোড করুন অথবা সরাসরি টেক্সট কপি-পেস্ট করুন।'
-            });
-            setIsParsing(false);
-          } catch (pdfErr) {
-            setFeedbackMsg({
-              type: 'error',
-              text: 'PDF ফাইল পড়তে সমস্যা হয়েছে: ' + pdfErr.message
-            });
-            setIsParsing(false);
+        if (extractedText && extractedText.trim()) {
+          updateItem({ progress: 80 });
+          const questions = await extractQuestionsFromText(extractedText);
+          if (questions.length > 0) {
+            setParsedQuestions(prev => [...prev, ...questions]);
+            updateItem({ status: 'DONE', progress: 100, count: questions.length });
+          } else {
+            updateItem({ status: 'DONE', progress: 100, count: 0, note: 'কোনো নির্দিষ্ট প্রশ্ন ফরম্যাট পাওয়া যায়নি।' });
           }
-        };
-      } else if (file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(fileNameLower)) {
-        setIsParsing(false);
-        setFeedbackMsg({
-          type: 'info',
-          text: `📷 "${file.name}" ইমেজ ফাইলটি সফলভাবে সংযুক্ত হয়েছে। প্রশ্নের লেখাগুলো নিচের বক্সে কপি-পেস্ট করুন অথবা সরাসরি .txt / .pdf ফাইল আপলোড করুন।`
-        });
+        } else {
+          updateItem({ status: 'ERROR', progress: 100, error: 'স্ক্যান করা ছবি অথবা প্রটেক্টেড PDF হতে পারে।' });
+        }
         return;
+      }
+
+      // TXT, CSV, JSON
+      const textContent = await file.text();
+      updateItem({ progress: 70 });
+      const cleaned = cleanExtractedText(textContent);
+
+      if (cleaned && cleaned.trim()) {
+        const questions = await extractQuestionsFromText(cleaned);
+        if (questions.length > 0) {
+          setParsedQuestions(prev => [...prev, ...questions]);
+          updateItem({ status: 'DONE', progress: 100, count: questions.length });
+        } else {
+          updateItem({ status: 'DONE', progress: 100, count: 0, note: 'কোনো প্রশ্ন পাওয়া যায়নি।' });
+        }
       } else {
-        // .txt, .csv, .json, etc.
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          try {
-            const content = event.target?.result;
-            if (typeof content === 'string') {
-              const cleaned = cleanExtractedText(content);
-              if (!cleaned || !cleaned.trim()) {
-                setFeedbackMsg({
-                  type: 'error',
-                  text: 'টেক্সট ফাইলটি খালি বা কোনো প্রশ্ন পাওয়া যায়নি।'
-                });
-                setIsParsing(false);
-                return;
-              }
-              setRawText(cleaned);
-              handleParseRawText(cleaned);
-            }
-          } catch (txtErr) {
-            setFeedbackMsg({
-              type: 'error',
-              text: 'টেক্সট ফাইল প্রসেস করতে ব্যর্থ হয়েছে: ' + txtErr.message
-            });
-            setIsParsing(false);
-          }
-        };
-        reader.readAsText(file, 'utf-8');
+        updateItem({ status: 'ERROR', progress: 100, error: 'ফাইলটি খালি।' });
       }
     } catch (err) {
-      setFeedbackMsg({ type: 'error', text: 'ফাইল থেকে টেক্সট এক্সট্রাক্ট করতে সমস্যা হয়েছে: ' + err.message });
-      setIsParsing(false);
+      console.error(`Error processing file ${file.name}:`, err);
+      updateItem({ status: 'ERROR', progress: 100, error: err.message || 'প্রসেসিং ত্রুটি' });
     }
+  };
+
+  // Non-blocking Multi-File Upload Handler
+  const handleFileUpload = async (e) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    if (selectedFiles.length === 0) return;
+
+    // Reset input value so re-uploading the same file triggers onChange
+    e.target.value = '';
+
+    const MAX_FILE_SIZE = 100 * 1024 * 1024;
+    const newQueueItems = [];
+
+    for (const file of selectedFiles) {
+      if (file.size > MAX_FILE_SIZE) {
+        setFeedbackMsg({
+          type: 'error',
+          text: `"${file.name}" ফাইলের আকার ১০০MB এর চেয়ে বেশি (বর্তমান আকার: ${(file.size / (1024 * 1024)).toFixed(1)}MB)`
+        });
+        continue;
+      }
+
+      const queueItem = {
+        id: `queue-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        file,
+        name: file.name,
+        size: file.size,
+        status: 'QUEUED',
+        progress: 0,
+        count: 0,
+        error: null,
+        note: null
+      };
+
+      newQueueItems.push(queueItem);
+    }
+
+    if (newQueueItems.length === 0) return;
+
+    setUploadedFileName(newQueueItems.length === 1 ? newQueueItems[0].name : `${newQueueItems.length}টি ফাইল নির্বাচিত`);
+    setUploadQueue(prev => [...prev, ...newQueueItems]);
+    setIsParsing(true);
+
+    // Process all queue items in parallel non-blocking background tasks
+    Promise.all(newQueueItems.map(item => processSingleFileInBackground(item)))
+      .then(() => {
+        setFeedbackMsg({
+          type: 'success',
+          text: `🎉 ${newQueueItems.length}টি ফাইলের ব্যাকগ্রাউন্ড প্রসেসিং সম্পন্ন হয়েছে!`
+        });
+      })
+      .finally(() => {
+        setIsParsing(false);
+      });
   };
 
   // Direct Submit to Repository with Parser Bypass Support
@@ -1329,16 +1340,17 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
 
             {/* File Dropzone */}
             <div
-              onClick={() => !isParsing && fileInputRef.current?.click()}
+              onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-3xl p-6 text-center transition-all cursor-pointer group ${
                 isParsing
-                  ? 'border-indigo-400 bg-indigo-50/40 cursor-wait'
+                  ? 'border-indigo-400 bg-indigo-50/40'
                   : 'border-slate-300 hover:border-indigo-500 bg-slate-50/60 hover:bg-indigo-50/30'
               }`}
             >
               <input
                 ref={fileInputRef}
                 type="file"
+                multiple
                 accept=".pdf,.doc,.docx,.txt,.csv,.json,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/*"
                 onChange={handleFileUpload}
                 className="hidden"
@@ -1352,15 +1364,91 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               </div>
               <p className="text-xs font-bold text-slate-700">
                 {isParsing
-                  ? 'ফাইল প্রসেসিং ও প্রশ্ন বিশ্লেষণ চলছে...'
+                  ? 'ব্যাকগ্রাউন্ডে ফাইল প্রসেসিং চলছে (আরো ফাইল যোগ করতে পারেন)...'
                   : uploadedFileName
                   ? 'নির্বাচিত ফাইল: ' + uploadedFileName
-                  : 'ফাইল আপলোড করতে ক্লিক করুন (PDF, DOCX, DOC, TXT, CSV, Image)'}
+                  : 'ফাইল আপলোড করতে ক্লিক করুন বা একসাথে একাধিক ফাইল ড্রপ করুন (PDF, DOCX, TXT, CSV, Images)'}
               </p>
               <p className="text-[11px] text-slate-400 mt-1">
-                {isParsing ? 'দয়া করে কিছুক্ষণ অপেক্ষা করুন' : 'সকল ফরম্যাট সমর্থিত • অথবা নিচের বক্সে সরাসরি কপি-পেস্ট করুন'}
+                একসাথে একাধিক ফাইল আপলোড সমর্থিত • ইন্টারফেস লক ছাড়া ব্যাকগ্রাউন্ড প্রসেসিং
               </p>
             </div>
+
+            {/* Multi-File Background Queue Monitor */}
+            {uploadQueue.length > 0 && (
+              <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Layers className="w-4 h-4 text-indigo-600" />
+                    <span className="text-xs font-bold text-slate-800">
+                      ফাইল প্রসেসিং কিউ ({uploadQueue.filter(q => q.status === 'DONE').length}/{uploadQueue.length} সম্পন্ন)
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setUploadQueue([])}
+                    className="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                  >
+                    কিউ ক্লিয়ার করুন
+                  </button>
+                </div>
+
+                <div className="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                  {uploadQueue.map((item) => (
+                    <div key={item.id} className="p-2.5 bg-white border border-slate-200/70 rounded-xl space-y-1.5 shadow-2xs">
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center space-x-2 truncate max-w-[70%]">
+                          <span className="font-semibold text-slate-800 truncate">{item.name}</span>
+                          <span className="text-[10px] text-slate-400">({(item.size / 1024).toFixed(1)} KB)</span>
+                        </div>
+                        <div className="flex items-center space-x-1.5">
+                          {item.status === 'QUEUED' && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+                              কিউতে আছে
+                            </span>
+                          )}
+                          {item.status === 'PROCESSING' && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700 flex items-center space-x-1 animate-pulse">
+                              <RefreshCw className="w-3 h-3 animate-spin" />
+                              <span>প্রসেসিং হচ্ছে...</span>
+                            </span>
+                          )}
+                          {item.status === 'DONE' && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 flex items-center space-x-1">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                              <span>{item.count > 0 ? `${item.count}টি প্রশ্ন প্রাপ্ত` : 'সম্পন্ন'}</span>
+                            </span>
+                          )}
+                          {item.status === 'ERROR' && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 flex items-center space-x-1">
+                              <AlertCircle className="w-3 h-3 text-rose-600" />
+                              <span>ত্রুটি</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Realtime Progress Bar */}
+                      {item.status === 'PROCESSING' && (
+                        <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className="bg-indigo-600 h-1.5 rounded-full transition-all duration-300"
+                            style={{ width: `${item.progress}%` }}
+                          />
+                        </div>
+                      )}
+
+                      {item.note && (
+                        <p className="text-[10px] text-indigo-600 font-medium">{item.note}</p>
+                      )}
+                      {item.error && (
+                        <p className="text-[10px] text-rose-600 font-medium">{item.error}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Text Paste Box */}
             <div className="space-y-2">
