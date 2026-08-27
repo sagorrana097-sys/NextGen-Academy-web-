@@ -37,8 +37,8 @@ export default function QuestionGeneratorSuite({ initialTab = 'upload-reader' })
                 : 'text-slate-600 hover:bg-slate-100'
             )}
           >
-            <Upload className="w-4 h-4" />
-            <span>📤 পার্ট ১: স্মার্ট আপলোড ও এআই রিডার হাব</span>
+            <Database className="w-4 h-4" />
+            <span>📚 পার্ট ১: ম্যানুয়াল প্রশ্ন ভাণ্ডার সংগ্রহশালা</span>
           </button>
 
           {/* Part 2: AI Question Maker */}
