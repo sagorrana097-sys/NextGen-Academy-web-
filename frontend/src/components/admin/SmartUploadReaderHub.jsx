@@ -203,25 +203,26 @@ function cleanAndNormalizeUTF8(input) {
   clean = clean.replace(/[\u200B\u200E\u200F]/g, ''); // Zero-width spaces & directional marks
   clean = clean.replace(/\u00A0/g, ' '); // Non-breaking space to regular space
 
-  // 3. Symbol font PUA characters conversion
+  // 3. ONLY PUA (Private Use Area \uF000 - \uF0FF) Symbol conversions (NEVER touch \u0080-\u00FF which are Bijoy chars!)
   const SYMBOL_MAP = {
-    '\uF0CE': '∈', '\u00CE': '∈',
-    '\uF0CF': '∉', '\u00CF': '∉',
-    '\uF0A3': '≤', '\u00A3': '≤',
-    '\uF0B3': '≥', '\u00B3': '≥',
-    '\uF0B9': '≠', '\u00B9': '≠',
-    '\uF0C6': '∅', '\u00C6': '∅',
-    '\uF0C8': '∪', '\u00C8': '∪',
-    '\uF0C7': '∩', '\u00C7': '∩',
-    '\uF0CC': '⊂', '\u00CC': '⊂',
-    '\uF0CD': '⊆', '\u00CD': '⊆',
-    '\uF0D6': '√', '\u00D6': '√',
-    '\uF0B1': '±', '\u00B1': '±',
-    '\uF0B4': '×', '\u00B4': '×',
-    '\uF0B8': '÷', '\u00B8': '÷',
+    '\uF0CE': '∈',
+    '\uF0CF': '∉',
+    '\uF0A3': '≤',
+    '\uF0B3': '≥',
+    '\uF0B9': '≠',
+    '\uF0C6': '∅',
+    '\uF0C8': '∪',
+    '\uF0C7': '∩',
+    '\uF0CC': '⊂',
+    '\uF0CD': '⊆',
+    '\uF0D6': '√',
+    '\uF0B1': '±',
+    '\uF0B4': '×',
+    '\uF0B8': '÷',
     '\uF071': 'θ',
     '\uF070': 'π',
-    '\uF02D': '−'
+    '\uF02D': '−',
+    '': '', '': 'N', '': ''
   };
 
   for (const [k, v] of Object.entries(SYMBOL_MAP)) {
