@@ -229,7 +229,6 @@ function cleanAndNormalizeUTF8(input) {
   }
 
   // 4. Fix mixed Bijoy fragments embedded in Unicode text:
-  // e.g. "আলো‡K" -> "আলোকে", "‡j" -> "লে", "‡i" -> "রে", "‡Z" -> "তে", "‡b" -> "নে"
   const BIJOY_FRAGMENT_MAP = {
     '‡K': 'কে', '†K': 'কে',
     '‡L': 'খে', '†L': 'খে',
@@ -270,13 +269,9 @@ function cleanAndNormalizeUTF8(input) {
   }
 
   // 5. Fix Radical/Square root symbol used as Ro-phala (্র) after Bengali consonants:
-  // e.g. "প√" -> "প্র", "ক√" -> "ক্র", "ব√" -> "ব্র", "গ√" -> "গ্র", "ত√" -> "ত্র", "দ√" -> "দ্র", "ভ√" -> "ভ্র"
   clean = clean.replace(/([\u0995-\u09B9\u09DC-\u09DF])√/g, '$1\u09CD\u09B0');
 
   // 6. Fix misplaced Kar signs placed before Virama:
-  // Pattern: [Consonant] + [Vowel Kar] + [Virama] + [Consonant]
-  // e.g. "থ" + "ে" + "্" + "য" -> "থ" + "্" + "য" + "ে" (তথে্যর -> তথ্যের)
-  // e.g. "শ" + "ে" + "্" + "ন" -> "শ" + "্" + "ন" + "ে" (শে্ন -> শ্নে)
   const VOWEL_KARS = '[\u09BE\u09BF\u09C0\u09C1\u09C2\u09C3\u09C7\u09C8\u09CB\u09CC]';
   const BENGALI_CONS = '[\u0995-\u09B9\u09CE\u09DC-\u09DF]';
   const misplacedKarRegex = new RegExp(`(${BENGALI_CONS})(${VOWEL_KARS})\u09CD(${BENGALI_CONS})`, 'g');
@@ -315,88 +310,102 @@ function convertBijoyToUnicode(input) {
   if (!input) return '';
   let str = input;
 
+  // 1. Convert core Bengali syntax words FIRST before any tokenization
+  str = str.replace(/\bGes\b/g, 'এবং');
+  str = str.replace(/\bGi\b/g, 'এর');
+  str = str.replace(/\bnq\b/g, 'হয়');
+  str = str.replace(/\bn‡j\b/g, 'হলে');
+  str = str.replace(/\bZ‡e\b/g, 'তবে');
+  str = str.replace(/\bhLb\b/g, 'যখন');
+  str = str.replace(/\bhw\`\b/g, 'যদি');
+
+  // 2. Separate subquestion markers (K. L. M. N. / K) L) M) N) / K\t L\t M\t N\t) onto new lines
+  str = str.replace(/(?:^|[\t\s]{2,}|\n)\s*K[\.\)\t]\s*/g, '\nক. ');
+  str = str.replace(/(?:^|[\t\s]{2,}|\n)\s*L[\.\)\t]\s*/g, '\nখ. ');
+  str = str.replace(/(?:^|[\t\s]{2,}|\n)\s*M[\.\)\t]\s*/g, '\nগ. ');
+  str = str.replace(/(?:^|[\t\s]{2,}|\n)\s*N[\.\)\t]\s*/g, '\nঘ. ');
+
   const preservedMathTokens = [];
 
-  // 1. Protect sets: {...} e.g. {x : 0 <= x < 6}, {(4, 1), (4, 3)}
+  // 3. Protect parenthesized expressions: (2p + q, 5) = (7, q), (p, q), (i), (ii), (p  q)2(q  r)2, (3c 1 + 2d 1) 1
+  str = str.replace(/\(([a-zA-Z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=\.\…\-]+)\)(?:\s*([0-9a-zA-Z]+))?/g, (match, inner, trailing) => {
+    if (!/^[ক-ঘ]$/.test(inner.trim())) {
+      const idx = preservedMathTokens.length;
+      preservedMathTokens.push(match);
+      return `\uE000${idx}\uE000`;
+    }
+    return match;
+  });
+
+  // Protect sets: {...} e.g. {x : 0 <= x < 6}, {(4, 1), (4, 3)}
   str = str.replace(/\{[^\}]+\}/g, (match) => {
     const idx = preservedMathTokens.length;
     preservedMathTokens.push(match);
     return `\uE000${idx}\uE000`;
   });
 
-  // 2. Protect function calls / power sets / math tuples e.g. P(Q), f(y), g(x), (y), (4, 1)
-  str = str.replace(/([A-Za-z])\s*\(([A-Za-z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=]+)\)/g, (match) => {
-    const idx = preservedMathTokens.length;
-    preservedMathTokens.push(match);
-    return `\uE000${idx}\uE000`;
-  });
-
-  // 3. Protect algebraic expressions with variables e.g. "2y + 14y", "3x^2 + 5x - 2", "14y", "2y"
-  str = str.replace(/(?:(?<=\s|^|\=|\+|\-|\*|\/|\(|\,)\d+[a-zA-Z]+(?=\s|$|\=|\+|\-|\*|\/|\)|\,))/g, (match) => {
-    const idx = preservedMathTokens.length;
-    preservedMathTokens.push(match);
-    return `\uE000${idx}\uE000`;
-  });
-
-  // Protect standalone algebraic variables / English in parentheses e.g. (y), (x), (t), (Pitch)
-  str = str.replace(/\(([A-Za-z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=]+)\)/g, (match, inner) => {
-    if (!/^[KLMN]$/i.test(inner.trim())) {
-      const idx = preservedMathTokens.length;
-      preservedMathTokens.push('(' + inner + ')');
-      return `\uE000${idx}\uE000`;
-    }
-    return match;
-  });
-
-  // Protect equations with =, <, >, +, - e.g. "Q = ...", "S = ...", "(y) = 2y + 14y - 1"
-  str = str.replace(/\b([A-Z])\s*=\s*/g, (match, letter) => {
-    const idx = preservedMathTokens.length;
-    preservedMathTokens.push(`${letter} = `);
-    return `\uE000${idx}\uE000`;
-  });
-
-  // Protect standalone uppercase math variables followed by punctuation or math
-  // e.g. "P(Q)", "†Wvg S" -> "ডোম S", "S এর"
-  str = str.replace(/(?<=[\s\(\[\{])([A-Z])(?=[\s\,\.\)\]\}]|$)/g, (match, letter) => {
-    if (!['K', 'L', 'M', 'N'].includes(letter)) {
-      const idx = preservedMathTokens.length;
-      preservedMathTokens.push(letter);
-      return `\uE000${idx}\uE000`;
-    }
-    return match;
-  });
-
-  // 4. Normalize tab/space-separated option lines in math questions:
-  // e.g. "\tK\t5\tL\t16\tM\t32\tN\t64"
-  // e.g. "K 1 L 14 M 14 N 1"
-  // e.g. "K 2 L 3" and "M 4 N 8"
-  str = str.replace(/(?:^|\n|[\t\s]{2,})K[\t\s]+([^\t\n\r]+?)[\t\s]+L[\t\s]+([^\t\n\r]+?)[\t\s]+M[\t\s]+([^\t\n\r]+?)[\t\s]+N[\t\s]+([^\t\n\r]+)/g,
-    '\n(ক) $1\n(খ) $2\n(গ) $3\n(ঘ) $4');
-
-  str = str.replace(/(?:^|\n|[\t\s]{2,})K[\t\s]+([^\t\n\r]+?)[\t\s]+L[\t\s]+([^\t\n\r]+)/g,
-    '\n(ক) $1\n(খ) $2');
-  str = str.replace(/(?:^|\n|[\t\s]{2,})M[\t\s]+([^\t\n\r]+?)[\t\s]+N[\t\s]+([^\t\n\r]+)/g,
-    '\n(গ) $1\n(ঘ) $2');
-
   // Convert standard Sutonny Smart Quotes
   str = str.replace(/Ò/g, '“').replace(/Ó/g, '”').replace(/Õ/g, '’').replace(/Ô/g, '‘');
 
-  // Question / Sub-question numbering markers (K. L. M. N. / K) L) M) N))
-  str = str.replace(/(?:^|\n)\s*K[\.\)]\s*/g, '\nক. ');
-  str = str.replace(/(?:^|\n)\s*L[\.\)]\s*/g, '\nখ. ');
-  str = str.replace(/(?:^|\n)\s*M[\.\)]\s*/g, '\nগ. ');
-  str = str.replace(/(?:^|\n)\s*N[\.\)]\s*/g, '\nঘ. ');
-
-  // 5. Pre-process SutonnyMJ Multi-character Ligatures & Conjuncts (Order: longest first)
+  // 4. Pre-process SutonnyMJ Multi-character Ligatures & Conjuncts (STRICT ORDER: LONGEST TO SHORTEST)
   const LIGATURES = [
-    ['Aš^', 'অন্ব'], ['š^', 'ন্ব'], ['š^q', 'ন্বয়'], ['š^qwU‡Z', 'অন্বয়টিতে'],
-    ['Dcv`vb', 'উপাদান'], ['Dcv`v‡bi', 'উপাদানের'], ['msL¨v', 'সংখ্যা'],
-    ['†Wvg', 'ডোম'], ['‡iÄ', 'রেঞ্জ'], ['n‡j', 'হলে'], ['Gi', 'এর'], ['gvb', 'মান'],
-    ['†kø', 'শ্লে'], ['kø', 'শ্ল'],
+    // Long phrases & whole words first
+    ['mgvbycvZx', 'সমানুপাতী'],
+    ['Aš^qwU‡Z', 'অন্বয়টিতে'],
+    ['¸‡YvËi', 'গুণোত্তর'],
+    ['avivwUi', 'ধারাটির'],
+    ['AbycvZ‡K', 'অনুপাতকে'],
+    ['mvaviY', 'সাধারণ'],
+    ['mgvšÍi', 'সমান্তর'],
+    ['cÖgvY', 'প্রমাণ'],
+    ['wbY©q', 'নির্ণয়'],
+    ['†`LvI', 'দেখাও'],
+    ['msL¨K', 'সংখ্যক'],
+    ['msL¨v', 'সংখ্যা'],
+    ['Dcv`v‡bi', 'উপাদানের'],
+    ['Dcv`vb', 'উপাদান'],
+    ['e¨vL¨v', 'ব্যাখ্যা'],
+    ['cÖ`Ë', 'প্রদত্ত'],
+    ['AšÍi', 'অন্তর'],
+    ['c‡`i', 'পদের'],
+    ['c`‡K', 'পদকে'],
+    ['mgwó', 'সমষ্টি'],
+    ['µwgK', 'ক্রমিক'],
+    ['†Wvg', 'ডোম'],
+    ['‡iÄ', 'রেঞ্জ'],
+    ['GKwU', 'একটি'],
+    ['cÖ_g', 'প্রথম'],
+    ['K‡iv', 'করো'],
+    ['aviv', 'ধারা'],
+    ['†Kvb', 'কোন'],
+    ['†kø', 'শ্লে'],
+    ['kø', 'শ্ল'],
+    ['Z‡e', 'তবে'],
+    ['hLb', 'যখন'],
+    ['hw`', 'যদি'],
+    ['n‡j', 'হলে'],
+    ['Ges', 'এবং'],
+    ['mij', 'সরল'],
+    ['gvb', 'মান'],
+    ['MVb', 'গঠন'],
+    ['Zvi', 'তার'],
+    ['1g', '১ম'],
+    ['c`', 'পদ'],
+    ['Gi', 'এর'],
+    ['nq', 'হয়'],
+    ['†h', 'যে'],
+    ['a‡i', 'ধরে'],
+    ['cÖ', 'প্র'],
+    ['cø', 'প্ল'],
+    ['¸', 'গু'],
+    ['šÍ', 'ন্ত'],
+    ['š^', 'ন্ব'],
+    ['`Ë', 'দত্ত'],
+    ['Ë', 'ত্ত'],
     ['e¨v', 'ব্যা'], ['L¨v', 'খ্যা'], ['K¨v', 'ক্যা'], ['M¨v', 'গ্যা'],
     ['e¨', 'ব্য'], ['L¨', 'খ্য'], ['K¨', 'ক্য'], ['M¨', 'গ্য'], ['N¨', 'ঘ্য'],
-    ['Z¡', 'ত্ব'], ['¯’', 'স্থ'], ['cÖ', 'প্র'], ['e„Ë', 'বৃত্ত'], ['e„', 'বৃ'], ['„Ë', 'ৃত্ত'],
-    ['iæ', 'রু'], ['ï', 'শু'], ['µ', 'ক্র'], ['Î', 'ত্র'], ['cø', 'প্ল'],
+    ['Z¡', 'ত্ব'], ['¯’', 'স্থ'], ['e„Ë', 'বৃত্ত'], ['e„', 'বৃ'], ['„Ë', 'ৃত্ত'],
+    ['iæ', 'রু'], ['ï', 'শু'], ['µ', 'ক্র'], ['Î', 'ত্র'],
     ['MÖæ', 'গ্রু'], ['MÖ', 'গ্র'], ['K¬', 'ক্ল'], ['Mø', 'গ্ল'], ['eª', 'ব্র'], ['fª', 'ভ্র'],
     ['gª', 'ম্র'], ['kª', 'শ্র'], ['mª', 'স্র'], ['nª', 'হ্র'], ['Uª', 'ট্র'], ['Wª', 'ড্র'],
     ['Xª', 'থ্র'], ['Yª', 'ণ্র'], ['Zª', 'ত্র'], ['dª', 'দ্র'], ['aª', 'ধ্র'], ['bª', 'ন্র'],
@@ -426,31 +435,31 @@ function convertBijoyToUnicode(input) {
   // Regex pattern for a single Consonant or Conjunct
   const CONS_PATTERN = '(?:\u09B0\u09CD)?(?:[\u0995-\u09B9\u09CE\u09DC-\u09DF](?:\u09CD[\u0995-\u09B9\u09CE\u09DC-\u09DF])*|[a-zA-Z`_~])';
 
-  // 6. Handle O-kar (ো): [† or ‡] + Consonant + v (া) -> Consonant + ো
+  // 5. Handle O-kar (ো): [† or ‡] + Consonant + v (া) -> Consonant + ো
   const oKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')v', 'g');
   str = str.replace(oKarRegex, '$2ো');
 
-  // 7. Handle OU-kar (ৌ): [† or ‡] + Consonant + Š (ৗ) -> Consonant + ৌ
+  // 6. Handle OU-kar (ৌ): [† or ‡] + Consonant + Š (ৗ) -> Consonant + ৌ
   const ouKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')Š', 'g');
   str = str.replace(ouKarRegex, '$2ৌ');
 
-  // 8. Handle E-kar (ে): [† or ‡] + Consonant -> Consonant + ে
+  // 7. Handle E-kar (ে): [† or ‡] + Consonant -> Consonant + ে
   const eKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')', 'g');
   str = str.replace(eKarRegex, '$2ে');
 
-  // 9. Handle OI-kar (ৈ): ‰ + Consonant -> Consonant + ৈ
+  // 8. Handle OI-kar (ৈ): ‰ + Consonant -> Consonant + ৈ
   const oiKarRegex = new RegExp('‰(' + CONS_PATTERN + ')', 'g');
   str = str.replace(oiKarRegex, '$1ৈ');
 
-  // 10. Handle I-kar (ি): w + Consonant -> Consonant + ি
+  // 9. Handle I-kar (ি): w + Consonant -> Consonant + ি
   const iKarRegex = new RegExp('w(' + CONS_PATTERN + ')', 'g');
   str = str.replace(iKarRegex, '$1ি');
 
-  // 11. Handle Reph (©): Consonant + © -> র্ + Consonant
+  // 10. Handle Reph (©): Consonant + © -> র্ + Consonant
   const rephRegex = new RegExp('(' + CONS_PATTERN + ')©', 'g');
   str = str.replace(rephRegex, 'র্$1');
 
-  // 12. Single Character Map
+  // 11. Single Character Map
   const CHAR_MAP = {
     'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'এ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
     'K': 'ক', 'L': 'খ', 'M': 'গ', 'N': 'ঘ', 'O': 'ঙ',
@@ -467,10 +476,13 @@ function convertBijoyToUnicode(input) {
 
   // Convert tokens, protecting math variables, numbers, and scientific units
   let out = '';
-  const tokens = str.split(/(\uE000\d+\uE000|\b[0-9]+(?:\.[0-9]+)?\b|\b(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)\b)/);
+  const tokens = str.split(/(\uE000\d+\uE000|\b[0-9]+(?:\.[0-9]+)?\b|\blog\s*[0-9a-zA-Z\_\^\s\(\)]+|\b[a-zA-Z]\d+[a-zA-Z0-9\+\-\*\/\^\_]*|\b\d+[a-zA-Z][a-zA-Z0-9\+\-\*\/\^\_]*|\b[A-Za-z]\s*[\=\>\<]\s*[A-Za-z0-9\+\-\*\/\^\_\s]+|\b[a-zA-Z]\,\s*[a-zA-Z]\,\s*[a-zA-Z]\b|\b[a-zA-Z]\-[A-Za-z]+\b|\b[a-zA-Z]\b|\b(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)\b)/);
   for (const tok of tokens) {
     if (!tok) continue;
-    if (tok.startsWith('\uE000') || /^\b[0-9]+(?:\.[0-9]+)?\b$/.test(tok) || /^(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)$/.test(tok)) {
+    if (tok.startsWith('\uE000') ||
+        /^\b[0-9]+(?:\.[0-9]+)?\b$/.test(tok) ||
+        /^(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)$/.test(tok) ||
+        /^(?:log\s*[0-9a-zA-Z]|p\,\s*q\,\s*r|[a-zA-Z]\d+|\d+[a-zA-Z]|[A-Z]\s*\=|[a-z]\s*[\>\<\=]|\b[a-zA-Z]\-[a-zA-Z]+|\b[a-zA-Z]\b)/.test(tok)) {
       out += tok;
     } else {
       for (let i = 0; i < tok.length; i++) {
@@ -571,31 +583,39 @@ function parseMCQChunk(lines, idx) {
 function parseCQChunk(lines, idx) {
   const stemLines = [];
   const subQs = {
-    a: { q: 'জ্ঞানমূলক প্রশ্ন লিখুন', marks: 1 },
-    b: { q: 'অনুধাবনমূলক প্রশ্ন লিখুন', marks: 2 },
-    c: { q: 'প্রয়োগমূলক প্রশ্ন লিখুন', marks: 3 },
-    d: { q: 'উচ্চতর দক্ষতামূলক প্রশ্ন লিখুন', marks: 4 }
+    a: { q: 'জ্ঞানমূলক প্রশ্ন লিখুন', marks: 2 },
+    b: { q: 'অনুধাবনমূলক প্রশ্ন লিখুন', marks: 4 },
+    c: { q: 'প্রয়োগমূলক প্রশ্ন লিখুন', marks: 4 },
+    d: { q: '', marks: 0 }
   };
 
   lines.forEach(line => {
     const l = cleanAndNormalizeUTF8(line.trim());
     if (!l) return;
 
-    if (/^[\(\[]?(?:ক|a|১|1|k)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.a.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ক|a|১|1|k)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:খ|b|২|2|l)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.b.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:খ|b|২|2|l)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:গ|c|৩|3|m)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.c.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:গ|c|৩|3|m)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
-    } else if (/^[\(\[]?(?:ঘ|d|৪|4|n)[\)\]\.\:\-\|\।\s]/i.test(l)) {
-      subQs.d.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ঘ|d|৪|4|n)[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    if (/^[\(\[]?(?:ক|K|a[\.\)]|\(a\))[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      const matchMarks = l.match(/[\t\s]+([1-4১-৪])$/);
+      if (matchMarks) subQs.a.marks = parseInt(matchMarks[1], 10);
+      subQs.a.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ক|K|a[\.\)]|\(a\))[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:খ|L|b[\.\)]|\(b\))[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      const matchMarks = l.match(/[\t\s]+([1-4১-৪])$/);
+      if (matchMarks) subQs.b.marks = parseInt(matchMarks[1], 10);
+      subQs.b.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:খ|L|b[\.\)]|\(b\))[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:গ|M|c[\.\)]|\(c\))[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      const matchMarks = l.match(/[\t\s]+([1-4১-৪])$/);
+      if (matchMarks) subQs.c.marks = parseInt(matchMarks[1], 10);
+      subQs.c.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:গ|M|c[\.\)]|\(c\))[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
+    } else if (/^[\(\[]?(?:ঘ|N|d[\.\)]|\(d\))[\)\]\.\:\-\|\।\s]/i.test(l)) {
+      const matchMarks = l.match(/[\t\s]+([1-4১-৪])$/);
+      if (matchMarks) subQs.d.marks = parseInt(matchMarks[1], 10);
+      subQs.d.q = cleanAndNormalizeUTF8(l.replace(/^[\(\[]?(?:ঘ|N|d[\.\)]|\(d\))[\)\]\.\:\-\|\।\s]+/i, '').replace(/[\t\s]+[1-4১-৪]$/, '').replace(/\[[0-9১-৯]+\]$/, '').trim());
     } else {
       stemLines.push(l);
     }
   });
 
-  const rawStem = stemLines.join(' ')
-    .replace(/^(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]+|Q[0-9]+[:.]\s*|\[[0-9১-৯]+\]\s*)/i, '')
+  const rawStem = stemLines.join('\n')
+    .replace(/^(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\t\s]+|Q[0-9]+[:.]\s*|\[[0-9১-৯]+\]\s*)/i, '')
     .trim();
 
   return {
@@ -605,7 +625,7 @@ function parseCQChunk(lines, idx) {
     subQuestions: subQs,
     diagramUrl: '',
     difficulty: 'MEDIUM',
-    marks: 10
+    marks: (subQs.a.marks || 0) + (subQs.b.marks || 0) + (subQs.c.marks || 0) + (subQs.d.marks || 0) || 10
   };
 }
 
@@ -639,15 +659,15 @@ function parseSQChunk(lines, idx) {
   };
 }
 
-// Auto-Split Bulk Text into Question Objects dynamically
+// Auto-Split Bulk Pasted Text into Question Objects dynamically
 function splitBulkPastedText(text, vaultType) {
   if (!text || !text.trim()) return [];
 
   // Normalize UTF-8 clean text
   const clean = cleanAndNormalizeUTF8(text);
 
-  // Split by Question Numbering (e.g. "১.", "1.", "প্রশ্ন ১:", "Q1:", "[1]", "১।")
-  const regexSplitter = /(?:^|\n+)(?=(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\s]|Q[0-9]+[:.]|\[[0-9১-৯]+\]))/i;
+  // Split by Question Numbering (e.g. "১.", "1.", "1 \t", "প্রশ্ন ১:", "Q1:", "[1]", "১।")
+  const regexSplitter = /(?:^|\n+)(?=(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\t\s]|Q[0-9]+[:.]|\[[0-9১-৯]+\]))/i;
   let rawChunks = clean.split(regexSplitter).map(c => c.trim()).filter(Boolean);
 
   // If regex found only 1 chunk or failed, fallback to double line breaks
@@ -659,15 +679,13 @@ function splitBulkPastedText(text, vaultType) {
   }
 
   return rawChunks.map((chunk, idx) => {
-    const lines = chunk.split('\n').map(l => l.trim()).filter(Boolean);
-    if (lines.length === 0) return null;
-
-    if (vaultType === 'MCQ') {
-      return parseMCQChunk(lines, idx);
-    } else if (vaultType === 'CQ') {
+    const lines = chunk.trim().split('\n').filter(l => l.trim().length > 0);
+    if (vaultType === 'CQ') {
       return parseCQChunk(lines, idx);
-    } else {
+    } else if (vaultType === 'SQ') {
       return parseSQChunk(lines, idx);
+    } else {
+      return parseMCQChunk(lines, idx);
     }
   }).filter(Boolean);
 }
