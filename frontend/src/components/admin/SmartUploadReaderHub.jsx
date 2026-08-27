@@ -348,8 +348,8 @@ function convertBijoyToUnicode(input) {
 
   const preservedMathTokens = [];
 
-  // 3. Protect parenthesized expressions: (2p + q, 5) = (7, q), (p, q), (i), (ii), (p  q)2(q  r)2, (3c 1 + 2d 1) 1
-  str = str.replace(/\(([a-zA-Z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=\.\…\-]+)\)(?:\s*([0-9a-zA-Z]+))?/g, (match, inner, trailing) => {
+  // 3. Protect parenthesized expressions: (2p + q, 5) = (7, q), (p, q), (i), (ii), (p - q)2, (3c-1 + 2d-1)
+  str = str.replace(/\(([^()\n]+)\)(?:\s*([0-9]+))?/g, (match, inner, trailing) => {
     if (!/^[ক-ঘ]$/.test(inner.trim())) {
       const idx = preservedMathTokens.length;
       preservedMathTokens.push(match);
@@ -1746,6 +1746,18 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                         placeholder="এখানে প্রশ্নের বিবরণ বা উদ্দীপক লিখুন..."
                         className="utf8-bangla-input w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed"
                       />
+
+                      {/* Live Math & Font Preview for Question / Stem */}
+                      {q.question && q.question.trim() && (
+                        <div className="mt-1.5 p-2.5 bg-indigo-50/70 rounded-xl border border-indigo-100 text-xs sm:text-sm text-slate-800 font-semibold flex items-start space-x-2">
+                          <span className="text-[10px] font-black text-indigo-700 uppercase tracking-wider bg-white px-1.5 py-0.5 rounded border border-indigo-200 shrink-0 mt-0.5 shadow-2xs">
+                            গাণিতিক রূপ (Live Math):
+                          </span>
+                          <div className="flex-1 overflow-x-auto">
+                            <MathRenderer text={q.question} />
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* INTERACTIVE MCQ OPTIONS & 1-CLICK ANSWER SELECTOR */}
@@ -1872,6 +1884,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                               placeholder="(ক) জ্ঞানমূলক প্রশ্ন লিখুন..."
                               className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
+                            {(q.subQuestions.a?.q || q.subQuestions.a) && (
+                              <div className="mt-1 px-2.5 py-1 bg-white/90 rounded-lg border border-purple-100 text-xs text-purple-950 font-semibold">
+                                <MathRenderer text={q.subQuestions.a?.q || q.subQuestions.a} />
+                              </div>
+                            )}
                           </div>
 
                           <div>
@@ -1890,6 +1907,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                               placeholder="(খ) অনুধাবনমূলক প্রশ্ন লিখুন..."
                               className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
+                            {(q.subQuestions.b?.q || q.subQuestions.b) && (
+                              <div className="mt-1 px-2.5 py-1 bg-white/90 rounded-lg border border-purple-100 text-xs text-purple-950 font-semibold">
+                                <MathRenderer text={q.subQuestions.b?.q || q.subQuestions.b} />
+                              </div>
+                            )}
                           </div>
 
                           <div>
@@ -1908,6 +1930,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                               placeholder="(গ) প্রয়োগমূলক প্রশ্ন লিখুন..."
                               className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
+                            {(q.subQuestions.c?.q || q.subQuestions.c) && (
+                              <div className="mt-1 px-2.5 py-1 bg-white/90 rounded-lg border border-purple-100 text-xs text-purple-950 font-semibold">
+                                <MathRenderer text={q.subQuestions.c?.q || q.subQuestions.c} />
+                              </div>
+                            )}
                           </div>
 
                           <div>
@@ -1926,6 +1953,11 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                               placeholder="(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন লিখুন..."
                               className="utf8-bangla-input w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
+                            {(q.subQuestions.d?.q || q.subQuestions.d) && (
+                              <div className="mt-1 px-2.5 py-1 bg-white/90 rounded-lg border border-purple-100 text-xs text-purple-950 font-semibold">
+                                <MathRenderer text={q.subQuestions.d?.q || q.subQuestions.d} />
+                              </div>
+                            )}
                           </div>
                         </div>
 
