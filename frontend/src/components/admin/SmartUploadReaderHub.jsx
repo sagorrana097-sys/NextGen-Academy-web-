@@ -18,7 +18,9 @@ import {
   RefreshCw,
   Eye,
   Check,
-  X
+  X,
+  ListOrdered,
+  BookMarked
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
@@ -78,27 +80,40 @@ const INSTITUTIONS_LIST = [
 
 const YEARS_LIST = ['2026', '2025', '2024', '2023', '2022', '2021', '2020'];
 
-export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOMR }) {
+export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNavigateToMaker, onNavigateToOMR }) {
   const { lang } = useLanguage();
 
-  // Category Metadata State
+  // Active Vault: 'MCQ' | 'CQ' | 'SQ'
+  const [activeVault, setActiveVault] = useState(initialVaultTab || 'MCQ');
+
+  // Common Metadata State
   const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[4]); // Class 10
   const [selectedSubject, setSelectedSubject] = useState(SUBJECTS_LIST[2]); // Physics
   const [selectedInstitution, setSelectedInstitution] = useState(INSTITUTIONS_LIST[0]); // Dhaka Board
   const [selectedYear, setSelectedYear] = useState('2026');
   const [selectedChapter, setSelectedChapter] = useState('');
-  const [questionType, setQuestionType] = useState('MCQ'); // 'MCQ' | 'CQ' | 'SQ'
 
-  // Input Data State
-  const [questionText, setQuestionText] = useState('');
+  // 1. MCQ Form State
+  const [mcqQuestion, setMcqQuestion] = useState('');
   const [optionA, setOptionA] = useState('');
   const [optionB, setOptionB] = useState('');
   const [optionC, setOptionC] = useState('');
   const [optionD, setOptionD] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('ক');
-  const [explanation, setExplanation] = useState('');
-  const [marks, setMarks] = useState(1);
-  const [diagramUrl, setDiagramUrl] = useState('');
+  const [mcqExplanation, setMcqExplanation] = useState('');
+
+  // 2. CQ Form State
+  const [cqStem, setCqStem] = useState('');
+  const [subQA, setSubQA] = useState('');
+  const [subQB, setSubQB] = useState('');
+  const [subQC, setSubQC] = useState('');
+  const [subQD, setSubQD] = useState('');
+  const [cqDiagramUrl, setCqDiagramUrl] = useState('');
+
+  // 3. SQ Form State
+  const [sqQuestion, setSqQuestion] = useState('');
+  const [sqAnswer, setSqAnswer] = useState('');
+  const [sqMarks, setSqMarks] = useState(2);
 
   // Status & Feedback State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,7 +123,6 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
   const [repoQuestions, setRepoQuestions] = useState([]);
   const [loadingRepo, setLoadingRepo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('ALL');
 
   useEffect(() => {
     fetchRepoQuestions();
@@ -133,37 +147,11 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Quick Template Setters
-  const handleLoadTemplate = (type) => {
-    setQuestionType(type);
-    if (type === 'MCQ') {
-      setQuestionText('বল ও সরণের গুণফলকে কী বলে?');
-      setOptionA('ক্ষমতা');
-      setOptionB('শক্তি');
-      setOptionC('কাজ');
-      setOptionD('বেগ');
-      setCorrectAnswer('গ');
-      setExplanation('কাজ = বল × বলের অভিমুখে সরণ।');
-      setMarks(1);
-    } else if (type === 'CQ') {
-      setQuestionText('উদ্দীপক: ৫০ কেজি ভরের একজন ব্যক্তি ৫ মিনিটে ৫০ মিটার উঁচু পাহাড়ে উঠলেন।\n\n(ক) কাজ কাকে বলে? [১]\n(খ) ধনাত্মক কাজ বলতে কী বোঝায়? [২]\n(গ) ব্যক্তির দ্বারা কৃতকাজের পরিমাণ নির্ণয় করো। [৩]\n(ঘ) ব্যক্তির ক্ষমতা নির্ণয় করো। [৪]');
-      setMarks(10);
-    } else {
-      setQuestionText('কাজ কাকে বলে? এর এসআই (SI) একক কী?');
-      setExplanation('উত্তর: কোনো বস্তুর ওপর বল প্রয়োগের ফলে যদি বস্তুর সরণ ঘটে, তবে বল ও সরণের গুণফলকে কাজ বলে। কাজের এসআই একক জুল (J)।');
-      setMarks(2);
-    }
-  };
-
-  // Direct Save / Store Function
-  const handleSaveQuestion = async (e) => {
+  // 1. Save MCQ Question
+  const handleSaveMCQ = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
-
-    const cleanText = (questionText || '').trim();
-    if (!cleanText) {
-      const msg = 'অনুগ্রহ করে প্রশ্নের বিবরণ বা টেক্সট লিখুন।';
-      setFeedbackMsg({ type: 'error', text: msg });
-      alert(msg);
+    if (!mcqQuestion.trim()) {
+      alert('অনুগ্রহ করে MCQ প্রশ্নের বিবরণ বা উদ্দীপক লিখুন।');
       return;
     }
 
@@ -171,64 +159,25 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     setFeedbackMsg(null);
 
     try {
-      let constructedQuestions = [];
-
-      // Check if user entered multiple questions separated by double newlines
-      const rawBlocks = cleanText.split(/\r?\n\s*\r?\n+/).map(b => b.trim()).filter(Boolean);
-
-      if (rawBlocks.length > 1) {
-        // Multi-block batch parsing
-        constructedQuestions = rawBlocks.map((block, idx) => {
-          const isCQ = block.includes('উদ্দীপক') || block.includes('ক)') || block.includes('খ)');
-          const isSq = block.includes('সংক্ষিপ্ত') || (!block.includes('ক.') && !block.includes('খ.') && !isCQ);
-          const blockType = isCQ ? 'CQ' : isSq ? 'SQ' : 'MCQ';
-
-          return {
-            id: `manual-${Date.now()}-${idx}`,
-            type: blockType,
-            question: block.split(/\r?\n/)[0] || `প্রশ্ন ${idx + 1}`,
-            stem: block,
-            options: blockType === 'MCQ' ? (optionA ? [optionA, optionB, optionC, optionD].filter(Boolean) : ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪']) : [],
-            correctAnswer: correctAnswer || 'ক',
-            explanation: explanation || '',
-            marks: blockType === 'CQ' ? 10 : blockType === 'SQ' ? 2 : 1,
-            diagramUrl: diagramUrl || null,
-            difficulty: 'MEDIUM',
-            boardOrInstitute: selectedInstitution,
-            year: selectedYear,
-            subject: selectedSubject,
-            class: selectedClass,
-            chapter: selectedChapter || null
-          };
-        });
-      } else {
-        // Single structured question
-        const optionsList = questionType === 'MCQ' 
-          ? [optionA || 'বিকল্প ১', optionB || 'বিকল্প ২', optionC || 'বিকল্প ৩', optionD || 'বিকল্প ৪']
-          : [];
-
-        constructedQuestions = [{
-          id: `manual-${Date.now()}-0`,
-          type: questionType,
-          question: cleanText,
-          stem: cleanText,
-          options: optionsList,
-          correctAnswer: correctAnswer || 'ক',
-          explanation: explanation || '',
-          marks: Number(marks) || (questionType === 'CQ' ? 10 : questionType === 'SQ' ? 2 : 1),
-          diagramUrl: diagramUrl || null,
-          difficulty: 'MEDIUM',
-          boardOrInstitute: selectedInstitution,
-          year: selectedYear,
-          subject: selectedSubject,
-          class: selectedClass,
-          chapter: selectedChapter || null
-        }];
-      }
+      const questionObj = {
+        id: `mcq-${Date.now()}`,
+        type: 'MCQ',
+        question: mcqQuestion.trim(),
+        stem: mcqQuestion.trim(),
+        options: [optionA || 'বিকল্প ১', optionB || 'বিকল্প ২', optionC || 'বিকল্প ৩', optionD || 'বিকল্প ৪'],
+        correctAnswer: correctAnswer || 'ক',
+        explanation: mcqExplanation.trim() || '',
+        marks: 1,
+        difficulty: 'MEDIUM',
+        boardOrInstitute: selectedInstitution,
+        year: selectedYear,
+        subject: selectedSubject,
+        class: selectedClass,
+        chapter: selectedChapter || null
+      };
 
       const payload = {
-        questions: constructedQuestions,
-        rawText: cleanText,
+        questions: [questionObj],
         category: selectedInstitution,
         subject: selectedSubject,
         term: selectedYear,
@@ -251,36 +200,168 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
         }
       };
 
-      console.log('[ManualQuestionSystem] 🚀 Saving to Repository:', payload);
       const res = await questionRepositoryAPI.uploadAndTrain(payload);
-      console.log('[ManualQuestionSystem] 📥 Response:', res);
-
       if (res?.success) {
-        const savedCount = res.data?.savedCount || res.data?.count || constructedQuestions.length;
-        const successMessage = `🎉 অভিনন্দন! ${savedCount}টি প্রশ্ন কেন্দ্রীয় প্রশ্ন ভাণ্ডারে সফলভাবে সংরক্ষিত হয়েছে!`;
-        setFeedbackMsg({ type: 'success', text: successMessage });
-        alert(successMessage);
-
-        // Reset inputs
-        setQuestionText('');
+        alert('🎉 অভিনন্দন! MCQ প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
+        setFeedbackMsg({ type: 'success', text: 'MCQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
+        setMcqQuestion('');
         setOptionA('');
         setOptionB('');
         setOptionC('');
         setOptionD('');
-        setExplanation('');
-        setDiagramUrl('');
+        setMcqExplanation('');
         fetchRepoQuestions();
       } else {
-        const errMsg = res?.error?.message || res?.message || 'সংরক্ষণ করতে সমস্যা হয়েছে।';
-        console.error('[ManualQuestionSystem] Save Error:', errMsg);
-        setFeedbackMsg({ type: 'error', text: errMsg });
-        alert(`সংরক্ষণ ব্যর্থ: ${errMsg}`);
+        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
       }
     } catch (err) {
-      console.error('[ManualQuestionSystem] Network Exception:', err);
-      const fatalMsg = err?.message || 'নেটওয়ার্ক সংযোগ বা সার্ভারে সমস্যা হয়েছে।';
-      setFeedbackMsg({ type: 'error', text: fatalMsg });
-      alert(`সার্ভার ত্রুটি: ${fatalMsg}`);
+      alert('সার্ভার ত্রুটি: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // 2. Save CQ Question
+  const handleSaveCQ = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!cqStem.trim()) {
+      alert('অনুগ্রহ করে সৃজনশীল উদ্দীপক বা অনুচ্ছেদ লিখুন।');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFeedbackMsg(null);
+
+    try {
+      const questionObj = {
+        id: `cq-${Date.now()}`,
+        type: 'CQ',
+        question: cqStem.trim(),
+        stem: cqStem.trim(),
+        subQuestions: {
+          a: { q: subQA.trim() || 'জ্ঞানমূলক প্রশ্ন', marks: 1 },
+          b: { q: subQB.trim() || 'অনুধাবনমূলক প্রশ্ন', marks: 2 },
+          c: { q: subQC.trim() || 'প্রয়োগমূলক প্রশ্ন', marks: 3 },
+          d: { q: subQD.trim() || 'উচ্চতর দক্ষতামূলক প্রশ্ন', marks: 4 }
+        },
+        diagramUrl: cqDiagramUrl.trim() || null,
+        marks: 10,
+        difficulty: 'MEDIUM',
+        boardOrInstitute: selectedInstitution,
+        year: selectedYear,
+        subject: selectedSubject,
+        class: selectedClass,
+        chapter: selectedChapter || null
+      };
+
+      const payload = {
+        questions: [questionObj],
+        category: selectedInstitution,
+        subject: selectedSubject,
+        term: selectedYear,
+        className: selectedClass,
+        book: selectedSubject,
+        institutionOrBoard: selectedInstitution,
+        year: selectedYear,
+        chapter: selectedChapter || null,
+        hasChapter: !!selectedChapter,
+        metadata: {
+          className: selectedClass,
+          book: selectedSubject,
+          category: selectedInstitution,
+          subject: selectedSubject,
+          term: selectedYear,
+          institutionOrBoard: selectedInstitution,
+          year: selectedYear,
+          chapter: selectedChapter || null,
+          badge: '[' + selectedInstitution + ' - \'' + selectedYear.slice(-2) + ']'
+        }
+      };
+
+      const res = await questionRepositoryAPI.uploadAndTrain(payload);
+      if (res?.success) {
+        alert('🎉 অভিনন্দন! সৃজনশীল (CQ) প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
+        setFeedbackMsg({ type: 'success', text: 'CQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
+        setCqStem('');
+        setSubQA('');
+        setSubQB('');
+        setSubQC('');
+        setSubQD('');
+        setCqDiagramUrl('');
+        fetchRepoQuestions();
+      } else {
+        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
+      }
+    } catch (err) {
+      alert('সার্ভার ত্রুটি: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // 3. Save SQ Question
+  const handleSaveSQ = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!sqQuestion.trim()) {
+      alert('অনুগ্রহ করে সংক্ষিপ্ত প্রশ্নটি লিখুন।');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFeedbackMsg(null);
+
+    try {
+      const questionObj = {
+        id: `sq-${Date.now()}`,
+        type: 'SQ',
+        question: sqQuestion.trim(),
+        stem: sqQuestion.trim(),
+        shortAnswer: sqAnswer.trim() || '',
+        marks: Number(sqMarks) || 2,
+        difficulty: 'MEDIUM',
+        boardOrInstitute: selectedInstitution,
+        year: selectedYear,
+        subject: selectedSubject,
+        class: selectedClass,
+        chapter: selectedChapter || null
+      };
+
+      const payload = {
+        questions: [questionObj],
+        category: selectedInstitution,
+        subject: selectedSubject,
+        term: selectedYear,
+        className: selectedClass,
+        book: selectedSubject,
+        institutionOrBoard: selectedInstitution,
+        year: selectedYear,
+        chapter: selectedChapter || null,
+        hasChapter: !!selectedChapter,
+        metadata: {
+          className: selectedClass,
+          book: selectedSubject,
+          category: selectedInstitution,
+          subject: selectedSubject,
+          term: selectedYear,
+          institutionOrBoard: selectedInstitution,
+          year: selectedYear,
+          chapter: selectedChapter || null,
+          badge: '[' + selectedInstitution + ' - \'' + selectedYear.slice(-2) + ']'
+        }
+      };
+
+      const res = await questionRepositoryAPI.uploadAndTrain(payload);
+      if (res?.success) {
+        alert('🎉 অভিনন্দন! সংক্ষিপ্ত (SQ) প্রশ্নটি সফলভাবে ডাটাবেজে সংরক্ষিত হয়েছে!');
+        setFeedbackMsg({ type: 'success', text: 'SQ প্রশ্ন সফলভাবে সংরক্ষিত হয়েছে!' });
+        setSqQuestion('');
+        setSqAnswer('');
+        fetchRepoQuestions();
+      } else {
+        alert('সংরক্ষণ ব্যর্থ: ' + (res?.error?.message || res?.message || 'সমস্যা হয়েছে'));
+      }
+    } catch (err) {
+      alert('সার্ভার ত্রুটি: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -288,7 +369,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
 
   // Delete question item
   const handleDeleteItem = async (id) => {
-    if (!window.confirm('আপনি কি নিশ্চিত যে এই প্রশ্নটি ভাণ্ডার থেকে মুছে ফেলতে চান?')) return;
+    if (!window.confirm('আপনি কি নিশ্চিত যে এই প্রশ্নটি মুছে ফেলতে চান?')) return;
     try {
       const res = await questionRepositoryAPI.deleteQuestion(id);
       if (res?.success) {
@@ -301,21 +382,25 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
     }
   };
 
-  // Safe Filtered Questions
-  const filteredQuestions = useMemo(() => {
+  // Filtered Questions strictly for the active vault
+  const vaultQuestions = useMemo(() => {
     const safeList = Array.isArray(repoQuestions) ? repoQuestions : [];
     return safeList.filter(q => {
+      const isTargetType = activeVault === 'MCQ' 
+        ? (q?.type === 'MCQ')
+        : activeVault === 'CQ'
+        ? (q?.type === 'CQ')
+        : (q?.type === 'SQ' || q?.type === 'SHORT');
+
       const qText = String(q?.question || q?.stem || '').toLowerCase();
       const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || q?.category || '').toLowerCase();
       const qBook = String(q?.book || q?.subject || '').toLowerCase();
       const search = (searchTerm || '').toLowerCase();
 
       const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qBook.includes(search);
-      const matchesType = filterType === 'ALL' || q?.type === filterType;
-
-      return matchesSearch && matchesType;
+      return isTargetType && matchesSearch;
     });
-  }, [repoQuestions, searchTerm, filterType]);
+  }, [repoQuestions, activeVault, searchTerm]);
 
   return (
     <div className="space-y-6">
@@ -325,13 +410,13 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
           <div>
             <div className="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md mb-2">
               <Database className="w-3.5 h-3.5 text-indigo-400" />
-              <span>১০০% সুরক্ষিত ম্যানুয়াল প্রশ্ন রিপোজিটরি ও ডাটাবেজ</span>
+              <span>১০০% সুরক্ষিত পৃথক ম্যানুয়াল প্রশ্ন ভাণ্ডার</span>
             </div>
             <h2 className="text-xl md:text-2xl font-black tracking-tight">
-              কেন্দ্রীয় প্রশ্ন ভাণ্ডার সংগ্রহশালা (Manual Question System)
+              ম্যানুয়াল প্রশ্ন ভাণ্ডার সংগ্রহশালা (Question Vaults)
             </h2>
             <p className="text-xs md:text-sm text-slate-300 mt-1">
-              সরাসরি প্রশ্ন টাইপ বা পেস্ট করে শ্রেণি, বিষয় ও বোর্ড সিলেক্ট করে ১-ক্লিকে সংরক্ষণ করুন।
+              MCQ, সৃজনশীল (CQ) ও সংক্ষিপ্ত (SQ) প্রশ্ন আলাদা ক্যাটাগরিতে নির্ভুলভাবে সংরক্ষণ করুন।
             </p>
           </div>
 
@@ -340,25 +425,73 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               <button
                 type="button"
                 onClick={onNavigateToMaker}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>এআই জেনারেটর</span>
+                <FileText className="w-4 h-4" />
+                <span>প্রশ্নপত্র বিল্ডার ও প্রিন্টারে যান ➔</span>
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* Main Form & Repository Grid */}
+      {/* 3 Dedicated Vault Selector Tabs */}
+      <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-xs flex-wrap">
+        <button
+          type="button"
+          onClick={() => { setActiveVault('MCQ'); setFeedbackMsg(null); }}
+          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+            activeVault === 'MCQ'
+              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+              : 'text-slate-600 hover:bg-slate-100'
+          )}
+        >
+          <BookMarked className="w-4 h-4" />
+          <span>🔘 ১. বহুনির্বাচনী ভাণ্ডার (MCQ Vault)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setActiveVault('CQ'); setFeedbackMsg(null); }}
+          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+            activeVault === 'CQ'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
+              : 'text-slate-600 hover:bg-slate-100'
+          )}
+        >
+          <Layers className="w-4 h-4" />
+          <span>📑 ২. সৃজনশীল ভাণ্ডার (CQ Vault)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setActiveVault('SQ'); setFeedbackMsg(null); }}
+          className={'px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center space-x-2 cursor-pointer ' + (
+            activeVault === 'SQ'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
+              : 'text-slate-600 hover:bg-slate-100'
+          )}
+        >
+          <CheckCircle2 className="w-4 h-4" />
+          <span>📝 ৩. সংক্ষিপ্ত প্রশ্ন ভাণ্ডার (SQ Vault)</span>
+        </button>
+      </div>
+
+      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Category & Direct Question Form */}
+        {/* Left Column: Dedicated Form for the Active Vault */}
         <div className="lg:col-span-6 space-y-5">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
-            <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100 uppercase tracking-wider">
-              <FileText className="w-4 h-4 text-indigo-600" />
-              <span>১. ক্যাটাগরি ও প্রশ্ন এন্ট্রি ফরম</span>
-            </h3>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 uppercase tracking-wider">
+                <Plus className="w-4 h-4 text-indigo-600" />
+                <span>
+                  {activeVault === 'MCQ' && 'নতুন বহুনির্বাচনী (MCQ) প্রশ্ন যুক্ত করুন'}
+                  {activeVault === 'CQ' && 'নতুন সৃজনশীল (CQ) প্রশ্ন যুক্ত করুন'}
+                  {activeVault === 'SQ' && 'নতুন সংক্ষিপ্ত (SQ) প্রশ্ন যুক্ত করুন'}
+                </span>
+              </h3>
+            </div>
 
             {/* Category Selectors */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -418,93 +551,40 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               </div>
             </div>
 
-            {/* Question Type Selector & Demo Templates */}
-            <div className="space-y-2 pt-2 border-t border-slate-100">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-slate-700">প্রশ্নের ধরন ও টেমপ্লেট:</label>
-                <div className="flex items-center space-x-1.5">
-                  <button
-                    type="button"
-                    onClick={() => handleLoadTemplate('MCQ')}
-                    className="px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                  >
-                    + ডেমো MCQ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleLoadTemplate('CQ')}
-                    className="px-2 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                  >
-                    + ডেমো CQ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleLoadTemplate('SQ')}
-                    className="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                  >
-                    + ডেমো SQ
-                  </button>
+            {/* 1. Dedicated MCQ Form */}
+            {activeVault === 'MCQ' && (
+              <form onSubmit={handleSaveMCQ} className="space-y-4 pt-3 border-t border-slate-100">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-800">MCQ মূল প্রশ্ন / উদ্দীপক:</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMcqQuestion('বল ও সরণের গুণফলকে কী বলে?');
+                        setOptionA('ক্ষমতা');
+                        setOptionB('শক্তি');
+                        setOptionC('কাজ');
+                        setOptionD('বেগ');
+                        setCorrectAnswer('গ');
+                        setMcqExplanation('কাজ = বল × বলের অভিমুখে সরণ।');
+                      }}
+                      className="text-[11px] font-bold text-indigo-600 hover:underline cursor-pointer"
+                    >
+                      + ডেমো MCQ লোড করুন
+                    </button>
+                  </div>
+                  <textarea
+                    rows={3}
+                    value={mcqQuestion}
+                    onChange={(e) => setMcqQuestion(e.target.value)}
+                    placeholder="এখানে বহুনির্বাচনী প্রশ্নটি লিখুন বা পেস্ট করুন..."
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setQuestionType('MCQ')}
-                  className={'p-2.5 rounded-xl text-xs font-bold transition-all border ' + (
-                    questionType === 'MCQ'
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  )}
-                >
-                  বহুনির্বাচনী (MCQ)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setQuestionType('CQ')}
-                  className={'p-2.5 rounded-xl text-xs font-bold transition-all border ' + (
-                    questionType === 'CQ'
-                      ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  )}
-                >
-                  সৃজনশীল (CQ)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setQuestionType('SQ')}
-                  className={'p-2.5 rounded-xl text-xs font-bold transition-all border ' + (
-                    questionType === 'SQ'
-                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  )}
-                >
-                  সংক্ষিপ্ত (SQ)
-                </button>
-              </div>
-            </div>
-
-            {/* Direct Textarea */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 block">
-                {questionType === 'CQ' ? 'সৃজনশীল উদ্দীপক ও প্রশ্নাবলি:' : 'প্রশ্নের বিবরণ:'}
-              </label>
-              <textarea
-                rows={5}
-                value={questionText}
-                onChange={(e) => setQuestionText(e.target.value)}
-                placeholder="এখানে প্রশ্ন টাইপ করুন বা পেস্ট করুন... (একাধিক প্রশ্ন থাকলে মাঝে ফাঁকা লাইন রাখুন)"
-                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono leading-relaxed"
-              />
-            </div>
-
-            {/* MCQ Options (If MCQ selected) */}
-            {questionType === 'MCQ' && (
-              <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-200/80">
-                <h4 className="text-xs font-bold text-slate-800">MCQ অপশন ও সঠিক উত্তর:</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
                   <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">ক) অপশন ১:</label>
+                    <label className="text-[11px] font-bold text-slate-700 block mb-1">ক) অপশন ১:</label>
                     <input
                       type="text"
                       value={optionA}
@@ -514,7 +594,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">খ) অপশন ২:</label>
+                    <label className="text-[11px] font-bold text-slate-700 block mb-1">খ) অপশন ২:</label>
                     <input
                       type="text"
                       value={optionB}
@@ -524,7 +604,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">গ) অপশন ৩:</label>
+                    <label className="text-[11px] font-bold text-slate-700 block mb-1">গ) অপশন ৩:</label>
                     <input
                       type="text"
                       value={optionC}
@@ -534,7 +614,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">ঘ) অপশন ৪:</label>
+                    <label className="text-[11px] font-bold text-slate-700 block mb-1">ঘ) অপশন ৪:</label>
                     <input
                       type="text"
                       value={optionD}
@@ -543,94 +623,218 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                       className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
                     />
                   </div>
+
+                  <div className="md:col-span-2 flex items-center justify-between pt-1">
+                    <div className="flex items-center space-x-2">
+                      <label className="text-[11px] font-bold text-slate-700">সঠিক উত্তর:</label>
+                      <select
+                        value={correctAnswer}
+                        onChange={(e) => setCorrectAnswer(e.target.value)}
+                        className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-indigo-700"
+                      >
+                        <option value="ক">ক</option>
+                        <option value="খ">খ</option>
+                        <option value="গ">গ</option>
+                        <option value="ঘ">ঘ</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5 pt-1">
-                  <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">সঠিক উত্তর:</label>
-                    <select
-                      value={correctAnswer}
-                      onChange={(e) => setCorrectAnswer(e.target.value)}
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800"
+                <div>
+                  <label className="text-xs font-bold text-slate-700 block mb-1">ব্যাখ্যা / সমাধান (ঐচ্ছিক):</label>
+                  <input
+                    type="text"
+                    value={mcqExplanation}
+                    onChange={(e) => setMcqExplanation(e.target.value)}
+                    placeholder="সঠিক উত্তরের ব্যাখ্যা"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
+                  />
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !mcqQuestion.trim()}
+                    className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md shadow-indigo-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <Database className="w-4 h-4" />
+                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'MCQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* 2. Dedicated CQ Form */}
+            {activeVault === 'CQ' && (
+              <form onSubmit={handleSaveCQ} className="space-y-4 pt-3 border-t border-slate-100">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-800">সৃজনশীল দৃশ্যকল্প / উদ্দীপক:</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCqStem('উদ্দীপক: ৫০ কেজি ভরের একজন ব্যক্তি ৫ মিনিটে ৫০ মিটার উঁচু পাহাড়ে উঠলেন।');
+                        setSubQA('কাজ কাকে বলে?');
+                        setSubQB('ধনাত্মক কাজ বলতে কী বোঝায়?');
+                        setSubQC('ব্যক্তির দ্বারা কৃতকাজের পরিমাণ নির্ণয় করো।');
+                        setSubQD('ব্যক্তির ক্ষমতা নির্ণয় করো।');
+                      }}
+                      className="text-[11px] font-bold text-purple-600 hover:underline cursor-pointer"
                     >
-                      <option value="ক">ক</option>
-                      <option value="খ">খ</option>
-                      <option value="গ">গ</option>
-                      <option value="ঘ">ঘ</option>
-                    </select>
+                      + ডেমো CQ লোড করুন
+                    </button>
+                  </div>
+                  <textarea
+                    rows={4}
+                    value={cqStem}
+                    onChange={(e) => setCqStem(e.target.value)}
+                    placeholder="এখানে সৃজনশীল উদ্দীপকটি লিখুন..."
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none leading-relaxed"
+                  />
+                </div>
+
+                <div className="space-y-2 p-3.5 bg-purple-50/40 rounded-2xl border border-purple-200/70">
+                  <h4 className="text-xs font-bold text-purple-900">উপ-প্রশ্নসমূহ (ক, খ, গ, ঘ):</h4>
+                  <div>
+                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(ক) জ্ঞানমূলক প্রশ্ন [১ নম্বর]:</label>
+                    <input
+                      type="text"
+                      value={subQA}
+                      onChange={(e) => setSubQA(e.target.value)}
+                      placeholder="ক নম্বর প্রশ্ন লিখুন"
+                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
+                    />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-slate-600 block mb-1">নম্বর (Marks):</label>
+                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(খ) অনুধাবনমূলক প্রশ্ন [২ নম্বর]:</label>
                     <input
-                      type="number"
-                      value={marks}
-                      onChange={(e) => setMarks(e.target.value)}
-                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                      type="text"
+                      value={subQB}
+                      onChange={(e) => setSubQB(e.target.value)}
+                      placeholder="খ নম্বর প্রশ্ন লিখুন"
+                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(গ) প্রয়োগমূলক প্রশ্ন [৩ নম্বর]:</label>
+                    <input
+                      type="text"
+                      value={subQC}
+                      onChange={(e) => setSubQC(e.target.value)}
+                      placeholder="গ নম্বর প্রশ্ন লিখুন"
+                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[11px] font-bold text-purple-800 block mb-0.5">(ঘ) উচ্চতর দক্ষতামূলক প্রশ্ন [৪ নম্বর]:</label>
+                    <input
+                      type="text"
+                      value={subQD}
+                      onChange={(e) => setSubQD(e.target.value)}
+                      placeholder="ঘ নম্বর প্রশ্ন লিখুন"
+                      className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs"
                     />
                   </div>
                 </div>
-              </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-700 block mb-1">চিত্রের লিংক (ঐচ্ছিক):</label>
+                  <input
+                    type="text"
+                    value={cqDiagramUrl}
+                    onChange={(e) => setCqDiagramUrl(e.target.value)}
+                    placeholder="https://... (চিত্রের URL)"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
+                  />
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !cqStem.trim()}
+                    className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md shadow-purple-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <Database className="w-4 h-4" />
+                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'CQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
+                  </button>
+                </div>
+              </form>
             )}
 
-            {/* Explanation / Notes */}
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">ব্যাখ্যা / উত্তর সংকেত (ঐচ্ছিক):</label>
-              <input
-                type="text"
-                value={explanation}
-                onChange={(e) => setExplanation(e.target.value)}
-                placeholder="সঠিক উত্তরের ব্যাখ্যা বা নোট"
-                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
-              />
-            </div>
+            {/* 3. Dedicated SQ Form */}
+            {activeVault === 'SQ' && (
+              <form onSubmit={handleSaveSQ} className="space-y-4 pt-3 border-t border-slate-100">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-800">সংক্ষিপ্ত প্রশ্ন:</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSqQuestion('কাজ কাকে বলে? এর এসআই (SI) একক কী?');
+                        setSqAnswer('কোনো বস্তুর ওপর বল প্রয়োগে সরণ ঘটলে বল ও সরণের গুণফলকে কাজ বলে। একক জুল (J)।');
+                        setSqMarks(2);
+                      }}
+                      className="text-[11px] font-bold text-emerald-600 hover:underline cursor-pointer"
+                    >
+                      + ডেমো SQ লোড করুন
+                    </button>
+                  </div>
+                  <textarea
+                    rows={3}
+                    value={sqQuestion}
+                    onChange={(e) => setSqQuestion(e.target.value)}
+                    placeholder="সংক্ষিপ্ত প্রশ্নটি লিখুন..."
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  />
+                </div>
 
-            {/* Feedback Alert */}
-            {feedbackMsg && (
-              <div className={'p-3.5 rounded-2xl flex items-center space-x-2 text-xs font-bold ' + (
-                feedbackMsg.type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'
-              )}>
-                {feedbackMsg.type === 'success' ? <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> : <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
-                <span>{feedbackMsg.text}</span>
-              </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-800">উত্তর / সমাধান (ঐচ্ছিক):</label>
+                  <textarea
+                    rows={3}
+                    value={sqAnswer}
+                    onChange={(e) => setSqAnswer(e.target.value)}
+                    placeholder="সংক্ষিপ্ত প্রশ্নের উত্তর বা সমাধান..."
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <label className="text-xs font-bold text-slate-700">নম্বর (Marks):</label>
+                  <input
+                    type="number"
+                    value={sqMarks}
+                    onChange={(e) => setSqMarks(e.target.value)}
+                    className="w-20 p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold"
+                  />
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !sqQuestion.trim()}
+                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <Database className="w-4 h-4" />
+                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'SQ ভাণ্ডারে সংরক্ষণ করুন'}</span>
+                  </button>
+                </div>
+              </form>
             )}
-
-            {/* Submit Action */}
-            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
-              <button
-                type="button"
-                onClick={() => {
-                  setQuestionText('');
-                  setOptionA('');
-                  setOptionB('');
-                  setOptionC('');
-                  setOptionD('');
-                  setExplanation('');
-                }}
-                className="px-4 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl cursor-pointer"
-              >
-                ক্লিয়ার
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveQuestion}
-                disabled={isSubmitting || !questionText.trim()}
-                className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/20 flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
-              >
-                <Database className="w-4 h-4" />
-                <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'কেন্দ্রীয় ভাণ্ডারে সংরক্ষণ করুন'}</span>
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* Right Column: Stored Questions Repository Manager */}
+        {/* Right Column: Stored Questions List for Active Vault */}
         <div className="lg:col-span-6 space-y-5">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
               <div className="flex items-center space-x-2">
-                <Database className="w-4 h-4 text-emerald-600" />
+                <Database className="w-4 h-4 text-indigo-600" />
                 <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
-                  সংরক্ষিত প্রশ্ন ভাণ্ডার ({filteredQuestions.length} টি)
+                  {activeVault === 'MCQ' && `সংরক্ষিত বহুনির্বাচনী প্রশ্ন (${vaultQuestions.length} টি)`}
+                  {activeVault === 'CQ' && `সংরক্ষিত সৃজনশীল প্রশ্ন (${vaultQuestions.length} টি)`}
+                  {activeVault === 'SQ' && `সংরক্ষিত সংক্ষিপ্ত প্রশ্ন (${vaultQuestions.length} টি)`}
                 </h3>
               </div>
               <button
@@ -644,57 +848,16 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               </button>
             </div>
 
-            {/* Search & Type Filter Bar */}
-            <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex-1 min-w-[180px] relative">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="প্রশ্ন, বিষয় বা বোর্ড দিয়ে খুঁজুন..."
-                  className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => setFilterType('ALL')}
-                  className={'px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
-                    filterType === 'ALL' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  )}
-                >
-                  সকল
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterType('MCQ')}
-                  className={'px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
-                    filterType === 'MCQ' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
-                  )}
-                >
-                  MCQ
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterType('CQ')}
-                  className={'px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
-                    filterType === 'CQ' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
-                  )}
-                >
-                  CQ
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterType('SQ')}
-                  className={'px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ' + (
-                    filterType === 'SQ' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                  )}
-                >
-                  SQ
-                </button>
-              </div>
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="প্রশ্ন, বিষয় বা বোর্ড দিয়ে খুঁজুন..."
+                className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              />
             </div>
 
             {/* Questions List */}
@@ -702,28 +865,26 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
               {loadingRepo ? (
                 <div className="p-8 text-center text-slate-400 space-y-2">
                   <RefreshCw className="w-6 h-6 animate-spin mx-auto text-indigo-600" />
-                  <p className="text-xs font-bold">প্রশ্ন ভাণ্ডার লোড হচ্ছে...</p>
+                  <p className="text-xs font-bold">ভাণ্ডার লোড হচ্ছে...</p>
                 </div>
-              ) : filteredQuestions.length === 0 ? (
+              ) : vaultQuestions.length === 0 ? (
                 <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
                   <FolderOpen className="w-8 h-8 mx-auto text-slate-300" />
-                  <p className="text-xs font-bold text-slate-700">কোনো প্রশ্ন সংরক্ষিত পাওয়া যায়নি</p>
-                  <p className="text-[11px] text-slate-400">বাম পাশের ফরম ব্যবহার করে নতুন প্রশ্ন যুক্ত করুন।</p>
+                  <p className="text-xs font-bold text-slate-700">এই ভাণ্ডারে কোনো প্রশ্ন নেই</p>
+                  <p className="text-[11px] text-slate-400">বাম পাশের ফরম ব্যবহার করে প্রশ্ন সংরক্ষণ করুন।</p>
                 </div>
               ) : (
-                filteredQuestions.map((q, idx) => {
+                vaultQuestions.map((q, idx) => {
                   const qId = q?.id || q?.M_ID || idx;
-                  const isCQ = q?.type === 'CQ';
-                  const isSQ = q?.type === 'SQ' || q?.type === 'SHORT';
 
                   return (
                     <div key={qId} className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-2 relative group hover:bg-white hover:shadow-sm transition-all">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-1.5">
                           <span className={'px-2 py-0.5 rounded-md font-bold text-[10px] ' + (
-                            isCQ ? 'bg-purple-100 text-purple-800' : isSQ ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
+                            activeVault === 'CQ' ? 'bg-purple-100 text-purple-800' : activeVault === 'SQ' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
                           )}>
-                            {q?.type || 'MCQ'}
+                            {q?.type || activeVault}
                           </span>
                           <span className="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 font-bold text-[10px]">
                             {q?.badge || `[${q?.institutionOrBoard || q?.boardOrInstitute || 'বোর্ড'} - '${(q?.year || '26').slice(-2)}]`}
@@ -746,7 +907,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                       </p>
 
                       {/* Options for MCQ */}
-                      {Array.isArray(q?.options) && q.options.length > 0 && (
+                      {activeVault === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 && (
                         <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] text-slate-600">
                           {q.options.map((opt, oIdx) => (
                             <div key={oIdx} className="px-2 py-1 bg-white border border-slate-200/80 rounded-lg">
@@ -758,7 +919,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                       )}
 
                       {/* Sub-questions for CQ */}
-                      {isCQ && q?.subQuestions && (
+                      {activeVault === 'CQ' && q?.subQuestions && (
                         <div className="space-y-1 pt-1 text-[11px] text-slate-600">
                           {Object.entries(q.subQuestions).map(([key, val]) => (
                             <div key={key} className="flex items-start space-x-1">
@@ -769,10 +930,17 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                         </div>
                       )}
 
+                      {/* Answer for SQ */}
+                      {activeVault === 'SQ' && q?.shortAnswer && (
+                        <div className="p-2 bg-white rounded-lg border border-slate-200 text-[11px] text-emerald-800">
+                          <span className="font-bold">উত্তর: </span>{q.shortAnswer}
+                        </div>
+                      )}
+
                       {/* Metadata footer */}
                       <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-200/60">
                         <span>{q?.book || q?.subject || 'সাধারণ বিষয়'} • {q?.className || 'দশম শ্রেণি'}</span>
-                        {q?.correctAnswer !== undefined && (
+                        {q?.correctAnswer !== undefined && activeVault === 'MCQ' && (
                           <span className="font-bold text-emerald-700">উত্তর: {q.correctAnswer}</span>
                         )}
                       </div>

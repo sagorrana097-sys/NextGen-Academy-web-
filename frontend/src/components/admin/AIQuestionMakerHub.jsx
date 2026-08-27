@@ -1,34 +1,24 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
-  Award,
-  Image as ImageIcon,
-  Camera,
-  Bot,
-  Sparkles,
-  PlayCircle,
-  Sliders,
-  Send,
+  FileText,
   Printer,
   Copy,
-  Download,
-  Share2,
-  CheckCircle2,
-  AlertCircle,
-  BookOpen,
-  HelpCircle,
-  Zap,
-  ListOrdered,
-  Calendar,
-  Layers,
-  GraduationCap,
-  RefreshCw,
-  Eye,
+  PlayCircle,
   Plus,
   Trash2,
+  Search,
+  CheckCircle2,
+  Database,
+  Layers,
+  BookOpen,
+  Calendar,
+  Sparkles,
+  RefreshCw,
+  Eye,
   Check,
   X,
-  Upload,
-  Database
+  Sliders,
+  FolderOpen
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
@@ -59,121 +49,109 @@ const SUBJECTS_LIST = [
   'বাংলা ১ম পত্র (সাহিত্য)',
   'বাংলা ২য় পত্র (বাংলা ব্যাকরণ ও নির্মিতি)',
   'ইংরেজি ১ম পত্র (English 1st Paper)',
-  'ইংরেজি ২য় পত্র (English 2nd Paper - Grammar)',
+  'ইংরেজি ২য় পত্র (English 2nd Paper)',
   'হিসাববিজ্ঞান (Accounting)',
   'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
-  'ব্যবসায় উদ্যোগ (Business Studies)',
-  'অর্থনীতি (Economics)',
-  'পৌরনীতি ও সুশাসন (Civics)',
-  'ইতিহাস (History)',
-  'ভূগোল ও পরিবেশ (Geography)'
-];
-
-const PROMPT_SUGGESTIONS = [
-  'নটর ডেম কলেজ ২৫ ৫টি, ঢাকা বোর্ড ২৫ ১০টি, কুমিল্লা বোর্ড ২৪ ৫টি',
-  'এসএসসি ২০২৬ পদার্থবিজ্ঞান অধ্যায় ৪ সৃজনশীল ৩টি ও বহুনির্বাচনী ২০টি',
-  'রাজউক উত্তরা মডেল কলেজ ২৫ ৪টি, ঢাকা বোর্ড ২৪ ৬টি',
-  'এইচএসসি ২০২৫ উচ্চতর গণিত ভেক্টর অধ্যায় থেকে বহুনির্বাচনী ২৫টি'
+  'ব্যবসায় উদ্যোগ (Business Studies)'
 ];
 
 export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR }) {
-  const { lang, t } = useLanguage();
+  const { lang } = useLanguage();
 
-  // Generator Controls
-  const [naturalPrompt, setNaturalPrompt] = useState('নটর ডেম কলেজ ২৫ ৫টি, ঢাকা বোর্ড ২৫ ১০টি, কুমিল্লা বোর্ড ২৪ ৫টি');
-  const [selectedClass, setSelectedClass] = useState('Class 9-10 (SSC)');
-  const [selectedSubject, setSelectedSubject] = useState('পদার্থবিজ্ঞান');
-  const [genFormat, setGenFormat] = useState('COMBINED');
-  const [genMode, setGenMode] = useState('HYBRID');
-  const [targetCount, setTargetCount] = useState(25);
+  // Paper Configuration
+  const [examTitle, setExamTitle] = useState('NextGen Academy - বিশেষ মডেল টেস্ট');
+  const [instituteName, setInstituteName] = useState('NextGen Academy');
+  const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[4]);
+  const [selectedSubject, setSelectedSubject] = useState(SUBJECTS_LIST[2]);
   const [examDuration, setExamDuration] = useState(30);
 
-  // Generation Results
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedExam, setGeneratedExam] = useState(null);
-  const [feedbackMsg, setFeedbackMsg] = useState(null);
+  // Vault Browsing & Selection State
+  const [repoQuestions, setRepoQuestions] = useState([]);
+  const [loadingRepo, setLoadingRepo] = useState(false);
+  const [vaultFilter, setVaultFilter] = useState('ALL'); // 'ALL' | 'MCQ' | 'CQ' | 'SQ'
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // 1-Click Online Exam Publish Modal
+  // Selected Paper Questions
+  const [selectedPaperQuestions, setSelectedPaperQuestions] = useState([]);
+
+  // Publish Modal State
   const [showPublishModal, setShowPublishModal] = useState(false);
-  const [publishTitle, setPublishTitle] = useState('');
   const [publishDate, setPublishDate] = useState(new Date().toISOString().split('T')[0]);
   const [isPublishing, setIsPublishing] = useState(false);
-  const [isSavingRepo, setIsSavingRepo] = useState(false);
 
-  const printAreaRef = useRef(null);
+  useEffect(() => {
+    fetchRepoQuestions();
+  }, []);
 
-  // Generate Exam
-  const handleGenerateExam = async () => {
-    if (!naturalPrompt.trim()) {
-      setFeedbackMsg({ type: 'error', text: 'অনুগ্রহ করে প্রম্পট বা প্রশ্নের শর্তাবলী লিখুন।' });
-      return;
-    }
-
-    setIsGenerating(true);
-    setFeedbackMsg(null);
-
+  const fetchRepoQuestions = async () => {
+    setLoadingRepo(true);
     try {
-      const payload = {
-        prompt: naturalPrompt,
-        className: selectedClass,
-        subject: selectedSubject,
-        format: genFormat,
-        mode: genMode,
-        targetCount: Number(targetCount) || 20
-      };
-
-      const res = await questionRepositoryAPI.generateAIExam(payload);
-      if (res.success && res.data) {
-        setGeneratedExam(res.data);
-        setPublishTitle(res.data.title || (selectedSubject + ' - বিশেষ মডেল টেস্ট'));
-        setFeedbackMsg({
-          type: 'success',
-          text: '🎉 সফলভাবে প্রশ্নপত্র প্রস্তুত হয়েছে! মোট ' + (res.data.questions?.length || 0) + 'টি প্রশ্ন সংযুক্ত করা হয়েছে।'
-        });
+      const res = await questionRepositoryAPI.getQuestions();
+      if (res?.success && Array.isArray(res?.data)) {
+        setRepoQuestions(res.data);
+      } else if (Array.isArray(res)) {
+        setRepoQuestions(res);
       } else {
-        setFeedbackMsg({ type: 'error', text: res.error?.message || 'প্রশ্নপত্র তৈরি করতে ব্যর্থ হয়েছে।' });
+        setRepoQuestions([]);
       }
     } catch (err) {
-      setFeedbackMsg({ type: 'error', text: err.message || 'প্রশ্ন তৈরিতে ত্রুটি।' });
+      console.warn('Could not load repository questions:', err);
+      setRepoQuestions([]);
     } finally {
-      setIsGenerating(false);
+      setLoadingRepo(false);
     }
   };
 
-  // Copy Exam to Clipboard
-  const handleCopyExam = () => {
-    if (!generatedExam || !generatedExam.questions) return;
-    let text = 'NextGen Academy\n' + generatedExam.title + '\nবিষয়: ' + generatedExam.subject + ' | শ্রেণি: ' + generatedExam.className + '\nসময়: ' + (generatedExam.durationMinutes || 30) + ' মিনিট | পূর্ণমান: ' + (generatedExam.totalMarks || 100) + '\n\n';
+  // Filtered Vault Questions
+  const filteredVaultQuestions = useMemo(() => {
+    const safe = Array.isArray(repoQuestions) ? repoQuestions : [];
+    return safe.filter(q => {
+      const matchesType = vaultFilter === 'ALL' || q?.type === vaultFilter;
+      const qText = String(q?.question || q?.stem || '').toLowerCase();
+      const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || '').toLowerCase();
+      const qSubject = String(q?.book || q?.subject || '').toLowerCase();
+      const search = (searchTerm || '').toLowerCase();
 
-    generatedExam.questions.forEach((q, idx) => {
-      text += 'প্রশ্ন ' + (idx + 1) + '. [' + (q.sourceBadge || q.badge || 'NextGen AI') + ']\n';
-      if (q.type === 'MCQ') {
-        text += q.question + '\n';
-        q.options?.forEach((opt, oIdx) => {
-          text += '  (' + String.fromCharCode(97 + oIdx) + ') ' + opt + '\n';
-        });
-        text += 'সঠিক উত্তর: (' + String.fromCharCode(97 + (q.correctAnswer || 0)) + ')\n\n';
-      } else if (q.type === 'CQ') {
-        text += 'উদ্দীপক: ' + (q.stem || q.question) + '\n';
-        if (q.subQuestions) {
-          text += '  (ক) ' + (q.subQuestions.a?.q || '') + ' [১]\n';
-          text += '  (খ) ' + (q.subQuestions.b?.q || '') + ' [২]\n';
-          text += '  (গ) ' + (q.subQuestions.c?.q || '') + ' [৩]\n';
-          text += '  (ঘ) ' + (q.subQuestions.d?.q || '') + ' [৪]\n';
-        }
-        text += '\n';
-      } else {
-        text += q.question + '\n\n';
-      }
+      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qSubject.includes(search);
+      return matchesType && matchesSearch;
     });
+  }, [repoQuestions, vaultFilter, searchTerm]);
 
-    navigator.clipboard.writeText(text);
-    alert('✅ প্রশ্নপত্র ক্লিপবোর্ডে কপি করা হয়েছে!');
+  // Toggle Question Selection for Exam Paper
+  const toggleSelectQuestion = (question) => {
+    const qId = question?.id || question?.M_ID;
+    const exists = selectedPaperQuestions.some(q => (q?.id || q?.M_ID) === qId);
+
+    if (exists) {
+      setSelectedPaperQuestions(prev => prev.filter(q => (q?.id || q?.M_ID) !== qId));
+    } else {
+      setSelectedPaperQuestions(prev => [...prev, question]);
+    }
   };
 
-  // High-Resolution Branded Question Paper Printer (A4 Format with Diagrams)
+  // Select all visible questions
+  const handleSelectAllVisible = () => {
+    const newItems = filteredVaultQuestions.filter(vq => {
+      const vId = vq?.id || vq?.M_ID;
+      return !selectedPaperQuestions.some(sq => (sq?.id || sq?.M_ID) === vId);
+    });
+    setSelectedPaperQuestions(prev => [...prev, ...newItems]);
+  };
+
+  // Calculate Total Marks
+  const totalMarks = useMemo(() => {
+    return selectedPaperQuestions.reduce((acc, q) => {
+      const m = Number(q?.marks) || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1);
+      return acc + m;
+    }, 0);
+  }, [selectedPaperQuestions]);
+
+  // Print A4 Exam Sheet
   const handlePrintExam = () => {
-    if (!generatedExam || !generatedExam.questions) return;
+    if (selectedPaperQuestions.length === 0) {
+      alert('প্রশ্নপত্র প্রিন্ট করার আগে ভাণ্ডার থেকে অন্তত একটি প্রশ্ন নির্বাচন করুন।');
+      return;
+    }
 
     const printWin = window.open('', '_blank', 'width=850,height=1000');
     if (!printWin) {
@@ -181,18 +159,12 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       return;
     }
 
-    const title = generatedExam.title || (selectedSubject + ' - বিশেষ মডেল টেস্ট');
-    const subject = generatedExam.subject || selectedSubject;
-    const className = generatedExam.className || selectedClass;
-    const duration = generatedExam.durationMinutes || examDuration || 30;
-    const totalMarks = generatedExam.totalMarks || (generatedExam.questions.length * (genFormat === 'CQ' ? 10 : 1));
-
     let html = `
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>${title} - NextGen Academy</title>
+  <title>${examTitle} - NextGen Academy</title>
   <style>
     @page { size: A4 portrait; margin: 15mm 12mm 15mm 12mm; }
     body {
@@ -216,206 +188,106 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       color: #047857;
       margin: 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .inst-sub {
-      font-size: 11px;
-      color: #475569;
-      margin: 2px 0;
-      font-weight: 600;
     }
     .exam-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 800;
       color: #0f172a;
-      margin: 4px 0;
-      background: #f1f5f9;
-      display: inline-block;
-      padding: 3px 14px;
-      border-radius: 6px;
-      border: 1px solid #cbd5e1;
+      margin: 3px 0;
     }
     .meta-bar {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      font-weight: bold;
+      font-weight: 700;
       margin-top: 6px;
-      padding: 4px 8px;
-      background: #f8fafc;
-      border-radius: 4px;
+      padding-top: 4px;
+      border-top: 1px dashed #cbd5e1;
     }
-    .instructions {
-      font-size: 11px;
-      font-style: italic;
-      color: #334155;
-      margin-bottom: 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px dashed #cbd5e1;
-    }
-    .question-list {
+    .q-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-    .q-card {
+    .q-item {
       page-break-inside: avoid;
-      margin-bottom: 10px;
     }
-    .q-header {
+    .q-head {
+      font-weight: 800;
+      font-size: 13px;
       display: flex;
       justify-content: space-between;
-      font-weight: 800;
-      color: #0f172a;
-      font-size: 13px;
     }
-    .q-badge {
-      font-size: 10px;
-      background: #f1f5f9;
-      color: #475569;
-      padding: 1px 6px;
-      border-radius: 4px;
-      border: 1px solid #e2e8f0;
-    }
-    .q-text {
-      font-size: 13px;
-      font-weight: 700;
-      margin: 4px 0;
-      color: #1e293b;
+    .q-stem {
+      margin: 2px 0 6px 0;
+      text-align: justify;
     }
     .options-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 4px 16px;
       margin-top: 4px;
       font-size: 12px;
     }
-    .option-item {
-      padding: 2px 4px;
-    }
-    .diagram-box {
-      margin: 6px 0;
-      padding: 6px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background: #f8fafc;
-      text-align: center;
-      page-break-inside: avoid;
-    }
-    .diagram-img {
-      max-height: 140px;
-      max-width: 100%;
-      object-fit: contain;
-      margin: 0 auto;
-      display: block;
-    }
-    .diagram-caption {
-      font-size: 10.5px;
-      font-weight: bold;
-      color: #047857;
+    .sub-q-list {
+      margin-left: 12px;
       margin-top: 4px;
+      font-size: 12px;
     }
-    .cq-stem {
-      background: #f8fafc;
-      padding: 8px 10px;
-      border-left: 3px solid #047857;
-      border-radius: 4px;
-      margin: 4px 0 6px 0;
-      font-size: 12.5px;
-      line-height: 1.5;
-    }
-    .cq-sub-item {
+    .sub-q-row {
       display: flex;
       justify-content: space-between;
-      padding: 2px 0;
-      font-size: 12px;
+      margin-bottom: 3px;
     }
     .footer {
       margin-top: 24px;
       padding-top: 8px;
-      border-top: 1px solid #94a3b8;
+      border-top: 1px solid #cbd5e1;
+      font-size: 10px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-size: 10px;
       color: #64748b;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1 class="inst-name">NextGen Academy</h1>
-    <div class="inst-sub">পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর • হেল্পলাইন: ০১৭৯২৮১৮০০৫</div>
-    <div class="exam-title">${title}</div>
+    <div class="inst-name">${instituteName}</div>
+    <div class="exam-title">${examTitle}</div>
     <div class="meta-bar">
-      <span>শ্রেণি: ${className}</span>
-      <span>বিষয়: ${subject}</span>
-      <span>সময়: ${duration} মিনিট</span>
-      <span>পূর্ণমান: ${totalMarks}</span>
+      <span>বিষয়: ${selectedSubject} • শ্রেণি: ${selectedClass}</span>
+      <span>সময়: ${examDuration} মিনিট | পূর্ণমান: ${totalMarks}</span>
     </div>
   </div>
 
-  <div class="instructions">
-    * সকল প্রশ্নের মান ডানপাশে উল্লেখ করা হয়েছে। বহুনির্বাচনী ও সৃজনশীল প্রশ্নসমূহের উত্তর যথানিয়মে প্রদান করো।
-  </div>
-
-  <div class="question-list">
-    ${generatedExam.questions.map((q, idx) => `
-      <div class="q-card">
-        <div class="q-header">
-          <span>প্রশ্ন ${idx + 1}.</span>
-          <span class="q-badge">${q.sourceBadge || q.badge || "NextGen AI - '২৬"}</span>
+  <div class="q-list">
+    ${selectedPaperQuestions.map((q, idx) => `
+      <div class="q-item">
+        <div class="q-head">
+          <span><strong>প্রশ্ন ${idx + 1}.</strong> [${q?.type || 'প্রশ্ন'}]</span>
+          <span>[${q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)}]</span>
         </div>
-
-        ${q.type === 'MCQ' ? `
-          <div class="q-text">${q.question}</div>
-          ${(q.diagramUrl || q.diagramCaption) ? `
-            <div class="diagram-box">
-              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
-              <div class="diagram-caption">📊 ${q.diagramCaption || 'উদ্দীপকের চিত্র / লেখচিত্র'}</div>
-            </div>
-          ` : ''}
+        <div class="q-stem">${q?.question || q?.stem || ''}</div>
+        ${q?.type === 'MCQ' && Array.isArray(q?.options) ? `
           <div class="options-grid">
-            ${(q.options || []).map((opt, oIdx) => `
-              <div class="option-item">
-                <strong>(${['ক', 'খ', 'গ', 'ঘ'][oIdx] || String.fromCharCode(97 + oIdx)})</strong> ${opt}
-              </div>
-            `).join('')}
+            ${q.options.map((opt, oIdx) => `<div>(${String.fromCharCode(97 + oIdx)}) ${opt}</div>`).join('')}
           </div>
-        ` : q.type === 'CQ' ? `
-          <div class="cq-stem">
-            <strong>উদ্দীপক:</strong> ${q.stem || q.question}
+        ` : ''}
+        ${q?.type === 'CQ' && q?.subQuestions ? `
+          <div class="sub-q-list">
+            <div class="sub-q-row"><span>(ক) ${q.subQuestions.a?.q || q.subQuestions.a || ''}</span><span>[১]</span></div>
+            <div class="sub-q-row"><span>(খ) ${q.subQuestions.b?.q || q.subQuestions.b || ''}</span><span>[২]</span></div>
+            <div class="sub-q-row"><span>(গ) ${q.subQuestions.c?.q || q.subQuestions.c || ''}</span><span>[৩]</span></div>
+            <div class="sub-q-row"><span>(ঘ) ${q.subQuestions.d?.q || q.subQuestions.d || ''}</span><span>[৪]</span></div>
           </div>
-          ${(q.diagramUrl || q.diagramCaption) ? `
-            <div class="diagram-box">
-              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
-              <div class="diagram-caption">📊 ${q.diagramCaption || 'উদ্দীপকের সংশ্লিষ্ট চিত্র / সার্কিট ডায়াগ্রাম'}</div>
-            </div>
-          ` : ''}
-          ${q.subQuestions ? `
-            <div class="cq-sub-list">
-              <div class="cq-sub-item"><span><strong>(ক)</strong> ${q.subQuestions.a?.q || ''}</span> <span>[১]</span></div>
-              <div class="cq-sub-item"><span><strong>(খ)</strong> ${q.subQuestions.b?.q || ''}</span> <span>[২]</span></div>
-              <div class="cq-sub-item"><span><strong>(গ)</strong> ${q.subQuestions.c?.q || ''}</span> <span>[৩]</span></div>
-              <div class="cq-sub-item"><span><strong>(ঘ)</strong> ${q.subQuestions.d?.q || ''}</span> <span>[৪]</span></div>
-            </div>
-          ` : ''}
-        ` : `
-          <div class="q-text">${q.question}</div>
-          ${(q.diagramUrl || q.diagramCaption) ? `
-            <div class="diagram-box">
-              ${q.diagramUrl ? `<img src="${q.diagramUrl}" class="diagram-img" alt="Diagram" />` : ''}
-              <div class="diagram-caption">📊 ${q.diagramCaption || 'চিত্র দ্রষ্টব্য'}</div>
-            </div>
-          ` : ''}
-        `}
+        ` : ''}
       </div>
     `).join('')}
   </div>
 
   <div class="footer">
-    <span>পরিচালক ও শিক্ষক: মো: আলমগীর হোসেন (সাগর)</span>
-    <span>NextGen Academy • LEARN · GROW · SUCCEED</span>
+    <span>NextGen Academy • সুরক্ষিত প্রশ্নপত্র প্রণয়ন ইঞ্জিন</span>
+    <span>পৃষ্ঠা ১ / ১</span>
   </div>
 
   <script>
@@ -431,530 +303,449 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     printWin.document.close();
   };
 
+  // Copy Paper text
+  const handleCopyPaper = () => {
+    if (selectedPaperQuestions.length === 0) return;
+    let text = `${instituteName}\n${examTitle}\nবিষয়: ${selectedSubject} | শ্রেণি: ${selectedClass} | পূর্ণমান: ${totalMarks}\n\n`;
+
+    selectedPaperQuestions.forEach((q, idx) => {
+      text += `প্রশ্ন ${idx + 1}. (${q?.type || 'Q'})\n${q?.question || q?.stem || ''}\n`;
+      if (q?.type === 'MCQ' && Array.isArray(q?.options)) {
+        q.options.forEach((opt, oIdx) => {
+          text += `  (${String.fromCharCode(97 + oIdx)}) ${opt}\n`;
+        });
+      }
+      if (q?.type === 'CQ' && q?.subQuestions) {
+        text += `  (ক) ${q.subQuestions.a?.q || q.subQuestions.a || ''}\n`;
+        text += `  (খ) ${q.subQuestions.b?.q || q.subQuestions.b || ''}\n`;
+        text += `  (গ) ${q.subQuestions.c?.q || q.subQuestions.c || ''}\n`;
+        text += `  (ঘ) ${q.subQuestions.d?.q || q.subQuestions.d || ''}\n`;
+      }
+      text += '\n';
+    });
+
+    navigator.clipboard.writeText(text);
+    alert('✅ প্রশ্নপত্র ক্লিপবোর্ডে কপি করা হয়েছে!');
+  };
+
   // 1-Click Publish to Live Online Exam
-  const handlePublishToOnlineExam = async () => {
-    if (!generatedExam || !generatedExam.questions || generatedExam.questions.length === 0) return;
+  const handlePublishExam = async () => {
+    if (selectedPaperQuestions.length === 0) return;
     setIsPublishing(true);
 
     try {
       const examPayload = {
-        title: publishTitle || generatedExam.title,
-        titleBn: publishTitle || generatedExam.title,
-        subject: generatedExam.subject || selectedSubject,
+        title: examTitle,
+        titleBn: examTitle,
+        subject: selectedSubject,
         examType: 'ONLINE_MCQ',
         durationMinutes: Number(examDuration) || 30,
-        totalMarks: generatedExam.totalMarks || (generatedExam.questions.length * (genFormat === 'CQ' ? 10 : 1)),
-        passMarks: Math.ceil((generatedExam.totalMarks || 25) * 0.4),
+        totalMarks: totalMarks || 25,
+        passMarks: Math.ceil((totalMarks || 25) * 0.4),
         negativeMarking: 0.25,
         shuffleQuestions: true,
         examDate: publishDate,
         startTime: '10:00',
         endTime: '23:59',
-        questions: generatedExam.questions.map((q, idx) => ({
+        questions: selectedPaperQuestions.map((q, idx) => ({
           questionNumber: idx + 1,
           questionText: q.question || q.stem,
           type: q.type || 'MCQ',
-          options: q.options || ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'],
+          options: Array.isArray(q.options) && q.options.length > 0 ? q.options : ['বিকল্প ১', 'বিকল্প ২', 'বিকল্প ৩', 'বিকল্প ৪'],
           correctOptionIndex: q.correctAnswer || 0,
           marks: q.marks || 1,
           explanation: q.explanation || '',
-          badge: q.sourceBadge || q.badge
+          badge: q.badge || 'NextGen Vault'
         }))
       };
 
       const res = await examAPI.create(examPayload);
-      if (res.success) {
+      if (res?.success) {
         alert('🚀 অভিনন্দন! অনলাইন পরীক্ষাটি সফলভাবে শিক্ষার্থীদের জন্য লাইভ প্রকাশ করা হয়েছে!');
         setShowPublishModal(false);
       } else {
-        alert('পরীক্ষা প্রকাশ করতে সমস্যা হয়েছে: ' + (res.error?.message || 'Unknown error'));
+        alert('পরীক্ষা প্রকাশ ব্যর্থ: ' + (res?.error?.message || 'সমস্যা হয়েছে'));
       }
     } catch (err) {
-      alert('পরীক্ষা প্রকাশ করতে সমস্যা হয়েছে: ' + err.message);
+      alert('পরীক্ষা প্রকাশে ত্রুটি: ' + err.message);
     } finally {
       setIsPublishing(false);
-    }
-  };
-
-  // Save Generated Questions Directly to Central Repository
-  const handleSaveToRepository = async () => {
-    if (!generatedExam || !generatedExam.questions || generatedExam.questions.length === 0) {
-      alert('সংরক্ষণ করার জন্য কোনো প্রশ্ন পাওয়া যায়নি।');
-      return;
-    }
-
-    setIsSavingRepo(true);
-    try {
-      const payload = {
-        questions: generatedExam.questions,
-        className: generatedExam.className || selectedClass,
-        book: generatedExam.subject || selectedSubject,
-        subject: generatedExam.subject || selectedSubject,
-        institutionOrBoard: 'NextGen AI প্রশ্ন ব্যাংক',
-        category: 'NextGen AI প্রশ্ন ব্যাংক',
-        year: '2026',
-        term: '2026',
-        metadata: {
-          className: generatedExam.className || selectedClass,
-          book: generatedExam.subject || selectedSubject,
-          institutionOrBoard: 'NextGen AI প্রশ্ন ব্যাংক',
-          year: '2026',
-          badge: "[NextGen AI - '26]"
-        }
-      };
-
-      console.log('[AIQuestionMaker] 🚀 Saving Generated Questions to Repository:', payload);
-      const res = await questionRepositoryAPI.uploadAndTrain(payload);
-      console.log('[AIQuestionMaker] 📥 Repository Save Response:', res);
-
-      if (res?.success) {
-        const count = res.data?.savedCount || res.data?.count || generatedExam.questions.length;
-        alert(`🎉 অভিনন্দন! মোট ${count}টি প্রশ্ন কেন্দ্রীয় রিপোজিটরিতে সফলভাবে সংরক্ষিত ও ডাটাবেজে যুক্ত হয়েছে!`);
-      } else {
-        const errMsg = res?.error?.message || res?.message || 'সংরক্ষণ করতে সমস্যা হয়েছে।';
-        alert(`রিপোজিটরিতে সংরক্ষণ ব্যর্থ: ${errMsg}`);
-      }
-    } catch (err) {
-      console.error('[AIQuestionMaker] Save Exception:', err);
-      alert(`সার্ভার ত্রুটি: ${err.message || 'নেটওয়ার্ক সমস্যা'}`);
-    } finally {
-      setIsSavingRepo(false);
     }
   };
 
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-emerald-500/30">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-teal-500/30">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md mb-2">
-              <Bot className="w-3.5 h-3.5 text-emerald-400" />
-              <span>পার্ট ২: এআই প্রশ্ন জেনারেটর ও মেকার</span>
+            <div className="inline-flex items-center space-x-2 bg-teal-500/20 text-teal-300 border border-teal-500/30 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md mb-2">
+              <FileText className="w-3.5 h-3.5 text-teal-400" />
+              <span>প্রশ্নপত্র বিল্ডার ও প্রিন্টার হাব</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              এআই প্রশ্ন জেনারেটর ও মেকার হাব (AI Question Generator & Maker)
-            </h1>
-            <p className="text-slate-300 text-xs sm:text-sm mt-1.5 max-w-2xl leading-relaxed">
-              প্রম্পট দিন এবং আপলোডকৃত রিপোজিটরি ও বিগত সালের প্রশ্ন থেকে বোর্ড/কলেজ ভিত্তিক কমপ্লিট প্রশ্নপত্র ও মডেল টেস্ট তৈরি করুন।
+            <h2 className="text-xl md:text-2xl font-black tracking-tight">
+              ম্যানুয়াল প্রশ্নপত্র প্রস্তুতকারক (Question Paper Builder)
+            </h2>
+            <p className="text-xs md:text-sm text-slate-300 mt-1">
+              ভাণ্ডার থেকে MCQ, CQ ও SQ প্রশ্ন নির্বাচন করে সাজান, A4 প্রিন্ট করুন অথবা লাইভ প্রকাশ করুন।
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex flex-wrap items-center gap-2">
-              {onNavigateToUpload && (
-                <button
-                  type="button"
-                  onClick={onNavigateToUpload}
-                  className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs flex items-center space-x-1.5 transition-all active:scale-95 cursor-pointer"
-                >
-                  <Upload className="w-4 h-4 text-indigo-300" />
-                  <span>← পার্ট ১: আপলোড ও রিডার</span>
-                </button>
-              )}
-              {onNavigateToOMR && (
-                <button
-                  type="button"
-                  onClick={onNavigateToOMR}
-                  className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs shadow-lg shadow-amber-600/30 flex items-center space-x-1.5 transition-all active:scale-95 cursor-pointer"
-                >
-                  <Award className="w-4 h-4" />
-                  <span>পার্ট ৩: OMR মূল্যায়ন →</span>
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Feedback Alert */}
-      {feedbackMsg && (
-        <div className={'p-4 rounded-2xl border text-xs font-bold flex items-center justify-between animate-in fade-in ' + (
-          feedbackMsg.type === 'error'
-            ? 'bg-rose-50 border-rose-200 text-rose-800'
-            : 'bg-emerald-50 border-emerald-200 text-emerald-800'
-        )}>
-          <div className="flex items-center space-x-2">
-            {feedbackMsg.type === 'error' ? <AlertCircle className="w-4 h-4 text-rose-600" /> : <CheckCircle2 className="w-4 h-4 text-emerald-600" />}
-            <span>{feedbackMsg.text}</span>
-          </div>
-          <button type="button" onClick={() => setFeedbackMsg(null)} className="font-bold text-slate-500 hover:text-slate-800">✕</button>
-        </div>
-      )}
-
-      {/* Generator Prompt Box & Controls */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Left Form: Prompt & Criteria Selection */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <h3 className="font-black text-sm text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100 uppercase tracking-wider">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span>১. প্রম্পট ও প্রশ্ন বিন্যাস কনফিগারেশন</span>
-            </h3>
-
-            {/* Prompt Input */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">
-                ✍️ প্রাকৃতিক ভাষার প্রম্পট (Natural Language Prompt) *
-              </label>
-              <textarea
-                rows={3}
-                value={naturalPrompt}
-                onChange={(e) => setNaturalPrompt(e.target.value)}
-                placeholder="যেমন: নটর ডেম কলেজ ২৫ ৫টি, ঢাকা বোর্ড ২৫ ১০টি, কুমিল্লা বোর্ড ২৪ ৫টি"
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none leading-relaxed"
-              />
-              <div className="space-y-1 pt-1">
-                <span className="text-[10px] font-bold text-slate-400 block">কুইক প্রম্পট সাজেশনস:</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {PROMPT_SUGGESTIONS.map((sug, sIdx) => (
-                    <button
-                      key={sIdx}
-                      type="button"
-                      onClick={() => setNaturalPrompt(sug)}
-                      className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[10px] font-bold transition-colors text-left"
-                    >
-                      {sug}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Class & Subject */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">🎓 শ্রেণি (Class)</label>
-                <select
-                  value={selectedClass}
-                  onChange={(e) => setSelectedClass(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                >
-                  {CLASSES_LIST.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">📖 বিষয় (Subject)</label>
-                <select
-                  value={selectedSubject}
-                  onChange={(e) => setSelectedSubject(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                >
-                  {SUBJECTS_LIST.map(s => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Format & Mode */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">📑 ফরম্যাট (Format)</label>
-                <select
-                  value={genFormat}
-                  onChange={(e) => setGenFormat(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                >
-                  <option value="COMBINED">মডেল টেস্ট (MCQ + CQ)</option>
-                  <option value="MCQ">শুধুমাত্র বহুনির্বাচনী (MCQ)</option>
-                  <option value="CQ">শুধুমাত্র সৃজনশীল (CQ)</option>
-                  <option value="SHORT">সংক্ষিপ্ত ও জ্ঞানমূলক</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">⚡ জেনারেশন সোর্স মোড</label>
-                <select
-                  value={genMode}
-                  onChange={(e) => setGenMode(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                >
-                  <option value="HYBRID">স্মার্ট হাইব্রিড (বোর্ড রিপোজিটরি + এআই)</option>
-                  <option value="REPO_ONLY">সরাসরি আপলোডকৃত রিপোজিটরি থেকে</option>
-                  <option value="AI_CREATIVE">সম্পূর্ণ নতুন এআই জেনারেশন</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Question Count & Duration */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">🎯 মোট প্রশ্ন সংখ্যা</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="100"
-                  value={targetCount}
-                  onChange={(e) => setTargetCount(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">⏱️ পরীক্ষার সময় (মিনিট)</label>
-                <input
-                  type="number"
-                  min="10"
-                  max="180"
-                  value={examDuration}
-                  onChange={(e) => setExamDuration(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleGenerateExam}
-              disabled={isGenerating || !naturalPrompt.trim()}
-              className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
-            >
-              <Sparkles className={'w-4 h-4 ' + (isGenerating ? 'animate-spin' : '')} />
-              <span>{isGenerating ? 'এআই প্রশ্নপত্র তৈরি করছে...' : '🚀 সম্পূর্ণ প্রশ্নপত্র তৈরি করুন'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Right Preview: Live Generated Exam Paper */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-              <h3 className="font-black text-sm text-slate-900 flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-emerald-600" />
-                <span>২. প্রশ্নপত্র প্রিভিউ ও অ্যাকশন প্যানেল</span>
-              </h3>
-
-              {generatedExam && (
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={handleCopyExam}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-                    title="ক্লিপবোর্ডে কপি করুন"
-                  >
-                    <Copy className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handlePrintExam}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-                    title="প্রিন্ট / PDF ডাউনলোড"
-                  >
-                    <Printer className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowPublishModal(true)}
-                    className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center space-x-1.5 transition-all cursor-pointer"
-                  >
-                    <PlayCircle className="w-3.5 h-3.5" />
-                    <span>১-ক্লিকে প্রকাশ</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSaveToRepository}
-                    disabled={isSavingRepo}
-                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-bold shadow-md shadow-teal-600/20 flex items-center space-x-1.5 transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <Database className="w-3.5 h-3.5" />
-                    <span>{isSavingRepo ? 'সংরক্ষণ হচ্ছে...' : 'রিপোজিটরিতে সংরক্ষণ করুন'}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Generated Paper View */}
-            {!generatedExam ? (
-              <div className="p-12 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
-                <Bot className="w-10 h-10 mx-auto text-slate-300" />
-                <p className="text-xs font-bold text-slate-700">কোনো প্রশ্নপত্র এখনও জেনারেট করা হয়নি</p>
-                <p className="text-[11px] text-slate-400">বামে আপনার প্রম্পট লিখুন এবং 'সম্পূর্ণ প্রশ্নপত্র তৈরি করুন' বাটনে ক্লিক করুন।</p>
-              </div>
-            ) : (
-              <div ref={printAreaRef} className="space-y-4 max-h-[520px] overflow-y-auto pr-1">
-                {/* Exam Paper Header */}
-                <div className="text-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
-                  <h4 className="font-black text-sm text-slate-900">{generatedExam.title || 'NextGen Academy - বিশেষ মডেল টেস্ট'}</h4>
-                  <p className="text-[11px] text-slate-600 font-bold">
-                    বিষয়: {generatedExam.subject || selectedSubject} • শ্রেণি: {generatedExam.className || selectedClass}
-                  </p>
-                  <div className="flex items-center justify-center gap-4 text-[10px] text-slate-500 font-mono pt-1">
-                    <span>সময়: {generatedExam.durationMinutes || examDuration} মিনিট</span>
-                    <span>•</span>
-                    <span>মোট প্রশ্ন: {generatedExam.questions?.length || 0}টি</span>
-                    <span>•</span>
-                    <span>পূর্ণমান: {generatedExam.totalMarks || (generatedExam.questions?.length * (genFormat === 'CQ' ? 10 : 1))}</span>
-                  </div>
-                </div>
-
-                {/* Question Items */}
-                <div className="space-y-3">
-                  {generatedExam.questions?.map((q, idx) => (
-                    <div key={idx} className="p-3.5 rounded-2xl bg-white border border-slate-200 text-xs space-y-2 shadow-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-emerald-700">প্রশ্ন #{idx + 1} ({q.type})</span>
-                        <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-bold text-[10px]">
-                          {q.sourceBadge || q.badge || "NextGen AI - '২৬"}
-                        </span>
-                      </div>
-
-                      {q.type === 'MCQ' ? (
-                        <>
-                          <p className="font-bold text-slate-800">{q.question}</p>
-                          {(q.diagramUrl || q.diagramCaption) && (
-                            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/90 my-1.5 flex items-center space-x-3">
-                              {q.diagramUrl ? (
-                                <img src={q.diagramUrl} alt="Diagram" className="max-h-32 object-contain rounded-lg border bg-white mx-auto shadow-xs" />
-                              ) : (
-                                <div className="flex items-center space-x-2 text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 text-[11px] font-bold">
-                                  <ImageIcon className="w-4 h-4 text-emerald-600" />
-                                  <span>📊 {q.diagramCaption || 'চিত্র / লেখচিত্র: উদ্দীপক দ্রষ্টব্য'}</span>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                          <div className="grid grid-cols-2 gap-1.5 text-[11px] pt-1">
-                            {q.options?.map((opt, optIdx) => (
-                              <div
-                                key={optIdx}
-                                className={'p-1.5 rounded-lg border ' + (
-                                  optIdx === q.correctAnswer
-                                    ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold'
-                                    : 'bg-slate-50 border-slate-200 text-slate-700 font-medium'
-                                )}
-                              >
-                                <span className="font-bold mr-1">({String.fromCharCode(97 + optIdx)})</span>
-                                {opt}
-                              </div>
-                            ))}
-                          </div>
-                          {q.explanation && (
-                            <p className="text-[10px] text-slate-500 italic pt-1 bg-slate-50 p-1.5 rounded-lg border border-slate-100">
-                              💡 ব্যাখ্যা: {q.explanation}
-                            </p>
-                          )}
-                        </>
-                      ) : q.type === 'CQ' ? (
-                        <>
-                          <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-2">
-                            <p className="font-medium text-slate-800 leading-relaxed">
-                              {q.stem || q.question}
-                            </p>
-                            {(q.diagramUrl || q.diagramCaption) && (
-                              <div className="p-2 rounded-lg bg-white border border-slate-200 flex items-center space-x-3 shadow-xs">
-                                {q.diagramUrl ? (
-                                  <img src={q.diagramUrl} alt="Diagram" className="max-h-36 object-contain rounded border bg-slate-50" />
-                                ) : (
-                                  <div className="flex items-center space-x-2 text-indigo-900 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200 text-[10px] font-bold">
-                                    <ImageIcon className="w-3.5 h-3.5 text-indigo-600" />
-                                    <span>📊 {q.diagramCaption || 'উদ্দীপকের সংশ্লিষ্ট চিত্র / সার্কিট ডায়াগ্রাম'}</span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                          {q.subQuestions && (
-                            <div className="space-y-1 text-[11px] pt-1 font-medium">
-                              <p className="flex justify-between"><span><strong className="text-emerald-700">ক.</strong> {q.subQuestions.a?.q}</span> <span className="text-slate-400">[১]</span></p>
-                              <p className="flex justify-between"><span><strong className="text-emerald-700">খ.</strong> {q.subQuestions.b?.q}</span> <span className="text-slate-400">[২]</span></p>
-                              <p className="flex justify-between"><span><strong className="text-emerald-700">গ.</strong> {q.subQuestions.c?.q}</span> <span className="text-slate-400">[৩]</span></p>
-                              <p className="flex justify-between"><span><strong className="text-emerald-700">ঘ.</strong> {q.subQuestions.d?.q}</span> <span className="text-slate-400">[৪]</span></p>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <p className="font-bold text-slate-800">{q.question}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="flex items-center gap-2">
+            {onNavigateToUpload && (
+              <button
+                type="button"
+                onClick={onNavigateToUpload}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+              >
+                <Database className="w-4 h-4" />
+                <span>ভাণ্ডারে প্রশ্ন যুক্ত করুন</span>
+              </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* 1-Click Publish Modal */}
-      {showPublishModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+      {/* Main Grid: Left Vault Browser, Right Live Paper Preview */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Vault Questions Browser */}
+        <div className="lg:col-span-6 space-y-5">
+          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                  <PlayCircle className="w-5 h-5" />
-                </div>
-                <h4 className="font-black text-sm text-slate-900">অনলাইন পরীক্ষা প্রকাশনা</h4>
+                <Database className="w-4 h-4 text-teal-600" />
+                <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
+                  ১. ভাণ্ডার থেকে প্রশ্ন নির্বাচন করুন ({filteredVaultQuestions.length} টি)
+                </h3>
               </div>
               <button
                 type="button"
-                onClick={() => setShowPublishModal(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700"
+                onClick={handleSelectAllVisible}
+                className="text-xs font-bold text-teal-600 hover:text-teal-700 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                + দৃশ্যমান সব যোগ করুন
+              </button>
+            </div>
+
+            {/* Filter Tabs: ALL | MCQ | CQ | SQ */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setVaultFilter('ALL')}
+                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                  vaultFilter === 'ALL' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                )}
+              >
+                সকল ({repoQuestions.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setVaultFilter('MCQ')}
+                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                  vaultFilter === 'MCQ' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                )}
+              >
+                MCQ ({repoQuestions.filter(q => q?.type === 'MCQ').length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setVaultFilter('CQ')}
+                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                  vaultFilter === 'CQ' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                )}
+              >
+                CQ ({repoQuestions.filter(q => q?.type === 'CQ').length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setVaultFilter('SQ')}
+                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                  vaultFilter === 'SQ' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                )}
+              >
+                SQ ({repoQuestions.filter(q => q?.type === 'SQ' || q?.type === 'SHORT').length})
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="প্রশ্ন, বিষয় বা বোর্ড দিয়ে খুঁজুন..."
+                className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Questions Selection List */}
+            <div className="max-h-[520px] overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
+              {loadingRepo ? (
+                <div className="p-8 text-center text-slate-400 space-y-2">
+                  <RefreshCw className="w-6 h-6 animate-spin mx-auto text-teal-600" />
+                  <p className="text-xs font-bold">ভাণ্ডার থেকে প্রশ্ন লোড হচ্ছে...</p>
+                </div>
+              ) : filteredVaultQuestions.length === 0 ? (
+                <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
+                  <FolderOpen className="w-8 h-8 mx-auto text-slate-300" />
+                  <p className="text-xs font-bold text-slate-700">কোনো প্রশ্ন পাওয়া যায়নি</p>
+                </div>
+              ) : (
+                filteredVaultQuestions.map((q, idx) => {
+                  const qId = q?.id || q?.M_ID || idx;
+                  const isSelected = selectedPaperQuestions.some(sq => (sq?.id || sq?.M_ID) === qId);
+
+                  return (
+                    <div
+                      key={qId}
+                      onClick={() => toggleSelectQuestion(q)}
+                      className={'p-3 rounded-2xl border text-xs space-y-1.5 transition-all cursor-pointer ' + (
+                        isSelected
+                          ? 'bg-teal-50/70 border-teal-400 shadow-xs'
+                          : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-slate-300'
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => {}}
+                            className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 cursor-pointer"
+                          />
+                          <span className={'px-2 py-0.5 rounded-md font-bold text-[10px] ' + (
+                            q?.type === 'CQ' ? 'bg-purple-100 text-purple-800' : q?.type === 'SQ' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
+                          )}>
+                            {q?.type || 'MCQ'}
+                          </span>
+                          <span className="text-[10px] font-bold text-slate-400">
+                            {q?.badge || `[${q?.book || 'বিষয়'}]`}
+                          </span>
+                        </div>
+                        <span className="font-bold text-slate-700 text-[11px]">
+                          [{q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)} নম্বর]
+                        </span>
+                      </div>
+
+                      <p className="font-bold text-slate-800 line-clamp-2">
+                        {q?.question || q?.stem}
+                      </p>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Live Paper Preview & Controls */}
+        <div className="lg:col-span-6 space-y-5">
+          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
+              <div>
+                <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
+                  ২. প্রশ্নপত্র প্রিভিউ ও প্রিন্টার ({selectedPaperQuestions.length} টি প্রশ্ন)
+                </h3>
+                <p className="text-[11px] text-slate-500">মোট পূর্ণমান: {totalMarks} | সময়: {examDuration} মিনিট</p>
+              </div>
+
+              <div className="flex items-center space-x-1.5">
+                <button
+                  type="button"
+                  onClick={handleCopyPaper}
+                  disabled={selectedPaperQuestions.length === 0}
+                  className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-colors disabled:opacity-40 cursor-pointer"
+                  title="কপিক্লিপবোর্ড"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePrintExam}
+                  disabled={selectedPaperQuestions.length === 0}
+                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>A4 প্রিন্ট</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPublishModal(true)}
+                  disabled={selectedPaperQuestions.length === 0}
+                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
+                >
+                  <PlayCircle className="w-4 h-4" />
+                  <span>লাইভ প্রকাশ</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Paper Header Configuration */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+              <div className="md:col-span-2">
+                <label className="text-[11px] font-bold text-slate-600 block mb-0.5">পরীক্ষার শিরোনাম:</label>
+                <input
+                  type="text"
+                  value={examTitle}
+                  onChange={(e) => setExamTitle(e.target.value)}
+                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-slate-600 block mb-0.5">শ্রেণি:</label>
+                <select
+                  value={selectedClass}
+                  onChange={(e) => setSelectedClass(e.target.value)}
+                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                >
+                  {CLASSES_LIST.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-slate-600 block mb-0.5">বিষয়:</label>
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                >
+                  {SUBJECTS_LIST.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Paper Questions Live Preview */}
+            <div className="max-h-[460px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+              {selectedPaperQuestions.length === 0 ? (
+                <div className="p-12 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
+                  <FileText className="w-8 h-8 mx-auto text-slate-300" />
+                  <p className="text-xs font-bold text-slate-700">কোনো প্রশ্ন নির্বাচন করা হয়নি</p>
+                  <p className="text-[11px] text-slate-400">বাম পাশের ভাণ্ডার থেকে প্রশ্ন টিক চিহ্ন দিয়ে নির্বাচন করুন।</p>
+                </div>
+              ) : (
+                selectedPaperQuestions.map((q, idx) => {
+                  const qId = q?.id || q?.M_ID || idx;
+
+                  return (
+                    <div key={qId} className="p-3.5 bg-white border border-slate-200 rounded-2xl text-xs space-y-2 shadow-xs relative">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-teal-700">প্রশ্ন #{idx + 1} ({q?.type || 'MCQ'})</span>
+                        <div className="flex items-center space-x-1.5">
+                          <span className="font-bold text-slate-500">[{q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)} নম্বর]</span>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedPaperQuestions(prev => prev.filter((_, i) => i !== idx))}
+                            className="text-slate-400 hover:text-rose-600 p-1 rounded-lg transition-colors cursor-pointer"
+                            title="প্রশ্নপত্র থেকে বাদ দিন"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <p className="font-bold text-slate-800">{q?.question || q?.stem}</p>
+
+                      {/* Options for MCQ */}
+                      {q?.type === 'MCQ' && Array.isArray(q?.options) && (
+                        <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] text-slate-600">
+                          {q.options.map((opt, oIdx) => (
+                            <div key={oIdx}>
+                              <span className="font-bold text-indigo-600">({String.fromCharCode(97 + oIdx)})</span> {opt}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Sub-questions for CQ */}
+                      {q?.type === 'CQ' && q?.subQuestions && (
+                        <div className="space-y-0.5 pt-1 text-[11px] text-slate-600">
+                          <div>(ক) {q.subQuestions.a?.q || q.subQuestions.a || ''} [১]</div>
+                          <div>(খ) {q.subQuestions.b?.q || q.subQuestions.b || ''} [২]</div>
+                          <div>(গ) {q.subQuestions.c?.q || q.subQuestions.c || ''} [৩]</div>
+                          <div>(ঘ) {q.subQuestions.d?.q || q.subQuestions.d || ''} [৪]</div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Publish to Online Exam Modal */}
+      {showPublishModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="font-black text-sm text-slate-900 flex items-center space-x-2">
+                <PlayCircle className="w-5 h-5 text-emerald-600" />
+                <span>অনলাইন পরীক্ষা লাইভ প্রকাশ করুন</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowPublishModal(false)}
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="space-y-1">
-                <label className="block font-bold text-slate-700">পরীক্ষার শিরোনাম (Exam Title)</label>
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">পরীক্ষার নাম:</label>
                 <input
                   type="text"
-                  value={publishTitle}
-                  onChange={(e) => setPublishTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  value={examTitle}
+                  onChange={(e) => setExamTitle(e.target.value)}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="block font-bold text-slate-700">তারিখ</label>
+              <div className="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">পরীক্ষার তারিখ:</label>
                   <input
                     type="date"
                     value={publishDate}
                     onChange={(e) => setPublishDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl"
                   />
                 </div>
-                <div className="space-y-1">
-                  <label className="block font-bold text-slate-700">সময়সীমা (মিনিট)</label>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">সময় (মিনিট):</label>
                   <input
                     type="number"
                     value={examDuration}
                     onChange={(e) => setExamDuration(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl font-bold"
                   />
                 </div>
               </div>
 
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 space-y-1">
-                <p className="font-bold">✓ {generatedExam?.questions?.length || 0}টি প্রশ্ন সংযুক্ত হবে</p>
-                <p className="text-[11px]">শিক্ষার্থীরা শিক্ষার্থী পোর্টাল ও অনলাইন এক্সাম হাব থেকে সরাসরি অংশগ্রহণ করতে পারবে।</p>
+              <div className="p-3 bg-emerald-50 text-emerald-800 rounded-xl text-[11px] font-bold">
+                মোট নির্বাচিত প্রশ্ন: {selectedPaperQuestions.length} টি • পূর্ণমান: {totalMarks}
               </div>
             </div>
 
-            <div className="flex items-center justify-end space-x-2 pt-2">
+            <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
               <button
                 type="button"
                 onClick={() => setShowPublishModal(false)}
-                className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-xs"
+                className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
               >
                 বাতিল
               </button>
               <button
                 type="button"
-                onClick={handlePublishToOnlineExam}
+                onClick={handlePublishExam}
                 disabled={isPublishing}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md shadow-emerald-600/30 flex items-center space-x-1.5 cursor-pointer"
+                className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer disabled:opacity-50"
               >
-                <Check className="w-4 h-4" />
-                <span>{isPublishing ? 'প্রকাশ হচ্ছে...' : '১-ক্লিকে নিশ্চিত প্রকাশ করুন'}</span>
+                {isPublishing ? 'প্রকাশ হচ্ছে...' : 'নিশ্চিত ও প্রকাশ করুন'}
               </button>
             </div>
           </div>
