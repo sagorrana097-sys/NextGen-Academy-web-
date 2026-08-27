@@ -144,6 +144,24 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
       return `$\\frac{${num}}{${cleanDen}}$`;
     });
 
+    // (i) Algebraic fractions from PDF OCR: "x + 3a  x − 3a + x + 3b  x − 3b"
+    processedText = processedText.replace(/(x\s*[\+\-\–\—\−]\s*[0-9a-zA-Z]+)\s{2,}(x\s*[\+\-\–\—\−]\s*[0-9a-zA-Z]+)\s*([\+\-\–\—\−\=])\s*(x\s*[\+\-\–\—\−]\s*[0-9a-zA-Z]+)\s{2,}(x\s*[\+\-\–\—\−]\s*[0-9a-zA-Z]+)/g, (m, n1, d1, op, n2, d2) => {
+      return `$\\frac{${n1.trim()}}{${d1.trim()}} ${op} \\frac{${n2.trim()}}{${d2.trim()}}$`;
+    });
+
+    // (j) PDF Binomial quotient patterns: "( ) x y + y x 10" -> "(\frac{x}{y} + \frac{y}{x})^{10}"
+    processedText = processedText.replace(/\(\s*\)\s*([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+)\s*([\+\-\–\—\−])\s*([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+)\s+([0-9a-zA-Z]+)/g, '($\\frac{$1}{$2} $3 \\frac{$4}{$5}$)^{$6}');
+    processedText = processedText.replace(/\(\s*\)\s*([0-9]*[a-zA-Z0-9]+)\s*([\+\-\–\—\−])\s*([0-9]+)\s+([0-9]*[a-zA-Z]+)\s+([0-9a-zA-Z]+)/g, '($$1 $2 \\frac{$3}{$4}$$)^{$5}');
+    processedText = processedText.replace(/\(\s*\)\s*([a-zA-Z0-9]+)\s*([\+\-\–\—\−])\s*([0-9a-zA-Z]+)\s+([0-9a-zA-Z]+)\s+([0-9a-zA-Z]+)/g, '($$1 $2 \\frac{$3}{$4}$$)^{$5}');
+    processedText = processedText.replace(/\b([0-9]+)\s*([\+\-\–\—\−])\s*([a-zA-Z]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\b/g, '($$1 $2 \\frac{$3^{$4}}{$5}$$)^{$6}');
+    processedText = processedText.replace(/\b([0-9]+)\s*([\+\-\–\—\−])\s*([0-9]+)\s+([a-zA-Z]+)\s+([0-9]+)\s+([0-9]+)\b/g, '($$1 $2 \\frac{$3}{$4^{$5}}$$)^{$6}');
+
+    // (k) Binomial combinations: n C r -> ^nC_r, 8 C 5 -> ^8C_5, n C 5 = n C 7
+    processedText = processedText.replace(/\b([a-zA-Z0-9]+)\s+[cC]\s+([a-zA-Z0-9\+\-]+)\b/g, '$^$1C_{$2}$');
+
+    // (l) Parenthesized power expressions: "(1 + y) 5" -> "$(1 + y)^5$", "(1.995) 7" -> "$(1.995)^7$"
+    processedText = processedText.replace(/(?<!\$)\(([^()\n]+)\)\s+([0-9a-zA-Z]+)(?=\s|$|[\,\.\;\:\-\?।])(?!\$)/g, '$($1)^{$2}$');
+
     // 8. Advanced Algebraic Exponents & Equations:
     // (a) "x4 + x- 4 = 119" -> "x^4 + x^{-4} = 119"
     processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])([a-zA-Z])(\d+)\s*\+\s*([a-zA-Z])\s*[-–—−]\s*(\d+)\s*=\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, (m, v1, p1, v2, p2, val) => {
@@ -163,7 +181,8 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
       return `$${v}^2 - ${t} - ${c} = ${val}$`;
     });
 
-    // (e) Standard variable exponents: "x4", "x2", "y6", "p2", "q2", "r2"
+    // (e) Standard variable exponents: "x4", "x2", "y6", "p2", "q2", "r2", "10 y = 1"
+    processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])(10|[a-zA-Z])\s+([0-9a-zA-Z])(?=\s*[\:\=\+\-\*\/]|\s+[\:\=\+\-\*\/]|\s*$|\s+[\,\.\;\?।])(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{${exp}}$`);
     processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{${exp}}$`);
     processedText = processedText.replace(/(?<![a-zA-Z0-9\$\\\{])([a-zA-Z])\s*[-–—−]\s*(\d+)(?![a-zA-Z0-9\$\\\}])/g, (m, v, exp) => `$${v}^{-${exp}}$`);
 

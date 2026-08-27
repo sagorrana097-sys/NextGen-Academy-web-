@@ -289,7 +289,10 @@ function cleanAndNormalizeUTF8(input) {
   clean = clean.replace(/তথে্য/g, 'তথ্যে');
   clean = clean.replace(/প√শে্নর/g, 'প্রশ্নের');
 
-  // 8. Fix collapsed inequalities and set expressions:
+  // 8. PDF Half-Unicode Half-Bijoy Mixed Stream Full Automatic Repair Engine
+  clean = repairPdfMixedStreamBengali(clean);
+
+  // 9. Fix collapsed inequalities and set expressions:
   clean = clean.replace(/(\d+)\s{2,}([a-zA-Z])\s*<\s*(\d+)/g, '$1 < $2 < $3');
   clean = clean.replace(/(\d+)\s*<\s*([a-zA-Z])\s{2,}(\d+)/g, '$1 < $2 < $3');
   clean = clean.replace(/(\d+)\s{2,}([a-zA-Z])\s*([≤<=])\s*(\d+)/g, '$1 ≤ $2 $3 $4');
@@ -299,10 +302,166 @@ function cleanAndNormalizeUTF8(input) {
   clean = clean.replace(/x\s+R\s*:/gi, 'x ∈ R : ');
   clean = clean.replace(/x\s+Z\s*:/gi, 'x ∈ Z : ');
 
-  // 9. Normalize all line breaks to standard Unix format
+  // 10. Normalize all line breaks to standard Unix format
   clean = clean.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
   return clean.normalize('NFC');
+}
+
+/**
+ * Universal PDF Mixed-Stream Bengali & Word/OCR Restorer
+ */
+function repairPdfMixedStreamBengali(text) {
+  if (!text) return '';
+  let str = text;
+
+  // Protect ratios like "K : L", "L : M", "K : L : M" before single letter replacements
+  const ratioTokens = [];
+  str = str.replace(/\b([A-Z])\s*:\s*([A-Z])(?:\s*:\s*([A-Z]))?\b/g, (m) => {
+    const idx = ratioTokens.length;
+    ratioTokens.push(m);
+    return `\uE001${idx}\uE001`;
+  });
+
+  // 1. Spaced Bijoy word sequences like "G i w e ¯ থ্ব ৃ w Z ‡ Z" -> "এর বিস্তৃতিতে"
+  str = str.replace(/G\s*i\s*w\s*e\s*¯\s*থ্ব\s*ৃ\s*w\s*Z\s*‡\s*Z/g, 'এর বিস্তৃতিতে');
+  str = str.replace(/e\s*i\s*¯\s*থ্ব\s*…\s*Z\s*ি\s*Z\s*ে/g, 'বিস্তৃতিতে');
+  str = str.replace(/e\s*i\s*¯\s*থ্ব\s*ৃ\s*Z\s*ি\s*Z\s*ে/g, 'বিস্তৃতিতে');
+  str = str.replace(/e\s*i\s*¯\s*থ্ব\s*Z\s*ি\s*Z\s*ে/g, 'বিস্তৃতিতে');
+  str = str.replace(/e\s*ি\s*¯\s*থ্ব\s*…\s*Z\s*ি\s*Z\s*ে/g, 'বিস্তৃতিতে');
+  str = str.replace(/e\s*ি\s*¯\s*থ্ব\s*ৃ\s*Z\s*ি\s*Z\s*ে/g, 'বিস্তৃতিতে');
+  str = str.replace(/eি¯থ্ব…ZিZে/g, 'বিস্তৃতিতে');
+  str = str.replace(/eি¯থ্বৃZিZে/g, 'বিস্তৃতিতে');
+  str = str.replace(/eি¯থ্বZিZে/g, 'বিস্তৃতিতে');
+
+  // 2. Multi-character phrases & keywords
+  const PHRASE_MAP = [
+    [/ঘবীঃএবহ\s*অপধফবসু/g, 'NextGen Academy'],
+    [/ঘবীঃএবহ/g, 'NextGen'],
+    [/অপধফবসু/g, 'Academy'],
+    [/ঝঝঈ\s*[-–—−]\s*27/g, 'SSC - 27'],
+    [/ঝঝঈ/g, 'SSC'],
+    [/fিত্তিK/g, 'ভিত্তিক'],
+    [/পরিস্লv/g, 'পরীক্ষা'],
+    [/kেন্নণী/g, 'শ্রেণি'],
+    [/N্থটা/g, 'ঘণ্টা'],
+    [/eিষয়/g, 'বিষয়'],
+    [/D”চর/g, 'উচ্চতর'],
+    [/গণিZ/g, 'গণিত'],
+    [/গনিZ/g, 'গণিত'],
+    [/c্র্Yমান/g, 'পূর্ণমান'],
+    [/c্র্e/g, 'পূর্ব'],
+    [/c্র্/g, 'প্র'],
+    [/eর্গমিটার/g, 'বর্গমিটার'],
+    [/eর্Mস্লেত্রেi/g, 'বর্গক্ষেত্রের'],
+    [/স্লেত্রফলেi/g, 'ক্ষেত্রফলের'],
+    [/স্লেত্রফল/g, 'ক্ষেত্রফল'],
+    [/বাস্পi/g, 'বাহুর'],
+    [/বাস্প/g, 'বাহু'],
+    [/ˆদর্N্য/g, 'দৈর্ঘ্য'],
+    [/প্রস্থেi/g, 'প্রস্থের'],
+    [/mঙ্গে/g, 'সঙ্গে'],
+    [/Gদেi/g, 'এদের'],
+    [/j\.সা\.গু\./g, 'ল.সা.গু.'],
+    [/M\.সা\.গু\./g, 'গ.সা.গু.'],
+    [/bিPেi/g, 'নিচের'],
+    [/কোনUিi/g, 'কোনটির'],
+    [/কোনUি/g, 'কোনটি'],
+    [/রাশিUিi/g, 'রাশিটির'],
+    [/রাশিUি/g, 'রাশিটি'],
+    [/সহগেi/g, 'সহগের'],
+    [/গুY/g, 'গুণ'],
+    [/বগে©i/g, 'বর্গের'],
+    [/বগে©/g, 'বর্গে'],
+    [/ব্যাসাধে©i/g, 'ব্যাসার্ধের'],
+    [/ব্যাসা/g, 'ব্যাসার্ধ'],
+    [/যথাμgে/g, 'যথাক্রমে'],
+    [/gিটার/g, 'মিটার'],
+    [/প্টিগুY/g, 'দ্বিগুণ'],
+    [/প্টিপদx/g, 'দ্বিপদী'],
+    [/প্টিতীয়/g, 'দ্বিতীয়'],
+    [/বৃন্মি/g, 'বৃদ্ধি'],
+    [/iিয়াল/g, 'রিয়াল'],
+    [/iিয়াল/g, 'রিয়াল'],
+    [/পরিaিi/g, 'পরিধির'],
+    [/পরিaি/g, 'পরিধি'],
+    [/ব্যাmেi/g, 'ব্যাসের'],
+    [/ব্যাm/g, 'ব্যাস'],
+    [/iিপন/g, 'রিপন'],
+    [/Kিছু/g, 'কিছু'],
+    [/আg/g, 'আম'],
+    [/eিμয়ম্j্য/g, 'বিক্রয়মূল্য'],
+    [/μয়ম্jে্যi/g, 'ক্রয়মূল্যের'],
+    [/μয়/g, 'ক্রয়'],
+    [/eিμq/g, 'বিক্রি'],
+    [/eিμয়/g, 'বিক্রয়'],
+    [/eিμ/g, 'বিক্রি'],
+    [/ধারাবাহিK/g, 'ধারাবাহিক'],
+    [/সঠিK/g, 'সঠিক'],
+    [/Dত্তi/g, 'উত্তর'],
+    [/প্রvন্তীয়/g, 'প্রান্তীয়'],
+    [/পাওয়াা/g, 'পাওয়া'],
+    [/চতূর্থ/g, 'চতুর্থ'],
+    [/k্b\s*্য/g, 'শূন্য'],
+    [/বজি©Z/g, 'বর্জিত'],
+    [/পদসংখ্যা/g, 'পদ সংখ্যা'],
+    [/সহগ\s*560\s*।/g, 'সহগ 560।'],
+    [/KwVb/g, 'কঠিন'],
+    [/mnR/g, 'সহজ'],
+    [/n\s*‡\s*j/g, 'হলে'],
+    [/n‡j/g, 'হলে'],
+    [/KZ\?/g, 'কত?'],
+    [/GKwU/g, 'একটি'],
+    [/H\s+জমিi/g, 'ওই জমির'],
+    [/H\s+/g, 'ওই '],
+    [/Uি/g, 'টি'],
+    [/i\s*\.\s*/g, 'i. '],
+    [/ররর\s*\.\s*/g, 'iii. '],
+    [/রর\s*\.\s*/g, 'ii. '],
+    [/ররর/g, 'iii'],
+    [/রর/g, 'ii'],
+  ];
+
+  for (const [pat, repl] of PHRASE_MAP) {
+    str = str.replace(pat, repl);
+  }
+
+  // 3. Roman numerals & and connectors: "i I রর" -> "i ও ii", "i I ররর" -> "i ও iii", "রর I ররর" -> "ii ও iii", "i, রর I ররর" -> "i, ii ও iii"
+  str = str.replace(/\b([a-zA-Z0-9]+)\s+I\s+([a-zA-Z0-9]+)\b/g, '$1 ও $2');
+  str = str.replace(/([\u0980-\u09FFa-zA-Z0-9]+)\s+I\s+([\u0980-\u09FFa-zA-Z0-9]+)/g, '$1 ও $2');
+
+  // 4. Single-character Bijoy relics inside Bengali words:
+  str = str.replace(/([\u0980-\u09FF])i\b/g, '$1র');
+  str = str.replace(/([\u0980-\u09FF])K\b/g, '$1ক');
+  str = str.replace(/([\u0980-\u09FF])Z\b/g, '$1ত');
+  str = str.replace(/([\u0980-\u09FF])Y\b/g, '$1ণ');
+  str = str.replace(/([\u0980-\u09FF])m\b/g, '$1স');
+  str = str.replace(/([\u0980-\u09FF])a\b/g, '$1ধ');
+  str = str.replace(/([\u0980-\u09FF])U\b/g, '$1ট');
+  str = str.replace(/([\u0980-\u09FF])b\b/g, '$1ন');
+  str = str.replace(/([\u0980-\u09FF])g\b/g, '$1ম');
+
+  // Options & subquestion keys K, L, M, N (when standing alone before options):
+  str = str.replace(/(?:^|[\s\t])K[\s\t]+(?=[^\s\:\=])/g, ' (ক) ');
+  str = str.replace(/(?:^|[\s\t])L[\s\t]+(?=[^\s\:\=])/g, ' (খ) ');
+  str = str.replace(/(?:^|[\s\t])M[\s\t]+(?=[^\s\:\=])/g, ' (গ) ');
+  str = str.replace(/(?:^|[\s\t])N[\s\t]+(?=[^\s\:\=])/g, ' (ঘ) ');
+
+  // Single word particles
+  str = str.replace(/\bKে\b/g, 'কে');
+  str = str.replace(/\bgিটার\b/g, 'মিটার');
+  str = str.replace(/\bZে\b/g, 'তে');
+  str = str.replace(/\bZার\b/g, 'তার');
+
+  // Restore protected ratios
+  ratioTokens.forEach((saved, idx) => {
+    str = str.replace(`\uE001${idx}\uE001`, saved);
+  });
+
+  // Cleanup multiple spaces
+  str = str.replace(/[ \t]{2,}/g, ' ');
+
+  return str;
 }
 
 /**
