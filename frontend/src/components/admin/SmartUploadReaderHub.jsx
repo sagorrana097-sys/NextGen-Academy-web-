@@ -1401,7 +1401,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                 className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono leading-relaxed"
               />
 
-              <div className="flex items-center justify-end space-x-2 pt-1">
+              <div className="flex items-center justify-end space-x-2 pt-1 flex-wrap gap-y-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -1417,10 +1417,19 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                   type="button"
                   onClick={() => handleParseRawText()}
                   disabled={isParsing || !rawText.trim()}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/30 flex items-center space-x-1.5 transition-all disabled:opacity-50 cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/30 flex items-center space-x-1.5 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>{isParsing ? 'পার্সিং হচ্ছে...' : 'এআই পার্স করুন (Parse)'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveToRepository}
+                  disabled={isSubmitting || (!rawText.trim() && parsedQuestions.length === 0)}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center space-x-1.5 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  <Database className="w-4 h-4" />
+                  <span>{isSubmitting ? 'জমা হচ্ছে...' : 'কেন্দ্রীয় প্রশ্ন ভাণ্ডারে জমা করুন'}</span>
                 </button>
               </div>
             </div>
@@ -1493,7 +1502,7 @@ export default function SmartUploadReaderHub({ onNavigateToMaker, onNavigateToOM
                     className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/30 flex items-center space-x-1.5 transition-all cursor-pointer disabled:opacity-50"
                   >
                     <Database className="w-4 h-4" />
-                    <span>{isSubmitting ? 'সংরক্ষণ হচ্ছে...' : 'রিপোজিটরিতে সংরক্ষণ করুন'}</span>
+                    <span>{isSubmitting ? 'জমা হচ্ছে...' : 'কেন্দ্রীয় প্রশ্ন ভাণ্ডারে জমা করুন'}</span>
                   </button>
                 </div>
 
