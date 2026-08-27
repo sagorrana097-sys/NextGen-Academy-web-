@@ -265,7 +265,8 @@ function cleanAndNormalizeUTF8(input) {
   };
 
   for (const [k, v] of Object.entries(BIJOY_FRAGMENT_MAP)) {
-    clean = clean.split(k).join(v);
+    // Only replace Bijoy fragments when attached to a Bengali Unicode word!
+    clean = clean.replace(new RegExp(`([\u0980-\u09FF])${k}`, 'g'), `$1${v}`);
   }
 
   // 5. Fix Radical/Square root symbol used as Ro-phala (্র) after Bengali consonants:
@@ -303,12 +304,30 @@ function cleanAndNormalizeUTF8(input) {
 }
 
 /**
+ * Universal Detector for Bijoy / SutonnyMJ Encoded Text
+ */
+function isBijoyEncoded(str) {
+  if (!str) return false;
+  const bijoyPatterns = [
+    /\b(?:Ges|Gi|nq|n‡j|Z‡e|hLb|hw`|GKwU|cÖgvY|wbY©q|K‡iv|aviv|cÖ_g|mgvbycvZx|¸‡YvËi|AšÍi|c‡`i|mgwó|`ywU|†_‡K|ïiæ|wcQb|mg‡e‡M|w¯’ive¯’v|mgZ¡i‡Y|Dcv`vb|msL¨v|†Wvg|‡iÄ|mvaviY|AbycvZ‡K|µwgK|†`LvI|MVb|mij)\b/,
+    /[†‡][A-Za-z_`~]/,
+    /cÖ[A-Za-z]/,
+    /w[A-Za-z]/,
+    /[A-Za-z]©/
+  ];
+  return bijoyPatterns.some(pat => pat.test(str));
+}
+
+/**
  * 100% Accurate Math-Aware Universal SutonnyMJ / Bijoy 52 to Unicode Bengali Converter
  * Seamlessly handles legacy Bengali conjuncts, vowel repositioning, and preserves mathematical sets, variables, and units
  */
 function convertBijoyToUnicode(input) {
   if (!input) return '';
   let str = input;
+
+  // Pre-clean Symbol font division characters
+  str = str.replace(/\uF0B8/g, ' ÷ ').replace(/\u00F7/g, ' ÷ ').replace(//g, ' ÷ ');
 
   // 1. Convert core Bengali syntax words FIRST before any tokenization
   str = str.replace(/\bGes\b/g, 'এবং');
@@ -663,8 +682,13 @@ function parseSQChunk(lines, idx) {
 function splitBulkPastedText(text, vaultType) {
   if (!text || !text.trim()) return [];
 
-  // Normalize UTF-8 clean text
-  const clean = cleanAndNormalizeUTF8(text);
+  // Auto-detect and convert Bijoy text seamlessly
+  let clean = text;
+  if (isBijoyEncoded(clean)) {
+    clean = convertBijoyToUnicode(clean);
+  } else {
+    clean = cleanAndNormalizeUTF8(clean);
+  }
 
   // Split by Question Numbering (e.g. "১.", "1.", "1 \t", "প্রশ্ন ১:", "Q1:", "[1]", "১।")
   const regexSplitter = /(?:^|\n+)(?=(?:(?:প্রশ্ন\s*|Question\s*|Q\s*)?[0-9১-৯]+[\.\)\:\-\|\।\]\t\s]|Q[0-9]+[:.]|\[[0-9১-৯]+\]))/i;
@@ -805,9 +829,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     }
 
     // Auto-detect SutonnyMJ / Bijoy characters and automatically convert
-    const isBijoyPattern = /([†‡‰¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂă«ª©™›œ§„¨¡]|GKwU|hvÎv|ïiæ|Kvi|mg‡q|cÖ_g|w¯’|wcQb|wbY©q|AwZµg|we‡kølY|K\.|L\.|M\.|N\.)/.test(rawText);
-
-    if (isBijoyPattern) {
+    if (isBijoyEncoded(rawText)) {
       rawText = convertBijoyToUnicode(rawText);
       setBulkInputText(rawText);
     }

@@ -75,7 +75,7 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     };
 
     for (const [k, v] of Object.entries(BIJOY_FRAGMENT_MAP)) {
-      processedText = processedText.split(k).join(v);
+      processedText = processedText.replace(new RegExp(`([\u0980-\u09FF])${k}`, 'g'), `$1${v}`);
     }
 
     // 3. Fix Radical/Square root symbol used as Ro-phala (্র) after Bengali consonants:
