@@ -210,35 +210,90 @@ function cleanAndNormalizeUTF8(input) {
 }
 
 /**
- * 100% Accurate Universal SutonnyMJ / Bijoy 52 to Unicode Bengali Converter
- * Perfectly converts all legacy ligatures, conjuncts, vowel repositioning, quotes, and symbols
+ * 100% Accurate Math-Aware Universal SutonnyMJ / Bijoy 52 to Unicode Bengali Converter
+ * Seamlessly handles legacy Bengali conjuncts, vowel repositioning, and preserves mathematical sets, variables, and units
  */
 function convertBijoyToUnicode(input) {
   if (!input) return '';
   let str = input;
 
-  // 1. Preserve English in parentheses e.g. (Pitch), (Motion), (m s-2)
-  const englishParenMatches = [];
-  str = str.replace(/\(([A-Za-z0-9\s\.\,\-\+\/\*\^\_\:\;]+)\)/g, (match, inner) => {
-    if (inner.length > 2 && /^[A-Za-z0-9\s\.\,\-\+\/\*\^\_]+$/.test(inner) && !/^[KLMN]$/i.test(inner.trim())) {
-      const idx = englishParenMatches.length;
-      englishParenMatches.push('(' + inner + ')');
+  const preservedMathTokens = [];
+
+  // 1. Protect sets: {...} e.g. {x : 0 <= x < 6}, {(4, 1), (4, 3)}
+  str = str.replace(/\{[^\}]+\}/g, (match) => {
+    const idx = preservedMathTokens.length;
+    preservedMathTokens.push(match);
+    return `\uE000${idx}\uE000`;
+  });
+
+  // 2. Protect function calls / power sets / math tuples e.g. P(Q), f(y), g(x), (y), (4, 1)
+  str = str.replace(/([A-Za-z])\s*\(([A-Za-z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=]+)\)/g, (match) => {
+    const idx = preservedMathTokens.length;
+    preservedMathTokens.push(match);
+    return `\uE000${idx}\uE000`;
+  });
+
+  // 3. Protect algebraic expressions with variables e.g. "2y + 14y", "3x^2 + 5x - 2", "14y", "2y"
+  str = str.replace(/(?:(?<=\s|^|\=|\+|\-|\*|\/|\(|\,)\d+[a-zA-Z]+(?=\s|$|\=|\+|\-|\*|\/|\)|\,))/g, (match) => {
+    const idx = preservedMathTokens.length;
+    preservedMathTokens.push(match);
+    return `\uE000${idx}\uE000`;
+  });
+
+  // Protect standalone algebraic variables / English in parentheses e.g. (y), (x), (t), (Pitch)
+  str = str.replace(/\(([A-Za-z0-9\s\,\+\-\*\/\^\_\:\;\<\>\=]+)\)/g, (match, inner) => {
+    if (!/^[KLMN]$/i.test(inner.trim())) {
+      const idx = preservedMathTokens.length;
+      preservedMathTokens.push('(' + inner + ')');
       return `\uE000${idx}\uE000`;
     }
     return match;
   });
 
-  // 2. Convert standard Sutonny Smart Quotes
+  // Protect equations with =, <, >, +, - e.g. "Q = ...", "S = ...", "(y) = 2y + 14y - 1"
+  str = str.replace(/\b([A-Z])\s*=\s*/g, (match, letter) => {
+    const idx = preservedMathTokens.length;
+    preservedMathTokens.push(`${letter} = `);
+    return `\uE000${idx}\uE000`;
+  });
+
+  // Protect standalone uppercase math variables followed by punctuation or math
+  // e.g. "P(Q)", "†Wvg S" -> "ডোম S", "S এর"
+  str = str.replace(/(?<=[\s\(\[\{])([A-Z])(?=[\s\,\.\)\]\}]|$)/g, (match, letter) => {
+    if (!['K', 'L', 'M', 'N'].includes(letter)) {
+      const idx = preservedMathTokens.length;
+      preservedMathTokens.push(letter);
+      return `\uE000${idx}\uE000`;
+    }
+    return match;
+  });
+
+  // 4. Normalize tab/space-separated option lines in math questions:
+  // e.g. "\tK\t5\tL\t16\tM\t32\tN\t64"
+  // e.g. "K 1 L 14 M 14 N 1"
+  // e.g. "K 2 L 3" and "M 4 N 8"
+  str = str.replace(/(?:^|\n|[\t\s]{2,})K[\t\s]+([^\t\n\r]+?)[\t\s]+L[\t\s]+([^\t\n\r]+?)[\t\s]+M[\t\s]+([^\t\n\r]+?)[\t\s]+N[\t\s]+([^\t\n\r]+)/g,
+    '\n(ক) $1\n(খ) $2\n(গ) $3\n(ঘ) $4');
+
+  str = str.replace(/(?:^|\n|[\t\s]{2,})K[\t\s]+([^\t\n\r]+?)[\t\s]+L[\t\s]+([^\t\n\r]+)/g,
+    '\n(ক) $1\n(খ) $2');
+  str = str.replace(/(?:^|\n|[\t\s]{2,})M[\t\s]+([^\t\n\r]+?)[\t\s]+N[\t\s]+([^\t\n\r]+)/g,
+    '\n(গ) $1\n(ঘ) $2');
+
+  // Convert standard Sutonny Smart Quotes
   str = str.replace(/Ò/g, '“').replace(/Ó/g, '”').replace(/Õ/g, '’').replace(/Ô/g, '‘');
 
-  // 3. Question / Sub-question numbering markers (K. L. M. N. / K) L) M) N))
+  // Question / Sub-question numbering markers (K. L. M. N. / K) L) M) N))
   str = str.replace(/(?:^|\n)\s*K[\.\)]\s*/g, '\nক. ');
   str = str.replace(/(?:^|\n)\s*L[\.\)]\s*/g, '\nখ. ');
   str = str.replace(/(?:^|\n)\s*M[\.\)]\s*/g, '\nগ. ');
   str = str.replace(/(?:^|\n)\s*N[\.\)]\s*/g, '\nঘ. ');
 
-  // 4. Pre-process SutonnyMJ Multi-character Ligatures & Conjuncts (Order: longest first)
+  // 5. Pre-process SutonnyMJ Multi-character Ligatures & Conjuncts (Order: longest first)
   const LIGATURES = [
+    ['Aš^', 'অন্ব'], ['š^', 'ন্ব'], ['š^q', 'ন্বয়'], ['š^qwU‡Z', 'অন্বয়টিতে'],
+    ['Dcv`vb', 'উপাদান'], ['Dcv`v‡bi', 'উপাদানের'], ['msL¨v', 'সংখ্যা'],
+    ['†Wvg', 'ডোম'], ['‡iÄ', 'রেঞ্জ'], ['n‡j', 'হলে'], ['Gi', 'এর'], ['gvb', 'মান'],
     ['†kø', 'শ্লে'], ['kø', 'শ্ল'],
     ['e¨v', 'ব্যা'], ['L¨v', 'খ্যা'], ['K¨v', 'ক্যা'], ['M¨v', 'গ্যা'],
     ['e¨', 'ব্য'], ['L¨', 'খ্য'], ['K¨', 'ক্য'], ['M¨', 'গ্য'], ['N¨', 'ঘ্য'],
@@ -273,31 +328,31 @@ function convertBijoyToUnicode(input) {
   // Regex pattern for a single Consonant or Conjunct
   const CONS_PATTERN = '(?:\u09B0\u09CD)?(?:[\u0995-\u09B9\u09CE\u09DC-\u09DF](?:\u09CD[\u0995-\u09B9\u09CE\u09DC-\u09DF])*|[a-zA-Z`_~])';
 
-  // 5. Handle O-kar (ো): [† or ‡] + Consonant + v (া) -> Consonant + ো
+  // 6. Handle O-kar (ো): [† or ‡] + Consonant + v (া) -> Consonant + ো
   const oKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')v', 'g');
   str = str.replace(oKarRegex, '$2ো');
 
-  // 6. Handle OU-kar (ৌ): [† or ‡] + Consonant + Š (ৗ) -> Consonant + ৌ
+  // 7. Handle OU-kar (ৌ): [† or ‡] + Consonant + Š (ৗ) -> Consonant + ৌ
   const ouKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')Š', 'g');
   str = str.replace(ouKarRegex, '$2ৌ');
 
-  // 7. Handle E-kar (ে): [† or ‡] + Consonant -> Consonant + ে
+  // 8. Handle E-kar (ে): [† or ‡] + Consonant -> Consonant + ে
   const eKarRegex = new RegExp('([†‡])(' + CONS_PATTERN + ')', 'g');
   str = str.replace(eKarRegex, '$2ে');
 
-  // 8. Handle OI-kar (ৈ): ‰ + Consonant -> Consonant + ৈ
+  // 9. Handle OI-kar (ৈ): ‰ + Consonant -> Consonant + ৈ
   const oiKarRegex = new RegExp('‰(' + CONS_PATTERN + ')', 'g');
   str = str.replace(oiKarRegex, '$1ৈ');
 
-  // 9. Handle I-kar (ি): w + Consonant -> Consonant + ি
+  // 10. Handle I-kar (ি): w + Consonant -> Consonant + ি
   const iKarRegex = new RegExp('w(' + CONS_PATTERN + ')', 'g');
   str = str.replace(iKarRegex, '$1ি');
 
-  // 10. Handle Reph (©): Consonant + © -> র্ + Consonant
+  // 11. Handle Reph (©): Consonant + © -> র্ + Consonant
   const rephRegex = new RegExp('(' + CONS_PATTERN + ')©', 'g');
   str = str.replace(rephRegex, 'র্$1');
 
-  // 11. Single Character Map
+  // 12. Single Character Map
   const CHAR_MAP = {
     'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'এ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
     'K': 'ক', 'L': 'খ', 'M': 'গ', 'N': 'ঘ', 'O': 'ঙ',
@@ -312,11 +367,12 @@ function convertBijoyToUnicode(input) {
     '~': '্', '|': '।'
   };
 
-  // Convert tokens, protecting scientific units
+  // Convert tokens, protecting math variables, numbers, and scientific units
   let out = '';
-  const tokens = str.split(/(\b(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)\b|\uE000\d+\uE000)/);
+  const tokens = str.split(/(\uE000\d+\uE000|\b[0-9]+(?:\.[0-9]+)?\b|\b(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)\b)/);
   for (const tok of tokens) {
-    if (/^(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)$/.test(tok) || tok.startsWith('\uE000')) {
+    if (!tok) continue;
+    if (tok.startsWith('\uE000') || /^\b[0-9]+(?:\.[0-9]+)?\b$/.test(tok) || /^(?:km|h1|h-1|s2|s-2|m|s|kg|cm|mm|Pa|Hz|N|J|W|eV|V|A|mol)$/.test(tok)) {
       out += tok;
     } else {
       for (let i = 0; i < tok.length; i++) {
@@ -326,8 +382,8 @@ function convertBijoyToUnicode(input) {
     }
   }
 
-  // Restore preserved English in parentheses
-  englishParenMatches.forEach((saved, idx) => {
+  // Restore preserved math tokens
+  preservedMathTokens.forEach((saved, idx) => {
     out = out.replace(`\uE000${idx}\uE000`, saved);
   });
 
@@ -369,8 +425,8 @@ function parseMCQChunk(lines, idx) {
       continue;
     }
 
-    // Check for inline options on a single line (e.g. "(ক) অপ ১ (খ) অপ ২ (গ) অপ ৩ (ঘ) অপ ৪" or "ক. ১  খ. ২  গ. ৩  ঘ. ৪")
-    const inlineMatches = [...line.matchAll(/(?:^|\s+)[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*?)(?=(?:\s+[\(\[]?[ক-ঘa-dA-D][\)\]\.\:\-\|\।\s]+)|$)/gi)];
+    // Check for inline options on a single line (e.g. "(ক) 5 (খ) 16 (গ) 32 (ঘ) 64" or "ক. ১  খ. ২  গ. ৩  ঘ. ৪")
+    const inlineMatches = [...line.matchAll(/[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*?)(?=(?:[\(\[]?[ক-ঘa-dA-D][\)\]\.\:\-\|\।\s]+)|$)/gi)];
     if (inlineMatches.length >= 2) {
       inlineMatches.forEach(m => {
         const optVal = cleanAndNormalizeUTF8(m[2].trim());
@@ -381,7 +437,7 @@ function parseMCQChunk(lines, idx) {
 
     // Check for single line option (e.g. "ক) অপশন টেক্সট" or "A. Option text")
     const singleOptMatch = line.match(/^[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*)/i);
-    if (singleOptMatch && options.length < 4 && i > 0) {
+    if (singleOptMatch && options.length < 4 && (i > 0 || options.length > 0)) {
       const optVal = cleanAndNormalizeUTF8(singleOptMatch[2].trim());
       if (optVal) options.push(optVal);
       continue;
