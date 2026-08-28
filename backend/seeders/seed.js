@@ -30,154 +30,163 @@ const {
 const { globalDB } = require('../config/db');
 
 async function seedDatabase() {
-  console.log('🌱 Initializing Clean Production Database for NextGen Academy...');
-
-  // Reset existing tables
-  globalDB.tables = {};
-  globalDB.save();
+  console.log('🌱 Checking Database Integrity & Ensuring Default Accounts for NextGen Academy...');
 
   const saltRounds = 12;
   const adminPassword = bcrypt.hashSync('01792818005', saltRounds);
 
-  // 1. Create Primary Super Admin User
-  const adminUser = await User.create({
-    id: 1,
-    name: 'মো: আলমগীর হোসেন (Md. Alomgir Hossain)',
-    username: 'Alomgir005',
-    userId: 'Alomgir005',
-    identifier: 'Alomgir005',
-    email: 'admin@nextgen.edu.bd',
-    password: adminPassword,
-    passwordHash: adminPassword,
-    role: 'SUPER_ADMIN',
-    phone: '01792818005',
-    isActive: true
-  });
+  // 1. Ensure Super Admin User exists (Non-destructive)
+  const existingAdmin = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
+  if (!existingAdmin) {
+    await User.create({
+      id: 1,
+      name: 'মো: আলমগীর হোসেন (Md. Alomgir Hossain)',
+      username: 'Alomgir005',
+      userId: 'Alomgir005',
+      identifier: 'Alomgir005',
+      email: 'admin@nextgen.edu.bd',
+      password: adminPassword,
+      passwordHash: adminPassword,
+      role: 'SUPER_ADMIN',
+      phone: '01792818005',
+      isActive: true
+    });
+  }
 
-  // 2. Create Teacher User & Profile
-  const teacherPassword = bcrypt.hashSync('teacher123', saltRounds);
-  const teacherUser = await User.create({
-    id: 2,
-    name: 'প্রকৌ. রফিকুল ইসলাম (Engr. Rafiqul Islam)',
-    username: 'teacher',
-    userId: 'teacher',
-    identifier: 'teacher',
-    email: 'teacher@nextgen.edu.bd',
-    password: teacherPassword,
-    passwordHash: teacherPassword,
-    role: 'TEACHER',
-    phone: '01712345678',
-    isActive: true
-  });
+  // 2. Ensure Teacher User & Profile exists (Non-destructive)
+  const existingTeacher = await User.findOne({ where: { role: 'TEACHER' } });
+  if (!existingTeacher) {
+    const teacherPassword = bcrypt.hashSync('teacher123', saltRounds);
+    const teacherUser = await User.create({
+      id: 2,
+      name: 'প্রকৌ. রফিকুল ইসলাম (Engr. Rafiqul Islam)',
+      username: 'teacher',
+      userId: 'teacher',
+      identifier: 'teacher',
+      email: 'teacher@nextgen.edu.bd',
+      password: teacherPassword,
+      passwordHash: teacherPassword,
+      role: 'TEACHER',
+      phone: '01712345678',
+      isActive: true
+    });
 
-  await Teacher.create({
-    id: 1,
-    userId: teacherUser.id,
-    teacherIdNumber: 'TCH-2026-001',
-    designation: 'সিনিয়র পদার্থবিজ্ঞান প্রভাষক (Senior Lecturer)',
-    qualification: 'বিএসসি ও এমএসসি (পদার্থবিজ্ঞান - ঢাবি)',
-    joiningDate: '2023-01-01',
-    phone: '01712345678',
-    email: 'teacher@nextgen.edu.bd',
-    salary: 45000,
-    status: 'ACTIVE'
-  });
+    await Teacher.create({
+      id: 1,
+      userId: teacherUser.id,
+      teacherIdNumber: 'TCH-2026-001',
+      designation: 'সিনিয়র পদার্থবিজ্ঞান প্রভাষক (Senior Lecturer)',
+      qualification: 'বিএসসি ও এমএসসি (পদার্থবিজ্ঞান - ঢাবি)',
+      joiningDate: '2023-01-01',
+      phone: '01712345678',
+      email: 'teacher@nextgen.edu.bd',
+      salary: 45000,
+      status: 'ACTIVE'
+    });
+  }
 
-  // 3. Create Student 1 (Tahmid Ahmed - Class 10 SSC)
-  const studentPassword = bcrypt.hashSync('student123', saltRounds);
-  const studentUser1 = await User.create({
-    id: 3,
-    name: 'তাহমিদ আহমেদ (Tahmid Ahmed)',
-    username: 'STD-2026-001',
-    userId: 'STD-2026-001',
-    identifier: 'STD-2026-001',
-    email: 'student@nextgen.edu.bd',
-    password: studentPassword,
-    passwordHash: studentPassword,
-    role: 'STUDENT',
-    phone: '01711223344',
-    isActive: true
-  });
+  // 3. Ensure Student Users & Profiles exist (Non-destructive)
+  const existingStudent = await User.findOne({ where: { role: 'STUDENT' } });
+  if (!existingStudent) {
+    const studentPassword = bcrypt.hashSync('student123', saltRounds);
+    const studentUser1 = await User.create({
+      id: 3,
+      name: 'তাহমিদ আহমেদ (Tahmid Ahmed)',
+      username: 'STD-2026-001',
+      userId: 'STD-2026-001',
+      identifier: 'STD-2026-001',
+      email: 'student@nextgen.edu.bd',
+      password: studentPassword,
+      passwordHash: studentPassword,
+      role: 'STUDENT',
+      phone: '01711223344',
+      isActive: true
+    });
 
-  await Student.create({
-    id: 1,
-    userId: studentUser1.id,
-    studentIdNumber: 'STD-2026-001',
-    nameBn: 'তাহমিদ আহমেদ',
-    nameEn: 'Tahmid Ahmed',
-    rollNo: 101,
-    classId: 13, // 10th grade
-    sectionId: 37, // Padma
-    dob: '2010-05-15',
-    bloodGroup: 'B+',
-    gender: 'MALE',
-    address: 'বাড়ি #১২, ধানমন্ডি, ঢাকা',
-    guardianName: 'মো: রফিকুল ইসলাম',
-    guardianPhone: '01711000000',
-    admissionDate: '2026-01-01',
-    status: 'ACTIVE'
-  });
+    await Student.create({
+      id: 1,
+      userId: studentUser1.id,
+      studentIdNumber: 'STD-2026-001',
+      nameBn: 'তাহমিদ আহমেদ',
+      nameEn: 'Tahmid Ahmed',
+      rollNo: 101,
+      classId: 13, // 10th grade
+      sectionId: 37, // Padma
+      dob: '2010-05-15',
+      bloodGroup: 'B+',
+      gender: 'MALE',
+      address: 'বাড়ি #১২, ধানমন্ডি, ঢাকা',
+      guardianName: 'মো: রফিকুল ইসলাম',
+      guardianPhone: '01711000000',
+      admissionDate: '2026-01-01',
+      status: 'ACTIVE'
+    });
 
-  // 4. Create Student 2 (Sumaiya Akter - Class 10 SSC)
-  const studentUser2 = await User.create({
-    id: 4,
-    name: 'সুমাইয়া আক্তার (Sumaiya Akter)',
-    username: 'STD-2026-002',
-    userId: 'STD-2026-002',
-    identifier: 'STD-2026-002',
-    email: 'sumaiya@nextgen.edu.bd',
-    password: studentPassword,
-    passwordHash: studentPassword,
-    role: 'STUDENT',
-    phone: '01811223344',
-    isActive: true
-  });
+    const studentUser2 = await User.create({
+      id: 4,
+      name: 'সুমাইয়া আক্তার (Sumaiya Akter)',
+      username: 'STD-2026-002',
+      userId: 'STD-2026-002',
+      identifier: 'STD-2026-002',
+      email: 'sumaiya@nextgen.edu.bd',
+      password: studentPassword,
+      passwordHash: studentPassword,
+      role: 'STUDENT',
+      phone: '01811223344',
+      isActive: true
+    });
 
-  await Student.create({
-    id: 2,
-    userId: studentUser2.id,
-    studentIdNumber: 'STD-2026-002',
-    nameBn: 'সুমাইয়া আক্তার',
-    nameEn: 'Sumaiya Akter',
-    rollNo: 102,
-    classId: 13,
-    sectionId: 38,
-    dob: '2010-08-20',
-    bloodGroup: 'O+',
-    gender: 'FEMALE',
-    address: 'উত্তরা, ঢাকা',
-    guardianName: 'আক্তার হোসেন',
-    guardianPhone: '01811000000',
-    admissionDate: '2026-01-01',
-    status: 'ACTIVE'
-  });
+    await Student.create({
+      id: 2,
+      userId: studentUser2.id,
+      studentIdNumber: 'STD-2026-002',
+      nameBn: 'সুমাইয়া আক্তার',
+      nameEn: 'Sumaiya Akter',
+      rollNo: 102,
+      classId: 13,
+      sectionId: 38,
+      dob: '2010-08-20',
+      bloodGroup: 'O+',
+      gender: 'FEMALE',
+      address: 'উত্তরা, ঢাকা',
+      guardianName: 'আক্তার হোসেন',
+      guardianPhone: '01811000000',
+      admissionDate: '2026-01-01',
+      status: 'ACTIVE'
+    });
+  }
 
-  // 5. Create Parent User
-  const parentPassword = bcrypt.hashSync('parent123', saltRounds);
-  const parentUser = await User.create({
-    id: 5,
-    name: 'মো: রফিকুল ইসলাম (অভিভাবক)',
-    username: 'parent',
-    userId: 'parent',
-    identifier: 'parent',
-    email: 'parent@nextgen.edu.bd',
-    password: parentPassword,
-    passwordHash: parentPassword,
-    role: 'PARENT',
-    phone: '01711000000',
-    isActive: true
-  });
+  // 4. Ensure Parent User exists (Non-destructive)
+  const existingParent = await User.findOne({ where: { role: 'PARENT' } });
+  if (!existingParent) {
+    const parentPassword = bcrypt.hashSync('parent123', saltRounds);
+    const parentUser = await User.create({
+      id: 5,
+      name: 'মো: রফিকুল ইসলাম (অভিভাবক)',
+      username: 'parent',
+      userId: 'parent',
+      identifier: 'parent',
+      email: 'parent@nextgen.edu.bd',
+      password: parentPassword,
+      passwordHash: parentPassword,
+      role: 'PARENT',
+      phone: '01711000000',
+      isActive: true
+    });
 
-  await GuardianStudentMapping.create({
-    id: 1,
-    parentUserId: parentUser.id,
-    parentId: parentUser.id,
-    studentId: 1,
-    relationship: 'FATHER',
-    isPrimary: true
-  });
+    await GuardianStudentMapping.create({
+      id: 1,
+      parentUserId: parentUser.id,
+      parentId: parentUser.id,
+      studentId: 1,
+      relationship: 'FATHER',
+      isPrimary: true
+    });
+  }
 
-  // 2. Complete Classes (Pre-Primary, Primary, Secondary, Higher Secondary)
+  // 5. Complete Classes & Curriculum (if not seeded)
+  const classCount = await Class.count();
+  if (classCount === 0) {
   const classesData = [
     // Pre-Primary
     { id: 1, nameBn: 'প্লে গ্রুপ (Play)', nameEn: 'Play Group', numericGrade: -2, stage: 'PRE_PRIMARY' },
@@ -302,210 +311,227 @@ async function seedDatabase() {
       { id: subId++, classId: cid, nameBn: 'সমাজবিজ্ঞান / ইসলামের ইতিহাস (মানবিক)', nameEn: 'Sociology & Islamic History', code: `HSC-SOC-${cid}`, totalMarks: 100 }
     );
   }
-  await Subject.bulkCreate(subjectsData);
+    await Subject.bulkCreate(subjectsData);
 
-  // 5. Exam Terms
-  await ExamTerm.bulkCreate([
-    { id: 1, titleBn: '১ম সাময়িক পরীক্ষা ২০২৬', titleEn: '1st Term Examination 2026', academicYear: 2026 },
-    { id: 2, titleBn: '২য় সাময়িক পরীক্ষা ২০২৬', titleEn: '2nd Term Examination 2026', academicYear: 2026 },
-    { id: 3, titleBn: 'বার্ষিক পরীক্ষা ও প্রি-টেস্ট ২০২৬', titleEn: 'Annual & Pre-Test Exam 2026', academicYear: 2026 }
-  ]);
+    // 5. Exam Terms
+    await ExamTerm.bulkCreate([
+      { id: 1, titleBn: '১ম সাময়িক পরীক্ষা ২০২৬', titleEn: '1st Term Examination 2026', academicYear: 2026 },
+      { id: 2, titleBn: '২য় সাময়িক পরীক্ষা ২০২৬', titleEn: '2nd Term Examination 2026', academicYear: 2026 },
+      { id: 3, titleBn: 'বার্ষিক পরীক্ষা ও প্রি-টেস্ট ২০২৬', titleEn: 'Annual & Pre-Test Exam 2026', academicYear: 2026 }
+    ]);
+  }
 
   // 6. Batches
   const db = globalDB.tables;
-  db['batches'] = [
-    { id: 1, classId: 13, nameBn: '১০ম শ্রেণি - বিজ্ঞান মর্নিং ব্যাচ', name: 'Class 10 Science Morning', shift: 'সকাল (Morning)', monthlyFee: 2500, capacity: 40, isActive: true },
-    { id: 2, classId: 13, nameBn: '১০ম শ্রেণি - ডে স্পেশাল ব্যাচ', name: 'Class 10 Day Special', shift: 'দিবা (Day)', monthlyFee: 2500, capacity: 40, isActive: true },
-    { id: 3, classId: 14, nameBn: 'একাদশ শ্রেণি - HSC বিজ্ঞান ব্যাচ', name: 'Class 11 HSC Science Batch', shift: 'সকাল (Morning)', monthlyFee: 3000, capacity: 50, isActive: true },
-    { id: 4, classId: 11, nameBn: '৮ম শ্রেণি - জুনিয়র মেধা বিকাশ ব্যাচ', name: 'Class 8 Junior Talent Batch', shift: 'বিকাল (Afternoon)', monthlyFee: 2000, capacity: 35, isActive: true }
-  ];
+  if (!db['batches'] || db['batches'].length === 0) {
+    db['batches'] = [
+      { id: 1, classId: 13, nameBn: '১০ম শ্রেণি - বিজ্ঞান মর্নিং ব্যাচ', name: 'Class 10 Science Morning', shift: 'সকাল (Morning)', monthlyFee: 2500, capacity: 40, isActive: true },
+      { id: 2, classId: 13, nameBn: '১০ম শ্রেণি - ডে স্পেশাল ব্যাচ', name: 'Class 10 Day Special', shift: 'দিবা (Day)', monthlyFee: 2500, capacity: 40, isActive: true },
+      { id: 3, classId: 14, nameBn: 'একাদশ শ্রেণি - HSC বিজ্ঞান ব্যাচ', name: 'Class 11 HSC Science Batch', shift: 'সকাল (Morning)', monthlyFee: 3000, capacity: 50, isActive: true },
+      { id: 4, classId: 11, nameBn: '৮ম শ্রেণি - জুনিয়র মেধা বিকাশ ব্যাচ', name: 'Class 8 Junior Talent Batch', shift: 'বিকাল (Afternoon)', monthlyFee: 2000, capacity: 35, isActive: true }
+    ];
+  }
 
   // 7. Textbooks & Study Materials
-  db['textbooks'] = [
-    {
-      id: 1,
-      classId: 13,
-      subjectId: 5,
-      titleBn: 'পদার্থবিজ্ঞান (১০ম শ্রেণি - NCTB)',
-      edition: '২০২৬ শিক্ষাবর্ষ',
-      author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
-      fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/physics_class10.pdf',
-      coverImage: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&auto=format&fit=crop&q=80',
-      fileSize: '12.4 MB',
-      totalPages: 248,
-      isFree: true
-    },
-    {
-      id: 2,
-      classId: 13,
-      subjectId: 3,
-      titleBn: 'উচ্চতর গণিত (১০ম শ্রেণি - NCTB)',
-      edition: '২০২৬ শিক্ষাবর্ষ',
-      author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
-      fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/higher_math_class10.pdf',
-      coverImage: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&auto=format&fit=crop&q=80',
-      fileSize: '15.1 MB',
-      totalPages: 312,
-      isFree: true
-    }
-  ];
-
-  db['study_materials'] = [
-    {
-      id: 1,
-      classId: 13,
-      title: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
-      titleBn: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
-      category: 'PHYSICS',
-      chapterBn: 'অধ্যায় ২ ও ৩',
-      descriptionBn: 'গতির সমীকরণ ও বলের গাণিতিক সমস্যা সমাধানের শর্টকাট টেকনিক ও বিগত বছরের বোর্ড প্রশ্নব্যাংক।',
-      content_text: `গতি ও বলের মৌলিক বিষয়াবলি:
-১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
-২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
-৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
-৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
-৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
-৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
-      contentText: `গতি ও বলের মৌলিক বিষয়াবলি:
-১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
-২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
-৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
-৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
-৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
-৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
-      fileType: 'PDF',
-      fileUrl: 'https://nextgen.edu.bd/downloads/materials/physics-formulas.pdf',
-      fileSize: '2.5 MB',
-      totalPages: 18,
-      author: 'নেক্সটজেন শিক্ষক প্যানেল',
-      isFree: true,
-      downloadCount: 154,
-      created_at: new Date().toISOString()
-    },
-    {
-      id: 2,
-      classId: 14,
-      title: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
-      titleBn: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
-      category: 'HIGHER_MATH',
-      chapterBn: 'অধ্যায় ৯: অন্তরীকরণ',
-      descriptionBn: 'লিমিট ও মূল নিয়মে অন্তরজের সমাধান, স্পর্শক ও অভিলম্বের সমীকরণ সূত্রাবলি।',
-      content_text: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
-১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
-২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
-৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
-৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
-      contentText: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
-১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
-২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
-৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
-৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
-      fileType: 'PDF',
-      fileUrl: 'https://nextgen.edu.bd/downloads/materials/hsc-math-calculus.pdf',
-      fileSize: '3.1 MB',
-      totalPages: 26,
-      author: 'নেক্সটজেন শিক্ষক প্যানেল',
-      isFree: false,
-      downloadCount: 88,
-      created_at: new Date().toISOString()
-    }
-  ];
-
-  // 8. Official Notices
-  await Notice.bulkCreate([
-    {
-      id: 1,
-      titleBn: 'শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম চালু',
-      titleEn: 'Digital Admission Open for Session 2026 (Class 6-12)',
-      contentBn: 'নেক্সটজেন একাডেমির অনলাইন পোর্টালে ২০২৬ শিক্ষাবর্ষে ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ভর্তি আবেদন চলছে। হেল্পলাইন: 01792818005',
-      contentEn: 'Admissions are open for academic year 2026. Helpline: 01792818005',
-      category: 'ADMISSION',
-      priority: 'URGENT',
-      targetRole: 'ALL',
-      authorUserId: adminUser.id,
-      publishedAt: new Date().toISOString()
-    },
-    {
-      id: 2,
-      titleBn: '১ম সাময়িক ও মডেল টেস্ট পরীক্ষা ২০২৬ সময়সূচি',
-      titleEn: '1st Term Examination & Model Test Schedule 2026',
-      contentBn: 'সকল শ্রেণির ১ম সাময়িক পরীক্ষা ও মডেল টেস্টের সময়সূচি ও সিলেবাস পোর্টালে প্রকাশ করা হয়েছে। শিক্ষার্থীরা রুটিন সেকশন থেকে পিডিএফ ডাউনলোড করতে পারবে।',
-      contentEn: '1st Term exam timetable is now published. Download PDF slips from the portal.',
-      category: 'EXAM',
-      priority: 'HIGH',
-      targetRole: 'ALL',
-      authorUserId: adminUser.id,
-      publishedAt: new Date().toISOString()
-    }
-  ]);
-
-  // 9. Hall of Fame (Top Achievers)
-  if (Achiever) {
-    await Achiever.bulkCreate([
+  if (!db['textbooks'] || db['textbooks'].length === 0) {
+    db['textbooks'] = [
       {
         id: 1,
-        nameBn: 'মাহমুদুল হাসান সিয়াম',
-        nameEn: 'Mahmudul Hasan Siam',
-        studentPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-        examType: 'HSC',
-        examYear: '২০২৫',
-        gpa: 'GPA 5.00 (Golden A+)',
-        institute: 'নটর ডেম কলেজ, ঢাকা',
-        badge: '🏆 বিজ্ঞান বিভাগ ১ম স্থান',
-        quoteBn: 'নেক্সটজেন একাডেমির নিয়মিত পরীক্ষা ও মানসম্মত লেকচার আমার সাফল্যের মূল চাবিকাঠি।',
-        order: 1,
-        isActive: true
+        classId: 13,
+        subjectId: 5,
+        titleBn: 'পদার্থবিজ্ঞান (১০ম শ্রেণি - NCTB)',
+        edition: '২০২৬ শিক্ষাবর্ষ',
+        author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
+        fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/physics_class10.pdf',
+        coverImage: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&auto=format&fit=crop&q=80',
+        fileSize: '12.4 MB',
+        totalPages: 248,
+        isFree: true
       },
       {
         id: 2,
-        nameBn: 'নুসরাত জাহান মিম',
-        nameEn: 'Nusrat Jahan Mim',
-        studentPhoto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
-        examType: 'SSC',
-        examYear: '২০২৫',
-        gpa: 'GPA 5.00 (Golden A+)',
-        institute: 'ভিকারুননিসা নূন স্কুল ও কলেজ',
-        badge: '🥇 বোর্ড মেধা তালিকায় ৫ম',
-        quoteBn: 'অনলাইন লাইভ ক্লাস এবং নিয়মিত হোমওয়ার্ক ট্র্যাকিং আমাকে পড়ালেখায় ধারাবাহিক রাখতে সাহায্য করেছে।',
-        order: 2,
-        isActive: true
+        classId: 13,
+        subjectId: 3,
+        titleBn: 'উচ্চতর গণিত (১০ম শ্রেণি - NCTB)',
+        edition: '২০২৬ শিক্ষাবর্ষ',
+        author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
+        fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/higher_math_class10.pdf',
+        coverImage: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&auto=format&fit=crop&q=80',
+        fileSize: '15.1 MB',
+        totalPages: 312,
+        isFree: true
+      }
+    ];
+  }
+
+  if (!db['study_materials'] || db['study_materials'].length === 0) {
+    db['study_materials'] = [
+      {
+        id: 1,
+        classId: 13,
+        title: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
+        titleBn: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
+        category: 'PHYSICS',
+        chapterBn: 'অধ্যায় ২ ও ৩',
+        descriptionBn: 'গতির সমীকরণ ও বলের গাণিতিক সমস্যা সমাধানের শর্টকাট টেকনিক ও বিগত বছরের বোর্ড প্রশ্নব্যাংক।',
+        content_text: `গতি ও বলের মৌলিক বিষয়াবলি:
+১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
+২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
+৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
+৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
+৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
+৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
+        contentText: `গতি ও বলের মৌলিক বিষয়াবলি:
+১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
+২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
+৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
+৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
+৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
+৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
+        fileType: 'PDF',
+        fileUrl: 'https://nextgen.edu.bd/downloads/materials/physics-formulas.pdf',
+        fileSize: '2.5 MB',
+        totalPages: 18,
+        author: 'নেক্সটজেন শিক্ষক প্যানেল',
+        isFree: true,
+        downloadCount: 154,
+        created_at: new Date().toISOString()
+      },
+      {
+        id: 2,
+        classId: 14,
+        title: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
+        titleBn: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
+        category: 'HIGHER_MATH',
+        chapterBn: 'অধ্যায় ৯: অন্তরীকরণ',
+        descriptionBn: 'লিমিট ও মূল নিয়মে অন্তরজের সমাধান, স্পর্শক ও অভিলম্বের সমীকরণ সূত্রাবলি।',
+        content_text: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
+১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
+২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
+৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
+৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
+        contentText: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
+১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
+২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
+৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
+৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
+        fileType: 'PDF',
+        fileUrl: 'https://nextgen.edu.bd/downloads/materials/hsc-math-calculus.pdf',
+        fileSize: '3.1 MB',
+        totalPages: 26,
+        author: 'নেক্সটজেন শিক্ষক প্যানেল',
+        isFree: false,
+        downloadCount: 88,
+        created_at: new Date().toISOString()
+      }
+    ];
+  }
+
+  // 8. Official Notices
+  const noticeCount = await Notice.count();
+  if (noticeCount === 0) {
+    const adminUser = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
+    const authorId = adminUser ? adminUser.id : 1;
+    await Notice.bulkCreate([
+      {
+        id: 1,
+        titleBn: 'শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম চালু',
+        titleEn: 'Digital Admission Open for Session 2026 (Class 6-12)',
+        contentBn: 'নেক্সটজেন একাডেমির অনলাইন পোর্টালে ২০২৬ শিক্ষাবর্ষে ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ভর্তি আবেদন চলছে। হেল্পলাইন: 01792818005',
+        contentEn: 'Admissions are open for academic year 2026. Helpline: 01792818005',
+        category: 'ADMISSION',
+        priority: 'URGENT',
+        targetRole: 'ALL',
+        authorUserId: authorId,
+        publishedAt: new Date().toISOString()
+      },
+      {
+        id: 2,
+        titleBn: '১ম সাময়িক ও মডেল টেস্ট পরীক্ষা ২০২৬ সময়সূচি',
+        titleEn: '1st Term Examination & Model Test Schedule 2026',
+        contentBn: 'সকল শ্রেণির ১ম সাময়িক পরীক্ষা ও মডেল টেস্টের সময়সূচি ও সিলেবাস পোর্টালে প্রকাশ করা হয়েছে। শিক্ষার্থীরা রুটিন সেকশন থেকে পিডিএফ ডাউনলোড করতে পারবে।',
+        contentEn: '1st Term exam timetable is now published. Download PDF slips from the portal.',
+        category: 'EXAM',
+        priority: 'HIGH',
+        targetRole: 'ALL',
+        authorUserId: authorId,
+        publishedAt: new Date().toISOString()
       }
     ]);
   }
 
-  // 10. Institute Settings
-  db['settings'] = {
-    academyName: 'NextGen ACADEMY',
-    academyNameBn: 'নেক্সটজেন একাডেমি',
-    tagline: 'LEARN · GROW · SUCCEED',
-    taglineBn: 'শিক্ষা · সমৃদ্ধি · সাফল্য',
-    logoUrl: '/logo.png',
-    sealUrl: '/logo.png',
-    contactPhone: '+880 1792818005',
-    whatsappPhone: '01792818005',
-    phone: '+880 1792818005',
-    contactEmail: 'info@nextgen.edu.bd',
-    supportEmail: 'support@nextgen.edu.bd',
-    address: 'রোড #৪, ধানমন্ডি, ঢাকা-১২০৯',
-    eiin: 'NGA-DHAKA-2026',
-    website: 'https://nextgen.edu.bd',
-    currencySymbol: '৳',
-    noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: 01792818005',
-    heroHeadlineBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম',
-    heroSubtitleBn: 'অনলাইন লাইভ ক্লাস, স্মার্ট মার্কশিট, স্বয়ংক্রিয় ফি পেমেন্ট ও অভিজ্ঞ শিক্ষক প্যানেলের সমন্বয়ে আধুনিক শিক্ষা ব্যবস্থা।',
-    bannerImageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80',
-    showNotice: true,
-    admissionActive: true,
-    admissionSessionYear: '২০২৬',
-    admissionHelpline: '+880 1792818005',
-    facebookUrl: 'https://facebook.com/nextgenacademy',
-    youtubeUrl: 'https://youtube.com/@nextgenacademy',
-    telegramUrl: 'https://t.me/nextgenacademy',
-    footerCopyrightBn: '© ২০২৬ NextGen Academy. সর্বস্বত্ব সংরক্ষিত।'
-  };
-  db['instituteSettings'] = db['settings'];
+  // 9. Hall of Fame (Top Achievers)
+  if (Achiever) {
+    const achieverCount = await Achiever.count();
+    if (achieverCount === 0) {
+      await Achiever.bulkCreate([
+        {
+          id: 1,
+          nameBn: 'মাহমুদুল হাসান সিয়াম',
+          nameEn: 'Mahmudul Hasan Siam',
+          studentPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+          examType: 'HSC',
+          examYear: '২০২৫',
+          gpa: 'GPA 5.00 (Golden A+)',
+          institute: 'নটর ডেম কলেজ, ঢাকা',
+          badge: '🏆 বিজ্ঞান বিভাগ ১ম স্থান',
+          quoteBn: 'নেক্সটজেন একাডেমির নিয়মিত পরীক্ষা ও মানসম্মত লেকচার আমার সাফল্যের মূল চাবিকাঠি।',
+          order: 1,
+          isActive: true
+        },
+        {
+          id: 2,
+          nameBn: 'নুসরাত জাহান মিম',
+          nameEn: 'Nusrat Jahan Mim',
+          studentPhoto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
+          examType: 'SSC',
+          examYear: '২০২৫',
+          gpa: 'GPA 5.00 (Golden A+)',
+          institute: 'ভিকারুননিসা নূন স্কুল ও কলেজ',
+          badge: '🥇 বোর্ড মেধা তালিকায় ৫ম',
+          quoteBn: 'অনলাইন লাইভ ক্লাস এবং নিয়মিত হোমওয়ার্ক ট্র্যাকিং আমাকে পড়ালেখায় ধারাবাহিক রাখতে সাহায্য করেছে।',
+          order: 2,
+          isActive: true
+        }
+      ]);
+    }
+  }
 
-  // 11. Arrays for dynamic production entities
+  // 10. Institute Settings (Preserve custom changes)
+  if (!db['settings']) {
+    db['settings'] = {
+      academyName: 'NextGen ACADEMY',
+      academyNameBn: 'নেক্সটজেন একাডেমি',
+      tagline: 'LEARN · GROW · SUCCEED',
+      taglineBn: 'শিক্ষা · সমৃদ্ধি · সাফল্য',
+      logoUrl: '/logo.png',
+      sealUrl: '/logo.png',
+      contactPhone: '+880 1792818005',
+      whatsappPhone: '01792818005',
+      phone: '+880 1792818005',
+      contactEmail: 'info@nextgen.edu.bd',
+      supportEmail: 'support@nextgen.edu.bd',
+      address: 'রোড #৪, ধানমন্ডি, ঢাকা-১২০৯',
+      eiin: 'NGA-DHAKA-2026',
+      website: 'https://nextgen.edu.bd',
+      currencySymbol: '৳',
+      noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: 01792818005',
+      heroHeadlineBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম',
+      heroSubtitleBn: 'অনলাইন লাইভ ক্লাস, স্মার্ট মার্কশিট, স্বয়ংক্রিয় ফি পেমেন্ট ও অভিজ্ঞ শিক্ষক প্যানেলের সমন্বয়ে আধুনিক শিক্ষা ব্যবস্থা।',
+      bannerImageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80',
+      showNotice: true,
+      admissionActive: true,
+      admissionSessionYear: '২০২৬',
+      admissionHelpline: '+880 1792818005',
+      facebookUrl: 'https://facebook.com/nextgenacademy',
+      youtubeUrl: 'https://youtube.com/@nextgenacademy',
+      telegramUrl: 'https://t.me/nextgenacademy',
+      footerCopyrightBn: '© ২০২৬ NextGen Academy. সর্বস্বত্ব সংরক্ষিত।'
+    };
+  }
+  if (!db['instituteSettings']) db['instituteSettings'] = db['settings'];
+
+  // 11. Ensure arrays for dynamic production entities
   if (!db['students']) db['students'] = [];
   if (!db['teachers']) db['teachers'] = [];
   if (!db['guardian_student_mappings']) db['guardian_student_mappings'] = [];
@@ -521,7 +547,8 @@ async function seedDatabase() {
   if (!db['live_classes']) db['live_classes'] = [];
   if (!db['live_class_comments']) db['live_class_comments'] = [];
   if (!db['admission_applications']) db['admission_applications'] = [];
-  db['question_repositories'] = [
+  if (!db['question_repositories']) {
+    db['question_repositories'] = [
     {
       id: 1,
       type: 'MCQ',
@@ -641,21 +668,26 @@ async function seedDatabase() {
       updatedAt: new Date().toISOString()
     }
   ];
+  }
 
   // 12. Initial Audit Log
-  await AuditLog.create({
-    id: 1,
-    userId: adminUser.id,
-    action: 'PRODUCTION_INITIALIZATION',
-    entityType: 'system',
-    entityId: '1',
-    oldValue: null,
-    newValue: { status: 'CLEAN_READY', year: 2026, totalClasses: 15, totalSubjects: subjectsData.length },
-    details: 'NextGen Academy production database initialized. Primary Super Admin (Alomgir005) configured with zero dummy students/teachers.',
-    ipAddress: '127.0.0.1',
-    userAgent: 'SeederScript/Production',
-    createdAt: new Date().toISOString()
-  });
+  const adminUser = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
+  const auditCount = await AuditLog.count();
+  if (auditCount === 0 && adminUser) {
+    await AuditLog.create({
+      id: 1,
+      userId: adminUser.id,
+      action: 'PRODUCTION_INITIALIZATION',
+      entityType: 'system',
+      entityId: '1',
+      oldValue: null,
+      newValue: { status: 'CLEAN_READY', year: 2026 },
+      details: 'NextGen Academy production database initialized and secured.',
+      ipAddress: '127.0.0.1',
+      userAgent: 'SeederScript/Production',
+      createdAt: new Date().toISOString()
+    });
+  }
 
   globalDB.save();
 
