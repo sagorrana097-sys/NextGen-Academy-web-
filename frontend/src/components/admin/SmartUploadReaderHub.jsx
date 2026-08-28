@@ -1090,6 +1090,65 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     reader.readAsDataURL(file);
   };
 
+  // Safe Bulletproof OCR Text Extractor (Bypasses OPFS ee.getDirectory crash)
+  const extractTextFromImageViaOCR = async (fileOrBlob) => {
+    // 1. Safe OPFS Polyfill Check to prevent minified ee.getDirectory crash
+    if (typeof navigator !== 'undefined') {
+      if (!navigator.storage) {
+        try { Object.defineProperty(navigator, 'storage', { value: {}, writable: true, configurable: true }); } catch (e) {}
+      }
+      if (navigator.storage && typeof navigator.storage.getDirectory !== 'function') {
+        try {
+          navigator.storage.getDirectory = undefined;
+        } catch (e) {}
+      }
+    }
+
+    // 2. Load Tesseract.js script safely
+    if (!window.Tesseract) {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('OCR ইঞ্জিন লোড করা যায়নি। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।'));
+        document.head.appendChild(script);
+      });
+    }
+
+    // 3. Create worker with cacheMethod: 'none' to avoid OPFS getDirectory calls
+    let worker = null;
+    try {
+      worker = await window.Tesseract.createWorker('ben+eng', 1, {
+        cacheMethod: 'none',
+        gzip: true,
+        langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+      });
+    } catch (primaryErr) {
+      console.warn('[OCR] Multi-lang ben+eng init failed, falling back:', primaryErr);
+      try {
+        worker = await window.Tesseract.createWorker('ben', 1, {
+          cacheMethod: 'none',
+          gzip: true,
+          langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+        });
+      } catch (benErr) {
+        worker = await window.Tesseract.createWorker('eng', 1, {
+          cacheMethod: 'none',
+          gzip: true
+        });
+      }
+    }
+
+    try {
+      const ret = await worker.recognize(fileOrBlob);
+      return ret?.data?.text || '';
+    } finally {
+      if (worker && typeof worker.terminate === 'function') {
+        try { await worker.terminate(); } catch (e) {}
+      }
+    }
+  };
+
   // Global Clipboard Paste Listener for Screenshots (Ctrl + V from Google Lens / Snipping Tool)
   useEffect(() => {
     const handleGlobalPaste = async (e) => {
@@ -1106,19 +1165,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               text: '📸 ক্লিপবোর্ড থেকে স্ক্রিনশট পাওয়া গেছে! অপটিক্যাল ক্যারেক্টার রিকগনিশন (OCR) দিয়ে টেক্সট পড়া হচ্ছে...'
             });
             try {
-              if (!window.Tesseract) {
-                await new Promise((resolve, reject) => {
-                  const script = document.createElement('script');
-                  script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-                  script.onload = resolve;
-                  script.onerror = reject;
-                  document.head.appendChild(script);
-                });
-              }
-              const worker = await window.Tesseract.createWorker('ben+eng');
-              const ret = await worker.recognize(imageFile);
-              await worker.terminate();
-              let extracted = ret.data.text;
+              let extracted = await extractTextFromImageViaOCR(imageFile);
               if (extracted && extracted.trim()) {
                 if (isBijoyEncoded(extracted)) {
                   extracted = convertBijoyToUnicode(extracted);
@@ -1130,6 +1177,8 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                   type: 'success',
                   text: '✅ স্ক্রিনশট/গুগল লেন্স ছবি থেকে সফলভাবে প্রশ্নসমূহ তৈরি হয়েছে!'
                 });
+              } else {
+                alert('স্ক্রিনশট থেকে কোনো বাংলা বা ইংরেজি টেক্সট পাওয়া যায়নি। অনুগ্রহ করে পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।');
               }
             } catch (err) {
               console.error('Clipboard OCR error:', err);
@@ -1163,19 +1212,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           type: 'info',
           text: `📸 ${file.name} থেকে বাংলা OCR স্ক্যান করা হচ্ছে... অনুগ্রহ করে একটু অপেক্ষা করুন।`
         });
-        if (!window.Tesseract) {
-          await new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-          });
-        }
-        const worker = await window.Tesseract.createWorker('ben+eng');
-        const ret = await worker.recognize(file);
-        await worker.terminate();
-        extractedText = ret.data.text;
+        extractedText = await extractTextFromImageViaOCR(file);
       } else if (file.name.endsWith('.txt') || file.type === 'text/plain') {
         extractedText = await file.text();
       } else if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
