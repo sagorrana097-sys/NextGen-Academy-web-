@@ -1217,21 +1217,17 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
   // Auto-split bulk pasted text with automatic Bijoy/Sutonny detection & instant conversion
   const handleProcessBulkText = (text = bulkInputText, vault = activeVault) => {
-    let rawText = text;
-    if (!rawText || !rawText.trim()) {
+    if (!text || !text.trim()) {
       setStagedQuestions([]);
       return;
     }
 
-    // Auto-detect SutonnyMJ / Bijoy characters and automatically convert
-    if (isBijoyEncoded(rawText)) {
-      rawText = convertBijoyToUnicode(rawText);
-      setBulkInputText(rawText);
+    try {
+      const splitItems = splitBulkPastedText(text, vault || activeVault);
+      setStagedQuestions(splitItems);
+    } catch (err) {
+      console.error('Error processing bulk text:', err);
     }
-
-    const cleaned = cleanAndNormalizeUTF8(rawText);
-    const splitItems = splitBulkPastedText(cleaned, vault);
-    setStagedQuestions(splitItems);
   };
 
   // Convert Bijoy/ANSI to Unicode Bengali in-place
@@ -2071,13 +2067,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               autoCorrect="off"
               value={bulkInputText}
               onChange={(e) => {
-                let val = e.target.value || '';
-                if (isBijoyEncoded(val)) {
-                  val = convertBijoyToUnicode(val);
-                }
-                const cleaned = cleanAndNormalizeUTF8(val);
-                setBulkInputText(cleaned);
-                handleProcessBulkText(cleaned, activeVault);
+                const val = e.target.value;
+                setBulkInputText(val);
+                handleProcessBulkText(val, activeVault);
               }}
               placeholder={
                 activeVault === 'MCQ'
