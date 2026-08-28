@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -65,6 +66,10 @@ app.disable('x-powered-by');
 
 // 2. Enterprise Security & Hardening Middleware
 app.use(enterpriseSecurityHeaders);
+app.use(compression({
+  threshold: 1024, // Compress responses larger than 1KB
+  level: 6 // Balanced ultra-fast CPU and bandwidth compression
+}));
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false

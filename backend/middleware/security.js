@@ -13,15 +13,20 @@ const rateLimit = require('express-rate-limit');
  */
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15-minute rolling window
-  max: 40, // 40 attempts per IP
-  skipSuccessfulRequests: true, // Legitimate logins do not consume quota
+  max: 300, // High capacity for large campuses & simultaneous student batches
+  skipSuccessfulRequests: true, // Legitimate student logins never consume quota
   standardHeaders: true,
   legacyHeaders: false,
+  keyGenerator: (req) => {
+    // Isolate by IP + identifier so other students on the same Wi-Fi/NAT are never locked out
+    const cleanId = String(req.body.identifier || req.body.email || req.ip || '').toLowerCase().trim();
+    return `${req.ip}_${cleanId}`;
+  },
   message: {
     success: false,
     error: {
       code: 'TOO_MANY_FAILED_ATTEMPTS',
-      message: '🚨 অতিরিক্ত ব্যর্থ লগইন চেষ্টার কারণে আইপি সাময়িকভাবে লক করা হয়েছে। অনুগ্রহ করে ১৫ মিনিট পর চেষ্টা করুন।'
+      message: '🚨 এই অ্যাকাউন্টটিতে অতিরিক্ত ভুল পাসওয়ার্ডের চেষ্টার কারণে সাময়িকভাবে ব্লক করা হয়েছে। অনুগ্রহ করে ১৫ মিনিট পর চেষ্টা করুন।'
     }
   }
 });
