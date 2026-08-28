@@ -7,7 +7,13 @@ const cookieParser = require('cookie-parser');
 
 const { User } = require('./models');
 const seedDatabase = require('./seeders/seed');
-const { sanitizeInput, corsOptions, generalLimiter } = require('./middleware/security');
+const {
+  sanitizeInput,
+  corsOptions,
+  generalLimiter,
+  honeypotGuard,
+  enterpriseSecurityHeaders
+} = require('./middleware/security');
 
 // Import Route Handlers
 const authRoutes = require('./routes/auth');
@@ -54,7 +60,11 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security & Parsing Middleware
+// 1. Disable Fingerprinting & Server Stack Information Leakage
+app.disable('x-powered-by');
+
+// 2. Enterprise Security & Hardening Middleware
+app.use(enterpriseSecurityHeaders);
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false
@@ -64,6 +74,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+app.use(honeypotGuard);
 app.use(sanitizeInput);
 app.use('/api', generalLimiter);
 
