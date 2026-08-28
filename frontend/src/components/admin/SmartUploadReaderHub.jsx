@@ -204,6 +204,14 @@ function cleanAndNormalizeUTF8(input) {
   clean = clean.replace(/[\u200B\u200E\u200F]/g, ''); // Zero-width spaces & directional marks
   clean = clean.replace(/\u00A0/g, ' '); // Non-breaking space to regular space
 
+  // 2b. Protect Math Formulas, LaTeX tokens, Sets, and standard scientific units strictly:
+  const preservedMathTokens = [];
+  clean = clean.replace(/(?:\b(?:log|tan|cos|sin|sec|cot|cosec|km|kg|cm|mm|Hz|Pa|mol|eV|id|ID|MCQ|CQ|SQ)\b|(?<=\d\s*)(?:m|s|N|J|W|V|A)(?=\s|$|[\,\.\;\?।])|\b[A-Z]\s*=\s*\{[^\}]+\}|\$[^\$]+\$|\\\([^\)]+\\\)|(?<=\s|^)[xyzpqrabcdeXYZPQRABCDE](?=\s*[\=\+\-\*\/\:\<\>]))/g, (m) => {
+    const idx = preservedMathTokens.length;
+    preservedMathTokens.push(m);
+    return `\uE002${idx}\uE002`;
+  });
+
   // 3. ONLY PUA (Private Use Area \uF000 - \uF0FF) Symbol conversions (NEVER touch \u0080-\u00FF which are Bijoy chars!)
   const SYMBOL_MAP = {
     '\uF0CE': '∈',
@@ -468,11 +476,31 @@ function repairPdfMixedStreamBengali(text) {
     [/log5125/g, 'log₅ 125'],
     [/\b203\s+gি\./g, '20√3 মি.'],
     [/\b403\s+gি\./g, '40√3 মি.'],
-    // High Frequency Bijoy Words
+    // High Frequency Broken / Encoded Words Direct Fixes
+    [/cিP/g, 'পিচ'],
+    [/eেM/g, 'বেগ'],
+    [/cিছন/g, 'পিছন'],
+    [/ïiæ‡Z/g, 'শুরুতে'],
+    [/ïiæ/g, 'শুরু'],
+    [/cÖgvY/g, 'প্রমাণ'],
+    [/wbY©q/g, 'নির্ণয়'],
     [/বাষি©K/g, 'বার্ষিক'],
     [/mেট/g, 'সেট'],
     [/cর্hন্ত/g, 'পর্যন্ত'],
     [/gৌjিক/g, 'মৌলিক'],
+    [/স্লতিতে/g, 'ক্ষতিতে'],
+    [/eিক্রq/g, 'বিক্রয়'],
+    [/ক্রয়ম্j্য/g, 'ক্রয়মূল্য'],
+    [/ক্রয়ম্j্য/g, 'ক্রয়মূল্য'],
+    [/eিক্রয়ম্jে্যর/g, 'বিক্রয়মূল্যের'],
+    [/eিক্রয়ম্jে্যর/g, 'বিক্রয়মূল্যের'],
+    [/হলেv/g, 'হলে,'],
+    [/jাভে/g, 'লাভে'],
+    [/jাভ/g, 'লাভ'],
+    [/mাসj/g, 'আসল'],
+    [/gূলধন/g, 'মূলধন'],
+    [/gুনাফা/g, 'মুনাফা'],
+    [/gূj/g, 'মূল'],
     [/সংখ্যাগুjোর/g, 'সংখ্যাগুলোর'],
     [/তথ্যগুjো/g, 'তথ্যগুলো'],
     [/Pিত্রে/g, 'চিত্রে'],
@@ -504,6 +532,7 @@ function repairPdfMixedStreamBengali(text) {
     [/iেখার/g, 'রেখার'],
     [/iেখা/g, 'রেখা'],
     [/চতূর্ভাগে/g, 'চতুর্ভাগে'],
+    [/চতূর্ভাগ/g, 'চতুর্ভাগ'],
     [/\bP\s*=\s*([0-9]+)/g, '∠P = $1°'],
     [/\bQ\s*=\s*([0-9]+)/g, '∠Q = $1°'],
     [/\bR\s*=\s*([0-9]+)/g, '∠R = $1°']
@@ -517,18 +546,32 @@ function repairPdfMixedStreamBengali(text) {
   str = str.replace(/\b([a-zA-Z0-9]+)\s+I\s+([a-zA-Z0-9]+)\b/g, '$1 ও $2');
   str = str.replace(/([\u0980-\u09FFa-zA-Z0-9]+)\s+I\s+([\u0980-\u09FFa-zA-Z0-9]+)/g, '$1 ও $2');
 
-  // 4. Single-character Bijoy relics inside Bengali words:
-  str = str.replace(/([\u0980-\u09FF])i\b/g, '$1র');
-  str = str.replace(/([\u0980-\u09FF])K\b/g, '$1ক');
-  str = str.replace(/([\u0980-\u09FF])Z\b/g, '$1ত');
-  str = str.replace(/([\u0980-\u09FF])Y\b/g, '$1ণ');
-  str = str.replace(/([\u0980-\u09FF])m\b/g, '$1স');
-  str = str.replace(/([\u0980-\u09FF])a\b/g, '$1ধ');
-  str = str.replace(/([\u0980-\u09FF])U\b/g, '$1ট');
-  str = str.replace(/([\u0980-\u09FF])b\b/g, '$1ন');
-  str = str.replace(/([\u0980-\u09FF])g\b/g, '$1ম');
+  // 4. Universal Hybrid Character Encoding Resolver:
+  // Convert ANY Latin letter that touches a Bengali character or vowel sign using Bijoy keymap
+  const BIJOY_CHAR_MAP = {
+    'A': 'অ', 'B': 'ই', 'C': 'ঈ', 'D': 'উ', 'E': 'ঊ', 'F': 'ঋ', 'G': 'এ', 'H': 'ঐ', 'I': 'ও', 'J': 'ঔ',
+    'K': 'ক', 'L': 'খ', 'M': 'গ', 'N': 'ঘ', 'O': 'ঙ',
+    'P': 'চ', 'Q': 'ছ', 'R': 'জ', 'S': 'ঝ', 'T': 'ঞ',
+    'U': 'ট', 'V': 'ঠ', 'W': 'ড', 'X': 'ঢ', 'Y': 'ণ',
+    'Z': 'ত', '_': 'থ', '`': 'দ', 'a': 'ধ', 'b': 'ন',
+    'c': 'প', 'd': 'ফ', 'e': 'ব', 'f': 'ভ', 'g': 'ম',
+    'h': 'য', 'i': 'র', 'j': 'ল', 'k': 'শ', 'l': 'ষ',
+    'm': 'স', 'n': 'হ', 'o': 'গ', 'p': 'ড়', 'q': 'য়',
+    'r': 'অ', 's': 'ু', 't': 'ট', 'u': 'জ', 'v': 'া',
+    'w': 'য', 'x': 'ও', 'y': 'চ', 'z': 'ধ'
+  };
 
-  // 5. Google Lens & OCR Bengali Spaced Syllable Restorations:
+  for (let pass = 0; pass < 4; pass++) {
+    str = str.replace(/([a-zA-Z_`~])(?=[\u0980-\u09FF])/g, (m, ch) => BIJOY_CHAR_MAP[ch] || ch);
+    str = str.replace(/([\u0980-\u09FF])([a-zA-Z_`~])/g, (m, bg, ch) => bg + (BIJOY_CHAR_MAP[ch] || ch));
+  }
+
+  // 5. Bengali vowel/kar position correction (e.g. Broken kar like "্j" -> "ূল")
+  str = str.replace(/ম্j/g, 'মূল');
+  str = str.replace(/ব্j/g, 'বুল');
+  str = str.replace(/ত্j/g, 'তুল');
+
+  // 6. Google Lens & OCR Bengali Spaced Syllable Restorations:
   const BENGALI_CONS = '[\u0995-\u09B9\u09CE\u09DC-\u09DF]';
   const BENGALI_KARS = '[\u09BE\u09BF\u09C0\u09C1\u09C2\u09C3\u09C7\u09C8\u09CB\u09CC]';
   str = str.replace(new RegExp(`(${BENGALI_CONS})\\s+(${BENGALI_KARS})`, 'g'), '$1$2');
@@ -568,6 +611,11 @@ function repairPdfMixedStreamBengali(text) {
   // Restore protected ratios
   ratioTokens.forEach((saved, idx) => {
     str = str.replace(`\uE001${idx}\uE001`, saved);
+  });
+
+  // Restore protected math tokens
+  preservedMathTokens.forEach((saved, idx) => {
+    str = str.replace(`\uE002${idx}\uE002`, saved);
   });
 
   // Cleanup multiple spaces
@@ -2027,6 +2075,25 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                 setBulkInputText(val);
                 handleProcessBulkText(val, activeVault);
               }}
+              onPaste={(e) => {
+                e.preventDefault();
+                const rawClipboard = e.clipboardData.getData('text') || '';
+                let sanitized = rawClipboard;
+                if (isBijoyEncoded(sanitized)) {
+                  sanitized = convertBijoyToUnicode(sanitized);
+                }
+                sanitized = cleanAndNormalizeUTF8(sanitized);
+
+                const target = e.target;
+                const start = target.selectionStart || 0;
+                const end = target.selectionEnd || 0;
+                const currentVal = target.value || '';
+                const newVal = currentVal.substring(0, start) + sanitized + currentVal.substring(end);
+                const finalClean = cleanAndNormalizeUTF8(newVal);
+                
+                setBulkInputText(finalClean);
+                handleProcessBulkText(finalClean, activeVault);
+              }}
               placeholder={
                 activeVault === 'MCQ'
                   ? `এখানে ১ বা একাধিক MCQ প্রশ্ন পেস্ট করুন...\n\n১. বলের এসআই একক কী?\n(ক) জুল (খ) নিউটন (গ) ওয়াট (ঘ) প্যাসকেল\nউত্তর: খ\nব্যাখ্যা: বলের একক নিউটন।`
@@ -2034,6 +2101,9 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
                   ? `এখানে সৃজনশীল প্রশ্ন পেস্ট করুন...\n\n১. উদ্দীপক: একটি গাড়ি স্থির অবস্থান থেকে যাত্রা শুরু করে...\n(ক) ত্বরণ কাকে বলে? [১]\n(খ) সুষম বেগ বলতে কী বোঝায়? [২]\n(গ) গাড়িটির ত্বরণ নির্ণয় করো। [৩]\n(ঘ) মোট অতিক্রান্ত দূরত্ব বিশ্লেষণ করো। [৪]`
                   : `এখানে সংক্ষিপ্ত প্রশ্ন পেস্ট করুন...\n\n১. কাজ কাকে বলে? এর একক কী?\nউত্তর: বল ও সরণের গুণফলকে কাজ বলে। একক জুল (J)।`
               }
+              style={{
+                fontFamily: "'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', sans-serif"
+              }}
               className="utf8-bangla-input w-full p-4 bg-slate-50 border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none leading-relaxed tracking-wide"
             />
 
