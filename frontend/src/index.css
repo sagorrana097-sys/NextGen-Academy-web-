@@ -186,3 +186,48 @@
   font-feature-settings: normal;
 }
 
+/* =========================================================
+   Math Box & Equation Card Components
+   ========================================================= */
+.math-box {
+  background-color: #f8fafc;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0 16px 16px 0;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dark .math-box {
+  background-color: #0f172a;
+  border-left: 4px solid #60a5fa;
+  color: #f1f5f9;
+}
+
+.math-box-emerald {
+  background-color: #f0fdf4;
+  border-left: 4px solid #10b981;
+  border-radius: 0 16px 16px 0;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+.dark .math-box-emerald {
+  background-color: #064e3b;
+  border-left: 4px solid #34d399;
+}
+
+.math-box-purple {
+  background-color: #faf5ff;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0 16px 16px 0;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+.dark .math-box-purple {
+  background-color: #3b0764;
+  border-left: 4px solid #a78bfa;
+}
+
