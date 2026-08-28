@@ -1,14 +1,21 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
 /**
  * Universal Math & Equation Renderer Component
- * Renders LaTeX formulas ($...$, $$...$$, \(...\), \[...\]) with KaTeX
+ * Renders LaTeX formulas ($...$, $$...$$, \(...\), \[...\]) with KaTeX & MathJax 3
  * Automatically detects and formats Sets (e.g. Q = {x : 0 < x < 6}), Power Sets P(Q),
  * Relations, Inequalities (0 < x < 6), and Scientific units (2.5 m s-2)
  */
 export default function MathRenderer({ text = '', inline = true, className = '' }) {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.MathJax && window.MathJax.typesetPromise && containerRef.current) {
+      window.MathJax.typesetPromise([containerRef.current]).catch(() => {});
+    }
+  }, [text]);
   const renderedContent = useMemo(() => {
     if (!text || typeof text !== 'string') return text || '';
 
@@ -352,11 +359,11 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
   }, [text, inline]);
 
   if (typeof renderedContent === 'string') {
-    return <span className={`math-equation-text ${className}`}>{renderedContent}</span>;
+    return <span ref={containerRef} className={`math-equation-text ${className}`}>{renderedContent}</span>;
   }
 
   return (
-    <span className={`math-equation-container inline-block ${className}`}>
+    <span ref={containerRef} className={`math-equation-container inline-block ${className}`}>
       {renderedContent.map((part, idx) => {
         if (part.type === 'math') {
           return (
