@@ -39,7 +39,7 @@ async function seedDatabase() {
   const saltRounds = 12;
   const adminPassword = bcrypt.hashSync('01792818005', saltRounds);
 
-  // 1. Create Primary Super Admin User ONLY
+  // 1. Create Primary Super Admin User
   const adminUser = await User.create({
     id: 1,
     name: 'মো: আলমগীর হোসেন (Md. Alomgir Hossain)',
@@ -52,6 +52,129 @@ async function seedDatabase() {
     role: 'SUPER_ADMIN',
     phone: '01792818005',
     isActive: true
+  });
+
+  // 2. Create Teacher User & Profile
+  const teacherPassword = bcrypt.hashSync('teacher123', saltRounds);
+  const teacherUser = await User.create({
+    id: 2,
+    name: 'প্রকৌ. রফিকুল ইসলাম (Engr. Rafiqul Islam)',
+    username: 'teacher',
+    userId: 'teacher',
+    identifier: 'teacher',
+    email: 'teacher@nextgen.edu.bd',
+    password: teacherPassword,
+    passwordHash: teacherPassword,
+    role: 'TEACHER',
+    phone: '01712345678',
+    isActive: true
+  });
+
+  await Teacher.create({
+    id: 1,
+    userId: teacherUser.id,
+    teacherIdNumber: 'TCH-2026-001',
+    designation: 'সিনিয়র পদার্থবিজ্ঞান প্রভাষক (Senior Lecturer)',
+    qualification: 'বিএসসি ও এমএসসি (পদার্থবিজ্ঞান - ঢাবি)',
+    joiningDate: '2023-01-01',
+    phone: '01712345678',
+    email: 'teacher@nextgen.edu.bd',
+    salary: 45000,
+    status: 'ACTIVE'
+  });
+
+  // 3. Create Student 1 (Tahmid Ahmed - Class 10 SSC)
+  const studentPassword = bcrypt.hashSync('student123', saltRounds);
+  const studentUser1 = await User.create({
+    id: 3,
+    name: 'তাহমিদ আহমেদ (Tahmid Ahmed)',
+    username: 'STD-2026-001',
+    userId: 'STD-2026-001',
+    identifier: 'STD-2026-001',
+    email: 'student@nextgen.edu.bd',
+    password: studentPassword,
+    passwordHash: studentPassword,
+    role: 'STUDENT',
+    phone: '01711223344',
+    isActive: true
+  });
+
+  await Student.create({
+    id: 1,
+    userId: studentUser1.id,
+    studentIdNumber: 'STD-2026-001',
+    nameBn: 'তাহমিদ আহমেদ',
+    nameEn: 'Tahmid Ahmed',
+    rollNo: 101,
+    classId: 13, // 10th grade
+    sectionId: 37, // Padma
+    dob: '2010-05-15',
+    bloodGroup: 'B+',
+    gender: 'MALE',
+    address: 'বাড়ি #১২, ধানমন্ডি, ঢাকা',
+    guardianName: 'মো: রফিকুল ইসলাম',
+    guardianPhone: '01711000000',
+    admissionDate: '2026-01-01',
+    status: 'ACTIVE'
+  });
+
+  // 4. Create Student 2 (Sumaiya Akter - Class 10 SSC)
+  const studentUser2 = await User.create({
+    id: 4,
+    name: 'সুমাইয়া আক্তার (Sumaiya Akter)',
+    username: 'STD-2026-002',
+    userId: 'STD-2026-002',
+    identifier: 'STD-2026-002',
+    email: 'sumaiya@nextgen.edu.bd',
+    password: studentPassword,
+    passwordHash: studentPassword,
+    role: 'STUDENT',
+    phone: '01811223344',
+    isActive: true
+  });
+
+  await Student.create({
+    id: 2,
+    userId: studentUser2.id,
+    studentIdNumber: 'STD-2026-002',
+    nameBn: 'সুমাইয়া আক্তার',
+    nameEn: 'Sumaiya Akter',
+    rollNo: 102,
+    classId: 13,
+    sectionId: 38,
+    dob: '2010-08-20',
+    bloodGroup: 'O+',
+    gender: 'FEMALE',
+    address: 'উত্তরা, ঢাকা',
+    guardianName: 'আক্তার হোসেন',
+    guardianPhone: '01811000000',
+    admissionDate: '2026-01-01',
+    status: 'ACTIVE'
+  });
+
+  // 5. Create Parent User
+  const parentPassword = bcrypt.hashSync('parent123', saltRounds);
+  const parentUser = await User.create({
+    id: 5,
+    name: 'মো: রফিকুল ইসলাম (অভিভাবক)',
+    username: 'parent',
+    userId: 'parent',
+    identifier: 'parent',
+    email: 'parent@nextgen.edu.bd',
+    password: parentPassword,
+    passwordHash: parentPassword,
+    role: 'PARENT',
+    phone: '01711000000',
+    isActive: true
+  });
+
+  await GuardianStudentMapping.create({
+    id: 1,
+    parentUserId: parentUser.id,
+    parentId: parentUser.id,
+    studentId: 1,
+    relationship: 'FATHER',
+    isPrimary: true
   });
 
   // 2. Complete Classes (Pre-Primary, Primary, Secondary, Higher Secondary)
@@ -382,22 +505,22 @@ async function seedDatabase() {
   };
   db['instituteSettings'] = db['settings'];
 
-  // 11. Empty Arrays for dynamic production entities
-  db['students'] = [];
-  db['teachers'] = [];
-  db['guardian_student_mappings'] = [];
-  db['teacher_class_assignments'] = [];
-  db['attendances'] = [];
-  db['teacher_attendances'] = [];
-  db['marks'] = [];
-  db['invoices'] = [];
-  db['payments'] = [];
-  db['homeworks'] = [];
-  db['homework_statuses'] = [];
-  db['exam_submissions'] = [];
-  db['live_classes'] = [];
-  db['live_class_comments'] = [];
-  db['admission_applications'] = [];
+  // 11. Arrays for dynamic production entities
+  if (!db['students']) db['students'] = [];
+  if (!db['teachers']) db['teachers'] = [];
+  if (!db['guardian_student_mappings']) db['guardian_student_mappings'] = [];
+  if (!db['teacher_class_assignments']) db['teacher_class_assignments'] = [];
+  if (!db['attendances']) db['attendances'] = [];
+  if (!db['teacher_attendances']) db['teacher_attendances'] = [];
+  if (!db['marks']) db['marks'] = [];
+  if (!db['invoices']) db['invoices'] = [];
+  if (!db['payments']) db['payments'] = [];
+  if (!db['homeworks']) db['homeworks'] = [];
+  if (!db['homework_statuses']) db['homework_statuses'] = [];
+  if (!db['exam_submissions']) db['exam_submissions'] = [];
+  if (!db['live_classes']) db['live_classes'] = [];
+  if (!db['live_class_comments']) db['live_class_comments'] = [];
+  if (!db['admission_applications']) db['admission_applications'] = [];
   db['question_repositories'] = [
     {
       id: 1,
