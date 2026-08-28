@@ -482,7 +482,9 @@ export const questionRepositoryAPI = {
   parseDocument: (data) => request('/question-repository/parse-document', { method: 'POST', body: JSON.stringify(data) }),
   uploadAndTrain: (data) => request('/question-repository/upload-and-train', { method: 'POST', body: JSON.stringify(data) }),
   generateAIExam: (data) => request('/question-repository/generate-ai-exam', { method: 'POST', body: JSON.stringify(data) }),
+  generateExam: (data) => request('/question-repository/generate-ai-exam', { method: 'POST', body: JSON.stringify(data) }),
   publishToOnlineExam: (data) => request('/question-repository/publish-to-online-exam', { method: 'POST', body: JSON.stringify(data) }),
+  publishExam: (data) => request('/question-repository/publish-to-online-exam', { method: 'POST', body: JSON.stringify(data) }),
   deleteQuestion: (id) => request(`/question-repository/${id}`, { method: 'DELETE' })
 };
 
@@ -844,3 +846,5 @@ export const aiRoutineAPI = {
   getWeaknessAnalysis: () => request('/student/ai-weaknesses'),
   generateAIRoutine: (data) => request('/student/ai-routine/generate', { method: 'POST', body: JSON.stringify(data) })
 };
+
+

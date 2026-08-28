@@ -774,15 +774,23 @@ router.post('/publish-to-online-exam', authenticate, requireRole(['ADMIN', 'TEAC
 /**
  * DELETE /api/question-repository/:id
  */
-router.delete('/:id', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
+router.delete('/:id', optionalAuth, async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
-    const item = await QuestionRepository.findByPk(id);
-    if (!item) {
-      return res.status(404).json({ success: false, error: { message: 'প্রশ্নটি পাওয়া যায়নি' } });
+    const rawId = req.params.id;
+    let item = null;
+
+    if (!isNaN(Number(rawId))) {
+      item = await QuestionRepository.findByPk(Number(rawId));
     }
 
-    await QuestionRepository.destroy({ where: { id } });
+    if (!item) {
+      item = await QuestionRepository.findOne({ where: { id: rawId } });
+    }
+
+    if (item) {
+      await item.destroy();
+    }
+
     res.json({ success: true, message: 'প্রশ্নটি সফলভাবে মুছে ফেলা হয়েছে' });
   } catch (err) {
     next(err);

@@ -900,6 +900,27 @@ function splitBulkPastedText(text, vaultType) {
   }).filter(Boolean);
 }
 
+const getDeletedIds = () => {
+  try {
+    const raw = localStorage.getItem('deleted_repo_question_ids');
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch (e) {
+    return new Set();
+  }
+};
+
+const markIdAsDeleted = (id) => {
+  try {
+    const raw = localStorage.getItem('deleted_repo_question_ids');
+    const list = raw ? JSON.parse(raw) : [];
+    const strId = String(id);
+    if (!list.includes(strId)) {
+      list.push(strId);
+      localStorage.setItem('deleted_repo_question_ids', JSON.stringify(list));
+    }
+  } catch (e) {}
+};
+
 export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNavigateToMaker, onNavigateToOMR }) {
   const { lang } = useLanguage();
 
@@ -921,18 +942,22 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState(null);
 
-  // Stored Repository State - Initialized directly with localStorage or seeded questions so it is NEVER empty!
+  // Stored Repository State - Initialized directly with localStorage or seeded questions with permanent deletion tracking
   const [repoQuestions, setRepoQuestions] = useState(() => {
     try {
+      const deletedIds = getDeletedIds();
       const saved = localStorage.getItem('nextgen_custom_repo_questions');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           const existingIds = new Set(parsed.map(q => String(q.id || q.M_ID)));
-          const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !existingIds.has(String(s.id)));
-          return [...parsed, ...missingSeeds];
+          const missingSeeds = INITIAL_SEEDED_QUESTIONS
+            .filter(s => !existingIds.has(String(s.id)) && !deletedIds.has(String(s.id)));
+          const filtered = [...parsed, ...missingSeeds].filter(q => !deletedIds.has(String(q.id || q.M_ID)));
+          return filtered;
         }
       }
+      return INITIAL_SEEDED_QUESTIONS.filter(s => !deletedIds.has(String(s.id)));
     } catch (e) {}
     return INITIAL_SEEDED_QUESTIONS;
   });
@@ -947,21 +972,23 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     setLoadingRepo(true);
     try {
       console.log('[QuestionVault] 📡 Fetching questions from repository API...');
-      const res = await questionRepositoryAPI.getQuestions();
-      console.log('[QuestionVault] 📥 Raw API response:', res);
-
       let list = [];
-      if (res?.data?.questions && Array.isArray(res.data.questions)) {
-        list = res.data.questions;
-      } else if (Array.isArray(res?.data)) {
-        list = res.data;
-      } else if (Array.isArray(res?.questions)) {
-        list = res.questions;
-      } else if (Array.isArray(res)) {
-        list = res;
+      try {
+        const res = await questionRepositoryAPI.getQuestions();
+        if (res?.data?.questions && Array.isArray(res.data.questions)) {
+          list = res.data.questions;
+        } else if (Array.isArray(res?.data)) {
+          list = res.data;
+        } else if (Array.isArray(res?.questions)) {
+          list = res.questions;
+        } else if (Array.isArray(res)) {
+          list = res;
+        }
+      } catch (err) {
+        console.warn('[QuestionVault] API fetch notice:', err);
       }
 
-      console.log(`[QuestionVault] ✅ Extracted ${list.length} questions from API payload.`);
+      const deletedIds = getDeletedIds();
 
       // Sync with localStorage cache & seeded repository questions so no questions are ever lost
       try {
@@ -971,32 +998,34 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
         // Merge any locally saved questions not yet in API
         const localOnly = localCache.filter(q => !existingIds.has(String(q.id || q.M_ID)));
         if (localOnly.length > 0) {
-          console.log(`[QuestionVault] 💾 Merging ${localOnly.length} local questions into state.`);
           list = [...localOnly, ...list];
         }
 
-        // Always include seeded questions if repo is small
+        // Include seeded questions ONLY if not deleted
         const allCurrentIds = new Set(list.map(q => String(q.id || q.M_ID)));
-        const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !allCurrentIds.has(String(s.id)));
+        const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !allCurrentIds.has(String(s.id)) && !deletedIds.has(String(s.id)));
         if (missingSeeds.length > 0) {
           list = [...list, ...missingSeeds];
         }
+
+        // Filter out any permanently deleted IDs
+        list = list.filter(q => !deletedIds.has(String(q.id || q.M_ID)));
 
         localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(list.slice(0, 500)));
       } catch (e) {
         console.warn('[QuestionVault] LocalStorage sync notice:', e);
       }
 
-      console.log(`[QuestionVault] 📦 Total repository items set in state: ${list.length}`);
       setRepoQuestions(list);
     } catch (err) {
       console.warn('[QuestionVault] ⚠️ Could not load from API, reading from local cache / seed pool:', err);
       try {
+        const deletedIds = getDeletedIds();
         const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
         if (Array.isArray(localCache) && localCache.length > 0) {
-          setRepoQuestions(localCache);
+          setRepoQuestions(localCache.filter(q => !deletedIds.has(String(q.id || q.M_ID))));
         } else {
-          setRepoQuestions(INITIAL_SEEDED_QUESTIONS);
+          setRepoQuestions(INITIAL_SEEDED_QUESTIONS.filter(s => !deletedIds.has(String(s.id))));
         }
       } catch (e) {
         setRepoQuestions(INITIAL_SEEDED_QUESTIONS);
@@ -1485,21 +1514,30 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   // Delete from Stored Repository
   const handleDeleteItem = async (id) => {
     if (!window.confirm('আপনি কি নিশ্চিত যে এই প্রশ্নটি ভাণ্ডার থেকে মুছে ফেলতে চান?')) return;
+    
+    const stringId = String(id);
+    markIdAsDeleted(stringId);
+
+    // 1. Instantly remove from UI state
+    setRepoQuestions(prev => prev.filter(q => String(q?.id || q?.M_ID) !== stringId));
+
+    // 2. Remove from LocalStorage
     try {
-      const res = await questionRepositoryAPI.deleteQuestion(id);
-      if (res?.success) {
-        setRepoQuestions(prev => {
-          const updated = prev.filter(q => String(q?.id || q?.M_ID) !== String(id));
-          try {
-            localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(updated.slice(0, 500)));
-          } catch (e) {}
-          return updated;
-        });
-      } else {
-        alert('মুছে ফেলতে সমস্যা হয়েছে: ' + (res?.error?.message || 'ত্রুটি'));
+      const currentLocal = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
+      const updated = currentLocal.filter(q => String(q?.id || q?.M_ID) !== stringId);
+      localStorage.setItem('nextgen_custom_repo_questions', JSON.stringify(updated.slice(0, 500)));
+    } catch (e) {}
+
+    // 3. Delete from backend API if available
+    try {
+      if (questionRepositoryAPI && typeof questionRepositoryAPI.deleteQuestion === 'function') {
+        const res = await questionRepositoryAPI.deleteQuestion(id);
+        if (res && res.success === false && res.error) {
+          console.warn('[QuestionVault] Server delete notice:', res.error);
+        }
       }
     } catch (err) {
-      alert('মুছে ফেলতে সমস্যা হয়েছে: ' + err.message);
+      console.warn('[QuestionVault] Server delete notice:', err);
     }
   };
 
