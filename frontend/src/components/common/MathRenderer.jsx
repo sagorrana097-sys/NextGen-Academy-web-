@@ -1,23 +1,27 @@
 import React, { useMemo, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
 /**
  * Universal Math & Equation Renderer Component
- * Renders LaTeX formulas ($...$, $$...$$, \(...\), \[...\]) with KaTeX & MathJax 3
- * Automatically detects and formats Sets (e.g. Q = {x : 0 < x < 6}), Power Sets P(Q),
- * Relations, Inequalities (0 < x < 6), and Scientific units (2.5 m s-2)
+ * Renders LaTeX formulas ($...$, $$...$$, \(...\), \[...\]) with KaTeX, MathJax 3 & ReactMarkdown
+ * Automatically detects and formats Sets, Relations, Inequalities, Triangles, Angles and Scientific units
  */
-export default function MathRenderer({ text = '', inline = true, className = '' }) {
+export default function MathRenderer({ text = '', content = '', children, inline = true, className = '', isMarkdown = false }) {
   const containerRef = useRef(null);
+  const rawInput = content || text || (typeof children === 'string' ? children : '') || '';
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.MathJax && window.MathJax.typesetPromise && containerRef.current) {
       window.MathJax.typesetPromise([containerRef.current]).catch(() => {});
     }
-  }, [text]);
+  }, [rawInput]);
+
   const renderedContent = useMemo(() => {
-    if (!text || typeof text !== 'string') return text || '';
+    if (!rawInput || typeof rawInput !== 'string') return rawInput || '';
 
     // 1. ONLY PUA (Private Use Area \uF000 - \uF0FF) Symbol conversions (NEVER touch \u0080-\u00FF which are Bijoy chars!)
     const SYMBOL_MAP = {
@@ -356,7 +360,20 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     }
 
     return [{ type: 'text', content: processedText }];
-  }, [text, inline]);
+  }, [rawInput, inline, isMarkdown]);
+
+  if (isMarkdown) {
+    return (
+      <div ref={containerRef} className={`math-container prose dark:prose-invert max-w-none ${className}`}>
+        <ReactMarkdown
+          remarkPlugins={[remarkMath]}
+          rehypePlugins={[[rehypeKatex, { strict: false }]]}
+        >
+          {typeof renderedContent === 'string' ? renderedContent : rawInput}
+        </ReactMarkdown>
+      </div>
+    );
+  }
 
   if (typeof renderedContent === 'string') {
     return <span ref={containerRef} className={`math-equation-text ${className}`}>{renderedContent}</span>;
