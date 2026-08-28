@@ -2071,28 +2071,13 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
               autoCorrect="off"
               value={bulkInputText}
               onChange={(e) => {
-                const val = cleanAndNormalizeUTF8(e.target.value);
-                setBulkInputText(val);
-                handleProcessBulkText(val, activeVault);
-              }}
-              onPaste={(e) => {
-                e.preventDefault();
-                const rawClipboard = e.clipboardData.getData('text') || '';
-                let sanitized = rawClipboard;
-                if (isBijoyEncoded(sanitized)) {
-                  sanitized = convertBijoyToUnicode(sanitized);
+                let val = e.target.value || '';
+                if (isBijoyEncoded(val)) {
+                  val = convertBijoyToUnicode(val);
                 }
-                sanitized = cleanAndNormalizeUTF8(sanitized);
-
-                const target = e.target;
-                const start = target.selectionStart || 0;
-                const end = target.selectionEnd || 0;
-                const currentVal = target.value || '';
-                const newVal = currentVal.substring(0, start) + sanitized + currentVal.substring(end);
-                const finalClean = cleanAndNormalizeUTF8(newVal);
-                
-                setBulkInputText(finalClean);
-                handleProcessBulkText(finalClean, activeVault);
+                const cleaned = cleanAndNormalizeUTF8(val);
+                setBulkInputText(cleaned);
+                handleProcessBulkText(cleaned, activeVault);
               }}
               placeholder={
                 activeVault === 'MCQ'
