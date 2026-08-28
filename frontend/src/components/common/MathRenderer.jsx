@@ -96,6 +96,25 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     processedText = processedText.replace(/উদীপক/g, 'উদ্দীপক');
     processedText = processedText.replace(/তথে্য/g, 'তথ্যে');
     processedText = processedText.replace(/প√শে্নর/g, 'প্রশ্নের');
+    processedText = processedText.replace(/চছজ/g, '$\\triangle PQR$');
+    processedText = processedText.replace(/চজঝ/g, '$\\angle PRS$');
+    processedText = processedText.replace(/PRঝ/g, '$\\angle PRS$');
+    processedText = processedText.replace(/গঅউ/g, '$\\angle AOD$');
+    processedText = processedText.replace(/তথ্যগুjো/g, 'তথ্যগুলো');
+    processedText = processedText.replace(/প্রhোR্য/g, 'প্রযোজ্য');
+    processedText = processedText.replace(/সংখ্যাগুjোর/g, 'সংখ্যাগুলোর');
+    processedText = processedText.replace(/mে\.gি\./g, 'সে.মি.');
+    processedText = processedText.replace(/i¤\^mের/g, 'রম্বসের');
+    processedText = processedText.replace(/i¤\^m/g, 'রম্বস');
+    processedText = processedText.replace(/iেখার/g, 'রেখার');
+    processedText = processedText.replace(/iেখা/g, 'রেখা');
+
+    // 5b. Geometry Angles: "P = 60, Q = 50, R = 70" -> "$\angle P = 60^\circ, \angle Q = 50^\circ, \angle R = 70^\circ$"
+    processedText = processedText.replace(/\bP\s*=\s*(\d+)\s*,\s*Q\s*=\s*(\d+)\s*,\s*R\s*=\s*(\d+)/g, '$\\angle P = $1^\\circ, \\angle Q = $2^\\circ, \\angle R = $3^\\circ$');
+    processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])\b([PQR])\s*=\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, '$\\angle $1 = $2^\\circ$');
+
+    // 5c. Geometry Sides: "চছ = 4" -> "PQ = 4", "ছজ = 7" -> "QR = 7", "চজ = 11" -> "PR = 11"
+    processedText = processedText.replace(/চছ/g, 'PQ').replace(/ছজ/g, 'QR').replace(/চজ/g, 'PR');
 
     // 6. Fix collapsed inequalities and set expressions:
     processedText = processedText.replace(/(\d+)\s{2,}([a-zA-Z])\s*<\s*(\d+)/g, '$1 < $2 < $3');
