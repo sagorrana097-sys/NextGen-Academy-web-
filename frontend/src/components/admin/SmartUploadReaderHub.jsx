@@ -777,43 +777,56 @@ function parseMCQChunk(lines, idx) {
   const qLines = [];
 
   for (let i = 0; i < lines.length; i++) {
-    const line = cleanAndNormalizeUTF8(lines[i].trim());
-    if (!line) continue;
+    const rawLine = cleanAndNormalizeUTF8(lines[i].trim());
+    if (!rawLine) continue;
 
     // Check for Answer line (Bengali or English)
-    const ansMatch = line.match(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|Correct\s*Ans(?:wer)?)\s*[:.\-=\s]+\s*[\(\[]?([ক-ঘa-dA-D1-4১২৩৪])[\)\]\.\s\-]*/i);
+    const ansMatch = rawLine.match(/^(?:সঠিক\s*)?(?:উত্তর|উত্তরঃ|উঃ|উ|Ans|Answer|Correct\s*Ans(?:wer)?)\s*[:.\-=\s]+\s*[\(\[]?([ক-ঘa-dA-D1-4১২৩৪])[\)\]\.\s\-]*/i);
     if (ansMatch) {
       ans = normalizeOptionKey(ansMatch[1]);
       continue;
     }
 
     // Check for Explanation / Solution line
-    const expMatch = line.match(/^(?:ব্যাখ্যা|Explanation|Explain|সমাধান|Note|ব্যাখ্যা\s*সহ)\s*[:.\-=\s]+(.*)/i);
+    const expMatch = rawLine.match(/^(?:ব্যাখ্যা|Explanation|Explain|সমাধান|Note|ব্যাখ্যা\s*সহ)\s*[:.\-=\s]+(.*)/i);
     if (expMatch) {
       explanation = cleanAndNormalizeUTF8(expMatch[1].trim());
       continue;
     }
 
-    // Check for inline options on a single line (e.g. "(ক) 5 (খ) 16 (গ) 32 (ঘ) 64" or "ক. ১  খ. ২  গ. ৩  ঘ. ৪")
-    const inlineMatches = [...line.matchAll(/[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*?)(?=(?:[\(\[]?[ক-ঘa-dA-D][\)\]\.\:\-\|\।\s]+)|$)/gi)];
+    // Pre-clean legacy K L M N on the line into (ক) (খ) (গ) (ঘ)
+    let line = rawLine
+      .replace(/(?:^|[\s\t]+)K[\.\:\)\s\t]+\s*/g, ' (ক) ')
+      .replace(/(?:^|[\s\t]+)L[\.\:\)\s\t]+\s*/g, ' (খ) ')
+      .replace(/(?:^|[\s\t]+)M[\.\:\)\s\t]+\s*/g, ' (গ) ')
+      .replace(/(?:^|[\s\t]+)N[\.\:\)\s\t]+\s*/g, ' (ঘ) ')
+      .trim();
+
+    // Check for inline options on this line (e.g. "(ক) 3 (খ) 5" or "ক. 0.75  খ. 3")
+    const inlineMatches = [...line.matchAll(/(?:[\(\[]\s*([ক-ঘa-dA-D1-4১২৩৪])\s*[\)\]]|(?:\b|^)([ক-ঘa-dA-D])\s*[\.\)\:\-]\s*)(.*?)(?=(?:[\(\[]\s*[ক-ঘa-dA-D1-4১২৩৪]\s*[\)\]]|(?:\b|^)[ক-ঘa-dA-D]\s*[\.\)\:\-]\s*)|$)/gi)];
+
     if (inlineMatches.length >= 2) {
       inlineMatches.forEach(m => {
-        const optVal = cleanAndNormalizeUTF8(m[2].trim());
-        if (optVal) options.push(optVal);
+        const val = cleanAndNormalizeUTF8(m[3].trim());
+        if (val && options.length < 4) {
+          options.push(val);
+        }
       });
       continue;
     }
 
-    // Check for single line option (e.g. "ক) অপশন টেক্সট" or "A. Option text")
-    const singleOptMatch = line.match(/^[\(\[]?([ক-ঘa-dA-D])[\)\]\.\:\-\|\।\s]+(.*)/i);
-    if (singleOptMatch && options.length < 4 && (i > 0 || options.length > 0)) {
-      const optVal = cleanAndNormalizeUTF8(singleOptMatch[2].trim());
-      if (optVal) options.push(optVal);
-      continue;
+    // Check for single option on this line (e.g. "(ক) অপশন ১" or "ক. অপশন ১")
+    const singleMatch = line.match(/^(?:[\(\[]\s*([ক-ঘa-dA-D1-4১২৩৪])\s*[\)\]]|([ক-ঘa-dA-D])\s*[\.\)\:\-]\s*)(.*)/i);
+    if (singleMatch && (i > 0 || options.length > 0)) {
+      const val = cleanAndNormalizeUTF8(singleMatch[3].trim());
+      if (val && options.length < 4) {
+        options.push(val);
+        continue;
+      }
     }
 
     // Otherwise it's part of the question title
-    qLines.push(line);
+    qLines.push(rawLine);
   }
 
   // Pad options to 4 if fewer
