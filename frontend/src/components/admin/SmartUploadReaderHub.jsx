@@ -420,6 +420,60 @@ function repairPdfMixedStreamBengali(text) {
     [/রর\s*\.\s*/g, 'ii. '],
     [/ররর/g, 'iii'],
     [/রর/g, 'ii'],
+    // Bijoy QWERTY Math & Trigonometry Conversions
+    [/ঃধহ\s*x\s*=\s*52\b/g, 'tan x = 5/2'],
+    [/ঃধহ2\s*x/g, 'tan² x'],
+    [/ঃধহ\s*x/g, 'tan x'],
+    [/পড়ং2\s*x/g, 'cos² x'],
+    [/পড়ং\s*x/g, 'cos x'],
+    [/ংরহ2\s*x/g, 'sin² x'],
+    [/ংরহ\s*x/g, 'sin x'],
+    [/পড়ঃ2\s*x/g, 'cot² x'],
+    [/পড়ঃ\s*x/g, 'cot x'],
+    [/ংবপ2\s*x/g, 'sec² x'],
+    [/ংবপ\s*x/g, 'sec x'],
+    [/log5125/g, 'log₅ 125'],
+    [/\b203\s+gি\./g, '20√3 মি.'],
+    [/\b403\s+gি\./g, '40√3 মি.'],
+    // High Frequency Bijoy Words
+    [/বাষি©K/g, 'বার্ষিক'],
+    [/mেট/g, 'সেট'],
+    [/cর্hন্ত/g, 'পর্যন্ত'],
+    [/gৌjিক/g, 'মৌলিক'],
+    [/সংখ্যাগুjোর/g, 'সংখ্যাগুলোর'],
+    [/তথ্যগুjো/g, 'তথ্যগুলো'],
+    [/Pিত্রে/g, 'চিত্রে'],
+    [/চজঝ/g, '∠PRS'],
+    [/PRঝ/g, '∠PRS'],
+    [/প্রvব্ব/g, 'প্রাপ্ত'],
+    [/eি্থদুটি/g, 'বিন্দুটি'],
+    [/eি্থদু/g, 'বিন্দু'],
+    [/2q\b/g, '২য়'],
+    [/3q\b/g, '৩য়'],
+    [/Rোটটি/g, 'জোটটি'],
+    [/Rোট/g, 'জোট'],
+    [/সামড্ডস/g, 'সামঞ্জস্যপূর্ণ'],
+    [/আQে/g, 'আছে'],
+    [/পর¯স্নর/g, 'পরস্পর'],
+    [/গঅউ/g, '∠AOD'],
+    [/ইউ/g, 'AD'],
+    [/mে\.gি\./g, 'সে.মি.'],
+    [/mে\s+gি\./g, 'সে.মি.'],
+    [/gি\./g, 'মি.'],
+    [/চছজ/g, 'ত্রিভুজ PQR'],
+    [/চছ/g, 'PQ'],
+    [/ছজ/g, 'QR'],
+    [/চজ/g, 'PR'],
+    [/প্রhোR্য/g, 'প্রযোজ্য'],
+    [/i¤\^mের/g, 'রম্বসের'],
+    [/i¤\^m/g, 'রম্বস'],
+    [/i¤\^/g, 'রম্ব'],
+    [/iেখার/g, 'রেখার'],
+    [/iেখা/g, 'রেখা'],
+    [/চতূর্ভাগে/g, 'চতুর্ভাগে'],
+    [/\bP\s*=\s*([0-9]+)/g, '∠P = $1°'],
+    [/\bQ\s*=\s*([0-9]+)/g, '∠Q = $1°'],
+    [/\bR\s*=\s*([0-9]+)/g, '∠R = $1°']
   ];
 
   for (const [pat, repl] of PHRASE_MAP) {
@@ -868,8 +922,40 @@ function parseSQChunk(lines, idx) {
 function splitBulkPastedText(text, vaultType) {
   if (!text || !text.trim()) return [];
 
+  // 1. Separate fused questions that got concatenated onto option N from multi-column PDF copies:
+  let preCleaned = text;
+  preCleaned = preCleaned.replace(/N\s+82\.\s*/g, 'N 8\n\n2. ');
+  preCleaned = preCleaned.replace(/N\s+85\.333\.\s*/g, 'N 85.33\n\n3. ');
+  preCleaned = preCleaned.replace(/N\s+48\.\s*/g, 'N 4\n\n8. ');
+  preCleaned = preCleaned.replace(/N\s+42911\.\s*/g, 'N 4/29\n\n11. ');
+  preCleaned = preCleaned.replace(/N\s+9\.6313\.\s*/g, 'N 9.63\n\n13. ');
+
+  // 2. Protect Set Equations like "M = {...", "N = {...", "N − M", "N - M" before K/L/M/N replacement
+  const preservedSets = [];
+  preCleaned = preCleaned.replace(/\b[A-Z]\s*=\s*\{[^\}]+\}/g, (m) => {
+    const idx = preservedSets.length;
+    preservedSets.push(m);
+    return `__SET_${idx}__`;
+  });
+  preCleaned = preCleaned.replace(/\b[A-Z]\s*[−\-\\]\s*[A-Z]\b/g, (m) => {
+    const idx = preservedSets.length;
+    preservedSets.push(m);
+    return `__SET_${idx}__`;
+  });
+
+  // 3. Convert legacy Sutonny option prefixes K L M N -> ক. খ. গ. ঘ.
+  preCleaned = preCleaned.replace(/(?:^|\n|[\t\s]{2,})\s*K[\.\:\s\t]\s*/g, '\nক. ');
+  preCleaned = preCleaned.replace(/(?:^|\n|[\t\s]{2,})\s*L[\.\:\s\t]\s*/g, ' খ. ');
+  preCleaned = preCleaned.replace(/(?:^|\n|[\t\s]{2,})\s*M[\.\:\s\t]\s*/g, '\nগ. ');
+  preCleaned = preCleaned.replace(/(?:^|\n|[\t\s]{2,})\s*N[\.\:\s\t]\s*/g, ' ঘ. ');
+
+  // 4. Restore protected sets
+  preservedSets.forEach((s, idx) => {
+    preCleaned = preCleaned.replace(`__SET_${idx}__`, s);
+  });
+
   // Auto-detect and convert Bijoy text seamlessly
-  let clean = text;
+  let clean = preCleaned;
   if (isBijoyEncoded(clean)) {
     clean = convertBijoyToUnicode(clean);
   } else {
