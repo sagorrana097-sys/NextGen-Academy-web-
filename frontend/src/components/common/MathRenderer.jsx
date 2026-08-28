@@ -109,6 +109,40 @@ export default function MathRenderer({ text = '', inline = true, className = '' 
     processedText = processedText.replace(/iেখার/g, 'রেখার');
     processedText = processedText.replace(/iেখা/g, 'রেখা');
 
+    // 5a. Profit, Loss, and Commercial Math Sutonny mappings
+    processedText = processedText.replace(/স্লতিতে/g, 'ক্ষতিতে');
+    processedText = processedText.replace(/স্লতি/g, 'ক্ষতি');
+    processedText = processedText.replace(/ক্রয়ম্j্য/g, 'ক্রয়মূল্য');
+    processedText = processedText.replace(/ক্রয়ম্j্য/g, 'ক্রয়মূল্য');
+    processedText = processedText.replace(/eিক্রয়ম্jে্যর/g, 'বিক্রয়মূল্যের');
+    processedText = processedText.replace(/eিক্রqম্jে্যর/g, 'বিক্রয়মূল্যের');
+    processedText = processedText.replace(/বিক্রয়ম্jে্যর/g, 'বিক্রয়মূল্যের');
+    processedText = processedText.replace(/বিক্রয়ম্jে্যর/g, 'বিক্রয়মূল্যের');
+    processedText = processedText.replace(/eিক্রয়ম্j্য/g, 'বিক্রয়মূল্য');
+    processedText = processedText.replace(/eিক্রqম্j্য/g, 'বিক্রয়মূল্য');
+    processedText = processedText.replace(/eিক্রq/g, 'বিক্রয়');
+    processedText = processedText.replace(/eিক্রয়/g, 'বিক্রয়');
+    processedText = processedText.replace(/eিক্রয়/g, 'বিক্রয়');
+    processedText = processedText.replace(/eিক্রি/g, 'বিক্রি');
+    processedText = processedText.replace(/ম্jে্যর/g, 'মূল্যের');
+    processedText = processedText.replace(/ম্jে্যi/g, 'মূল্যের');
+    processedText = processedText.replace(/ম্jে্য/g, 'মূল্যে');
+    processedText = processedText.replace(/ম্j্য/g, 'মূল্য');
+    processedText = processedText.replace(/jাভে/g, 'লাভে');
+    processedText = processedText.replace(/jাভ/g, 'লাভ');
+    processedText = processedText.replace(/gূলধন/g, 'মূলধন');
+    processedText = processedText.replace(/gুনাফা/g, 'মুনাফা');
+    processedText = processedText.replace(/mাসj/g, 'আসল');
+    processedText = processedText.replace(/mুদে/g, 'সুদে');
+    processedText = processedText.replace(/mুদ/g, 'সুদ');
+    processedText = processedText.replace(/হলেv/g, 'হলে');
+    processedText = processedText.replace(/হলোv/g, 'হলো');
+    processedText = processedText.replace(/ম্লমতা/g, 'ক্ষমতা');
+    processedText = processedText.replace(/ম্লমা/g, 'ক্ষমা');
+    processedText = processedText.replace(/ম্লুদ্রতম/g, 'ক্ষুদ্রতম');
+    processedText = processedText.replace(/ম্লুদ্র/g, 'ক্ষুদ্র');
+    processedText = processedText.replace(/eৃহত্তম/g, 'বৃহত্তম');
+
     // 5b. Geometry Angles: "P = 60, Q = 50, R = 70" -> "$\angle P = 60^\circ, \angle Q = 50^\circ, \angle R = 70^\circ$"
     processedText = processedText.replace(/\bP\s*=\s*(\d+)\s*,\s*Q\s*=\s*(\d+)\s*,\s*R\s*=\s*(\d+)/g, '$\\angle P = $1^\\circ, \\angle Q = $2^\\circ, \\angle R = $3^\\circ$');
     processedText = processedText.replace(/(?<![0-9a-zA-Z\$\\\{])\b([PQR])\s*=\s*(\d+)(?![0-9a-zA-Z\$\\\}])/g, '$\\angle $1 = $2^\\circ$');
