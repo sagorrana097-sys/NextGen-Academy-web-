@@ -7,8 +7,9 @@ const AuditService = require('../services/auditService');
 const router = express.Router();
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
 
-// Configure multer memory storage
+// Configure multer memory storage with strict 25MB limits
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 25 * 1024 * 1024 } // 25 MB max
@@ -39,7 +40,7 @@ function generateAcademicBadge({ board, examYear, questionType, category }) {
 
 /**
  * POST /api/materials/upload
- * Process & Upload PDF/Text study materials with academic metadata (Board, Year, Question Type, Chapter, Topic)
+ * Process & Upload PDF, DOCX, TXT & Images with academic metadata (Board, Year, Question Type, Chapter, Topic)
  */
 router.post('/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
@@ -78,23 +79,52 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
     if (req.file) {
       fileName = req.file.originalname;
       fileSize = `${(req.file.size / (1024 * 1024)).toFixed(2)} MB`;
-      const isPdf =
-        req.file.mimetype === 'application/pdf' ||
-        fileName.toLowerCase().endsWith('.pdf');
+      const lowerName = fileName.toLowerCase();
+      const mime = req.file.mimetype || '';
+
+      const isPdf = mime === 'application/pdf' || lowerName.endsWith('.pdf');
+      const isDocx = mime.includes('wordprocessingml') || mime.includes('officedocument') || lowerName.endsWith('.docx') || lowerName.endsWith('.doc');
+      const isImage = mime.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg)$/i.test(lowerName);
 
       if (isPdf) {
         fileType = 'PDF';
         try {
           const parsed = await pdfParse(req.file.buffer);
-          extractedText = (parsed.text || '').trim();
+          const rawText = (parsed.text || '').trim();
+          if (rawText) {
+            extractedText = rawText;
+          } else {
+            extractedText = `[${fileName} - এই PDF ফাইলে কোনো সরাসরি সিলেক্টেবল টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা পৃষ্ঠা হতে পারে।]`;
+          }
         } catch (pdfErr) {
           console.warn('PDF parse warning:', pdfErr.message);
-          extractedText = req.file.buffer.toString('utf-8').trim();
+          extractedText = `[${fileName} - PDF পার্সিং ত্রুটি: ${pdfErr.message}]`;
         }
+      } else if (isDocx) {
+        fileType = 'DOCX';
+        try {
+          const docxResult = await mammoth.extractRawText({ buffer: req.file.buffer });
+          extractedText = (docxResult.value || '').trim();
+        } catch (docxErr) {
+          console.warn('DOCX parse warning:', docxErr.message);
+          extractedText = `[${fileName} - Word DOCX পার্সিং ত্রুটি: ${docxErr.message}]`;
+        }
+      } else if (isImage) {
+        fileType = lowerName.split('.').pop().toUpperCase() || 'IMAGE';
+        extractedText = `[${fileName} (${fileSize}) - সংযুক্ত ইমেজ ফাইল। OCR দিয়ে টেক্সট স্ক্যান করুন।]`;
       } else {
         fileType = 'TXT';
-        extractedText = req.file.buffer.toString('utf-8').trim();
+        try {
+          extractedText = req.file.buffer.toString('utf-8').trim();
+        } catch (txtErr) {
+          extractedText = '';
+        }
       }
+    }
+
+    // Limit extracted text length safely to prevent excessive memory/storage bloat (Max 50,000 chars)
+    if (extractedText && extractedText.length > 50000) {
+      extractedText = extractedText.slice(0, 50000) + '\n\n[... দীর্ঘ টেক্সট সংক্ষেপিত করা হয়েছে ...]';
     }
 
     const finalTitle = (title || titleBn || titleEn || fileName || 'স্টাডি সোর্স নোট').trim();

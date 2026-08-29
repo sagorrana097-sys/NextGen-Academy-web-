@@ -1372,26 +1372,82 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
     return () => window.removeEventListener('paste', handleGlobalPaste);
   }, [activeVault]);
 
+  // Helper to load Mammoth.js dynamically for client-side Word document parsing
+  const loadMammoth = async () => {
+    if (window.mammoth) return window.mammoth;
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+      script.onload = () => resolve(window.mammoth);
+      script.onerror = () => reject(new Error('Mammoth.js লোড করা যায়নি'));
+      document.head.appendChild(script);
+    });
+  };
+
   // Upload and Read PDF / Images / Word / Text files directly into questions
   const handleDocumentUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // File size guard (Max 25 MB)
+    if (file.size > 25 * 1024 * 1024) {
+      alert('ফাইলের আকার সর্বোচ্চ ২৫ মেগাবাইট (25 MB) পর্যন্ত সমর্থিত। অনুগ্রহ করে ছোট ফাইল নির্বাচন করুন।');
+      if (e.target) e.target.value = '';
+      return;
+    }
+
     setReadingPdf(true);
-    setFeedbackMsg(null);
+    setFeedbackMsg({
+      type: 'info',
+      text: `📂 ${file.name} পড়া হচ্ছে... অনুগ্রহ করে একটু অপেক্ষা করুন।`
+    });
 
     try {
       let extractedText = '';
-      if (file.type.startsWith('image/')) {
-        // Image / Google Lens OCR extraction
+      const lowerName = file.name.toLowerCase();
+      const isImage = file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp)$/i.test(lowerName);
+      const isDocx = lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || file.type.includes('wordprocessingml');
+      const isPdf = lowerName.endsWith('.pdf') || file.type === 'application/pdf';
+
+      if (isImage) {
+        // 1. Image / Google Lens OCR extraction
         setFeedbackMsg({
           type: 'info',
           text: `📸 ${file.name} থেকে বাংলা OCR স্ক্যান করা হচ্ছে... অনুগ্রহ করে একটু অপেক্ষা করুন।`
         });
         extractedText = await extractTextFromImageViaOCR(file);
-      } else if (file.name.endsWith('.txt') || file.type === 'text/plain') {
-        extractedText = await file.text();
-      } else if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
+      } else if (isDocx) {
+        // 2. DOCX extraction using Mammoth
+        setFeedbackMsg({
+          type: 'info',
+          text: `📄 ${file.name} (Word Document) থেকে টেক্সট বের করা হচ্ছে...`
+        });
+        try {
+          const mammoth = await loadMammoth();
+          const arrayBuffer = await file.arrayBuffer();
+          const docxResult = await mammoth.extractRawText({ arrayBuffer });
+          extractedText = (docxResult?.value || '').trim();
+        } catch (docxErr) {
+          console.warn('Frontend DOCX parse fallback:', docxErr);
+          // Fallback to server-side parser
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('title', file.name);
+          const token = localStorage.getItem('token') || '';
+          const serverRes = await fetch('/api/materials/upload', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData
+          });
+          const serverData = await serverRes.json();
+          if (serverData?.success && serverData?.data?.content_text) {
+            extractedText = serverData.data.content_text;
+          } else {
+            throw new Error(serverData?.error?.message || 'Word ফাইল পার্স করা যায়নি');
+          }
+        }
+      } else if (isPdf) {
+        // 3. PDF extraction via PDF.js with OCR fallback for scanned PDFs
         const arrayBuffer = await file.arrayBuffer();
         if (!window.pdfjsLib) {
           await new Promise((resolve, reject) => {
@@ -1414,13 +1470,41 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           const pageStrings = textContent.items.map(item => item.str);
           fullText += pageStrings.join(' ') + '\n\n';
         }
-        extractedText = fullText;
+
+        // If PDF contains selectable text, use it directly
+        if (fullText && fullText.trim().length > 30) {
+          extractedText = fullText;
+        } else {
+          // Scanned PDF OCR Fallback for first few pages
+          setFeedbackMsg({
+            type: 'info',
+            text: `🔍 ${file.name}-এ সরাসরি ডিজিটাল টেক্সট পাওয়া যায়নি। স্ক্যানড পৃষ্ঠাগুলো OCR দিয়ে পড়া হচ্ছে...`
+          });
+          let scannedText = '';
+          const maxPagesToOcr = Math.min(pdf.numPages, 4);
+          for (let pageNum = 1; pageNum <= maxPagesToOcr; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 1.5 });
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.85));
+            if (blob) {
+              const pageOcr = await extractTextFromImageViaOCR(blob);
+              if (pageOcr) scannedText += pageOcr + '\n\n';
+            }
+          }
+          extractedText = scannedText;
+        }
       } else {
+        // 4. Plain Text (.txt) fallback
         extractedText = await file.text();
       }
 
       if (!extractedText || !extractedText.trim()) {
-        alert('ফাইল থেকে কোনো টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা ইমেজ PDF হলে দয়া করে টেক্সট কপি করে পেস্ট করুন।');
+        alert('ফাইল থেকে কোনো প্রশ্ন বা পড়ার মতো টেক্সট পাওয়া যায়নি। অনুগ্রহ করে পরিষ্কার ফাইল আপলোড করুন অথবা টেক্সট কপি করে সরাসরি পেস্ট করুন।');
         return;
       }
 

@@ -333,9 +333,63 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
           publicUploadedUrl = uploadResult.publicUrl;
         }
 
-        if (selectedFile.type === 'text/plain' || selectedFile.name.endsWith('.txt')) {
-          extractedContent = await selectedFile.text();
-        } else if (!extractedContent) {
+        const lowerName = selectedFile.name.toLowerCase();
+        const isPdf = lowerName.endsWith('.pdf') || selectedFile.type === 'application/pdf';
+        const isDocx = lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || selectedFile.type.includes('wordprocessingml');
+        const isTxt = lowerName.endsWith('.txt') || selectedFile.type === 'text/plain';
+
+        if (isTxt) {
+          try {
+            extractedContent = await selectedFile.text();
+          } catch (e) {}
+        } else if (isDocx) {
+          try {
+            if (!window.mammoth) {
+              await new Promise((res, rej) => {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+                s.onload = res;
+                s.onerror = rej;
+                document.head.appendChild(s);
+              });
+            }
+            const arrayBuffer = await selectedFile.arrayBuffer();
+            const docxResult = await window.mammoth.extractRawText({ arrayBuffer });
+            extractedContent = (docxResult?.value || '').trim();
+          } catch (e) {
+            extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - Word সোর্স ডকুমেন্ট।`;
+          }
+        } else if (isPdf) {
+          try {
+            if (!window.pdfjsLib) {
+              await new Promise((res, rej) => {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+                s.onload = () => {
+                  window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                  res();
+                };
+                s.onerror = rej;
+                document.head.appendChild(s);
+              });
+            }
+            const arrayBuffer = await selectedFile.arrayBuffer();
+            const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+            const pdf = await loadingTask.promise;
+            let fullText = '';
+            for (let pageNum = 1; pageNum <= Math.min(pdf.numPages, 10); pageNum++) {
+              const page = await pdf.getPage(pageNum);
+              const textContent = await page.getTextContent();
+              const pageStrings = textContent.items.map(item => item.str);
+              fullText += pageStrings.join(' ') + '\n\n';
+            }
+            extractedContent = fullText.trim();
+          } catch (e) {
+            extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - PDF সোর্স ডকুমেন্ট।`;
+          }
+        }
+
+        if (!extractedContent) {
           extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - ${chapter || title} (${liveBadge}) সোর্স ডকুমেন্ট।`;
         }
       }
