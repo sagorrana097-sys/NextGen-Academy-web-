@@ -138,16 +138,17 @@ export default function TeacherProfileSettings() {
       {/* Header Banner */}
       <div
         style={{
+          backgroundImage: profile?.bannerUrl ? `url(${profile.bannerUrl})` : undefined,
           backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-          height: '220px',
-          maxHeight: '220px',
+          backgroundPosition: 'center',
+          height: '180px',
+          maxHeight: '180px',
           width: '100%',
           maxWidth: '100%',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'relative'
         }}
-        className="teacher-banner-container bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-slate-700/50"
+        className="w-full h-32 md:h-40 object-cover rounded-lg overflow-hidden teacher-banner-container bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative border border-slate-700/50"
       >
         <div className="absolute right-0 top-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
