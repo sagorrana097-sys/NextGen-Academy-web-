@@ -952,14 +952,18 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       {activeTab === 'dashboard' && (
         <>
       {/* Teacher Profile Header */}
-      <div className="teacher-banner-container bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="teacher-banner-container bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 max-h-[200px] overflow-hidden">
         <div className="flex items-center space-x-4">
-          <div className="teacher-avatar-wrapper w-16 h-16 sm:w-20 sm:h-20 max-w-[5rem] max-h-[5rem] rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white font-black text-2xl flex items-center justify-center shadow-lg border-2 border-white/20 overflow-hidden flex-shrink-0">
+          <div
+            style={{ width: '120px', height: '120px', minWidth: '120px', minHeight: '120px', maxWidth: '120px', maxHeight: '120px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}
+            className="teacher-avatar-wrapper rounded-full bg-gradient-to-br from-blue-600 to-indigo-800 text-white font-black text-2xl flex items-center justify-center shadow-lg border-2 border-white/20 overflow-hidden flex-shrink-0"
+          >
             {user?.avatar || user?.photo ? (
               <img
                 src={user?.avatar || user?.photo}
                 alt={user?.name || 'Teacher Profile'}
-                className="teacher-avatar-img w-full h-full object-cover object-center"
+                style={{ width: '120px', height: '120px', maxWidth: '120px', maxHeight: '120px', objectFit: 'cover', borderRadius: '50%', display: 'block' }}
+                className="teacher-avatar-img rounded-full object-cover object-center flex-shrink-0"
               />
             ) : (
               <span>{user?.name?.charAt(0) || 'T'}</span>

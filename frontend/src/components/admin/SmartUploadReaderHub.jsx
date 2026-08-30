@@ -1383,6 +1383,15 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
   // Helper to load Mammoth.js dynamically for client-side Word document parsing
   const loadMammoth = async () => {
     if (window.mammoth) return window.mammoth;
+    try {
+      const module = await import('mammoth');
+      if (module) {
+        if (typeof module.extractRawText === 'function') return module;
+        if (module.default && typeof module.default.extractRawText === 'function') return module.default;
+      }
+    } catch (e) {
+      console.warn('Bundled mammoth import fallback to CDN:', e);
+    }
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
@@ -1430,14 +1439,24 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           type: 'info',
           text: `📄 ${file.name} (Word Document) থেকে টেক্সট বের করা হচ্ছে...`
         });
+        let parsedSuccess = false;
         try {
           const mammoth = await loadMammoth();
-          const arrayBuffer = await file.arrayBuffer();
-          const docxResult = await mammoth.extractRawText({ arrayBuffer });
-          extractedText = (docxResult?.value || '').trim();
+          if (mammoth && typeof mammoth.extractRawText === 'function') {
+            const arrayBuffer = await file.arrayBuffer();
+            const docxResult = await mammoth.extractRawText({ arrayBuffer });
+            const val = (docxResult?.value || '').trim();
+            if (val && !val.startsWith('PK')) {
+              extractedText = val;
+              parsedSuccess = true;
+            }
+          }
         } catch (docxErr) {
-          console.warn('Frontend DOCX parse fallback:', docxErr);
-          // Fallback to server-side parser
+          console.warn('Frontend DOCX parse fallback to server API:', docxErr);
+        }
+
+        if (!parsedSuccess) {
+          // Robust Server-side Mammoth fallback
           const formData = new FormData();
           formData.append('file', file);
           formData.append('title', file.name);
@@ -1451,7 +1470,7 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           if (serverData?.success && serverData?.data?.content_text) {
             extractedText = serverData.data.content_text;
           } else {
-            throw new Error(serverData?.error?.message || 'Word ফাইল পার্স করা যায়নি');
+            throw new Error(serverData?.error?.message || 'Word file থেকে লেখা পড়া যায়নি। অনুগ্রহ করে একটি valid .docx file upload করুন।');
           }
         }
       } else if (isPdf) {

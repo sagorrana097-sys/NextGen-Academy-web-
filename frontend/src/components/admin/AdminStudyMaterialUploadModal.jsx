@@ -343,8 +343,16 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
             extractedContent = await selectedFile.text();
           } catch (e) {}
         } else if (isDocx) {
+          let docxSuccess = false;
           try {
-            if (!window.mammoth) {
+            let mammoth = window.mammoth;
+            if (!mammoth) {
+              try {
+                const mod = await import('mammoth');
+                mammoth = mod?.default || mod;
+              } catch (e) {}
+            }
+            if (!mammoth) {
               await new Promise((res, rej) => {
                 const s = document.createElement('script');
                 s.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
@@ -352,12 +360,40 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
                 s.onerror = rej;
                 document.head.appendChild(s);
               });
+              mammoth = window.mammoth;
             }
-            const arrayBuffer = await selectedFile.arrayBuffer();
-            const docxResult = await window.mammoth.extractRawText({ arrayBuffer });
-            extractedContent = (docxResult?.value || '').trim();
+            if (mammoth && typeof mammoth.extractRawText === 'function') {
+              const arrayBuffer = await selectedFile.arrayBuffer();
+              const docxResult = await mammoth.extractRawText({ arrayBuffer });
+              const val = (docxResult?.value || '').trim();
+              if (val && !val.startsWith('PK')) {
+                extractedContent = val;
+                docxSuccess = true;
+              }
+            }
           } catch (e) {
-            extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - Word সোর্স ডকুমেন্ট।`;
+            console.warn('Frontend DOCX parse fallback to server API:', e);
+          }
+
+          if (!docxSuccess) {
+            try {
+              const formData = new FormData();
+              formData.append('file', selectedFile);
+              formData.append('title', selectedFile.name);
+              const token = localStorage.getItem('token') || '';
+              const sRes = await fetch('/api/materials/upload', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData
+              });
+              const sData = await sRes.json();
+              if (sData?.success && sData?.data?.content_text) {
+                extractedContent = sData.data.content_text;
+              }
+            } catch (err) {
+              console.warn('Server docx upload fallback failed:', err);
+              extractedContent = `[${selectedFile.name}] (${formatFileSize(selectedFile.size)}) - Word সোর্স ডকুমেন্ট।`;
+            }
           }
         } else if (isPdf) {
           try {

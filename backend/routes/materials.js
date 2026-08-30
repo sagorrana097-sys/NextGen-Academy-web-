@@ -80,17 +80,93 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       fileName = req.file.originalname;
       fileSize = `${(req.file.size / (1024 * 1024)).toFixed(2)} MB`;
       const lowerName = fileName.toLowerCase();
-      const mime = req.file.mimetype || '';
+      const mime = (req.file.mimetype || '').toLowerCase();
+      const buf = req.file.buffer;
 
-      const isPdf = mime === 'application/pdf' || lowerName.endsWith('.pdf');
-      const isDocx = mime.includes('wordprocessingml') || mime.includes('officedocument') || lowerName.endsWith('.docx') || lowerName.endsWith('.doc');
-      const isImage = mime.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg)$/i.test(lowerName);
+      // 1. Magic Bytes and File Type Detection
+      let detectedType = 'TXT';
+      if (buf && buf.length >= 4) {
+        // PDF Magic Bytes: %PDF- (0x25, 0x50, 0x44, 0x46)
+        if (buf[0] === 0x25 && buf[1] === 0x50 && buf[2] === 0x44 && buf[3] === 0x46) {
+          detectedType = 'PDF';
+        }
+        // ZIP / DOCX Magic Bytes: PK\x03\x04 (0x50, 0x4B, 0x03, 0x04)
+        else if (buf[0] === 0x50 && buf[1] === 0x4B && (buf[2] === 0x03 || buf[2] === 0x05 || buf[2] === 0x07) && (buf[3] === 0x04 || buf[3] === 0x06 || buf[3] === 0x08)) {
+          detectedType = 'DOCX';
+        }
+        // JPEG Magic Bytes: 0xFF, 0xD8, 0xFF
+        else if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) {
+          detectedType = 'IMAGE';
+        }
+        // PNG Magic Bytes: 0x89, 0x50, 0x4E, 0x47
+        else if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47) {
+          detectedType = 'IMAGE';
+        }
+      }
 
-      if (isPdf) {
+      // Secondary check by extension / MIME if magic bytes check didn't flag PDF/DOCX/IMAGE
+      if (detectedType === 'TXT') {
+        if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || mime.includes('wordprocessingml') || mime.includes('msword') || mime.includes('officedocument')) {
+          detectedType = 'DOCX';
+        } else if (lowerName.endsWith('.pdf') || mime === 'application/pdf') {
+          detectedType = 'PDF';
+        } else if (mime.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg|gif)$/i.test(lowerName)) {
+          detectedType = 'IMAGE';
+        }
+      }
+
+      // 2. Perform Clean Extraction by Type
+      if (detectedType === 'DOCX') {
+        fileType = 'DOCX';
+        console.log(`[DOCX] file detected: ${fileName}`);
+        console.log(`[DOCX] size: ${fileSize}`);
+        console.log(`[DOCX] extraction method: mammoth`);
+        try {
+          const docxResult = await mammoth.extractRawText({ buffer: req.file.buffer });
+          const rawDocxVal = (docxResult?.value || '').trim();
+
+          // Reject empty or corrupted extraction
+          if (!rawDocxVal) {
+            console.warn(`[DOCX] extraction returned empty text for: ${fileName}`);
+            return res.status(422).json({
+              success: false,
+              error: {
+                code: 'DOCX_EMPTY_OR_CORRUPT',
+                message: 'Word file থেকে কোনো টেক্সট পাওয়া যায়নি। অনুগ্রহ করে একটি valid .docx file upload করুন।'
+              }
+            });
+          }
+
+          // Reject binary artifacts in extracted text
+          if (rawDocxVal.startsWith('PK') || rawDocxVal.includes('\x00\x00')) {
+            console.warn(`[DOCX] extraction produced binary artifact for: ${fileName}`);
+            return res.status(422).json({
+              success: false,
+              error: {
+                code: 'DOCX_BINARY_CORRUPTED',
+                message: 'Word file থেকে লেখা পড়া যায়নি। ফাইলটি ক্ষতিগ্রস্থ বা পাসওয়ার্ড প্রটেক্টেড হতে পারে।'
+              }
+            });
+          }
+
+          extractedText = rawDocxVal;
+          console.log(`[DOCX] extracted characters: ${extractedText.length}`);
+          console.log(`[DOCX] extraction successful`);
+        } catch (docxErr) {
+          console.error(`[DOCX] extraction error for ${fileName}:`, docxErr.message);
+          return res.status(422).json({
+            success: false,
+            error: {
+              code: 'DOCX_EXTRACTION_FAILED',
+              message: `Word file থেকে লেখা পড়া যায়নি: ${docxErr.message}`
+            }
+          });
+        }
+      } else if (detectedType === 'PDF') {
         fileType = 'PDF';
         try {
           const parsed = await pdfParse(req.file.buffer);
-          const rawText = (parsed.text || '').trim();
+          const rawText = (parsed?.text || '').trim();
           if (rawText) {
             extractedText = rawText;
           } else {
@@ -100,22 +176,29 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
           console.warn('PDF parse warning:', pdfErr.message);
           extractedText = `[${fileName} - PDF পার্সিং ত্রুটি: ${pdfErr.message}]`;
         }
-      } else if (isDocx) {
-        fileType = 'DOCX';
-        try {
-          const docxResult = await mammoth.extractRawText({ buffer: req.file.buffer });
-          extractedText = (docxResult.value || '').trim();
-        } catch (docxErr) {
-          console.warn('DOCX parse warning:', docxErr.message);
-          extractedText = `[${fileName} - Word DOCX পার্সিং ত্রুটি: ${docxErr.message}]`;
-        }
-      } else if (isImage) {
+      } else if (detectedType === 'IMAGE') {
         fileType = lowerName.split('.').pop().toUpperCase() || 'IMAGE';
         extractedText = `[${fileName} (${fileSize}) - সংযুক্ত ইমেজ ফাইল। OCR দিয়ে টেক্সট স্ক্যান করুন।]`;
       } else {
+        // Plain Text File
         fileType = 'TXT';
+        // Verify buffer is not binary before converting to utf-8
+        let hasNulls = false;
+        const checkLen = Math.min(buf.length, 512);
+        for (let i = 0; i < checkLen; i++) {
+          if (buf[i] === 0) { hasNulls = true; break; }
+        }
+        if (hasNulls) {
+          return res.status(422).json({
+            success: false,
+            error: {
+              code: 'UNSUPPORTED_BINARY_FILE',
+              message: 'বাইনারি ফাইল ফরম্যাট সরাসরি টেক্সট হিসেবে পড়া যায় না। অনুগ্রহ করে .docx, .pdf অথবা .txt ফাইল দিন।'
+            }
+          });
+        }
         try {
-          extractedText = req.file.buffer.toString('utf-8').trim();
+          extractedText = buf.toString('utf-8').trim();
         } catch (txtErr) {
           extractedText = '';
         }
