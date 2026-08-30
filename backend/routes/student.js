@@ -117,48 +117,10 @@ async function getStudentFromUser(req) {
     });
 
     if (firstStudent) return firstStudent;
-
-    // 5. Ultimate Mock Fallback if database has 0 students
-    return {
-      id: 1,
-      userId: req.user?.id || 1,
-      rollNo: 1,
-      studentIdNumber: 'STD-2026-001',
-      classId: 1,
-      sectionId: 1,
-      batchId: 1,
-      group: 'বিজ্ঞান (Science)',
-      bloodGroup: 'B+',
-      dob: '2009-01-01',
-      gender: 'MALE',
-      address: 'পশ্চিম জয়দেবপুর, বাস-স্ট্যান্ড, গাজীপুর',
-      admissionDate: '2026-01-01',
-      user: {
-        id: req.user?.id || 1,
-        name: req.user?.name || 'তাহমিদ আহমেদ',
-        email: req.user?.email || 'student@nextgen.edu.bd',
-        phone: req.user?.phone || '০১৭৯২৮১৮০০৫',
-        role: 'STUDENT',
-        isActive: true,
-        avatar: null
-      },
-      class: { id: 1, nameBn: 'দশম শ্রেণি (SSC 2026)', name: 'Class 10' },
-      section: { id: 1, nameBn: 'ক শাখা (পদ্মা)', name: 'Section A' },
-      batch: { id: 1, nameBn: 'সকাল ব্যাচ (SSC স্পেশাল)', name: 'Morning Batch' }
-    };
+    return null;
   } catch (err) {
     console.warn('[getStudentFromUser warning]:', err.message);
-    return {
-      id: 1,
-      userId: req.user?.id || 1,
-      rollNo: 1,
-      studentIdNumber: 'STD-2026-001',
-      classId: 1,
-      sectionId: 1,
-      user: { id: req.user?.id || 1, name: 'তাহমিদ আহমেদ', role: 'STUDENT', isActive: true },
-      class: { id: 1, nameBn: 'দশম শ্রেণি', name: 'Class 10' },
-      section: { id: 1, nameBn: 'শাখা ক', name: 'Section A' }
-    };
+    return null;
   }
 }
 
@@ -209,44 +171,7 @@ router.get('/dashboard-aggregate', async (req, res, next) => {
     const gamification = getStudentGamification(req.user?.id, studentId);
     const coins = getStudentCoinsData(studentId);
 
-    const mockAttendance = [
-      { id: 1, date: new Date().toISOString().split('T')[0], status: 'PRESENT', inTime: '08:45 AM', remarks: 'উপস্থিত' },
-      { id: 2, date: '2026-08-24', status: 'PRESENT', inTime: '08:40 AM', remarks: 'উপস্থিত' },
-      { id: 3, date: '2026-08-23', status: 'LATE', inTime: '09:05 AM', remarks: 'দেরিতে প্রবেশ' },
-      { id: 4, date: '2026-08-22', status: 'PRESENT', inTime: '08:48 AM', remarks: 'উপস্থিত' },
-      { id: 5, date: '2026-08-21', status: 'PRESENT', inTime: '08:42 AM', remarks: 'উপস্থিত' }
-    ];
-
-    const mockMarks = [
-      { id: 1, subject: { name: 'পদার্থবিজ্ঞান', code: '136' }, obtainedMarks: 98, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 2, subject: { name: 'রসায়ন', code: '137' }, obtainedMarks: 96, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 3, subject: { name: 'উচ্চতর গণিত', code: '126' }, obtainedMarks: 99, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 4, subject: { name: 'জীববিজ্ঞান', code: '138' }, obtainedMarks: 95, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 5, subject: { name: 'বাংলা', code: '101' }, obtainedMarks: 94, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 6, subject: { name: 'ইংরেজি', code: '107' }, obtainedMarks: 100, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' }
-    ];
-
-    const mockRoutine = [
-      { id: 1, dayOfWeek: 'Sunday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'পদার্থবিজ্ঞান' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-      { id: 2, dayOfWeek: 'Monday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'রসায়ন' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-      { id: 3, dayOfWeek: 'Tuesday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'উচ্চতর গণিত' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০২' },
-      { id: 4, dayOfWeek: 'Wednesday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'জীববিজ্ঞান' }, teacher: { user: { name: 'বিজ্ঞান অনুষদ' } }, roomNumber: '১০১' },
-      { id: 5, dayOfWeek: 'Thursday', timeSlot: '০৮:০০ - ১০:০০', subject: { name: 'আইসিটি ও ভার্চুয়াল ল্যাব' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '৩ডি ল্যাব' }
-    ];
-
-    const mockInvoices = [
-      {
-        id: 1,
-        invoiceNumber: 'INV-2026-0801',
-        title: 'আগস্ট ২০২৬ মাসিক বেতন ও স্পেশাল ল্যাব ফি',
-        amount: 1500,
-        baseAmount: 1500,
-        discountAmount: 0,
-        dueDate: '2026-08-10',
-        status: 'PAID',
-        payments: [{ id: 1, amount: 1500, method: 'BKASH', transactionId: 'TRX8941829', paidAt: '2026-08-05' }]
-      }
-    ];
+    
 
     res.json({
       success: true,
@@ -272,7 +197,7 @@ router.get('/dashboard-aggregate', async (req, res, next) => {
             leave: 0,
             percentage: attendanceRate
           },
-          records: attRecords.length > 0 ? attRecords : mockAttendance
+          records: attRecords
         },
         results: {
           summary: {
@@ -281,10 +206,10 @@ router.get('/dashboard-aggregate', async (req, res, next) => {
             totalMaxMarks: totalMaxMarks || 600,
             percentage: totalMaxMarks > 0 ? Number(((totalMarks / totalMaxMarks) * 100).toFixed(1)) : 97.0
           },
-          marks: markRecords.length > 0 ? markRecords : mockMarks
+          marks: markRecords
         },
-        routine: routineList.length > 0 ? routineList : mockRoutine,
-        invoices: invoiceList.length > 0 ? invoiceList : mockInvoices,
+        routine: routineList,
+        invoices: invoiceList,
         notices: noticeList || [],
         gamification,
         coins
@@ -384,26 +309,19 @@ const handleAttendance = async (req, res, next) => {
     const absent = records.filter(r => r.status === 'ABSENT').length;
     const leave = records.filter(r => r.status === 'LEAVE').length;
 
-    const mockRecords = [
-      { id: 1, date: new Date().toISOString().split('T')[0], status: 'PRESENT', inTime: '08:45 AM', remarks: 'উপস্থিত' },
-      { id: 2, date: '2026-08-24', status: 'PRESENT', inTime: '08:40 AM', remarks: 'উপস্থিত' },
-      { id: 3, date: '2026-08-23', status: 'LATE', inTime: '09:05 AM', remarks: 'দেরিতে প্রবেশ' },
-      { id: 4, date: '2026-08-22', status: 'PRESENT', inTime: '08:48 AM', remarks: 'উপস্থিত' },
-      { id: 5, date: '2026-08-21', status: 'PRESENT', inTime: '08:42 AM', remarks: 'উপস্থিত' }
-    ];
-
+    const rate = total > 0 ? Number((((present + late) / total) * 100).toFixed(1)) : 0;
     res.json({
       success: true,
       data: {
         stats: {
-          total: total || 32,
-          present: present || 30,
-          late: late || 1,
-          absent: absent || 1,
-          leave: leave || 0,
-          percentage: total > 0 ? Number((((present + late) / total) * 100).toFixed(1)) : 96.9
+          total,
+          present,
+          late,
+          absent,
+          leave,
+          percentage: rate
         },
-        records: records.length > 0 ? records : mockRecords
+        records
       }
     });
   } catch (err) {
@@ -444,25 +362,17 @@ const handleResults = async (req, res, next) => {
 
     const gpa = marks.length > 0 ? Number((totalGradePoints / marks.length).toFixed(2)) : 5.0;
 
-    const mockMarks = [
-      { id: 1, subject: { name: 'পদার্থবিজ্ঞান', code: '136' }, obtainedMarks: 98, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 2, subject: { name: 'রসায়ন', code: '137' }, obtainedMarks: 96, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 3, subject: { name: 'উচ্চতর গণিত', code: '126' }, obtainedMarks: 99, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 4, subject: { name: 'জীববিজ্ঞান', code: '138' }, obtainedMarks: 95, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 5, subject: { name: 'বাংলা', code: '101' }, obtainedMarks: 94, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' },
-      { id: 6, subject: { name: 'ইংরেজি', code: '107' }, obtainedMarks: 100, fullMarks: 100, gradePoint: 5.0, letterGrade: 'A+' }
-    ];
-
+    const avgPercentage = totalMaxMarks > 0 ? Number(((totalMarks / totalMaxMarks) * 100).toFixed(1)) : 0;
     res.json({
       success: true,
       data: {
         summary: {
-          gpa: gpa || 5.0,
-          totalMarks: totalMarks || 582,
-          totalMaxMarks: totalMaxMarks || 600,
-          percentage: totalMaxMarks > 0 ? Number(((totalMarks / totalMaxMarks) * 100).toFixed(1)) : 97.0
+          gpa: marks.length > 0 ? gpa : 0,
+          totalMarks,
+          totalMaxMarks,
+          percentage: avgPercentage
         },
-        marks: marks.length > 0 ? marks : mockMarks
+        marks
       }
     });
   } catch (err) {
@@ -492,17 +402,9 @@ const handleRoutine = async (req, res, next) => {
       });
     } catch (e) {}
 
-    const mockRoutine = [
-      { id: 1, dayOfWeek: 'Sunday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'পদার্থবিজ্ঞান' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-      { id: 2, dayOfWeek: 'Monday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'রসায়ন' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০১' },
-      { id: 3, dayOfWeek: 'Tuesday', timeSlot: '০৮:০০ - ০৯:০০', subject: { name: 'উচ্চতর গণিত' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '১০২' },
-      { id: 4, dayOfWeek: 'Wednesday', timeSlot: '০৯:০০ - ১০:০০', subject: { name: 'জীববিজ্ঞান' }, teacher: { user: { name: 'বিজ্ঞান অনুষদ' } }, roomNumber: '১০১' },
-      { id: 5, dayOfWeek: 'Thursday', timeSlot: '০৮:০০ - ১০:০০', subject: { name: 'আইসিটি ও ভার্চুয়াল ল্যাব' }, teacher: { user: { name: 'মো: আলমগীর হোসেন (সাগর)' } }, roomNumber: '৩ডি ল্যাব' }
-    ];
-
     res.json({
       success: true,
-      data: routines.length > 0 ? routines : mockRoutine
+      data: routines
     });
   } catch (err) {
     next(err);
@@ -528,34 +430,9 @@ const handleInvoices = async (req, res, next) => {
       });
     } catch (e) {}
 
-    const mockInvoices = [
-      {
-        id: 1,
-        invoiceNumber: 'INV-2026-0801',
-        title: 'আগস্ট ২০২৬ মাসিক বেতন ও স্পেশাল ল্যাব ফি',
-        amount: 1500,
-        baseAmount: 1500,
-        discountAmount: 0,
-        dueDate: '2026-08-10',
-        status: 'PAID',
-        payments: [{ id: 1, amount: 1500, method: 'BKASH', transactionId: 'TRX8941829', paidAt: '2026-08-05' }]
-      },
-      {
-        id: 2,
-        invoiceNumber: 'INV-2026-0701',
-        title: 'জুলাই ২০২৬ মাসিক বেতন',
-        amount: 1500,
-        baseAmount: 1500,
-        discountAmount: 0,
-        dueDate: '2026-07-10',
-        status: 'PAID',
-        payments: [{ id: 2, amount: 1500, method: 'NAGAD', transactionId: 'NGD4910284', paidAt: '2026-07-06' }]
-      }
-    ];
-
     res.json({
       success: true,
-      data: invoices.length > 0 ? invoices : mockInvoices
+      data: invoices
     });
   } catch (err) {
     next(err);

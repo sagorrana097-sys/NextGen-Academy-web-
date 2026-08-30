@@ -30,12 +30,12 @@ const {
 const { globalDB } = require('../config/db');
 
 async function seedDatabase() {
-  console.log('🌱 Checking Database Integrity & Ensuring Default Accounts for NextGen Academy...');
+  console.log('🌱 Checking Database Integrity & Ensuring Super Admin Account...');
 
   const saltRounds = 12;
   const adminPassword = bcrypt.hashSync('01792818005', saltRounds);
 
-  // 1. Ensure Super Admin User exists (Non-destructive)
+  // 1. Ensure Super Admin User exists ONLY (Real Account, Never Mock)
   const existingAdmin = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
   if (!existingAdmin) {
     await User.create({
@@ -53,267 +53,123 @@ async function seedDatabase() {
     });
   }
 
-  // 2. Ensure Teacher User & Profile exists (Non-destructive)
-  const existingTeacher = await User.findOne({ where: { role: 'TEACHER' } });
-  if (!existingTeacher) {
-    const teacherPassword = bcrypt.hashSync('teacher123', saltRounds);
-    const teacherUser = await User.create({
-      id: 2,
-      name: 'প্রকৌ. রফিকুল ইসলাম (Engr. Rafiqul Islam)',
-      username: 'teacher',
-      userId: 'teacher',
-      identifier: 'teacher',
-      email: 'teacher@nextgen.edu.bd',
-      password: teacherPassword,
-      passwordHash: teacherPassword,
-      role: 'TEACHER',
-      phone: '01712345678',
-      isActive: true
-    });
+  // NOTE: Students and Teachers are NEVER auto-seeded with mock/demo records.
+  // They are only created when manually admitted or enrolled by the administrator.
 
-    await Teacher.create({
-      id: 1,
-      userId: teacherUser.id,
-      teacherIdNumber: 'TCH-2026-001',
-      designation: 'সিনিয়র পদার্থবিজ্ঞান প্রভাষক (Senior Lecturer)',
-      qualification: 'বিএসসি ও এমএসসি (পদার্থবিজ্ঞান - ঢাবি)',
-      joiningDate: '2023-01-01',
-      phone: '01712345678',
-      email: 'teacher@nextgen.edu.bd',
-      salary: 45000,
-      status: 'ACTIVE'
-    });
-  }
-
-  // 3. Ensure Student Users & Profiles exist (Non-destructive)
-  const existingStudent = await User.findOne({ where: { role: 'STUDENT' } });
-  if (!existingStudent) {
-    const studentPassword = bcrypt.hashSync('student123', saltRounds);
-    const studentUser1 = await User.create({
-      id: 3,
-      name: 'তাহমিদ আহমেদ (Tahmid Ahmed)',
-      username: 'STD-2026-001',
-      userId: 'STD-2026-001',
-      identifier: 'STD-2026-001',
-      email: 'student@nextgen.edu.bd',
-      password: studentPassword,
-      passwordHash: studentPassword,
-      role: 'STUDENT',
-      phone: '01711223344',
-      isActive: true
-    });
-
-    await Student.create({
-      id: 1,
-      userId: studentUser1.id,
-      studentIdNumber: 'STD-2026-001',
-      nameBn: 'তাহমিদ আহমেদ',
-      nameEn: 'Tahmid Ahmed',
-      rollNo: 101,
-      classId: 13, // 10th grade
-      sectionId: 37, // Padma
-      dob: '2010-05-15',
-      bloodGroup: 'B+',
-      gender: 'MALE',
-      address: 'বাড়ি #১২, ধানমন্ডি, ঢাকা',
-      guardianName: 'মো: রফিকুল ইসলাম',
-      guardianPhone: '01711000000',
-      admissionDate: '2026-01-01',
-      status: 'ACTIVE'
-    });
-
-    const studentUser2 = await User.create({
-      id: 4,
-      name: 'সুমাইয়া আক্তার (Sumaiya Akter)',
-      username: 'STD-2026-002',
-      userId: 'STD-2026-002',
-      identifier: 'STD-2026-002',
-      email: 'sumaiya@nextgen.edu.bd',
-      password: studentPassword,
-      passwordHash: studentPassword,
-      role: 'STUDENT',
-      phone: '01811223344',
-      isActive: true
-    });
-
-    await Student.create({
-      id: 2,
-      userId: studentUser2.id,
-      studentIdNumber: 'STD-2026-002',
-      nameBn: 'সুমাইয়া আক্তার',
-      nameEn: 'Sumaiya Akter',
-      rollNo: 102,
-      classId: 13,
-      sectionId: 38,
-      dob: '2010-08-20',
-      bloodGroup: 'O+',
-      gender: 'FEMALE',
-      address: 'উত্তরা, ঢাকা',
-      guardianName: 'আক্তার হোসেন',
-      guardianPhone: '01811000000',
-      admissionDate: '2026-01-01',
-      status: 'ACTIVE'
-    });
-  }
-
-  // 4. Ensure Parent User exists (Non-destructive)
-  const existingParent = await User.findOne({ where: { role: 'PARENT' } });
-  if (!existingParent) {
-    const parentPassword = bcrypt.hashSync('parent123', saltRounds);
-    const parentUser = await User.create({
-      id: 5,
-      name: 'মো: রফিকুল ইসলাম (অভিভাবক)',
-      username: 'parent',
-      userId: 'parent',
-      identifier: 'parent',
-      email: 'parent@nextgen.edu.bd',
-      password: parentPassword,
-      passwordHash: parentPassword,
-      role: 'PARENT',
-      phone: '01711000000',
-      isActive: true
-    });
-
-    await GuardianStudentMapping.create({
-      id: 1,
-      parentUserId: parentUser.id,
-      parentId: parentUser.id,
-      studentId: 1,
-      relationship: 'FATHER',
-      isPrimary: true
-    });
-  }
-
-  // 5. Complete Classes & Curriculum (if not seeded)
+  // 2. Complete Classes & Curriculum Structure (NCTB Blueprint)
   const classCount = await Class.count();
   if (classCount === 0) {
-  const classesData = [
-    // Pre-Primary
-    { id: 1, nameBn: 'প্লে গ্রুপ (Play)', nameEn: 'Play Group', numericGrade: -2, stage: 'PRE_PRIMARY' },
-    { id: 2, nameBn: 'নার্সারি (Nursery)', nameEn: 'Nursery', numericGrade: -1, stage: 'PRE_PRIMARY' },
-    { id: 3, nameBn: 'কেজি (KG)', nameEn: 'Kindergarten (KG)', numericGrade: 0, stage: 'PRE_PRIMARY' },
-    // Primary (Class 1-5)
-    { id: 4, nameBn: '১ম শ্রেণি (Class 1)', nameEn: 'Class 1', numericGrade: 1, stage: 'PRIMARY' },
-    { id: 5, nameBn: '২য় শ্রেণি (Class 2)', nameEn: 'Class 2', numericGrade: 2, stage: 'PRIMARY' },
-    { id: 6, nameBn: '৩য় শ্রেণি (Class 3)', nameEn: 'Class 3', numericGrade: 3, stage: 'PRIMARY' },
-    { id: 7, nameBn: '৪র্থ শ্রেণি (Class 4)', nameEn: 'Class 4', numericGrade: 4, stage: 'PRIMARY' },
-    { id: 8, nameBn: '৫ম শ্রেণি (Class 5)', nameEn: 'Class 5', numericGrade: 5, stage: 'PRIMARY' },
-    // Junior Secondary & Secondary (Class 6-10)
-    { id: 9, nameBn: '৬ষ্ঠ শ্রেণি (Class 6)', nameEn: 'Class 6', numericGrade: 6, stage: 'JUNIOR_SECONDARY' },
-    { id: 10, nameBn: '৭ম শ্রেণি (Class 7)', nameEn: 'Class 7', numericGrade: 7, stage: 'JUNIOR_SECONDARY' },
-    { id: 11, nameBn: '৮ম শ্রেণি (Class 8)', nameEn: 'Class 8', numericGrade: 8, stage: 'JUNIOR_SECONDARY' },
-    { id: 12, nameBn: '৯ম শ্রেণি (Class 9 - SSC)', nameEn: 'Class 9', numericGrade: 9, stage: 'SECONDARY' },
-    { id: 13, nameBn: '১০ম শ্রেণি (Class 10 - SSC)', nameEn: 'Class 10', numericGrade: 10, stage: 'SECONDARY' },
-    // Higher Secondary (Class 11-12 / HSC)
-    { id: 14, nameBn: 'একাদশ শ্রেণি (Class 11 - HSC)', nameEn: 'Class 11', numericGrade: 11, stage: 'HIGHER_SECONDARY' },
-    { id: 15, nameBn: 'দ্বাদশ শ্রেণি (Class 12 - HSC)', nameEn: 'Class 12', numericGrade: 12, stage: 'HIGHER_SECONDARY' }
-  ];
-  await Class.bulkCreate(classesData);
+    const classesData = [
+      // Pre-Primary
+      { id: 1, nameBn: 'প্লে গ্রুপ (Play)', nameEn: 'Play Group', numericGrade: -2, stage: 'PRE_PRIMARY' },
+      { id: 2, nameBn: 'নার্সারি (Nursery)', nameEn: 'Nursery', numericGrade: -1, stage: 'PRE_PRIMARY' },
+      { id: 3, nameBn: 'কেজি (KG)', nameEn: 'Kindergarten (KG)', numericGrade: 0, stage: 'PRE_PRIMARY' },
+      // Primary (Class 1-5)
+      { id: 4, nameBn: '১ম শ্রেণি (Class 1)', nameEn: 'Class 1', numericGrade: 1, stage: 'PRIMARY' },
+      { id: 5, nameBn: '২য় শ্রেণি (Class 2)', nameEn: 'Class 2', numericGrade: 2, stage: 'PRIMARY' },
+      { id: 6, nameBn: '৩য় শ্রেণি (Class 3)', nameEn: 'Class 3', numericGrade: 3, stage: 'PRIMARY' },
+      { id: 7, nameBn: '৪র্থ শ্রেণি (Class 4)', nameEn: 'Class 4', numericGrade: 4, stage: 'PRIMARY' },
+      { id: 8, nameBn: '৫ম শ্রেণি (Class 5)', nameEn: 'Class 5', numericGrade: 5, stage: 'PRIMARY' },
+      // Junior Secondary & Secondary (Class 6-10)
+      { id: 9, nameBn: '৬ষ্ঠ শ্রেণি (Class 6)', nameEn: 'Class 6', numericGrade: 6, stage: 'JUNIOR_SECONDARY' },
+      { id: 10, nameBn: '৭ম শ্রেণি (Class 7)', nameEn: 'Class 7', numericGrade: 7, stage: 'JUNIOR_SECONDARY' },
+      { id: 11, nameBn: '৮ম শ্রেণি (Class 8)', nameEn: 'Class 8', numericGrade: 8, stage: 'JUNIOR_SECONDARY' },
+      { id: 12, nameBn: '৯ম শ্রেণি (Class 9 - SSC)', nameEn: 'Class 9', numericGrade: 9, stage: 'SECONDARY' },
+      { id: 13, nameBn: '১০ম শ্রেণি (Class 10 - SSC)', nameEn: 'Class 10', numericGrade: 10, stage: 'SECONDARY' },
+      // Higher Secondary (Class 11-12 / HSC)
+      { id: 14, nameBn: 'একাদশ শ্রেণি (Class 11 - HSC)', nameEn: 'Class 11', numericGrade: 11, stage: 'HIGHER_SECONDARY' },
+      { id: 15, nameBn: 'দ্বাদশ শ্রেণি (Class 12 - HSC)', nameEn: 'Class 12', numericGrade: 12, stage: 'HIGHER_SECONDARY' }
+    ];
+    await Class.bulkCreate(classesData);
 
-  // 3. Sections for Classes
-  const sectionsData = [];
-  let secId = 1;
-  for (const c of classesData) {
-    if (c.numericGrade >= 11) {
-      // College Groups
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'বিজ্ঞান (Science-A)', nameEn: 'Science-A' });
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'ব্যবসায় শিক্ষা (Commerce-A)', nameEn: 'Commerce-A' });
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'মানবিক (Humanities-A)', nameEn: 'Humanities-A' });
-    } else {
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'পদ্মা (Padma)', nameEn: 'Padma' });
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'মেঘনা (Meghna)', nameEn: 'Meghna' });
-      sectionsData.push({ id: secId++, classId: c.id, nameBn: 'যমুনা (Jamuna)', nameEn: 'Jamuna' });
+    // Sections for Classes
+    const sectionsData = [];
+    let secId = 1;
+    for (const c of classesData) {
+      if (c.numericGrade >= 11) {
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'বিজ্ঞান (Science-A)', nameEn: 'Science-A' });
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'ব্যবসায় শিক্ষা (Commerce-A)', nameEn: 'Commerce-A' });
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'মানবিক (Humanities-A)', nameEn: 'Humanities-A' });
+      } else {
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'পদ্মা (Padma)', nameEn: 'Padma' });
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'মেঘনা (Meghna)', nameEn: 'Meghna' });
+        sectionsData.push({ id: secId++, classId: c.id, nameBn: 'যমুনা (Jamuna)', nameEn: 'Jamuna' });
+      }
     }
-  }
-  await Section.bulkCreate(sectionsData);
+    await Section.bulkCreate(sectionsData);
 
-  // 4. Complete National Curriculum Subjects
-  const subjectsData = [];
-  let subId = 1;
+    // Subjects
+    const subjectsData = [];
+    let subId = 1;
 
-  // Pre-Primary Subjects (Play, Nursery, KG - IDs 1, 2, 3)
-  for (const cid of [1, 2, 3]) {
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'বাংলা বর্ণমালা ও ছড়া', nameEn: 'Bangla Alphabet & Rhymes', code: 'PRE-BAN', totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'English Phonics & Rhymes', nameEn: 'English Phonics & Rhymes', code: 'PRE-ENG', totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'প্রাথমিক সংখ্যা ও গণিত', nameEn: 'Early Math & Numbers', code: 'PRE-MAT', totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'ড্রয়িং ও কালারিং আর্ট', nameEn: 'Drawing & Coloring Art', code: 'PRE-ART', totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'সাধারণ জ্ঞান ও নীতিশিক্ষা', nameEn: 'General Knowledge & Moral Habits', code: 'PRE-GK', totalMarks: 50 }
-    );
-  }
+    for (const cid of [1, 2, 3]) {
+      subjectsData.push(
+        { id: subId++, classId: cid, nameBn: 'বাংলা বর্ণমালা ও ছড়া', nameEn: 'Bangla Alphabet & Rhymes', code: 'PRE-BAN', totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'English Phonics & Rhymes', nameEn: 'English Phonics & Rhymes', code: 'PRE-ENG', totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'প্রাথমিক সংখ্যা ও গণিত', nameEn: 'Early Math & Numbers', code: 'PRE-MAT', totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'ড্রয়িং ও কালারিং আর্ট', nameEn: 'Drawing & Coloring Art', code: 'PRE-ART', totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'সাধারণ জ্ঞান ও নীতিশিক্ষা', nameEn: 'General Knowledge & Moral Habits', code: 'PRE-GK', totalMarks: 50 }
+      );
+    }
 
-  // Primary Subjects (Class 1 - 5 - IDs 4, 5, 6, 7, 8)
-  for (const cid of [4, 5, 6, 7, 8]) {
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'আমার বাংলা বই', nameEn: 'Bangla', code: `PRI-BAN-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'English for Today', nameEn: 'English for Today', code: `PRI-ENG-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'প্রাথমিক গণিত', nameEn: 'Elementary Mathematics', code: `PRI-MAT-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'প্রাথমিক বিজ্ঞান', nameEn: 'Elementary Science', code: `PRI-SCI-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `PRI-BGS-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'ইসলাম ও নৈতিক শিক্ষা / ধর্ম', nameEn: 'Religious & Moral Studies', code: `PRI-REL-${cid}`, totalMarks: 100 }
-    );
-  }
+    for (const cid of [4, 5, 6, 7, 8]) {
+      subjectsData.push(
+        { id: subId++, classId: cid, nameBn: 'আমার বাংলা বই', nameEn: 'Bangla', code: `PRI-BAN-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'English for Today', nameEn: 'English for Today', code: `PRI-ENG-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'প্রাথমিক গণিত', nameEn: 'Elementary Mathematics', code: `PRI-MAT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'প্রাথমিক বিজ্ঞান', nameEn: 'Elementary Science', code: `PRI-SCI-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `PRI-BGS-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'ইসলাম ও নৈতিক শিক্ষা / ধর্ম', nameEn: 'Religious & Moral Studies', code: `PRI-REL-${cid}`, totalMarks: 100 }
+      );
+    }
 
-  // Junior Secondary Subjects (Class 6 - 8 - IDs 9, 10, 11)
-  for (const cid of [9, 10, 11]) {
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র', nameEn: 'Bangla 1st & 2nd Paper', code: `JSC-BAN-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'English Grammar & Composition', nameEn: 'English Grammar & Comp', code: `JSC-ENG-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'সাধারণ গণিত', nameEn: 'General Mathematics', code: `JSC-MAT-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'সাধারণ বিজ্ঞান', nameEn: 'General Science', code: `JSC-SCI-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'Information & Comm. Technology (ICT)', code: `JSC-ICT-${cid}`, totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `JSC-BGS-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'ইসলাম ও নৈতিক শিক্ষা', nameEn: 'Islamic Studies & Ethics', code: `JSC-ISL-${cid}`, totalMarks: 100 }
-    );
-  }
+    for (const cid of [9, 10, 11]) {
+      subjectsData.push(
+        { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র', nameEn: 'Bangla 1st & 2nd Paper', code: `JSC-BAN-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'English Grammar & Composition', nameEn: 'English Grammar & Comp', code: `JSC-ENG-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'সাধারণ গণিত', nameEn: 'General Mathematics', code: `JSC-MAT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'সাধারণ বিজ্ঞান', nameEn: 'General Science', code: `JSC-SCI-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'Information & Comm. Technology (ICT)', code: `JSC-ICT-${cid}`, totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `JSC-BGS-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'ইসলাম ও নৈতিক শিক্ষা', nameEn: 'Islamic Studies & Ethics', code: `JSC-ISL-${cid}`, totalMarks: 100 }
+      );
+    }
 
-  // Secondary Subjects (Class 9 - 10 - IDs 12, 13 - SSC)
-  for (const cid of [12, 13]) {
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র', nameEn: 'Bangla 1st & 2nd Paper', code: `SSC-BAN-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'English 1st & 2nd Paper', nameEn: 'English 1st & 2nd Paper', code: `SSC-ENG-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'সাধারণ গণিত', nameEn: 'General Mathematics', code: `SSC-MAT-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'উচ্চতর গণিত', nameEn: 'Higher Mathematics', code: `SSC-HMAT-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'পদার্থবিজ্ঞান', nameEn: 'Physics', code: `SSC-PHY-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'রসায়ন', nameEn: 'Chemistry', code: `SSC-CHEM-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'জীববিজ্ঞান', nameEn: 'Biology', code: `SSC-BIO-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'ICT', code: `SSC-ICT-${cid}`, totalMarks: 50 },
-      { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `SSC-BGS-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'ধর্ম ও নৈতিক শিক্ষা', nameEn: 'Religious Education', code: `SSC-REL-${cid}`, totalMarks: 100 }
-    );
-  }
+    for (const cid of [12, 13]) {
+      subjectsData.push(
+        { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র', nameEn: 'Bangla 1st & 2nd Paper', code: `SSC-BAN-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'English 1st & 2nd Paper', nameEn: 'English 1st & 2nd Paper', code: `SSC-ENG-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'সাধারণ গণিত', nameEn: 'General Mathematics', code: `SSC-MAT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'উচ্চতর গণিত', nameEn: 'Higher Mathematics', code: `SSC-HMAT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'পদার্থবিজ্ঞান', nameEn: 'Physics', code: `SSC-PHY-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'রসায়ন', nameEn: 'Chemistry', code: `SSC-CHEM-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'জীববিজ্ঞান', nameEn: 'Biology', code: `SSC-BIO-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'ICT', code: `SSC-ICT-${cid}`, totalMarks: 50 },
+        { id: subId++, classId: cid, nameBn: 'বাংলাদেশ ও বিশ্বপরিচয়', nameEn: 'Bangladesh & Global Studies', code: `SSC-BGS-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'ধর্ম ও নৈতিক শিক্ষা', nameEn: 'Religious Education', code: `SSC-REL-${cid}`, totalMarks: 100 }
+      );
+    }
 
-  // Higher Secondary Subjects (Class 11 - 12 - IDs 14, 15 - HSC)
-  for (const cid of [14, 15]) {
-    // Compulsory
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র (আবশ্যিক)', nameEn: 'Bangla 1st & 2nd Paper', code: `HSC-BAN-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'English 1st & 2nd Paper (Compulsory)', nameEn: 'English 1st & 2nd Paper', code: `HSC-ENG-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'ICT (Compulsory)', code: `HSC-ICT-${cid}`, totalMarks: 100 }
-    );
-    // Science Group
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'পদার্থবিজ্ঞান ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Physics 1st & 2nd Paper', code: `HSC-PHY-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'রসায়ন ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Chemistry 1st & 2nd Paper', code: `HSC-CHEM-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'উচ্চতর গণিত ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Higher Mathematics 1st & 2nd', code: `HSC-HMAT-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'জীববিজ্ঞান ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Biology 1st & 2nd Paper', code: `HSC-BIO-${cid}`, totalMarks: 100 }
-    );
-    // Business Studies Group
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'হিসাববিজ্ঞান ১ম ও ২য় পত্র (ব্যবসায় শিক্ষা)', nameEn: 'Accounting 1st & 2nd Paper', code: `HSC-ACC-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'ব্যবসায় সংগঠন ও ব্যবস্থাপনা (ব্যবসায় শিক্ষা)', nameEn: 'Business Organization & Mgmt', code: `HSC-BOM-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'ফিন্যান্স, ব্যাংকিং ও বিমা (ব্যবসায় শিক্ষা)', nameEn: 'Finance, Banking & Insurance', code: `HSC-FIN-${cid}`, totalMarks: 100 }
-    );
-    // Humanities Group
-    subjectsData.push(
-      { id: subId++, classId: cid, nameBn: 'অর্থনীতি ১ম ও ২য় পত্র (মানবিক)', nameEn: 'Economics 1st & 2nd Paper', code: `HSC-ECO-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'পৌরনীতি ও সুশাসন (মানবিক)', nameEn: 'Civics & Good Governance', code: `HSC-CIV-${cid}`, totalMarks: 100 },
-      { id: subId++, classId: cid, nameBn: 'সমাজবিজ্ঞান / ইসলামের ইতিহাস (মানবিক)', nameEn: 'Sociology & Islamic History', code: `HSC-SOC-${cid}`, totalMarks: 100 }
-    );
-  }
+    for (const cid of [14, 15]) {
+      subjectsData.push(
+        { id: subId++, classId: cid, nameBn: 'বাংলা ১ম ও ২য় পত্র (আবশ্যিক)', nameEn: 'Bangla 1st & 2nd Paper', code: `HSC-BAN-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'English 1st & 2nd Paper (Compulsory)', nameEn: 'English 1st & 2nd Paper', code: `HSC-ENG-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', nameEn: 'ICT (Compulsory)', code: `HSC-ICT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'পদার্থবিজ্ঞান ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Physics 1st & 2nd Paper', code: `HSC-PHY-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'রসায়ন ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Chemistry 1st & 2nd Paper', code: `HSC-CHEM-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'উচ্চতর গণিত ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Higher Mathematics 1st & 2nd', code: `HSC-HMAT-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'জীববিজ্ঞান ১ম ও ২য় পত্র (বিজ্ঞান)', nameEn: 'Biology 1st & 2nd Paper', code: `HSC-BIO-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'হিসাববিজ্ঞান ১ম ও ২য় পত্র (ব্যবসায় শিক্ষা)', nameEn: 'Accounting 1st & 2nd Paper', code: `HSC-ACC-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'ব্যবসায় সংগঠন ও ব্যবস্থাপনা (ব্যবসায় শিক্ষা)', nameEn: 'Business Organization & Mgmt', code: `HSC-BOM-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'ফিন্যান্স, ব্যাংকিং ও বিমা (ব্যবসায় শিক্ষা)', nameEn: 'Finance, Banking & Insurance', code: `HSC-FIN-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'অর্থনীতি ১ম ও ২য় পত্র (মানবিক)', nameEn: 'Economics 1st & 2nd Paper', code: `HSC-ECO-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'পৌরনীতি ও সুশাসন (মানবিক)', nameEn: 'Civics & Good Governance', code: `HSC-CIV-${cid}`, totalMarks: 100 },
+        { id: subId++, classId: cid, nameBn: 'সমাজবিজ্ঞান / ইসলামের ইতিহাস (মানবিক)', nameEn: 'Sociology & Islamic History', code: `HSC-SOC-${cid}`, totalMarks: 100 }
+      );
+    }
     await Subject.bulkCreate(subjectsData);
 
-    // 5. Exam Terms
+    // Exam Terms
     await ExamTerm.bulkCreate([
       { id: 1, titleBn: '১ম সাময়িক পরীক্ষা ২০২৬', titleEn: '1st Term Examination 2026', academicYear: 2026 },
       { id: 2, titleBn: '২য় সাময়িক পরীক্ষা ২০২৬', titleEn: '2nd Term Examination 2026', academicYear: 2026 },
@@ -321,113 +177,7 @@ async function seedDatabase() {
     ]);
   }
 
-  // 6. Batches
-  const db = globalDB.tables;
-  if (!db['batches'] || db['batches'].length === 0) {
-    db['batches'] = [
-      { id: 1, classId: 13, nameBn: '১০ম শ্রেণি - বিজ্ঞান মর্নিং ব্যাচ', name: 'Class 10 Science Morning', shift: 'সকাল (Morning)', monthlyFee: 2500, capacity: 40, isActive: true },
-      { id: 2, classId: 13, nameBn: '১০ম শ্রেণি - ডে স্পেশাল ব্যাচ', name: 'Class 10 Day Special', shift: 'দিবা (Day)', monthlyFee: 2500, capacity: 40, isActive: true },
-      { id: 3, classId: 14, nameBn: 'একাদশ শ্রেণি - HSC বিজ্ঞান ব্যাচ', name: 'Class 11 HSC Science Batch', shift: 'সকাল (Morning)', monthlyFee: 3000, capacity: 50, isActive: true },
-      { id: 4, classId: 11, nameBn: '৮ম শ্রেণি - জুনিয়র মেধা বিকাশ ব্যাচ', name: 'Class 8 Junior Talent Batch', shift: 'বিকাল (Afternoon)', monthlyFee: 2000, capacity: 35, isActive: true }
-    ];
-  }
-
-  // 7. Textbooks & Study Materials
-  if (!db['textbooks'] || db['textbooks'].length === 0) {
-    db['textbooks'] = [
-      {
-        id: 1,
-        classId: 13,
-        subjectId: 5,
-        titleBn: 'পদার্থবিজ্ঞান (১০ম শ্রেণি - NCTB)',
-        edition: '২০২৬ শিক্ষাবর্ষ',
-        author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
-        fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/physics_class10.pdf',
-        coverImage: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&auto=format&fit=crop&q=80',
-        fileSize: '12.4 MB',
-        totalPages: 248,
-        isFree: true
-      },
-      {
-        id: 2,
-        classId: 13,
-        subjectId: 3,
-        titleBn: 'উচ্চতর গণিত (১০ম শ্রেণি - NCTB)',
-        edition: '২০২৬ শিক্ষাবর্ষ',
-        author: 'জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB)',
-        fileUrl: 'https://nctb.portal.gov.bd/sites/default/files/files/nctb.portal.gov.bd/page/higher_math_class10.pdf',
-        coverImage: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&auto=format&fit=crop&q=80',
-        fileSize: '15.1 MB',
-        totalPages: 312,
-        isFree: true
-      }
-    ];
-  }
-
-  if (!db['study_materials'] || db['study_materials'].length === 0) {
-    db['study_materials'] = [
-      {
-        id: 1,
-        classId: 13,
-        title: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
-        titleBn: '১০ম শ্রেণি পদার্থবিজ্ঞান - গতি ও বলের গাণিতিক সূত্র শিট',
-        category: 'PHYSICS',
-        chapterBn: 'অধ্যায় ২ ও ৩',
-        descriptionBn: 'গতির সমীকরণ ও বলের গাণিতিক সমস্যা সমাধানের শর্টকাট টেকনিক ও বিগত বছরের বোর্ড প্রশ্নব্যাংক।',
-        content_text: `গতি ও বলের মৌলিক বিষয়াবলি:
-১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
-২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
-৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
-৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
-৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
-৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
-        contentText: `গতি ও বলের মৌলিক বিষয়াবলি:
-১. স্মরণের হারকে বেগ বলে (v = s/t)। বেগের পরিবর্তনের হারকে ত্বরণ বলে (a = (v - u) / t)।
-২. গতির ৪টি মৌলিক সমীকরণ: v = u + at, s = ((u + v) / 2) * t, s = ut + 0.5 * a * t^2, v^2 = u^2 + 2 * a * s।
-৩. নিউটনের গতির ১ম সূত্র: বাহ্যিক কোনো বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির থাকবে এবং গতিশীল বস্তু সুষম দ্রুতিতে সরলপথে চলতে থাকবে। এটি জড়তার সূত্র নামেও পরিচিত।
-৪. নিউটনের গতির ২য় সূত্র: বস্তুর ভরবেগের পরিবর্তনের হার তার উপর প্রযুক্ত বলের সমানুপাতিক এবং বল যেদিকে ক্রিয়া করে বস্তুর ভরবেগের পরিবর্তনও সেদিকে ঘটে (F = ma)।
-৫. নিউটনের গতির ৩য় সূত্র: প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া রয়েছে (F1 = -F2)।
-৬. মহাকর্ষ বল: F = G * (m1 * m2) / d^2, যেখানে মহাকর্ষীয় ধ্রুবক G = 6.673 x 10^-11 N m^2 kg^-2।`,
-        fileType: 'PDF',
-        fileUrl: 'https://nextgen.edu.bd/downloads/materials/physics-formulas.pdf',
-        fileSize: '2.5 MB',
-        totalPages: 18,
-        author: 'নেক্সটজেন শিক্ষক প্যানেল',
-        isFree: true,
-        downloadCount: 154,
-        created_at: new Date().toISOString()
-      },
-      {
-        id: 2,
-        classId: 14,
-        title: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
-        titleBn: 'HSC উচ্চতর গণিত - ক্যালকুলাস ও ডিফারেন্সিয়েশন হ্যান্ডনোট',
-        category: 'HIGHER_MATH',
-        chapterBn: 'অধ্যায় ৯: অন্তরীকরণ',
-        descriptionBn: 'লিমিট ও মূল নিয়মে অন্তরজের সমাধান, স্পর্শক ও অভিলম্বের সমীকরণ সূত্রাবলি।',
-        content_text: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
-১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
-২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
-৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
-৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
-        contentText: `ক্যালকুলাস ও অন্তরীকরণের মূল নিয়ম:
-১. লিমিটের মৌলিক সূত্র: lim(x->0) [sin(x)/x] = 1, lim(x->0) [(e^x - 1)/x] = 1।
-২. অন্তরীকরণের সূত্রাবলি: d/dx(x^n) = n * x^(n-1), d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(ln x) = 1/x, d/dx(e^x) = e^x।
-৩. গুণ ও ভাগ বিধি: d/dx(uv) = u * (dv/dx) + v * (du/dx), d/dx(u/v) = [v * (du/dx) - u * (dv/dx)] / v^2।
-৪. চেইন রুল: dy/dx = (dy/du) * (du/dx)।`,
-        fileType: 'PDF',
-        fileUrl: 'https://nextgen.edu.bd/downloads/materials/hsc-math-calculus.pdf',
-        fileSize: '3.1 MB',
-        totalPages: 26,
-        author: 'নেক্সটজেন শিক্ষক প্যানেল',
-        isFree: false,
-        downloadCount: 88,
-        created_at: new Date().toISOString()
-      }
-    ];
-  }
-
-  // 8. Official Notices
+  // 3. Official Notices (Real Announcements)
   const noticeCount = await Notice.count();
   if (noticeCount === 0) {
     const adminUser = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
@@ -444,269 +194,11 @@ async function seedDatabase() {
         targetRole: 'ALL',
         authorUserId: authorId,
         publishedAt: new Date().toISOString()
-      },
-      {
-        id: 2,
-        titleBn: '১ম সাময়িক ও মডেল টেস্ট পরীক্ষা ২০২৬ সময়সূচি',
-        titleEn: '1st Term Examination & Model Test Schedule 2026',
-        contentBn: 'সকল শ্রেণির ১ম সাময়িক পরীক্ষা ও মডেল টেস্টের সময়সূচি ও সিলেবাস পোর্টালে প্রকাশ করা হয়েছে। শিক্ষার্থীরা রুটিন সেকশন থেকে পিডিএফ ডাউনলোড করতে পারবে।',
-        contentEn: '1st Term exam timetable is now published. Download PDF slips from the portal.',
-        category: 'EXAM',
-        priority: 'HIGH',
-        targetRole: 'ALL',
-        authorUserId: authorId,
-        publishedAt: new Date().toISOString()
       }
     ]);
   }
 
-  // 9. Hall of Fame (Top Achievers)
-  if (Achiever) {
-    const achieverCount = await Achiever.count();
-    if (achieverCount === 0) {
-      await Achiever.bulkCreate([
-        {
-          id: 1,
-          nameBn: 'মাহমুদুল হাসান সিয়াম',
-          nameEn: 'Mahmudul Hasan Siam',
-          studentPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-          examType: 'HSC',
-          examYear: '২০২৫',
-          gpa: 'GPA 5.00 (Golden A+)',
-          institute: 'নটর ডেম কলেজ, ঢাকা',
-          badge: '🏆 বিজ্ঞান বিভাগ ১ম স্থান',
-          quoteBn: 'নেক্সটজেন একাডেমির নিয়মিত পরীক্ষা ও মানসম্মত লেকচার আমার সাফল্যের মূল চাবিকাঠি।',
-          order: 1,
-          isActive: true
-        },
-        {
-          id: 2,
-          nameBn: 'নুসরাত জাহান মিম',
-          nameEn: 'Nusrat Jahan Mim',
-          studentPhoto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
-          examType: 'SSC',
-          examYear: '২০২৫',
-          gpa: 'GPA 5.00 (Golden A+)',
-          institute: 'ভিকারুননিসা নূন স্কুল ও কলেজ',
-          badge: '🥇 বোর্ড মেধা তালিকায় ৫ম',
-          quoteBn: 'অনলাইন লাইভ ক্লাস এবং নিয়মিত হোমওয়ার্ক ট্র্যাকিং আমাকে পড়ালেখায় ধারাবাহিক রাখতে সাহায্য করেছে।',
-          order: 2,
-          isActive: true
-        }
-      ]);
-    }
-  }
-
-  // 10. Institute Settings (Preserve custom changes)
-  if (!db['settings']) {
-    db['settings'] = {
-      academyName: 'NextGen ACADEMY',
-      academyNameBn: 'নেক্সটজেন একাডেমি',
-      tagline: 'LEARN · GROW · SUCCEED',
-      taglineBn: 'শিক্ষা · সমৃদ্ধি · সাফল্য',
-      logoUrl: '/logo.png',
-      sealUrl: '/logo.png',
-      contactPhone: '+880 1792818005',
-      whatsappPhone: '01792818005',
-      phone: '+880 1792818005',
-      contactEmail: 'info@nextgen.edu.bd',
-      supportEmail: 'support@nextgen.edu.bd',
-      address: 'রোড #৪, ধানমন্ডি, ঢাকা-১২০৯',
-      eiin: 'NGA-DHAKA-2026',
-      website: 'https://nextgen.edu.bd',
-      currencySymbol: '৳',
-      noticeTextBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ডিজিটাল ভর্তি কার্যক্রম চালু রয়েছে। যোগাযোগ: 01792818005',
-      heroHeadlineBn: 'ভর্তি চলছে! শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম',
-      heroSubtitleBn: 'অনলাইন লাইভ ক্লাস, স্মার্ট মার্কশিট, স্বয়ংক্রিয় ফি পেমেন্ট ও অভিজ্ঞ শিক্ষক প্যানেলের সমন্বয়ে আধুনিক শিক্ষা ব্যবস্থা।',
-      bannerImageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80',
-      showNotice: true,
-      admissionActive: true,
-      admissionSessionYear: '২০২৬',
-      admissionHelpline: '+880 1792818005',
-      facebookUrl: 'https://facebook.com/nextgenacademy',
-      youtubeUrl: 'https://youtube.com/@nextgenacademy',
-      telegramUrl: 'https://t.me/nextgenacademy',
-      footerCopyrightBn: '© ২০২৬ NextGen Academy. সর্বস্বত্ব সংরক্ষিত।'
-    };
-  }
-  if (!db['instituteSettings']) db['instituteSettings'] = db['settings'];
-
-  // 11. Ensure arrays for dynamic production entities
-  if (!db['students']) db['students'] = [];
-  if (!db['teachers']) db['teachers'] = [];
-  if (!db['guardian_student_mappings']) db['guardian_student_mappings'] = [];
-  if (!db['teacher_class_assignments']) db['teacher_class_assignments'] = [];
-  if (!db['attendances']) db['attendances'] = [];
-  if (!db['teacher_attendances']) db['teacher_attendances'] = [];
-  if (!db['marks']) db['marks'] = [];
-  if (!db['invoices']) db['invoices'] = [];
-  if (!db['payments']) db['payments'] = [];
-  if (!db['homeworks']) db['homeworks'] = [];
-  if (!db['homework_statuses']) db['homework_statuses'] = [];
-  if (!db['exam_submissions']) db['exam_submissions'] = [];
-  if (!db['live_classes']) db['live_classes'] = [];
-  if (!db['live_class_comments']) db['live_class_comments'] = [];
-  if (!db['admission_applications']) db['admission_applications'] = [];
-  if (!db['question_repositories']) {
-    db['question_repositories'] = [
-    {
-      id: 1,
-      type: 'MCQ',
-      className: 'দশম শ্রেণি (Class 10)',
-      book: 'পদার্থবিজ্ঞান (Physics)',
-      subject: 'পদার্থবিজ্ঞান (Physics)',
-      institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
-      year: '2025',
-      chapter: 'অধ্যায় ২: গতি (Motion)',
-      hasChapter: true,
-      question: 'পরন্ত বস্তুর তৃতীয় সূত্রানুসারে মুক্তভাবে পরন্ত বস্তুর নির্দিষ্ট সময়ে প্রাপ্ত বেগ সময়ের সাথে কীভাবে পরিবর্তিত হয়?',
-      options: [
-        'প্রাপ্ত বেগ সময়ের সমানুপাতিক (v ∝ t)',
-        'প্রাপ্ত বেগ দূরত্বের বর্গের সমানুপাতিক',
-        'প্রাপ্ত বেগ সময়ের বর্গের ব্যস্তানুপাতিক',
-        'প্রাপ্ত বেগ সময়ের বর্গের সমানুপাতিক (v ∝ t²)'
-      ],
-      correctAnswer: 'ক',
-      explanation: 'গ্যালিলিওর পরন্ত বস্তুর ৩য় সূত্র মতে: নির্দিষ্ট সময়ে প্রাপ্ত বেগ অতিক্রান্ত সময়ের সমানুপাতিক (v ∝ t)।',
-      difficulty: 'MEDIUM',
-      badge: "ঢাকা বোর্ড - '২৫ (MCQ)",
-      marks: 1,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    {
-      id: 2,
-      type: 'MCQ',
-      className: 'দশম শ্রেণি (Class 10)',
-      book: 'রসায়ন (Chemistry)',
-      subject: 'রসায়ন (Chemistry)',
-      institutionOrBoard: 'রাজশাহী বোর্ড (Rajshahi Board)',
-      year: '2026',
-      chapter: 'অধ্যায় ৫: রাসায়নিক বন্ধন',
-      hasChapter: true,
-      question: 'নিচের কোন অণুতে মুক্তজোড় ইলেকট্রন (Lone Pair Electron) বিদ্যমান?',
-      options: [
-        'মিথেন (CH₄)',
-        'অ্যামোনিয়া (NH₃)',
-        'কার্বন ডাই অক্সাইড (CO₂)',
-        'বোরন ট্রাইফ্লোরাইড (BF₃)'
-      ],
-      correctAnswer: 'খ',
-      explanation: 'NH₃ অণুতে নাইট্রোজেনের শেষ শক্তিস্তরে ১ জোড়া মুক্তজোড় ইলেকট্রন থাকে।',
-      difficulty: 'MEDIUM',
-      badge: "রাজশাহী বোর্ড - '২৬ (MCQ)",
-      marks: 1,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    {
-      id: 3,
-      type: 'MCQ',
-      className: 'দশম শ্রেণি (Class 10)',
-      book: 'উচ্চতর গণিত (Higher Math)',
-      subject: 'উচ্চতর গণিত (Higher Math)',
-      institutionOrBoard: 'চট্টগ্রাম বোর্ড (Chattogram Board)',
-      year: '2025',
-      chapter: 'অধ্যায় ৮: ত্রিকোণমিতি',
-      hasChapter: true,
-      question: 'যদি tan θ = 3/4 এবং cos θ < 0 হয়, তবে sin θ এর মান কত?',
-      options: [
-        '-3/5',
-        '3/5',
-        '-4/5',
-        '4/5'
-      ],
-      correctAnswer: 'ক',
-      explanation: '৩য় চতুর্ভাগে tan θ ধনাত্মক কিন্তু sin θ ঋণাত্মক, তাই sin θ = -3/5।',
-      difficulty: 'HARD',
-      badge: "চট্টগ্রাম বোর্ড - '২৫ (MCQ)",
-      marks: 1,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    {
-      id: 4,
-      type: 'CQ',
-      className: 'দশম শ্রেণি (Class 10)',
-      book: 'পদার্থবিজ্ঞান (Physics)',
-      subject: 'পদার্থবিজ্ঞান (Physics)',
-      institutionOrBoard: 'ঢাকা বোর্ড (Dhaka Board)',
-      year: '2026',
-      chapter: 'অধ্যায় ৪: কাজ, ক্ষমতা ও শক্তি',
-      hasChapter: true,
-      stem: '৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ১০ সেকেন্ডে অতিক্রম করে ছাদে উঠল।',
-      question: '৫০ কেজি ভরের একজন বালক ৫০ সেন্টিমিটার উঁচু ২০টি সিঁড়ি ১০ সেকেন্ডে অতিক্রম করে ছাদে উঠল।',
-      subQuestions: {
-        a: { q: 'কাজ কাকে বলে?', marks: 1 },
-        b: { q: '১ জুল কাজ বলতে কী বোঝায়?', marks: 2 },
-        c: { q: 'বালকের দ্বারা সম্পাদিত কাজের পরিমাণ নির্ণয় করো।', marks: 3 },
-        d: { q: 'বালকের ক্ষমতা কত ওয়াট ছিল গাণিতিকভাবে বিশ্লেষণ করো।', marks: 4 }
-      },
-      difficulty: 'MEDIUM',
-      badge: "ঢাকা বোর্ড - '২৬ (CQ)",
-      marks: 10,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    {
-      id: 5,
-      type: 'SHORT',
-      className: 'দশম শ্রেণি (Class 10)',
-      book: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
-      subject: 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
-      institutionOrBoard: 'কুমিল্লা বোর্ড (Cumilla Board)',
-      year: '2026',
-      chapter: 'অধ্যায় ৩: তথ্য ও যোগাযোগ প্রযুক্তির নিরাপদ ব্যবহার',
-      hasChapter: true,
-      question: 'টু-ফ্যাক্টর অথেনটিকেশন (2FA) বলতে কী বোঝায়?',
-      shortAnswer: 'ব্যবহারকারীর পরিচয় নিশ্চিত করার জন্য পাসওয়ার্ড ছাড়াও অতিরিক্ত দ্বিতীয় ধাপের নিরাপত্তা যাচাইকরণ প্রক্রিয়াকে 2FA বলে।',
-      explanation: 'সাইবার নিরাপত্তা জোরদার করার জন্য পাসওয়ার্ডের পাশাপাশি অতিরিক্ত ওটিপি পিন কোড ব্যবহৃত হয়।',
-      difficulty: 'EASY',
-      badge: "কুমিল্লা বোর্ড - '২৬ (SHORT)",
-      marks: 2,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  ];
-  }
-
-  // 12. Initial Audit Log
-  const adminUser = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
-  const auditCount = await AuditLog.count();
-  if (auditCount === 0 && adminUser) {
-    await AuditLog.create({
-      id: 1,
-      userId: adminUser.id,
-      action: 'PRODUCTION_INITIALIZATION',
-      entityType: 'system',
-      entityId: '1',
-      oldValue: null,
-      newValue: { status: 'CLEAN_READY', year: 2026 },
-      details: 'NextGen Academy production database initialized and secured.',
-      ipAddress: '127.0.0.1',
-      userAgent: 'SeederScript/Production',
-      createdAt: new Date().toISOString()
-    });
-  }
-
-  globalDB.save();
-
-  console.log('================================================================');
-  console.log('✅ PRODUCTION SEED COMPLETE - ALL DUMMY DATA PURGED!');
-  console.log('================================================================');
-  console.log('👑 Super Admin User ID: Alomgir005');
-  console.log('🔑 Password:            01792818005');
-  console.log('📞 WhatsApp & Hotline:  01792818005');
-  console.log('👥 Students in DB:      0 (Clean State)');
-  console.log('👨‍🏫 Teachers in DB:      0 (Clean State)');
-  console.log('================================================================');
-}
-
-if (require.main === module) {
-  seedDatabase().catch(err => {
-    console.error('❌ Seeder failed:', err);
-    process.exit(1);
-  });
+  console.log('✅ NextGen Academy Database Verified. Zero Mock/Demo Students or Teachers.');
 }
 
 module.exports = seedDatabase;
