@@ -231,3 +231,48 @@
   border-left: 4px solid #a78bfa;
 }
 
+/* =========================================================================
+   TEACHER PROFILE IMAGE & BANNER CONTAINER CONSTRAINTS (STRICT FIX)
+   ========================================================================= */
+.teacher-profile-container,
+.teacher-profile-card,
+.teacher-avatar-wrapper {
+  position: relative;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.teacher-profile-container img,
+.teacher-profile-card img,
+.teacher-avatar-wrapper img,
+.teacher-avatar-img,
+.teacher-profile-img,
+img[alt*="teacher" i],
+img[alt*="শিক্ষক" i],
+img[alt*="profile" i],
+.teacher-banner-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+.teacher-banner-container {
+  max-height: 320px;
+  min-height: 120px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+@media (max-width: 640px) {
+  .teacher-banner-container {
+    max-height: 220px;
+  }
+}
+

@@ -952,16 +952,29 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       {activeTab === 'dashboard' && (
         <>
       {/* Teacher Profile Header */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-2 border border-blue-500/30">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>{t('teacherTitle')}</span>
+      <div className="teacher-banner-container bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="teacher-avatar-wrapper w-16 h-16 sm:w-20 sm:h-20 max-w-[5rem] max-h-[5rem] rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white font-black text-2xl flex items-center justify-center shadow-lg border-2 border-white/20 overflow-hidden flex-shrink-0">
+            {user?.avatar || user?.photo ? (
+              <img
+                src={user?.avatar || user?.photo}
+                alt={user?.name || 'Teacher Profile'}
+                className="teacher-avatar-img w-full h-full object-cover object-center"
+              />
+            ) : (
+              <span>{user?.name?.charAt(0) || 'T'}</span>
+            )}
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold">{user?.name}</h2>
-          <p className="text-xs text-slate-300 mt-1">
-            জাতীয় শিক্ষাক্রম (প্রি-প্রাইমারি থেকে দ্বাদশ শ্রেণি / HSC) বিষয়ভিত্তিক ম্যানেজমেন্ট
-          </p>
+          <div>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-2 border border-blue-500/30">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{t('teacherTitle')}</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold">{user?.name}</h2>
+            <p className="text-xs text-slate-300 mt-1">
+              জাতীয় শিক্ষাক্রম (প্রি-প্রাইমারি থেকে দ্বাদশ শ্রেণি / HSC) বিষয়ভিত্তিক ম্যানেজমেন্ট
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
