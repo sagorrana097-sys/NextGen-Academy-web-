@@ -952,7 +952,19 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       {activeTab === 'dashboard' && (
         <>
       {/* Teacher Profile Header */}
-      <div className="teacher-banner-container bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 max-h-[200px] overflow-hidden">
+      <div
+        style={{
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          height: '220px',
+          maxHeight: '220px',
+          width: '100%',
+          maxWidth: '100%',
+          overflow: 'hidden'
+        }}
+        className="teacher-banner-container bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden"
+      >
         <div className="flex items-center space-x-4">
           <div
             style={{ width: '120px', height: '120px', minWidth: '120px', minHeight: '120px', maxWidth: '120px', maxHeight: '120px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}

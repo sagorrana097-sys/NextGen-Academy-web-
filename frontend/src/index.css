@@ -271,20 +271,33 @@ img[alt*="profile" i] {
   flex-shrink: 0 !important;
 }
 
-.teacher-banner-container {
-  max-height: 200px !important;
-  width: 100% !important;
-  overflow: hidden !important;
-  position: relative !important;
+.teacher-banner-container,
+[class*="teacher-banner"],
+[class*="teacher-header"],
+.teacher-profile-banner {
   background-size: cover !important;
-  background-position: center !important;
+  background-position: center center !important;
   background-repeat: no-repeat !important;
+  height: 220px !important;
+  max-height: 220px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  position: relative !important;
 }
 
 @media (max-width: 640px) {
-  .teacher-banner-container {
+  .teacher-banner-container,
+  [class*="teacher-banner"],
+  [class*="teacher-header"],
+  .teacher-profile-banner {
+    height: 180px !important;
     max-height: 180px !important;
   }
 }
+
 
 
