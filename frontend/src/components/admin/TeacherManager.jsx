@@ -143,26 +143,39 @@ export default function TeacherManager() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.name.trim()) {
+      showFeedback('শিক্ষকের নাম পূরণ করা আবশ্যক', 'error');
+      return;
+    }
+    if (!formData.phone || !formData.phone.trim()) {
+      showFeedback('শিক্ষকের মোবাইল নম্বর পূরণ করা আবশ্যক', 'error');
+      return;
+    }
+
     setSubmitting(true);
     try {
       if (editingTeacher) {
         const res = await teacherAPI.update(editingTeacher.id, formData);
-        if (res.success) {
-          showFeedback('শিক্ষকের তথ্য সফলভাবে আপডেট করা হয়েছে!');
+        if (res && res.success) {
+          showFeedback('শিক্ষকের তথ্য সফলভাবে আপডেট করা হয়েছে!', 'success');
           setShowAddEditModal(false);
-          fetchTeachers();
+          await fetchTeachers();
+        } else {
+          showFeedback(res?.error?.message || res?.message || 'শিক্ষকের তথ্য আপডেট ব্যর্থ হয়েছে', 'error');
         }
       } else {
         const res = await teacherAPI.create(formData);
-        if (res.success) {
-          showFeedback('নতুন শিক্ষক সফলভাবে যুক্ত করা হয়েছে!');
+        if (res && res.success) {
+          showFeedback('নতুন শিক্ষক সফলভাবে যুক্ত করা হয়েছে!', 'success');
           setShowAddEditModal(false);
-          fetchTeachers();
+          await fetchTeachers();
+        } else {
+          showFeedback(res?.error?.message || res?.message || 'নতুন শিক্ষক তৈরি ব্যর্থ হয়েছে', 'error');
         }
       }
     } catch (err) {
       console.error('Submit teacher error:', err);
-      showFeedback(err.message || 'শিক্ষক সংরক্ষণ ব্যর্থ হয়েছে', 'error');
+      showFeedback(err?.message || 'শিক্ষক সংরক্ষণ ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -173,15 +186,17 @@ export default function TeacherManager() {
     setSubmitting(true);
     try {
       const res = await teacherAPI.delete(deletingTeacher.id);
-      if (res.success) {
-        showFeedback('শিক্ষক প্রোফাইল সফলভাবে মুছে ফেলা হয়েছে!');
+      if (res && res.success) {
+        showFeedback('শিক্ষক প্রোফাইল সফলভাবে মুছে ফেলা হয়েছে!', 'success');
         setShowDeleteModal(false);
         setDeletingTeacher(null);
-        fetchTeachers();
+        await fetchTeachers();
+      } else {
+        showFeedback(res?.error?.message || res?.message || 'শিক্ষক মুছে ফেলা ব্যর্থ হয়েছে', 'error');
       }
     } catch (err) {
       console.error('Delete teacher error:', err);
-      showFeedback(err.message || 'শিক্ষক মুছে ফেলা ব্যর্থ হয়েছে', 'error');
+      showFeedback(err?.message || 'শিক্ষক মুছে ফেলা ব্যর্থ হয়েছে', 'error');
     } finally {
       setSubmitting(false);
     }

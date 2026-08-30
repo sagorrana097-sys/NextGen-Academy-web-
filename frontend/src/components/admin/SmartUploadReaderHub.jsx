@@ -561,6 +561,14 @@ function repairPdfMixedStreamBengali(text) {
     'w': 'য', 'x': 'ও', 'y': 'চ', 'z': 'ধ'
   };
 
+  // Convert Bijoy consonant prefix attached to Unicode Kar sign (e.g. cি -> পি, eে -> বে, mে -> সে, Kে -> কে, Mে -> গে, Zে -> তে, etc.)
+  for (const [bChar, uChar] of Object.entries(BIJOY_CHAR_MAP)) {
+    str = str.replace(new RegExp(`\\b${bChar}([\\u09BE-\\u09CC\\u09CD])`, 'g'), `${uChar}$1`);
+    str = str.replace(new RegExp(`([\\s\\(\\)\\[\\]\\{\\}\\/\\+\\-\\=])${bChar}([\\u09BE-\\u09CC\\u09CD])`, 'g'), `$1${uChar}$2`);
+    str = str.replace(new RegExp(`${bChar}([\\u09BE-\\u09CC\\u09CD])([\\u0980-\\u09FF])`, 'g'), `${uChar}$1$2`);
+    str = str.replace(new RegExp(`([\\u0980-\\u09FF])${bChar}([\\u09BE-\\u09CC\\u09CD])`, 'g'), `$1${uChar}$2`);
+  }
+
   for (let pass = 0; pass < 4; pass++) {
     str = str.replace(/([a-zA-Z_`~])(?=[\u0980-\u09FF])/g, (m, ch) => BIJOY_CHAR_MAP[ch] || ch);
     str = str.replace(/([\u0980-\u09FF])([a-zA-Z_`~])/g, (m, bg, ch) => bg + (BIJOY_CHAR_MAP[ch] || ch));

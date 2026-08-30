@@ -303,6 +303,21 @@ export const studentAPI = {
 };
 
 export const teacherAPI = {
+  getAll: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/teachers${q ? `?${q}` : ''}`);
+  },
+  getDirectory: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/teachers/directory${q ? `?${q}` : ''}`);
+  },
+  getById: (id) => request(`/teachers/${id}`),
+  create: (data) => request('/teachers', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/teachers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/teachers/${id}`, { method: 'DELETE' }),
+  getMyProfile: () => request('/teachers/me/profile'),
+  updateMyProfile: (data) => request('/teachers/me/profile', { method: 'PUT', body: JSON.stringify(data) }),
+  togglePrivacy: (is_phone_visible) => request('/teachers/me/privacy', { method: 'PATCH', body: JSON.stringify({ is_phone_visible }) }),
   getDashboard: () => request('/teacher/dashboard', { cacheTtl: 20000 }),
   getClasses: () => request('/teacher/classes', { cacheTtl: 30000 }),
   getAttendance: (params = {}) => {
