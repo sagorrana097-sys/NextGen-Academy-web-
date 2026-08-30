@@ -3,64 +3,54 @@ const API_BASE = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' 
 // Client-side Mock Fallbacks for Instant Offline & Zero-Error Experience
 const STUDENT_MOCKS = {
   '/dashboard-aggregate': {
-    stats: {
-      totalStudents: 45,
-      totalTeachers: 12,
-      totalClasses: 10,
-      attendanceRateToday: 94.5,
-      financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
-      totalAuditLogs: 24
-    },
-    notices: [
-      { id: 1, title: 'বার্ষিক পরীক্ষা ২০২৬ এর সময়সূচি', date: '২৫ আগস্ট ২০২৬', priority: 'HIGH', category: 'EXAM' },
-      { id: 2, title: 'ক্লাস টেস্ট ও মডেল টেস্ট ফলাফল প্রকাশিত', date: '২৪ আগস্ট ২০২৬', priority: 'MEDIUM', category: 'ACADEMIC' }
-    ],
-    counts: { students: 45, teachers: 12, classes: 10, pendingInvoices: 2 }
+    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, attendanceRateToday: 0, financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 }, totalAuditLogs: 0 },
+    notices: [],
+    counts: { students: 0, teachers: 0, classes: 0, pendingInvoices: 0 }
   },
   '/student/dashboard-aggregate': {
-    profile: { id: 1, name: 'শিক্ষার্থী', rollNo: '101', className: '১০ম শ্রেণি', section: 'A' },
-    dashboard: { attendanceRate: 95.5, gpa: 4.85, totalPoints: 1250, completedAssignments: 14 },
-    attendance: { present: 22, absent: 1, leave: 1, rate: 95.5, records: [] },
-    results: { gpa: 4.85, marks: [] },
+    profile: null,
+    dashboard: { attendanceRate: 0, gpa: 0, totalPoints: 0, completedAssignments: 0 },
+    attendance: { present: 0, absent: 0, leave: 0, rate: 0, records: [] },
+    results: { gpa: 0, marks: [] },
     routine: { todayClasses: [], weeklySchedule: [] },
     invoices: [],
     notices: [],
-    gamification: { xp: 1250, level: 5, streak: 7, rank: 3 },
-    coins: 450
+    gamification: { xp: 0, level: 1, streak: 0, rank: 0 },
+    coins: 0
   },
   '/admin/dashboard-aggregate': {
-    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 },
+    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 },
     students: [],
     teachers: [],
     invoices: [],
     auditLogs: [],
     classes: []
   },
-  '/student/profile': { id: 1, name: 'শিক্ষার্থী', rollNo: '101', className: '১০ম শ্রেণি', section: 'A' },
-  '/student/dashboard': { attendanceRate: 95.5, gpa: 4.85, totalPoints: 1250, completedAssignments: 14 },
-  '/student/attendance': { present: 22, absent: 1, leave: 1, rate: 95.5, records: [] },
-  '/student/results': { gpa: 4.85, marks: [] },
+  '/student/profile': null,
+  '/student/dashboard': { attendanceRate: 0, gpa: 0, totalPoints: 0, completedAssignments: 0 },
+  '/student/attendance': { present: 0, absent: 0, leave: 0, rate: 0, records: [] },
+  '/student/results': { gpa: 0, marks: [] },
   '/student/routine': { todayClasses: [], weeklySchedule: [] },
   '/student/invoices': [],
   '/analytics/overview': {
-    totalStudents: 45,
-    totalTeachers: 12,
-    totalClasses: 10,
-    attendanceRateToday: 94.5,
-    studentAttendanceRate: 94.5,
-    teacherAttendanceRate: 98.0,
-    financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
-    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 }
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalClasses: 0,
+    attendanceRateToday: 0,
+    studentAttendanceRate: 0,
+    teacherAttendanceRate: 0,
+    financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 },
+    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 }
   },
   '/analytics/summary': {
-    totalStudents: 45,
-    totalTeachers: 12,
-    totalClasses: 10,
-    attendanceRateToday: 94.5,
-    studentAttendanceRate: 94.5,
-    teacherAttendanceRate: 98.0,
-    financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
-    stats: { totalStudents: 45, totalTeachers: 12, totalClasses: 10, totalBilled: 150000, totalCollected: 120000, totalPending: 30000, attendanceRateToday: 94.5 }
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalClasses: 0,
+    attendanceRateToday: 0,
+    studentAttendanceRate: 0,
+    teacherAttendanceRate: 0,
+    financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 },
+    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 }
   },
   '/settings/student-portal-control': {
     allowOnlineAdmission: true,
@@ -80,8 +70,8 @@ const STUDENT_MOCKS = {
     allowHomeworkSubmit: true,
     allowDigitalBookstore: true
   },
-  '/settings': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01700000000', email: 'info@nextgenacademy.edu.bd' },
-  '/settings/public': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01700000000', email: 'info@nextgenacademy.edu.bd' },
+  '/settings': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01792818005', email: 'admin@nextgen.edu.bd' },
+  '/settings/public': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01792818005', email: 'admin@nextgen.edu.bd' },
   '/settings/student-menus': [],
   '/notices': [],
   '/admin/students': [],

@@ -77,7 +77,7 @@ export default function PaymentHistory({
   // 1. Inject Demo Data if the invoices array is empty
   useEffect(() => {
     if (!propInvoices || propInvoices.length === 0) {
-      setInvoices(DUMMY_INVOICES);
+      setInvoices([]);
     } else {
       setInvoices(propInvoices);
     }

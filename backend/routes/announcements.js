@@ -90,13 +90,7 @@ const DEFAULT_ANNOUNCEMENTS = [
 ];
 
 // Helper to ensure initial data exists
-async function ensureSeedData() {
-  try {
-    const count = await PageAnnouncement.count();
-    if (count === 0) {
-      for (const item of DEFAULT_ANNOUNCEMENTS) {
-        await PageAnnouncement.create(item);
-      }
+async function ensureSeedData() { /* Clean: auto-seeding disabled */ }
     }
   } catch (err) {
     console.error('Error seeding announcements:', err.message);

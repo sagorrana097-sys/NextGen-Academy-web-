@@ -356,22 +356,7 @@ const INITIAL_REPO_SEEDS = [
   }
 ];
 
-// Initialize seeds if repository is empty
-(async () => {
-  try {
-    const count = await QuestionRepository.count();
-    if (count === 0) {
-      for (const seed of INITIAL_REPO_SEEDS) {
-        await QuestionRepository.create({
-          ...seed,
-          createdAt: new Date().toISOString()
-        });
-      }
-    }
-  } catch (err) {
-    console.warn('[QuestionRepository] Seed init notice:', err.message);
-  }
-})();
+// Auto-seeding disabled. Question repository starts clean.
 
 /**
  * POST /api/question-repository/upload-and-train

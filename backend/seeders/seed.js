@@ -30,12 +30,12 @@ const {
 const { globalDB } = require('../config/db');
 
 async function seedDatabase() {
-  console.log('🌱 Checking Database Integrity & Ensuring Super Admin Account...');
+  console.log('🌱 Verifying Database Structure & Ensuring Super Admin Account...');
 
   const saltRounds = 12;
   const adminPassword = bcrypt.hashSync('01792818005', saltRounds);
 
-  // 1. Ensure Super Admin User exists ONLY (Real Account, Never Mock)
+  // 1. Ensure Super Admin Account ONLY
   const existingAdmin = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
   if (!existingAdmin) {
     await User.create({
@@ -52,9 +52,6 @@ async function seedDatabase() {
       isActive: true
     });
   }
-
-  // NOTE: Students and Teachers are NEVER auto-seeded with mock/demo records.
-  // They are only created when manually admitted or enrolled by the administrator.
 
   // 2. Complete Classes & Curriculum Structure (NCTB Blueprint)
   const classCount = await Class.count();
@@ -82,7 +79,6 @@ async function seedDatabase() {
     ];
     await Class.bulkCreate(classesData);
 
-    // Sections for Classes
     const sectionsData = [];
     let secId = 1;
     for (const c of classesData) {
@@ -98,7 +94,6 @@ async function seedDatabase() {
     }
     await Section.bulkCreate(sectionsData);
 
-    // Subjects
     const subjectsData = [];
     let subId = 1;
 
@@ -169,7 +164,6 @@ async function seedDatabase() {
     }
     await Subject.bulkCreate(subjectsData);
 
-    // Exam Terms
     await ExamTerm.bulkCreate([
       { id: 1, titleBn: '১ম সাময়িক পরীক্ষা ২০২৬', titleEn: '1st Term Examination 2026', academicYear: 2026 },
       { id: 2, titleBn: '২য় সাময়িক পরীক্ষা ২০২৬', titleEn: '2nd Term Examination 2026', academicYear: 2026 },
@@ -177,28 +171,7 @@ async function seedDatabase() {
     ]);
   }
 
-  // 3. Official Notices (Real Announcements)
-  const noticeCount = await Notice.count();
-  if (noticeCount === 0) {
-    const adminUser = await User.findOne({ where: { role: 'SUPER_ADMIN' } });
-    const authorId = adminUser ? adminUser.id : 1;
-    await Notice.bulkCreate([
-      {
-        id: 1,
-        titleBn: 'শিক্ষাবর্ষ ২০২৬-এ ৬ষ্ঠ থেকে ১২শ শ্রেণিতে ডিজিটাল ভর্তি কার্যক্রম চালু',
-        titleEn: 'Digital Admission Open for Session 2026 (Class 6-12)',
-        contentBn: 'নেক্সটজেন একাডেমির অনলাইন পোর্টালে ২০২৬ শিক্ষাবর্ষে ৬ষ্ঠ থেকে ১২শ শ্রেণিতে সীমিত আসনে ভর্তি আবেদন চলছে। হেল্পলাইন: 01792818005',
-        contentEn: 'Admissions are open for academic year 2026. Helpline: 01792818005',
-        category: 'ADMISSION',
-        priority: 'URGENT',
-        targetRole: 'ALL',
-        authorUserId: authorId,
-        publishedAt: new Date().toISOString()
-      }
-    ]);
-  }
-
-  console.log('✅ NextGen Academy Database Verified. Zero Mock/Demo Students or Teachers.');
+  console.log('✅ Clean Database Ready. Zero Demo Records.');
 }
 
 module.exports = seedDatabase;
