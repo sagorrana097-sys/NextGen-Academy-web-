@@ -265,16 +265,6 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       ]
     },
     {
-      key: 'adminQuestionSuite',
-      title: lang === 'bn' ? '🎯 প্রশ্ন ব্যবস্থাপনা ও এআই স্যুট' : '🎯 Question & AI Exam Suite',
-      icon: Sparkles,
-      items: [
-        { id: 'smart-upload-reader', label: lang === 'bn' ? '📤 পার্ট ১: স্মার্ট আপলোড ও এআই রিডার হাব' : 'Part 1: Smart Upload & AI Reader', icon: Upload, badge: 'PART 1' },
-        { id: 'ai-question-maker', label: lang === 'bn' ? '🤖 পার্ট ২: এআই প্রশ্ন জেনারেটর ও মেকার' : 'Part 2: AI Question Generator & Maker', icon: Bot, badge: 'PART 2' },
-        { id: 'omr-evaluation', label: lang === 'bn' ? '📋 পার্ট ৩: OMR ফলাফল ও শিট মূল্যায়ন' : 'Part 3: OMR Evaluation & Results', icon: Award, badge: 'PART 3' }
-      ]
-    },
-    {
       key: 'adminAcademics',
       title: lang === 'bn' ? '📖 পাঠ্যক্রম ও মূল্যায়ন' : '📖 Academics & Exams',
       icon: BookOpen,
@@ -340,7 +330,6 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         { id: 'homework', label: lang === 'bn' ? 'হোমওয়ার্ক প্রদান ও চেক' : 'Homework Manager', icon: ClipboardList },
         { id: 'materials', label: lang === 'bn' ? 'স্টাডি ম্যাটেরিয়াল আপলোড' : 'Study Materials', icon: BookMarked },
         { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা প্রণয়ন' : 'Online Exams', icon: HelpCircle },
-        { id: 'question-suite', label: lang === 'bn' ? 'প্রশ্ন ব্যবস্থাপনা স্যুট' : 'Question Generator Suite', icon: Sparkles },
         { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classes', icon: Video },
         { id: 'page-announcements', label: lang === 'bn' ? 'পেজ অডিও নোটিশ' : 'Audio Announcements', icon: Radio }
       ]

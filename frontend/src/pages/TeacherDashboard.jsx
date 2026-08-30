@@ -1083,9 +1083,7 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
       )}
 
       {/* Main Tabs */}
-      {activeTab === 'question-suite' || activeTab === 'ai-question-generator' || activeTab === 'multi-board-generator' || activeTab === 'manual-question-creator' || activeTab === 'question-bank' ? (
-        <QuestionGeneratorSuite defaultTab={activeTab === 'multi-board-generator' ? 'multi-board' : activeTab === 'manual-question-creator' ? 'manual-creator' : activeTab === 'question-bank' ? 'question-bank' : 'ai-generator'} />
-      ) : activeTab === 'page-announcements' || activeTab === 'announcements' ? (
+      {activeTab === 'page-announcements' || activeTab === 'announcements' ? (
         <AdminAnnouncementManager />
       ) : activeTab === 'profile-settings' ? (
         <TeacherProfileSettings />

@@ -2077,26 +2077,6 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
             <div className="flex flex-wrap items-center gap-2">
               <button
-                type="button"
-                onClick={() => setShowCQGeneratorModal(true)}
-                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center space-x-1.5 transition-all active:scale-95"
-                title="এআই দিয়ে সৃজনশীল প্রশ্ন (ক, খ, গ, ঘ) ও প্রিন্ট ফরম্যাট তৈরি করুন"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>📝 এআই সৃজনশীল প্রশ্ন (AI CQ)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowAIGeneratorModal(true)}
-                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-purple-600/20 flex items-center space-x-1.5 transition-all active:scale-95"
-                title="এআই দিয়ে বহুনির্বাচনী প্রশ্ন (MCQ) তৈরি করুন"
-              >
-                <Zap className="w-3.5 h-3.5 text-amber-300" />
-                <span>🤖 এআই MCQ জেনারেটর</span>
-              </button>
-
-              <button
                 onClick={handleOpenCreateExam}
                 className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm flex items-center space-x-1.5 transition-all"
               >
