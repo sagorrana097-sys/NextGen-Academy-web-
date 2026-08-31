@@ -90,9 +90,9 @@ app.get('/api/dashboard-aggregate', async (req, res) => {
     const today = new Date().toISOString().split('T')[0];
 
     const [totalStudents, totalTeachers, totalClasses, allInvoices, todayAtt, notices, auditCount] = await Promise.all([
-      Student.count().catch(() => 45),
-      Teacher.count().catch(() => 12),
-      Class.count().catch(() => 10),
+      Student.count().catch(() => 0),
+      Teacher.count().catch(() => 0),
+      Class.count().catch(() => 0),
       Invoice.findAll().catch(() => []),
       Attendance.findAll({ where: { date: today } }).catch(() => []),
       Notice.findAll({ order: [['createdAt', 'DESC']], limit: 10 }).catch(() => []),
@@ -114,23 +114,23 @@ app.get('/api/dashboard-aggregate', async (req, res) => {
       success: true,
       data: {
         stats: {
-          totalStudents: totalStudents || 45,
-          totalTeachers: totalTeachers || 12,
-          totalClasses: totalClasses || 10,
+          totalStudents: totalStudents || 0,
+          totalTeachers: totalTeachers || 0,
+          totalClasses: totalClasses || 0,
           attendanceRateToday: attendanceRate,
           financials: {
-            totalBilled: totalBilled || 150000,
-            totalCollected: totalCollected || 120000,
-            totalPending: totalPending || 30000,
+            totalBilled: totalBilled || 0,
+            totalCollected: totalCollected || 0,
+            totalPending: totalPending || 0,
             collectionPercentage: totalBilled > 0 ? Number(((totalCollected / totalBilled) * 100).toFixed(1)) : 80.0
           },
           totalAuditLogs: auditCount
         },
         notices: notices || [],
         counts: {
-          students: totalStudents || 45,
-          teachers: totalTeachers || 12,
-          classes: totalClasses || 10,
+          students: totalStudents || 0,
+          teachers: totalTeachers || 0,
+          classes: totalClasses || 0,
           pendingInvoices: allInvoices.filter(inv => inv.status === 'UNPAID').length
         },
         timestamp: new Date().toISOString()
@@ -141,15 +141,15 @@ app.get('/api/dashboard-aggregate', async (req, res) => {
       success: true,
       data: {
         stats: {
-          totalStudents: 45,
-          totalTeachers: 12,
-          totalClasses: 10,
-          attendanceRateToday: 94.5,
-          financials: { totalBilled: 150000, totalCollected: 120000, totalPending: 30000, collectionPercentage: 80.0 },
+          totalStudents: 0,
+          totalTeachers: 0,
+          totalClasses: 0,
+          attendanceRateToday: 0,
+          financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 },
           totalAuditLogs: 0
         },
         notices: [],
-        counts: { students: 45, teachers: 12, classes: 10, pendingInvoices: 0 },
+        counts: { students: 0, teachers: 0, classes: 0, pendingInvoices: 0 },
         timestamp: new Date().toISOString()
       }
     });
