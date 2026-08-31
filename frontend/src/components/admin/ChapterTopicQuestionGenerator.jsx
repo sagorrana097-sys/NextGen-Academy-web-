@@ -31,6 +31,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
 import MathRenderer from '../common/MathRenderer';
 import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
+import PhysicsChapter1MathProblemSolver from '../student/PhysicsChapter1MathProblemSolver';
 
 // 1. Comprehensive Subject, Chapter & Topic Syllabus Data
 export const SYLLABUS_DATABASE = {
@@ -599,6 +600,7 @@ export default function ChapterTopicQuestionGenerator() {
   const [selectedSubjectKey, setSelectedSubjectKey] = useState('HIGHER_MATH');
   const [selectedChapterId, setSelectedChapterId] = useState('hm-ch-1-1');
   const [selectedTopic, setSelectedTopic] = useState('');
+  const [activeEngineView, setActiveEngineView] = useState('GENERATOR'); // 'GENERATOR' | 'CONCEPT_SOLVER'
 
   // 2. Generation & Filter Configuration
   const [genQuestionType, setGenQuestionType] = useState('MCQ'); // 'MCQ' | 'CQ' | 'SQ'
@@ -968,7 +970,40 @@ export default function ChapterTopicQuestionGenerator() {
         </div>
       </div>
 
-      {/* 2. SUBJECT SELECTOR TABS */}
+      {/* 2. ENGINE MODE SWITCHER */}
+      <div className="flex items-center gap-2 p-1.5 bg-slate-200/70 rounded-2xl border border-slate-300/80 w-fit flex-wrap">
+        <button
+          type="button"
+          onClick={() => setActiveEngineView('GENERATOR')}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer ${
+            activeEngineView === 'GENERATOR'
+              ? 'bg-white text-indigo-700 shadow-sm'
+              : 'text-slate-700 hover:text-slate-900'
+          }`}
+        >
+          <Sparkles className="w-4 h-4 text-indigo-600" />
+          <span>🎯 ৪টি বিষয়ের অধ্যায় ও টপিকভিত্তিক প্রশ্ন ইঞ্জিন</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveEngineView('CONCEPT_SOLVER')}
+          className={`px-4 py-2 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer ${
+            activeEngineView === 'CONCEPT_SOLVER'
+              ? 'bg-slate-900 text-white shadow-md'
+              : 'text-slate-700 hover:text-slate-900'
+          }`}
+        >
+          <Atom className="w-4 h-4 text-sky-400" />
+          <span>📐 পদার্থবিজ্ঞান: ১ম অধ্যায় Concept-wise গাণিতিক সমস্যা ভল্ট (৬৫টি সমস্যা)</span>
+        </button>
+      </div>
+
+      {activeEngineView === 'CONCEPT_SOLVER' ? (
+        <PhysicsChapter1MathProblemSolver />
+      ) : (
+        <>
+          {/* 3. SUBJECT SELECTOR TABS */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {Object.values(SYLLABUS_DATABASE).map((subj) => {
           const Icon = subj.icon;
@@ -1409,6 +1444,8 @@ export default function ChapterTopicQuestionGenerator() {
           </div>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 }

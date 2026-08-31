@@ -213,6 +213,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       icon: BookOpen,
       items: [
         { id: 'question-bank', label: lang === 'bn' ? 'প্রশ্ন ব্যাংক ভল্ট (MCQ)' : 'Question Bank Vault', icon: Database },
+        { id: 'physics-math-solver', label: lang === 'bn' ? 'পদার্থ: ১ম অধ্যায় গাণিতিক সমাধান (৬৫টি)' : 'Physics: Ch 1 Math Solver (65)', icon: Atom },
         { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen },
         { id: 'smart-notes', label: lang === 'bn' ? 'স্মার্ট বোর্ড লেকচার নোটস' : 'Smart Board Notes', icon: PenTool },
         { id: 'all-formulas', label: lang === 'bn' ? 'সকল সূত্র ভান্ডার' : 'All Formulas Library', icon: Sigma },

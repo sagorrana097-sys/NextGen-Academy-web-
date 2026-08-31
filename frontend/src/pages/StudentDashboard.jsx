@@ -65,6 +65,7 @@ const StudentAcademicProgressHub = lazy(() => import('../components/student/Stud
 const RecordedClassLibrary = lazy(() => import('../components/common/RecordedClassLibrary'));
 const ResourceLibrary = lazy(() => import('../components/common/ResourceLibrary'));
 const InteractiveFormulaVault = lazy(() => import('../components/student/InteractiveFormulaVault'));
+const PhysicsChapter1MathProblemSolver = lazy(() => import('../components/student/PhysicsChapter1MathProblemSolver'));
 const QuestionBankManager = lazy(() => import('../components/admin/QuestionBankManager'));
 
 // Lazy-loaded Modals
@@ -660,6 +661,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             <MasterMathICTLab />
           ) : activeTab === 'physics-lab' || activeTab === 'physics' ? (
             <MegaPhysicsLab />
+          ) : activeTab === 'physics-math-solver' || activeTab === 'physics-solver' || activeTab === 'physics-ch1' ? (
+            <PhysicsChapter1MathProblemSolver />
           ) : activeTab === 'bonding-solver' || activeTab === 'chemistry-bonding' ? (
             <ChemistryChapter5BondingSolver />
           ) : activeTab === 'chemistry-math-solver' || activeTab === 'chemistry-solver' || activeTab === 'master-math' || activeTab === 'chemistry-master-math' ? (
