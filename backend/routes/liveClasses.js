@@ -419,6 +419,152 @@ router.get('/:id', async (req, res, next) => {
  * POST /api/live-classes
  * Schedule a new Live Class (Teacher/Admin only)
  */
+
+/**
+ * Smart resolver for Class ID from string or number
+ */
+async function resolveClassId(selectedClass) {
+  if (!selectedClass) return 13; // default Class 10
+  if (typeof selectedClass === 'number' || (!isNaN(Number(selectedClass)) && Number(selectedClass) > 0)) {
+    return Number(selectedClass);
+  }
+  const str = String(selectedClass).toLowerCase();
+  try {
+    const classes = await Class.findAll();
+    for (const c of classes) {
+      if (str.includes(String(c.id)) || (c.nameBn && str.includes(c.nameBn.toLowerCase())) || (c.nameEn && str.includes(c.nameEn.toLowerCase())) || (c.name && str.includes(c.name.toLowerCase()))) {
+        return c.id;
+      }
+    }
+  } catch (e) {}
+  if (str.includes('6') || str.includes('ষষ্ঠ')) return 9;
+  if (str.includes('7') || str.includes('সপ্তম')) return 10;
+  if (str.includes('8') || str.includes('অষ্টম')) return 11;
+  if (str.includes('9') || str.includes('নবম')) return 12;
+  if (str.includes('10') || str.includes('দশম') || str.includes('ssc') || str.includes('এসএসসি')) return 13;
+  if (str.includes('11') || str.includes('একাদশ') || str.includes('12') || str.includes('দ্বাদশ') || str.includes('hsc') || str.includes('এইচএসসি')) return 14;
+  return 13;
+}
+
+/**
+ * Smart resolver for Subject ID from string or number
+ */
+async function resolveSubjectId(selectedSubject, classId) {
+  if (!selectedSubject) return 1;
+  if (typeof selectedSubject === 'number' || (!isNaN(Number(selectedSubject)) && Number(selectedSubject) > 0)) {
+    return Number(selectedSubject);
+  }
+  const str = String(selectedSubject).toLowerCase();
+  try {
+    const subjects = await Subject.findAll({ where: { classId } });
+    for (const s of subjects) {
+      if ((s.nameBn && str.includes(s.nameBn.toLowerCase())) || (s.nameEn && str.includes(s.nameEn.toLowerCase())) || (s.name && str.includes(s.name.toLowerCase()))) {
+        return s.id;
+      }
+    }
+    const allSubjects = await Subject.findAll();
+    for (const s of allSubjects) {
+      if ((s.nameBn && str.includes(s.nameBn.toLowerCase())) || (s.nameEn && str.includes(s.nameEn.toLowerCase())) || (s.name && str.includes(s.name.toLowerCase()))) {
+        return s.id;
+      }
+    }
+  } catch (e) {}
+  return 1;
+}
+
+/**
+ * POST /api/live-classes/schedule & POST /api/live-class/schedule
+ * Schedule a new Live Class from scheduler component
+ */
+router.post('/schedule', async (req, res, next) => {
+  try {
+    const user = getAuthUser(req) || req.user;
+    const body = req.body || {};
+
+    const title = (body.classTitle || body.title || '').trim();
+    const rawClass = body.selectedClass || body.classId || body.className;
+    const rawSubject = body.selectedSubject || body.subjectId || body.subjectName;
+    const scheduledStartTime = body.dateTime || body.scheduledStartTime || body.scheduledAt;
+    const durationMinutes = Number(body.duration || body.durationMinutes || 60);
+    const platform = body.platform ? String(body.platform).toUpperCase().replace('-', '_') : 'GOOGLE_MEET';
+    const meetingLink = (body.meetingLink || body.link || '').trim();
+    const meetingPassword = (body.passcode || body.meetingPassword || '').trim();
+    const description = (body.description || '').trim();
+    const isDemo = Boolean(body.isDemo);
+
+    if (!title || !meetingLink) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'ক্লাসের শিরোনাম এবং মিটিং লিংক আবশ্যক'
+        }
+      });
+    }
+
+    const classId = await resolveClassId(rawClass);
+    const subjectId = await resolveSubjectId(rawSubject, classId);
+
+    let teacherId = 1;
+    if (user && user.role === 'TEACHER') {
+      const teacher = await Teacher.findOne({ where: { userId: user.id } });
+      if (teacher) teacherId = teacher.id;
+    } else if (body.teacherId) {
+      teacherId = Number(body.teacherId);
+    } else {
+      const firstTeacher = await Teacher.findOne();
+      if (firstTeacher) teacherId = firstTeacher.id;
+    }
+
+    const newClass = await LiveClass.create({
+      title,
+      description,
+      classId,
+      sectionId: body.sectionId ? Number(body.sectionId) : null,
+      subjectId,
+      chapter: body.chapter || body.topic || '',
+      teacherId,
+      scheduledStartTime: scheduledStartTime ? new Date(scheduledStartTime).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+      durationMinutes,
+      platform,
+      meetingLink,
+      meetingPassword,
+      isDemo,
+      status: body.status || 'UPCOMING',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+
+    if (user && AuditService) {
+      await AuditService.log({
+        req,
+        action: 'SCHEDULE_LIVE_CLASS',
+        entityType: 'LiveClass',
+        entityId: newClass.id,
+        newValue: newClass,
+        details: `Scheduled live class: ${newClass.title}`
+      }).catch(() => {});
+    }
+
+    const populated = await LiveClass.findByPk(newClass.id, {
+      include: [
+        { model: Class, as: 'class' },
+        { model: Section, as: 'section' },
+        { model: Subject, as: 'subject' },
+        { model: Teacher, as: 'teacher', include: [{ model: User, as: 'user' }] }
+      ]
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'লাইভ ক্লাস সফলভাবে শিডিউল করা হয়েছে!',
+      data: formatClassResponse(populated || newClass, user)
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, res, next) => {
   try {
     const {
