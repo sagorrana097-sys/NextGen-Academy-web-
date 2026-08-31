@@ -673,7 +673,7 @@ export default function ChapterTopicQuestionGenerator() {
         }));
       } else if (selectedSubjectKey === 'GENERAL_MATH') {
         vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
-          q.tags?.includes('সাধারণ গণিত')
+          q.tags?.includes('সাধারণ গণিত') && (!genQuestionType || q.questionType === genQuestionType)
         ).map(q => ({
           id: `vault-${q.id}`,
           M_ID: `vault-${q.id}`,
@@ -683,9 +683,11 @@ export default function ChapterTopicQuestionGenerator() {
           chapter: q.chapter,
           topic: q.topic || selectedTopic || activeChapter.topics[0],
           difficulty: q.difficulty || 'MEDIUM',
-          marks: q.marks || 1,
+          marks: q.marks || (q.questionType === 'CQ' ? 10 : 1),
           badge: `[সাধারণ গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
           question: q.questionText,
+          stem: q.questionText,
+          creativeSubQuestions: q.creativeSubQuestions,
           options: q.options || [],
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
           explanation: q.explanation || ''
