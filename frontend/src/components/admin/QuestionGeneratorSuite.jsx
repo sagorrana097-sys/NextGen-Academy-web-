@@ -12,6 +12,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import SmartUploadReaderHub from './SmartUploadReaderHub';
 import AIQuestionMakerHub from './AIQuestionMakerHub';
 import OMRImportModule from './OMRImportModule';
+import ChapterTopicQuestionGenerator from './ChapterTopicQuestionGenerator';
 
 export default function QuestionGeneratorSuite({ initialTab = 'mcq-vault' }) {
   const { lang } = useLanguage();
@@ -74,7 +75,21 @@ export default function QuestionGeneratorSuite({ initialTab = 'mcq-vault' }) {
             <span>📝 SQ সংক্ষিপ্ত ভাণ্ডার</span>
           </button>
 
-          {/* Part 4: Question Paper Builder */}
+          {/* Part 4: Chapter & Topic Generator */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('topic-generator')}
+            className={'px-3.5 py-2 rounded-xl text-xs font-black transition-all flex items-center space-x-1.5 cursor-pointer ' + (
+              activeTab === 'topic-generator'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-600/20'
+                : 'text-slate-600 hover:bg-slate-100'
+            )}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span>🎯 অধ্যায় ও টপিক জেনারেটর</span>
+          </button>
+
+          {/* Part 5: Question Paper Builder */}
           <button
             type="button"
             onClick={() => setActiveTab('question-builder')}
@@ -88,7 +103,7 @@ export default function QuestionGeneratorSuite({ initialTab = 'mcq-vault' }) {
             <span>📋 প্রশ্নপত্র বিল্ডার ও প্রিন্টার</span>
           </button>
 
-          {/* Part 5: OMR Evaluation */}
+          {/* Part 6: OMR Evaluation */}
           <button
             type="button"
             onClick={() => setActiveTab('omr-evaluation')}
@@ -135,6 +150,10 @@ export default function QuestionGeneratorSuite({ initialTab = 'mcq-vault' }) {
           onNavigateToMaker={() => setActiveTab('question-builder')}
           onNavigateToOMR={() => setActiveTab('omr-evaluation')}
         />
+      )}
+
+      {activeTab === 'topic-generator' && (
+        <ChapterTopicQuestionGenerator />
       )}
 
       {(activeTab === 'question-builder' || activeTab === 'question-maker' || activeTab === 'ai-question-maker') && (
