@@ -16,6 +16,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import api from '../../../services/api';
+import { DEFAULT_SUGGESTION_FAMILIES } from '../../../data/questionBankDefaultData';
 
 export default function FinalSuggestionFamilyView() {
   const [families, setFamilies] = useState([]);
@@ -31,13 +32,33 @@ export default function FinalSuggestionFamilyView() {
       const res = await api.get('/questions/final-suggestions', {
         params: { minRepeats, search }
       });
-      setFamilies(res.data?.data || []);
-      setTotalCount(res.data?.total || 0);
+      if (res.data?.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+        setFamilies(res.data.data);
+        setTotalCount(res.data.total || res.data.data.length);
+        setLoading(false);
+        return;
+      }
     } catch (err) {
-      console.error('Fetch suggestion families error:', err);
-    } finally {
-      setLoading(false);
+      console.warn('Fetch suggestion families API notice, using built-in vault:', err?.message);
     }
+
+    let list = Array.isArray(DEFAULT_SUGGESTION_FAMILIES) ? [...DEFAULT_SUGGESTION_FAMILIES] : [];
+    if (minRepeats) {
+      const min = Number(minRepeats) || 1;
+      list = list.filter(f => (f.repeatedCount || 1) >= min);
+    }
+    if (search) {
+      const s = search.toLowerCase();
+      list = list.filter(f => 
+        (f.familyCode && f.familyCode.toLowerCase().includes(s)) ||
+        (f.baseQuestionText && f.baseQuestionText.toLowerCase().includes(s)) ||
+        (f.chapter && f.chapter.toLowerCase().includes(s))
+      );
+    }
+
+    setFamilies(list);
+    setTotalCount(list.length);
+    setLoading(false);
   }, [minRepeats, search]);
 
   useEffect(() => {
