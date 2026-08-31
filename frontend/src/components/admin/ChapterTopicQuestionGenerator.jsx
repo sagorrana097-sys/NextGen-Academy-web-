@@ -643,7 +643,7 @@ export default function ChapterTopicQuestionGenerator() {
   // Load existing questions matching chapter from Vault
   useEffect(() => {
     handleGenerateQuestions(true);
-  }, [selectedSubjectKey, selectedChapterId]);
+  }, [selectedSubjectKey, selectedChapterId, genQuestionType]);
 
   // Generation Action
   const handleGenerateQuestions = (isInitial = false) => {
@@ -836,6 +836,9 @@ export default function ChapterTopicQuestionGenerator() {
 <head>
   <meta charset="utf-8" />
   <title>${examTitle}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap');
     @page { size: A4 portrait; margin: 15mm 15mm 15mm 15mm; }
@@ -866,7 +869,7 @@ export default function ChapterTopicQuestionGenerator() {
     .q-list { display: flex; flex-direction: column; gap: 12px; }
     .q-item { page-break-inside: avoid; }
     .q-head { font-weight: 800; font-size: 13px; display: flex; justify-content: space-between; }
-    .q-stem { margin: 2px 0 6px 0; }
+    .q-stem { margin: 2px 0 6px 0; white-space: pre-wrap; }
     .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 16px; font-size: 12px; }
     .footer { margin-top: 24px; padding-top: 8px; border-top: 1px solid #cbd5e1; font-size: 10px; display: flex; justify-content: space-between; color: #64748b; }
   </style>
@@ -912,7 +915,20 @@ export default function ChapterTopicQuestionGenerator() {
     <span>Generated: ${new Date().toLocaleDateString('bn-BD')}</span>
   </div>
   <script>
-    window.onload = function() { window.print(); }
+    window.onload = function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\\\(', right: '\\\\)', display: false},
+            {left: '\\\\[', right: '\\\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      }
+      setTimeout(function() { window.print(); }, 400);
+    }
   </script>
 </body>
 </html>
@@ -1330,9 +1346,55 @@ export default function ChapterTopicQuestionGenerator() {
                         </span>
                       </div>
 
-                      <div className="font-bold text-slate-800 leading-relaxed">
-                        <MathRenderer text={q.question || q.stem} />
-                      </div>
+                      {q.type === 'CQ' && q.creativeSubQuestions ? (
+                        <div className="space-y-2 pt-1 text-slate-800">
+                          <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-200/80 leading-relaxed font-semibold">
+                            <span className="text-[10px] font-black text-purple-700 uppercase tracking-wide block mb-1">
+                              উদ্দীপক:
+                            </span>
+                            <MathRenderer text={q.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q.question} />
+                          </div>
+
+                          <div className="space-y-1.5 pl-1 text-[11px]">
+                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                              <span className="font-extrabold text-indigo-700 mr-1">ক.</span>
+                              <MathRenderer text={q.creativeSubQuestions.a.q} />
+                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.a.marks || 2} নম্বর]</span>
+                              {q.creativeSubQuestions.a.ans && (
+                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.a.ans} />
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                              <span className="font-extrabold text-indigo-700 mr-1">খ.</span>
+                              <MathRenderer text={q.creativeSubQuestions.b.q} />
+                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.b.marks || 4} নম্বর]</span>
+                              {q.creativeSubQuestions.b.ans && (
+                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.b.ans} />
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                              <span className="font-extrabold text-indigo-700 mr-1">গ.</span>
+                              <MathRenderer text={q.creativeSubQuestions.c.q} />
+                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.c.marks || 4} নম্বর]</span>
+                              {q.creativeSubQuestions.c.ans && (
+                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.c.ans} />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="font-bold text-slate-800 leading-relaxed">
+                          <MathRenderer text={q.question || q.stem} />
+                        </div>
+                      )}
 
                       {Array.isArray(q.options) && q.options.length > 0 && (
                         <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] text-slate-600">
@@ -1345,8 +1407,8 @@ export default function ChapterTopicQuestionGenerator() {
                       )}
 
                       {q.explanation && (
-                        <div className="text-[10px] bg-white p-2 rounded-xl border border-slate-100 text-slate-500 mt-1">
-                          <strong>ব্যাখ্যা:</strong> <MathRenderer text={q.explanation} />
+                        <div className="text-[10px] bg-white p-2.5 rounded-xl border border-slate-100 text-slate-600 mt-1 leading-relaxed">
+                          <strong className="text-indigo-700">ব্যাখ্যা ও সমাধান:</strong> <MathRenderer text={q.explanation} />
                         </div>
                       )}
                     </div>
