@@ -652,7 +652,7 @@ export default function ChapterTopicQuestionGenerator() {
       if (selectedSubjectKey === 'HIGHER_MATH') {
         const queryTerm = activeChapter?.title?.split(' ')?.[0] || 'সেট';
         vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
-          q.chapter && q.chapter.toLowerCase().includes(queryTerm.toLowerCase())
+          q.tags?.includes('উচ্চতর গণিত') || (q.chapter && q.chapter.toLowerCase().includes(queryTerm.toLowerCase()))
         ).map(q => ({
           id: `vault-${q.id}`,
           M_ID: `vault-${q.id}`,
@@ -664,6 +664,25 @@ export default function ChapterTopicQuestionGenerator() {
           difficulty: q.difficulty || 'MEDIUM',
           marks: q.marks || 1,
           badge: `[উচ্চতর গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
+          question: q.questionText,
+          options: q.options || [],
+          correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+          explanation: q.explanation || ''
+        }));
+      } else if (selectedSubjectKey === 'PHYSICS') {
+        vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
+          q.tags?.includes('পদার্থবিজ্ঞান')
+        ).map(q => ({
+          id: `vault-${q.id}`,
+          M_ID: `vault-${q.id}`,
+          type: q.questionType || 'MCQ',
+          subject: 'পদার্থবিজ্ঞান',
+          book: 'পদার্থবিজ্ঞান',
+          chapter: q.chapter,
+          topic: q.topic || selectedTopic || activeChapter.topics[0],
+          difficulty: q.difficulty || 'MEDIUM',
+          marks: q.marks || 1,
+          badge: `[পদার্থবিজ্ঞান] ${q.board || ''} ${q.year || ''}`.trim(),
           question: q.questionText,
           options: q.options || [],
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
