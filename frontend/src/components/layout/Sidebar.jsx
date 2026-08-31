@@ -212,6 +212,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '📚 স্টাডি ম্যাটেরিয়ালস' : '📚 Study Materials',
       icon: BookOpen,
       items: [
+        { id: 'question-bank', label: lang === 'bn' ? 'প্রশ্ন ব্যাংক ভল্ট (MCQ)' : 'Question Bank Vault', icon: Database },
         { id: 'textbooks', label: lang === 'bn' ? 'ডিজিটাল পাঠ্যবই' : 'Digital Textbooks', icon: BookOpen },
         { id: 'smart-notes', label: lang === 'bn' ? 'স্মার্ট বোর্ড লেকচার নোটস' : 'Smart Board Notes', icon: PenTool },
         { id: 'all-formulas', label: lang === 'bn' ? 'সকল সূত্র ভান্ডার' : 'All Formulas Library', icon: Sigma },

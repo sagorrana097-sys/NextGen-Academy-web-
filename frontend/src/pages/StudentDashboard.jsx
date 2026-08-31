@@ -65,6 +65,7 @@ const StudentAcademicProgressHub = lazy(() => import('../components/student/Stud
 const RecordedClassLibrary = lazy(() => import('../components/common/RecordedClassLibrary'));
 const ResourceLibrary = lazy(() => import('../components/common/ResourceLibrary'));
 const InteractiveFormulaVault = lazy(() => import('../components/student/InteractiveFormulaVault'));
+const QuestionBankManager = lazy(() => import('../components/admin/QuestionBankManager'));
 
 // Lazy-loaded Modals
 const ReceiptModal = lazy(() => import('../components/common/ReceiptModal'));
@@ -722,6 +723,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           attendanceData={attendance?.records || attendance?.data || (Array.isArray(attendance) ? attendance : [])}
           resultsData={results}
         />
+      ) : activeTab === 'question-bank' || activeTab === 'questions' ? (
+        <QuestionBankManager />
       ) : activeTab === 'exams' ? (
         /* Student Online Exams & Assessment Center */
         <div className="space-y-6">

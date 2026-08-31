@@ -14,7 +14,7 @@ import QuestionBankBrowserView from './questionBank/QuestionBankBrowserView';
 import FinalSuggestionFamilyView from './questionBank/FinalSuggestionFamilyView';
 
 export default function QuestionBankManager() {
-  const [activeSubTab, setActiveSubTab] = useState('upload'); // 'upload' | 'bank' | 'suggestions'
+  const [activeSubTab, setActiveSubTab] = useState('bank'); // 'bank' | 'upload' | 'suggestions'
 
   const subTabs = [
     {
