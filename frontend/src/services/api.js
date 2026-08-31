@@ -852,4 +852,57 @@ export const aiRoutineAPI = {
   generateAIRoutine: (data) => request('/student/ai-routine/generate', { method: 'POST', body: JSON.stringify(data) })
 };
 
+export const questionBankAPI = {
+  parseDocument: (data) => request('/questions/parse-document', { method: 'POST', body: JSON.stringify(data) }),
+  bulkImport: (data) => request('/questions/bulk-import', { method: 'POST', body: JSON.stringify(data) }),
+  getQuestions: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/questions${q ? `?${q}` : ''}`);
+  },
+  getSuggestions: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/questions/final-suggestions${q ? `?${q}` : ''}`);
+  },
+  getQuestionById: (id) => request(`/questions/${id}`),
+  updateQuestion: (id, data) => request(`/questions/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteQuestion: (id) => request(`/questions/${id}`, { method: 'DELETE' })
+};
+
+const api = {
+  get: (url, config = {}) => {
+    let endpoint = url;
+    if (config.params) {
+      const filtered = {};
+      Object.entries(config.params).forEach(([k, v]) => {
+        if (v !== '' && v !== null && v !== undefined) filtered[k] = v;
+      });
+      const q = new URLSearchParams(filtered).toString();
+      if (q) endpoint += (endpoint.includes('?') ? '&' : '?') + q;
+    }
+    return request(endpoint, { method: 'GET', ...config }).then(res => ({ data: res }));
+  },
+  post: (url, body, config = {}) => {
+    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+    const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
+    return request(url, {
+      method: 'POST',
+      body: isFormData ? body : (typeof body === 'string' ? body : JSON.stringify(body)),
+      headers: { ...headers, ...(config.headers || {}) },
+      ...config
+    }).then(res => ({ data: res }));
+  },
+  put: (url, body, config = {}) => {
+    return request(url, {
+      method: 'PUT',
+      body: typeof body === 'string' ? body : JSON.stringify(body),
+      ...config
+    }).then(res => ({ data: res }));
+  },
+  delete: (url, config = {}) => {
+    return request(url, { method: 'DELETE', ...config }).then(res => ({ data: res }));
+  }
+};
+
+export default api;
+
 

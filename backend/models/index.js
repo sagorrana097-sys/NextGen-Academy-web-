@@ -40,6 +40,8 @@ const ReferralProfile = new Model('referral_profiles');
 const PromoSetting = new Model('promo_settings');
 const PageAnnouncement = new Model('page_announcements');
 const QuestionRepository = new Model('question_repositories');
+const QuestionBank = new Model('question_bank');
+const QuestionSuggestionFamily = new Model('question_suggestion_families');
 
 
 
@@ -212,6 +214,24 @@ User.hasMany(HelpdeskTicket, { foreignKey: 'userId', as: 'helpdeskTickets' });
 PageAnnouncement.belongsTo(User, { foreignKey: 'createdById', as: 'author' });
 User.hasMany(PageAnnouncement, { foreignKey: 'createdById', as: 'announcements' });
 
+// Question Bank & Suggestion Families
+QuestionBank.belongsTo(Class, { foreignKey: 'classId', as: 'class' });
+Class.hasMany(QuestionBank, { foreignKey: 'classId', as: 'questions' });
+
+QuestionBank.belongsTo(Subject, { foreignKey: 'subjectId', as: 'subject' });
+Subject.hasMany(QuestionBank, { foreignKey: 'subjectId', as: 'questions' });
+
+QuestionBank.belongsTo(StudyMaterial, { foreignKey: 'sourceMaterialId', as: 'sourceMaterial' });
+StudyMaterial.hasMany(QuestionBank, { foreignKey: 'sourceMaterialId', as: 'extractedQuestions' });
+
+QuestionBank.belongsTo(User, { foreignKey: 'createdById', as: 'creator' });
+
+QuestionBank.belongsTo(QuestionSuggestionFamily, { foreignKey: 'familyId', as: 'suggestionFamily' });
+QuestionSuggestionFamily.hasMany(QuestionBank, { foreignKey: 'familyId', as: 'questions' });
+
+QuestionSuggestionFamily.belongsTo(Class, { foreignKey: 'classId', as: 'class' });
+QuestionSuggestionFamily.belongsTo(Subject, { foreignKey: 'subjectId', as: 'subject' });
+
 module.exports = {
   User,
   Student,
@@ -251,7 +271,9 @@ module.exports = {
   ReferralProfile,
   PromoSetting,
   PageAnnouncement,
-  QuestionRepository
+  QuestionRepository,
+  QuestionBank,
+  QuestionSuggestionFamily
 };
 
 

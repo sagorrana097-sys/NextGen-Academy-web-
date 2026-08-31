@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { teacherAPI, homeworkAPI, curriculumAPI, materialAPI, textbookAPI, teacherAttendanceAPI, examAPI } from '../services/api';
@@ -15,6 +15,7 @@ import AdminStudyMaterialUploadModal, { formatAcademicBadge } from '../component
 import MediaCenter from '../components/media/MediaCenter';
 import AdminAnnouncementManager from '../components/admin/AdminAnnouncementManager';
 import QuestionGeneratorSuite from '../components/admin/QuestionGeneratorSuite';
+const QuestionBankManager = lazy(() => import('../components/admin/QuestionBankManager'));
 import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 import {
   BookOpen,
@@ -1416,6 +1417,10 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             </div>
           </div>
         </div>
+      ) : activeTab === 'question-bank' ? (
+        <Suspense fallback={<div className="p-8 text-center text-slate-500 font-bold">প্রশ্ন ব্যাংক লোড হচ্ছে...</div>}>
+          <QuestionBankManager />
+        </Suspense>
       ) : activeTab === 'exams' ? (
         /* Teacher Online Examination & Assessment Management */
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">

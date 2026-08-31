@@ -1776,5 +1776,29 @@
   "grammar_lessons": [],
   "referral_profiles": [],
   "promo_settings": [],
-  "page_announcements": []
+  "page_announcements": [],
+  "question_bank": [],
+  "question_suggestion_families": [
+    {
+      "id": 1,
+      "familyCode": "#NG-000001",
+      "baseQuestionText": "নিউটনের গতির দ্বিতীয় সূত্র কোনটি?",
+      "repeatedCount": 1,
+      "boardYearSources": [
+        {
+          "board": "ঢাকা",
+          "year": "2022",
+          "questionId": 9901,
+          "sourceFileName": "Dhaka_Board_2022.docx"
+        }
+      ],
+      "primaryQuestionId": 9901,
+      "tags": [
+        "ঢাকা",
+        "2022"
+      ],
+      "createdAt": "2026-08-31T17:28:01.281Z",
+      "updatedAt": "2026-08-31T17:28:01.282Z"
+    }
+  ]
 }

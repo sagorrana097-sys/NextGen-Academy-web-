@@ -47,6 +47,7 @@ const AdminPromoSettings = lazy(() => import('../components/admin/AdminPromoSett
 const AdminStudentPortalManager = lazy(() => import('../components/admin/AdminStudentPortalManager'));
 const AdminAnnouncementManager = lazy(() => import('../components/admin/AdminAnnouncementManager'));
 const QuestionGeneratorSuite = lazy(() => import('../components/admin/QuestionGeneratorSuite'));
+const QuestionBankManager = lazy(() => import('../components/admin/QuestionBankManager'));
 import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
 
 
@@ -2063,6 +2064,10 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
             </div>
           )}
         </div>
+      ) : activeTab === 'question-bank' ? (
+        <Suspense fallback={<LoadingFallback message="প্রশ্ন ব্যাংক লোড হচ্ছে..." />}>
+          <QuestionBankManager />
+        </Suspense>
       ) : activeTab === 'exams' ? (
         /* Online Examination & Assessment Management */
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">

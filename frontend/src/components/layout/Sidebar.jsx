@@ -269,6 +269,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '📖 পাঠ্যক্রম ও মূল্যায়ন' : '📖 Academics & Exams',
       icon: BookOpen,
       items: [
+        { id: 'question-bank', label: lang === 'bn' ? 'প্রশ্ন ব্যাংক (Question Bank)' : 'Question Bank', icon: Database },
         { id: 'batches-routine', label: lang === 'bn' ? 'ব্যাচ ও সাপ্তাহিক রুটিন' : 'Batches & Routine', icon: Layers },
         { id: 'live-classes', label: lang === 'bn' ? 'লাইভ ক্লাসরুম' : 'Live Classroom', icon: Video },
         { id: 'exams', label: lang === 'bn' ? 'অনলাইন পরীক্ষা ও কুইজ' : 'Online Exams', icon: HelpCircle },
@@ -326,6 +327,7 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
       title: lang === 'bn' ? '📋 ক্লাসরুম ও অ্যাক্টিভিটি' : '📋 Classroom & Teaching',
       icon: BookOpen,
       items: [
+        { id: 'question-bank', label: lang === 'bn' ? 'প্রশ্ন ব্যাংক (Question Bank)' : 'Question Bank', icon: Database },
         { id: 'attendance', label: lang === 'bn' ? 'দৈনিক ক্লাস হাজিরা' : 'Take Attendance', icon: CalendarCheck },
         { id: 'homework', label: lang === 'bn' ? 'হোমওয়ার্ক প্রদান ও চেক' : 'Homework Manager', icon: ClipboardList },
         { id: 'materials', label: lang === 'bn' ? 'স্টাডি ম্যাটেরিয়াল আপলোড' : 'Study Materials', icon: BookMarked },
