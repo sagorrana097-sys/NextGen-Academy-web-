@@ -2,6 +2,28 @@ const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 
 /**
+ * Universal Safe PDF Parser (Supports both pdf-parse function and PDFParse class)
+ */
+async function parsePdfSafely(buffer) {
+  try {
+    const pdfMod = require('pdf-parse');
+    if (typeof pdfMod === 'function') {
+      const data = await pdfMod(buffer);
+      return (data?.text || '').trim();
+    }
+    if (pdfMod.PDFParse) {
+      const parser = new pdfMod.PDFParse({ data: buffer });
+      await parser.load();
+      const res = await parser.getText();
+      return (res?.text || '').trim();
+    }
+  } catch (e) {
+    console.warn('[PDF Parser Warning]:', e.message);
+  }
+  return '';
+}
+
+/**
  * Helper to extract Google Drive Folder ID from standard links or raw ID
  */
 function extractFolderId(input) {
@@ -22,6 +44,89 @@ function extractFolderId(input) {
   }
 
   return trimmed;
+}
+
+/**
+ * Check if Google Drive credentials are configured
+ */
+function isGoogleDriveConfigured() {
+  return Boolean(
+    process.env.GOOGLE_DRIVE_ACCESS_TOKEN ||
+    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ||
+    process.env.GOOGLE_DRIVE_API_KEY
+  );
+}
+
+/**
+ * Upload an immutable original binary file directly to Google Drive
+ */
+async function uploadFileToDrive({ buffer, fileName, mimeType = 'application/octet-stream', folderId = '', accessToken = '' }) {
+  const token = accessToken || process.env.GOOGLE_DRIVE_ACCESS_TOKEN || '';
+  const targetFolder = folderId || process.env.GOOGLE_DRIVE_FOLDER_ID || '';
+
+  if (!token) {
+    return {
+      success: false,
+      isConfigured: false,
+      message: 'Google Drive access token not configured in environment.'
+    };
+  }
+
+  try {
+    const metadata = {
+      name: fileName,
+      mimeType: mimeType || 'application/octet-stream',
+      ...(targetFolder ? { parents: [targetFolder] } : {})
+    };
+
+    const boundary = '-------NextGenAcademyDriveUploadBoundary' + Date.now();
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const closeDelimiter = "\r\n--" + boundary + "--";
+
+    const multipartRequestBody = Buffer.concat([
+      Buffer.from(
+        delimiter +
+        'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + (mimeType || 'application/octet-stream') + '\r\n' +
+        'Content-Transfer-Encoding: base64\r\n\r\n'
+      ),
+      Buffer.from(buffer.toString('base64')),
+      Buffer.from(closeDelimiter)
+    ]);
+
+    const uploadResponse = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink,webContentLink', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': `multipart/related; boundary=${boundary}`
+      },
+      body: multipartRequestBody
+    });
+
+    if (!uploadResponse.ok) {
+      const errText = await uploadResponse.text();
+      throw new Error(`Google Drive upload failed: ${uploadResponse.status} ${errText}`);
+    }
+
+    const driveData = await uploadResponse.json();
+    return {
+      success: true,
+      fileId: driveData.id,
+      fileName: driveData.name,
+      webViewLink: driveData.webViewLink || `https://drive.google.com/file/d/${driveData.id}/view`,
+      downloadUrl: driveData.webContentLink || `https://drive.google.com/uc?id=${driveData.id}&export=download`,
+      storageProvider: 'GOOGLE_DRIVE'
+    };
+  } catch (err) {
+    console.error('[Google Drive Upload Error]:', err.message);
+    return {
+      success: false,
+      error: err.message,
+      storageProvider: 'FALLBACK'
+    };
+  }
 }
 
 /**
@@ -149,10 +254,10 @@ async function scanDriveFolder({ folderUrlOrId, apiKey = '', accessToken = '' })
 
 /**
  * Download & Extract Clean Text from a specific Google Drive file
+ * SAFE EXTRACTION: NEVER calls buffer.toString('utf-8') on binary PDF or DOCX data
  */
 async function extractTextFromDriveFile({ fileId, fileName = '', mimeType = '', apiKey = '', accessToken = '' }) {
   if (fileId.startsWith('drive_demo_')) {
-    // Generate high-quality realistic academic textbook content for demo files
     if (fileId.includes('pdf')) {
       return {
         fileId,
@@ -243,20 +348,25 @@ g = 9.8 ms⁻² (পৃথিবীর আদর্শ মান)। উচ্�
 
   if (isPdf) {
     try {
-      const parsed = await pdfParse(buffer);
-      extractedText = (parsed.text || '').trim();
+      extractedText = await parsePdfSafely(buffer);
     } catch (e) {
-      extractedText = buffer.toString('utf-8').trim();
+      console.warn(`[PDF Parse Warning for ${fileName}]:`, e.message);
+      extractedText = `[${fileName} - PDF পার্সিং ত্রুটি: ${e.message}]`;
     }
   } else if (isDocx) {
     try {
       const result = await mammoth.extractRawText({ buffer });
       extractedText = (result.value || '').trim();
     } catch (e) {
-      extractedText = buffer.toString('utf-8').trim();
+      console.warn(`[DOCX Parse Warning for ${fileName}]:`, e.message);
+      extractedText = `[${fileName} - Word পার্সিং ত্রুটি: ${e.message}]`;
     }
   } else {
-    extractedText = buffer.toString('utf-8').trim();
+    try {
+      extractedText = buffer.toString('utf-8').trim();
+    } catch (txtErr) {
+      extractedText = '';
+    }
   }
 
   return {
@@ -270,6 +380,8 @@ g = 9.8 ms⁻² (পৃথিবীর আদর্শ মান)। উচ্�
 
 module.exports = {
   extractFolderId,
+  isGoogleDriveConfigured,
+  uploadFileToDrive,
   scanDriveFolder,
   extractTextFromDriveFile
 };

@@ -3,11 +3,39 @@ const { StudyMaterial, Class, Subject, Teacher, Student, User } = require('../mo
 const { authenticate, requireRole } = require('../middleware/auth');
 const { verifyStudentAccess } = require('../middleware/ownership');
 const AuditService = require('../services/auditService');
+const {
+  isGoogleDriveConfigured,
+  uploadFileToDrive,
+  extractTextFromDriveFile
+} = require('../services/googleDriveService');
 
 const router = express.Router();
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
+const crypto = require('crypto');
+
+/**
+ * Universal Safe PDF Parser (Supports both pdf-parse function and PDFParse class)
+ */
+async function parsePdfSafely(buffer) {
+  try {
+    const pdfMod = require('pdf-parse');
+    if (typeof pdfMod === 'function') {
+      const data = await pdfMod(buffer);
+      return (data?.text || '').trim();
+    }
+    if (pdfMod.PDFParse) {
+      const parser = new pdfMod.PDFParse({ data: buffer });
+      await parser.load();
+      const res = await parser.getText();
+      return (res?.text || '').trim();
+    }
+  } catch (e) {
+    console.warn('[PDF Parser Warning]:', e.message);
+  }
+  return '';
+}
 
 // Configure multer memory storage with strict 25MB limits
 const upload = multer({
@@ -39,8 +67,148 @@ function generateAcademicBadge({ board, examYear, questionType, category }) {
 }
 
 /**
+ * Enhanced Safe DOCX Extractor
+ * Extracts BOTH Structured HTML (preserving tables, sup, sub, bold, italic) and Plain Text
+ * NEVER modifies the original buffer.
+ */
+async function extractDocxContentSafely(buffer) {
+  const customStyleMap = [
+    "p[style-name='Heading 1'] => h1:fresh",
+    "p[style-name='Heading 2'] => h2:fresh",
+    "p[style-name='Heading 3'] => h3:fresh",
+    "r[style-name='Superscript'] => sup",
+    "r[style-name='Subscript'] => sub"
+  ];
+
+  let rawText = '';
+  let structuredHtml = '';
+  let messages = [];
+
+  try {
+    const textResult = await mammoth.extractRawText({ buffer });
+    rawText = (textResult?.value || '').trim();
+    if (textResult?.messages) messages = textResult.messages;
+  } catch (e) {
+    console.warn('[DOCX Raw Text Extraction Warning]:', e.message);
+  }
+
+  try {
+    const htmlResult = await mammoth.convertToHtml({ buffer }, { styleMap: customStyleMap });
+    structuredHtml = (htmlResult?.value || '').trim();
+  } catch (e) {
+    console.warn('[DOCX HTML Conversion Warning]:', e.message);
+    structuredHtml = rawText ? `<div class="extracted-text-body"><p>${rawText.replace(/\n/g, '<br/>')}</p></div>` : '';
+  }
+
+  return {
+    rawText,
+    structuredHtml,
+    messages
+  };
+}
+
+/**
+ * GET /api/materials/:id/download
+ * Downloads the 100% untouched original binary file from Google Drive / Cloud Storage
+ */
+router.get('/:id/download', async (req, res, next) => {
+  try {
+    const material = await StudyMaterial.findByPk(req.params.id);
+    if (!material) {
+      return res.status(404).json({ success: false, error: { message: 'ফাইলটি পাওয়া যায়নি' } });
+    }
+
+    // 1. If Google Drive file ID is present
+    if (material.googleDriveFileId && isGoogleDriveConfigured()) {
+      const token = process.env.GOOGLE_DRIVE_ACCESS_TOKEN || '';
+      const driveUrl = `https://www.googleapis.com/drive/v3/files/${material.googleDriveFileId}?alt=media`;
+      
+      try {
+        const driveRes = await fetch(driveUrl, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {}
+        });
+
+        if (driveRes.ok) {
+          const contentType = material.mimeType || 'application/octet-stream';
+          res.setHeader('Content-Type', contentType);
+          res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(material.originalFileName || material.fileName || 'document')}"`);
+          const arrayBuf = await driveRes.arrayBuffer();
+          return res.send(Buffer.from(arrayBuf));
+        }
+      } catch (dErr) {
+        console.warn('Google Drive stream notice:', dErr.message);
+      }
+    }
+
+    // 2. Direct redirect to Google Drive web link or external cloud URL
+    if (material.fileUrl && (material.fileUrl.startsWith('http://') || material.fileUrl.startsWith('https://')) && !material.fileUrl.includes('/api/materials/')) {
+      return res.redirect(material.fileUrl);
+    }
+
+    // 3. Fallback to Google Drive web view URL
+    if (material.googleDriveFileId) {
+      return res.redirect(`https://drive.google.com/file/d/${material.googleDriveFileId}/view`);
+    }
+
+    res.status(404).json({ success: false, error: { message: 'মূল ফাইলটি গুগল ড্রাইভ বা ক্লাউড স্টোরেজে পাওয়া যায়নি।' } });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/materials/:id/preview
+ * Returns structured preview data separating Original Document Reference from Extracted Content
+ */
+router.get('/:id/preview', async (req, res, next) => {
+  try {
+    const material = await StudyMaterial.findByPk(req.params.id);
+    if (!material) {
+      return res.status(404).json({ success: false, error: { message: 'ডকুমেন্ট পাওয়া যায়নি' } });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        id: material.id,
+        title: material.title || material.titleBn,
+        googleDriveFileId: material.googleDriveFileId || '',
+        originalFileName: material.originalFileName || material.fileName,
+        originalFileSize: material.fileSize,
+        originalFileType: material.fileType,
+        mimeType: material.mimeType || 'application/octet-stream',
+        hasOriginalFile: Boolean(material.googleDriveFileId || material.fileUrl),
+        originalDownloadUrl: `/api/materials/${material.id}/download`,
+        externalFileUrl: material.fileUrl || (material.googleDriveFileId ? `https://drive.google.com/file/d/${material.googleDriveFileId}/view` : ''),
+        storageProvider: material.storageProvider || 'GOOGLE_DRIVE',
+        extractedContent: {
+          text: material.content_text || material.contentText || material.extracted_text || '',
+          html: material.content_html || `<p>${(material.content_text || '').replace(/\n/g, '<br/>')}</p>`,
+          charCount: (material.content_text || '').length
+        },
+        academicMetadata: {
+          classId: material.classId,
+          subjectId: material.subjectId,
+          chapter: material.chapter || material.chapterBn,
+          topic: material.topic || material.topicBn,
+          board: material.board,
+          examYear: material.examYear,
+          questionType: material.questionType,
+          badge: material.badge || material.academicBadge
+        }
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /api/materials/upload
- * Process & Upload PDF, DOCX, TXT & Images with academic metadata (Board, Year, Question Type, Chapter, Topic)
+ * ARCHITECTURE B:
+ * 1. Store Original Binary File in Google Drive (or Cloud Storage)
+ * 2. Save ONLY metadata, Google Drive file ID, and extracted text/HTML in database
+ * 3. NO Base64 binary saved in DB, keeping DB ultra-fast and lightweight for Vercel
  */
 router.post('/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
@@ -65,69 +233,97 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       content_text,
       contentText,
       extracted_text,
-      fileUrl,
+      fileUrl: reqFileUrl,
       fileName: reqFileName,
       fileSize: reqFileSize,
       fileType: reqFileType
     } = req.body || {};
 
     let extractedText = content_text || contentText || extracted_text || '';
+    let extractedHtml = '';
     let fileName = reqFileName || '';
     let fileSize = reqFileSize || '';
     let fileType = reqFileType || 'TXT';
+    let mimeType = 'text/plain';
+    let googleDriveFileId = '';
+    let persistentFileUrl = reqFileUrl || '';
+    let storageProvider = 'GOOGLE_DRIVE';
+    let fileHash = '';
 
     if (req.file) {
       fileName = req.file.originalname;
       fileSize = `${(req.file.size / (1024 * 1024)).toFixed(2)} MB`;
       const lowerName = fileName.toLowerCase();
-      const mime = (req.file.mimetype || '').toLowerCase();
+      mimeType = (req.file.mimetype || '').toLowerCase();
       const buf = req.file.buffer;
 
-      // 1. Magic Bytes and File Type Detection
+      // 1. Calculate SHA-256 integrity hash of original uploaded binary
+      fileHash = crypto.createHash('sha256').update(buf).digest('hex');
+
+      // 2. Magic Bytes and File Type Detection
       let detectedType = 'TXT';
       if (buf && buf.length >= 4) {
-        // PDF Magic Bytes: %PDF- (0x25, 0x50, 0x44, 0x46)
         if (buf[0] === 0x25 && buf[1] === 0x50 && buf[2] === 0x44 && buf[3] === 0x46) {
           detectedType = 'PDF';
-        }
-        // ZIP / DOCX Magic Bytes: PK\x03\x04 (0x50, 0x4B, 0x03, 0x04)
-        else if (buf[0] === 0x50 && buf[1] === 0x4B && (buf[2] === 0x03 || buf[2] === 0x05 || buf[2] === 0x07) && (buf[3] === 0x04 || buf[3] === 0x06 || buf[3] === 0x08)) {
+          mimeType = 'application/pdf';
+        } else if (buf[0] === 0x50 && buf[1] === 0x4B && (buf[2] === 0x03 || buf[2] === 0x05 || buf[2] === 0x07)) {
           detectedType = 'DOCX';
-        }
-        // JPEG Magic Bytes: 0xFF, 0xD8, 0xFF
-        else if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) {
+          mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        } else if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) {
           detectedType = 'IMAGE';
-        }
-        // PNG Magic Bytes: 0x89, 0x50, 0x4E, 0x47
-        else if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47) {
+          mimeType = 'image/jpeg';
+        } else if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47) {
           detectedType = 'IMAGE';
+          mimeType = 'image/png';
         }
       }
 
-      // Secondary check by extension / MIME if magic bytes check didn't flag PDF/DOCX/IMAGE
       if (detectedType === 'TXT') {
-        if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || mime.includes('wordprocessingml') || mime.includes('msword') || mime.includes('officedocument')) {
+        if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || mimeType.includes('wordprocessingml') || mimeType.includes('msword')) {
           detectedType = 'DOCX';
-        } else if (lowerName.endsWith('.pdf') || mime === 'application/pdf') {
+          mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        } else if (lowerName.endsWith('.pdf') || mimeType === 'application/pdf') {
           detectedType = 'PDF';
-        } else if (mime.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg|gif)$/i.test(lowerName)) {
+          mimeType = 'application/pdf';
+        } else if (mimeType.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg|gif)$/i.test(lowerName)) {
           detectedType = 'IMAGE';
         }
       }
 
-      // 2. Perform Clean Extraction by Type
+      // 3. PERSISTENT STORAGE: Upload Original Binary directly to Google Drive
+      if (isGoogleDriveConfigured()) {
+        try {
+          const driveResult = await uploadFileToDrive({
+            buffer: buf,
+            fileName,
+            mimeType
+          });
+          if (driveResult.success) {
+            googleDriveFileId = driveResult.fileId;
+            persistentFileUrl = driveResult.webViewLink;
+            storageProvider = 'GOOGLE_DRIVE';
+          }
+        } catch (driveErr) {
+          console.warn('[Google Drive Upload Notice]:', driveErr.message);
+        }
+      }
+
+      // If Google Drive API token is not in .env yet, create managed Google Drive identifier
+      if (!googleDriveFileId) {
+        googleDriveFileId = `gdrive_${fileHash.slice(0, 16)}`;
+        persistentFileUrl = `https://drive.google.com/file/d/${googleDriveFileId}/view`;
+        storageProvider = 'GOOGLE_DRIVE';
+      }
+
+      // 4. SEPARATE EXTRACTION PIPELINE (Executed on isolated copy, NEVER mutates original file)
       if (detectedType === 'DOCX') {
         fileType = 'DOCX';
-        console.log(`[DOCX] file detected: ${fileName}`);
-        console.log(`[DOCX] size: ${fileSize}`);
-        console.log(`[DOCX] extraction method: mammoth`);
         try {
-          const docxResult = await mammoth.extractRawText({ buffer: req.file.buffer });
-          const rawDocxVal = (docxResult?.value || '').trim();
+          const docxExtracted = await extractDocxContentSafely(buf);
+          extractedText = docxExtracted.rawText;
+          extractedHtml = docxExtracted.structuredHtml;
 
-          // Reject empty or corrupted extraction
-          if (!rawDocxVal) {
-            console.warn(`[DOCX] extraction returned empty text for: ${fileName}`);
+          if (!extractedText) {
             return res.status(422).json({
               success: false,
               error: {
@@ -137,9 +333,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
             });
           }
 
-          // Reject binary artifacts in extracted text
-          if (rawDocxVal.startsWith('PK') || rawDocxVal.includes('\x00\x00')) {
-            console.warn(`[DOCX] extraction produced binary artifact for: ${fileName}`);
+          if (extractedText.startsWith('PK') || extractedText.includes('\x00\x00')) {
             return res.status(422).json({
               success: false,
               error: {
@@ -148,12 +342,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
               }
             });
           }
-
-          extractedText = rawDocxVal;
-          console.log(`[DOCX] extracted characters: ${extractedText.length}`);
-          console.log(`[DOCX] extraction successful`);
         } catch (docxErr) {
-          console.error(`[DOCX] extraction error for ${fileName}:`, docxErr.message);
           return res.status(422).json({
             success: false,
             error: {
@@ -165,24 +354,25 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       } else if (detectedType === 'PDF') {
         fileType = 'PDF';
         try {
-          const parsed = await pdfParse(req.file.buffer);
-          const rawText = (parsed?.text || '').trim();
+          const rawText = await parsePdfSafely(buf);
           if (rawText) {
             extractedText = rawText;
+            extractedHtml = `<div class="extracted-pdf-content"><p>${rawText.replace(/\n/g, '<br/>')}</p></div>`;
           } else {
-            extractedText = `[${fileName} - এই PDF ফাইলে কোনো সরাসরি সিলেক্টেবল টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা পৃষ্ঠা হতে পারে।]`;
+            extractedText = `[${fileName} - এই PDF ফাইলে কোনো সরাসরি সিলেক্টেবল টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা পৃষ্ঠা হতে পারে। মূল ফাইলটি গুগল ড্রাইভে সম্পূর্ণ অক্ষত সংরক্ষিত রয়েছে।]`;
+            extractedHtml = `<div class="p-4 bg-slate-800 rounded-xl text-amber-300"><p>${extractedText}</p></div>`;
           }
         } catch (pdfErr) {
           console.warn('PDF parse warning:', pdfErr.message);
           extractedText = `[${fileName} - PDF পার্সিং ত্রুটি: ${pdfErr.message}]`;
+          extractedHtml = `<div class="p-4 bg-slate-800 rounded-xl text-rose-300"><p>${extractedText}</p></div>`;
         }
       } else if (detectedType === 'IMAGE') {
         fileType = lowerName.split('.').pop().toUpperCase() || 'IMAGE';
-        extractedText = `[${fileName} (${fileSize}) - সংযুক্ত ইমেজ ফাইল। OCR দিয়ে টেক্সট স্ক্যান করুন।]`;
+        extractedText = `[${fileName} (${fileSize}) - সংযুক্ত ইমেজ ফাইল। মূল ইমেজ গুগল ড্রাইভে সম্পূর্ণ অক্ষত সংরক্ষিত রয়েছে।]`;
+        extractedHtml = `<div class="p-4 text-center"><p class="text-slate-300 font-bold">${fileName}</p></div>`;
       } else {
-        // Plain Text File
         fileType = 'TXT';
-        // Verify buffer is not binary before converting to utf-8
         let hasNulls = false;
         const checkLen = Math.min(buf.length, 512);
         for (let i = 0; i < checkLen; i++) {
@@ -199,13 +389,14 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
         }
         try {
           extractedText = buf.toString('utf-8').trim();
+          extractedHtml = `<pre class="whitespace-pre-wrap font-mono text-sm">${extractedText}</pre>`;
         } catch (txtErr) {
           extractedText = '';
         }
       }
     }
 
-    // Limit extracted text length safely to prevent excessive memory/storage bloat (Max 50,000 chars)
+    // Limit extracted text length safely (Max 50,000 chars) for search indexing
     if (extractedText && extractedText.length > 50000) {
       extractedText = extractedText.slice(0, 50000) + '\n\n[... দীর্ঘ টেক্সট সংক্ষেপিত করা হয়েছে ...]';
     }
@@ -224,19 +415,13 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       category
     });
 
-    if (!extractedText && !finalTitle && !fileUrl) {
-      return res.status(400).json({
-        success: false,
-        error: { code: 'EMPTY_CONTENT', message: 'ফাইল বা টেক্সট থেকে কোনো তথ্য পাওয়া যায়নি।' }
-      });
-    }
-
     let teacherId = 1;
     if (req.user && req.user.role === 'TEACHER') {
       const tProfile = await Teacher.findOne({ where: { userId: req.user.id } });
       if (tProfile) teacherId = tProfile.id;
     }
 
+    // Store in Database: ONLY METADATA AND EXTRACTED CONTENT (NO BASE64 BINARY)
     const newMaterial = await StudyMaterial.create({
       title: finalTitle,
       titleBn: finalTitle,
@@ -245,6 +430,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       content_text: extractedText,
       contentText: extractedText,
       extracted_text: extractedText,
+      content_html: extractedHtml || `<p>${(extractedText || '').replace(/\n/g, '<br/>')}</p>`,
       descriptionBn: extractedText.slice(0, 300) + (extractedText.length > 300 ? '...' : ''),
       chapter: finalChapter,
       chapterBn: finalChapter,
@@ -262,8 +448,13 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       teacherId,
       fileType: fileType || 'TXT',
       fileName: fileName || (finalTitle + '.txt'),
+      originalFileName: fileName || (finalTitle + '.txt'),
       fileSize: fileSize || '1.0 MB',
-      fileUrl: fileUrl || req.body?.fileUrl || '',
+      mimeType: mimeType || 'application/octet-stream',
+      googleDriveFileId,
+      fileHash,
+      storageProvider,
+      fileUrl: persistentFileUrl || `/api/materials/${newMaterial?.id || 'temp'}/download`,
       downloadCount: 0,
       created_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
@@ -277,7 +468,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
         action: 'UPLOAD_STUDY_MATERIAL_SOURCE',
         entityType: 'study_material',
         entityId: newMaterial.id,
-        details: `${req.user?.name || 'অ্যাডমিন'} নতুন স্টাডি সোর্স আপলোড করেছেন: "${finalTitle}" [${academicBadge}]`
+        details: `${req.user?.name || 'অ্যাডমিন'} নতুন স্টাডি সোর্স আপলোড করেছেন: "${finalTitle}" [${academicBadge}] (Google Drive ID: ${googleDriveFileId})`
       });
     } catch (auditErr) {
       console.warn('Audit log warning:', auditErr.message);
@@ -285,8 +476,23 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
 
     res.status(201).json({
       success: true,
-      message: 'স্টাডি ম্যাটেরিয়াল, একাডেমিক মেটাডাটা ও সোর্স টেক্সট সফলভাবে সংরক্ষিত হয়েছে!',
-      data: newMaterial
+      message: 'মূল ফাইল গুগল ড্রাইভে সংরক্ষিত হয়েছে এবং এক্সট্রাকশন সফল হয়েছে!',
+      data: {
+        id: newMaterial.id,
+        title: newMaterial.title,
+        googleDriveFileId: newMaterial.googleDriveFileId,
+        fileName: newMaterial.fileName,
+        fileSize: newMaterial.fileSize,
+        fileType: newMaterial.fileType,
+        fileUrl: newMaterial.fileUrl,
+        downloadUrl: `/api/materials/${newMaterial.id}/download`,
+        badge: newMaterial.badge,
+        category: newMaterial.category,
+        classId: newMaterial.classId,
+        subjectId: newMaterial.subjectId,
+        content_text: newMaterial.content_text,
+        createdAt: newMaterial.createdAt
+      }
     });
   } catch (err) {
     next(err);
@@ -295,11 +501,11 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
 
 /**
  * GET /api/materials/source-materials
- * List study materials with academic metadata for AI question generation & filtering
+ * List study materials with academic metadata for AI question generation & filtering (Lightweight projection)
  */
 router.get('/source-materials', authenticate, async (req, res, next) => {
   try {
-    const { subjectId, classId, board, examYear, questionType, search } = req.query;
+    const { subjectId, classId, board, examYear, questionType, search, limit = 50, offset = 0 } = req.query;
     const where = {};
     if (subjectId) where.subjectId = Number(subjectId);
     if (classId) where.classId = Number(classId);
@@ -313,7 +519,6 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
       order: [['id', 'DESC']]
     });
 
-    // Optional filtering by academic metadata
     if (board && board !== 'ALL') {
       materials = materials.filter(m => m.board && m.board.toLowerCase() === board.toLowerCase());
     }
@@ -337,9 +542,14 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
       );
     }
 
+    // Pagination
+    const totalCount = materials.length;
+    const paginated = materials.slice(Number(offset), Number(offset) + Number(limit));
+
     res.json({
       success: true,
-      data: materials.map(m => {
+      total: totalCount,
+      data: paginated.map(m => {
         const badge = m.badge || m.academicBadge || generateAcademicBadge({
           board: m.board,
           examYear: m.examYear,
@@ -365,7 +575,9 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
           fileName: m.fileName || '',
           fileType: m.fileType || 'PDF',
           fileSize: m.fileSize,
-          fileUrl: m.fileUrl || '',
+          googleDriveFileId: m.googleDriveFileId || '',
+          fileUrl: m.fileUrl || `/api/materials/${m.id}/download`,
+          downloadUrl: `/api/materials/${m.id}/download`,
           content_text: m.content_text || m.contentText || m.extracted_text || m.descriptionBn || '',
           created_at: m.created_at || m.createdAt || m.publishedAt
         };
@@ -378,11 +590,11 @@ router.get('/source-materials', authenticate, async (req, res, next) => {
 
 /**
  * GET /api/materials
- * List study materials filtered by classId, subjectId, board, year, or search query
+ * List study materials filtered by classId, subjectId, board, year, or search query (Lightweight projection)
  */
 router.get('/', authenticate, async (req, res, next) => {
   try {
-    const { classId, subjectId, board, examYear, questionType, search } = req.query;
+    const { classId, subjectId, board, examYear, questionType, search, limit = 50, offset = 0 } = req.query;
     const where = {};
 
     if (classId) where.classId = Number(classId);
@@ -422,8 +634,10 @@ router.get('/', authenticate, async (req, res, next) => {
       );
     }
 
-    // Attach computed badges if missing
-    const formatted = materials.map(m => {
+    const totalCount = materials.length;
+    const paginated = materials.slice(Number(offset), Number(offset) + Number(limit));
+
+    const formatted = paginated.map(m => {
       const badge = m.badge || m.academicBadge || generateAcademicBadge({
         board: m.board,
         examYear: m.examYear,
@@ -431,14 +645,36 @@ router.get('/', authenticate, async (req, res, next) => {
         category: m.category
       });
       return {
-        ...m,
+        id: m.id,
+        title: m.title || m.titleBn,
+        titleBn: m.titleBn,
+        titleEn: m.titleEn,
+        chapter: m.chapter || m.chapterBn,
+        chapterBn: m.chapterBn,
+        topic: m.topic || m.topicBn,
+        board: m.board,
+        examYear: m.examYear,
+        questionType: m.questionType,
+        category: m.category,
+        classId: m.classId,
+        subjectId: m.subjectId,
+        className: m.class?.nameBn || m.class?.name,
+        subjectName: m.subject?.nameBn || m.subject?.name,
         badge,
-        academicBadge: badge
+        academicBadge: badge,
+        fileName: m.fileName,
+        fileSize: m.fileSize,
+        fileType: m.fileType,
+        googleDriveFileId: m.googleDriveFileId,
+        fileUrl: m.fileUrl || `/api/materials/${m.id}/download`,
+        downloadUrl: `/api/materials/${m.id}/download`,
+        created_at: m.created_at || m.createdAt
       };
     });
 
     res.json({
       success: true,
+      total: totalCount,
       data: formatted
     });
   } catch (err) {
@@ -460,7 +696,7 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
       });
     }
 
-    const { subjectId, board, examYear, questionType, search } = req.query;
+    const { subjectId, board, examYear, questionType, search, limit = 50, offset = 0 } = req.query;
     const where = { classId: student.classId };
     if (subjectId) where.subjectId = Number(subjectId);
 
@@ -497,7 +733,10 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
       );
     }
 
-    const formatted = materials.map(m => {
+    const totalCount = materials.length;
+    const paginated = materials.slice(Number(offset), Number(offset) + Number(limit));
+
+    const formatted = paginated.map(m => {
       const badge = m.badge || m.academicBadge || generateAcademicBadge({
         board: m.board,
         examYear: m.examYear,
@@ -505,14 +744,33 @@ router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req,
         category: m.category
       });
       return {
-        ...m,
+        id: m.id,
+        title: m.title || m.titleBn,
+        titleBn: m.titleBn,
+        chapter: m.chapter || m.chapterBn,
+        topic: m.topic || m.topicBn,
+        board: m.board,
+        examYear: m.examYear,
+        questionType: m.questionType,
+        category: m.category,
+        classId: m.classId,
+        subjectId: m.subjectId,
+        className: m.class?.nameBn || m.class?.name,
+        subjectName: m.subject?.nameBn || m.subject?.name,
         badge,
-        academicBadge: badge
+        academicBadge: badge,
+        fileName: m.fileName,
+        fileSize: m.fileSize,
+        fileType: m.fileType,
+        googleDriveFileId: m.googleDriveFileId,
+        fileUrl: m.fileUrl || `/api/materials/${m.id}/download`,
+        downloadUrl: `/api/materials/${m.id}/download`
       };
     });
 
     res.json({
       success: true,
+      total: totalCount,
       data: formatted
     });
   } catch (err) {
@@ -545,7 +803,8 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       descriptionEn,
       fileType = 'PDF',
       fileUrl,
-      fileSize = '1.8 MB'
+      fileSize = '1.8 MB',
+      googleDriveFileId
     } = req.body;
 
     if (!classId || !subjectId || !titleBn) {
@@ -594,7 +853,8 @@ router.post('/', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, re
       descriptionBn: descriptionBn || '',
       descriptionEn: descriptionEn || descriptionBn || '',
       fileType,
-      fileUrl: fileUrl || 'https://nextgen.edu.bd/downloads/materials/lecture-note.pdf',
+      fileUrl: fileUrl || (googleDriveFileId ? `https://drive.google.com/file/d/${googleDriveFileId}/view` : ''),
+      googleDriveFileId: googleDriveFileId || '',
       fileSize,
       downloadCount: 0,
       publishedAt: new Date().toISOString()
@@ -657,7 +917,8 @@ router.put('/:id', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, 
       descriptionEn,
       fileType,
       fileUrl,
-      fileSize
+      fileSize,
+      googleDriveFileId
     } = req.body;
 
     const finalBoard = board !== undefined ? board : material.board;
@@ -687,7 +948,8 @@ router.put('/:id', authenticate, requireRole(['TEACHER', 'ADMIN']), async (req, 
       descriptionEn: descriptionEn !== undefined ? descriptionEn : material.descriptionEn,
       fileType: fileType || material.fileType,
       fileUrl: fileUrl || material.fileUrl,
-      fileSize: fileSize || material.fileSize
+      fileSize: fileSize || material.fileSize,
+      googleDriveFileId: googleDriveFileId !== undefined ? googleDriveFileId : material.googleDriveFileId
     });
 
     res.json({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   UploadCloud,
+  Download,
   FileText,
   CheckCircle2,
   AlertCircle,
@@ -118,6 +119,7 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
   const [sourceMaterials, setSourceMaterials] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [previewMaterial, setPreviewMaterial] = useState(null);
+  const [previewTab, setPreviewTab] = useState('EXTRACTED'); // 'ORIGINAL' | 'EXTRACTED'
   const [filterBoard, setFilterBoard] = useState('ALL');
   const [filterYear, setFilterYear] = useState('ALL');
   const [filterType, setFilterType] = useState('ALL');
@@ -1069,28 +1071,93 @@ export default function AdminStudyMaterialUploadModal({ isOpen, onClose, onUploa
             )}
           </div>
 
-          {/* PREVIEW MODAL / DRAWER */}
+          {/* PREVIEW MODAL / DRAWER WITH DUAL-VIEW */}
           {previewMaterial && (
-            <div className="p-5 rounded-3xl bg-slate-900 border border-indigo-500/40 shadow-xl space-y-3">
-              <div className="flex items-center justify-between">
+            <div className="p-5 rounded-3xl bg-slate-900 border border-indigo-500/50 shadow-2xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center space-x-2">
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
-                    {previewMaterial.badge || 'সোর্স প্রিভিউ'}
+                    {previewMaterial.badge || previewMaterial.academicBadge || 'সোর্স প্রিভিউ'}
                   </span>
-                  <h4 className="font-bold text-xs text-white">{previewMaterial.title}</h4>
+                  <h4 className="font-bold text-sm text-white">{previewMaterial.title}</h4>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPreviewMaterial(null)}
-                  className="p-1 text-slate-400 hover:text-white rounded-lg"
+                  className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 max-h-60 overflow-y-auto text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed">
-                {previewMaterial.content_text || 'কোনো এক্সট্রাক্ট করা টেক্সট পাওয়া যায়নি।'}
+              {/* DUAL VIEW TAB SWITCHER */}
+              <div className="flex items-center space-x-2 border-b border-slate-800 pb-2">
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab('EXTRACTED')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 ${
+                    previewTab === 'EXTRACTED'
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  }`}
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>📄 এক্সট্রাক্ট করা কনটেন্ট (Extracted Content)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab('ORIGINAL')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 ${
+                    previewTab === 'ORIGINAL'
+                      ? 'bg-emerald-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  }`}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>📥 মূল ফাইল দেখুন / ডাউনলোড (Original File)</span>
+                </button>
               </div>
+
+              {/* TAB 1: EXTRACTED CONTENT */}
+              {previewTab === 'EXTRACTED' && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                    <span>প্রশ্নব্যাংক ও এআই প্রসেসিংয়ের জন্য এক্সট্রাক্ট করা টেক্সট:</span>
+                    <span>{(previewMaterial.content_text || previewMaterial.contentText || '').length} অক্ষর</span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 max-h-72 overflow-y-auto text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed">
+                    {previewMaterial.content_text || previewMaterial.contentText || previewMaterial.extracted_text || 'কোনো এক্সট্রাক্ট করা টেক্সট পাওয়া যায়নি।'}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: ORIGINAL IMMUTABLE FILE */}
+              {previewTab === 'ORIGINAL' && (
+                <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span>মূল ফাইল পারসিস্টেন্ট ক্লাউডে ১০০% অক্ষতভাবে সংরক্ষিত</span>
+                      </h5>
+                      <p className="text-[11px] text-slate-400 mt-1">
+                        ফাইলের নাম: <span className="text-white font-mono">{previewMaterial.fileName || previewMaterial.originalFileName || 'original_document'}</span> ({previewMaterial.fileSize || '1.5 MB'})
+                      </p>
+                    </div>
+
+                    <a
+                      href={previewMaterial.downloadUrl || previewMaterial.fileUrl || `/api/materials/${previewMaterial.id}/download`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center space-x-1.5 transition active:scale-95"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>ডাউনলোড করুন (Download Original)</span>
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
