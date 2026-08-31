@@ -215,6 +215,149 @@ router.get('/:id', authenticate, async (req, res, next) => {
  * POST /api/exams
  * Create new online exam (MCQ / Written)
  */
+
+/**
+ * Smart resolver for Class ID from string or number
+ */
+async function resolveClassIdForExam(selectedClass) {
+  if (!selectedClass) return 12; // default Class 9
+  if (typeof selectedClass === 'number' || (!isNaN(Number(selectedClass)) && Number(selectedClass) > 0)) {
+    return Number(selectedClass);
+  }
+  const str = String(selectedClass).toLowerCase();
+  try {
+    const classes = await Class.findAll();
+    for (const c of classes) {
+      if (str.includes(String(c.id)) || (c.nameBn && str.includes(c.nameBn.toLowerCase())) || (c.nameEn && str.includes(c.nameEn.toLowerCase())) || (c.name && str.includes(c.name.toLowerCase()))) {
+        return c.id;
+      }
+    }
+  } catch (e) {}
+  if (str.includes('6') || str.includes('ষষ্ঠ')) return 9;
+  if (str.includes('7') || str.includes('সপ্তম')) return 10;
+  if (str.includes('8') || str.includes('অষ্টম')) return 11;
+  if (str.includes('9') || str.includes('নবম')) return 12;
+  if (str.includes('10') || str.includes('দশম') || str.includes('ssc') || str.includes('এসএসসি')) return 13;
+  if (str.includes('11') || str.includes('একাদশ') || str.includes('12') || str.includes('দ্বাদশ') || str.includes('hsc') || str.includes('এইচএসসি')) return 14;
+  return 12;
+}
+
+/**
+ * Smart resolver for Subject ID from string or number
+ */
+async function resolveSubjectIdForExam(selectedSubject, classId) {
+  if (!selectedSubject) return 1;
+  if (typeof selectedSubject === 'number' || (!isNaN(Number(selectedSubject)) && Number(selectedSubject) > 0)) {
+    return Number(selectedSubject);
+  }
+  const str = String(selectedSubject).toLowerCase();
+  try {
+    const subjects = await Subject.findAll({ where: { classId } });
+    for (const s of subjects) {
+      if ((s.nameBn && str.includes(s.nameBn.toLowerCase())) || (s.nameEn && str.includes(s.nameEn.toLowerCase())) || (s.name && str.includes(s.name.toLowerCase()))) {
+        return s.id;
+      }
+    }
+    const allSubjects = await Subject.findAll();
+    for (const s of allSubjects) {
+      if ((s.nameBn && str.includes(s.nameBn.toLowerCase())) || (s.nameEn && str.includes(s.nameEn.toLowerCase())) || (s.name && str.includes(s.name.toLowerCase()))) {
+        return s.id;
+      }
+    }
+  } catch (e) {}
+  return 1;
+}
+
+/**
+ * POST /api/online-exam/create & POST /api/exams/create
+ * Universal Online Exam Creation Handler
+ */
+async function handleCreateOnlineExam(req, res, next) {
+  try {
+    const body = req.body || {};
+    const titleBn = (body.examTitle || body.titleBn || body.title || '').trim();
+    const titleEn = (body.englishTitle || body.titleEn || titleBn).trim();
+    const rawClass = body.selectedClass || body.classId || body.className;
+    const rawSubject = body.selectedSubject || body.subjectId || body.subjectName;
+    const type = (body.examType || body.type || 'MCQ').toUpperCase();
+    const examDate = body.date || body.examDate || new Date().toISOString().split('T')[0];
+    const startTime = body.startTime || '10:00 AM';
+    const durationMinutes = Number(body.duration || body.durationMinutes || 30);
+    const totalMarks = Number(body.totalMarks || 20);
+    const passMarks = Number(body.passMarks || Math.round(totalMarks * 0.4));
+    const instructions = body.instructions || 'সকল প্রশ্নের উত্তর দেওয়ার চেষ্টা করো।';
+    const questions = Array.isArray(body.questions) ? body.questions : [];
+
+    if (!titleBn) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'পরীক্ষার নাম আবশ্যক' }
+      });
+    }
+
+    const classId = await resolveClassIdForExam(rawClass);
+    const subjectId = await resolveSubjectIdForExam(rawSubject, classId);
+
+    let teacherId = null;
+    let userId = req.user?.id || 1;
+    if (req.user && req.user.role === 'TEACHER') {
+      const teacher = await Teacher.findOne({ where: { userId: req.user.id } });
+      teacherId = teacher?.id || null;
+    } else {
+      const firstTeacher = await Teacher.findOne();
+      teacherId = firstTeacher?.id || null;
+    }
+
+    const createdExam = await Exam.create({
+      titleBn,
+      titleEn,
+      classId,
+      subjectId,
+      teacherId,
+      type,
+      examDate,
+      startTime,
+      durationMinutes,
+      totalMarks,
+      passMarks,
+      instructions,
+      questions,
+      status: 'ACTIVE',
+      createdByUserId: userId,
+      createdAt: new Date().toISOString()
+    });
+
+    const fullExam = await Exam.findOne({
+      where: { id: createdExam.id },
+      include: [
+        { model: Class, as: 'class' },
+        { model: Subject, as: 'subject' }
+      ]
+    });
+
+    if (AuditService) {
+      await AuditService.log({
+        req,
+        userId,
+        action: 'CREATE_ONLINE_EXAM',
+        entityType: 'exam',
+        entityId: String(createdExam.id),
+        details: `নতুন পরীক্ষা তৈরি হয়েছে: "${titleBn}" (${type})`
+      }).catch(() => {});
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'অনলাইন পরীক্ষা সফলভাবে তৈরি ও সংরক্ষিত হয়েছে!',
+      data: fullExam || createdExam
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+router.post('/create', handleCreateOnlineExam);
+
 router.post('/', authenticate, requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
     const {

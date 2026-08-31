@@ -209,6 +209,8 @@ app.use('/api/achievers', achieversRoutes);
 app.use('/api/admin/achievers', achieversRoutes);
 app.use('/api/teacher-attendance', teacherAttendanceRoutes);
 app.use('/api/exams', examsRoutes);
+app.use('/api/online-exam', examsRoutes);
+app.use('/api/online-exams', examsRoutes);
 app.use('/api/live-classes', liveClassRoutes);
 app.use('/api/live-class', liveClassRoutes);
 app.use('/api/announcements', announcementsRoutes);
