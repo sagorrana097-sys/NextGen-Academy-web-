@@ -38,6 +38,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI } from '../../services/api';
 import MathRenderer from '../common/MathRenderer';
+import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
 
 const CLASSES_LIST = [
   'ষষ্ঠ শ্রেণি (Class 6)',
@@ -1100,6 +1101,26 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
 
       const deletedIds = getDeletedIds();
 
+      // Format questions from the built-in 118-question Question Bank
+      const formattedDefaultBank = (DEFAULT_QUESTION_BANK || []).map((q) => ({
+        id: `qb-${q.id}`,
+        M_ID: `qb-${q.id}`,
+        type: q.questionType || 'MCQ',
+        className: 'Class 9-10 (SSC)',
+        book: 'উচ্চতর গণিত (Higher Math)',
+        subject: 'উচ্চতর গণিত (Higher Math)',
+        institutionOrBoard: q.board || 'বোর্ড প্রশ্ন',
+        year: q.year || '2026',
+        chapter: q.chapter || 'অধ্যায় ১: সেট ও ফাংশন',
+        question: q.questionText,
+        options: q.options || [],
+        correctAnswer: q.answer === 'A' ? 'ক' : q.answer === 'B' ? 'খ' : q.answer === 'C' ? 'গ' : q.answer === 'D' ? 'ঘ' : 'ক',
+        explanation: q.explanation || '',
+        difficulty: q.difficulty || 'MEDIUM',
+        badge: `${q.board || 'বোর্ড'} ${q.year || ''}`.trim(),
+        marks: q.marks || 1
+      }));
+
       // Sync with localStorage cache & seeded repository questions so no questions are ever lost
       try {
         const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
@@ -1111,12 +1132,12 @@ export default function SmartUploadReaderHub({ initialVaultTab = 'MCQ', onNaviga
           list = [...localOnly, ...list];
         }
 
-        // Include seeded questions ONLY if not deleted
+        // Include question bank & seeded questions ONLY if not deleted
         const allCurrentIds = new Set(list.map(q => String(q.id || q.M_ID)));
+        const missingBank = formattedDefaultBank.filter(s => !allCurrentIds.has(String(s.id)) && !deletedIds.has(String(s.id)));
         const missingSeeds = INITIAL_SEEDED_QUESTIONS.filter(s => !allCurrentIds.has(String(s.id)) && !deletedIds.has(String(s.id)));
-        if (missingSeeds.length > 0) {
-          list = [...list, ...missingSeeds];
-        }
+        
+        list = [...list, ...missingBank, ...missingSeeds];
 
         // Filter out any permanently deleted IDs
         list = list.filter(q => !deletedIds.has(String(q.id || q.M_ID)));

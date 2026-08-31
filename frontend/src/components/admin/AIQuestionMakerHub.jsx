@@ -23,6 +23,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
 import MathRenderer from '../common/MathRenderer';
+import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
 
 const CLASSES_LIST = [
   'ষষ্ঠ শ্রেণি (Class 6)',
@@ -37,8 +38,8 @@ const CLASSES_LIST = [
 ];
 
 const SUBJECTS_LIST = [
-  'সাধারণ গণিত (General Math)',
   'উচ্চতর গণিত (Higher Math)',
+  'সাধারণ গণিত (General Math)',
   'পদার্থবিজ্ঞান (Physics)',
   'রসায়ন (Chemistry)',
   'জীববিজ্ঞান (Biology)',
@@ -62,8 +63,8 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   // Paper Configuration
   const [examTitle, setExamTitle] = useState('NextGen Academy - বিশেষ মডেল টেস্ট');
   const [instituteName, setInstituteName] = useState('NextGen Academy');
-  const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[4]);
-  const [selectedSubject, setSelectedSubject] = useState(SUBJECTS_LIST[2]);
+  const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[7]); // Class 9-10 (SSC)
+  const [selectedSubject, setSelectedSubject] = useState(SUBJECTS_LIST[0]); // Higher Math
   const [examDuration, setExamDuration] = useState(30);
 
   // Vault Browsing & Selection State
@@ -87,17 +88,41 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   const fetchRepoQuestions = async () => {
     setLoadingRepo(true);
     try {
-      const res = await questionRepositoryAPI.getQuestions();
       let list = [];
-      if (res?.data?.questions && Array.isArray(res.data.questions)) {
-        list = res.data.questions;
-      } else if (Array.isArray(res?.data)) {
-        list = res.data;
-      } else if (Array.isArray(res?.questions)) {
-        list = res.questions;
-      } else if (Array.isArray(res)) {
-        list = res;
-      }
+      try {
+        const res = await questionRepositoryAPI?.getQuestions?.();
+        if (res?.data?.questions && Array.isArray(res.data.questions)) {
+          list = res.data.questions;
+        } else if (Array.isArray(res?.data)) {
+          list = res.data;
+        } else if (Array.isArray(res?.questions)) {
+          list = res.questions;
+        } else if (Array.isArray(res)) {
+          list = res;
+        }
+      } catch (e) {}
+
+      // Format questions from the built-in 118-question Question Bank
+      const formattedDefaultBank = (DEFAULT_QUESTION_BANK || []).map((q) => ({
+        id: `qb-${q.id}`,
+        M_ID: `qb-${q.id}`,
+        question: q.questionText,
+        stem: q.questionText,
+        type: q.questionType || 'MCQ',
+        options: q.options || [],
+        correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+        marks: q.marks || 1,
+        book: 'উচ্চতর গণিত',
+        subject: 'উচ্চতর গণিত',
+        chapter: q.chapter || 'সেট ও ফাংশন',
+        institutionOrBoard: q.board || 'বোর্ড প্রশ্ন',
+        badge: `[উচ্চতর গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
+        explanation: q.explanation || ''
+      }));
+
+      const existingIds = new Set(list.map(q => String(q.id || q.M_ID)));
+      const newItems = formattedDefaultBank.filter(q => !existingIds.has(String(q.id || q.M_ID)));
+      list = [...list, ...newItems];
 
       // Sync with localStorage
       try {
