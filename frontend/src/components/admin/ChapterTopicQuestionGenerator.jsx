@@ -669,6 +669,25 @@ export default function ChapterTopicQuestionGenerator() {
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
           explanation: q.explanation || ''
         }));
+      } else if (selectedSubjectKey === 'GENERAL_MATH') {
+        vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
+          q.tags?.includes('সাধারণ গণিত')
+        ).map(q => ({
+          id: `vault-${q.id}`,
+          M_ID: `vault-${q.id}`,
+          type: q.questionType || 'MCQ',
+          subject: 'সাধারণ গণিত',
+          book: 'সাধারণ গণিত',
+          chapter: q.chapter,
+          topic: q.topic || selectedTopic || activeChapter.topics[0],
+          difficulty: q.difficulty || 'MEDIUM',
+          marks: q.marks || 1,
+          badge: `[সাধারণ গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
+          question: q.questionText,
+          options: q.options || [],
+          correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+          explanation: q.explanation || ''
+        }));
       } else if (selectedSubjectKey === 'PHYSICS') {
         vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
           q.tags?.includes('পদার্থবিজ্ঞান')
@@ -683,6 +702,25 @@ export default function ChapterTopicQuestionGenerator() {
           difficulty: q.difficulty || 'MEDIUM',
           marks: q.marks || 1,
           badge: `[পদার্থবিজ্ঞান] ${q.board || ''} ${q.year || ''}`.trim(),
+          question: q.questionText,
+          options: q.options || [],
+          correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+          explanation: q.explanation || ''
+        }));
+      } else if (selectedSubjectKey === 'CHEMISTRY') {
+        vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
+          q.tags?.includes('রসায়ন')
+        ).map(q => ({
+          id: `vault-${q.id}`,
+          M_ID: `vault-${q.id}`,
+          type: q.questionType || 'MCQ',
+          subject: 'রসায়ন',
+          book: 'রসায়ন',
+          chapter: q.chapter,
+          topic: q.topic || selectedTopic || activeChapter.topics[0],
+          difficulty: q.difficulty || 'MEDIUM',
+          marks: q.marks || 1,
+          badge: `[রসায়ন] ${q.board || ''} ${q.year || ''}`.trim(),
           question: q.questionText,
           options: q.options || [],
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
