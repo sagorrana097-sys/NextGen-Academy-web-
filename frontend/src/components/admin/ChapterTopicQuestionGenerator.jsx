@@ -640,10 +640,14 @@ export default function ChapterTopicQuestionGenerator() {
     }
   }, [activeChapter]);
 
+  // Filter states for Year and Board
+  const [selectedYearFilter, setSelectedYearFilter] = useState('সকল সাল');
+  const [selectedBoardFilter, setSelectedBoardFilter] = useState('সকল বোর্ড');
+
   // Load existing questions matching chapter from Vault
   useEffect(() => {
     handleGenerateQuestions(true);
-  }, [selectedSubjectKey, selectedChapterId, genQuestionType]);
+  }, [selectedSubjectKey, selectedChapterId, genQuestionType, selectedYearFilter, selectedBoardFilter]);
 
   // Generation Action
   const handleGenerateQuestions = (isInitial = false) => {
@@ -652,10 +656,70 @@ export default function ChapterTopicQuestionGenerator() {
       // 1. First, check if vault has questions matching this chapter
       let vaultMatches = [];
       if (selectedSubjectKey === 'HIGHER_MATH') {
-        const queryTerm = activeChapter?.title?.split(' ')?.[0] || 'সেট';
-        vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
-          q.tags?.includes('উচ্চতর গণিত') && (!genQuestionType || q.questionType === genQuestionType)
-        ).map(q => ({
+        const chNum = String(activeChapter?.number || '').toLowerCase();
+        const chTitle = String(activeChapter?.title || '').toLowerCase();
+
+        vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => {
+          const isHigherMath = q.tags?.some(t => String(t).includes('উচ্চতর গণিত')) || String(q.book || '').includes('উচ্চতর');
+          if (!isHigherMath) return false;
+
+          const matchesType = !genQuestionType || q.questionType === genQuestionType;
+          if (!matchesType) return false;
+
+          // Year Filter
+          if (selectedYearFilter && selectedYearFilter !== 'সকল সাল') {
+            const qYear = String(q.year || '');
+            const targetY = String(selectedYearFilter).replace(/[^০-৯0-9]/g, '');
+            if (!qYear.includes(targetY) && !qYear.includes(selectedYearFilter)) return false;
+          }
+
+          // Board Filter
+          if (selectedBoardFilter && selectedBoardFilter !== 'সকল বোর্ড') {
+            const bKey = selectedBoardFilter.replace(' বোর্ড', '').trim().toLowerCase();
+            const qB = String(q.board || q.institutionOrBoard || '').toLowerCase();
+            if (!qB.includes(bKey)) return false;
+          }
+
+          // Chapter Filter
+          const qChapter = String(q.chapter || '').toLowerCase();
+          const qText = String(q.questionText || '').toLowerCase();
+
+          if (chNum.includes('১') || chTitle.includes('সেট') || chTitle.includes('ফাংশন')) {
+            return qChapter.includes('১') || qChapter.includes('সেট') || qChapter.includes('ফাংশন') || qText.includes('ডোমেন') || qText.includes('ফাংশন');
+          }
+          if (chNum.includes('২') || chTitle.includes('বীজগাণিতিক')) {
+            return qChapter.includes('২') || qChapter.includes('বীজগাণিতিক') || qChapter.includes('বহুপদী') || qText.includes('উৎপাদক') || qText.includes('আংশিক ভগ্নাংশ');
+          }
+          if (chNum.includes('৩') || chTitle.includes('জ্যামিতি')) {
+            return qChapter.includes('৩') || qChapter.includes('জ্যামিতি') || qText.includes('অ্যাপোলোনিয়াস') || qText.includes('টলেমি') || qText.includes('মধ্যমা');
+          }
+          if (chNum.includes('৭') || chTitle.includes('ধারা')) {
+            return qChapter.includes('৭') || qChapter.includes('ধারা') || qText.includes('গুণোত্তর ধারা') || qText.includes('অসীমতক');
+          }
+          if (chNum.includes('৮') || chTitle.includes('ত্রিকোণমিতি')) {
+            return qChapter.includes('৮') || qChapter.includes('ত্রিকোণমিতি') || qText.includes('sin') || qText.includes('cos') || qText.includes('tan') || qText.includes('রেডিয়ান');
+          }
+          if (chNum.includes('৯') || chTitle.includes('সূচক')) {
+            return qChapter.includes('৯') || qChapter.includes('সূচক') || qChapter.includes('লগারিদম') || qText.includes('log') || qText.includes('ln');
+          }
+          if (chNum.includes('১০') || chTitle.includes('দ্বিপদী')) {
+            return qChapter.includes('১০') || qChapter.includes('দ্বিপদী') || qText.includes('বিস্তৃতি') || qText.includes('প্যাসকেল');
+          }
+          if (chNum.includes('১১') || chTitle.includes('স্থানাঙ্ক')) {
+            return qChapter.includes('১১') || qChapter.includes('স্থানাঙ্ক') || qText.includes('ঢাল') || qText.includes('সরলরেখা') || qText.includes('ক্ষেত্রফল');
+          }
+          if (chNum.includes('১২') || chTitle.includes('ভেক্টর')) {
+            return qChapter.includes('১২') || qChapter.includes('ভেক্টর') || qText.includes('ভেক্টর');
+          }
+          if (chNum.includes('১৩') || chTitle.includes('ঘন')) {
+            return qChapter.includes('১৩') || qChapter.includes('ঘন') || qText.includes('সিলিন্ডার') || qText.includes('গোলক') || qText.includes('কোণক');
+          }
+          if (chNum.includes('১৪') || chTitle.includes('সম্ভাবনা')) {
+            return qChapter.includes('১৪') || qChapter.includes('সম্ভাবনা') || qText.includes('সম্ভাবনা') || qText.includes('ছক্কা') || qText.includes('মুদ্রা');
+          }
+
+          return true;
+        }).map(q => ({
           id: `vault-${q.id}`,
           M_ID: `vault-${q.id}`,
           type: q.questionType || 'MCQ',
@@ -666,7 +730,7 @@ export default function ChapterTopicQuestionGenerator() {
           topic: q.topic || selectedTopic || activeChapter.topics[0],
           difficulty: q.difficulty || 'MEDIUM',
           marks: q.marks || (q.questionType === 'CQ' ? 10 : q.questionType === 'SQ' ? 2 : 1),
-          badge: `[উচ্চতর গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
+          badge: `[${q.board || 'বোর্ড'} ${q.year || ''}]`.trim(),
           question: q.questionText,
           stem: q.questionText,
           shortAnswer: q.shortAnswer || q.answerText || '',
@@ -1103,34 +1167,57 @@ export default function ChapterTopicQuestionGenerator() {
             </select>
           </div>
 
-          {/* Question Type & Count */}
-          <div className="md:col-span-3 flex items-end gap-2">
-            <div className="flex-1 space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">টাইপ:</label>
+          {/* Question Type, Year & Board Filters */}
+          <div className="md:col-span-3 grid grid-cols-3 gap-1.5 items-end">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-slate-600">টাইপ:</label>
               <select
                 value={genQuestionType}
                 onChange={(e) => setGenQuestionType(e.target.value)}
-                className="w-full px-2.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               >
-                <option value="MCQ">MCQ (বহুনির্বাচনী)</option>
-                <option value="CQ">CQ (সৃজনশীল)</option>
-                <option value="SQ">SQ (সংক্ষিপ্ত)</option>
+                <option value="MCQ">MCQ</option>
+                <option value="CQ">CQ</option>
+                <option value="SQ">SQ</option>
               </select>
             </div>
 
-            <button
-              type="button"
-              onClick={() => handleGenerateQuestions(false)}
-              disabled={isGenerating}
-              className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer disabled:opacity-50"
-            >
-              {isGenerating ? (
-                <RefreshCw className="w-4 h-4 animate-spin" />
-              ) : (
-                <Sparkles className="w-4 h-4" />
-              )}
-              <span>জেনারেট</span>
-            </button>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-slate-600">সাল / বছর:</label>
+              <select
+                value={selectedYearFilter}
+                onChange={(e) => setSelectedYearFilter(e.target.value)}
+                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              >
+                <option value="সকল সাল">সকল সাল</option>
+                <option value="২০২৫">২০২৫</option>
+                <option value="২০২৪">২০২৪</option>
+                <option value="২০২৩">২০২৩</option>
+                <option value="২০২২">২০২২</option>
+                <option value="২০২১">২০২১</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-slate-600">বোর্ড:</label>
+              <select
+                value={selectedBoardFilter}
+                onChange={(e) => setSelectedBoardFilter(e.target.value)}
+                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              >
+                <option value="সকল বোর্ড">সকল বোর্ড</option>
+                <option value="ঢাকা বোর্ড">ঢাকা বোর্ড</option>
+                <option value="রাজশাহী বোর্ড">রাজশাহী বোর্ড</option>
+                <option value="যশোর বোর্ড">যশোর বোর্ড</option>
+                <option value="কুমিল্লা বোর্ড">কুমিল্লা বোর্ড</option>
+                <option value="চট্টগ্রাম বোর্ড">চট্টগ্রাম বোর্ড</option>
+                <option value="সিলেট বোর্ড">সিলেট বোর্ড</option>
+                <option value="বরিশাল বোর্ড">বরিশাল বোর্ড</option>
+                <option value="দিনাজপুর বোর্ড">দিনাজপুর বোর্ড</option>
+                <option value="ময়মনসিংহ বোর্ড">ময়মনসিংহ বোর্ড</option>
+                <option value="ক্যাডেট কলেজ">ক্যাডেট কলেজ</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -1412,12 +1499,17 @@ export default function ChapterTopicQuestionGenerator() {
                       )}
 
                       {Array.isArray(q.options) && q.options.length > 0 && (
-                        <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px] text-slate-600">
-                          {q.options.map((opt, oIdx) => (
-                            <div key={oIdx} className="line-clamp-1">
-                              <MathRenderer text={opt} />
-                            </div>
-                          ))}
+                        <div className="space-y-1.5 pt-1 text-xs text-slate-800">
+                          {q.options.map((opt, oIdx) => {
+                            const bLabels = ['(ক)', '(খ)', '(গ)', '(ঘ)'];
+                            const cleanOpt = String(opt).replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+                            return (
+                              <div key={oIdx} className="p-2 bg-white rounded-xl border border-slate-200/80 shadow-2xs flex items-start space-x-2">
+                                <span className="font-extrabold text-indigo-700 shrink-0">{bLabels[oIdx] || `(${oIdx + 1})`}</span>
+                                <div className="flex-1 font-medium"><MathRenderer text={cleanOpt} /></div>
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
 
