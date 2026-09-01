@@ -266,7 +266,94 @@ export default function QuestionDiagram({ type, data = {}, className = '' }) {
         </div>
       );
 
+    // -------------------------------------------------------------
+    // MATHEMATICS & GEOMETRY DIAGRAMS
+    // -------------------------------------------------------------
+
+    // 9. বৃত্তস্থ চতুর্ভুজ ও ব্যাস (Cyclic Quadrilateral)
+    case 'CYCLIC_QUAD_DIAMETER':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-xs mx-auto ${className}`}>
+          <svg viewBox="0 0 200 200" className="w-44 sm:w-48 h-auto">
+            <circle cx="100" cy="100" r="70" fill="#f8fafc" stroke="#3b82f6" strokeWidth="2.5" />
+            <circle cx="100" cy="100" r="3" fill="#ef4444" />
+            <text x="100" y="93" fontSize="11" fontWeight="bold" fill="#ef4444" textAnchor="middle">O</text>
+            
+            {/* Inscribed Quadrilateral ABCD */}
+            <polygon points="100,30 170,100 100,170 30,100" fill="rgba(99, 102, 241, 0.08)" stroke="#4338ca" strokeWidth="2" />
+            <text x="100" y="23" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">A</text>
+            <text x="183" y="104" fontSize="11" fontWeight="bold" fill="#0f172a">B</text>
+            <text x="100" y="185" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">C</text>
+            <text x="18" y="104" fontSize="11" fontWeight="bold" fill="#0f172a">D</text>
+
+            {/* Diagonals */}
+            <line x1="100" y1="30" x2="100" y2="170" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" />
+            <line x1="30" y1="100" x2="170" y2="100" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="3 3" />
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: বৃত্তে অন্তর্লিখিত চতুর্ভুজ ও কর্ণ ব্যবস্থা</span>
+        </div>
+      );
+
+    // 10. গাছ ভাঙা ও দূরত্ব-উচ্চতা (Broken Tree Height Distance)
+    case 'BROKEN_TREE_DISTANCE':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 240 160" className="w-52 sm:w-60 h-auto">
+            {/* Ground */}
+            <line x1="30" y1="130" x2="210" y2="130" stroke="#334155" strokeWidth="2" />
+            
+            {/* Standing tree part */}
+            <line x1="60" y1="130" x2="60" y2="60" stroke="#16a34a" strokeWidth="4" />
+            <text x="45" y="95" fontSize="11" fontWeight="bold" fill="#16a34a">h</text>
+            <text x="60" y="145" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">B (গোড়া)</text>
+            <text x="60" y="52" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">A (ভাঙা অংশ)</text>
+
+            {/* Broken part touching ground */}
+            <line x1="60" y1="60" x2="180" y2="130" stroke="#ca8a04" strokeWidth="3" strokeDasharray="4 2" />
+            <text x="130" y="85" fontSize="11" fontWeight="bold" fill="#ca8a04">x</text>
+            <text x="180" y="145" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">C</text>
+
+            {/* Angle at top */}
+            <path d="M 60,80 A 20 20 0 0 0 75,69" fill="none" stroke="#dc2626" strokeWidth="1.5" />
+            <text x="80" y="80" fontSize="10" fontWeight="bold" fill="#dc2626">30°</text>
+
+            {/* Distance BC = 18m */}
+            <line x1="60" y1="140" x2="180" y2="140" stroke="#6366f1" strokeWidth="1.5" />
+            <text x="120" y="153" fontSize="10" fontWeight="bold" fill="#6366f1" textAnchor="middle">18 m</text>
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: ঝড়ে গাছ ভেঙে ভূমি স্পর্শের জ্যামিতিক চিত্র</span>
+        </div>
+      );
+
+    // 11. স্থানাঙ্ক জ্যামিতি ও ত্রিভুজ (Coordinate Triangle)
+    case 'COORDINATE_GEOMETRY_QUADRILATERAL':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 240 180" className="w-52 sm:w-60 h-auto">
+            {/* Coordinate axes */}
+            <line x1="20" y1="100" x2="220" y2="100" stroke="#94a3b8" strokeWidth="1.5" />
+            <line x1="120" y1="10" x2="120" y2="170" stroke="#94a3b8" strokeWidth="1.5" />
+            <text x="220" y="95" fontSize="10" fill="#64748b">X</text>
+            <text x="125" y="20" fontSize="10" fill="#64748b">Y</text>
+            <text x="110" y="112" fontSize="10" fill="#64748b">O</text>
+
+            {/* Polygon points */}
+            <polygon points="120,85 100,50 180,20 200,50" fill="rgba(59, 130, 246, 0.15)" stroke="#2563eb" strokeWidth="2" />
+            <circle cx="120" cy="85" r="3" fill="#ef4444" />
+            <text x="115" y="78" fontSize="9" fontWeight="bold" fill="#0f172a">A(0,-1)</text>
+            <circle cx="100" cy="50" r="3" fill="#ef4444" />
+            <text x="65" y="48" fontSize="9" fontWeight="bold" fill="#0f172a">B(-2,3)</text>
+            <circle cx="180" cy="20" r="3" fill="#ef4444" />
+            <text x="180" y="15" fontSize="9" fontWeight="bold" fill="#0f172a">C(6,7)</text>
+            <circle cx="200" cy="50" r="3" fill="#ef4444" />
+            <text x="202" y="55" fontSize="9" fontWeight="bold" fill="#0f172a">D(8,3)</text>
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: স্থানাঙ্ক তলে চতুর্ভুজ ABCD</span>
+        </div>
+      );
+
     default:
       return null;
   }
 }
+
