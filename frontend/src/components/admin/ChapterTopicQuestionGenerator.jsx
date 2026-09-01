@@ -654,7 +654,7 @@ export default function ChapterTopicQuestionGenerator() {
       if (selectedSubjectKey === 'HIGHER_MATH') {
         const queryTerm = activeChapter?.title?.split(' ')?.[0] || 'সেট';
         vaultMatches = (DEFAULT_QUESTION_BANK || []).filter(q => 
-          q.tags?.includes('উচ্চতর গণিত') || (q.chapter && q.chapter.toLowerCase().includes(queryTerm.toLowerCase()))
+          q.tags?.includes('উচ্চতর গণিত') && (!genQuestionType || q.questionType === genQuestionType)
         ).map(q => ({
           id: `vault-${q.id}`,
           M_ID: `vault-${q.id}`,
@@ -662,11 +662,15 @@ export default function ChapterTopicQuestionGenerator() {
           subject: 'উচ্চতর গণিত',
           book: 'উচ্চতর গণিত',
           chapter: q.chapter,
+          section: q.section,
           topic: q.topic || selectedTopic || activeChapter.topics[0],
           difficulty: q.difficulty || 'MEDIUM',
-          marks: q.marks || 1,
+          marks: q.marks || (q.questionType === 'CQ' ? 10 : q.questionType === 'SQ' ? 2 : 1),
           badge: `[উচ্চতর গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
           question: q.questionText,
+          stem: q.questionText,
+          shortAnswer: q.shortAnswer || q.answerText || '',
+          creativeSubQuestions: q.creativeSubQuestions,
           options: q.options || [],
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
           explanation: q.explanation || ''
@@ -1333,9 +1337,9 @@ export default function ChapterTopicQuestionGenerator() {
                             className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                           />
                           <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] ${
-                            q.type === 'CQ' ? 'bg-purple-100 text-purple-800' : 'bg-indigo-100 text-indigo-800'
+                            q.type === 'CQ' ? 'bg-purple-100 text-purple-800' : q.type === 'SQ' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
                           }`}>
-                            {q.type || 'MCQ'}
+                            {q.type === 'CQ' ? 'CQ সৃজনশীল' : q.type === 'SQ' ? 'SQ সংক্ষিপ্ত' : 'MCQ'}
                           </span>
                           <span className="text-[10px] font-bold text-slate-500">
                             {q.badge || `[${q.topic || 'টপিক'}]`}
@@ -1346,7 +1350,18 @@ export default function ChapterTopicQuestionGenerator() {
                         </span>
                       </div>
 
-                      {q.type === 'CQ' && q.creativeSubQuestions ? (
+                      {q.type === 'SQ' ? (
+                        <div className="space-y-1.5 pt-1 text-slate-800">
+                          <div className="font-bold text-slate-900 leading-relaxed text-xs">
+                            <MathRenderer text={q.question || q.stem} />
+                          </div>
+                          {q.shortAnswer && (
+                            <div className="p-2.5 bg-emerald-50/90 rounded-xl border border-emerald-200 text-[11px] text-emerald-900 font-semibold">
+                              <strong>সংক্ষিপ্ত উত্তর:</strong> <MathRenderer text={q.shortAnswer} />
+                            </div>
+                          )}
+                        </div>
+                      ) : q.type === 'CQ' && q.creativeSubQuestions ? (
                         <div className="space-y-2 pt-1 text-slate-800">
                           <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-200/80 leading-relaxed font-semibold">
                             <span className="text-[10px] font-black text-purple-700 uppercase tracking-wide block mb-1">
