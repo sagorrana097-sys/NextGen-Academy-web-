@@ -731,7 +731,7 @@ export default function ChapterTopicQuestionGenerator() {
           topic: q.topic || selectedTopic || activeChapter.topics[0],
           difficulty: q.difficulty || 'MEDIUM',
           marks: q.marks || (q.questionType === 'CQ' ? 10 : q.questionType === 'SQ' ? 2 : 1),
-          badge: `[${q.board || 'বোর্ড'} ${q.year || ''}]`.trim(),
+          badge: q.badge || (q.board ? `[${q.board}]` : '[বোর্ড প্রশ্ন]'),
           question: q.questionText,
           stem: q.questionText,
           shortAnswer: q.shortAnswer || q.answerText || '',
