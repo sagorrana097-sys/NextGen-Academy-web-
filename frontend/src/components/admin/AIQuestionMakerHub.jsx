@@ -171,11 +171,8 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       try {
         const localCache = JSON.parse(localStorage.getItem('nextgen_custom_repo_questions') || '[]');
         if (localCache.length > 0) {
-          const apiIds = new Set(list.map(q => String(q.id || q.M_ID)));
-          const localOnly = localCache.filter(q => !apiIds.has(String(q.id || q.M_ID)));
-          if (localOnly.length > 0) {
-            list = [...localOnly, ...list];
-          }
+          const customUserItems = localCache.filter(q => !String(q.id || '').startsWith('qb-') && !String(q.id || '').startsWith('vault-'));
+          list = [...customUserItems, ...list];
         }
       } catch (e) {}
 
