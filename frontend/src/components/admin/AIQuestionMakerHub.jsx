@@ -18,7 +18,8 @@ import {
   Check,
   X,
   Sliders,
-  FolderOpen
+  FolderOpen,
+  Filter
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
@@ -26,15 +27,15 @@ import MathRenderer from '../common/MathRenderer';
 import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
 
 const CLASSES_LIST = [
-  'ষষ্ঠ শ্রেণি (Class 6)',
-  'সপ্তম শ্রেণি (Class 7)',
-  'অষ্টম শ্রেণি (Class 8)',
+  'Class 9-10 (SSC)',
+  'Class 11-12 (HSC)',
   'নবম শ্রেণি (Class 9)',
   'দশম শ্রেণি (Class 10)',
   'একাদশ শ্রেণি (Class 11)',
   'দ্বাদশ শ্রেণি (Class 12)',
-  'Class 9-10 (SSC)',
-  'Class 11-12 (HSC)'
+  'অষ্টম শ্রেণি (Class 8)',
+  'সপ্তম শ্রেণি (Class 7)',
+  'ষষ্ঠ শ্রেণি (Class 6)'
 ];
 
 const SUBJECTS_LIST = [
@@ -46,15 +47,29 @@ const SUBJECTS_LIST = [
   'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি (ICT)',
   'বাংলাদেশ ও বিশ্বপরিচয় (BGS)',
   'সাধারণ বিজ্ঞান (General Science)',
-  'ইসলাম ও নৈতিক শিক্ষা',
-  'হিন্দুধর্ম ও নৈতিক শিক্ষা',
   'বাংলা ১ম পত্র (সাহিত্য)',
   'বাংলা ২য় পত্র (বাংলা ব্যাকরণ ও নির্মিতি)',
   'ইংরেজি ১ম পত্র (English 1st Paper)',
   'ইংরেজি ২য় পত্র (English 2nd Paper)',
   'হিসাববিজ্ঞান (Accounting)',
   'ফিন্যান্স ও ব্যাংকিং (Finance & Banking)',
-  'ব্যবসায় উদ্যোগ (Business Studies)'
+  'ব্যবসায় উদ্যোগ (Business Studies)',
+  'ইসলাম ও নৈতিক শিক্ষা',
+  'হিন্দুধর্ম ও নৈতিক শিক্ষা'
+];
+
+const BOARDS_LIST = [
+  'সকল বোর্ড',
+  'ঢাকা বোর্ড',
+  'রাজশাহী বোর্ড',
+  'যশোর বোর্ড',
+  'কুমিল্লা বোর্ড',
+  'চট্টগ্রাম বোর্ড',
+  'সিলেট বোর্ড',
+  'বরিশাল বোর্ড',
+  'দিনাজপুর বোর্ড',
+  'ময়মনসিংহ বোর্ড',
+  'মাদ্রাসা বোর্ড'
 ];
 
 export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR }) {
@@ -63,7 +78,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   // Paper Configuration
   const [examTitle, setExamTitle] = useState('NextGen Academy - বিশেষ মডেল টেস্ট');
   const [instituteName, setInstituteName] = useState('NextGen Academy');
-  const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[7]); // Class 9-10 (SSC)
+  const [selectedClass, setSelectedClass] = useState(CLASSES_LIST[0]); // Class 9-10 (SSC)
   const [selectedSubject, setSelectedSubject] = useState(SUBJECTS_LIST[0]); // Higher Math
   const [examDuration, setExamDuration] = useState(30);
 
@@ -71,6 +86,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   const [repoQuestions, setRepoQuestions] = useState([]);
   const [loadingRepo, setLoadingRepo] = useState(false);
   const [vaultFilter, setVaultFilter] = useState('ALL'); // 'ALL' | 'MCQ' | 'CQ' | 'SQ'
+  const [selectedVaultBoard, setSelectedVaultBoard] = useState('সকল বোর্ড');
   const [searchTerm, setSearchTerm] = useState('');
 
   // Selected Paper Questions
@@ -102,23 +118,48 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
         }
       } catch (e) {}
 
-      // Format questions from the built-in 118-question Question Bank
-      const formattedDefaultBank = (DEFAULT_QUESTION_BANK || []).map((q) => ({
-        id: `qb-${q.id}`,
-        M_ID: `qb-${q.id}`,
-        question: q.questionText,
-        stem: q.questionText,
-        type: q.questionType || 'MCQ',
-        options: q.options || [],
-        correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
-        marks: q.marks || 1,
-        book: 'উচ্চতর গণিত',
-        subject: 'উচ্চতর গণিত',
-        chapter: q.chapter || 'সেট ও ফাংশন',
-        institutionOrBoard: q.board || 'বোর্ড প্রশ্ন',
-        badge: `[উচ্চতর গণিত] ${q.board || ''} ${q.year || ''}`.trim(),
-        explanation: q.explanation || ''
-      }));
+      // Format questions from DEFAULT_QUESTION_BANK with accurate Subject tags
+      const formattedDefaultBank = (DEFAULT_QUESTION_BANK || []).map((q) => {
+        let subjectName = 'উচ্চতর গণিত';
+        const qTags = Array.isArray(q.tags) ? q.tags : [];
+
+        if (qTags.some(t => t.includes('উচ্চতর গণিত')) || q.book?.includes('উচ্চতর')) {
+          subjectName = 'উচ্চতর গণিত';
+        } else if (qTags.some(t => t.includes('সাধারণ গণিত')) || q.chapter?.includes('সেট ও ফাংশন')) {
+          subjectName = 'সাধারণ গণিত';
+        } else if (qTags.some(t => t.includes('পদার্থবিজ্ঞান')) || q.book?.includes('পদার্থ')) {
+          subjectName = 'পদার্থবিজ্ঞান';
+        } else if (qTags.some(t => t.includes('রসায়ন')) || q.book?.includes('রসায়ন')) {
+          subjectName = 'রসায়ন';
+        } else if (qTags.some(t => t.includes('জীববিজ্ঞান')) || q.book?.includes('জীব')) {
+          subjectName = 'জীববিজ্ঞান';
+        } else if (qTags.some(t => t.includes('আইসিটি') || t.includes('ICT'))) {
+          subjectName = 'তথ্য ও যোগাযোগ প্রযুক্তি / আইসিটি';
+        }
+
+        return {
+          id: `qb-${q.id}`,
+          M_ID: `qb-${q.id}`,
+          question: q.questionText,
+          stem: q.questionText,
+          type: q.questionType || 'MCQ',
+          options: q.options || [],
+          correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+          marks: q.marks || (q.questionType === 'CQ' ? 10 : q.questionType === 'SQ' ? 2 : 1),
+          book: subjectName,
+          subject: subjectName,
+          chapter: q.chapter || 'সাধারণ অধ্যায়',
+          board: q.board || '',
+          year: q.year || '',
+          institutionOrBoard: q.board ? `${q.board} ${q.year || ''}`.trim() : 'বোর্ড প্রশ্ন',
+          badge: `[${subjectName}] ${q.board || ''} ${q.year || ''}`.trim(),
+          explanation: q.explanation || '',
+          creativeSubQuestions: q.creativeSubQuestions || q.subQuestions || null,
+          subQuestions: q.creativeSubQuestions || q.subQuestions || null,
+          shortAnswer: q.shortAnswer || q.answerText || '',
+          tags: qTags
+        };
+      });
 
       const existingIds = new Set(list.map(q => String(q.id || q.M_ID)));
       const newItems = formattedDefaultBank.filter(q => !existingIds.has(String(q.id || q.M_ID)));
@@ -150,10 +191,41 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     }
   };
 
-  // Filtered Vault Questions
-  const filteredVaultQuestions = useMemo(() => {
+  // 1. Filter Questions Strictly by the Active Selected Subject
+  const subjectFilteredQuestions = useMemo(() => {
     const safe = Array.isArray(repoQuestions) ? repoQuestions : [];
+    if (!selectedSubject) return safe;
+
+    const selSub = selectedSubject.toLowerCase();
     return safe.filter(q => {
+      const qSub = String(q?.subject || q?.book || '').toLowerCase();
+      const qTags = Array.isArray(q?.tags) ? q.tags.map(t => String(t).toLowerCase()) : [];
+
+      if (selSub.includes('উচ্চতর গণিত') || selSub.includes('higher math')) {
+        return qSub.includes('উচ্চতর') || qTags.some(t => t.includes('উচ্চতর'));
+      }
+      if (selSub.includes('সাধারণ গণিত') || selSub.includes('general math')) {
+        return (qSub.includes('সাধারণ গণিত') || qTags.some(t => t.includes('সাধারণ গণিত'))) && !qSub.includes('উচ্চতর');
+      }
+      if (selSub.includes('পদার্থবিজ্ঞান') || selSub.includes('physics')) {
+        return qSub.includes('পদার্থ') || qTags.some(t => t.includes('পদার্থ'));
+      }
+      if (selSub.includes('রসায়ন') || selSub.includes('chemistry')) {
+        return qSub.includes('রসায়ন') || qTags.some(t => t.includes('রসায়ন'));
+      }
+      if (selSub.includes('জীববিজ্ঞান') || selSub.includes('biology')) {
+        return qSub.includes('জীব') || qTags.some(t => t.includes('জীব'));
+      }
+      if (selSub.includes('তথ্য ও যোগাযোগ') || selSub.includes('ict') || selSub.includes('আইসিটি')) {
+        return qSub.includes('আইসিটি') || qSub.includes('ict') || qTags.some(t => t.includes('ict') || t.includes('আইসিটি'));
+      }
+      return true;
+    });
+  }, [repoQuestions, selectedSubject]);
+
+  // 2. Further Filter by Type (ALL | MCQ | CQ | SQ), Board, and Search
+  const filteredVaultQuestions = useMemo(() => {
+    return subjectFilteredQuestions.filter(q => {
       const rawType = String(q?.type || '').toUpperCase().trim();
       const targetFilter = String(vaultFilter || 'ALL').toUpperCase().trim();
       
@@ -162,7 +234,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
         if (targetFilter === 'MCQ') {
           matchesType = rawType === 'MCQ' || rawType === 'MULTIPLE_CHOICE' || (Array.isArray(q?.options) && q.options.length > 0);
         } else if (targetFilter === 'CQ') {
-          matchesType = rawType === 'CQ' || rawType === 'CREATIVE' || Boolean(q?.subQuestions && Object.keys(q.subQuestions).length > 0);
+          matchesType = rawType === 'CQ' || rawType === 'CREATIVE' || Boolean(q?.creativeSubQuestions || (q?.subQuestions && Object.keys(q.subQuestions).length > 0));
         } else if (targetFilter === 'SQ') {
           matchesType = rawType === 'SQ' || rawType === 'SHORT' || rawType === 'SHORT_QUESTION' || Boolean(q?.shortAnswer);
         } else {
@@ -170,15 +242,25 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
         }
       }
 
+      // Board Filter
+      let matchesBoard = true;
+      if (selectedVaultBoard && selectedVaultBoard !== 'সকল বোর্ড') {
+        const boardKey = selectedVaultBoard.replace(' বোর্ড', '').trim().toLowerCase();
+        const bStr = String(q?.board || q?.institutionOrBoard || q?.badge || q?.question || '').toLowerCase();
+        matchesBoard = bStr.includes(boardKey);
+      }
+
+      // Search Filter
       const qText = String(q?.question || q?.stem || '').toLowerCase();
-      const qInst = String(q?.institutionOrBoard || q?.boardOrInstitute || q?.category || '').toLowerCase();
-      const qSubject = String(q?.book || q?.subject || '').toLowerCase();
+      const qInst = String(q?.institutionOrBoard || q?.board || '').toLowerCase();
+      const qChapter = String(q?.chapter || '').toLowerCase();
       const search = (searchTerm || '').toLowerCase().trim();
 
-      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qSubject.includes(search);
-      return matchesType && matchesSearch;
+      const matchesSearch = !search || qText.includes(search) || qInst.includes(search) || qChapter.includes(search);
+
+      return matchesType && matchesBoard && matchesSearch;
     });
-  }, [repoQuestions, vaultFilter, searchTerm]);
+  }, [subjectFilteredQuestions, vaultFilter, selectedVaultBoard, searchTerm]);
 
   // Toggle Question Selection for Exam Paper
   const toggleSelectQuestion = (question) => {
@@ -209,7 +291,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     }, 0);
   }, [selectedPaperQuestions]);
 
-  // Print A4 Exam Sheet
+  // Print A4 Exam Sheet with KaTeX Math Auto-Rendering
   const handlePrintExam = () => {
     if (selectedPaperQuestions.length === 0) {
       alert('প্রশ্নপত্র প্রিন্ট করার আগে ভাণ্ডার থেকে অন্তত একটি প্রশ্ন নির্বাচন করুন।');
@@ -228,12 +310,16 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
 <head>
   <meta charset="UTF-8">
   <title>${examTitle} - NextGen Academy</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap');
     @page { size: A4 portrait; margin: 15mm 12mm 15mm 12mm; }
     body {
-      font-family: 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', Arial, sans-serif;
+      font-family: 'Hind Siliguri', 'SolaimanLipi', Arial, sans-serif;
       color: #0f172a;
-      line-height: 1.45;
+      line-height: 1.5;
       font-size: 13px;
       margin: 0;
       padding: 0;
@@ -243,19 +329,18 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       text-align: center;
       border-bottom: 2px solid #0f172a;
       padding-bottom: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .inst-name {
       font-size: 22px;
-      font-weight: 900;
-      color: #047857;
+      font-weight: 800;
+      color: #0f172a;
       margin: 0;
-      text-transform: uppercase;
     }
     .exam-title {
       font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
+      font-weight: 700;
+      color: #1e293b;
       margin: 3px 0;
     }
     .meta-bar {
@@ -270,7 +355,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     .q-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
     .q-item {
       page-break-inside: avoid;
@@ -280,27 +365,31 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       font-size: 13px;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 2px;
     }
     .q-stem {
       margin: 2px 0 6px 0;
-      text-align: justify;
+      white-space: pre-wrap;
     }
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 4px 16px;
-      margin-top: 4px;
-      font-size: 12px;
-    }
-    .sub-q-list {
+    .options-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
       margin-left: 12px;
-      margin-top: 4px;
-      font-size: 12px;
+      font-size: 12.5px;
+    }
+    .sub-q-box {
+      margin-left: 12px;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12.5px;
     }
     .sub-q-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 3px;
     }
     .footer {
       margin-top: 24px;
@@ -324,42 +413,60 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
   </div>
 
   <div class="q-list">
-    ${selectedPaperQuestions.map((q, idx) => `
+    ${selectedPaperQuestions.map((q, idx) => {
+      const isCQ = q?.type === 'CQ' || Boolean(q?.creativeSubQuestions || q?.subQuestions);
+      const isSQ = q?.type === 'SQ';
+      const cSubs = q?.creativeSubQuestions || q?.subQuestions;
+
+      return `
       <div class="q-item">
         <div class="q-head">
           <span><strong>প্রশ্ন ${idx + 1}.</strong> [${q?.type || 'প্রশ্ন'}]</span>
-          <span>[${q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)}]</span>
+          <span>[${q?.marks || (isCQ ? 10 : isSQ ? 2 : 1)} নম্বর]</span>
         </div>
-        <div class="q-stem">${q?.question || q?.stem || ''}</div>
-        ${q?.diagramUrl ? `
-          <div style="text-align: center; margin: 6px 0;">
-            <img src="${q.diagramUrl}" style="max-height: 160px; max-width: 100%; object-fit: contain; border-radius: 6px;" alt="চিত্র" />
+        <div class="q-stem">${q?.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q?.question || q?.stem || ''}</div>
+        
+        ${q?.type === 'MCQ' && Array.isArray(q?.options) && q.options.length > 0 ? `
+          <div class="options-vertical">
+            ${q.options.map((opt, oIdx) => {
+              const bLabels = ['(ক)', '(খ)', '(গ)', '(ঘ)'];
+              const cleanOpt = String(opt).replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+              return `<div><strong>${bLabels[oIdx] || `(${oIdx + 1})`}</strong> ${cleanOpt}</div>`;
+            }).join('')}
           </div>
         ` : ''}
-        ${q?.type === 'MCQ' && Array.isArray(q?.options) ? `
-          <div class="options-grid">
-            ${q.options.map((opt, oIdx) => `<div>(${String.fromCharCode(97 + oIdx)}) ${opt}</div>`).join('')}
-          </div>
-        ` : ''}
-        ${q?.type === 'CQ' && q?.subQuestions ? `
-          <div class="sub-q-list">
-            <div class="sub-q-row"><span>(ক) ${q.subQuestions.a?.q || q.subQuestions.a || ''}</span><span>[১]</span></div>
-            <div class="sub-q-row"><span>(খ) ${q.subQuestions.b?.q || q.subQuestions.b || ''}</span><span>[২]</span></div>
-            <div class="sub-q-row"><span>(গ) ${q.subQuestions.c?.q || q.subQuestions.c || ''}</span><span>[৩]</span></div>
-            <div class="sub-q-row"><span>(ঘ) ${q.subQuestions.d?.q || q.subQuestions.d || ''}</span><span>[৪]</span></div>
+
+        ${isCQ && cSubs ? `
+          <div class="sub-q-box">
+            ${cSubs.a ? `<div class="sub-q-row"><span><strong>(ক)</strong> ${cSubs.a.q || cSubs.a}</span><span>[${cSubs.a.marks || 2} নম্বর]</span></div>` : ''}
+            ${cSubs.b ? `<div class="sub-q-row"><span><strong>(খ)</strong> ${cSubs.b.q || cSubs.b}</span><span>[${cSubs.b.marks || 4} নম্বর]</span></div>` : ''}
+            ${cSubs.c ? `<div class="sub-q-row"><span><strong>(গ)</strong> ${cSubs.c.q || cSubs.c}</span><span>[${cSubs.c.marks || 4} নম্বর]</span></div>` : ''}
+            ${cSubs.d ? `<div class="sub-q-row"><span><strong>(ঘ)</strong> ${cSubs.d.q || cSubs.d}</span><span>[${cSubs.d.marks || 4} নম্বর]</span></div>` : ''}
           </div>
         ` : ''}
       </div>
-    `).join('')}
+      `;
+    }).join('')}
   </div>
 
   <div class="footer">
-    <span>NextGen Academy • সুরক্ষিত প্রশ্নপত্র প্রণয়ন ইঞ্জিন</span>
-    <span>পৃষ্ঠা ১ / ১</span>
+    <span>NextGen Academy • অফিশিয়াল প্রশ্নপত্র ইঞ্জিন</span>
+    <span>প্রিন্ট তারিখ: ${new Date().toLocaleDateString('bn-BD')}</span>
   </div>
 
   <script>
     window.onload = function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\\\(', right: '\\\\)', display: false},
+            {left: '\\\\([', right: '\\\\)', display: true}
+          ],
+          throwOnError: false
+        });
+      }
       setTimeout(function() { window.print(); }, 400);
     };
   </script>
@@ -379,15 +486,18 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
     selectedPaperQuestions.forEach((q, idx) => {
       text += `প্রশ্ন ${idx + 1}. (${q?.type || 'Q'})\n${q?.question || q?.stem || ''}\n`;
       if (q?.type === 'MCQ' && Array.isArray(q?.options)) {
+        const bLabels = ['(ক)', '(খ)', '(গ)', '(ঘ)'];
         q.options.forEach((opt, oIdx) => {
-          text += `  (${String.fromCharCode(97 + oIdx)}) ${opt}\n`;
+          const clean = String(opt).replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+          text += `  ${bLabels[oIdx] || `(${oIdx + 1})`} ${clean}\n`;
         });
       }
-      if (q?.type === 'CQ' && q?.subQuestions) {
-        text += `  (ক) ${q.subQuestions.a?.q || q.subQuestions.a || ''}\n`;
-        text += `  (খ) ${q.subQuestions.b?.q || q.subQuestions.b || ''}\n`;
-        text += `  (গ) ${q.subQuestions.c?.q || q.subQuestions.c || ''}\n`;
-        text += `  (ঘ) ${q.subQuestions.d?.q || q.subQuestions.d || ''}\n`;
+      const cSubs = q?.creativeSubQuestions || q?.subQuestions;
+      if (cSubs) {
+        if (cSubs.a) text += `  (ক) ${cSubs.a.q || cSubs.a} [${cSubs.a.marks || 2}]\n`;
+        if (cSubs.b) text += `  (খ) ${cSubs.b.q || cSubs.b} [${cSubs.b.marks || 4}]\n`;
+        if (cSubs.c) text += `  (গ) ${cSubs.c.q || cSubs.c} [${cSubs.c.marks || 4}]\n`;
+        if (cSubs.d) text += `  (ঘ) ${cSubs.d.q || cSubs.d} [${cSubs.d.marks || 4}]\n`;
       }
       text += '\n';
     });
@@ -455,7 +565,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               ম্যানুয়াল প্রশ্নপত্র প্রস্তুতকারক (Question Paper Builder)
             </h2>
             <p className="text-xs md:text-sm text-slate-300 mt-1">
-              ভাণ্ডার থেকে MCQ, CQ ও SQ প্রশ্ন নির্বাচন করে সাজান, A4 প্রিন্ট করুন অথবা লাইভ প্রকাশ করুন।
+              ভাণ্ডার থেকে আপনার নির্বাচিত বিষয়ের MCQ, CQ ও SQ প্রশ্ন বাছাই করে সাজান, A4 প্রিন্ট করুন অথবা লাইভ প্রকাশ করুন।
             </p>
           </div>
 
@@ -464,7 +574,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               <button
                 type="button"
                 onClick={onNavigateToUpload}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black transition-all flex items-center space-x-2 shadow-lg shadow-indigo-600/30 cursor-pointer"
               >
                 <Database className="w-4 h-4" />
                 <span>ভাণ্ডারে প্রশ্ন যুক্ত করুন</span>
@@ -477,14 +587,21 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
       {/* Main Grid: Left Vault Browser, Right Live Paper Preview */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Vault Questions Browser */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div className="lg:col-span-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm space-y-4">
+            
+            {/* Header with Title & Action */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
               <div className="flex items-center space-x-2">
                 <Database className="w-4 h-4 text-teal-600" />
-                <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
-                  ১. ভাণ্ডার থেকে প্রশ্ন নির্বাচন করুন ({filteredVaultQuestions.length} টি)
-                </h3>
+                <div>
+                  <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
+                    ১. ভাণ্ডার থেকে প্রশ্ন নির্বাচন ({filteredVaultQuestions.length} টি)
+                  </h3>
+                  <p className="text-[11px] font-bold text-teal-700">
+                    ফিল্টারকৃত বিষয়: {selectedSubject}
+                  </p>
+                </div>
               </div>
               <button
                 type="button"
@@ -495,60 +612,76 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               </button>
             </div>
 
-            {/* Filter Tabs: ALL | MCQ | CQ | SQ */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <button
-                type="button"
-                onClick={() => setVaultFilter('ALL')}
-                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
-                  vaultFilter === 'ALL' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                )}
-              >
-                সকল ({repoQuestions.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setVaultFilter('MCQ')}
-                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
-                  vaultFilter === 'MCQ' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
-                )}
-              >
-                MCQ ({repoQuestions.filter(q => q?.type === 'MCQ').length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setVaultFilter('CQ')}
-                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
-                  vaultFilter === 'CQ' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
-                )}
-              >
-                CQ ({repoQuestions.filter(q => q?.type === 'CQ').length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setVaultFilter('SQ')}
-                className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
-                  vaultFilter === 'SQ' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                )}
-              >
-                SQ ({repoQuestions.filter(q => q?.type === 'SQ' || q?.type === 'SHORT').length})
-              </button>
-            </div>
+            {/* Quick Filter Toolbar: Type Tabs & Board Dropdown */}
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                {/* Type Switcher */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setVaultFilter('ALL')}
+                    className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                      vaultFilter === 'ALL' ? 'bg-slate-900 text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    )}
+                  >
+                    সকল ({subjectFilteredQuestions.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVaultFilter('MCQ')}
+                    className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                      vaultFilter === 'MCQ' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                    )}
+                  >
+                    MCQ ({subjectFilteredQuestions.filter(q => q?.type === 'MCQ').length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVaultFilter('CQ')}
+                    className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                      vaultFilter === 'CQ' ? 'bg-purple-600 text-white shadow-xs' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                    )}
+                  >
+                    CQ ({subjectFilteredQuestions.filter(q => q?.type === 'CQ' || Boolean(q?.creativeSubQuestions)).length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVaultFilter('SQ')}
+                    className={'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ' + (
+                      vaultFilter === 'SQ' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                    )}
+                  >
+                    SQ ({subjectFilteredQuestions.filter(q => q?.type === 'SQ' || q?.type === 'SHORT').length})
+                  </button>
+                </div>
 
-            {/* Search Input */}
-            <div className="relative">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="প্রশ্ন, বিষয় বা বোর্ড দিয়ে খুঁজুন..."
-                className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
-              />
+                {/* Board Dropdown Filter */}
+                <select
+                  value={selectedVaultBoard}
+                  onChange={(e) => setSelectedVaultBoard(e.target.value)}
+                  className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                >
+                  {BOARDS_LIST.map(b => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Search Input */}
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="প্রশ্ন, অধ্যায় বা টপিক দিয়ে খুঁজুন..."
+                  className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                />
+              </div>
             </div>
 
             {/* Questions Selection List */}
-            <div className="max-h-[520px] overflow-y-auto space-y-2.5 pr-1 custom-scrollbar">
+            <div className="max-h-[540px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
               {loadingRepo ? (
                 <div className="p-8 text-center text-slate-400 space-y-2">
                   <RefreshCw className="w-6 h-6 animate-spin mx-auto text-teal-600" />
@@ -557,23 +690,28 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               ) : filteredVaultQuestions.length === 0 ? (
                 <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
                   <FolderOpen className="w-8 h-8 mx-auto text-slate-300" />
-                  <p className="text-xs font-bold text-slate-700">কোনো প্রশ্ন পাওয়া যায়নি</p>
+                  <p className="text-xs font-bold text-slate-700">এই বিষয়ের কোনো প্রশ্ন পাওয়া যায়নি</p>
+                  <p className="text-[11px] text-slate-500">ডানপাশের ড্রপডাউন থেকে সঠিক বিষয় নির্বাচন করুন।</p>
                 </div>
               ) : (
                 filteredVaultQuestions.map((q, idx) => {
                   const qId = q?.id || q?.M_ID || idx;
                   const isSelected = selectedPaperQuestions.some(sq => (sq?.id || sq?.M_ID) === qId);
+                  const isCQ = q?.type === 'CQ' || Boolean(q?.creativeSubQuestions);
+                  const isSQ = q?.type === 'SQ';
+                  const cSubs = q?.creativeSubQuestions || q?.subQuestions;
 
                   return (
                     <div
                       key={qId}
                       onClick={() => toggleSelectQuestion(q)}
-                      className={'p-3 rounded-2xl border text-xs space-y-1.5 transition-all cursor-pointer ' + (
+                      className={'p-4 rounded-2xl border text-xs space-y-2.5 transition-all cursor-pointer ' + (
                         isSelected
-                          ? 'bg-teal-50/70 border-teal-400 shadow-xs'
-                          : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-slate-300'
+                          ? 'bg-teal-50/80 border-teal-400 shadow-xs'
+                          : 'bg-slate-50/80 border-slate-200 hover:bg-white hover:border-slate-300 hover:shadow-xs'
                       )}
                     >
+                      {/* Card Header */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <input
@@ -583,22 +721,120 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                             className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 cursor-pointer"
                           />
                           <span className={'px-2 py-0.5 rounded-md font-bold text-[10px] ' + (
-                            q?.type === 'CQ' ? 'bg-purple-100 text-purple-800' : q?.type === 'SQ' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
+                            isCQ ? 'bg-purple-100 text-purple-800' : isSQ ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
                           )}>
-                            {q?.type || 'MCQ'}
+                            {isCQ ? 'CQ সৃজনশীল' : isSQ ? 'SQ সংক্ষিপ্ত' : 'MCQ'}
                           </span>
-                          <span className="text-[10px] font-bold text-slate-400">
+                          <span className="text-[10px] font-bold text-slate-500">
                             {q?.badge || `[${q?.book || 'বিষয়'}]`}
                           </span>
                         </div>
                         <span className="font-bold text-slate-700 text-[11px]">
-                          [{q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)} নম্বর]
+                          [{q?.marks || (isCQ ? 10 : isSQ ? 2 : 1)} নম্বর]
                         </span>
                       </div>
 
-                      <div className="font-bold text-slate-800 line-clamp-2">
-                        <MathRenderer text={q?.question || q?.stem} />
-                      </div>
+                      {/* 1. CQ CREATIVE QUESTION CARD */}
+                      {isCQ && cSubs ? (
+                        <div className="space-y-2 pt-1 text-slate-800">
+                          {/* Stimulus Box */}
+                          <div className="p-3 rounded-xl bg-purple-50/80 border border-purple-200/80 leading-relaxed font-semibold">
+                            <span className="text-[10px] font-black text-purple-700 uppercase tracking-wide block mb-1">
+                              উদ্দীপক:
+                            </span>
+                            <MathRenderer text={q?.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q?.question} />
+                          </div>
+
+                          {/* Sub-questions: ক এর নিচে খ, তার নিচে গ */}
+                          <div className="space-y-1.5 pl-1 text-[11px]">
+                            {cSubs.a && (
+                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                                <span className="font-extrabold text-indigo-700 mr-1">ক.</span>
+                                <MathRenderer text={cSubs.a.q || cSubs.a} />
+                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.a.marks || 2} নম্বর]</span>
+                                {cSubs.a.ans && (
+                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.a.ans} />
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {cSubs.b && (
+                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                                <span className="font-extrabold text-indigo-700 mr-1">খ.</span>
+                                <MathRenderer text={cSubs.b.q || cSubs.b} />
+                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.b.marks || 4} নম্বর]</span>
+                                {cSubs.b.ans && (
+                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.b.ans} />
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {cSubs.c && (
+                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                                <span className="font-extrabold text-indigo-700 mr-1">গ.</span>
+                                <MathRenderer text={cSubs.c.q || cSubs.c} />
+                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.c.marks || 4} নম্বর]</span>
+                                {cSubs.c.ans && (
+                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.c.ans} />
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : isSQ ? (
+                        /* 2. SQ SHORT QUESTION CARD */
+                        <div className="space-y-1.5 pt-1 text-slate-800">
+                          <div className="font-bold text-slate-900 leading-relaxed text-xs">
+                            <MathRenderer text={q?.question || q?.stem} />
+                          </div>
+                          {q?.shortAnswer && (
+                            <div className="p-2.5 bg-emerald-50/90 rounded-xl border border-emerald-200 text-[11px] text-emerald-900 font-semibold">
+                              <strong>সংক্ষিপ্ত উত্তর:</strong> <MathRenderer text={q.shortAnswer} />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        /* 3. MCQ QUESTION CARD: Options stacked vertically */
+                        <div className="space-y-2 pt-1 text-slate-800">
+                          <div className="font-bold text-slate-900 leading-relaxed text-xs">
+                            <MathRenderer text={q?.question || q?.stem} />
+                          </div>
+
+                          {Array.isArray(q?.options) && q.options.length > 0 && (
+                            <div className="space-y-1.5 pt-1 pl-1">
+                              {q.options.map((opt, oIdx) => {
+                                const bLabels = ['(ক)', '(খ)', '(গ)', '(ঘ)'];
+                                const cleanOpt = String(opt).replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+                                return (
+                                  <div
+                                    key={oIdx}
+                                    className="flex items-start space-x-2 text-xs text-slate-800 bg-white p-2 rounded-xl border border-slate-200/80 shadow-2xs"
+                                  >
+                                    <span className="font-extrabold text-indigo-700 shrink-0">
+                                      {bLabels[oIdx] || `(${oIdx + 1})`}
+                                    </span>
+                                    <div className="flex-1 font-medium">
+                                      <MathRenderer text={cleanOpt} />
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {q?.explanation && (
+                            <div className="text-[10px] bg-white p-2.5 rounded-xl border border-slate-100 text-slate-600 mt-1 leading-relaxed">
+                              <strong className="text-indigo-700">ব্যাখ্যা ও সমাধান:</strong> <MathRenderer text={q.explanation} />
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
                 })
@@ -608,12 +844,14 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
         </div>
 
         {/* Right Column: Live Paper Preview & Controls */}
-        <div className="lg:col-span-6 space-y-5">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div className="lg:col-span-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm space-y-4">
+            
+            {/* Header & Controls */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
               <div>
                 <h3 className="font-black text-sm text-slate-900 uppercase tracking-wider">
-                  ২. প্রশ্নপত্র প্রিভিউ ও প্রিন্টার ({selectedPaperQuestions.length} টি প্রশ্ন)
+                  ২. প্রশ্নপত্র প্রিভিউ ও প্রিন্টার ({selectedPaperQuestions.length} টি)
                 </h3>
                 <p className="text-[11px] text-slate-500">মোট পূর্ণমান: {totalMarks} | সময়: {examDuration} মিনিট</p>
               </div>
@@ -632,7 +870,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                   type="button"
                   onClick={handlePrintExam}
                   disabled={selectedPaperQuestions.length === 0}
-                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
+                  className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
                 >
                   <Printer className="w-4 h-4" />
                   <span>A4 প্রিন্ট</span>
@@ -641,7 +879,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                   type="button"
                   onClick={() => setShowPublishModal(true)}
                   disabled={selectedPaperQuestions.length === 0}
-                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
+                  className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 disabled:opacity-40 cursor-pointer shadow-sm"
                 >
                   <PlayCircle className="w-4 h-4" />
                   <span>লাইভ প্রকাশ</span>
@@ -650,7 +888,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
             </div>
 
             {/* Paper Header Configuration */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
               <div className="md:col-span-2">
                 <label className="text-[11px] font-bold text-slate-600 block mb-0.5">পরীক্ষার শিরোনাম:</label>
                 <input
@@ -666,18 +904,18 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                 <select
                   value={selectedClass}
                   onChange={(e) => setSelectedClass(e.target.value)}
-                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold cursor-pointer"
                 >
                   {CLASSES_LIST.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-600 block mb-0.5">বিষয়:</label>
+                <label className="text-[11px] font-bold text-indigo-700 block mb-0.5">বিষয় (সিলেক্ট করলে বামে প্রশ্ন ফিল্টার হবে):</label>
                 <select
                   value={selectedSubject}
                   onChange={(e) => setSelectedSubject(e.target.value)}
-                  className="w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold"
+                  className="w-full p-2 bg-indigo-50/70 border border-indigo-300 rounded-xl text-xs font-bold text-indigo-900 cursor-pointer focus:ring-2 focus:ring-indigo-500"
                 >
                   {SUBJECTS_LIST.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -685,23 +923,26 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
             </div>
 
             {/* Paper Questions Live Preview */}
-            <div className="max-h-[460px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+            <div className="max-h-[480px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
               {selectedPaperQuestions.length === 0 ? (
-                <div className="p-12 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 space-y-2">
+                <div className="p-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-slate-400 space-y-2">
                   <FileText className="w-8 h-8 mx-auto text-slate-300" />
                   <p className="text-xs font-bold text-slate-700">কোনো প্রশ্ন নির্বাচন করা হয়নি</p>
-                  <p className="text-[11px] text-slate-400">বাম পাশের ভাণ্ডার থেকে প্রশ্ন টিক চিহ্ন দিয়ে নির্বাচন করুন।</p>
+                  <p className="text-[11px] text-slate-400">বাম পাশের ভাণ্ডার থেকে প্রশ্নের টিক বক্সে ক্লিক করে নির্বাচন করুন।</p>
                 </div>
               ) : (
                 selectedPaperQuestions.map((q, idx) => {
                   const qId = q?.id || q?.M_ID || idx;
+                  const isCQ = q?.type === 'CQ' || Boolean(q?.creativeSubQuestions || q?.subQuestions);
+                  const isSQ = q?.type === 'SQ';
+                  const cSubs = q?.creativeSubQuestions || q?.subQuestions;
 
                   return (
                     <div key={qId} className="p-3.5 bg-white border border-slate-200 rounded-2xl text-xs space-y-2 shadow-xs relative">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-teal-700">প্রশ্ন #{idx + 1} ({q?.type || 'MCQ'})</span>
                         <div className="flex items-center space-x-1.5">
-                          <span className="font-bold text-slate-500">[{q?.marks || (q?.type === 'CQ' ? 10 : q?.type === 'SQ' ? 2 : 1)} নম্বর]</span>
+                          <span className="font-bold text-slate-500">[{q?.marks || (isCQ ? 10 : isSQ ? 2 : 1)} নম্বর]</span>
                           <button
                             type="button"
                             onClick={() => setSelectedPaperQuestions(prev => prev.filter((_, i) => i !== idx))}
@@ -713,39 +954,51 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                         </div>
                       </div>
 
-                      <div className="font-bold text-slate-800">
-                        <MathRenderer text={q?.question || q?.stem} />
-                      </div>
-
-                      {/* Diagram Image for CQ / Stimulus */}
-                      {q?.diagramUrl && (
-                        <div className="p-1.5 bg-slate-50 rounded-xl border border-slate-200 inline-block my-1 max-w-full">
-                          <img
-                            src={q.diagramUrl}
-                            alt="চিত্র"
-                            className="max-h-40 max-w-full rounded-lg object-contain"
-                          />
+                      {/* 1. CQ PREVIEW */}
+                      {isCQ && cSubs ? (
+                        <div className="space-y-2 text-slate-800">
+                          <div className="p-2.5 bg-purple-50/70 rounded-xl border border-purple-200 text-xs font-semibold">
+                            <span className="text-[10px] font-black text-purple-700 uppercase block mb-0.5">উদ্দীপক:</span>
+                            <MathRenderer text={q?.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q?.question} />
+                          </div>
+                          <div className="space-y-1 pl-1 text-[11px]">
+                            {cSubs.a && <div><span className="font-bold text-indigo-700">ক. </span><MathRenderer text={cSubs.a.q || cSubs.a} /> <span className="text-slate-400 font-bold">[{cSubs.a.marks || 2} নম্বর]</span></div>}
+                            {cSubs.b && <div><span className="font-bold text-indigo-700">খ. </span><MathRenderer text={cSubs.b.q || cSubs.b} /> <span className="text-slate-400 font-bold">[{cSubs.b.marks || 4} নম্বর]</span></div>}
+                            {cSubs.c && <div><span className="font-bold text-indigo-700">গ. </span><MathRenderer text={cSubs.c.q || cSubs.c} /> <span className="text-slate-400 font-bold">[{cSubs.c.marks || 4} নম্বর]</span></div>}
+                          </div>
                         </div>
-                      )}
-
-                      {/* Options for MCQ */}
-                      {q?.type === 'MCQ' && Array.isArray(q?.options) && (
-                        <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] text-slate-600">
-                          {q.options.map((opt, oIdx) => (
-                            <div key={oIdx}>
-                              <span className="font-bold text-indigo-600">({String.fromCharCode(97 + oIdx)})</span> <MathRenderer text={opt} />
+                      ) : isSQ ? (
+                        /* 2. SQ PREVIEW */
+                        <div className="space-y-1 text-slate-800">
+                          <div className="font-bold text-slate-900">
+                            <MathRenderer text={q?.question || q?.stem} />
+                          </div>
+                          {q?.shortAnswer && (
+                            <div className="text-[11px] text-emerald-800 font-semibold">
+                              <strong>উত্তর:</strong> <MathRenderer text={q.shortAnswer} />
                             </div>
-                          ))}
+                          )}
                         </div>
-                      )}
-
-                      {/* Sub-questions for CQ */}
-                      {q?.type === 'CQ' && q?.subQuestions && (
-                        <div className="space-y-0.5 pt-1 text-[11px] text-slate-600">
-                          <div>(ক) <MathRenderer text={q.subQuestions.a?.q || q.subQuestions.a || ''} /> [১]</div>
-                          <div>(খ) <MathRenderer text={q.subQuestions.b?.q || q.subQuestions.b || ''} /> [২]</div>
-                          <div>(গ) <MathRenderer text={q.subQuestions.c?.q || q.subQuestions.c || ''} /> [৩]</div>
-                          <div>(ঘ) <MathRenderer text={q.subQuestions.d?.q || q.subQuestions.d || ''} /> [৪]</div>
+                      ) : (
+                        /* 3. MCQ PREVIEW: Options vertically stacked */
+                        <div className="space-y-1.5 text-slate-800">
+                          <div className="font-bold text-slate-900">
+                            <MathRenderer text={q?.question || q?.stem} />
+                          </div>
+                          {Array.isArray(q?.options) && q.options.length > 0 && (
+                            <div className="space-y-1 pl-1 text-[11px]">
+                              {q.options.map((opt, oIdx) => {
+                                const bLabels = ['(ক)', '(খ)', '(গ)', '(ঘ)'];
+                                const cleanOpt = String(opt).replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+                                return (
+                                  <div key={oIdx} className="flex items-start space-x-1.5">
+                                    <span className="font-bold text-indigo-600 shrink-0">{bLabels[oIdx] || `(${oIdx + 1})`}</span>
+                                    <div><MathRenderer text={cleanOpt} /></div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -769,7 +1022,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               <button
                 type="button"
                 onClick={() => setShowPublishModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -816,7 +1069,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
               <button
                 type="button"
                 onClick={() => setShowPublishModal(false)}
-                className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
+                className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl cursor-pointer"
               >
                 বাতিল
               </button>
