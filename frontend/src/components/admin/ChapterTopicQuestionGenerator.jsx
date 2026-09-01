@@ -30,6 +30,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
 import MathRenderer from '../common/MathRenderer';
+import QuestionDiagram from '../common/QuestionDiagram';
 import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
 import PhysicsChapter1MathProblemSolver from '../student/PhysicsChapter1MathProblemSolver';
 
@@ -734,6 +735,7 @@ export default function ChapterTopicQuestionGenerator() {
           question: q.questionText,
           stem: q.questionText,
           shortAnswer: q.shortAnswer || q.answerText || '',
+          diagramType: q.diagramType || null,
           creativeSubQuestions: q.creativeSubQuestions,
           options: q.options || [],
           correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
@@ -1455,6 +1457,7 @@ export default function ChapterTopicQuestionGenerator() {
                               উদ্দীপক:
                             </span>
                             <MathRenderer text={q.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q.question} />
+                            {q.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
 
                           <div className="space-y-1.5 pl-1 text-[11px]">

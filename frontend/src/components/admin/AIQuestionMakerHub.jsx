@@ -24,6 +24,7 @@ import {
 import { useLanguage } from '../../context/LanguageContext';
 import { questionRepositoryAPI, examAPI } from '../../services/api';
 import MathRenderer from '../common/MathRenderer';
+import QuestionDiagram from '../common/QuestionDiagram';
 import { DEFAULT_QUESTION_BANK } from '../../data/questionBankDefaultData';
 
 const CLASSES_LIST = [
@@ -154,6 +155,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
           institutionOrBoard: q.board ? `${q.board} ${q.year || ''}`.trim() : 'বোর্ড প্রশ্ন',
           badge: `[${subjectName}] ${q.board || ''} ${q.year || ''}`.trim(),
           explanation: q.explanation || '',
+          diagramType: q.diagramType || null,
           creativeSubQuestions: q.creativeSubQuestions || q.subQuestions || null,
           subQuestions: q.creativeSubQuestions || q.subQuestions || null,
           shortAnswer: q.shortAnswer || q.answerText || '',
@@ -743,6 +745,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                               উদ্দীপক:
                             </span>
                             <MathRenderer text={q?.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q?.question} />
+                            {q?.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
 
                           {/* Sub-questions: ক এর নিচে খ, তার নিচে গ */}
@@ -792,6 +795,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                         <div className="space-y-1.5 pt-1 text-slate-800">
                           <div className="font-bold text-slate-900 leading-relaxed text-xs">
                             <MathRenderer text={q?.question || q?.stem} />
+                            {q?.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
                           {q?.shortAnswer && (
                             <div className="p-2.5 bg-emerald-50/90 rounded-xl border border-emerald-200 text-[11px] text-emerald-900 font-semibold">
@@ -960,6 +964,7 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                           <div className="p-2.5 bg-purple-50/70 rounded-xl border border-purple-200 text-xs font-semibold">
                             <span className="text-[10px] font-black text-purple-700 uppercase block mb-0.5">উদ্দীপক:</span>
                             <MathRenderer text={q?.question?.split('\n\n**ক.**')[0]?.replace(/^\[.*?\]\s*উদ্দীপক:\s*/i, '') || q?.question} />
+                            {q?.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
                           <div className="space-y-1 pl-1 text-[11px]">
                             {cSubs.a && <div><span className="font-bold text-indigo-700">ক. </span><MathRenderer text={cSubs.a.q || cSubs.a} /> <span className="text-slate-400 font-bold">[{cSubs.a.marks || 2} নম্বর]</span></div>}

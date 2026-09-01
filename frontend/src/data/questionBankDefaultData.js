@@ -19162,7 +19162,8 @@ export const DEFAULT_QUESTION_BANK = [
     "updatedAt": "2026-09-01T15:55:56.802Z",
     "duplicateStatus": "UNIQUE",
     "similarityScore": 0,
-    "matchedQuestion": null
+    "matchedQuestion": null,
+    "diagramType": "CIRCLE_CHORDS_JASHORE"
   },
   {
     "id": 503,
@@ -20114,7 +20115,8 @@ export const DEFAULT_QUESTION_BANK = [
     "updatedAt": "2026-09-01T15:55:56.802Z",
     "duplicateStatus": "UNIQUE",
     "similarityScore": 0,
-    "matchedQuestion": null
+    "matchedQuestion": null,
+    "diagramType": "CYCLIC_QUAD_DIAMETER"
   },
   {
     "id": 527,
@@ -21066,7 +21068,8 @@ export const DEFAULT_QUESTION_BANK = [
     "updatedAt": "2026-09-01T15:55:56.802Z",
     "duplicateStatus": "UNIQUE",
     "similarityScore": 0,
-    "matchedQuestion": null
+    "matchedQuestion": null,
+    "diagramType": "CYCLIC_QUAD_MNOP"
   },
   {
     "id": 551,
