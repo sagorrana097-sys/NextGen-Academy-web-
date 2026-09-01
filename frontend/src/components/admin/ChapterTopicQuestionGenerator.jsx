@@ -962,10 +962,35 @@ export default function ChapterTopicQuestionGenerator() {
     <div class="q-item">
       <div class="q-head">
         <span>প্রশ্ন ${idx + 1}.</span>
-        <span>[${q.marks || 1} নম্বর]</span>
+        <span>[${q.marks || (q.type === 'CQ' ? 10 : 1)} নম্বর]</span>
       </div>
-      <div class="q-stem">${q.question || q.stem || ''}</div>
 `;
+
+      if (q.type === 'CQ' && q.creativeSubQuestions) {
+        const c = q.creativeSubQuestions;
+        const cleanA = (c.a?.text || c.a?.q || '').replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+        const cleanB = (c.b?.text || c.b?.q || '').replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+        const cleanC = (c.c?.text || c.c?.q || '').replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+        const cleanD = (c.d?.text || c.d?.q || '').replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '');
+
+        let cleanStem = q.stem || q.question || '';
+        cleanStem = cleanStem.replace(/^\s*\[[^\]]*\]\s*/g, '').replace(/^উদ্দীপক:\s*/g, '').split('\n\n**ক.**')[0].trim();
+
+        html += `
+      <div class="q-stem" style="margin-bottom: 6px; font-weight: 600;">
+        ${q.badge ? `<span style="color: #4338ca; font-weight: 800;">${q.badge}</span> ` : ''}
+        <strong>উদ্দীপক:</strong> ${cleanStem}
+      </div>
+      <div style="margin-left: 10px; display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
+        <div style="display: flex; justify-content: space-between;"><span><strong>ক.</strong> ${cleanA}</span> <span style="font-weight: bold; color: #64748b;">[${c.a?.marks || 1} নম্বর]</span></div>
+        <div style="display: flex; justify-content: space-between;"><span><strong>খ.</strong> ${cleanB}</span> <span style="font-weight: bold; color: #64748b;">[${c.b?.marks || 2} নম্বর]</span></div>
+        <div style="display: flex; justify-content: space-between;"><span><strong>গ.</strong> ${cleanC}</span> <span style="font-weight: bold; color: #64748b;">[${c.c?.marks || 3} নম্বর]</span></div>
+        ${cleanD ? `<div style="display: flex; justify-content: space-between;"><span><strong>ঘ.</strong> ${cleanD}</span> <span style="font-weight: bold; color: #64748b;">[${c.d?.marks || 4} নম্বর]</span></div>` : ''}
+      </div>
+`;
+      } else {
+        html += `<div class="q-stem">${q.question || q.stem || ''}</div>`;
+      }
 
       if (Array.isArray(q.options) && q.options.length > 0) {
         html += `<div class="options-grid">`;
@@ -1461,38 +1486,34 @@ export default function ChapterTopicQuestionGenerator() {
                           </div>
 
                           <div className="space-y-1.5 pl-1 text-[11px]">
-                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                              <span className="font-extrabold text-indigo-700 mr-1">ক.</span>
-                              <MathRenderer text={q.creativeSubQuestions.a.q} />
-                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.a.marks || 2} নম্বর]</span>
-                              {q.creativeSubQuestions.a.ans && (
-                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.a.ans} />
-                                </div>
-                              )}
-                            </div>
+                            {['a', 'b', 'c', 'd'].map((key) => {
+                              const sub = q.creativeSubQuestions[key];
+                              if (!sub || (!sub.text && !sub.q)) return null;
+                              const bLabels = { a: 'ক.', b: 'খ.', c: 'গ.', d: 'ঘ.' };
+                              const rawText = sub.text || sub.q || '';
+                              const cleanText = rawText.replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '').replace(/^\*\*.*?\*\*\s*/, '').trim();
+                              const defaultMarks = key === 'a' ? 1 : key === 'b' ? 2 : key === 'c' ? 3 : 4;
+                              const solText = sub.solution || sub.ans;
 
-                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                              <span className="font-extrabold text-indigo-700 mr-1">খ.</span>
-                              <MathRenderer text={q.creativeSubQuestions.b.q} />
-                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.b.marks || 4} নম্বর]</span>
-                              {q.creativeSubQuestions.b.ans && (
-                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.b.ans} />
+                              return (
+                                <div key={key} className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                                  <div className="flex items-start justify-between gap-1">
+                                    <div className="flex-1 font-medium">
+                                      <span className="font-extrabold text-indigo-700 mr-1.5">{bLabels[key]}</span>
+                                      <MathRenderer text={cleanText} />
+                                    </div>
+                                    <span className="text-slate-400 font-bold text-[10px] shrink-0 ml-1">
+                                      [{sub.marks || defaultMarks} নম্বর]
+                                    </span>
+                                  </div>
+                                  {solText && (
+                                    <div className="mt-1.5 pt-1.5 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                      <strong>উত্তর:</strong> <MathRenderer text={solText} />
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-
-                            <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                              <span className="font-extrabold text-indigo-700 mr-1">গ.</span>
-                              <MathRenderer text={q.creativeSubQuestions.c.q} />
-                              <span className="text-slate-400 font-bold text-[10px] ml-1">[{q.creativeSubQuestions.c.marks || 4} নম্বর]</span>
-                              {q.creativeSubQuestions.c.ans && (
-                                <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                  <strong>উত্তর:</strong> <MathRenderer text={q.creativeSubQuestions.c.ans} />
-                                </div>
-                              )}
-                            </div>
+                              );
+                            })}
                           </div>
                         </div>
                       ) : (
