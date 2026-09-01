@@ -437,10 +437,16 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
 
         ${isCQ && cSubs ? `
           <div class="sub-q-box">
-            ${cSubs.a ? `<div class="sub-q-row"><span><strong>(ক)</strong> ${cSubs.a.q || cSubs.a}</span><span>[${cSubs.a.marks || 2} নম্বর]</span></div>` : ''}
-            ${cSubs.b ? `<div class="sub-q-row"><span><strong>(খ)</strong> ${cSubs.b.q || cSubs.b}</span><span>[${cSubs.b.marks || 4} নম্বর]</span></div>` : ''}
-            ${cSubs.c ? `<div class="sub-q-row"><span><strong>(গ)</strong> ${cSubs.c.q || cSubs.c}</span><span>[${cSubs.c.marks || 4} নম্বর]</span></div>` : ''}
-            ${cSubs.d ? `<div class="sub-q-row"><span><strong>(ঘ)</strong> ${cSubs.d.q || cSubs.d}</span><span>[${cSubs.d.marks || 4} নম্বর]</span></div>` : ''}
+            ${['a', 'b', 'c', 'd'].map(k => {
+              const sub = cSubs[k];
+              if (!sub) return '';
+              const raw = sub.text || sub.q || (typeof sub === 'string' ? sub : '');
+              if (!raw) return '';
+              const clean = raw.replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '').replace(/^\*\*.*?\*\*\s*/, '').trim();
+              const bLabels = { a: '(ক)', b: '(খ)', c: '(গ)', d: '(ঘ)' };
+              const defaultMarks = k === 'a' ? 1 : k === 'b' ? 2 : k === 'c' ? 3 : 4;
+              return `<div class="sub-q-row"><span><strong>${bLabels[k]}</strong> ${clean}</span><span>[${sub.marks || defaultMarks} নম্বর]</span></div>`;
+            }).join('')}
           </div>
         ` : ''}
       </div>
@@ -745,46 +751,37 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                             {q?.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
 
-                          {/* Sub-questions: ক এর নিচে খ, তার নিচে গ */}
+                          {/* Sub-questions: ক এর নিচে খ, তার নিচে গ, তার নিচে ঘ */}
                           <div className="space-y-1.5 pl-1 text-[11px]">
-                            {cSubs.a && (
-                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                                <span className="font-extrabold text-indigo-700 mr-1">ক.</span>
-                                <MathRenderer text={cSubs.a.q || cSubs.a} />
-                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.a.marks || 2} নম্বর]</span>
-                                {cSubs.a.ans && (
-                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.a.ans} />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                            {['a', 'b', 'c', 'd'].map((key) => {
+                              const sub = cSubs[key];
+                              if (!sub) return null;
+                              const rawText = sub.text || sub.q || (typeof sub === 'string' ? sub : '');
+                              if (!rawText) return null;
+                              const cleanText = rawText.replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '').replace(/^\*\*.*?\*\*\s*/, '').trim();
+                              const bLabels = { a: 'ক.', b: 'খ.', c: 'গ.', d: 'ঘ.' };
+                              const defaultMarks = key === 'a' ? 1 : key === 'b' ? 2 : key === 'c' ? 3 : 4;
+                              const solText = sub.solution || sub.ans;
 
-                            {cSubs.b && (
-                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                                <span className="font-extrabold text-indigo-700 mr-1">খ.</span>
-                                <MathRenderer text={cSubs.b.q || cSubs.b} />
-                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.b.marks || 4} নম্বর]</span>
-                                {cSubs.b.ans && (
-                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.b.ans} />
+                              return (
+                                <div key={key} className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
+                                  <div className="flex items-start justify-between gap-1">
+                                    <div className="flex-1 font-medium">
+                                      <span className="font-extrabold text-indigo-700 mr-1.5">{bLabels[key]}</span>
+                                      <MathRenderer text={cleanText} />
+                                    </div>
+                                    <span className="text-slate-400 font-bold text-[10px] shrink-0 ml-1">
+                                      [{sub.marks || defaultMarks} নম্বর]
+                                    </span>
                                   </div>
-                                )}
-                              </div>
-                            )}
-
-                            {cSubs.c && (
-                              <div className="p-2.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs">
-                                <span className="font-extrabold text-indigo-700 mr-1">গ.</span>
-                                <MathRenderer text={cSubs.c.q || cSubs.c} />
-                                <span className="text-slate-400 font-bold text-[10px] ml-1">[{cSubs.c.marks || 4} নম্বর]</span>
-                                {cSubs.c.ans && (
-                                  <div className="mt-1 pt-1 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
-                                    <strong>উত্তর:</strong> <MathRenderer text={cSubs.c.ans} />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                                  {solText && (
+                                    <div className="mt-1.5 pt-1.5 border-t border-slate-100 text-[10px] text-emerald-700 font-medium">
+                                      <strong>উত্তর:</strong> <MathRenderer text={solText} />
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       ) : isSQ ? (
@@ -964,9 +961,24 @@ export default function AIQuestionMakerHub({ onNavigateToUpload, onNavigateToOMR
                             {q?.diagramType && <QuestionDiagram type={q.diagramType} />}
                           </div>
                           <div className="space-y-1 pl-1 text-[11px]">
-                            {cSubs.a && <div><span className="font-bold text-indigo-700">ক. </span><MathRenderer text={cSubs.a.q || cSubs.a} /> <span className="text-slate-400 font-bold">[{cSubs.a.marks || 2} নম্বর]</span></div>}
-                            {cSubs.b && <div><span className="font-bold text-indigo-700">খ. </span><MathRenderer text={cSubs.b.q || cSubs.b} /> <span className="text-slate-400 font-bold">[{cSubs.b.marks || 4} নম্বর]</span></div>}
-                            {cSubs.c && <div><span className="font-bold text-indigo-700">গ. </span><MathRenderer text={cSubs.c.q || cSubs.c} /> <span className="text-slate-400 font-bold">[{cSubs.c.marks || 4} নম্বর]</span></div>}
+                            {['a', 'b', 'c', 'd'].map((key) => {
+                              const sub = cSubs[key];
+                              if (!sub) return null;
+                              const rawText = sub.text || sub.q || (typeof sub === 'string' ? sub : '');
+                              if (!rawText) return null;
+                              const cleanText = rawText.replace(/^[কখগঘabcdABCD][\)\.\-:]\s*/, '').replace(/^\*\*.*?\*\*\s*/, '').trim();
+                              const bLabels = { a: 'ক.', b: 'খ.', c: 'গ.', d: 'ঘ.' };
+                              const defaultMarks = key === 'a' ? 1 : key === 'b' ? 2 : key === 'c' ? 3 : 4;
+                              return (
+                                <div key={key} className="flex justify-between items-start gap-1">
+                                  <div>
+                                    <span className="font-bold text-indigo-700 mr-1">{bLabels[key]}</span>
+                                    <MathRenderer text={cleanText} />
+                                  </div>
+                                  <span className="text-slate-400 font-bold shrink-0">[{sub.marks || defaultMarks} নম্বর]</span>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       ) : isSQ ? (
