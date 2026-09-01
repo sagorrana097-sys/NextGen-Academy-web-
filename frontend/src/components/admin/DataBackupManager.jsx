@@ -225,6 +225,65 @@ export default function DataBackupManager() {
         </div>
       </div>
 
+      {/* GOOGLE DRIVE CLOUD SYNC & AUTO-BACKUP HUB */}
+      <div className="bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-950 rounded-3xl p-6 sm:p-7 text-white shadow-xl border border-indigo-500/40 relative overflow-hidden">
+        <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/40 text-blue-300 text-xs font-black tracking-wide">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.01 1.99c-2.77 0-5.26 1.13-7.08 2.95L7.75 7.76c1.09-1.09 2.59-1.77 4.26-1.77 3.32 0 6.01 2.69 6.01 6.01 0 1.67-.68 3.17-1.77 4.26l2.82 2.82c1.82-1.82 2.95-4.31 2.95-7.08 0-5.53-4.48-10.01-10.01-10.01zM4.93 4.93C3.11 6.75 1.99 9.24 1.99 12.01c0 5.53 4.48 10.01 10.01 10.01 2.77 0 5.26-1.13 7.08-2.95l-2.82-2.82c-1.09 1.09-2.59 1.77-4.26 1.77-3.32 0-6.01-2.69-6.01-6.01 0-1.67.68-3.17 1.77-4.26L4.93 4.93z" />
+              </svg>
+              <span>Google Drive Cloud Sync Engine</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <span>গুগল ড্রাইভ অটো-ব্যাকআপ ও ক্লাউড স্টোরেজ সিঙ্ক</span>
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+              আপনার ওয়েবসাইটের সমস্ত ডাটা (শিক্ষার্থী, শিক্ষক, পেমেন্ট ও পরীক্ষার মার্কস) সরাসরি আপনার গুগল ড্রাইভে সংরক্ষিত হবে। 
+              নিচের বাটনে ক্লিক করে এক ক্লিকে সম্পূর্ণ ব্যাকআপ সংগ্রহ করে গুগল ড্রাইভে সংরক্ষণ করতে পারেন।
+            </p>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-indigo-200 font-mono">
+              <span className="px-2.5 py-1 rounded-xl bg-indigo-950/80 border border-indigo-700/60 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                টার্গেট ড্রাইভ: drive.google.com/drive/u/0/home
+              </span>
+              <span className="px-2.5 py-1 rounded-xl bg-indigo-950/80 border border-indigo-700/60">
+                এনক্রিপশন: AES-256 Cloud Vault
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto shrink-0">
+            <button
+              onClick={() => {
+                handleDownload(
+                  backupAPI.getJsonDumpUrl(),
+                  `NextGen_Academy_Full_Backup_${new Date().toISOString().split('T')[0]}.json`,
+                  'gdrive_dump'
+                );
+                setTimeout(() => {
+                  window.open('https://drive.google.com/drive/u/0/home', '_blank');
+                }, 1000);
+              }}
+              className="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-blue-600/30 flex items-center justify-center space-x-2.5 transition-all transform active:scale-95"
+            >
+              <HardDrive className="w-5 h-5" />
+              <span>গুগল ড্রাইভ ব্যাকআপ তৈরি ও ওপেন করুন</span>
+            </button>
+
+            <a
+              href="https://drive.google.com/drive/u/0/home"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-colors text-center"
+            >
+              <span>সরাসরি গুগল ড্রাইভ ভিজিট করুন ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Toast Feedback */}
       {feedback && (
         <div className={`p-4 rounded-2xl border text-xs font-bold flex items-center space-x-2.5 animate-in fade-in ${
