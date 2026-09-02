@@ -17,6 +17,7 @@ const authLimiter = rateLimit({
   skipSuccessfulRequests: true, // Legitimate student logins never consume quota
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { keyGeneratorIpFallback: false },
   keyGenerator: (req) => {
     // Isolate by IP + identifier so other students on the same Wi-Fi/NAT are never locked out
     const cleanId = String(req.body.identifier || req.body.email || req.ip || '').toLowerCase().trim();

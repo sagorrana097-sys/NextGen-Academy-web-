@@ -41,6 +41,7 @@ const GrammarRule = new Model('grammar_rules');
 const GrammarQuestion = new Model('grammar_questions');
 const GrammarBoardQuestion = new Model('grammar_board_questions');
 const GrammarModelTest = new Model('grammar_model_tests');
+const GrammarTestSubmission = new Model('grammar_test_submissions');
 const GrammarProgress = new Model('grammar_user_progress');
 const GrammarBookmark = new Model('grammar_user_bookmarks');
 const ReferralProfile = new Model('referral_profiles');
@@ -239,6 +240,24 @@ QuestionSuggestionFamily.hasMany(QuestionBank, { foreignKey: 'familyId', as: 'qu
 QuestionSuggestionFamily.belongsTo(Class, { foreignKey: 'classId', as: 'class' });
 QuestionSuggestionFamily.belongsTo(Subject, { foreignKey: 'subjectId', as: 'subject' });
 
+// Grammar Associations
+GrammarChapter.hasMany(GrammarTopic, { foreignKey: 'chapterId', as: 'topics' });
+GrammarTopic.belongsTo(GrammarChapter, { foreignKey: 'chapterId', as: 'chapter' });
+
+GrammarTopic.hasMany(GrammarQuestion, { foreignKey: 'topicId', as: 'questions' });
+GrammarQuestion.belongsTo(GrammarTopic, { foreignKey: 'topicId', as: 'topic' });
+
+GrammarTopic.hasMany(GrammarBoardQuestion, { foreignKey: 'topicId', as: 'boardQuestions' });
+GrammarBoardQuestion.belongsTo(GrammarTopic, { foreignKey: 'topicId', as: 'topic' });
+
+GrammarProgress.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+GrammarProgress.belongsTo(GrammarTopic, { foreignKey: 'topicId', as: 'topic' });
+
+GrammarBookmark.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+GrammarTestSubmission.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+GrammarTestSubmission.belongsTo(GrammarModelTest, { foreignKey: 'modelTestId', as: 'modelTest' });
+
 const MenuSetting = new Model('menu_settings');
 
 module.exports = {
@@ -283,6 +302,7 @@ module.exports = {
   GrammarQuestion,
   GrammarBoardQuestion,
   GrammarModelTest,
+  GrammarTestSubmission,
   GrammarProgress,
   GrammarBookmark,
   ReferralProfile,

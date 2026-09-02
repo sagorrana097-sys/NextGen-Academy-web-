@@ -90,11 +90,8 @@ const DEFAULT_ANNOUNCEMENTS = [
 ];
 
 // Helper to ensure initial data exists
-async function ensureSeedData() { /* Clean: auto-seeding disabled */ }
-    }
-  } catch (err) {
-    console.error('Error seeding announcements:', err.message);
-  }
+async function ensureSeedData() {
+  /* Clean: auto-seeding disabled */
 }
 
 /**

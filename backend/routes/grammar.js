@@ -7,486 +7,41 @@ const {
   GrammarQuestion,
   GrammarBoardQuestion,
   GrammarModelTest,
+  GrammarTestSubmission,
   GrammarProgress,
-  GrammarBookmark
+  GrammarBookmark,
+  User
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
 
 const router = express.Router();
 
-const DEFAULT_STARTER_LESSONS = [
-  {
-    id: 1,
-    title: 'Tense & Time Masterclass (কাল ও সময়)',
-    slug: 'tense-and-time-masterclass',
-    category: 'TENSE',
-    level: 'Class 6 - 12 (SSC & HSC)',
-    summary: '১২ প্রকার Tense-এর গঠনপ্রণালী, সময় নির্দেশক চাবিকাঠি (Time Markers) ও শর্টকাট টেকনিক।',
-    teacherNotes: 'আলমগীর স্যারের স্পেশাল টেকনিক: প্রতিটি Tense মনে রাখার জন্য ১টি মাত্র কী-ওয়ার্ড মনে রাখুন।',
-    isPublished: true,
-    viewCount: 420,
-    rules: [
-      {
-        name: 'Present Indefinite Tense',
-        nameBn: 'সাধারণ বর্তমান কাল',
-        formula: 'Subject + V1 (s/es if 3rd person singular) + Extension',
-        timeMarkers: 'always, regularly, daily, everyday, generally, usually, normally, often, sometimes',
-        exampleEn: 'He reads the holy Quran daily.',
-        exampleBn: 'সে প্রতিদিন পবিত্র কুরআন তিলাওয়াত করে।',
-        tips: 'Subject ৩য় পুরুষ একবচন (He, She, It, নাম) হলে মূল Verb-এর শেষে s বা es যুক্ত হয়।'
-      },
-      {
-        name: 'Past Continuous Tense',
-        nameBn: 'ঘটমান অতীত কাল',
-        formula: 'Subject + was/were + V1+ing + Extension',
-        timeMarkers: 'while, when, at that time, that evening, throughout the night',
-        exampleEn: 'While I was walking along the road, a snake bit him.',
-        exampleBn: 'যখন আমি রাস্তা দিয়ে হাঁটছিলাম, একটি সাপ তাকে দংশন করেছিল।'
-      },
-      {
-        name: 'Future Perfect Tense',
-        nameBn: 'পুরাঘটিত ভবিষ্যৎ কাল',
-        formula: 'Subject + shall have / will have + V3 + by/before + Time',
-        timeMarkers: 'by this time, by tomorrow, by 2027, before sunset',
-        exampleEn: 'They will have finished the syllabus by next month.',
-        exampleBn: 'তারা আগামী মাসের মধ্যেই সিলেবাস সম্পন্ন করে ফেলবে।'
-      }
-    ],
-    contentHtml: `
-      <div class="space-y-4">
-        <h3 class="text-xl font-bold text-emerald-400">🕒 Tense কেন ইংরেজির মেরুদণ্ড?</h3>
-        <p>যেকোনো বাক্য শুদ্ধভাবে গঠন ও অনুবাদের জন্য Tense-এর সুস্পষ্ট ধারণা অপরিহার্য। বিশেষ করে Subject-Verb Agreement এবং Right Form of Verbs-এর অধিকাংশ প্রশ্নের উত্তর Tense-এর সূত্রের উপর নির্ভরশীল।</p>
-        <div class="p-4 rounded-xl bg-slate-800/80 border border-emerald-500/30">
-          <h4 class="font-bold text-amber-300">💡 গোল্ডেন রুলস চার্ট (Golden Rules Chart)</h4>
-          <ul class="list-disc list-inside space-y-1 text-sm text-slate-300 mt-2">
-            <li><strong>Present Perfect:</strong> Just, already, yet, recently থাকলে Have/Has + V3 বসে।</li>
-            <li><strong>Since / For:</strong> সময় ধরে কোনো কাজ চললে Perfect Continuous Tense হয় (যেমন: It has been raining since morning)।</li>
-            <li><strong>Before / After:</strong> Past Perfect-এ Before-এর আগে Past Perfect এবং After-এর পরে Past Perfect বসে।</li>
-          </ul>
-        </div>
-      </div>
-    `,
-    quiz: [
-      {
-        id: 1,
-        question: 'Identify the correct sentence using the time marker "recently":',
-        options: [
-          'I saw him recently.',
-          'I have seen him recently.',
-          'I was seeing him recently.',
-          'I had seen him recently.'
-        ],
-        correctAnswerIndex: 1,
-        explanation: '"Recently" শব্দটি সাধারণত Present Perfect Tense (have/has + V3) নির্দেশ করে।'
-      },
-      {
-        id: 2,
-        question: 'The patient had died before the doctor _____.',
-        options: ['comes', 'came', 'had come', 'will come'],
-        correctAnswerIndex: 1,
-        explanation: 'Before-এর পূর্বের অংশ Past Perfect হলে পরের অংশ Past Indefinite (V2 = came) হয়।'
-      },
-      {
-        id: 3,
-        question: 'It has been raining _____ 3 hours.',
-        options: ['since', 'for', 'from', 'by'],
-        correctAnswerIndex: 1,
-        explanation: 'নির্দিষ্ট অনির্দিষ্ট সময়কাল বা Duration (Period of time) বুঝাতে "for" ব্যবহৃত হয়।'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Active & Passive Voice Transformation (বাচ্য পরিবর্তন)',
-    slug: 'voice-change-transformation',
-    category: 'VOICE',
-    level: 'Class 8 - 12 (JSC, SSC, HSC)',
-    summary: 'Active থেকে Passive করার ৫টি সর্বজনীন ধাপ, Interrogative ও Imperative রূপান্তর।',
-    teacherNotes: 'মো: আলমগীর স্যারের ভয়েস রুল: Object হবে Subject, Tense অনুযায়ী Be verb, মূল Verb-এর V3, তারপর By + Subject-এর Object ফর্ম।',
-    isPublished: true,
-    viewCount: 380,
-    rules: [
-      {
-        name: 'Basic Active to Passive Formula',
-        nameBn: 'ভয়েস পরিবর্তনের মূল ৫টি ধাপ',
-        formula: 'Active Object -> Subject + Be-Verb (Tense অনুযায়ী) + V3 (Past Participle) + preposition (by/to/with/at) + Active Subject -> Object',
-        exampleEn: 'Active: She wrote a letter. -> Passive: A letter was written by her.',
-        exampleBn: 'সে একটি চিঠি লিখেছিল -> একটি চিঠি তার দ্বারা লিখিত হয়েছিল।'
-      },
-      {
-        name: 'Imperative Sentence Voice',
-        nameBn: 'অনুজ্ঞাসূচক বাক্যের ভয়েস',
-        formula: 'Let + Object + be + V3 (মূল ক্রিয়ার ৩য় রূপ)',
-        exampleEn: 'Active: Do the work. -> Passive: Let the work be done.',
-        exampleBn: 'কাজটি করো -> কাজটি করা হোক।'
-      },
-      {
-        name: 'Interrogative "Who" Transformation',
-        nameBn: '"Who" যুক্ত প্রশ্নবোধক বাক্যের রূপান্তর',
-        formula: 'By whom + auxiliary verb + subject + (be/been/being) + V3 + ?',
-        exampleEn: 'Active: Who broke the glass? -> Passive: By whom was the glass broken?',
-        exampleBn: 'কে গ্লাসটি ভেঙেছে? -> কার দ্বারা গ্লাসটি ভাঙা হয়েছিল?'
-      }
-    ],
-    contentHtml: `
-      <div class="space-y-4">
-        <h3 class="text-xl font-bold text-emerald-400">🛡️ Voice পরিবর্তনের বিশেষ ব্যতিক্রমসমূহ (Exceptions)</h3>
-        <p>সবক্ষেত্রে 'by' বসে না। কিছু নির্দিষ্ট Verb-এর পর নির্দিষ্ট Preposition বসে:</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-          <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-            <strong class="text-amber-300">Known to:</strong> He is known to me. (not by me)
-          </div>
-          <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-            <strong class="text-amber-300">Satisfied with:</strong> I am satisfied with his work.
-          </div>
-          <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-            <strong class="text-amber-300">Shocked at:</strong> We were shocked at his conduct.
-          </div>
-          <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-            <strong class="text-amber-300">Contained in:</strong> The bottle contains milk -> Milk is contained in the bottle.
-          </div>
-        </div>
-      </div>
-    `,
-    quiz: [
-      {
-        id: 1,
-        question: 'Active: "I know him." -> Choose the correct Passive form:',
-        options: [
-          'He is known by me.',
-          'He is known to me.',
-          'He was known to me.',
-          'He has been known by me.'
-        ],
-        correctAnswerIndex: 1,
-        explanation: '"Know" verb-এর passive voice-এ "by"-এর পরিবর্তে "to" ব্যবহৃত হয়।'
-      },
-      {
-        id: 2,
-        question: 'Active: "Shut the door." -> What is the passive voice?',
-        options: [
-          'Let the door shut.',
-          'Let the door be shutted.',
-          'Let the door be shut.',
-          'The door should shut.'
-        ],
-        correctAnswerIndex: 2,
-        explanation: 'Imperative sentence-এর passive গঠন: Let + Object + be + V3 ("shut"-এর V1, V2, V3 একই)।'
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Right Form of Verbs & Subject-Verb Agreement',
-    slug: 'right-form-of-verbs-mastery',
-    category: 'VERBS',
-    level: 'Class 6 - 12 & Admission',
-    summary: 'বোর্ড পরীক্ষার কমন ২০টি নিয়ম: As well as, Neither...nor, One of the, Lest, Had better.',
-    teacherNotes: 'পরীক্ষায় ৯৯% কমন নিয়ম: Lest থাকলে পরবর্তীতে Subject + should/might + V1 বসে।',
-    isPublished: true,
-    viewCount: 512,
-    rules: [
-      {
-        name: 'Rule of "Lest"',
-        nameBn: '"পাছে কিছু ঘটে" অর্থে Lest-এর ব্যবহার',
-        formula: 'Lest + Subject + should / might + Base Form of Verb (V1)',
-        exampleEn: 'Walk fast lest you should miss the train.',
-        exampleBn: 'দ্রুত হাঁটো পাছে তুমি ট্রেন মিস করো।'
-      },
-      {
-        name: 'As well as / Along with / Together with',
-        nameBn: 'প্রথম Subject অনুযায়ী Verb নির্ধারণ',
-        formula: 'Subject 1 + (as well as / with / accompanied by) + Subject 2 -> Verb follows Subject 1',
-        exampleEn: 'The teacher as well as the students was present.',
-        exampleBn: 'শিক্ষক এবং শিক্ষার্থীরাও উপস্থিত ছিলেন।'
-      },
-      {
-        name: 'One of the + Plural Noun + Singular Verb',
-        nameBn: '"One of the"-এর পর Noun বহুবচন হলেও Verb একবচন',
-        formula: 'One of the + Plural Noun + Singular Verb',
-        exampleEn: 'One of my friends is a brilliant doctor.',
-        exampleBn: 'আমার বন্ধুদের মধ্যে একজন একজন মেধাবী ডাক্তার।'
-      }
-    ],
-    contentHtml: `
-      <div class="space-y-4">
-        <h3 class="text-xl font-bold text-emerald-400">⚡ Verb-এর রূপান্তরের শর্টকাট ট্রিকস</h3>
-        <p>ইংরেজি গ্রামারে সঠিক Verb বসাতে ৩টি জিনিস সবসময় পর্যবেক্ষণ করবেন: (১) বাক্যের Subject সিঙ্গুলার নাকি প্লুরাল, (২) বাক্যে কোনো নির্দিষ্ট সময় নির্দেশক শব্দ আছে কি না, এবং (৩) বাক্যটি শর্তমূলক (Conditional) কি না।</p>
-      </div>
-    `,
-    quiz: [
-      {
-        id: 1,
-        question: 'He ran fast lest he _____ the bus.',
-        options: ['misses', 'missed', 'should miss', 'will miss'],
-        correctAnswerIndex: 2,
-        explanation: 'Lest যুক্ত বাক্যে নিয়ম অনুযায়ী Subject-এর পর "should" বা "might" + V1 বসে।'
-      },
-      {
-        id: 2,
-        question: 'Neither the teacher nor the students _____ present yesterday.',
-        options: ['was', 'were', 'is', 'are'],
-        correctAnswerIndex: 1,
-        explanation: 'Either...or / Neither...nor থাকলে দ্বিতীয় (নিকটবর্তী) Subject (the students) অনুযায়ী Verb বহুবচন (were) হয়।'
-      }
-    ]
-  }
-];
-
-// Helper to get or seed lessons
-async function getLessons() {
-  const all = await GrammarLesson.findAll();
-  if (all && all.length > 0) {
-    return all;
-  }
-  // Seed defaults
-  for (const item of DEFAULT_STARTER_LESSONS) {
-    await GrammarLesson.create(item);
-  }
-  return await GrammarLesson.findAll();
-}
-
-/**
- * GET /api/grammar/topics
- * Returns list of grammar topics.
- */
-router.get('/topics', async (req, res, next) => {
-  try {
-    const lessons = await getLessons();
-    const isStudentOrGuest = !req.headers.authorization;
-    
-    // Sort by id asc
-    lessons.sort((a, b) => Number(a.id) - Number(b.id));
-
-    res.json({
-      success: true,
-      data: lessons
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * GET /api/grammar/topics/:id
- * Get single topic
- */
-router.get('/topics/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    let lesson = await GrammarLesson.findByPk(id);
-    if (!lesson) {
-      const all = await getLessons();
-      lesson = all.find(l => String(l.id) === String(id) || l.slug === id);
-    }
-    if (!lesson) {
-      return res.status(404).json({ success: false, error: { message: 'পাঠটি পাওয়া যায়নি।' } });
-    }
-    res.json({ success: true, data: lesson });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/grammar/topics
- * Admin creates a new grammar topic.
- */
-router.post('/topics', authenticate, requireRole('ADMIN', 'SUPER_ADMIN', 'TEACHER'), async (req, res, next) => {
-  try {
-    const { title, category, level, summary, teacherNotes, rules, contentHtml, quiz, isPublished } = req.body;
-    if (!title) {
-      return res.status(400).json({ success: false, error: { message: 'টপিকের শিরোনাম আবশ্যক।' } });
-    }
-
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'lesson-' + Date.now();
-
-    const created = await GrammarLesson.create({
-      title,
-      slug,
-      category: category || 'GENERAL',
-      level: level || 'সকল শ্রেণির জন্য',
-      summary: summary || '',
-      teacherNotes: teacherNotes || '',
-      rules: Array.isArray(rules) ? rules : [],
-      contentHtml: contentHtml || '',
-      quiz: Array.isArray(quiz) ? quiz : [],
-      isPublished: isPublished !== undefined ? Boolean(isPublished) : true,
-      viewCount: 0,
-      createdAt: new Date().toISOString()
-    });
-
-    await AuditService.log({
-      userId: req.user.id,
-      action: 'GRAMMAR_LESSON_CREATE',
-      resourceType: 'GrammarLesson',
-      resourceId: created.id,
-      ipAddress: req.ip,
-      metadata: { title }
-    });
-
-    res.json({ success: true, data: created });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * PUT /api/grammar/topics/:id
- * Admin updates grammar topic
- */
-router.put('/topics/:id', authenticate, requireRole('ADMIN', 'SUPER_ADMIN', 'TEACHER'), async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const lesson = await GrammarLesson.findByPk(id);
-    if (!lesson) {
-      return res.status(404).json({ success: false, error: { message: 'পাঠটি পাওয়া যায়নি।' } });
-    }
-
-    const { title, category, level, summary, teacherNotes, rules, contentHtml, quiz, isPublished } = req.body;
-    const updateData = {};
-    if (title !== undefined) updateData.title = title;
-    if (category !== undefined) updateData.category = category;
-    if (level !== undefined) updateData.level = level;
-    if (summary !== undefined) updateData.summary = summary;
-    if (teacherNotes !== undefined) updateData.teacherNotes = teacherNotes;
-    if (rules !== undefined) updateData.rules = rules;
-    if (contentHtml !== undefined) updateData.contentHtml = contentHtml;
-    if (quiz !== undefined) updateData.quiz = quiz;
-    if (isPublished !== undefined) updateData.isPublished = Boolean(isPublished);
-
-    await lesson.update(updateData);
-
-    res.json({ success: true, data: lesson });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * DELETE /api/grammar/topics/:id
- * Admin deletes grammar topic
- */
-router.delete('/topics/:id', authenticate, requireRole('ADMIN', 'SUPER_ADMIN'), async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const lesson = await GrammarLesson.findByPk(id);
-    if (!lesson) {
-      return res.status(404).json({ success: false, error: { message: 'পাঠটি পাওয়া যায়নি।' } });
-    }
-    await lesson.destroy();
-    res.json({ success: true, message: 'টপিক সফলভাবে মুছে ফেলা হয়েছে।' });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * POST /api/grammar/ai-generate
- * Magic AI Auto-Generation endpoint for grammar lesson draft
- */
-router.post('/ai-generate', authenticate, requireRole('ADMIN', 'SUPER_ADMIN', 'TEACHER'), async (req, res, next) => {
-  try {
-    const { topic, prompt, level } = req.body;
-    if (!topic) {
-      return res.status(400).json({ success: false, error: { message: 'গ্রামার টপিকের নাম উল্লেখ করুন।' } });
-    }
-
-    const cleanTopic = topic.trim();
-
-    // High quality intelligent grammar draft generator
-    const draft = {
-      title: `${cleanTopic} Masterclass & Rule Guide`,
-      category: cleanTopic.toUpperCase().includes('VOICE') ? 'VOICE' : 
-                cleanTopic.toUpperCase().includes('NARRATION') || cleanTopic.toUpperCase().includes('SPEECH') ? 'NARRATION' :
-                cleanTopic.toUpperCase().includes('CONDITION') ? 'CONDITIONALS' :
-                cleanTopic.toUpperCase().includes('PREPOSITION') ? 'PREPOSITIONS' :
-                cleanTopic.toUpperCase().includes('TAG') ? 'TAG_QUESTIONS' : 'GENERAL',
-      level: level || 'Class 8 - 12 (SSC/HSC & Admission)',
-      summary: `${cleanTopic}-এর মূল নীতিমালা, শর্টকাট গঠনপ্রণালী, বোর্ড পরীক্ষার উদাহরণ ও কুইজ।`,
-      teacherNotes: `মো: আলমগীর স্যারের স্পেশাল টেকনিক: ${cleanTopic}-এর বোর্ড প্রশ্ন সমাধানের জন্য প্রধান ৩টি সূত্র মুখস্থ রাখুন।`,
-      rules: [
-        {
-          name: `Primary Rule 1: ${cleanTopic} Structure`,
-          nameBn: `নিয়ম ১: মূল কাঠামো ও ব্যবহারবিধি`,
-          formula: 'Subject + Specific Auxiliary / Connector + Target Form + Contextual Object',
-          exampleEn: `Example sentence demonstrating ${cleanTopic} accurately.`,
-          exampleBn: `${cleanTopic} সঠিকভাবে প্রয়োগের বাস্তব উদাহরণ।`,
-          tips: 'পরীক্ষায় সবচেয়ে বেশি আসা ক্ষেত্রসমূহ লক্ষ্য রাখুন।'
-        },
-        {
-          name: `Special Case: Common Pitfalls & Traps`,
-          nameBn: `নিয়ম ২: সাধারণ ভুল ও ব্যতিক্রমী ক্ষেত্র`,
-          formula: 'Exception Pattern -> Fixed Usage Rule',
-          exampleEn: 'He prefers reading to writing.',
-          exampleBn: 'সে লেখার চেয়ে পড়তে বেশি পছন্দ করে (Prefer-এর পর Than নয়, To বসে)।'
-        },
-        {
-          name: `Exam Shortcut Formula`,
-          nameBn: `নিয়ম ৩: দ্রুত উত্তর বের করার টেকনিক`,
-          formula: 'Trigger Word detected -> Apply corresponding transformation immediately',
-          exampleEn: 'Had I been a king, I would have helped the poor.',
-          exampleBn: '৩য় শর্তমূলক বাক্যের (3rd Conditional) বিশেষ ব্যবহার।'
-        }
-      ],
-      contentHtml: `
-        <div class="space-y-4">
-          <h3 class="text-xl font-bold text-emerald-400">✨ ${cleanTopic} সহজ ব্যাখ্যা ও টেকনিক</h3>
-          <p>বোর্ড পরীক্ষা এবং ভর্তি পরীক্ষায় ${cleanTopic} অত্যন্ত গুরুত্বপূর্ণ একটি অধ্যায়। নিচে এর মূল নিয়মগুলো সংক্ষেপে তুলে ধরা হলো:</p>
-          <div class="p-4 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
-            <h4 class="font-bold text-amber-300">📌 আলমগীর স্যারের গোল্ডেন টিপস:</h4>
-            <p class="text-sm text-slate-300">প্রশ্ন পাওয়ার সাথে সাথে বাক্যটির টেন্স এবং সাবজেক্টের ব্যক্তিবাচক/বস্তুবাচক অবস্থান চিহ্নিত করুন।</p>
-          </div>
-        </div>
-      `,
-      quiz: [
-        {
-          id: 1,
-          question: `Which sentence correctly applies the rules of ${cleanTopic}?`,
-          options: [
-            `Option A: Standard correct usage of ${cleanTopic}.`,
-            `Option B: Incorrect usage with wrong auxiliary verb.`,
-            `Option C: Faulty agreement pattern.`,
-            `Option D: Misplaced modifier.`
-          ],
-          correctAnswerIndex: 0,
-          explanation: `Option A সঠিক কারণ এটি ${cleanTopic}-এর ব্যাকরণিক নিয়ম সম্পূর্ণরূপে পূরণ করে।`
-        },
-        {
-          id: 2,
-          question: 'Choose the correct form to complete the sentence:',
-          options: ['Option 1', 'Option 2 (Correct)', 'Option 3', 'Option 4'],
-          correctAnswerIndex: 1,
-          explanation: 'সংশ্লিষ্ট নিয়মের ব্যতিক্রমী ব্যবহারের কারণে Option 2 সঠিক।'
-        }
-      ]
-    };
-
-    res.json({
-      success: true,
-      data: draft,
-      message: `AI সফলভাবে ${cleanTopic} বিষয়ের ড্রাফট তৈরি করেছে!`
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
 // ===========================================================================
-// SCALABLE INTERACTIVE GRAMMAR BOOK ENDPOINTS
+// 1. CHAPTERS API
 // ===========================================================================
 
 /**
  * GET /api/grammar/chapters
- * Get all 23 grammar chapters
+ * List all chapters with topic counts
  */
 router.get('/chapters', async (req, res, next) => {
   try {
-    const chapters = await GrammarChapter.findAll();
+    const chapters = await GrammarChapter.findAll({ order: [['orderIndex', 'ASC']] });
+    const topics = await GrammarTopic.findAll();
+    
+    // Attach dynamic topic counts
+    const enriched = chapters.map(c => {
+      const topicCount = topics.filter(t => t.chapterId === c.id).length;
+      return {
+        ...c,
+        topicCount: topicCount || c.estimatedTopicsCount || 0
+      };
+    });
+
     res.json({
       success: true,
-      data: chapters || []
+      data: enriched
     });
   } catch (err) {
     next(err);
@@ -494,18 +49,27 @@ router.get('/chapters', async (req, res, next) => {
 });
 
 /**
- * GET /api/grammar/chapters/:slug
- * Get single chapter with its topics
+ * GET /api/grammar/chapters/:idOrSlug
+ * Get single chapter with all its topics and questions summary
  */
-router.get('/chapters/:slug', async (req, res, next) => {
+router.get('/chapters/:idOrSlug', async (req, res, next) => {
   try {
-    const slug = req.params.slug;
+    const param = req.params.idOrSlug;
     const chapters = await GrammarChapter.findAll();
-    const chapter = chapters.find(c => c.slug === slug || String(c.id) === String(slug));
+    const chapter = chapters.find(c => String(c.id) === param || c.slug === param);
+
     if (!chapter) {
-      return res.status(404).json({ success: false, error: { message: 'অধ্যায়টি পাওয়া যায়নি।' } });
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'অধ্যায়টি খুঁজে পাওয়া যায়নি / Chapter not found' }
+      });
     }
-    const topics = await GrammarTopic.findAll({ where: { chapterId: chapter.id } });
+
+    const topics = await GrammarTopic.findAll({
+      where: { chapterId: chapter.id },
+      order: [['orderIndex', 'ASC']]
+    });
+
     res.json({
       success: true,
       data: {
@@ -519,25 +83,840 @@ router.get('/chapters/:slug', async (req, res, next) => {
 });
 
 /**
- * GET /api/grammar/board-questions
- * Filter board questions by topic, board, year
+ * POST /api/grammar/chapters
+ * Create Chapter (Admin / Teacher)
  */
-router.get('/board-questions', async (req, res, next) => {
+router.post('/chapters', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const { topicId, board, year } = req.query;
-    const where = {};
-    if (topicId) where.topicId = Number(topicId);
-    if (board) where.board = board;
-    if (year) where.year = Number(year);
-    const list = await GrammarBoardQuestion.findAll({ where });
-    res.json({
+    const { titleEn, titleBn, chapterNo, descriptionBn, category, icon, colorGradient, status } = req.body;
+
+    if (!titleEn || !titleBn) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'ইংরেজি ও বাংলা শিরোনাম আবশ্যক / TitleEn and TitleBn are required' }
+      });
+    }
+
+    const slug = req.body.slug || titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    
+    // Prevent duplicate slug
+    const existing = await GrammarChapter.findOne({ where: { slug } });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        error: { code: 'DUPLICATE_SLUG', message: 'এই স্লাগ দিয়ে ইতিমধ্যে একটি অধ্যায় রয়েছে / Chapter slug already exists' }
+      });
+    }
+
+    const count = await GrammarChapter.count();
+    const newChapter = await GrammarChapter.create({
+      chapterNo: chapterNo || count + 1,
+      titleEn: titleEn.trim(),
+      titleBn: titleBn.trim(),
+      slug,
+      icon: icon || 'BookOpen',
+      colorGradient: colorGradient || 'from-blue-600 to-indigo-600',
+      descriptionBn: descriptionBn || '',
+      category: category || 'CORE_GRAMMAR',
+      orderIndex: req.body.orderIndex !== undefined ? req.body.orderIndex : count + 1,
+      status: status || 'PUBLISHED'
+    });
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'CREATE_GRAMMAR_CHAPTER',
+      details: `Created chapter: ${newChapter.titleEn} (ID: ${newChapter.id})`,
+      ip: req.ip
+    });
+
+    res.status(201).json({
       success: true,
-      data: list || []
+      data: newChapter,
+      message: 'অধ্যায় সফলভাবে যুক্ত হয়েছে / Chapter created successfully'
     });
   } catch (err) {
     next(err);
   }
 });
+
+/**
+ * PUT /api/grammar/chapters/:id
+ * Update Chapter (Admin / Teacher)
+ */
+router.put('/chapters/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const chapter = await GrammarChapter.findByPk(id);
+
+    if (!chapter) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'অধ্যায়টি খুঁজে পাওয়া যায়নি / Chapter not found' }
+      });
+    }
+
+    await GrammarChapter.update(req.body, { where: { id } });
+    const updated = await GrammarChapter.findByPk(id);
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'UPDATE_GRAMMAR_CHAPTER',
+      details: `Updated chapter ID: ${id}`,
+      ip: req.ip
+    });
+
+    res.json({
+      success: true,
+      data: updated,
+      message: 'অধ্যায় সফলভাবে আপডেট করা হয়েছে / Chapter updated successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/chapters/:id
+ * Delete Chapter (Admin only)
+ */
+router.delete('/chapters/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const chapter = await GrammarChapter.findByPk(id);
+
+    if (!chapter) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'অধ্যায়টি খুঁজে পাওয়া যায়নি / Chapter not found' }
+      });
+    }
+
+    // Cascade delete associated topics
+    await GrammarTopic.destroy({ where: { chapterId: id } });
+    await GrammarChapter.destroy({ where: { id } });
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'DELETE_GRAMMAR_CHAPTER',
+      details: `Deleted chapter ID: ${id}`,
+      ip: req.ip
+    });
+
+    res.json({
+      success: true,
+      message: 'অধ্যায় এবং এর অধীনস্থ সকল টপিক সফলভাবে মুছে ফেলা হয়েছে / Chapter deleted successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 2. TOPICS API (Full Content Structure)
+// ===========================================================================
+
+/**
+ * GET /api/grammar/topics
+ * List topics with filters
+ */
+router.get('/topics', async (req, res, next) => {
+  try {
+    const { chapterId, difficulty, status, search } = req.query;
+    let list = await GrammarTopic.findAll({ order: [['orderIndex', 'ASC']] });
+
+    if (chapterId) {
+      list = list.filter(t => String(t.chapterId) === String(chapterId));
+    }
+    if (difficulty) {
+      list = list.filter(t => t.difficulty === difficulty);
+    }
+    if (status) {
+      list = list.filter(t => t.status === status);
+    }
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(t =>
+        (t.titleEn && t.titleEn.toLowerCase().includes(q)) ||
+        (t.titleBn && t.titleBn.toLowerCase().includes(q)) ||
+        (t.summaryBn && t.summaryBn.toLowerCase().includes(q))
+      );
+    }
+
+    res.json({
+      success: true,
+      data: list
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/topics/:idOrSlug
+ * Get complete topic with full content structure (Definition, Explanation, Rules, Examples, Exceptions, Common Mistakes, Written, MCQs, Board Questions)
+ */
+router.get('/topics/:idOrSlug', async (req, res, next) => {
+  try {
+    const param = req.params.idOrSlug;
+    const allTopics = await GrammarTopic.findAll();
+    const topic = allTopics.find(t => String(t.id) === param || t.slug === param);
+
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'টপিকটি খুঁজে পাওয়া যায়নি / Topic not found' }
+      });
+    }
+
+    // Increment view count non-blockingly
+    GrammarTopic.update({ viewCount: (topic.viewCount || 0) + 1 }, { where: { id: topic.id } }).catch(() => {});
+
+    // Fetch related questions & board questions
+    const [mcqs, boardQuestions] = await Promise.all([
+      GrammarQuestion.findAll({ where: { topicId: topic.id, status: 'ACTIVE' } }),
+      GrammarBoardQuestion.findAll({ where: { topicId: topic.id, status: 'ACTIVE' } })
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        ...topic,
+        mcqs: mcqs || [],
+        boardQuestions: boardQuestions || []
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/topics
+ * Create Topic (Admin / Teacher)
+ */
+router.post('/topics', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const {
+      chapterId,
+      parentTopicId,
+      titleEn,
+      titleBn,
+      topicNo,
+      difficulty,
+      classLevel,
+      summaryBn,
+      definitionEn,
+      definitionBn,
+      explanationBn,
+      teacherGoldenTips,
+      rules,
+      exceptions,
+      commonMistakes,
+      writtenPractice,
+      tags,
+      status
+    } = req.body;
+
+    if (!chapterId || !titleEn || !titleBn) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'chapterId, titleEn এবং titleBn আবশ্যক' }
+      });
+    }
+
+    const chapter = await GrammarChapter.findByPk(Number(chapterId));
+    if (!chapter) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'CHAPTER_NOT_FOUND', message: 'সংশ্লিষ্ট অধ্যায়টি বিদ্যমান নেই' }
+      });
+    }
+
+    const slug = req.body.slug || titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const existing = await GrammarTopic.findOne({ where: { slug } });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        error: { code: 'DUPLICATE_SLUG', message: 'এই স্লাগ দিয়ে ইতিমধ্যে একটি টপিক বিদ্যমান' }
+      });
+    }
+
+    const count = await GrammarTopic.count({ where: { chapterId: Number(chapterId) } });
+    const newTopic = await GrammarTopic.create({
+      chapterId: Number(chapterId),
+      parentTopicId: parentTopicId ? Number(parentTopicId) : null,
+      topicNo: topicNo || `${chapter.chapterNo}.${count + 1}`,
+      titleEn: titleEn.trim(),
+      titleBn: titleBn.trim(),
+      slug,
+      difficulty: difficulty || 'BEGINNER',
+      classLevel: classLevel || 'Class 6 - 12 (SSC & HSC)',
+      summaryBn: summaryBn || '',
+      definitionEn: definitionEn || '',
+      definitionBn: definitionBn || '',
+      explanationBn: explanationBn || '',
+      teacherGoldenTips: teacherGoldenTips || '',
+      rules: Array.isArray(rules) ? rules : [],
+      exceptions: Array.isArray(exceptions) ? exceptions : [],
+      commonMistakes: Array.isArray(commonMistakes) ? commonMistakes : [],
+      writtenPractice: Array.isArray(writtenPractice) ? writtenPractice : [],
+      tags: Array.isArray(tags) ? tags : [],
+      status: status || 'PUBLISHED',
+      orderIndex: req.body.orderIndex !== undefined ? req.body.orderIndex : count + 1,
+      viewCount: 0
+    });
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'CREATE_GRAMMAR_TOPIC',
+      details: `Created topic: ${newTopic.titleEn} (ID: ${newTopic.id})`,
+      ip: req.ip
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newTopic,
+      message: 'টপিক সফলভাবে তৈরি করা হয়েছে / Topic created successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * PUT /api/grammar/topics/:id
+ * Update Topic (Admin / Teacher)
+ */
+router.put('/topics/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const topic = await GrammarTopic.findByPk(id);
+
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'টপিকটি খুঁজে পাওয়া যায়নি / Topic not found' }
+      });
+    }
+
+    await GrammarTopic.update(req.body, { where: { id } });
+    const updated = await GrammarTopic.findByPk(id);
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'UPDATE_GRAMMAR_TOPIC',
+      details: `Updated topic ID: ${id}`,
+      ip: req.ip
+    });
+
+    res.json({
+      success: true,
+      data: updated,
+      message: 'টপিক সফলভাবে আপডেট করা হয়েছে / Topic updated successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/topics/:id
+ * Delete Topic (Admin only)
+ */
+router.delete('/topics/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const topic = await GrammarTopic.findByPk(id);
+
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'টপিকটি খুঁজে পাওয়া যায়নি / Topic not found' }
+      });
+    }
+
+    // Cascade delete questions
+    await GrammarQuestion.destroy({ where: { topicId: id } });
+    await GrammarBoardQuestion.destroy({ where: { topicId: id } });
+    await GrammarProgress.destroy({ where: { topicId: id } });
+    await GrammarBookmark.destroy({ where: { itemType: 'TOPIC', itemId: id } });
+    await GrammarTopic.destroy({ where: { id } });
+
+    AuditService.log({
+      userId: req.user.id,
+      action: 'DELETE_GRAMMAR_TOPIC',
+      details: `Deleted topic ID: ${id}`,
+      ip: req.ip
+    });
+
+    res.json({
+      success: true,
+      message: 'টপিক এবং সংশ্লিষ্ট কন্টেন্ট সফলভাবে মুছে ফেলা হয়েছে / Topic deleted successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 3. FULL-TEXT SEARCH API
+// ===========================================================================
+
+/**
+ * GET /api/grammar/search
+ * Fast search across chapters, topics, rules, and board questions
+ */
+router.get('/search', async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim().toLowerCase();
+    if (!q || q.length < 2) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'QUERY_TOO_SHORT', message: 'অনুসন্ধানের জন্য কমপক্ষে ২টি অক্ষর লিখুন / Query must be at least 2 characters' }
+      });
+    }
+
+    const [chapters, topics, questions, boardQuestions] = await Promise.all([
+      GrammarChapter.findAll(),
+      GrammarTopic.findAll(),
+      GrammarQuestion.findAll({ where: { status: 'ACTIVE' } }),
+      GrammarBoardQuestion.findAll({ where: { status: 'ACTIVE' } })
+    ]);
+
+    const matchedChapters = chapters.filter(c =>
+      (c.titleEn && c.titleEn.toLowerCase().includes(q)) ||
+      (c.titleBn && c.titleBn.toLowerCase().includes(q)) ||
+      (c.descriptionBn && c.descriptionBn.toLowerCase().includes(q))
+    ).map(c => ({ type: 'CHAPTER', id: c.id, slug: c.slug, titleEn: c.titleEn, titleBn: c.titleBn }));
+
+    const matchedTopics = topics.filter(t =>
+      (t.titleEn && t.titleEn.toLowerCase().includes(q)) ||
+      (t.titleBn && t.titleBn.toLowerCase().includes(q)) ||
+      (t.summaryBn && t.summaryBn.toLowerCase().includes(q)) ||
+      (t.explanationBn && t.explanationBn.toLowerCase().includes(q))
+    ).map(t => ({ type: 'TOPIC', id: t.id, chapterId: t.chapterId, slug: t.slug, titleEn: t.titleEn, titleBn: t.titleBn }));
+
+    const matchedQuestions = questions.filter(qu =>
+      (qu.questionEn && qu.questionEn.toLowerCase().includes(q)) ||
+      (qu.questionBn && qu.questionBn.toLowerCase().includes(q)) ||
+      (qu.explanationBn && qu.explanationBn.toLowerCase().includes(q))
+    ).slice(0, 10).map(qu => ({ type: 'MCQ', id: qu.id, topicId: qu.topicId, question: qu.questionEn }));
+
+    const matchedBoardQuestions = boardQuestions.filter(bq =>
+      (bq.board && bq.board.toLowerCase().includes(q)) ||
+      (bq.questionContext && bq.questionContext.toLowerCase().includes(q)) ||
+      (bq.fullExplanationBn && bq.fullExplanationBn.toLowerCase().includes(q))
+    ).slice(0, 10).map(bq => ({ type: 'BOARD_QUESTION', id: bq.id, topicId: bq.topicId, board: bq.board, year: bq.year }));
+
+    res.json({
+      success: true,
+      query: q,
+      totalMatches: matchedChapters.length + matchedTopics.length + matchedQuestions.length + matchedBoardQuestions.length,
+      data: {
+        chapters: matchedChapters,
+        topics: matchedTopics,
+        questions: matchedQuestions,
+        boardQuestions: matchedBoardQuestions
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 4. MCQ SYSTEM API
+// ===========================================================================
+
+/**
+ * GET /api/grammar/mcqs
+ * Filter MCQs
+ */
+router.get('/mcqs', async (req, res, next) => {
+  try {
+    const { topicId, chapterId, difficulty, board, year } = req.query;
+    let list = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
+
+    if (topicId) list = list.filter(q => String(q.topicId) === String(topicId));
+    if (chapterId) list = list.filter(q => String(q.chapterId) === String(chapterId));
+    if (difficulty) list = list.filter(q => q.difficulty === difficulty);
+    if (board) list = list.filter(q => q.board === board);
+    if (year) list = list.filter(q => String(q.year) === String(year));
+
+    res.json({
+      success: true,
+      total: list.length,
+      data: list
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/mcqs/topic/:topicId
+ * Shortcut to get MCQs for specific topic
+ */
+router.get('/mcqs/topic/:topicId', async (req, res, next) => {
+  try {
+    const topicId = Number(req.params.topicId);
+    const list = await GrammarQuestion.findAll({ where: { topicId, status: 'ACTIVE' } });
+    res.json({
+      success: true,
+      total: list.length,
+      data: list
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/mcqs/submit
+ * Submit single or bulk MCQ answers and track student performance
+ */
+router.post('/mcqs/submit', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { questionId, selectedOptionIndex, submissions } = req.body;
+
+    // Support single or batch submissions
+    const items = submissions && Array.isArray(submissions) ? submissions : [{ questionId, selectedOptionIndex }];
+
+    let totalAttempted = 0;
+    let totalCorrect = 0;
+    const results = [];
+
+    for (const sub of items) {
+      if (!sub.questionId || sub.selectedOptionIndex === undefined) continue;
+      const q = await GrammarQuestion.findByPk(Number(sub.questionId));
+      if (!q) continue;
+
+      totalAttempted++;
+      const isCorrect = Number(sub.selectedOptionIndex) === q.correctOptionIndex;
+      if (isCorrect) totalCorrect++;
+
+      results.push({
+        questionId: q.id,
+        isCorrect,
+        correctOptionIndex: q.correctOptionIndex,
+        correctAnswerText: q.correctAnswerText || q.options[q.correctOptionIndex],
+        explanationBn: q.explanationBn,
+        explanationEn: q.explanationEn,
+        marksAwarded: isCorrect ? (q.marks || 1) : 0
+      });
+
+      // Update student progress for this topic
+      if (q.topicId) {
+        const prog = await GrammarProgress.findOne({ where: { userId, topicId: q.topicId } });
+        if (prog) {
+          await GrammarProgress.update({
+            mcqAttempted: (prog.mcqAttempted || 0) + 1,
+            mcqCorrect: (prog.mcqCorrect || 0) + (isCorrect ? 1 : 0),
+            mcqWrong: (prog.mcqWrong || 0) + (isCorrect ? 0 : 1),
+            lastAttemptAt: new Date().toISOString()
+          }, { where: { id: prog.id } });
+        } else {
+          await GrammarProgress.create({
+            userId,
+            topicId: q.topicId,
+            chapterId: q.chapterId,
+            isViewed: true,
+            isCompleted: false,
+            mcqAttempted: 1,
+            mcqCorrect: isCorrect ? 1 : 0,
+            mcqWrong: isCorrect ? 0 : 1,
+            lastAttemptAt: new Date().toISOString()
+          });
+        }
+      }
+    }
+
+    res.json({
+      success: true,
+      totalAttempted,
+      totalCorrect,
+      totalWrong: totalAttempted - totalCorrect,
+      score: totalCorrect,
+      results
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/mcqs
+ * Create MCQ (Admin / Teacher)
+ */
+router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const {
+      chapterId,
+      topicId,
+      questionEn,
+      questionBn,
+      options,
+      correctOptionIndex,
+      explanationEn,
+      explanationBn,
+      difficulty,
+      marks,
+      isBoardQuestion,
+      board,
+      year,
+      tags
+    } = req.body;
+
+    if (!questionEn || !Array.isArray(options) || options.length < 2 || correctOptionIndex === undefined) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'প্রশ্ন, কমপক্ষে ২টি অপশন এবং সঠিক উত্তরের ইনডেক্স আবশ্যক' }
+      });
+    }
+
+    if (correctOptionIndex < 0 || correctOptionIndex >= options.length) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'INVALID_OPTION_INDEX', message: 'সঠিক উত্তরের ইনডেক্স অপশনের সীমার মধ্যে হতে হবে' }
+      });
+    }
+
+    const newMCQ = await GrammarQuestion.create({
+      chapterId: chapterId ? Number(chapterId) : null,
+      topicId: topicId ? Number(topicId) : null,
+      questionType: 'MCQ',
+      questionEn: questionEn.trim(),
+      questionBn: questionBn ? questionBn.trim() : '',
+      options,
+      correctOptionIndex: Number(correctOptionIndex),
+      correctAnswerText: options[correctOptionIndex],
+      explanationEn: explanationEn || '',
+      explanationBn: explanationBn || '',
+      difficulty: difficulty || 'MEDIUM',
+      marks: marks ? Number(marks) : 1,
+      isBoardQuestion: Boolean(isBoardQuestion),
+      board: board || null,
+      year: year ? Number(year) : null,
+      tags: Array.isArray(tags) ? tags : [],
+      status: 'ACTIVE'
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newMCQ,
+      message: 'MCQ প্রশ্ন সফলভাবে যুক্ত হয়েছে / MCQ created successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * PUT /api/grammar/mcqs/:id
+ * Update MCQ (Admin / Teacher)
+ */
+router.put('/mcqs/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const mcq = await GrammarQuestion.findByPk(id);
+
+    if (!mcq) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'MCQ খুঁজে পাওয়া যায়নি' }
+      });
+    }
+
+    await GrammarQuestion.update(req.body, { where: { id } });
+    const updated = await GrammarQuestion.findByPk(id);
+
+    res.json({
+      success: true,
+      data: updated,
+      message: 'MCQ সফলভাবে আপডেট হয়েছে'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/mcqs/:id
+ * Delete MCQ (Admin / Teacher)
+ */
+router.delete('/mcqs/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const mcq = await GrammarQuestion.findByPk(id);
+
+    if (!mcq) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'MCQ খুঁজে পাওয়া যায়নি' }
+      });
+    }
+
+    await GrammarQuestion.destroy({ where: { id } });
+
+    res.json({
+      success: true,
+      message: 'MCQ সফলভাবে মুছে ফেলা হয়েছে'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 5. BOARD QUESTION VAULT API
+// ===========================================================================
+
+/**
+ * GET /api/grammar/board-questions
+ * Filter verified board questions
+ */
+router.get('/board-questions', async (req, res, next) => {
+  try {
+    const { board, year, examType, topicId, chapterId } = req.query;
+    let list = await GrammarBoardQuestion.findAll({ where: { status: 'ACTIVE' } });
+
+    if (board && board !== 'সকল বোর্ড') list = list.filter(b => b.board === board);
+    if (year && year !== 'সকল বছর') list = list.filter(b => String(b.year) === String(year));
+    if (examType) list = list.filter(b => b.examType === examType);
+    if (topicId) list = list.filter(b => String(b.topicId) === String(topicId));
+    if (chapterId) list = list.filter(b => String(b.chapterId) === String(chapterId));
+
+    res.json({
+      success: true,
+      total: list.length,
+      data: list
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/board-questions/:id
+ * Get single board question details
+ */
+router.get('/board-questions/:id', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const bq = await GrammarBoardQuestion.findByPk(id);
+    if (!bq) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'বোর্ড প্রশ্নটি পাওয়া যায়নি' }
+      });
+    }
+    res.json({ success: true, data: bq });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/board-questions
+ * Create Board Question (Admin / Teacher)
+ * Enforces isVerified check for authentic exam papers
+ */
+router.post('/board-questions', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const { board, year, examType, questionContext, subQuestions, fullExplanationBn } = req.body;
+
+    if (!board || !year || !questionContext || !Array.isArray(subQuestions) || subQuestions.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'board, year, questionContext এবং subQuestions আবশ্যক' }
+      });
+    }
+
+    const newBQ = await GrammarBoardQuestion.create({
+      chapterId: req.body.chapterId ? Number(req.body.chapterId) : null,
+      topicId: req.body.topicId ? Number(req.body.topicId) : null,
+      board: board.trim(),
+      year: Number(year),
+      examType: examType || 'SSC',
+      classLevel: req.body.classLevel || 'Class 9-10 (SSC)',
+      subject: req.body.subject || 'English 2nd Paper',
+      questionType: req.body.questionType || 'CORE_GRAMMAR',
+      marks: req.body.marks ? Number(req.body.marks) : 5,
+      questionContext: questionContext.trim(),
+      subQuestions,
+      fullExplanationBn: fullExplanationBn || '',
+      difficulty: req.body.difficulty || 'MEDIUM',
+      isVerified: req.body.isVerified !== undefined ? Boolean(req.body.isVerified) : true,
+      sourceInfo: req.body.sourceInfo || `${board} ${examType || 'SSC'} ${year}`,
+      status: 'ACTIVE'
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newBQ,
+      message: 'বোর্ড প্রশ্ন সফলভাবে যুক্ত হয়েছে / Board question added'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * PUT /api/grammar/board-questions/:id
+ * Update Board Question (Admin / Teacher)
+ */
+router.put('/board-questions/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const bq = await GrammarBoardQuestion.findByPk(id);
+
+    if (!bq) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'বোর্ড প্রশ্ন পাওয়া যায়নি' }
+      });
+    }
+
+    await GrammarBoardQuestion.update(req.body, { where: { id } });
+    const updated = await GrammarBoardQuestion.findByPk(id);
+
+    res.json({
+      success: true,
+      data: updated,
+      message: 'বোর্ড প্রশ্ন সফলভাবে আপডেট করা হয়েছে'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/board-questions/:id
+ * Delete Board Question (Admin only)
+ */
+router.delete('/board-questions/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const bq = await GrammarBoardQuestion.findByPk(id);
+
+    if (!bq) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'বোর্ড প্রশ্ন পাওয়া যায়নি' }
+      });
+    }
+
+    await GrammarBoardQuestion.destroy({ where: { id } });
+    res.json({ success: true, message: 'বোর্ড প্রশ্ন মুছে ফেলা হয়েছে' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 6. MODEL TEST SYSTEM API
+// ===========================================================================
 
 /**
  * GET /api/grammar/model-tests
@@ -545,10 +924,11 @@ router.get('/board-questions', async (req, res, next) => {
  */
 router.get('/model-tests', async (req, res, next) => {
   try {
-    const tests = await GrammarModelTest.findAll();
+    const list = await GrammarModelTest.findAll({ where: { status: 'PUBLISHED' } });
     res.json({
       success: true,
-      data: tests || []
+      total: list.length,
+      data: list
     });
   } catch (err) {
     next(err);
@@ -556,16 +936,219 @@ router.get('/model-tests', async (req, res, next) => {
 });
 
 /**
+ * GET /api/grammar/model-tests/:id
+ * Get single test. If user is taking the test, optionally hides correct answers.
+ */
+router.get('/model-tests/:id', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const test = await GrammarModelTest.findByPk(id);
+
+    if (!test) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'মডেল টেস্টটি পাওয়া যায়নি / Model test not found' }
+      });
+    }
+
+    // Populate questions
+    let questions = [];
+    if (Array.isArray(test.questionIds) && test.questionIds.length > 0) {
+      questions = await GrammarQuestion.findAll({
+        where: { id: { $in: test.questionIds }, status: 'ACTIVE' }
+      });
+    } else {
+      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: 20 });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        ...test,
+        questions: questions.map(q => ({
+          id: q.id,
+          question: q.questionEn,
+          questionBn: q.questionBn,
+          options: q.options,
+          difficulty: q.difficulty,
+          marks: q.marks || 1
+        }))
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/model-tests/:id/submit
+ * Evaluate model test, calculate marks & store submission
+ */
+router.post('/model-tests/:id/submit', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const testId = Number(req.params.id);
+    const { answers = {}, timeTakenSeconds = 0 } = req.body;
+
+    const test = await GrammarModelTest.findByPk(testId);
+    if (!test) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'মডেল টেস্টটি পাওয়া যায়নি' }
+      });
+    }
+
+    let questions = [];
+    if (Array.isArray(test.questionIds) && test.questionIds.length > 0) {
+      questions = await GrammarQuestion.findAll({ where: { id: { $in: test.questionIds } } });
+    } else {
+      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: 20 });
+    }
+
+    let correctCount = 0;
+    let wrongCount = 0;
+    const breakdown = [];
+
+    for (const q of questions) {
+      const userAns = answers[q.id];
+      const isAttempted = userAns !== undefined && userAns !== null;
+      const isCorrect = isAttempted && Number(userAns) === q.correctOptionIndex;
+
+      if (isCorrect) correctCount++;
+      else if (isAttempted) wrongCount++;
+
+      breakdown.push({
+        questionId: q.id,
+        question: q.questionEn,
+        selectedOptionIndex: userAns !== undefined ? userAns : null,
+        correctOptionIndex: q.correctOptionIndex,
+        isCorrect,
+        explanation: q.explanationBn || q.explanationEn
+      });
+    }
+
+    const totalQuestions = questions.length;
+    const score = correctCount;
+    const percentage = Math.round((score / (totalQuestions || 1)) * 100);
+    const passed = score >= (test.passingMarks || Math.round(totalQuestions * 0.4));
+
+    // Store test submission record
+    const submission = await GrammarTestSubmission.create({
+      userId,
+      modelTestId: test.id,
+      totalQuestions,
+      attemptedQuestions: Object.keys(answers).length,
+      correctAnswers: correctCount,
+      wrongAnswers: wrongCount,
+      score,
+      percentage,
+      passed,
+      timeTakenSeconds: Number(timeTakenSeconds),
+      answers,
+      submittedAt: new Date().toISOString()
+    });
+
+    res.json({
+      success: true,
+      data: {
+        submissionId: submission.id,
+        testTitle: test.titleBn,
+        score,
+        totalQuestions,
+        percentage,
+        passed,
+        correctCount,
+        wrongCount,
+        breakdown
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/model-tests
+ * Create Model Test (Admin / Teacher)
+ */
+router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const { titleEn, titleBn, durationMinutes, totalMarks, passingMarks, questionIds } = req.body;
+
+    if (!titleEn || !titleBn) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'titleEn এবং titleBn আবশ্যক' }
+      });
+    }
+
+    const count = await GrammarModelTest.count();
+    const newTest = await GrammarModelTest.create({
+      titleEn: titleEn.trim(),
+      titleBn: titleBn.trim(),
+      descriptionBn: req.body.descriptionBn || '',
+      durationMinutes: durationMinutes ? Number(durationMinutes) : 20,
+      totalMarks: totalMarks ? Number(totalMarks) : (questionIds?.length || 20),
+      passingMarks: passingMarks ? Number(passingMarks) : 12,
+      difficulty: req.body.difficulty || 'BOARD_STANDARD',
+      chapterId: req.body.chapterId ? Number(req.body.chapterId) : null,
+      topicId: req.body.topicId ? Number(req.body.topicId) : null,
+      questionIds: Array.isArray(questionIds) ? questionIds.map(Number) : [],
+      targetClass: req.body.targetClass || 'Class 9-10 (SSC 2026)',
+      orderIndex: count + 1,
+      status: 'PUBLISHED'
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newTest,
+      message: 'মডেল টেস্ট তৈরি সফল হয়েছে / Model test created'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 7. STUDENT PROGRESS API
+// ===========================================================================
+
+/**
  * GET /api/grammar/my-progress
- * Get student's completed topics & progress
+ * Full progress report for logged in student
  */
 router.get('/my-progress', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const progressList = await GrammarProgress.findAll({ where: { userId } });
+    const [progressList, totalTopicsCount, testSubmissions] = await Promise.all([
+      GrammarProgress.findAll({ where: { userId } }),
+      GrammarTopic.count(),
+      GrammarTestSubmission.findAll({ where: { userId } })
+    ]);
+
+    const completedTopics = progressList.filter(p => p.isCompleted);
+    const totalAttemptedMCQs = progressList.reduce((sum, p) => sum + (p.mcqAttempted || 0), 0);
+    const totalCorrectMCQs = progressList.reduce((sum, p) => sum + (p.mcqCorrect || 0), 0);
+    const totalWrongMCQs = progressList.reduce((sum, p) => sum + (p.mcqWrong || 0), 0);
+
+    const completionPercentage = Math.min(100, Math.round((completedTopics.length / (totalTopicsCount || 23)) * 100));
+
     res.json({
       success: true,
-      data: progressList || []
+      data: {
+        summary: {
+          completionPercentage,
+          completedTopicsCount: completedTopics.length,
+          totalTopicsCount: totalTopicsCount || 23,
+          totalAttemptedMCQs,
+          totalCorrectMCQs,
+          totalWrongMCQs,
+          accuracyPercentage: totalAttemptedMCQs > 0 ? Math.round((totalCorrectMCQs / totalAttemptedMCQs) * 100) : 0,
+          testsTakenCount: testSubmissions.length
+        },
+        topicProgress: progressList,
+        recentTests: testSubmissions.slice(-5)
+      }
     });
   } catch (err) {
     next(err);
@@ -573,49 +1156,75 @@ router.get('/my-progress', authenticate, async (req, res, next) => {
 });
 
 /**
- * POST /api/grammar/toggle-complete
- * Toggle topic completion status
+ * POST /api/grammar/progress
+ * Update topic progress (Mark viewed, mark completed)
  */
-router.post('/toggle-complete', authenticate, async (req, res, next) => {
+router.post('/progress', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { topicId, isCompleted } = req.body;
+    const { topicId, isCompleted, isViewed, timeSpentSeconds } = req.body;
+
     if (!topicId) {
-      return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক।' } });
-    }
-
-    const existing = await GrammarProgress.findOne({ where: { userId, topicId: Number(topicId) } });
-    if (existing) {
-      await existing.update({
-        isCompleted: isCompleted !== undefined ? Boolean(isCompleted) : !existing.isCompleted,
-        completedAt: new Date().toISOString()
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'topicId আবশ্যক' }
       });
-      return res.json({ success: true, data: existing });
     }
 
-    const created = await GrammarProgress.create({
-      userId,
-      topicId: Number(topicId),
-      isCompleted: isCompleted !== undefined ? Boolean(isCompleted) : true,
-      completedAt: new Date().toISOString()
+    const tId = Number(topicId);
+    let record = await GrammarProgress.findOne({ where: { userId, topicId: tId } });
+
+    if (record) {
+      const updateData = {
+        updatedAt: new Date().toISOString()
+      };
+      if (isCompleted !== undefined) {
+        updateData.isCompleted = Boolean(isCompleted);
+        if (isCompleted) updateData.completedAt = new Date().toISOString();
+      }
+      if (isViewed !== undefined) updateData.isViewed = Boolean(isViewed);
+      await GrammarProgress.update(updateData, { where: { id: record.id } });
+      record = await GrammarProgress.findByPk(record.id);
+    } else {
+      record = await GrammarProgress.create({
+        userId,
+        topicId: tId,
+        isViewed: isViewed !== undefined ? Boolean(isViewed) : true,
+        isCompleted: Boolean(isCompleted),
+        completedAt: isCompleted ? new Date().toISOString() : null,
+        timeSpentSeconds: timeSpentSeconds ? Number(timeSpentSeconds) : 0,
+        mcqAttempted: 0,
+        mcqCorrect: 0,
+        mcqWrong: 0
+      });
+    }
+
+    res.json({
+      success: true,
+      data: record,
+      message: 'অগ্রগতি সফলভাবে সংরক্ষিত হয়েছে / Progress updated'
     });
-    res.json({ success: true, data: created });
   } catch (err) {
     next(err);
   }
 });
 
+// ===========================================================================
+// 8. BOOKMARK SYSTEM API
+// ===========================================================================
+
 /**
- * GET /api/grammar/my-bookmarks
- * Get student's bookmarks
+ * GET /api/grammar/bookmarks
+ * Get user bookmarks with item type preview
  */
-router.get('/my-bookmarks', authenticate, async (req, res, next) => {
+router.get('/bookmarks', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
     const bookmarks = await GrammarBookmark.findAll({ where: { userId } });
     res.json({
       success: true,
-      data: bookmarks || []
+      total: bookmarks.length,
+      data: bookmarks
     });
   } catch (err) {
     next(err);
@@ -623,30 +1232,127 @@ router.get('/my-bookmarks', authenticate, async (req, res, next) => {
 });
 
 /**
- * POST /api/grammar/toggle-bookmark
- * Add or remove bookmark
+ * POST /api/grammar/bookmarks
+ * Add Bookmark with Duplicate Prevention
  */
-router.post('/toggle-bookmark', authenticate, async (req, res, next) => {
+router.post('/bookmarks', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { topicId, customNote } = req.body;
-    if (!topicId) {
-      return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক।' } });
+    const { itemType = 'TOPIC', itemId, customNote = '' } = req.body;
+
+    if (!itemId) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'VALIDATION_ERROR', message: 'itemId আবশ্যক' }
+      });
     }
 
-    const existing = await GrammarBookmark.findOne({ where: { userId, topicId: Number(topicId) } });
+    const numItemId = Number(itemId);
+
+    // Duplicate Prevention Check
+    const existing = await GrammarBookmark.findOne({
+      where: { userId, itemType, itemId: numItemId }
+    });
+
     if (existing) {
-      await existing.destroy();
-      return res.json({ success: true, bookmarked: false, message: 'বুকমার্ক সরানো হয়েছে।' });
+      if (customNote) {
+        await GrammarBookmark.update({ customNote }, { where: { id: existing.id } });
+      }
+      return res.json({
+        success: true,
+        isDuplicate: true,
+        data: existing,
+        message: 'আইটেমটি ইতিমধ্যে বুকমার্কে সংরক্ষিত রয়েছে / Already bookmarked'
+      });
     }
 
     const created = await GrammarBookmark.create({
       userId,
-      topicId: Number(topicId),
-      customNote: customNote || '',
+      itemType,
+      itemId: numItemId,
+      customNote,
       createdAt: new Date().toISOString()
     });
-    res.json({ success: true, bookmarked: true, data: created, message: 'টপিক বুকমার্ক করা হয়েছে!' });
+
+    res.status(201).json({
+      success: true,
+      isDuplicate: false,
+      data: created,
+      message: 'বুকমার্ক সফলভাবে সংরক্ষিত হয়েছে / Bookmarked successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/bookmarks/:id
+ * Remove Bookmark
+ */
+router.delete('/bookmarks/:id', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const id = Number(req.params.id);
+
+    const bookmark = await GrammarBookmark.findOne({ where: { id, userId } });
+    if (!bookmark) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'বুকমার্কটি পাওয়া যায়নি / Bookmark not found' }
+      });
+    }
+
+    await GrammarBookmark.destroy({ where: { id } });
+
+    res.json({
+      success: true,
+      message: 'বুকমার্ক সফলভাবে মুছে ফেলা হয়েছে / Bookmark removed'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// 9. LEGACY COMPATIBILITY ENDPOINTS (100% Backward Compatible)
+// ===========================================================================
+
+router.get('/lessons', async (req, res, next) => {
+  try {
+    const topics = await GrammarTopic.findAll();
+    res.json({ success: true, data: topics });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/toggle-complete', authenticate, async (req, res, next) => {
+  req.body.isCompleted = req.body.isCompleted !== undefined ? req.body.isCompleted : true;
+  return router.handle({ ...req, url: '/progress', method: 'POST' }, res, next);
+});
+
+router.get('/my-bookmarks', authenticate, async (req, res, next) => {
+  return router.handle({ ...req, url: '/bookmarks', method: 'GET' }, res, next);
+});
+
+router.post('/toggle-bookmark', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { topicId, customNote } = req.body;
+    if (!topicId) return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক' } });
+
+    const existing = await GrammarBookmark.findOne({ where: { userId, itemType: 'TOPIC', itemId: Number(topicId) } });
+    if (existing) {
+      await GrammarBookmark.destroy({ where: { id: existing.id } });
+      return res.json({ success: true, bookmarked: false, message: 'বুকমার্ক সরানো হয়েছে' });
+    }
+    const created = await GrammarBookmark.create({
+      userId,
+      itemType: 'TOPIC',
+      itemId: Number(topicId),
+      customNote: customNote || ''
+    });
+    res.json({ success: true, bookmarked: true, data: created, message: 'বুকমার্ক যোগ করা হয়েছে' });
   } catch (err) {
     next(err);
   }

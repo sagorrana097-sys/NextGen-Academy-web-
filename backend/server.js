@@ -284,6 +284,12 @@ if (process.env.NODE_ENV !== 'test') {
 
     // Run safe initial seed
     await seedDatabase();
+    try {
+      const seedGrammar = require('./migrations/seedGrammarInitialData');
+      await seedGrammar();
+    } catch (e) {
+      console.warn('Grammar seed warning:', e.message);
+    }
   });
 
   // Graceful Shutdown

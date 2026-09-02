@@ -1,5 +1,23 @@
 
+const express = require('express');
+const {
+  User,
+  Student,
+  Teacher,
+  TeacherClassAssignment,
+  Class,
+  Section,
+  Subject,
+  Attendance,
+  ExamTerm,
+  Mark
+} = require('../models');
+const { authenticate, requireRole } = require('../middleware/auth');
+const AuditService = require('../services/auditService');
+const SMSService = require('../services/smsService');
 const bcrypt = require('bcryptjs');
+
+const router = express.Router();
 
 /**
  * Handler to update or save teacher profile details
@@ -181,25 +199,6 @@ router.post('/update', handleTeacherProfileUpdate);
 router.put('/update', handleTeacherProfileUpdate);
 router.post('/profile', handleTeacherProfileUpdate);
 router.put('/profile', handleTeacherProfileUpdate);
-
-const express = require('express');
-const {
-  User,
-  Student,
-  Teacher,
-  TeacherClassAssignment,
-  Class,
-  Section,
-  Subject,
-  Attendance,
-  ExamTerm,
-  Mark
-} = require('../models');
-const { authenticate, requireRole } = require('../middleware/auth');
-const AuditService = require('../services/auditService');
-const SMSService = require('../services/smsService');
-
-const router = express.Router();
 
 // Guard to TEACHER or ADMIN
 // Allow flexible authentication for teacher profile updates
