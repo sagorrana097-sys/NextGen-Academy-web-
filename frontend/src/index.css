@@ -3,10 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+    max-width: 100vw;
+    height: 100%;
+  }
+
   html, body, #root {
     min-height: 100%;
     min-height: 100dvh;
     width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
   }
@@ -20,6 +30,33 @@
     -moz-osx-font-smoothing: grayscale;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    overscroll-behavior-x: none;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Universal Responsive Container Rules */
+  .container-responsive {
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(12px, 3.5vw, 32px);
+    padding-right: clamp(12px, 3.5vw, 32px);
+  }
+
+  /* Smooth Hardware Accelerated Motion */
+  .smooth-transition {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   input[type="text"],
@@ -35,6 +72,7 @@
   textarea,
   select {
     @apply text-slate-900 bg-white border-slate-300 placeholder-slate-400 !important;
+    max-width: 100%;
   }
 
   /* Ensure focused state has a visible border */
