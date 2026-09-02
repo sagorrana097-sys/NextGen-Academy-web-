@@ -306,6 +306,4167 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'article-idiomatic-phrases-ssc-errors': {
+  "id": 905,
+  "chapterId": 9,
+  "topicNo": "০৫",
+  "titleEn": "Idiomatic Expressions, Fixed Phrases & Board Passage Strategy",
+  "titleBn": "প্রবাদ ও বাঁধাধরা ফ্রেজে আর্টিকেল এবং বোর্ড প্যাসেজ সমাধান কৌশল",
+  "slug": "article-idiomatic-phrases-ssc-errors",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "বাঁধাধরা কিছু ফ্রেজে আর্টিকেল সর্বদা নির্দিষ্ট থাকে: In a hurry, As a result, In the long run, Make a noise বনাম By bus, At home, In fact। এসএসসি পরীক্ষার ১০টি গ্যাপযুক্ত বোর্ড প্যাসেজ সমাধানের চূড়ান্ত কৌশল।",
+  "definitionEn": "Idiomatic article usage encompasses fixed phrases, collocations, and prepositional idioms whose article choice cannot be modified, forming the core of board exam passage tests.",
+  "definitionBn": "ইংরেজি ভাষার অনেক বাঁধাধরা ফ্রেজ ও প্রবাদে নির্দিষ্ট নিয়মের বাইরেও আর্টিকেল নির্ধারিত থাকে। এদের ব্যাকরণিক রূপ অপরিবর্তনীয়।",
+  "explanationBn": "নির্দিষ্ট Articles সহ ফ্রেজ: In a hurry, In a nutshell, In a fix, At a loss, Make a noise, Take an interest in, In the long run, On the contrary, To the point। আর Article বিহীন ফ্রেজ: By train/bus/air, At night, At noon, In fact, On foot, At hand, Out of doors, At home, Face to face।",
+  "teacherGoldenTips": "বোর্ড প্যাসেজের জাদুকরী টেকনিক: প্যাসেজের শুরুতে কোনো অনির্দিষ্ট Noun আসলে প্রথমে \"A\" বা \"An\" বসে। কিন্তু পরবর্তী লাইনে ঐ একই Noun পুনরায় উল্লেখিত হলে তার পূর্বে সর্বদা \"The\" বসে (যেমন: A poor woodcutter lived in a village. One day the woodcutter dropped his axe into the river)!",
+  "mainFormula": "First Reference = A / AN + Noun | Second & Subsequent Reference = THE + Noun",
+  "formulas": [
+    {
+      "label": "First Mention",
+      "structure": "Once there lived A king in a magnificent palace.",
+      "tag": "Indefinite First",
+      "example": "A boy entered the hall."
+    },
+    {
+      "label": "Subsequent Mention",
+      "structure": "THE king was renowned for his wisdom throughout the land.",
+      "tag": "Definite Second",
+      "example": "The boy was carrying a bouquet."
+    },
+    {
+      "label": "Fixed Phrases with \"A/An\"",
+      "structure": "In a hurry, in a nutshell, at a loss, make a noise, take an interest",
+      "tag": "Fixed A/An",
+      "example": "Do not make a noise in the reading room."
+    },
+    {
+      "label": "Fixed Phrases without Article",
+      "structure": "By bus, on foot, in fact, at night, at daybreak, out of order",
+      "tag": "Fixed Cross",
+      "example": "He traveled to Chittagong on foot."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "প্রথম উল্লেখ বনাম পরবর্তী উল্লেখের নিয়ম (The Tracking Rule)",
+      "nameEn": "First Reference vs Subsequent Anaphoric Reference",
+      "formula": "Mention 1 = A / AN + Singular Countable Noun | Mention 2+ = THE + Noun",
+      "shortcutTrick": "গল্পে প্রথমবার আসলে অচেনা (A/An), পরের বার আসলে পরিচিত (The)!",
+      "descriptionBn": "এসএসসি পরীক্ষার গল্পভিত্তিক অনুচ্ছেদে প্রথমবার কোনো ব্যক্তি বা বস্তুর কথা বললে A/An বসে, কিন্তু পরের প্রতিটি বাক্যে তার পূর্বে The বসে।",
+      "examples": [
+        {
+          "en": "I saw an old beggar on the road. The beggar was shivering in the cold.",
+          "bn": "আমি রাস্তায় একজন বৃদ্ধ ভিক্ষুককে দেখলাম। ভিক্ষুকটি শীতে কাঁপছিল।",
+          "note": "প্রথমবার an old beggar, দ্বিতীয়বার the beggar।"
+        },
+        {
+          "en": "He bought a smartphone yesterday. The smartphone has an excellent camera.",
+          "bn": "সে গতকাল একটি স্মার্টফোন কিনল। স্মার্টফোনটির ক্যামেরা চমৎকার।",
+          "note": "a smartphone -> the smartphone।"
+        }
+      ]
+    },
+    {
+      "nameBn": "যাতায়াত মাধ্যম নির্দেশক ফ্রেজে আর্টিকেলের অনুপস্থিতি",
+      "nameEn": "Modes of Transportation with \"By\"",
+      "formula": "BY + (x) + bus / car / train / boat / plane / air / sea",
+      "shortcutTrick": "By-র পরে যানবাহনের মাঝে কোনো আর্টিকেল বসবে না!",
+      "descriptionBn": "He came by bus (NOT by a bus or by the bus)। তবে on a bus বা in a car ব্যবহার করা যেতে পারে।",
+      "examples": [
+        {
+          "en": "We went to Cox's Bazar by train.",
+          "bn": "আমরা ট্রেনে করে কক্সবাজার গিয়েছিলাম।",
+          "note": "by train (No article)।"
+        },
+        {
+          "en": "He travels to his office on foot everyday.",
+          "bn": "সে প্রতিদিন পায়ে হেঁটে তার অফিসে যায়।",
+          "note": "on foot (No article)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Why are you in such a hurry this morning?",
+      "bn": "আজ সকালে তুমি এত তাড়াহুড়োয় আছ কেন?",
+      "note": "in a hurry (বাঁধাধরা ফ্রেজ)।"
+    },
+    {
+      "en": "The students made a noise when the teacher left.",
+      "bn": "শিক্ষক চলে যেতেই শিক্ষার্থীরা গোলমাল করল।",
+      "note": "make a noise।"
+    },
+    {
+      "en": "Honesty pays in the long run.",
+      "bn": "সততার ফল শেষ পর্যন্ত ভালোই হয়।",
+      "note": "in the long run।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "যানবাহনের আগে Possessive বা Specific Adjective থাকলে In/On বসে",
+      "exceptionText": "যদি যানবাহনের আগে my, his বা কোনো বিশেষণ থাকে তবে \"by\" না বসে \"in\" বা \"on\" বসে এবং আর্টিকেল বসতে পারে (In my car, On the 8 o'clock train).",
+      "exampleEn": "He arrived in a luxurious black car.",
+      "exampleBn": "সে একটি বিলাসবহুল কালো গাড়িতে চড়ে আসল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Do not make noise.",
+      "correct": "Do not make a noise.",
+      "reasonBn": "\"Make a noise\" একটি নির্ধারিত ইডিয়ামিক ফ্রেজ।"
+    },
+    {
+      "mistake": "He went there by the bus.",
+      "correct": "He went there by bus.",
+      "reasonBn": "By-এর পর সরাসরি বাহনের নাম বসে, কোনো আর্টিকেল বসে না।"
+    }
+  ],
+  "tags": [
+    "idiomatic articles",
+    "fixed phrases",
+    "in a hurry",
+    "make a noise",
+    "by bus",
+    "story tracking rule",
+    "ssc board exam"
+  ],
+  "mcqs": [
+    {
+      "id": 90501,
+      "question": "When the teacher entered, he found the students in _____ hurry to leave the room.",
+      "questionBn": "\"When the teacher entered, he found the students in _____ hurry to leave the room\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "a",
+        "an",
+        "the",
+        "no article (x)"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"In a hurry\" একটি বাঁধা ইডিয়ামিক ফ্রেজ, তাই \"a\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 90502,
+      "question": "He usually travels to his village home _____ train.",
+      "questionBn": "\"He usually travels to his village home _____ train\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "by the",
+        "by a",
+        "by",
+        "on the"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "যাতায়াত মাধ্যম হিসেবে \"by train\"-এর মাঝে কোনো আর্টিকেল বসে না।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 90501,
+      "type": "SSC Board Passage Article Drill",
+      "prompt": "Fill in the blanks with articles or cross (x): \"Patriotism is (a) _____ noble virtue. (b) _____ man who loves his motherland is called (c) _____ patriot.\"",
+      "correctAnswer": "(a) a, (b) The, (c) a",
+      "explanationBn": "(a) অনির্দিষ্ট গুণ বোঝাতে a, (b) যিনি ভালোবাসেন নির্দিষ্ট করায় The, (c) একজন দেশপ্রেমিক বোঝাতে a।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 90501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "SSC English 2nd Paper Question 1 (Article Passage Drill):",
+      "subQuestions": [
+        {
+          "questionText": "Fill in: \"An honest man is respected by all. He never tells (a) _____ lie. He always speaks (b) _____ truth.\"",
+          "answer": "(a) a, (b) the.",
+          "explanationBn": "Tell a lie এবং Speak the truth দুটি প্রচলিত ব্যাকরণিক ফ্রেজ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি বোর্ড পরীক্ষায় এই লাইন দুটি প্রায় প্রতিটি বোর্ডে কোনো না কোনো বছর এসেছে।",
+      "isVerified": true
+    }
+  ]
+},
+  'zero-article-omission-rules': {
+  "id": 904,
+  "chapterId": 9,
+  "topicNo": "০৪",
+  "titleEn": "Zero Article & Omission of Articles (Cross/x Rules)",
+  "titleBn": "আর্টিকেল বর্জনের নিয়মাবলী বা জিরো আর্টিকেল (Zero Article / Cross)",
+  "slug": "zero-article-omission-rules",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষায় \"x\" (Cross) ব্যবহারের সুনির্দিষ্ট নিয়ম। সাধারণ অর্থে Abstract ও Material Noun, খেলাধুলা, খাবার, ভাষা, রোগ ও প্রতিষ্ঠান যখন নিজস্ব উদ্দেশ্যে ব্যবহৃত হয়।",
+  "definitionEn": "Zero article refers to the omission of any article before specific classes of nouns, including proper nouns, plural count nouns in generic senses, mass nouns, meals, sports, and institutional places visited for primary purposes.",
+  "definitionBn": "যেসব ক্ষেত্রে কোনো প্রকার Article (A, An, The) বসে না বরং ক্রস (x) ব্যবহার করতে হয় তাকে Zero Article বা Omission of Articles বলে।",
+  "explanationBn": "কোন কোন ক্ষেত্রে আর্টিকেল বসে না: ১. সাধারণ অর্থে গুণ বা পদার্থবাচক বিশেষ্য (Gold is precious, Honesty is the best policy), ২. খেলাধুলার নাম (Cricket, Football), ৩. ভাষার নাম (Bengali, English — তবে English language বললে The বসে), ৪. খাবারের সময় (Breakfast, Lunch, Dinner), ৫. রোগের নাম (Cancer, Cholera, Fever), ৬. School, College, Hospital, Bed, Mosque, Temple, Prison — যখন এদের মূল উদ্দেশ্যে যাওয়া হয় (যেমন: He went to school = সে পড়তে গেছে; কিন্তু He went to the school to meet the headmaster = সে সাক্ষাতের উদ্দেশ্যে গেছে)।",
+  "teacherGoldenTips": "স্কুল-কলেজ-হাসপাতালের গোল্ডেন ট্রিক: শিক্ষার্থী স্কুলে গেলে No Article (He goes to school)! অভিভাবক স্কুলে গেলে The (Father went to the school)! রোগী হাসপাতালে গেলে No Article (He is in hospital)! কিন্তু রোগীকে দেখতে গেলে The (I went to the hospital to see him)!",
+  "mainFormula": "NO ARTICLE (x) + Sports / Diseases / Meals / Languages / General Abstract & Material Nouns / Primary Institutional Purpose",
+  "formulas": [
+    {
+      "label": "Sports & Games",
+      "structure": "Play + (x) + cricket / football / chess",
+      "tag": "No Sports Article",
+      "example": "We play cricket in the afternoon."
+    },
+    {
+      "label": "Languages",
+      "structure": "Speak / learn + (x) + English / Bengali / Arabic",
+      "tag": "No Language Article",
+      "example": "He speaks English fluently."
+    },
+    {
+      "label": "The + Language Exception",
+      "structure": "THE + English / French + Language OR = Nationality",
+      "tag": "People/Language Word",
+      "example": "The English are industrious (The English = ইংরেজ জাতি)."
+    },
+    {
+      "label": "Daily Meals",
+      "structure": "Have + (x) + breakfast / lunch / dinner",
+      "tag": "No Meal Article",
+      "example": "We have breakfast at 8 AM."
+    },
+    {
+      "label": "Primary Purpose",
+      "structure": "Go to + (x) + school / college / mosque / hospital",
+      "tag": "Primary Use",
+      "example": "Muslims go to mosque to pray."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ভাষার নাম বনাম জাতির নামের পার্থক্য",
+      "nameEn": "Language (Zero Article) vs Nationality (The)",
+      "formula": "Language name = NO ARTICLE (x) | THE + Language = The People / Nationality",
+      "shortcutTrick": "ভাষা একা বসলে নো আর্টিকেল; আর The বসলে তা সেই দেশের মানুষকে বোঝায়!",
+      "descriptionBn": "English মানে ইংরেজি ভাষা (No article)। কিন্তু \"The English\" মানে ইংরেজ জাতি (Plural Noun)।",
+      "examples": [
+        {
+          "en": "English is spoken all over the world (Language).",
+          "bn": "ইংরেজি বিশ্বজুড়ে বলা হয়।",
+          "note": "ভাষার নাম হওয়ায় No article।"
+        },
+        {
+          "en": "The English are fond of drinking tea (The People).",
+          "bn": "ইংরেজরা চা পান করতে ভালোবাসে।",
+          "note": "The English মানে ইংরেজ জাতি।"
+        }
+      ]
+    },
+    {
+      "nameBn": "প্রতিষ্ঠানে মূল উদ্দেশ্য বনাম অন্য উদ্দেশ্যে গমনাগমন",
+      "nameEn": "Primary vs Secondary Institutional Purpose",
+      "formula": "Primary Purpose = NO ARTICLE (x) | Secondary/Visitor Purpose = THE",
+      "shortcutTrick": "চিকিৎসার জন্য হাসপাতালে গেলে ক্রস (x); কিন্তু রোগী দেখতে বা ভিজিটর হিসেবে গেলে The!",
+      "descriptionBn": "He was sent to prison for robbery (অপরাধী হিসেবে মূল উদ্দেশ্য, তাই No article)। His lawyer went to the prison to meet him (ভিজিটর হিসেবে, তাই The)।",
+      "examples": [
+        {
+          "en": "The injured passengers were taken to hospital (Treatment).",
+          "bn": "আহত যাত্রীদের চিকিৎসার জন্য হাসপাতালে নেওয়া হলো।",
+          "note": "মূল চিকিৎসার্থে hospital (No article)।"
+        },
+        {
+          "en": "I went to the hospital to visit my ailing friend (Visitor).",
+          "bn": "আমি আমার অসুস্থ বন্ধুকে দেখতে হাসপাতালে গিয়েছিলাম।",
+          "note": "ভিজিটর হিসেবে যাওয়ায় the hospital।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Cricket is the most popular sport in Bangladesh.",
+      "bn": "ক্রিকেট বাংলাদেশে সবচেয়ে জনপ্রিয় খেলা।",
+      "note": "খেলার নাম হওয়ায় No article (x)।"
+    },
+    {
+      "en": "Gold is a precious yellow metal.",
+      "bn": "স্বর্ণ একটি মূল্যবান হলুদ ধাতু।",
+      "note": "সাধারণ অর্থে Material Noun, তাই No article।"
+    },
+    {
+      "en": "We usually take dinner at 9 PM.",
+      "bn": "আমরা সাধারণত রাত ৯টায় রাতের খাবার খাই।",
+      "note": "খাবারের নাম dinner-এর পূর্বে No article।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "নির্দিষ্ট ভোজ বা ডিনারের পূর্বে The বা A বসে",
+      "exceptionText": "যদি কোনো সাধারণ ভোজ না হয়ে নির্দিষ্ট কোনো আয়োজন বা পার্টি বোঝায়, তবে meals-এর পূর্বেও Article বসে (e.g. The dinner given by the ambassador was lavish / A formal dinner)।",
+      "exampleEn": "The dinner hosted by the chairman was memorable.",
+      "exampleBn": "চেয়ারম্যানের দেওয়া নৈশভোজটি স্মরণীয় ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He speaks the English very well.",
+      "correct": "He speaks English very well.",
+      "reasonBn": "ভাষার নামের পূর্বে The বসে না; The English বললে ইংরেজ জাতিকে বোঝায়।"
+    },
+    {
+      "mistake": "He plays the football everyday.",
+      "correct": "He plays football everyday.",
+      "reasonBn": "খেলাধুলার নামের পূর্বে কোনো আর্টিকেল বসে না।"
+    }
+  ],
+  "tags": [
+    "zero article",
+    "omission of articles",
+    "cross in ssc",
+    "english language vs the english",
+    "primary purpose hospital",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 90401,
+      "question": "He can speak _____ French as fluently as a native speaker.",
+      "questionBn": "\"He can speak _____ French as fluently as a native speaker\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "the",
+        "a",
+        "an",
+        "No article (x)"
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "ভাষার নাম হিসেবে \"French\"-এর পূর্বে কোনো আর্টিকেল বসবে না (No article / x)।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 90402,
+      "question": "The injured pedestrian was rushed to _____ hospital for urgent treatment.",
+      "questionBn": "\"The injured pedestrian was rushed to _____ hospital for urgent treatment\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "the",
+        "a",
+        "an",
+        "No article (x)"
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "আহত ব্যক্তির চিকিৎসার জন্য মূল উদ্দেশ্যে হাসপাতালে যাওয়ায় কোনো আর্টিকেল বসবে না (to hospital)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 90401,
+      "type": "Zero Article or The",
+      "prompt": "Fill in the blanks: (a) _____ English ruled our country for two centuries, but we must learn (b) _____ English for global careers.",
+      "correctAnswer": "(a) The, (b) No article (x)",
+      "explanationBn": "(a) ইংরেজ জাতি বোঝাতে The, (b) ইংরেজি ভাষা বোঝাতে No article।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 90401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Omission of articles in SSC Board passage blanks:",
+      "subQuestions": [
+        {
+          "questionText": "Under what conditions do we put a cross (x) in the SSC article question?",
+          "answer": "Before proper nouns, languages, sports, diseases, routine meals, and general abstract/material nouns not limited by prepositional phrases.",
+          "explanationBn": "এসএসসি পরীক্ষার ক্রস বা জিরো আর্টিকেলের সার্বিক ক্ষেত্রসমূহ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ইংরেজি ২য় পত্রের ১ নম্বর প্রশ্নে গড়ে ৩-৪টি ক্রস (x) বসাতে হয়।",
+      "isVerified": true
+    }
+  ]
+},
+  'article-the-special-syntactic-rules': {
+  "id": 903,
+  "chapterId": 9,
+  "topicNo": "০৩",
+  "titleEn": "Special Syntactic Uses of \"The\": Superlatives, Ordinals & Adjectives as Nouns",
+  "titleBn": "\"The\"-এর বিশেষ ব্যাকরণিক নিয়ম: সুপারলেটিভ, ক্রম ও সমগ্র জাতি",
+  "slug": "article-the-special-syntactic-rules",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Superlative Degree, Ordinal Numbers (The first, The second), সমগ্র শ্রেণি প্রকাশে Adjective-এর পূর্বে The (The poor, The rich) এবং বাদ্যযন্ত্র ও তুলনামূলক কাঠামোয় The-এর বিশেষ ব্যবহার।",
+  "definitionEn": "Syntactic uses of \"The\" include marking superlative adjectives, ordinal numbers, nominalized adjectives designating plural classes, and proportional correlative comparatives.",
+  "definitionBn": "বাক্য গঠনের সুনির্দিষ্ট ব্যাকরণিক প্রয়োজনে (যেমন: সুপারলেটিভ ডিগ্রি, ক্রমবাচক সংখ্যা, সমগ্র শ্রেণি এবং দ্বৈত তুলনা) Definite Article \"The\" ব্যবহৃত হয়।",
+  "explanationBn": "প্রধান চারটি বিশেষ নিয়ম: ১. Superlative Degree-র পূর্বে সর্বদা The বসে (The best boy)। ২. ক্রমবাচক সংখ্যা বা Ordinal-এর পূর্বে The বসে (The first, The second)। ৩. Adjective-এর পূর্বে \"The\" বসালে তা সমগ্র জাতিকে বোঝায় এবং সর্বদা Plural Noun ও Plural Verb গ্রহণ করে (যেমন: The rich are not always happy, NOT is)। ৪. বাদ্যযন্ত্র বাজানো বোঝাতে Play-র পরে The বসে (He plays the guitar)।",
+  "teacherGoldenTips": "সমগ্র জাতির জাদুকরী রুল: The poor, The rich, The pious, The brave — এদের সাথে কখনো s যুক্ত হয় না (The poors ভুল) এবং এরা সর্বদা Plural Verb নেয় (The poor are helpless)!",
+  "mainFormula": "THE + Superlative Degree | THE + Ordinal Number | THE + Adjective = PLURAL NOUN + Plural Verb | THE + Musical Instrument (with play)",
+  "formulas": [
+    {
+      "label": "Superlative Degree",
+      "structure": "THE + Superlative Adjective (best, tallest, most beautiful)",
+      "tag": "Superlative",
+      "example": "He is the brightest student in our school."
+    },
+    {
+      "label": "Ordinal Numbers",
+      "structure": "THE + First, Second, Third, Next, Last",
+      "tag": "Ordinal",
+      "example": "He secured the first position in the contest."
+    },
+    {
+      "label": "Adjective as Plural Class",
+      "structure": "THE + [Adjective] + PLURAL VERB (are / were / have)",
+      "tag": "Plural Class",
+      "example": "The virtuous are blessed by Almighty."
+    },
+    {
+      "label": "Musical Instruments",
+      "structure": "Play + THE + (flute / violin / piano / guitar)",
+      "tag": "Musical",
+      "example": "She plays the piano exquisitely."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "The + Adjective যোগে বহুবচন বিশেষ্য গঠন",
+      "nameEn": "Nominalized Adjectives with \"The\" (Plural Concord)",
+      "formula": "THE + Adjective = Plural Class of People + PLURAL VERB (are/were/have)",
+      "shortcutTrick": "The rich মানে সব ধনী মানুষ, The poor মানে সব গরিব মানুষ; এদের সাথে Verb সর্বদা Plural হবে!",
+      "descriptionBn": "The rich is not always happy বলা মারাত্মক ভুল; বলতে হবে \"The rich are not always happy\"।",
+      "examples": [
+        {
+          "en": "The poor lead a very miserable life during winter.",
+          "bn": "শীতকালে গরিবরা অত্যন্ত মানবেতর জীবনযাপন করে।",
+          "note": "The poor বহুবচন হওয়ায় lead (V1)।"
+        },
+        {
+          "en": "The brave do not fear death.",
+          "bn": "সাহসীরা মৃত্যুকে ভয় পায় না।",
+          "note": "The brave + do not (Plural)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "বাদ্যযন্ত্র বাজানো বনাম কেনা/মালিকানার পার্থক্য",
+      "nameEn": "Musical Instruments: Playing vs Buying",
+      "formula": "Play / Listen to + THE + Instrument | Buy / Own + A / AN + Instrument",
+      "shortcutTrick": "বাজালে The, আর কিনলে A!",
+      "descriptionBn": "He can play the harmonium (বাজানো বোঝানোয় The)। কিন্তু He bought a harmonium yesterday (একটি বাদ্যযন্ত্র কেনা বোঝানোয় A)।",
+      "examples": [
+        {
+          "en": "My sister learns to play the guitar.",
+          "bn": "আমার বোন গিটার বাজানো শিখছে।",
+          "note": "বাজানো অর্থে the guitar।"
+        },
+        {
+          "en": "Father presented me a beautiful guitar on my birthday.",
+          "bn": "বাবা আমার জন্মদিনে একটি সুন্দর গিটার উপহার দিলেন।",
+          "note": "একটি বস্তু বোঝানোয় a guitar।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The more you read, the more you learn.",
+      "bn": "তুমি যত পড়বে, তত শিখবে।",
+      "note": "Double comparative-এ উভয় পাশেই The।"
+    },
+    {
+      "en": "February is the second month of the year.",
+      "bn": "ফেব্রুয়ারি বছরের দ্বিতীয় মাস।",
+      "note": "Ordinal \"second\"-এর পূর্বে The।"
+    },
+    {
+      "en": "Kazi Nazrul Islam is the national poet of Bangladesh.",
+      "bn": "কাজী নজরুল ইসলাম বাংলাদেশের জাতীয় কবি।",
+      "note": "the national poet (নির্দিষ্ট পদবি)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Most যখন \"খুব/অত্যন্ত\" বোঝায় তখন A বসে",
+      "exceptionText": "Most যখন Superlative Degree না বুঝিয়ে \"very\" বা অত্যন্ত বোঝায়, তখন তার পূর্বে \"The\" না বসে \"A\" বসে! যেমন: \"This is a most interesting story\" (= a very interesting story)।",
+      "exampleEn": "He delivered a most informative lecture yesterday.",
+      "exampleBn": "তিনি গতকাল একটি অত্যন্ত তথ্যবহুল বক্তৃতা দিলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The poors are neglected in society.",
+      "correct": "The poor are neglected in society.",
+      "reasonBn": "The poor নিজেই বহুবচন; এর সাথে \"s\" যুক্ত করা ব্যাকরণগত মারাত্মক ভুল।"
+    },
+    {
+      "mistake": "He is tallest boy in class.",
+      "correct": "He is the tallest boy in class.",
+      "reasonBn": "Superlative degree-র পূর্বে অবশ্যই The বসবে।"
+    }
+  ],
+  "tags": [
+    "the superlative",
+    "the poor are",
+    "the rich are",
+    "play the guitar",
+    "double the",
+    "a most interesting",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 90301,
+      "question": "Choose the grammatically correct sentence regarding \"The + Adjective\":",
+      "questionBn": "\"The + Adjective\" নিয়মের আলোকে ব্যাকরণগতভাবে সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "The virtuous is always rewarded.",
+        "The virtuous are always rewarded.",
+        "The virtuouses are always rewarded.",
+        "The virtuous has always rewarded."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The virtuous\" সমগ্র ধার্মিক জাতিকে নির্দেশ করায় এটি Plural Noun হিসেবে Plural Verb \"are\" গ্রহণ করে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 90302,
+      "question": "She plays _____ piano beautifully every evening.",
+      "questionBn": "\"She plays _____ piano beautifully every evening\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "a",
+        "an",
+        "the",
+        "no article"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "বাদ্যযন্ত্র বাজানো প্রকাশ করতে এর পূর্বে Definite Article \"the\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 90301,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"The blinds needs our sympathy and assistance.\"",
+      "correctAnswer": "The blind need our sympathy and assistance.",
+      "explanationBn": "The blind নিজেই বহুবচন এবং Plural Verb \"need\" গ্রহণ করে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 90301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Superlative and Plural generic Adjective syntax rules:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"He is best player in team and he loves to play violin.\"",
+          "answer": "He is the best player in the team and he loves to play the violin.",
+          "explanationBn": "সুপারলেটিভ এবং বাদ্যযন্ত্র উভয় ক্ষেত্রেই \"the\" আবশ্যক।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার আর্টিকেল প্যাসেজের নিয়মিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'article-the-definite-usage': {
+  "id": 902,
+  "chapterId": 9,
+  "topicNo": "০২",
+  "titleEn": "Definite Article \"The\": Geographic, Celestial & Cultural Rules",
+  "titleBn": "সুনির্দিষ্ট পদাশ্রিত নির্দেশক \"The\": ভৌগোলিক, মহাজাগতিক ও সাংস্কৃতিক নিয়ম",
+  "slug": "article-the-definite-usage",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "নদী, সাগর, মহাসাগর, পর্বতমালা, দ্বীপপুঞ্জ, মরুভূমি, সংবাদপত্র, ধর্মগ্রন্থ, মহাজাগতিক সৃষ্টি ও ঐতিহাসিক স্মৃতিস্তম্ভের নামের পূর্বে \"The\"-এর বাধ্যতামূলক ব্যবহারের পূর্ণাঙ্গ তালিকা।",
+  "definitionEn": "The definite article \"The\" points out a particular person, place, or thing, or uniquely existing natural, geographic, and cultural institutions.",
+  "definitionBn": "কোনো নির্দিষ্ট ব্যক্তি, বস্তু, স্থান বা বিশ্বে এককভাবে বিদ্যমান অনন্য ভৌগোলিক ও প্রাকৃতিক সৃষ্টির পূর্বে Definite Article \"The\" ব্যবহৃত হয়।",
+  "explanationBn": "\"The\" ব্যবহারের প্রধান ক্ষেত্রসমূহ: ১. নদী (The Padma, The Jamuna), ২. সাগর ও মহাসাগর (The Bay of Bengal, The Pacific Ocean), ৩. পর্বতমালা (The Himalayas, The Alps), ৪. দ্বীপপুঞ্জ (The Andamans), ৫. মরুভূমি (The Sahara), ৬. ধর্মগ্রন্থ (The Holy Quran, The Bible), ৭. সংবাদপত্র (The Daily Star, The Prothom Alo), ৮. মহাজাগতিক অনন্য সৃষ্টি (The sun, The moon, The earth, The sky)।",
+  "teacherGoldenTips": "পাহাড় ও দ্বীপের মারাত্মক ফাঁদ: পর্বতমালা (বহুবচন পর্বত) হলে \"The\" বসে (The Himalayas, The Alps)। কিন্তু একটিমাত্র একক পর্বতশৃঙ্গ হলে \"The\" বসে না (Mount Everest, Mount Fuji)! একইভাবে দ্বীপপুঞ্জ হলে \"The\" বসে (The Andamans), কিন্তু একক দ্বীপ হলে \"The\" বসে না (Sandwip, Sri Lanka)!",
+  "mainFormula": "THE + Rivers / Seas / Oceans / Mountain Ranges / Deserts / Holy Books / Newspapers / Unique Celestial Entities",
+  "formulas": [
+    {
+      "label": "Rivers & Water Bodies",
+      "structure": "The + Padma, Meghna, Bay of Bengal, Indian Ocean",
+      "tag": "Waters",
+      "example": "The Padma is a mighty river in Bangladesh."
+    },
+    {
+      "label": "Mountain Ranges",
+      "structure": "The + Himalayas, Alps, Rockies (Plural Ranges)",
+      "tag": "Mountains",
+      "example": "The Himalayas stand like a giant wall."
+    },
+    {
+      "label": "Single Peak Exception",
+      "structure": "NO ARTICLE + Mount Everest, Mount Blanc, Kilimanjaro",
+      "tag": "Single Peak",
+      "example": "Mount Everest is the highest peak (NOT The Mount Everest)."
+    },
+    {
+      "label": "Holy Books & Press",
+      "structure": "The + Quran, Bible, Gita, Daily Star",
+      "tag": "Cultural Press",
+      "example": "He reads the Quran every morning."
+    },
+    {
+      "label": "Geographic Nations",
+      "structure": "The + USA, UK, UAE, Philippines, Netherlands (Plural / Union)",
+      "tag": "Union Nations",
+      "example": "He lives in the United States of America."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পর্বতমালা বনাম একক পর্বতশৃঙ্গের নিয়ম",
+      "nameEn": "Mountain Ranges vs Single Mountain Peaks",
+      "formula": "THE + Mountain Ranges (Himalayas, Alps) | NO ARTICLE (x) + Single Peak (Mount Everest, Fuji)",
+      "shortcutTrick": "নামের আগে \"Mount\" থাকলে কোনো আর্টিকেল বসবে না!",
+      "descriptionBn": "হিমালয় অনেকগুলো পাহাড়ের সমষ্টি হওয়ায় \"The Himalayas\"। কিন্তু এভারেস্ট একটিমাত্র চূড়া হওয়ায় কেবল \"Mount Everest\"।",
+      "examples": [
+        {
+          "en": "The Himalayas are situated to the north of India.",
+          "bn": "হিমালয় ভারতের উত্তরে অবস্থিত।",
+          "note": "পর্বতমালা হওয়ায় The।"
+        },
+        {
+          "en": "Mount Everest was conquered in 1953 (NOT The Mount Everest).",
+          "bn": "মাউন্ট এভারেস্ট ১৯৫৩ সালে জয় করা হয়েছিল।",
+          "note": "একক পর্বতশৃঙ্গ হওয়ায় No Article।"
+        }
+      ]
+    },
+    {
+      "nameBn": "দেশ ও ভৌগোলিক নামের পূর্বে The বসার নিয়ম",
+      "nameEn": "The with Compound and Plural Country Names",
+      "formula": "THE + United / Republic / Kingdom / Plural States (USA, UK, UAE, Netherlands, Philippines)",
+      "shortcutTrick": "দেশের নামের মধ্যে United, Republic, Kingdom থাকলে অথবা বহুবচন (s) থাকলে The বসবে!",
+      "descriptionBn": "সাধারণ দেশের নামের আগে Article বসে না (Bangladesh, India, Japan)। কিন্তু রাষ্ট্রগুলোর সংহতি বা বহুবচন রূপ থাকলে The বসে।",
+      "examples": [
+        {
+          "en": "He is traveling to the United Kingdom next month.",
+          "bn": "সে আগামী মাসে যুক্তরাজ্য ভ্রমণ করছে।",
+          "note": "United Kingdom থাকায় The।"
+        },
+        {
+          "en": "Dhaka is the capital of Bangladesh (NOT the Bangladesh).",
+          "bn": "ঢাকা বাংলাদেশের রাজধানী।",
+          "note": "একক দেশের নামের পূর্বে কোনো আর্টিকেল বসে না।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The sun rises in the east and sets in the west.",
+      "bn": "সূর্য পূর্ব দিকে ওঠে এবং পশ্চিম দিকে অস্ত যায়।",
+      "note": "The sun (অনন্য সৃষ্টি) এবং The east/west (দিক)।"
+    },
+    {
+      "en": "The Titanic was thought to be an unsinkable ship.",
+      "bn": "টাইটানিককে একটি নিমজ্জন-অযোগ্য জাহাজ মনে করা হতো।",
+      "note": "বিখ্যাত জাহাজের নামের পূর্বে The।"
+    },
+    {
+      "en": "The Daily Star is a popular English newspaper in Bangladesh.",
+      "bn": "দ্য ডেইলি স্টার বাংলাদেশে একটি জনপ্রিয় ইংরেজি সংবাদপত্র।",
+      "note": "সংবাদপত্রের নামের পূর্বে The।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "ধর্মগ্রন্থের পূর্বে লেখকের নাম থাকলে \"The\" বসে না",
+      "exceptionText": "ধর্মগ্রন্থ বা মহাকাব্যের পূর্বে যদি রচয়িতার নাম থাকে, তবে \"The\" উঠে যায়। যেমন: Homer's Iliad (The Homer's Iliad নয়)।",
+      "exampleEn": "We are reading Homer's Odyssey in literature class.",
+      "exampleBn": "আমরা সাহিত্য ক্লাসে হোমারের ওডিসি পড়ছি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The Mount Everest is the highest mountain in the world.",
+      "correct": "Mount Everest is the highest mountain in the world.",
+      "reasonBn": "একক পর্বতশৃঙ্গের নামের পূর্বে The বসে না।"
+    },
+    {
+      "mistake": "He lives in USA.",
+      "correct": "He lives in the USA.",
+      "reasonBn": "United States-এর পূর্বে অবশ্যই Definite Article \"The\" বসাতে হবে।"
+    }
+  ],
+  "tags": [
+    "the definite article",
+    "geographic the",
+    "the himalayas",
+    "mount everest exception",
+    "the holy quran",
+    "the usa",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 90201,
+      "question": "_____ Mount Everest is the highest peak in the Himalayas.",
+      "questionBn": "\"_____ Mount Everest is the highest peak in the Himalayas\" শূন্যস্থানে কোন আর্টিকেলটি বসবে?",
+      "options": [
+        "The",
+        "A",
+        "An",
+        "No article (x)"
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Mount Everest একটি একক পর্বতশৃঙ্গ, তাই এর পূর্বে কোনো আর্টিকেল বসে না (No article)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 90202,
+      "question": "He has lived in _____ United States of America for five years.",
+      "questionBn": "\"He has lived in _____ United States of America for five years\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "the",
+        "a",
+        "an",
+        "no article"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"United States\"-এর পূর্বে সর্বদা Definite Article \"the\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 90201,
+      "type": "Fill in with Articles",
+      "prompt": "Fill in the blanks: (a) _____ Pacific Ocean is the deepest, while (b) _____ Sri Lanka is an island.",
+      "correctAnswer": "(a) The, (b) No article (x)",
+      "explanationBn": "মহাসাগরের পূর্বে The বসে, কিন্তু একক দ্বীপরাষ্ট্রের পূর্বে আর্টিকেল বসে না।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 90201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Geographic and celestial uses of Definite Article in SSC passages:",
+      "subQuestions": [
+        {
+          "questionText": "When is \"The\" omitted before sacred books or classical literary epics?",
+          "answer": "When the name of the author or translator precedes the book in the possessive case (e.g. Homer's Iliad, Valmiki's Ramayana).",
+          "explanationBn": "লেখক বা রচয়িতার নাম পূর্বে থাকলে আর্টিকেল বর্জনের নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ফিল ইন দ্য ব্ল্যাংকসের অত্যন্ত জনপ্রিয় ব্যতিক্রমী ফাঁদ।",
+      "isVerified": true
+    }
+  ]
+},
+  'article-a-an-sound-rules': {
+  "id": 901,
+  "chapterId": 9,
+  "topicNo": "০১",
+  "titleEn": "Indefinite Articles: \"A\" vs \"An\" and Phonetic Sound Rules",
+  "titleBn": "অনির্দিষ্ট পদাশ্রিত নির্দেশক: \"A\" ও \"An\"-এর ধ্বনিভিত্তিক নিয়ম",
+  "slug": "article-a-an-sound-rules",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "কোনো অনির্দিষ্ট ব্যক্তি, বস্তু বা প্রাণীর একবচন রূপের পূর্বে A বা An বসে। বর্ণ (Letter) নয়, বরং ধ্বনি বা উচ্চারণের (Sound) ওপর ভিত্তি করে A এবং An নির্বাচনের চূড়ান্ত নিয়মাবলি।",
+  "definitionEn": "An article is a determiner that specifies the definiteness of a noun. \"A\" and \"An\" are indefinite articles used before singular countable nouns, determined entirely by initial phonetic sounds.",
+  "definitionBn": "A, An এবং The-কে ইংরেজি ব্যাকরণে Article (পদাশ্রিত নির্দেশক) বলে। কোনো অনির্দিষ্ট একক ব্যক্তি বা বস্তুকে নির্দেশ করতে Indefinite Article \"A\" বা \"An\" ব্যবহৃত হয়।",
+  "explanationBn": "সবচেয়ে গুরুত্বপূর্ণ মূলনীতি: A বা An নির্বাচনের ক্ষেত্রে অক্ষরের দিকে তাকানো যাবে না, উচ্চারণের দিকে তাকাতে হবে! যদি শব্দের প্রথম উচ্চারণ স্বরধ্বনি (Vowel Sound: অ, আ, ই, এ) হয় তবে \"An\" বসবে (An honest man, An hour)। আর যদি প্রথম উচ্চারণ ব্যঞ্জনধ্বনি (Consonant Sound) অথবা \"ইউ (Yu)\" বা \"ওয়া (Wa)\"-এর মতো হয়, তবে \"A\" বসবে (A university, A European, A one-eyed man)!",
+  "teacherGoldenTips": "ইউ এবং ওয়ার গোল্ডেন রুল: Vowel (E, U, O) থাকা সত্ত্বেও উচ্চারণ যদি \"ইউ (Yu)\"-এর মতো হয় তবে \"A\" বসবে (A university, A European, A unique gift)। আর \"O\"-এর উচ্চারণ যদি \"ওয়া (Wa)\"-এর মতো হয় তবে সর্বদা \"A\" বসবে (A one-taka note, A one-eyed deer)!",
+  "mainFormula": "Initial Vowel Sound = AN | Initial Consonant Sound / \"Yu\" / \"Wa\" Sound = A",
+  "formulas": [
+    {
+      "label": "Standard Consonant Sound",
+      "structure": "A + Consonant Sound (b, c, d, f, g, etc.)",
+      "tag": "A Rule",
+      "example": "A book, a cat, a pen, a girl"
+    },
+    {
+      "label": "Standard Vowel Sound",
+      "structure": "AN + Vowel Sound (a, e, i, o, u sounds)",
+      "tag": "An Rule",
+      "example": "An apple, an elephant, an inkpot, an umbrella"
+    },
+    {
+      "label": "Silent \"H\" Rule",
+      "structure": "AN + Silent H (Honest, Hour, Heir, Honorable)",
+      "tag": "Silent H",
+      "example": "An honest man, an hour ago, an heir to the throne"
+    },
+    {
+      "label": "\"Yu\" Sound Rule",
+      "structure": "A + European, University, Useful, Uniform, Unique",
+      "tag": "Yu Sound",
+      "example": "A university professor, a European country, a useful tool"
+    },
+    {
+      "label": "\"Wa\" Sound Rule",
+      "structure": "A + One-taka note, One-eyed man, One-way road",
+      "tag": "Wa Sound",
+      "example": "A one-taka note, a one-eyed man"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Silent \"H\"-এর কারণে \"An\" বসার নিয়ম",
+      "nameEn": "The Silent \"H\" Rule for \"An\"",
+      "formula": "AN + (Honest / Hour / Heir / Honorable / Honorarium)",
+      "shortcutTrick": "H থাকা সত্ত্বেও উচ্চারণ যদি \"অ\" বা \"আ\" দিয়ে শুরু হয়, তবে An বসবে!",
+      "descriptionBn": "Honest-এর উচ্চারণ \"অনেস্ট\" (H অনুচ্চারিত), Hour-এর উচ্চারণ \"আওয়ার\", Heir-এর উচ্চারণ \"এয়ার\"। তাই এদের পূর্বে সর্বদা \"An\" বসে।",
+      "examples": [
+        {
+          "en": "He is an honest police officer.",
+          "bn": "তিনি একজন সৎ পুলিশ কর্মকর্তা।",
+          "note": "honest-এর H সাইলেন্ট, তাই An।"
+        },
+        {
+          "en": "I waited for an hour at the bus stand.",
+          "bn": "আমি বাসস্ট্যান্ডে এক ঘণ্টা অপেক্ষা করেছিলাম।",
+          "note": "hour-এর H সাইলেন্ট, তাই An।"
+        },
+        {
+          "en": "She is an honorable member of our committee.",
+          "bn": "তিনি আমাদের কমিটির একজন সম্মাননীয় সদস্য।",
+          "note": "honorable-এর পূর্বে An।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সংক্ষিপ্ত পদবি বা ডিগ্রির পূর্বে A বা An নির্বাচনের নিয়ম",
+      "nameEn": "Articles before Abbreviations and Degrees",
+      "formula": "First letter sound = Vowel -> AN (M, F, L, N, R, S, X) | Consonant -> A (B, C, D, P, etc.)",
+      "shortcutTrick": "অক্ষরটির উচ্চারণ মুখে বলুন: \"এম (M)\" বলতে আগে \"এ\" আসে, তাই An M.A.! কিন্তু \"বি (B)\" বলতে ব্যঞ্জনধ্বনি আসে, তাই A B.A.!",
+      "descriptionBn": "সংক্ষিপ্ত রূপের প্রথম বর্ণটি উচ্চারণে স্বরধ্বনি আসলে An এবং ব্যঞ্জনধ্বনি আসলে A বসে।",
+      "examples": [
+        {
+          "en": "His elder brother is an M.B.B.S. doctor (An M-B-B-S).",
+          "bn": "তার বড় ভাই একজন এমবিবিএস ডাক্তার।",
+          "note": "M উচ্চারণে \"এ-ম\", তাই An।"
+        },
+        {
+          "en": "He is an S.P. of police (An S-P).",
+          "bn": "তিনি পুলিশের একজন এসপি।",
+          "note": "S উচ্চারণে \"এ-স\", তাই An।"
+        },
+        {
+          "en": "Mr. Rahim is a B.A. from Dhaka University.",
+          "bn": "জনাব রহিম ঢাকা বিশ্ববিদ্যালয় থেকে বিএ পাস।",
+          "note": "B উচ্চারণে ব্যঞ্জনধ্বনি, তাই A।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He is a European tourist visiting Bangladesh.",
+      "bn": "তিনি একজন ইউরোপীয় পর্যটক যিনি বাংলাদেশ ভ্রমণ করছেন।",
+      "note": "European-এর উচ্চারণ \"ইউ\", তাই A।"
+    },
+    {
+      "en": "He gave me a one-taka coin.",
+      "bn": "সে আমাকে একটি এক টাকার মুদ্রা দিল।",
+      "note": "One-এর উচ্চারণ \"ওয়া\", তাই A।"
+    },
+    {
+      "en": "The boy spotted an eagle flying in the sky.",
+      "bn": "বালকটি আকাশে একটি ঈগল পাখি উড়তে দেখল।",
+      "note": "eagle স্বরধ্বনি হওয়ায় An।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Historical-এর ক্ষেত্রে \"A\" বসে",
+      "exceptionText": "পুরোনো ব্রিটিশ ব্যাকরণে an historical প্রচলিত থাকলেও আধুনিক সার্বজনীন ইংরেজি ব্যাকরণে H স্পষ্ট উচ্চারিত হওয়ায় \"a historical event\" বা \"a hotel\" ব্যবহার আদর্শ।",
+      "exampleEn": "The 7th March speech is a historical address (NOT an historical).",
+      "exampleBn": "৭ই মার্চের ভাষণ একটি ঐতিহাসিক ভাষণ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is a honest man.",
+      "correct": "He is an honest man.",
+      "reasonBn": "Honest-এর H অনুচ্চারিত এবং উচ্চারণ স্বরধ্বনি হওয়ায় An বসবে।"
+    },
+    {
+      "mistake": "She studies in an university.",
+      "correct": "She studies in a university.",
+      "reasonBn": "University-র প্রথম উচ্চারণ \"ইউ (Yu)\" ব্যঞ্জনধ্বনির মতো হওয়ায় \"A\" বসবে।"
+    }
+  ],
+  "tags": [
+    "articles",
+    "indefinite article",
+    "a vs an",
+    "silent h",
+    "an honest man",
+    "a university",
+    "a european",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 90101,
+      "question": "He is _____ M.B.B.S. doctor from Dhaka Medical College.",
+      "questionBn": "\"He is _____ M.B.B.S. doctor from Dhaka Medical College\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "a",
+        "an",
+        "the",
+        "no article"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "M বর্ণটির প্রারম্ভিক উচ্চারণ \"এ-ম\" (স্বরধ্বনি) হওয়ায় এর পূর্বে \"an\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 90102,
+      "question": "We met _____ European traveler during our visit to Sylhet.",
+      "questionBn": "\"We met _____ European traveler during our visit to Sylhet\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "a",
+        "an",
+        "the",
+        "no article"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"European\"-এর প্রথম উচ্চারণ \"ইউ (Yu)\" ব্যঞ্জনধ্বনির মতো হওয়ায় এর পূর্বে \"a\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 90101,
+      "type": "Fill in with A or An",
+      "prompt": "Fill in the blanks: (a) _____ one-eyed sailor, (b) _____ honorable teacher, (c) _____ unique gift.",
+      "correctAnswer": "(a) A, (b) An, (c) A",
+      "explanationBn": "ধ্বনিভিত্তিক আর্টিকেল নির্বাচন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 90101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Phonetic and abbreviation rules of Indefinite Articles in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why we say \"an hour\" but \"a university\".",
+          "answer": "In \"hour\", the initial \"h\" is silent and begins with a vowel sound (au-er), hence taking \"an\". In \"university\", the initial \"u\" sounds like the semi-vowel consonant glide \"yu\", hence taking \"a\".",
+          "explanationBn": "স্বরধ্বনি বনাম ব্যঞ্জনধ্বনির বৈজ্ঞানিক ব্যাখ্যা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার কোয়েশ্চেন ১ ও ২-এর আর্টিকেল আইটেমে এটি সর্বাধিক জিজ্ঞাসিত।",
+      "isVerified": true
+    }
+  ]
+},
+  'rfv-passive-causative-participle': {
+  "id": 805,
+  "chapterId": 8,
+  "topicNo": "০৫",
+  "titleEn": "Right Form of Verbs: Passive Forms, Causatives & Board Passage Mastery",
+  "titleBn": "রাইট ফর্ম অব ভার্বস: কর্মবাচ্য (Passive), প্রযোজক ও বোর্ড প্যাসেজ সমাধান",
+  "slug": "rfv-passive-causative-participle",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার ১০ নম্বরের রাইট ফর্ম অব ভার্বস প্যাসেজে সবচেয়ে বেশি ভুল হয় Active নাকি Passive নির্ধারণে। কর্তাহীন বাক্যে Be + V3, Participle ক্লজ ও পূর্ণাঙ্গ বোর্ড প্যাসেজ ট্রিকস।",
+  "definitionEn": "Passive voice indicates that the grammatical subject is the recipient of the verb's action, constructed using an appropriate form of \"be\" combined with the past participle (V3).",
+  "definitionBn": "বাক্যের Subject যখন নিজে কাজটি সম্পাদন না করে বরং অন্যের দ্বারা কৃত কাজের ফল ভোগ করে, তখন সেই Verb-টিকে Passive Voice (Be + V3) রূপে লিখতে হয়।",
+  "explanationBn": "বোর্ড প্যাসেজে ভুল হওয়ার প্রধান ফাঁদ: \"English (speak) all over the world\" — এখানে English নিজে কথা বলে না, মানুষের দ্বারা বলা হয়; তাই Active (speaks) নয়, Passive (is spoken) হবে! একইভাবে \"A school (establish) in our village last year\" -> \"was established\" হবে।",
+  "teacherGoldenTips": "প্যাসেজের সোনার কাঠি: ব্র্যাকেটের ভার্বটি লেখার আগে নিজেকে প্রশ্ন করুন — \"বাক্যের Subject কি কাজটি নিজে করছে, নাকি তার ওপর কাজটি করা হচ্ছে?\" নিজে করলে Active, অন্যের দ্বারা কৃত হলে Be + V3 (Passive)!",
+  "mainFormula": "Active (Subject performs action) = Tense Form | Passive (Subject receives action) = Appropriate BE + V3",
+  "formulas": [
+    {
+      "label": "Present Simple Passive",
+      "structure": "Subject + am / is / are + V3 (Past Participle)",
+      "tag": "Pres Pass",
+      "example": "Rice is eaten by millions of people."
+    },
+    {
+      "label": "Past Simple Passive",
+      "structure": "Subject + was / were + V3 (Past Participle)",
+      "tag": "Past Pass",
+      "example": "The monument was built in memory of the martyrs."
+    },
+    {
+      "label": "Modal Passive",
+      "structure": "Subject + can / must / should + BE + V3",
+      "tag": "Modal Pass",
+      "example": "Steps should be taken immediately."
+    },
+    {
+      "label": "Participle Clause",
+      "structure": "Having + V3 (Perfect Participle) / V-ing (Present Participle)",
+      "tag": "Reduction",
+      "example": "Having completed the assignment, he went home."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "বোর্ড প্যাসেজে Passive সনাক্তকরণের কৌশল",
+      "nameEn": "Identifying Passive Contexts in Board Passages",
+      "formula": "Inanimate/Recipient Subject + (BE Verb according to tense) + V3",
+      "shortcutTrick": "যদি সাবজেক্ট জড়বস্তু বা কাজটির গ্রহীতা হয়, তবে নিশ্চিতভাবে Passive (Be + V3) বসবে!",
+      "descriptionBn": "শিক্ষা, গাছপালা, ভবন, ভাষা ইত্যাদি Subject হলে বাক্যটি প্রায় সর্বদা Passive Voice-এ থাকে।",
+      "examples": [
+        {
+          "en": "Illiteracy can be eradicated through education (NOT can eradicate).",
+          "bn": "শিক্ষার মাধ্যমে নিরক্ষরতা দূর করা যেতে পারে।",
+          "note": "can be eradicated (Passive)।"
+        },
+        {
+          "en": "Trees are planted during the rainy season.",
+          "bn": "বর্ষাকালে বৃক্ষরোপণ করা হয়।",
+          "note": "are planted (Passive)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Having + V3 (Perfect Participle)-এর ব্যবহার",
+      "nameEn": "The Perfect Participle Construction (Having + V3)",
+      "formula": "HAVING + V3 (Past Participle) + , + Principal Clause",
+      "shortcutTrick": "একটি কাজ পুরোপুরি শেষ করার পর আরেকটি কাজ শুরু করলে Having + V3 বসে!",
+      "descriptionBn": "Having taken his meal, he went to office (খাবার খাওয়ার পর সে অফিসে গেল)।",
+      "examples": [
+        {
+          "en": "Having finished his studies, he entered the business.",
+          "bn": "পড়াশোনা শেষ করে সে ব্যবসায় নামল।",
+          "note": "having finished।"
+        },
+        {
+          "en": "Having heard the alarming news, she fainted.",
+          "bn": "উদ্বেগজনক সংবাদটি শুনে সে মূর্ছা গেল।",
+          "note": "having heard।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "English is spoken as a global language.",
+      "bn": "ইংরেজি একটি বিশ্বভাষা হিসেবে বলা হয়।",
+      "note": "is spoken (Passive)।"
+    },
+    {
+      "en": "The Padma Bridge was constructed with our own funds.",
+      "bn": "পদ্মা সেতু আমাদের নিজস্ব অর্থায়নে নির্মিত হয়েছিল।",
+      "note": "was constructed (Past Passive)।"
+    },
+    {
+      "en": "Strict measures must be taken against price hiking.",
+      "bn": "দ্রব্যমূল্য বৃদ্ধির বিরুদ্ধে কঠোর ব্যবস্থা গ্রহণ করা আবশ্যক।",
+      "note": "must be taken (Modal Passive)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Quasi-Passive Verbs (দেখতে Active কিন্তু অর্থে Passive)",
+      "exceptionText": "কিছু ভার্ব দেখতে Active কিন্তু অর্থে Passive, এদের প্যাসিভ করতে \"when it is/they are\" ব্যবহার করা হয়।",
+      "exampleEn": "Honey tastes sweet (= Honey is sweet when it is tasted). / The book sells well.",
+      "exampleBn": "মধু খেতে মিষ্টি / বইটি ভালো বিক্রি হচ্ছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "English speaks all over the world.",
+      "correct": "English is spoken all over the world.",
+      "reasonBn": "ইংরেজি ভাষা নিজে কথা বলে না, অন্যের দ্বারা বলা হয়; তাই Passive (is spoken) হবে।"
+    },
+    {
+      "mistake": "Having finish the work, he slept.",
+      "correct": "Having finished the work, he slept.",
+      "reasonBn": "Having-এর পরে সর্বদা Verb-এর Past Participle (finished) বসবে।"
+    }
+  ],
+  "tags": [
+    "passive voice right form",
+    "be v3",
+    "having v3",
+    "board passage strategy",
+    "english is spoken",
+    "quasi passive",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 80501,
+      "question": "Many historical monuments in Bangladesh _____ during the Mughal era.",
+      "questionBn": "\"Many historical monuments in Bangladesh _____ during the Mughal era\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "built",
+        "were built",
+        "have built",
+        "are building"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Monuments হলো জড়বস্তু এবং সময়টি অতীত (Mughal era) হওয়ায় Past Simple Passive \"were built\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 80502,
+      "question": "_____ the project on time, the team leader submitted it to the authority.",
+      "questionBn": "\"_____ the project on time, the team leader submitted it to the authority\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Having complete",
+        "Having completed",
+        "Have completed",
+        "Completed having"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "একটি কাজ সম্পন্ন করে অন্যটিতে যাওয়ার ক্ষেত্রে Perfect Participle \"Having completed\" ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 80501,
+      "type": "Passage Drill Right Form of Verb",
+      "prompt": "Fill in the blanks with correct forms: \"Corruption should (a) _____ (curb) immediately. Steps are being (b) _____ (take) by the administration.\"",
+      "correctAnswer": "(a) be curbed, (b) taken",
+      "explanationBn": "উভয় ক্ষেত্রেই Passive Voice প্রযোজ্য।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 80501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Right Form of Verbs passage drill (SSC Board Standard):",
+      "subQuestions": [
+        {
+          "questionText": "Supply right verb forms: \"Traffic jam is a common affair. It (a) _____ (cause) serious problems to commuters. Roads should (b) _____ (widen).\"",
+          "answer": "(a) causes, (b) be widened.",
+          "explanationBn": "(a) সাধারণ সত্য হওয়ায় Present Simple Active, (b) রাস্তা প্রশস্ত করা অন্যের দ্বারা হওয়ায় Modal Passive।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের কোয়েশ্চেন ৫-এর হুবহু বোর্ড ফরম্যাট।",
+      "isVerified": true
+    }
+  ]
+},
+  'rfv-subjunctive-modal-idioms': {
+  "id": 804,
+  "chapterId": 8,
+  "topicNo": "০৪",
+  "titleEn": "Right Form of Verbs: Subjunctive Mood, Had Better, Lest & Mind",
+  "titleBn": "রাইট ফর্ম অব ভার্বস: সাবজাংটিভ মুড, Had better, Lest ও Mind-এর ব্যবহার",
+  "slug": "rfv-subjunctive-modal-idioms",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "পরীক্ষায় শিক্ষার্থীকে বিভ্রান্ত করার মতো বিশেষ কাঠামো: Had better, Would rather, Lest, It is high time, Mind, Cannot help এবং সাবজাংটিভ ভার্বস (Demand, Insist, Recommend, Suggest)।",
+  "definitionEn": "The Subjunctive mood expresses wishes, demands, requirements, or hypothetical conditions, often utilizing base verb forms regardless of person or number.",
+  "definitionBn": "প্রস্তাব, দাবি, প্রয়োজনীয়তা বা শর্ত প্রকাশে ব্যবহৃত বিশেষ ব্যাকরণিক রূপকে Subjunctive Mood বলে। এতে পারসন বা টেন্স নির্বিশেষে Verb-এর Base Form বসে।",
+  "explanationBn": "Subjunctive Verbs: Ask, demand, insist, recommend, suggest, require, urge — এদের পরে \"that + Subject + BASE FORM (V1)\" বসে, কোনো s/es বা modal বসে না (যেমন: The teacher insisted that he BE present, NOT is or was)!",
+  "teacherGoldenTips": "সাবজাংটিভের গোল্ডেন রুল: Suggest/Insist that থাকলে He/She থাকা সত্ত্বেও Verb-এর সাথে কখনো s/es যুক্ত হবে না, সরাসরি Base Form (V1 বা be) বসবে!",
+  "mainFormula": "Subjunctive: Suggest/Insist that + Subject + V1 (Base Form) | Lest + Subject + should + V1",
+  "formulas": [
+    {
+      "label": "Subjunctive Base Rule",
+      "structure": "Insist / Suggest that + Subject + V1 (Base Form without s/es)",
+      "tag": "Subjunctive",
+      "example": "The doctor suggested that he take a rest."
+    },
+    {
+      "label": "Lest Clause Rule",
+      "structure": "Lest + Subject + should / might + V1 (Base Form)",
+      "tag": "Lest Rule",
+      "example": "Study attentively lest you should fail."
+    },
+    {
+      "label": "Cannot help Rule",
+      "structure": "Cannot help + V-ing | Cannot but + V1 (Base Form)",
+      "tag": "Help vs But",
+      "example": "I cannot help laughing. I cannot but laugh."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Subjunctive Verbs-এর পর Base Form বসার নিয়ম",
+      "nameEn": "Mandatory Base Form in Present Subjunctive",
+      "formula": "(Suggest / Demand / Recommend / Insist / Vital / Essential) + THAT + Subject + V1 (Base Form)",
+      "shortcutTrick": "Subject 3rd person singular হলেও ভার্বে s/es বসবে না; মূল রূপ বসবে!",
+      "descriptionBn": "It is essential that every student attend (NOT attends) the assembly.",
+      "examples": [
+        {
+          "en": "The committee recommended that the policy be changed immediately.",
+          "bn": "কমিটি সুপারিশ করল যে নীতিটি অবিলম্বে পরিবর্তন করা হোক।",
+          "note": "be changed (Subjunctive base)।"
+        },
+        {
+          "en": "He demanded that she explain her conduct.",
+          "bn": "সে দাবি করল যে সে তার আচরণের ব্যাখ্যা দিক।",
+          "note": "explain (V1 - no s/es)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Cannot help বনাম Cannot but-এর পার্থক্য",
+      "nameEn": "Cannot Help (-ing) vs Cannot But (V1)",
+      "formula": "CANNOT HELP + V-ing | CANNOT BUT + V1 (Base Form)",
+      "shortcutTrick": "Help থাকলে ing; But থাকলে Base Form!",
+      "descriptionBn": "\"কোনো কিছু না করে পারা যায় না\" বোঝাতে এই দুটি কাঠামো ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "I cannot help feeling sorry for the poor victims.",
+          "bn": "হতভাগ্য বন্যাকবলিতদের জন্য খারাপ না লেগে আমার উপায় নেই।",
+          "note": "cannot help + feeling (V-ing)।"
+        },
+        {
+          "en": "A true patriot cannot but love his motherland.",
+          "bn": "একজন সত্যিকারের দেশপ্রেমিক তার মাতৃভূমিকে ভালো না বেসে পারে না।",
+          "note": "cannot but + love (V1)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "It is vital that he arrive on time tomorrow.",
+      "bn": "আগামীকাল তার যথাসময়ে পৌঁছানো অত্যন্ত জরুরি।",
+      "note": "he arrive (Subjunctive no s/es)।"
+    },
+    {
+      "en": "He ran fast lest he should miss the bus.",
+      "bn": "সে দ্রুত দৌড়াল পাছে সে বাসটি মিস করে।",
+      "note": "lest + should + miss।"
+    },
+    {
+      "en": "Would you mind taking a cup of coffee with me?",
+      "bn": "আপনি কি অনুগ্রহ করে আমার সাথে এক কাপ কফি পান করবেন?",
+      "note": "mind + taking (V-ing)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "God bless you / Long live the King (Formulaic Subjunctive)",
+      "exceptionText": "প্রার্থনা বা আশীর্বাদমূলক অপটেটিভ বাক্যে Subject 3rd Person Singular হলেও Verb-এ s/es বসে না (God bless you, NOT blesses).",
+      "exampleEn": "May Allah help you in this difficult journey.",
+      "exampleBn": "আল্লাহ এই কঠিন যাত্রায় তোমার সহায় হোন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The doctor recommended that he takes rest.",
+      "correct": "The doctor recommended that he take rest.",
+      "reasonBn": "Subjunctive কাঠামোয় Subject He থাকা সত্ত্বেও Base Form \"take\" বসবে।"
+    },
+    {
+      "mistake": "I cannot help but laugh.",
+      "correct": "I cannot help laughing. (or I cannot but laugh)",
+      "reasonBn": "Cannot help-এর সাথে but বসে না; cannot but অথবা cannot help + ing হয়।"
+    }
+  ],
+  "tags": [
+    "subjunctive",
+    "had better",
+    "lest should",
+    "cannot help",
+    "cannot but",
+    "would you mind",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 80401,
+      "question": "The principal suggested that every student _____ punctual in school.",
+      "questionBn": "\"The principal suggested that every student _____ punctual in school\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "is",
+        "be",
+        "was",
+        "are"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Suggested that-এর পর Subjunctive Mood-এ Be verb-এর আদি রূপ \"be\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 80402,
+      "question": "We could not help _____ at his innocent childish remarks.",
+      "questionBn": "\"We could not help _____ at his innocent childish remarks\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "smile",
+        "to smile",
+        "smiling",
+        "smiled"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Could not help\"-এর পরে সর্বদা Gerund হিসেবে \"smiling\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 80401,
+      "type": "Apply Subjunctive Form",
+      "prompt": "Use the correct verb form: \"It is essential that he (finish) the report by noon.\"",
+      "correctAnswer": "finish",
+      "explanationBn": "Subjunctive Mood-এ s/es ছাড়া Base Form \"finish\" বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 80401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Subjunctive requirements and Idiomatic verb rules:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Walk steadily lest _____\"",
+          "answer": "you should stumble on the rough path.",
+          "explanationBn": "Lest + Subject + should + V1 নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার রাইট ফর্ম অব ভার্বসের নিশ্চিত রুলস।",
+      "isVerified": true
+    }
+  ]
+},
+  'rfv-preposition-gerund-infinitive': {
+  "id": 803,
+  "chapterId": 8,
+  "topicNo": "০৩",
+  "titleEn": "Right Form of Verbs: Prepositions, Phrasal Phrases & Gerunds",
+  "titleBn": "রাইট ফর্ম অব ভার্বস: প্রেপজিশন ও ফ্রেজাল শব্দের পর জেরান্ড ও ইনফিনিটিভ",
+  "slug": "rfv-preposition-gerund-infinitive",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Look forward to, With a view to, Be used to, Get used to, In addition to, Preposition + V-ing বনাম সাধারণ To + V1-এর চূড়ান্ত রূপ।",
+  "definitionEn": "Certain prepositional idioms take a gerund (-ing) despite ending in \"to\", while ordinary infinitives take base verb forms.",
+  "definitionBn": "সাধারণত \"to\"-র পরে Verb-এর Base Form (V1) বসে, কিন্তু কিছু নির্দিষ্ট ফ্রেজের শেষে \"to\" থাকা সত্ত্বেও তাদের পরে Verb-এর সাথে ing (Gerund) যুক্ত হয়।",
+  "explanationBn": "যেসব ফ্রেজের পর Verb + ing বসে: Look forward to, With a view to, Be used to, Get used to, Accustomed to, Addicted to, Devoted to, Confess to, Object to, Prefer...to। আর সাধারণ Preposition (In, on, for, of, by, without, after, before)-এর পরে ভার্ব আসলে সর্বদা V-ing হয়।",
+  "teacherGoldenTips": "গোল্ডেন ছক: সাধারণ TO + V1 (Base Form)! কিন্তু ফ্রেজাল TO (Look forward to / With a view to / Be used to) + VERB-ING! আর By + V-ing (হ্যাঁ-বোধক শর্ত) বনাম Without + V-ing (না-বোধক শর্ত)!",
+  "mainFormula": "General TO + V1 | Phrasal TO (with a view to / look forward to) + V-ing | Preposition (by/without/for/of) + V-ing",
+  "formulas": [
+    {
+      "label": "General Infinitive",
+      "structure": "In order to / So as to / Simple To + V1",
+      "tag": "Base Verb",
+      "example": "He went to market to buy a shirt."
+    },
+    {
+      "label": "Phrasal \"To\" + Gerund",
+      "structure": "Look forward to / With a view to / Be used to + V1-ing",
+      "tag": "Takes -ing",
+      "example": "He went there with a view to meeting the manager."
+    },
+    {
+      "label": "By / Without + V-ing",
+      "structure": "By + V-ing (Positive condition) | Without + V-ing (Negative condition)",
+      "tag": "Conditional Part",
+      "example": "By reading attentively, you can pass. Without working hard, you cannot prosper."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "With a view to এবং Look forward to-র নিয়ম",
+      "nameEn": "The \"With a view to\" and \"Look forward to\" Rule",
+      "formula": "(Look forward to / With a view to / Accustomed to / Addicted to) + VERB-ING",
+      "shortcutTrick": "উদ্দেশ্য বা প্রত্যাশা প্রকাশক এই ফ্রেজগুলোতে \"to\" থাকা সত্ত্বেও ing বসবে!",
+      "descriptionBn": "He came here with a view to study বললে ভুল হবে; সঠিক হলো \"with a view to studying\"।",
+      "examples": [
+        {
+          "en": "I am looking forward to receiving your reply.",
+          "bn": "আমি আপনার উত্তরের অপেক্ষায় রইলাম।",
+          "note": "receiving (V-ing) বসেছে।"
+        },
+        {
+          "en": "The government took steps with a view to controlling inflation.",
+          "bn": "মুদ্রাস্ফীতি নিয়ন্ত্রণের উদ্দেশ্যে সরকার পদক্ষেপ গ্রহণ করল।",
+          "note": "controlling বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Used to বনাম Be used to-র পার্থক্য",
+      "nameEn": "Used to (Past Habit) vs Be used to (Accustomed)",
+      "formula": "Subject + USED TO + V1 (অতীতের অভ্যাস) | Subject + (be/get) + USED TO + V-ing (অভ্যস্ততা)",
+      "shortcutTrick": "Used to-র আগে am/is/are/was/were থাকলে ing বসবে; Be verb না থাকলে V1 বসবে!",
+      "descriptionBn": "He used to smoke (সে অতীতে ধূমপান করত - অভ্যাস)। কিন্তু He is used to smoking (সে ধূমপানে অভ্যস্ত - বর্তমানে অভ্যস্ততা)।",
+      "examples": [
+        {
+          "en": "I used to swim in the river when I was young.",
+          "bn": "শৈশবে আমি নদীতে সাঁতার কাটতাম।",
+          "note": "used to + swim (V1)।"
+        },
+        {
+          "en": "He is used to working late at night.",
+          "bn": "সে গভীর রাত পর্যন্ত কাজ করতে অভ্যস্ত।",
+          "note": "is used to + working (V-ing)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He is addicted to gambling.",
+      "bn": "সে জুয়ায় আসক্ত।",
+      "note": "addicted to + Noun/Gerund।"
+    },
+    {
+      "en": "By practicing regularly, you will master English speaking.",
+      "bn": "নিয়মিত অনুশীলনের মাধ্যমে তুমি ইংরেজি বলায় দক্ষ হবে।",
+      "note": "By + practicing (V-ing)।"
+    },
+    {
+      "en": "Without acquiring computer skills, getting a good job is difficult.",
+      "bn": "কম্পিউটার দক্ষতা অর্জন ছাড়া ভালো চাকরি পাওয়া কঠিন।",
+      "note": "Without + acquiring (V-ing)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "In order that / So that-এর পর can/could বসে",
+      "exceptionText": "In order to-র পর Base Form বসলেও In order that বা So that-এর পর Subject + can/could/may/might + V1 বসে।",
+      "exampleEn": "He works hard so that he can succeed in life.",
+      "exampleBn": "সে কঠোর পরিশ্রম করে যাতে সে জীবনে সফল হতে পারে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I look forward to hear from you.",
+      "correct": "I look forward to hearing from you.",
+      "reasonBn": "Look forward to-র পরে Gerund (hearing) বসবে।"
+    },
+    {
+      "mistake": "He is used to wake up early.",
+      "correct": "He is used to waking up early.",
+      "reasonBn": "Be verb + used to-র পরে Verb-ing বসবে।"
+    }
+  ],
+  "tags": [
+    "with a view to",
+    "look forward to",
+    "used to",
+    "be used to",
+    "by working",
+    "without working",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 80301,
+      "question": "He went to the library with a view to _____ rare books on history.",
+      "questionBn": "\"He went to the library with a view to _____ rare books on history\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "borrow",
+        "borrowing",
+        "borrowed",
+        "to borrow"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"With a view to\"-র পরে Verb-এর সাথে সর্বদা ing যোগ হয়ে Gerund রূপ \"borrowing\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 80302,
+      "question": "He is accustomed to _____ in hot and humid weather.",
+      "questionBn": "\"He is accustomed to _____ in hot and humid weather\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "work",
+        "worked",
+        "working",
+        "to work"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Accustomed to\"-র পরে Gerund হিসেবে \"working\" ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 80301,
+      "type": "Right Form of Verb",
+      "prompt": "Use the right form: \"She is not used to (drive) on the left side of the road.\"",
+      "correctAnswer": "driving",
+      "explanationBn": "is not used to (Be used to) থাকায় driving বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 80301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Phrasal prepositions and Gerundial forms in SSC English:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference in verb forms between \"He used to live in Sylhet\" and \"He is used to living in Sylhet\".",
+          "answer": "\"used to live\" denotes a past discontinued habit (takes V1). \"is used to living\" denotes being accustomed to an ongoing condition (takes V-ing).",
+          "explanationBn": "ইউজড টু বনাম বি ইউজড টু-র ব্যাকরণিক পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বস ও ফিল ইন দ্য ব্ল্যাংকসে বহুল চর্চিত নিয়ম।",
+      "isVerified": true
+    }
+  ]
+},
+  'rfv-time-markers-conditionals': {
+  "id": 802,
+  "chapterId": 8,
+  "topicNo": "০২",
+  "titleEn": "Right Form of Verbs: Conditionals (1st, 2nd, 3rd) & Wish Structures",
+  "titleBn": "রাইট ফর্ম অব ভার্বস: শর্তমূলক বাক্য (Conditionals) ও Wish-এর নিয়ম",
+  "slug": "rfv-time-markers-conditionals",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি ও এইচএসসি পরীক্ষার কমপ্লিটিং সেন্টেন্স ও রাইট ফর্মের অপরিহার্য অংশ: Zero, 1st, 2nd ও 3rd Conditional এবং Had + V3 ... would have + V3 এবং Wish / Fancy-র সাবজাংটিভ নিয়ম।",
+  "definitionEn": "Conditional sentences consist of a conditional clause (protasis) expressing a condition and a main clause (apodosis) expressing the consequence across 4 grammatical tiers.",
+  "definitionBn": "যেসব বাক্যে শর্ত সাপেক্ষে কোনো কাজ সম্পন্ন হওয়ার কথা বলা হয় তাদের Conditional Sentence (শর্তমূলক বাক্য) বলে। এর ৪টি পর্যায়: Zero, 1st, 2nd এবং 3rd Conditional।",
+  "explanationBn": "১. 1st Conditional: If + Present Simple, Future Simple (will + V1)। ২. 2nd Conditional: If + Past Simple (V2 বা were), Subject + would / could / might + V1। ৩. 3rd Conditional: If + Past Perfect (had + V3), Subject + would have / could have / might have + V3।",
+  "teacherGoldenTips": "কন্ডিশনালের শর্টকাট সূত্র: V1 থাকলে will + V1! V2 থাকলে would + V1! আর Had + V3 থাকলে would have + V3! ইনভার্সনে If উহ্য থাকলে Had বাক্যের শুরুতে চলে আসে (Had I known, I would have told you)!",
+  "mainFormula": "1st: If + V1 -> will + V1 | 2nd: If + V2/were -> would + V1 | 3rd: If + had + V3 -> would have + V3",
+  "formulas": [
+    {
+      "label": "First Conditional",
+      "structure": "If + Present Simple + , + Subject + will / can / may + V1",
+      "tag": "Probable",
+      "example": "If you work hard, you will succeed."
+    },
+    {
+      "label": "Second Conditional",
+      "structure": "If + Past Simple (V2 / were) + , + Subject + would / could + V1",
+      "tag": "Hypothetical",
+      "example": "If I had enough money, I would buy a laptop."
+    },
+    {
+      "label": "Third Conditional",
+      "structure": "If + Past Perfect (had + V3) + , + Subject + would have + V3",
+      "tag": "Impossible Past",
+      "example": "If you had informed me, I would have helped you."
+    },
+    {
+      "label": "Inverted Third Conditional",
+      "structure": "HAD + Subject + V3 + , + Subject + would have + V3",
+      "tag": "Inverted 3rd",
+      "example": "Had I possessed a car, I would have given you a ride."
+    },
+    {
+      "label": "I Wish / Fancy Rule",
+      "structure": "Subject + wish / fancy + Subject + were / had + V3",
+      "tag": "Wish Unreal",
+      "example": "I wish I were a bird. I wish I could fly."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Third Conditional এবং Inversion-এর নিখুঁত রূপ",
+      "nameEn": "Third Conditional and Inverted Protasis",
+      "formula": "If + S + had + V3, S + WOULD HAVE + V3 | HAD + S + V3, S + WOULD HAVE + V3",
+      "shortcutTrick": "শুরুতে Had থাকলে দ্বিতীয় অংশে নিশ্চিতভাবে \"would have + V3\" বসবে!",
+      "descriptionBn": "অতীতে ঘটে যাওয়া কোনো কাজের অসম্ভব আক্ষেপ প্রকাশ করতে থার্ড কন্ডিশনাল ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "If they had started earlier, they would have caught the train.",
+          "bn": "যদি তারা আরও আগে রওনা হতো, তবে তারা ট্রেনটি ধরতে পারত।",
+          "note": "had started -> would have caught।"
+        },
+        {
+          "en": "Had I seen him, I would have given him the urgent message.",
+          "bn": "যদি আমি তাকে দেখতাম, তবে তাকে জরুরি সংবাদটি দিতাম।",
+          "note": "ইনভার্টেড থার্ড কন্ডিশনাল।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Wish এবং Fancy-র সাথে Were-এর ব্যবহার",
+      "nameEn": "Unreal Past with \"Wish\" and \"Fancy\"",
+      "formula": "Subject + WISH + Subject + WERE (for Be verb) / V2 (for other verbs)",
+      "shortcutTrick": "Wish-এর পর Be verb আসলে সাবজেক্ট যাই হোক না কেন \"were\" বসবে!",
+      "descriptionBn": "অবাস্তব কল্পনা বা অসম্ভব ইচ্ছা প্রকাশ করতে সব পারসনের সাথে \"were\" বসে (I wish I were a king)।",
+      "examples": [
+        {
+          "en": "I wish I were a king (NOT was a king).",
+          "bn": "আমার যদি রাজা হতে ইচ্ছা করত!",
+          "note": "were হলো Subjunctive।"
+        },
+        {
+          "en": "I fancy I turned pale with fright.",
+          "bn": "আমার মনে হয় আমি ভয়ে ফ্যাকাশে হয়ে গেলাম।",
+          "note": "fancy-র পর Past Simple (turned)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "If it rains, we will postpone the football match.",
+      "bn": "যদি বৃষ্টি হয়, আমরা ফুটবল ম্যাচটি স্থগিত করব।",
+      "note": "First conditional (rains -> will postpone)।"
+    },
+    {
+      "en": "If I were you, I would accept the scholarship offer.",
+      "bn": "আমি যদি তোমার জায়গায় হতাম, তবে বৃত্তির প্রস্তাবটি গ্রহণ করতাম।",
+      "note": "Second conditional (were -> would accept)।"
+    },
+    {
+      "en": "If he had studied seriously, he would have achieved GPA 5.",
+      "bn": "যদি সে গুরুত্ব দিয়ে পড়ত, তবে সে জিপিএ-৫ পেত।",
+      "note": "Third conditional (had studied -> would have achieved)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Zero Conditional-এ উভয় অংশেই Present Simple হয়",
+      "exceptionText": "বৈজ্ঞানিক সূত্র বা অপরিবর্তনীয় সত্য শর্তের ক্ষেত্রে প্রধান ক্লজে will বসে না, উভয় অংশেই Present Simple বসে।",
+      "exampleEn": "If you heat ice, it melts (NOT will melt).",
+      "exampleBn": "বরফে তাপ দিলে তা গলে যায়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If I would have known, I would have told you.",
+      "correct": "If I had known, I would have told you.",
+      "reasonBn": "If ক্লজে কখনোই would have বসে না; Past Perfect \"had known\" বসবে।"
+    },
+    {
+      "mistake": "I wish I was a rich man.",
+      "correct": "I wish I were a rich man.",
+      "reasonBn": "Wish-এর পর অবাস্তব কল্পনায় was নয়, \"were\" বসে।"
+    }
+  ],
+  "tags": [
+    "conditionals",
+    "first conditional",
+    "second conditional",
+    "third conditional",
+    "wish were",
+    "had i known",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 80201,
+      "question": "If I had possessed wings, I _____ across the sky.",
+      "questionBn": "\"If I had possessed wings, I _____ across the sky\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "will fly",
+        "would fly",
+        "would have flown",
+        "flew"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "If ক্লজে Past Perfect (had possessed) থাকায় প্রধান ক্লজে 3rd Conditional অনুযায়ী \"would have flown\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 80202,
+      "question": "Complete: \"I wish I _____ the Prime Minister of the country.\"",
+      "questionBn": "\"I wish I _____ the Prime Minister of the country\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "am",
+        "was",
+        "were",
+        "have been"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"I wish\"-এর পর অবাস্তব কল্পনা প্রকাশে সব পারসনের সাথেই Subjunctive \"were\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 80201,
+      "type": "Complete the Conditional Sentence",
+      "prompt": "Complete: \"Had the driver been cautious, _____\"",
+      "correctAnswer": "he would have avoided the tragic accident.",
+      "explanationBn": "Had + V3-এর পরে would have + V3 নিয়ম।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 80201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Conditional sentences and Subjunctive mood in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"If I knew his contact number, _____\"",
+          "answer": "I would call him immediately.",
+          "explanationBn": "Second Conditional: If + V2 (knew) -> would + V1 (would call)।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি কমপ্লিটিং সেন্টেন্সের ৩ নম্বরের নিশ্চিত নিয়মের অন্তর্ভূক্ত।",
+      "isVerified": true
+    }
+  ]
+},
+  'rfv-subject-verb-agreement': {
+  "id": 801,
+  "chapterId": 8,
+  "topicNo": "০১",
+  "titleEn": "Right Form of Verbs: Subject-Verb Agreement & Concord Rules",
+  "titleBn": "রাইট ফর্ম অব ভার্বস: সাবজেক্ট-ভার্ব এগ্রিমেন্টের প্রধান নিয়মাবলী",
+  "slug": "rfv-subject-verb-agreement",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার রাইট ফর্ম অব ভার্বস প্রশ্নের প্রধান স্তম্ভ। As well as, Along with, Either...or, Neither...nor, Not only...but also এবং সমষ্টিবাচক বিশেষ্যের সাথে ক্রিয়ার সঠিক রূপ।",
+  "definitionEn": "Subject-verb agreement requires that a verb match its subject in grammatical number (singular or plural) and grammatical person (first, second, or third).",
+  "definitionBn": "বাক্যের Subject-এর Number ও Person অনুযায়ী সঠিক Verb নির্বাচন করার সার্বজনীন নিয়মকে Subject-Verb Agreement বা Concord বলে।",
+  "explanationBn": "প্রধান দুটি নীতি: ১. As well as, along with, together with, accompanied by, with, in addition to যুক্ত হলে Verb নির্ধারিত হয় ১ম Subject অনুযায়ী (যেমন: The headmaster with the teachers was present, NOT were)। ২. Either...or, Neither...nor, Not only...but also যুক্ত হলে Verb নির্ধারিত হয় নিকটবর্তী (২য়) Subject অনুযায়ী (যেমন: Neither the teacher nor the students were present)!",
+  "teacherGoldenTips": "গোল্ডেন নিয়ম দুটি আলাদা রাখুন: With / As well as থাকলে প্রথম সাবজেক্ট অনুযায়ী ভার্ব! আর Or / Nor / But also থাকলে শেষ সাবজেক্ট (নিকটবর্তী) অনুযায়ী ভার্ব!",
+  "mainFormula": "S1 + as well as / with / along with + S2 -> Verb matches S1 | Either S1 or S2 -> Verb matches S2 (Nearest)",
+  "formulas": [
+    {
+      "label": "As well as Rule",
+      "structure": "Subject 1 + as well as / together with + Subject 2 + Verb (governed by S1)",
+      "tag": "First Subject",
+      "example": "Rahim as well as his brothers is honest."
+    },
+    {
+      "label": "Either...Or Rule",
+      "structure": "Either Subject 1 OR Subject 2 + Verb (governed by S2)",
+      "tag": "Nearest Subject",
+      "example": "Either the captain or the players are responsible."
+    },
+    {
+      "label": "Compound Subject with AND",
+      "structure": "Noun 1 + AND + Noun 2 -> Plural Verb (Unless single idea)",
+      "tag": "And Plural",
+      "example": "Time and tide wait for none. Bread and butter is his staple food."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "As well as / Together with-এর সাথে ১ম সাবজেক্ট অনুযায়ী ভার্ব",
+      "nameEn": "Agreement with \"As well as\", \"Together with\" and \"Along with\"",
+      "formula": "S1 + (as well as / along with / together with / with / accompanied by) + S2 + VERB (governed by S1)",
+      "shortcutTrick": "মাঝের অংশটি বাড়তি কমাযুক্ত তথ্য; আসল কর্তা হলো প্রথমজন!",
+      "descriptionBn": "প্রথম কর্তা Singular হলে Verb Singular হবে, প্রথম কর্তা Plural হলে Verb Plural হবে; দ্বিতীয় কর্তার দিকে তাকানোর কোনো প্রয়োজন নেই।",
+      "examples": [
+        {
+          "en": "The chairman along with his members has attended the seminar.",
+          "bn": "চেয়ারম্যান তার সদস্যদের সাথে নিয়ে সেমিনারে উপস্থিত হয়েছেন।",
+          "note": "chairman (Singular) অনুযায়ী has attended।"
+        },
+        {
+          "en": "The teachers as well as the principal were honored.",
+          "bn": "অধ্যক্ষের পাশাপাশি শিক্ষকবৃন্দকেও সম্মানিত করা হয়েছিল।",
+          "note": "teachers (Plural) অনুযায়ী were honored।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Or / Nor / But also-এর সাথে নিকটবর্তী সাবজেক্ট অনুযায়ী ভার্ব (The Proximity Rule)",
+      "nameEn": "The Proximity Rule with \"Either...or\", \"Neither...nor\"",
+      "formula": "Either S1 or S2 / Neither S1 nor S2 + VERB (governed by the NEAREST subject S2)",
+      "shortcutTrick": "ভার্বের ঠিক বাম পাশের মানুষটি অনুযায়ী রূপ ঠিক করুন!",
+      "descriptionBn": "ভার্বের সবচেয়ে কাছে যে Subject থাকবে, সেই Subject অনুযায়ী Singular বা Plural Verb বসবে।",
+      "examples": [
+        {
+          "en": "Neither the manager nor the clerks were working.",
+          "bn": "ম্যানেজার বা কেরানিদের কেউই কাজ করছিল না।",
+          "note": "clerks (Plural) কাছে থাকায় were।"
+        },
+        {
+          "en": "Neither the clerks nor the manager was working.",
+          "bn": "কেরানিরা বা ম্যানেজার কেউই কাজ করছিল না।",
+          "note": "manager (Singular) কাছে থাকায় was।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Bread and butter is his only breakfast.",
+      "bn": "রুটি ও মাখন তার একমাত্র সকালের নাস্তা।",
+      "note": "একক খাদ্য বোঝানোয় is (Singular)।"
+    },
+    {
+      "en": "Slow and steady wins the race.",
+      "bn": "ধীর ও অবিচল ব্যক্তিই বিজয়ী হয়।",
+      "note": "একক গুণ বোঝানোয় wins (Singular)।"
+    },
+    {
+      "en": "Not only the teacher but also the students were amazed.",
+      "bn": "কেবল শিক্ষকই নন, শিক্ষার্থীরাও বিস্মিত হয়েছিল।",
+      "note": "students নিকটবর্তী হওয়ায় were amazed।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "দূরত্ব, অর্থ ও ওজনের সমষ্টি একবচন হয়",
+      "exceptionText": "দূরত্ব (Distance), সময় (Time) বা অর্থের (Money) সমষ্টি বহুবচন সংখ্যায় থাকলেও সামগ্রিক একক হিসেবে Singular Verb গ্রহণ করে।",
+      "exampleEn": "Fifty miles is a long distance to walk (NOT are). / Ten thousand dollars is a huge sum.",
+      "exampleBn": "পঞ্চাশ মাইল হাঁটার জন্য বেশ দীর্ঘ দূরত্ব।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Rahim as well as his friends are coming.",
+      "correct": "Rahim as well as his friends is coming.",
+      "reasonBn": "As well as থাকলে প্রথম কর্তা \"Rahim\" অনুযায়ী Singular Verb (is) হবে।"
+    },
+    {
+      "mistake": "Fifty miles are not a short distance.",
+      "correct": "Fifty miles is not a short distance.",
+      "reasonBn": "দূরত্বের সামগ্রিক পরিমাপ একবচন হওয়ায় \"is\" বসবে।"
+    }
+  ],
+  "tags": [
+    "right form of verbs",
+    "subject-verb agreement",
+    "as well as",
+    "either or",
+    "neither nor",
+    "bread and butter",
+    "proximity rule",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 80101,
+      "question": "The principal along with all the teachers _____ inspecting the campus.",
+      "questionBn": "\"The principal along with all the teachers _____ inspecting the campus\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "are",
+        "is",
+        "were",
+        "have been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"along with\" দ্বারা যুক্ত হওয়ায় ১ম কর্তা \"The principal\" (Singular) অনুযায়ী Verb হিসেবে \"is\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 80102,
+      "question": "Neither the doctor nor the nurses _____ present in the emergency unit.",
+      "questionBn": "\"Neither the doctor nor the nurses _____ present in the emergency unit\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "has been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Neither...nor\"-এ নিকটবর্তী Subject \"the nurses\" (Plural) অনুযায়ী Plural Verb \"were\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 80101,
+      "type": "Right Form of Verb",
+      "prompt": "Use the correct verb form: \"The politician accompanied by his security guards (arrive) at the venue.\"",
+      "correctAnswer": "arrived (or arrives / has arrived)",
+      "explanationBn": "Accompanied by থাকায় প্রথম কর্তা The politician (Singular) অনুযায়ী ভার্ব নির্ধারিত হবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 80101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Subject-Verb agreement passage drills in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the error: \"Each of the boys along with their parents were invited to the function.\"",
+          "answer": "Each of the boys along with their parents was invited to the function.",
+          "explanationBn": "Each of the boys (Singular) থাকায় Verb \"was\" হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার কোয়েশ্চেন ৫-এর রাইট ফর্ম অব ভার্বসের সর্বাধিক কমন প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'special-tense-rules-clauses': {
+  "id": 706,
+  "chapterId": 7,
+  "topicNo": "০৬",
+  "titleEn": "Special Tense Rules: Sequence of Tense, High Time, Had Better & Lest",
+  "titleBn": "টেন্সের বিশেষ নিয়মাবলী: It is high time, Had better, Lest ও সিকোয়েন্স",
+  "slug": "special-tense-rules-clauses",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি ও এইচএসসি পরীক্ষার সবচেয়ে গুরুত্বপূর্ণ বিশেষ টেন্স নিয়ম: It is time / It is high time (V2), Had better / Would rather (V1), Lest (should+V1), As if / As though (were/had+V3) এবং Sequence of Tense।",
+  "definitionEn": "Special tense rules govern syntactic contexts where typical tense conventions are overridden by idiomatic or subjunctive modal requirements.",
+  "definitionBn": "ইংরেজি ব্যাকরণের কিছু বিশেষ ইডিয়ম এবং ক্লজ কাঠামোর ক্ষেত্রে স্বাভাবিক টেন্সের নিয়ম পরিবর্তিত হয়ে সুনির্দিষ্ট সাবজাংটিভ ও পাস্ট রূপ ধারণ করে, এদের Special Tense Rules বলে।",
+  "explanationBn": "১. It is high time-এর পর Subject থাকলে Verb-এর Past Simple (V2) বসে (যেমন: It is high time we changed our bad habits)। ২. Had better এবং Would rather-এর পর সর্বদা Base Form (V1) বসে। ৩. Lest-এর পর Subject + should + V1 বসে। ৪. As if / As though-এর প্রথম অংশ Present হলে পরের অংশ Past Simple (V2 বা were), আর প্রথম অংশ Past হলে পরের অংশ Past Perfect (had + V3) হয়।",
+  "teacherGoldenTips": "হাই টাইমের গোল্ডেন রুল: \"It is high time\" বা \"It is time\"-এর পরে যদি Subject থাকে তবে নির্দ্বিধায় Past Form (V2) বসাবেন! আর যদি Subject না থাকে তবে Infinitive (to + V1) বসাবেন (যেমন: It is time to study)!",
+  "mainFormula": "It is high time + S + V2 | Had better / Would rather + V1 | Lest + S + should + V1 | As if: Present -> Past (were) / Past -> Past Perfect (had+V3)",
+  "formulas": [
+    {
+      "label": "It is high time",
+      "structure": "It is high time + Subject + V2 (Past Form)",
+      "tag": "High Time",
+      "example": "It is high time we gave up smoking."
+    },
+    {
+      "label": "Had better",
+      "structure": "Subject + had better / would rather + V1 (Base Form)",
+      "tag": "Had Better",
+      "example": "You had better consult a specialist."
+    },
+    {
+      "label": "Lest Formula",
+      "structure": "Clause + LEST + Subject + should / might + V1",
+      "tag": "Lest",
+      "example": "Walk fast lest you should miss the train."
+    },
+    {
+      "label": "As if (Present)",
+      "structure": "Present Simple + AS IF + Past Simple (were / V2)",
+      "tag": "As if Pres",
+      "example": "He talks as if he were a scholar."
+    },
+    {
+      "label": "As if (Past)",
+      "structure": "Past Simple + AS IF + Past Perfect (had + V3)",
+      "tag": "As if Past",
+      "example": "He talked as if he had known everything."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "It is time / It is high time-এর ব্যবহারবিধি",
+      "nameEn": "The \"It is high time\" Construction",
+      "formula": "It is high time + Subject + V2 | It is high time + TO + V1 (without subject)",
+      "shortcutTrick": "Subject থাকলে V2, Subject না থাকলে to + V1!",
+      "descriptionBn": "\"কোনো কাজ করার উপযুক্ত সময় ইতিমধ্যে পার হয়ে গেছে, এখনই চূড়ান্ত পদক্ষেপ নেওয়া উচিত\" বোঝাতে এই কাঠামো ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "It is high time we stopped corruption (With subject -> V2).",
+          "bn": "দুর্নীতি বন্ধ করার এখনই উপযুক্ত সময়।",
+          "note": "stopped (V2) বসেছে।"
+        },
+        {
+          "en": "It is time to start the meeting (Without subject -> to + V1).",
+          "bn": "মিটিং শুরু করার সময় হয়েছে।",
+          "note": "to start বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Sequence of Tense-এর মূল নীতি",
+      "nameEn": "The Principle of Sequence of Tense",
+      "formula": "Principal Clause (Past) -> Subordinate Clause MUST BE PAST (Unless Universal Truth)",
+      "shortcutTrick": "প্রধান অংশ অতীতে থাকলে অধীনস্থ অংশও অতীতেই হবে!",
+      "descriptionBn": "He said that he is ill বলা ভুল; Principal clause \"said\" Past হওয়ায় Subordinate clause হবে \"he was ill\"। তবে চিরন্তন সত্য হলে Present থাকবে।",
+      "examples": [
+        {
+          "en": "He knew that I was coming (NOT am coming).",
+          "bn": "সে জানত যে আমি আসছিলাম।",
+          "note": "knew (Past) -> was coming (Past)।"
+        },
+        {
+          "en": "He believed that the earth moves round the sun.",
+          "bn": "সে বিশ্বাস করত যে পৃথিবী সূর্যের চারদিকে ঘোরে।",
+          "note": "চিরন্তন সত্য হওয়ায় moves অপরিবর্তিত।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "You had better leave this dangerous place immediately.",
+      "bn": "তোমার বরং এই বিপজ্জনক স্থানটি অবিলম্বে ত্যাগ করা উচিত।",
+      "note": "had better + leave (V1)।"
+    },
+    {
+      "en": "He speaks as if he were the leader of the group.",
+      "bn": "সে এমনভাবে কথা বলে যেন সে দলের নেতা।",
+      "note": "as if-এর পরে were (Subjunctive)।"
+    },
+    {
+      "en": "He pretended as though he had not heard the news.",
+      "bn": "সে এমন ভান করল যেন সে খবরটি শোনেনি।",
+      "note": "প্রথম অংশ Past, তাই as though-এর পরে had not heard।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Would rather ... than-এর ব্যবহার",
+      "exceptionText": "Would rather-এর পর Base Verb বসে এবং তুলনা বোঝাতে \"than\"-এর পরও Base Verb বসে।",
+      "exampleEn": "I would rather die than beg (NOT to beg or begging).",
+      "exampleBn": "আমি ভিক্ষা করার চেয়ে বরং মৃত্যুবরণ করব।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "It is high time we change our habits.",
+      "correct": "It is high time we changed our habits.",
+      "reasonBn": "It is high time-এর পর Subject থাকলে Past Form (changed) হবে।"
+    },
+    {
+      "mistake": "You had better to stay at home.",
+      "correct": "You had better stay at home.",
+      "reasonBn": "Had better-এর পর Bare Infinitive (stay) বসে, \"to\" বসে না।"
+    }
+  ],
+  "tags": [
+    "it is high time",
+    "had better",
+    "would rather",
+    "lest",
+    "as if",
+    "as though",
+    "sequence of tense",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70601,
+      "question": "It is high time we _____ our examination preparation seriously.",
+      "questionBn": "\"It is high time we _____ our examination preparation seriously\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "take",
+        "took",
+        "taken",
+        "should take"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"It is high time\"-এর পর Subject (we) থাকায় Verb-এর Past Form \"took\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 70602,
+      "question": "He behaves as if he _____ everything in the world.",
+      "questionBn": "\"He behaves as if he _____ everything in the world\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "knows",
+        "knew",
+        "had known",
+        "has known"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Behaves (Present Simple)-এর পর \"as if\" থাকায় পরবর্তী ক্লজে Past Simple হিসেবে \"knew\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70601,
+      "type": "Complete with High Time",
+      "prompt": "Complete: \"It is high time we _____ (take) necessary steps against air pollution.\"",
+      "correctAnswer": "took",
+      "explanationBn": "It is high time-এর পর Subject থাকায় Past Form \"took\" বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Subjunctive clauses and Special Tense conventions in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"I would rather starve _____\"",
+          "answer": "than steal.",
+          "explanationBn": "Would rather + V1 + than + V1 গঠনরীতি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও এইচএসসি কমপ্লিটিং সেন্টেন্সে এটি অন্যতম ক্লাসিক নিয়ম।",
+      "isVerified": true
+    }
+  ]
+},
+  'future-tenses-mastery': {
+  "id": 705,
+  "chapterId": 7,
+  "topicNo": "০৫",
+  "titleEn": "Future Tenses: Simple, Continuous, Perfect & Time Clauses",
+  "titleBn": "ভবিষ্যৎ কাল: Simple, Continuous, Perfect ও শর্তমূলক বাক্যের নিয়ম",
+  "slug": "future-tenses-mastery",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "ভবিষ্যতের সাধারণ সম্ভাবনা (Future Simple: will + V1), ভবিষ্যতে চলতে থাকা কাজ (Future Continuous: will be + V-ing) এবং ভবিষ্যতের কোনো নির্দিষ্ট সময়ের মধ্যে শেষ হয়ে যাওয়া কাজ (Future Perfect: will have + V3)।",
+  "definitionEn": "Future tenses describe actions that have not yet occurred but will happen later. The Future Perfect designates an event that will be completed before a specified future deadline.",
+  "definitionBn": "ভবিষ্যতে কোনো কাজ সংঘটিত হবে বোঝালে Future Simple হয়। ভবিষ্যতে কোনো কাজ চলতে থাকবে বোঝালে Future Continuous হয়। আর ভবিষ্যতে কোনো নির্দিষ্ট সময়ের পূর্বে কাজ সম্পন্ন হয়ে থাকবে বোঝালে Future Perfect Tense হয়।",
+  "explanationBn": "Future Tense-এর প্রধান সিগন্যাল: Tomorrow, next week/month, in the future, shortly, soon। Future Perfect-এর বিশেষ সিগন্যাল: \"By + future time\" বা \"By this time tomorrow\" (যেমন: By 2030, scientists will have discovered new cures)।",
+  "teacherGoldenTips": "টাইম ক্লজের জাদুকরী রুল: If, When, As soon as, Before, After, Until যুক্ত ক্লজে কখনো Future Tense (will/shall) বসে না; তাদের জায়গায় Present Simple বসে (যেমন: If it rains, we will not go, NOT If it will rain)!",
+  "mainFormula": "Future Simple: S + will + V1 | Future Continuous: S + will be + V1-ing | Future Perfect: S + will have + V3 + BY [time]",
+  "formulas": [
+    {
+      "label": "Future Simple Aff",
+      "structure": "Subject + shall / will + V1 + Object",
+      "tag": "Fut Aff",
+      "example": "We will achieve our academic goals."
+    },
+    {
+      "label": "Future Continuous",
+      "structure": "Subject + will be + V1-ing + Object",
+      "tag": "Fut Cont",
+      "example": "At this time tomorrow, I will be flying to Chittagong."
+    },
+    {
+      "label": "Future Perfect",
+      "structure": "Subject + will have + V3 + by / before + Future Time",
+      "tag": "Fut Perf",
+      "example": "By next Friday, he will have completed the project."
+    },
+    {
+      "label": "Time Clause Rule",
+      "structure": "Conditional/Time Clause (Present Simple) + Main Clause (Future Simple)",
+      "tag": "Clause Tense",
+      "example": "When he arrives, we will start the meeting."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "By + Future Time থাকলে Future Perfect Tense হয়",
+      "nameEn": "The \"By + Future Time\" Rule for Future Perfect",
+      "formula": "BY + Future Time (by tomorrow / by next month / by 2030) = WILL HAVE + V3",
+      "shortcutTrick": "\"By\"-র পরে ভবিষ্যতের কোনো সময় উল্লেখ থাকলে will have + V3 বসবে!",
+      "descriptionBn": "ভবিষ্যতের কোনো নির্দিষ্ট সময়ের পূর্বে কাজ শেষ হয়ে থাকার নিশ্চয়তা দিতে এই নিয়ম ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "By next Monday, I will have finished reading this book.",
+          "bn": "আগামী সোমবারের মধ্যে আমার এই বইটি পড়া শেষ হয়ে থাকবে।",
+          "note": "By next Monday থাকায় will have finished।"
+        },
+        {
+          "en": "By this time tomorrow, they will have reached Sylhet.",
+          "bn": "আগামীকাল এই সময়ের মধ্যে তারা সিলেটে পৌঁছে থাকবে।",
+          "note": "will have reached (V3)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "If বা When ক্লজে Will নিষিদ্ধ (The Present-for-Future Rule)",
+      "nameEn": "Present Simple in Subordinate Future Time Clauses",
+      "formula": "(If / When / As soon as / Unless / Until) + PRESENT SIMPLE, + WILL + V1",
+      "shortcutTrick": "শর্তমূলক ক্লজে কখনোই Will বসবে না; Present Indefinite বসবে!",
+      "descriptionBn": "If you will work hard you will pass বলা ভুল; বলতে হবে \"If you work hard, you will pass\"।",
+      "examples": [
+        {
+          "en": "If he comes, I will go (NOT If he will come).",
+          "bn": "সে আসলে আমি যাব।",
+          "note": "If ক্লজে comes (Present Simple)।"
+        },
+        {
+          "en": "Wait here until I return (NOT until I will return).",
+          "bn": "আমি ফিরে না আসা পর্যন্ত এখানে অপেক্ষা করো।",
+          "note": "until ক্লজে return।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Scientists will find a permanent cure for cancer in the future.",
+      "bn": "বিজ্ঞানীরা ভবিষ্যতে ক্যান্সারের স্থায়ী নিরাময় আবিষ্কার করবেন।",
+      "note": "will find (Future Simple)।"
+    },
+    {
+      "en": "This time next week, we will be celebrating our victory.",
+      "bn": "আগামী সপ্তাহে এই সময়ে আমরা আমাদের বিজয় উদযাপন করতে থাকব।",
+      "note": "will be celebrating (Future Continuous)।"
+    },
+    {
+      "en": "As soon as the bell rings, the students will enter the hall.",
+      "bn": "ঘণ্টা বাজার সাথে সাথেই শিক্ষার্থীরা হলে প্রবেশ করবে।",
+      "note": "rings (Present) + will enter (Future)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Be going to দিয়ে তাৎক্ষণিক বা পূর্বপরিকল্পিত ভবিষ্যৎ",
+      "exceptionText": "যখন কোনো কাজের আলামত এখনই স্পষ্ট দেখা যাচ্ছে বা আগে থেকেই সিদ্ধান্ত চূড়ান্ত, তখন will-এর চেয়ে \"be going to\" বেশি ব্যবহৃত হয়।",
+      "exampleEn": "Look at the dark clouds! It is going to rain.",
+      "exampleBn": "কালো মেঘগুলো দেখো! বৃষ্টি হতে চলেছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If you will come, I will help you.",
+      "correct": "If you come, I will help you.",
+      "reasonBn": "If ক্লজে কখনো will বসে না; Present Simple \"come\" বসবে।"
+    },
+    {
+      "mistake": "By 5 PM tomorrow, I will finish the task.",
+      "correct": "By 5 PM tomorrow, I will have finished the task.",
+      "reasonBn": "By + future time থাকলে Future Perfect (will have finished) হয়।"
+    }
+  ],
+  "tags": [
+    "future simple",
+    "future continuous",
+    "future perfect",
+    "by this time",
+    "if clause present",
+    "be going to",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70501,
+      "question": "By the end of this year, he _____ his graduation from the university.",
+      "questionBn": "\"By the end of this year, he _____ his graduation from the university\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "completes",
+        "will complete",
+        "will have completed",
+        "completed"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"By the end of this year\" ভবিষ্যতের একটি সময়সীমা নির্দেশ করায় Future Perfect \"will have completed\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 70502,
+      "question": "Unless you _____ hard, you will fail in the examination.",
+      "questionBn": "\"Unless you _____ hard, you will fail in the examination\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "will work",
+        "work",
+        "worked",
+        "shall work"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Unless যুক্ত শর্তমূলক ক্লজে Future tense নিষিদ্ধ; তাই Present Simple \"work\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70501,
+      "type": "Complete the Conditional Sentence",
+      "prompt": "Complete the sentence: \"When the rain stops, _____\"",
+      "correctAnswer": "we will go to the playground.",
+      "explanationBn": "When ক্লজে Present Simple এবং প্রধান ক্লজে Future Simple।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Future Perfect and Time Clause constraints in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Why is it incorrect to say: \"If it will rain tomorrow, we will stay at home\"?",
+          "answer": "Because English grammar prohibits modal future auxiliaries (will/shall) in adverbial time and conditional clauses; the present tense must be used instead (\"If it rains tomorrow\").",
+          "explanationBn": "টাইম ক্লজের সার্বজনীন ব্যাকরণিক নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ফার্স্ট ও সেকেন্ড কন্ডিশনালের মূল কাঠামো।",
+      "isVerified": true
+    }
+  ]
+},
+  'past-perfect-and-time-markers': {
+  "id": 704,
+  "chapterId": 7,
+  "topicNo": "০৪",
+  "titleEn": "Past Perfect & Past Perfect Continuous: Before, After & Correlatives",
+  "titleBn": "পুরাঘটিত অতীত কাল: Before, After ও No sooner...than-এর নিয়ম",
+  "slug": "past-perfect-and-time-markers",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "অতীতের দুটি কাজের মধ্যে যেটি আগে ঘটেছিল তা Past Perfect (had + V3) এবং যেটি পরে ঘটেছিল তা Past Simple (V2)। Before, After, No sooner...than, Scarcely...when-এর স্বর্ণালী নিয়মাবলি।",
+  "definitionEn": "Past Perfect designates an action completed prior to another past event. It forms correlative comparative structures with \"Before\", \"After\", \"No sooner...than\", and \"Hardly...when\".",
+  "definitionBn": "অতীতকালে দুটি কাজ সম্পন্ন হয়ে থাকলে তাদের মধ্যে অপেক্ষাকৃত পূর্ববর্তী কাজটি Past Perfect (had + V3) এবং পরবর্তী কাজটি Past Simple (V2) হয়।",
+  "explanationBn": "Before ও After-এর সোনালী সূত্র: \"Before-এর পূর্বে এবং After-এর পরে Past Perfect বসে!\" অর্থাৎ: Past Perfect + BEFORE + Past Simple | Past Simple + AFTER + Past Perfect। এছাড়া No sooner had ... than, Scarcely had ... when, Hardly had ... when এই তিনটিতে প্রথম অংশে had + V3 এবং দ্বিতীয় অংশে Past Simple বসে।",
+  "teacherGoldenTips": "ডাক্তার আসার আগে রোগী মারা গেল: \"The patient had died before the doctor came\" (আগে রোগী মরেছে, তাই had died আগে)। আর ডাক্তার আসার পরে রোগী মারা গেল: \"The patient died after the doctor had come\" (আগে ডাক্তার এসেছে, তাই had come পরে)!",
+  "mainFormula": "Past Perfect (had + V3) + BEFORE + Past Simple | Past Simple + AFTER + Past Perfect (had + V3)",
+  "formulas": [
+    {
+      "label": "Before Rule",
+      "structure": "Had + V3 + BEFORE + V2 (Past Simple)",
+      "tag": "Before Formula",
+      "example": "The train had left before we reached the station."
+    },
+    {
+      "label": "After Rule",
+      "structure": "V2 (Past Simple) + AFTER + Had + V3",
+      "tag": "After Formula",
+      "example": "We reached the station after the train had left."
+    },
+    {
+      "label": "No Sooner...Than",
+      "structure": "No sooner had + S + V3 + THAN + S + V2",
+      "tag": "No Sooner",
+      "example": "No sooner had the bell rung than the students left."
+    },
+    {
+      "label": "Scarcely/Hardly...When",
+      "structure": "Hardly / Scarcely had + S + V3 + WHEN + S + V2",
+      "tag": "Hardly When",
+      "example": "Hardly had I reached home when the rain started."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Before ও After-এর সুনির্দিষ্ট অবস্থান রীতি",
+      "nameEn": "Before and After Clauses",
+      "formula": "HAD + V3 + BEFORE + V2 | V2 + AFTER + HAD + V3",
+      "shortcutTrick": "বিফোরের আগে হ্যাড, আফটারের পরে হ্যাড!",
+      "descriptionBn": "অতীতের প্রাচীনতম কাজটির সাথে সর্বদা \"had + V3\" বসবে। Before থাকলে তা বাক্যের প্রথমে বসে, আর After থাকলে তা বাক্যের পরে বসে।",
+      "examples": [
+        {
+          "en": "The bell had rung before I entered the school.",
+          "bn": "আমি স্কুলে প্রবেশের পূর্বেই ঘণ্টা বেজে গিয়েছিল।",
+          "note": "before-এর আগে had rung।"
+        },
+        {
+          "en": "I entered the school after the bell had rung.",
+          "bn": "ঘণ্টা বাজার পরে আমি স্কুলে প্রবেশ করলাম।",
+          "note": "after-এর পরে had rung।"
+        }
+      ]
+    },
+    {
+      "nameBn": "No sooner ... than-এর ইনভার্সন নিয়ম (Inversion Rule)",
+      "nameEn": "Inversion with \"No sooner ... than\"",
+      "formula": "NO SOONER HAD + Subject + V3 + ... + THAN + Subject + V2",
+      "shortcutTrick": "No sooner-এর পরে Had আসবে এবং দ্বিতীয় অংশে অবশ্যই \"THAN\" (then নয়) বসবে!",
+      "descriptionBn": "বাক্যের শুরুতে নেগেটিভ শব্দ No sooner থাকায় Subject-এর পূর্বে Had বসে (ইনভার্সন)। দ্বিতীয় অংশের ক্লজটি সর্বদা \"than\" দিয়ে শুরু হয়।",
+      "examples": [
+        {
+          "en": "No sooner had the police arrived than the thieves fled.",
+          "bn": "পুলিশ পৌঁছাতে না পৌঁছাতেই চোরেরা পালিয়ে গেল।",
+          "note": "had + arrived ... than + fled (V2)।"
+        },
+        {
+          "en": "Hardly had he seen the tiger when he ran away.",
+          "bn": "বাঘটিকে দেখতে না দেখতেই সে পালিয়ে গেল।",
+          "note": "Hardly-র সাথে when।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "By the time the fire brigade arrived, the house had burnt down.",
+      "bn": "দমকল বাহিনী আসার পূর্বেই বাড়িটি পুড়ে ছাই হয়ে গিয়েছিল।",
+      "note": "By the time-এর সাথে Past Perfect।"
+    },
+    {
+      "en": "Scarcely had the teacher entered the classroom when the students stood up.",
+      "bn": "শিক্ষক ক্লাসরুমে প্রবেশ করতে না করতেই শিক্ষার্থীরা দাঁড়িয়ে পড়ল।",
+      "note": "Scarcely had ... when।"
+    },
+    {
+      "en": "He had been preparing for the competition for months before he won.",
+      "bn": "জয়ের পূর্বে সে কয়েকমাস ধরে প্রতিযোগিতার প্রস্তুতি নিচ্ছিল।",
+      "note": "Past Perfect Continuous।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "As soon as-এর উভয় ক্লজেই Past Simple হয়",
+      "exceptionText": "No sooner had-এর প্রথম অংশে Past Perfect হলেও \"As soon as\"-এর উভয় অংশেই Past Simple (V2) বসে! যেমন: \"As soon as the teacher entered, the students stood up.\"",
+      "exampleEn": "As soon as he saw me, he ran away.",
+      "exampleBn": "সে আমাকে দেখামাত্রই পালিয়ে গেল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The train left before we had reached.",
+      "correct": "The train had left before we reached.",
+      "reasonBn": "Before-এর পূর্বে had + V3 বসবে এবং পরে V2 বসবে।"
+    },
+    {
+      "mistake": "No sooner had I reached then the train left.",
+      "correct": "No sooner had I reached than the train left.",
+      "reasonBn": "No sooner-এর সাথে \"than\" বসে, \"then\" বা \"when\" নয়।"
+    }
+  ],
+  "tags": [
+    "past perfect",
+    "before after",
+    "no sooner than",
+    "hardly when",
+    "scarcely when",
+    "as soon as",
+    "inversion",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70401,
+      "question": "The patient died after the doctor _____ arrived.",
+      "questionBn": "\"The patient died after the doctor _____ arrived\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "has",
+        "had",
+        "was",
+        "had been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"After\"-এর পরে Past Perfect বসে, তাই \"had arrived\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 70402,
+      "question": "No sooner had we reached the examination hall _____ the exam began.",
+      "questionBn": "\"No sooner had we reached the examination hall _____ the exam began\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "when",
+        "then",
+        "than",
+        "before"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"No sooner had\"-এর দ্বিতীয় ক্লজে সর্বদা \"than\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70401,
+      "type": "Complete Sentence with No Sooner",
+      "prompt": "Complete the sentence: \"No sooner had the thief seen the police _____\"",
+      "correctAnswer": "than he ran away.",
+      "explanationBn": "than + Subject + Past Simple (ran away) নিয়মানুযায়ী।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Correlative past conditional clauses in SSC exams:",
+      "subQuestions": [
+        {
+          "questionText": "State the difference in connectives between \"No sooner\" and \"Hardly\".",
+          "answer": "\"No sooner had\" is paired with \"than\", while \"Hardly had\" (and \"Scarcely had\") is paired with \"when\" or \"before\".",
+          "explanationBn": "Than বনাম When-এর নির্ভুল সংযোগ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি কমপ্লিটিং সেন্টেন্সের ৩ নম্বরের নিশ্চিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'past-tense-simple-continuous': {
+  "id": 703,
+  "chapterId": 7,
+  "topicNo": "০৩",
+  "titleEn": "Past Simple & Past Continuous Tenses: While vs When Rules",
+  "titleBn": "সাধারণ অতীত ও ঘটমান অতীত কাল: While ও When-এর নিয়মাবলী",
+  "slug": "past-tense-simple-continuous",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "অতীতের নির্দিষ্ট সময়ে সম্পন্ন হওয়া কাজ (Past Simple: V2) এবং অতীতে কোনো কিছু চলাকালীন অন্য ঘটনা ঘটা (Past Continuous: was/were + V-ing)। While ও When-এর যুগলবন্দি নিয়ম।",
+  "definitionEn": "Past Simple expresses events completed at a specific time in the past. Past Continuous describes actions that were in progress at a particular past moment or interrupted by another shorter action.",
+  "definitionBn": "অতীতকালে কোনো কাজ সম্পূর্ণ হয়েছিল বোঝালে Past Simple (Indefinite) হয়। আর অতীতকালে কোনো কাজ কিছু সময় ধরে চলছিল বোঝালে Past Continuous হয়।",
+  "explanationBn": "Past Simple-এর নির্দিষ্ট সিগন্যাল ওয়ার্ডস: Yesterday, ago, long ago, last night, last year, once, once upon a time, in 1971, the other day। এই শব্দগুলো দেখলেই চোখ বন্ধ করে Past Simple (V2) বসবে। আর While-এর পরে সাধারণত Continuous এবং When-এর পরে সাধারণত Past Simple বসে।",
+  "teacherGoldenTips": "While বনাম When রুল: While + Past Continuous, Past Simple (যেমন: While I was walking, I saw a snake)। আর When + Past Simple, Past Continuous (যেমন: When he came, I was studying)!",
+  "mainFormula": "Past Simple: Subject + V2 + Object | Past Continuous: Subject + was/were + V1-ing",
+  "formulas": [
+    {
+      "label": "Past Simple Aff",
+      "structure": "Subject + V2 (Past Form) + Object",
+      "tag": "Past Aff",
+      "example": "Bangladesh became independent in 1971."
+    },
+    {
+      "label": "Past Simple Neg",
+      "structure": "Subject + did not + V1 (Base Form) + Object",
+      "tag": "Past Neg",
+      "example": "He did not attend the class yesterday."
+    },
+    {
+      "label": "Past Simple Int",
+      "structure": "Did + Subject + V1 + Object?",
+      "tag": "Past Int",
+      "example": "Did you see him yesterday?"
+    },
+    {
+      "label": "While Clause",
+      "structure": "While + Subject + was/were + V1-ing, + Past Simple",
+      "tag": "While Rule",
+      "example": "While she was cooking, the phone rang."
+    },
+    {
+      "label": "While + Direct Verb",
+      "structure": "While + V1-ing (without subject), + Past Simple",
+      "tag": "Direct While",
+      "example": "While walking in the garden, a thorn pricked his foot."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "While-এর পর সরাসরি Subject না থাকলে Verb-ing",
+      "nameEn": "While followed Directly by a Verb",
+      "formula": "While + VERB-ING (no subject) | While + Subject + was/were + VERB-ING",
+      "shortcutTrick": "While-এর পরে Subject থাকলে was/were + ing; Subject না থাকলে সরাসরি ing!",
+      "descriptionBn": "While walking in the garden (সরাসরি ing)। কিন্তু While I was walking in the garden (Subject থাকায় was walking)।",
+      "examples": [
+        {
+          "en": "While walking in the garden, he was bitten by a snake.",
+          "bn": "বাগানে হাঁটার সময় তাকে একটি সাপে দংশন করেছিল।",
+          "note": "While + walking (no subject)।"
+        },
+        {
+          "en": "While he was reading, the lights went out.",
+          "bn": "যখন সে পড়ছিল, তখন বিদ্যুৎ চলে গেল।",
+          "note": "While + he was reading।"
+        }
+      ]
+    },
+    {
+      "nameBn": "অতীতের নির্দিষ্ট সময় নির্দেশক শব্দ (Definite Past Time Markers)",
+      "nameEn": "Definite Past Temporal Anchors",
+      "formula": "(Yesterday / Ago / Long ago / Last / Once / in + Past Year) = ALWAYS PAST SIMPLE (V2)",
+      "shortcutTrick": "এই সিগন্যাল শব্দগুলো থাকলে কখনোই Present Perfect হবে না; অবশ্যই Past Simple (V2) হবে!",
+      "descriptionBn": "He has come yesterday বলা মারাত্মক ভুল; বলতে হবে \"He came yesterday\"।",
+      "examples": [
+        {
+          "en": "I met him three days ago (NOT have met).",
+          "bn": "তিন দিন আগে তার সাথে আমার দেখা হয়েছিল।",
+          "note": "ago থাকায় met (V2)।"
+        },
+        {
+          "en": "My father bought this watch last year.",
+          "bn": "আমার বাবা গত বছর এই ঘড়িটি কিনেছিলেন।",
+          "note": "last year থাকায় bought (V2)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "When the phone rang, I was having dinner.",
+      "bn": "যখন ফোন বেজে উঠেছিল, তখন আমি রাতের খাবার খাচ্ছিলাম।",
+      "note": "When + Simple Past, Past Continuous।"
+    },
+    {
+      "en": "Did you finish your project on time?",
+      "bn": "তুমি কি যথাসময়ে তোমার প্রজেক্ট শেষ করেছিলে?",
+      "note": "Did-এর পর finish (V1)।"
+    },
+    {
+      "en": "He died in 1999.",
+      "bn": "তিনি ১৯৯৯ সালে মৃত্যুবরণ করেছিলেন।",
+      "note": "অতীতের নির্দিষ্ট সাল থাকায় Past Simple।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "As if / As though-এর পর Were বসে",
+      "exceptionText": "Present Tense-এর পরে As if বা As though থাকলে পরবর্তী ক্লজে Past Subjunctive হিসেবে সব পারসনের সাথে \"were\" বসে (He talks as if he were mad)।",
+      "exampleEn": "He speaks as though he knew everything.",
+      "exampleBn": "সে এমনভাবে কথা বলে যেন সে সবকিছু জানত।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He did not went to school yesterday.",
+      "correct": "He did not go to school yesterday.",
+      "reasonBn": "Did not-এর পর সর্বদা Verb-এর Base Form (go) বসবে, went নয়।"
+    },
+    {
+      "mistake": "I have seen him yesterday.",
+      "correct": "I saw him yesterday.",
+      "reasonBn": "Yesterday অতীতের নির্দিষ্ট সময়, তাই Past Simple (saw) হবে।"
+    }
+  ],
+  "tags": [
+    "past simple",
+    "past continuous",
+    "while vs when",
+    "yesterday ago last",
+    "did not base verb",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70301,
+      "question": "While I _____ in the park, I found a lost wallet.",
+      "questionBn": "\"While I _____ in the park, I found a lost wallet\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "walked",
+        "was walking",
+        "am walking",
+        "had walked"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "While-এর পর Subject (I) থাকায় দীর্ঘ চলমান ক্রিয়া হিসেবে Past Continuous \"was walking\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 70302,
+      "question": "The great scientist passed away two centuries _____.",
+      "questionBn": "\"The great scientist passed away two centuries _____\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "since",
+        "before",
+        "ago",
+        "yet"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "অতীতের সুনির্দিষ্ট সময় পরিমাপে বাক্যের শেষে \"ago\" ব্যবহৃত হয় (Two centuries ago)।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70301,
+      "type": "Combine using While",
+      "prompt": "Combine using \"While\": \"Mother was cooking. I entered the kitchen.\"",
+      "correctAnswer": "While mother was cooking, I entered the kitchen.",
+      "explanationBn": "While-এর সাথে Past Continuous এবং অপর অংশে Past Simple।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Interrupted past actions and temporal conjunctions:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the verb form: \"While (cross) the busy road, an old man fell down.\"",
+          "answer": "While crossing the busy road, an old man fell down.",
+          "explanationBn": "While-এর পর সরাসরি Subject না থাকায় Verb-ing (crossing) হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি কমপ্লিটিং সেন্টেন্স ও রাইট ফর্ম অব ভার্বসে অত্যন্ত জনপ্রিয় আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'present-perfect-perfect-continuous': {
+  "id": 702,
+  "chapterId": 7,
+  "topicNo": "০২",
+  "titleEn": "Present Perfect & Perfect Continuous: Since vs For Mastery",
+  "titleBn": "পুরাঘটিত বর্তমান ও পুরাঘটিত ঘটমান: Since বনাম For-এর পূর্ণাঙ্গ নিয়ম",
+  "slug": "present-perfect-perfect-continuous",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "কাজটি শেষ হয়েছে কিন্তু তার ফল এখনো বিদ্যমান (Present Perfect: have/has + V3) বনাম অতীতে শুরু হয়ে এখনো চলছে (Present Perfect Continuous: have/has been + V-ing)। Since এবং For-এর নিখুঁত প্রয়োগ।",
+  "definitionEn": "Present Perfect connects past actions to the present, indicating completed events with current relevance. Present Perfect Continuous emphasizes the ongoing duration of an action initiated in the past and continuing into the present.",
+  "definitionBn": "কোনো কাজ এইমাত্র বা অতীতে শেষ হয়েছে কিন্তু তার ফলাফল এখনো বর্তমান রয়েছে বোঝালে Present Perfect Tense হয়। আর কোনো কাজ অতীতে শুরু হয়ে এখনো পর্যন্ত চলছে বোঝালে Present Perfect Continuous Tense হয়।",
+  "explanationBn": "Present Perfect-এর প্রধান সিগন্যাল ওয়ার্ডস: Just, just now, already, yet, ever, never, lately, recently, so far। আর Present Perfect Continuous-এর চাবিকাঠি হলো \"Since\" (Point of Time: নির্দিষ্ট শুরুর সময়) এবং \"For\" (Period of Time: মোট সময়কাল বা ব্যাপ্তি)।",
+  "teacherGoldenTips": "Since বনাম For-এর ম্যাজিক ফর্মুলা: যদি কাজটি \"কখন থেকে শুরু হয়েছিল\" বলা থাকে (ঘড়ির সময়, বারের নাম, সালের নাম যেমন: Since 2020, Since Monday, Since 7 AM) তবে SINCE! আর যদি \"কতক্ষণ ধরে চলছে\" মোট সংখ্যা বলা থাকে (যেমন: For 2 hours, For 5 days, For 10 years) তবে FOR!",
+  "mainFormula": "Present Perfect: S + have/has + V3 | Perfect Continuous: S + have/has been + V1-ing + SINCE/FOR",
+  "formulas": [
+    {
+      "label": "Present Perfect Aff",
+      "structure": "Subject + have / has + V3 (Past Participle) + Object",
+      "tag": "Perf Aff",
+      "example": "I have completed my homework."
+    },
+    {
+      "label": "Present Perfect Neg",
+      "structure": "Subject + have / has + not + V3 + (yet)",
+      "tag": "Perf Neg",
+      "example": "He has not finished the task yet."
+    },
+    {
+      "label": "Present Perfect Int",
+      "structure": "Have / Has + Subject + V3 + Object?",
+      "tag": "Perf Int",
+      "example": "Have you ever visited the Sundarbans?"
+    },
+    {
+      "label": "Perfect Continuous Aff",
+      "structure": "Subject + have/has been + V1-ing + (since / for) + Time",
+      "tag": "Perf Cont",
+      "example": "It has been raining since morning."
+    },
+    {
+      "label": "Point of Time (Since)",
+      "structure": "SINCE + Exact starting point (time, day, month, year)",
+      "tag": "Start Point",
+      "example": "Since 8 AM, Since Sunday, Since childhood"
+    },
+    {
+      "label": "Period of Time (For)",
+      "structure": "FOR + Duration / Span of time (counted hours/days/years)",
+      "tag": "Duration",
+      "example": "For two hours, For three days, For ten years"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Just, Already ও Yet-এর অবস্থানগত নিয়ম",
+      "nameEn": "Position of \"Just\", \"Already\" and \"Yet\"",
+      "formula": "have/has + JUST / ALREADY + V3 | have/has not + V3 ... YET (at the end)",
+      "shortcutTrick": "Just এবং Already বসে অক্সিলিয়ারি ও মূল ভার্বের মাঝে; আর Yet বসে বাক্যের একদম শেষে না-বোধকে!",
+      "descriptionBn": "I have already done it (Already মাঝে)। I have not received the parcel yet (Yet শেষে)।",
+      "examples": [
+        {
+          "en": "The train has just arrived at the station.",
+          "bn": "ট্রেনটি এইমাত্র স্টেশনে এসে পৌঁছেছে।",
+          "note": "just মাঝে বসেছে।"
+        },
+        {
+          "en": "He has not completed his graduation yet.",
+          "bn": "সে এখনো তার স্নাতক সম্পন্ন করেনি।",
+          "note": "yet বাক্যের শেষে বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "It has been raining since morning-এর মতো ক্লাসিক স্ট্রাকচার",
+      "nameEn": "Duration Clause with Perfect Continuous",
+      "formula": "Subject + have/has been + V-ing + FOR (সংখ্যা) / SINCE (নাম)",
+      "shortcutTrick": "সময়ের নাম থাকলে Since, সময়ের সংখ্যা থাকলে For!",
+      "descriptionBn": "পরীক্ষায় \"It (rain) since morning\" থাকলে তা কখনো \"It is raining\" লেখা যাবে না; অবশ্যই \"It has been raining\" লিখতে হবে।",
+      "examples": [
+        {
+          "en": "It has been raining cats and dogs since morning.",
+          "bn": "সকাল থেকে মুসলধারে বৃষ্টি হচ্ছে।",
+          "note": "morning শুরুর সময় হওয়ায় since।"
+        },
+        {
+          "en": "They have been living in Dhaka for ten years.",
+          "bn": "তারা দশ বছর ধরে ঢাকায় বাস করছে।",
+          "note": "ten years সময়কাল হওয়ায় for।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Have you ever seen the Taj Mahal?",
+      "bn": "তুমি কি কখনো তাজমহল দেখেছ?",
+      "note": "ever অভিজ্ঞতামূলক প্রশ্নে Present Perfect।"
+    },
+    {
+      "en": "She has been reading this book for two hours.",
+      "bn": "সে দুই ঘণ্টা ধরে এই বইটি পড়ছে।",
+      "note": "for two hours (সময়কাল)।"
+    },
+    {
+      "en": "We have not heard from him recently.",
+      "bn": "আমরা সম্প্রতি তার কোনো খবর পাইনি।",
+      "note": "recently থাকায় Present Perfect।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Stative Verbs-এ Perfect Continuous না হয়ে Present Perfect হয়",
+      "exceptionText": "যদি ক্রিয়াটি Stative Verb (Know, Be, Belong, Possess) হয়, তবে For/Since থাকা সত্ত্বেও Perfect Continuous না হয়ে Present Perfect হয়।",
+      "exampleEn": "I have known him for five years (NOT I have been knowing him).",
+      "exampleBn": "আমি তাকে পাঁচ বছর ধরে চিনি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "It is raining since morning.",
+      "correct": "It has been raining since morning.",
+      "reasonBn": "Since বা For থাকলে Present Continuous নয়, Present Perfect Continuous হবে।"
+    },
+    {
+      "mistake": "I have been knowing him since 2018.",
+      "correct": "I have known him since 2018.",
+      "reasonBn": "Know একটি Stative Verb হওয়ায় এর continuous রূপ হয় না; Present Perfect হবে।"
+    }
+  ],
+  "tags": [
+    "present perfect",
+    "present perfect continuous",
+    "since vs for",
+    "just already yet",
+    "it has been raining",
+    "stative exception",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70201,
+      "question": "It _____ raining continuously for three days.",
+      "questionBn": "\"It _____ raining continuously for three days\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "is",
+        "was",
+        "has been",
+        "had"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"for three days\" সময়কাল থাকায় Present Perfect Continuous Tense \"has been\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 70202,
+      "question": "I have not met him _____ last month.",
+      "questionBn": "\"I have not met him _____ last month\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "for",
+        "since",
+        "from",
+        "in"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"last month\" একটি সুনির্দিষ্ট শুরুর সময় (Point of Time), তাই এর পূর্বে \"since\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70201,
+      "type": "Right Form of Verb",
+      "prompt": "Use the right form of verb: \"He (live) in this hostel since 2021.\"",
+      "correctAnswer": "has been living",
+      "explanationBn": "Since 2021 থাকায় Present Perfect Continuous Tense হবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Duration markers (Since/For) and Present Perfect Continuous rules:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the grammatical difference between: \"I have lived here for two years\" and \"I have been living here for two years\".",
+          "answer": "Both indicate an action beginning in the past and continuing to the present. Present Perfect emphasizes the completed duration/result, while Present Perfect Continuous emphasizes the ongoing activity.",
+          "explanationBn": "উভয় টেন্সের মধ্যকার সূক্ষ্ম পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষায় রাইট ফর্ম অব ভার্বসে প্রতি বছর এটি আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'present-tense-simple-continuous': {
+  "id": 701,
+  "chapterId": 7,
+  "topicNo": "০১",
+  "titleEn": "Present Simple & Present Continuous Tenses",
+  "titleBn": "সাধারণ বর্তমান ও ঘটমান বর্তমান কাল (Simple & Continuous)",
+  "slug": "present-tense-simple-continuous",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "নিত্যদিনের অভ্যাস ও চিরন্তন সত্য প্রকাশে Present Simple এবং চোখের সামনে চলমান কাজ প্রকাশে Present Continuous। ৪ প্রকার বাক্য কাঠামোর বিস্তারিত বিশ্লেষণ ও সিগন্যাল ওয়ার্ডস।",
+  "definitionEn": "Present Simple denotes habitual actions, universal truths, or general facts. Present Continuous denotes actions occurring right now at the moment of speech or around the present time.",
+  "definitionBn": "বর্তমানকালে কোনো কাজ সাধারণত হয়, অভ্যাসগত বা চিরন্তন সত্য বোঝালে Present Simple (Indefinite) হয়। আর বর্তমানে কোনো কাজ চলছে বা ঘটছে বোঝালে Present Continuous হয়।",
+  "explanationBn": "Present Simple-এর মূল চাবিকাঠি: Subject যদি 3rd Person Singular (He, She, It, Rahim) হয় তবে Verb-এর শেষে -s বা -es যুক্ত হয় (Negative-এ does not + V1)। Present Continuous-এ Subject অনুযায়ী am/is/are এবং Verb-এর সাথে ing যুক্ত হয়।",
+  "teacherGoldenTips": "সিগন্যাল ওয়ার্ডস মুখস্থ রাখুন: Always, usually, regularly, normally, often, sometimes, everyday, daily থাকলে Present Simple। আর Now, at present, at this moment, currently, right now, listen!, look! থাকলে Present Continuous!",
+  "mainFormula": "Present Simple: S + V1(s/es) | Present Continuous: S + am/is/are + V1-ing",
+  "formulas": [
+    {
+      "label": "Present Simple (Affirmative)",
+      "structure": "Subject + V1 (+ s/es for 3rd Sing) + Object",
+      "tag": "Simple Aff",
+      "example": "The sun rises in the east. He plays cricket."
+    },
+    {
+      "label": "Present Simple (Negative)",
+      "structure": "Subject + do not / does not + V1 + Object",
+      "tag": "Simple Neg",
+      "example": "He does not play cricket. They do not know."
+    },
+    {
+      "label": "Present Simple (Interrogative)",
+      "structure": "Do / Does + Subject + V1 + Object?",
+      "tag": "Simple Int",
+      "example": "Does he speak English? Do you know him?"
+    },
+    {
+      "label": "Present Continuous (Affirmative)",
+      "structure": "Subject + am/is/are + V1-ing + Object",
+      "tag": "Cont Aff",
+      "example": "She is writing a letter now."
+    },
+    {
+      "label": "Present Continuous (Negative)",
+      "structure": "Subject + am/is/are + not + V1-ing",
+      "tag": "Cont Neg",
+      "example": "They are not working today."
+    },
+    {
+      "label": "Present Continuous (Interrogative)",
+      "structure": "Am / Is / Are + Subject + V1-ing?",
+      "tag": "Cont Int",
+      "example": "Is the baby sleeping in the room?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "চিরন্তন সত্য ও বৈজ্ঞানিক তথ্যে Present Simple",
+      "nameEn": "Universal Truths and Scientific Facts",
+      "formula": "Universal Truth / Scientific Fact / Habitual Fact = ALWAYS PRESENT SIMPLE",
+      "shortcutTrick": "মহাজাগতিক সত্য বা বৈজ্ঞানিক সত্যের টেন্স কখনোই পরিবর্তিত হয় না!",
+      "descriptionBn": "বাক্যটি কমপ্লেক্স বা ইনডাইরেক্ট ন্যারেশনে থাকলেও চিরন্তন সত্য অংশটি সর্বদা Present Simple-এই থাকবে।",
+      "examples": [
+        {
+          "en": "Water freezes at zero degrees Celsius.",
+          "bn": "পানি শূন্য ডিগ্রি সেলসিয়াসে জমে বরফ হয়।",
+          "note": "বৈজ্ঞানিক তথ্য।"
+        },
+        {
+          "en": "The earth moves round the sun.",
+          "bn": "পৃথিবী সূর্যের চারদিকে ঘোরে।",
+          "note": "চিরন্তন সত্য।"
+        },
+        {
+          "en": "The teacher said that the earth is round.",
+          "bn": "শিক্ষক বললেন যে পৃথিবী গোল।",
+          "note": "অতীত ক্লজের পরেও Present Simple বহাল থাকে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "নিকট ভবিষ্যৎ প্রকাশে Present Continuous-এর ব্যবহার",
+      "nameEn": "Present Continuous for Definite Future Plans",
+      "formula": "Subject + am/is/are + V-ing + Future Time Marker (tomorrow, next week, tonight)",
+      "shortcutTrick": "নিকট ভবিষ্যতে কোনো কাজ নিশ্চিতভাবে ঘটবে ঠিক থাকলে Continuous দিয়ে প্রকাশ করা যায়!",
+      "descriptionBn": "I am leaving for London tomorrow — এখানে আগামীকালের নিশ্চিত পরিকল্পনা বোঝাতে Future Tense-এর পরিবর্তে Present Continuous বসেছে।",
+      "examples": [
+        {
+          "en": "My uncle is coming to Dhaka tomorrow.",
+          "bn": "আমার মামা আগামীকাল ঢাকায় আসছেন।",
+          "note": "নিকট ভবিষ্যতের পূর্বপরিকল্পিত ঘটনা।"
+        },
+        {
+          "en": "We are organizing a charity event next Friday.",
+          "bn": "আমরা আগামী শুক্রবার একটি চ্যারিটি অনুষ্ঠান আয়োজন করছি।",
+          "note": "পরিকল্পিত ভবিষ্যৎ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Look! The students are marching towards the field.",
+      "bn": "দেখো! শিক্ষার্থীরা মাঠের দিকে এগিয়ে যাচ্ছে।",
+      "note": "Look! সিগন্যাল থাকায় Present Continuous।"
+    },
+    {
+      "en": "He takes physical exercise regularly every morning.",
+      "bn": "সে প্রতিদিন সকালে নিয়মিত শরীরচর্চা করে।",
+      "note": "regularly থাকায় Present Simple।"
+    },
+    {
+      "en": "Why are you disturbing me right now?",
+      "bn": "তুমি ঠিক এই মুহূর্তে আমাকে বিরক্ত করছ কেন?",
+      "note": "WH Interrogative Continuous।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Now থাকা সত্ত্বেও Stative Verbs-এ Simple Present হয়",
+      "exceptionText": "Now বা At this moment থাকা সত্ত্বেও Verb-টি যদি Stative (Love, Understand, See, Hear, Want) হয়, তবে তা Continuous না হয়ে Present Simple হবে।",
+      "exampleEn": "I understand the problem now (NOT I am understanding now).",
+      "exampleBn": "আমি এখন সমস্যাটি বুঝতে পারছি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is playing football everyday.",
+      "correct": "He plays football everyday.",
+      "reasonBn": "Everyday অভ্যাসগত কাজ প্রকাশ করে, তাই Present Simple হবে।"
+    },
+    {
+      "mistake": "Why you are laughing?",
+      "correct": "Why are you laughing?",
+      "reasonBn": "Interrogative বাক্যে Auxiliary Verb (are) সর্বদা Subject (you)-এর পূর্বে বসবে।"
+    }
+  ],
+  "tags": [
+    "present simple",
+    "present continuous",
+    "universal truth",
+    "habitual fact",
+    "signal words",
+    "now at present",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 70101,
+      "question": "Look! The bus _____ around the corner right now.",
+      "questionBn": "\"Look! The bus _____ around the corner right now\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "comes",
+        "is coming",
+        "has come",
+        "came"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Look!\" এবং \"right now\" স্পষ্ট নির্দেশ করে কাজটি এই মুহূর্তে ঘটছে, তাই Present Continuous \"is coming\" হবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 70102,
+      "question": "The teacher said that honesty _____ the best policy.",
+      "questionBn": "\"The teacher said that honesty _____ the best policy\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "was",
+        "is",
+        "were",
+        "had been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "চিরন্তন সত্য বা প্রবাদবাক্য সর্বদা Present Simple Tense-এ থাকে, তাই \"is\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 70101,
+      "type": "Transform to Interrogative",
+      "prompt": "Change into Interrogative: \"He always speaks the truth.\"",
+      "correctAnswer": "Does he always speak the truth?",
+      "explanationBn": "Does দিয়ে শুরু এবং মূল ভার্ব Base Form (speak) হয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 70101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Present Tense and Universal Truth syntax rules:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"At present he prepares for his SSC examination.\"",
+          "answer": "At present he is preparing for his SSC examination.",
+          "explanationBn": "\"At present\" থাকার কারণে Present Continuous Tense হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বসের সর্বাধিক কমন সিগন্যাল রুল।",
+      "isVerified": true
+    }
+  ]
+},
+  'verb-patterns-complements': {
+  "id": 606,
+  "chapterId": 6,
+  "topicNo": "০৬",
+  "titleEn": "Verb Patterns: Verb + Gerund vs Verb + Infinitive",
+  "titleBn": "ক্রিয়ার প্যাটার্ন: জেরান্ড বনাম ইনফিনিটিভ গ্রহণকারী ক্রিয়াপদ",
+  "slug": "verb-patterns-complements",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কোন কোন Verbs-এর পরে শুধুমাত্র Gerund (V-ing) বসে, কোনগুলোর পরে শুধুমাত্র Infinitive (To+V1) বসে, এবং কোনগুলোর পরে উভয়েই বসে কিন্তু অর্থ বদলে যায় (Stop, Remember, Forget)।",
+  "definitionEn": "Verb patterns refer to syntactic configurations where a main verb specifically governs a following gerund (-ing), infinitive (to + verb), or clause.",
+  "definitionBn": "বাক্যে মূল Verb-এর পরে দ্বিতীয় Verb আসলে সেটি Gerund (ing) হবে নাকি Infinitive (to) হবে, তা নির্ধারণ করার ব্যাকরণিক নিয়মকে Verb Pattern বলে।",
+  "explanationBn": "১. Verbs taking ONLY Gerund: Avoid, enjoy, finish, mind, practice, suggest, deny, admit, consider, postpone (যেমন: Would you mind opening the door?)। ২. Verbs taking ONLY Infinitive: Decide, hope, promise, refuse, manage, want, wish, agree, plan, afford (যেমন: He decided to go)। ৩. Verbs changing meaning: Stop to smoke (ধূমপান করার উদ্দেশ্যে থামা) বনাম Stop smoking (ধূমপান চিরতরে বন্ধ করা)।",
+  "teacherGoldenTips": "Would you mind-এর স্বর্ণালী নিয়ম: \"Would you mind\"-এর পরে ব্র্যাকেটে যে Verb-ই থাকুক না কেন, নির্দ্বিধায় তার সাথে ing যুক্ত করবেন (যেমন: Would you mind taking a cup of tea?)!",
+  "mainFormula": "Verb + Gerund (Enjoy / Avoid / Mind) | Verb + Infinitive (Decide / Hope / Promise) | Meaning Shift (Stop / Remember / Forget)",
+  "formulas": [
+    {
+      "label": "Gerund-only Verbs",
+      "structure": "Avoid, Enjoy, Mind, Finish, Practice, Postpone + V-ing",
+      "tag": "Take Gerund",
+      "example": "She enjoys reading historical novels."
+    },
+    {
+      "label": "Infinitive-only Verbs",
+      "structure": "Decide, Hope, Plan, Refuse, Promise, Agree + To + V1",
+      "tag": "Take Infinitive",
+      "example": "They decided to launch the campaign."
+    },
+    {
+      "label": "Meaning-shifting Verbs",
+      "structure": "Stop / Remember / Forget + (To + V1 vs V-ing)",
+      "tag": "Meaning Shift",
+      "example": "Remember to lock the door (Task) vs I remember locking it (Memory)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Would you mind-এর সাথে Gerund-এর নিয়ম",
+      "nameEn": "The \"Would you mind\" Construction",
+      "formula": "Would you mind / Do you mind + VERB-ING + Object / Extension?",
+      "shortcutTrick": "\"Mind\" শব্দটি থাকা মানেই পরের ভার্বের সাথে ing বসবে!",
+      "descriptionBn": "ভদ্রভাবে কোনো অনুরোধ করতে এই কাঠামোটি ব্যবহৃত হয় এবং এর পরে সর্বদা Gerund বসে।",
+      "examples": [
+        {
+          "en": "Would you mind opening the window?",
+          "bn": "আপনি কি অনুগ্রহ করে জানালাটি একটু খুলে দেবেন?",
+          "note": "opening (Gerund) বসেছে।"
+        },
+        {
+          "en": "Do you mind waiting for a few minutes?",
+          "bn": "আপনি কি কিছুক্ষণ অপেক্ষা করবেন?",
+          "note": "waiting বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Stop + Gerund বনাম Stop + Infinitive-এর অর্থগত পার্থক্য",
+      "nameEn": "Stop to do vs Stop doing",
+      "formula": "Stop + V-ing = Cease action permanently/completely | Stop + to + V1 = Halt current action to do something else",
+      "shortcutTrick": "Stop doing মানে কাজটি চিরতরে বন্ধ করা; Stop to do মানে অন্য কিছু করার জন্য ক্ষণিকের জন্য থামা!",
+      "descriptionBn": "He stopped smoking মানে সে ধূমপান ছেড়ে দিল। কিন্তু He stopped to smoke মানে সে অন্য কোনো কাজ থামিয়ে ধূমপান করতে দাঁড়াল।",
+      "examples": [
+        {
+          "en": "The doctor advised him to stop smoking (Quit habit).",
+          "bn": "ডাক্তার তাকে ধূমপান ছেড়ে দেওয়ার পরামর্শ দিলেন।",
+          "note": "অভ্যাস ত্যাগ করায় smoking।"
+        },
+        {
+          "en": "On his way home, he stopped to buy vegetables (Halt to buy).",
+          "bn": "বাড়ি ফেরার পথে সে শাকসবজি কেনার জন্য থামল।",
+          "note": "কেনার উদ্দেশ্যে থামায় to buy।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He avoided answering my question.",
+      "bn": "সে আমার প্রশ্নের উত্তর দেওয়া এড়িয়ে গেল।",
+      "note": "avoided + answering (Gerund)।"
+    },
+    {
+      "en": "We promised to help the flood victims.",
+      "bn": "আমরা বন্যাকবলিতদের সাহায্য করার প্রতিজ্ঞা করেছিলাম।",
+      "note": "promised + to help (Infinitive)।"
+    },
+    {
+      "en": "I forgot to post the letter this morning.",
+      "bn": "আমি আজ সকালে চিঠিটি পোস্ট করতে ভুলে গিয়েছিলাম।",
+      "note": "forgot + to post।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Can't help / Couldn't help-এর পর Gerund বসে",
+      "exceptionText": "Can't help বা Couldn't help-এর পরে Gerund বসে (I couldn't help laughing)। কিন্তু Can't but বা Couldn't but-এর পরে Base Verb বসে (I couldn't but laugh)।",
+      "exampleEn": "I couldn't help shedding tears. / I couldn't but shed tears.",
+      "exampleBn": "আমি অশ্রু না ফেলে পারলাম না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Would you mind to close the door?",
+      "correct": "Would you mind closing the door?",
+      "reasonBn": "Would you mind-এর পরে সর্বদা Verb-এর সাথে ing বসে।"
+    },
+    {
+      "mistake": "He decided going abroad.",
+      "correct": "He decided to go abroad.",
+      "reasonBn": "Decide-এর পর সর্বদা Infinitive (to go) বসে।"
+    }
+  ],
+  "tags": [
+    "verb patterns",
+    "would you mind",
+    "enjoy ing",
+    "decide to",
+    "stop smoking",
+    "stop to smoke",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60601,
+      "question": "Would you mind _____ the salt, please?",
+      "questionBn": "\"Would you mind _____ the salt, please\" শূন্যস্থানে কোন রূপটি বসবে?",
+      "options": [
+        "pass",
+        "to pass",
+        "passing",
+        "passed"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Would you mind\"-এর পরে সর্বদা Gerund (V-ing) রূপ হিসেবে \"passing\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 60602,
+      "question": "He stopped _____ because the doctor warned him about lung cancer.",
+      "questionBn": "\"He stopped _____ because the doctor warned him about lung cancer\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "to smoke",
+        "smoking",
+        "smoke",
+        "smoked"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ধূমপান সম্পূর্ণ বন্ধ বা ত্যাগ করা বোঝাতে \"stop smoking\" প্রযোজ্য।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60601,
+      "type": "Complete the Sentence",
+      "prompt": "Complete with correct verb form: \"We look forward to _____ (hear) from you soon.\"",
+      "correctAnswer": "hearing",
+      "explanationBn": "Look forward to-র পরে Gerund হিসেবে hearing বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Verb complementation in SSC completing sentences:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"I could not help _____\"",
+          "answer": "laughing at his funny joke.",
+          "explanationBn": "Could not help + V-ing নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও এইচএসসি কমপ্লিটিং সেন্টেন্সের একটি নিশ্চিত কমন রুল।",
+      "isVerified": true
+    }
+  ]
+},
+  'causative-verbs-mastery': {
+  "id": 605,
+  "chapterId": 6,
+  "topicNo": "০৫",
+  "titleEn": "Causative Verbs: Make, Let, Have, Get & Help",
+  "titleBn": "প্রযোজক ক্রিয়া বা পজিটিভ ভার্ব (Make, Let, Have, Get ও Help)",
+  "slug": "causative-verbs-mastery",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কর্তা যখন নিজে সরাসরি কাজ না করে অন্যকে দিয়ে কাজটি করিয়ে নেয়, তখন তাকে Causative Verb বলে। Make, Let, Have, Get এবং Help-এর সজীব ও নির্জীব কাঠামোর পূর্ণাঙ্গ সূত্র।",
+  "definitionEn": "Causative verbs designate an action that causes another person or thing to perform an action or cause a state to change.",
+  "definitionBn": "যে Verb দ্বারা কর্তা নিজে কোনো কাজ সরাসরি সম্পাদন না করে অপরকে দিয়ে কাজটি করিয়ে নেয় বা উৎসাহিত করে তাকে Causative Verb (প্রযোজক ক্রিয়া) বলে।",
+  "explanationBn": "প্রধান ৫টি Causative Verbs: ১. Make (বাধ্য করা বা করানো), ২. Let (অনুমতি দেওয়া), ৩. Have (দায়িত্ব দিয়ে করানো), ৪. Get (প্ররোচিত বা অনুরোধ করে করানো), ৫. Help (সাহায্য করা)। এদের পরে সজীব ব্যক্তি (Person) এবং নির্জীব বস্তু (Thing) থাকলে ভার্বের রূপ ভিন্ন হয়।",
+  "teacherGoldenTips": "গোল্ডেন পজিটিভ চার্ট মুখস্থ রাখুন: Make/Let/Have + Person + V1 (Base Form)! Get + Person + TO + V1! আর Have/Get + Object (Thing) + V3 (Past Participle)!",
+  "mainFormula": "Make/Let/Have + Person + V1 | Get + Person + TO + V1 | Have/Get + Thing + V3",
+  "formulas": [
+    {
+      "label": "Make (Force/Cause)",
+      "structure": "Subject + make + Person + V1 (Base Form)",
+      "tag": "Compulsion",
+      "example": "The teacher made him rewrite the essay."
+    },
+    {
+      "label": "Have (Assign/Request)",
+      "structure": "Subject + have + Person + V1 | have + Thing + V3",
+      "tag": "Assignment",
+      "example": "I had the mechanic repair my car. I had my car repaired."
+    },
+    {
+      "label": "Get (Persuade/Manage)",
+      "structure": "Subject + get + Person + TO + V1 | get + Thing + V3",
+      "tag": "Persuasion",
+      "example": "She got her brother to clean the room. She got the room cleaned."
+    },
+    {
+      "label": "Let (Permit)",
+      "structure": "Subject + let + Person + V1 (Base Form)",
+      "tag": "Permission",
+      "example": "Mother let the children play outside."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Get-এর সাথে ব্যক্তি থাকলে To + V1, বস্তু থাকলে V3",
+      "nameEn": "The Get Rule: Person vs Thing",
+      "formula": "GET + Person + TO + V1 | GET + Thing + V3 (Past Participle)",
+      "shortcutTrick": "Get-এর পর মানুষ থাকলে To বসবে, কিন্তু বস্তু থাকলে সরাসরি V3 বসবে!",
+      "descriptionBn": "Get হলো একমাত্র প্রধান Causative Verb যার পরে ব্যক্তিবাচক কর্তা থাকলে Infinitive (To) বসাতে হয়।",
+      "examples": [
+        {
+          "en": "I got him to wash my car (Person -> to wash).",
+          "bn": "আমি তাকে দিয়ে আমার গাড়িটি ধোয়ালাম।",
+          "note": "him ব্যক্তি হওয়ায় to wash।"
+        },
+        {
+          "en": "I got my car washed (Thing -> washed).",
+          "bn": "আমি আমার গাড়িটি ধুইয়ে নিলাম।",
+          "note": "car বস্তু হওয়ায় washed (V3)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Have-এর সাথে ব্যক্তি থাকলে V1, বস্তু থাকলে V3",
+      "nameEn": "The Have Rule: Person vs Thing",
+      "formula": "HAVE + Person + V1 (Base Form) | HAVE + Thing + V3",
+      "shortcutTrick": "Have-এর পর মানুষ থাকলে Base Form, বস্তু থাকলে V3!",
+      "descriptionBn": "I had the barber cut my hair (বার্বার মানুষ, তাই cut হলো V1)। I had my hair cut (চুল বস্তু, তাই cut হলো V3)।",
+      "examples": [
+        {
+          "en": "Father had the painter paint the walls.",
+          "bn": "বাবা রংমিস্ত্রিকে দিয়ে দেয়ালগুলো রং করালেন।",
+          "note": "painter ব্যক্তি হওয়ায় paint (V1)।"
+        },
+        {
+          "en": "Father had the walls painted.",
+          "bn": "বাবা দেয়ালগুলো রং করিয়ে নিলেন।",
+          "note": "walls বস্তু হওয়ায় painted (V3)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He made me laugh in the classroom.",
+      "bn": "সে ক্লাসরুমে আমাকে হাসাল।",
+      "note": "made + me + laugh (V1)।"
+    },
+    {
+      "en": "She will have her teeth examined by a dentist.",
+      "bn": "সে একজন ডেন্টিস্টকে দিয়ে তার দাঁত পরীক্ষা করাবে।",
+      "note": "have + teeth (Thing) + examined (V3)।"
+    },
+    {
+      "en": "My friend helped me solve (or to solve) the math problem.",
+      "bn": "আমার বন্ধু আমাকে অঙ্কটি সমাধান করতে সাহায্য করল।",
+      "note": "Help-এর পরে V1 বা to+V1 উভয়ই শুদ্ধ।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Passive-এ Make-এর পরে \"To\" বসে",
+      "exceptionText": "সক্রিয় বাক্যে Make-এর পরে Base Form বসলেও বাক্যটি Passive হলে \"to\" বসাতে হয়! যেমন: \"He was made to wash the floor\" (NOT was made wash).",
+      "exampleEn": "The thief was made to confess his crime.",
+      "exampleBn": "চোরটিকে তার অপরাধ স্বীকার করতে বাধ্য করা হলো।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I got him repair my computer.",
+      "correct": "I got him to repair my computer.",
+      "reasonBn": "Get-এর পর ব্যক্তি থাকলে অবশ্যই \"to + V1\" বসবে।"
+    },
+    {
+      "mistake": "I had my watch repair.",
+      "correct": "I had my watch repaired.",
+      "reasonBn": "Watch একটি বস্তু, তাই Have-এর পর Past Participle (V3) বসবে।"
+    }
+  ],
+  "tags": [
+    "causative verb",
+    "make",
+    "let",
+    "have",
+    "get",
+    "help",
+    "passive causative",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60501,
+      "question": "I had the mechanic _____ my motorcycle yesterday.",
+      "questionBn": "\"I had the mechanic _____ my motorcycle yesterday\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "to repair",
+        "repair",
+        "repaired",
+        "repairing"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Causative \"had\"-এর পরে ব্যক্তি (the mechanic) থাকায় Base Form \"repair\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 60502,
+      "question": "She got her project report _____ by the senior editor.",
+      "questionBn": "\"She got her project report _____ by the senior editor\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "review",
+        "reviewed",
+        "to review",
+        "reviewing"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Causative \"got\"-এর পরে বস্তু (project report) থাকায় Past Participle (V3) \"reviewed\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60501,
+      "type": "Fill in Causative Verb Form",
+      "prompt": "Fill in the blank: \"Mother got her daughter _____ (clean) her messy bedroom.\"",
+      "correctAnswer": "to clean",
+      "explanationBn": "Get + Person + To + V1 নিয়মানুযায়ী to clean বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Causative verb transformation and syntax structure:",
+      "subQuestions": [
+        {
+          "questionText": "State the difference in structure between \"Have\" and \"Get\" when followed by a person.",
+          "answer": "Have + Person takes a bare infinitive (V1): \"I had him wash the car.\" Get + Person takes a full infinitive with to (to + V1): \"I got him to wash the car.\"",
+          "explanationBn": "হ্যাভ এবং গেট-এর কাঠামোগত পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বস ও কমপ্লিটিং সেন্টেন্সের অন্যতম স্ট্যান্ডার্ড প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'regular-irregular-stative-dynamic-verbs': {
+  "id": 604,
+  "chapterId": 6,
+  "topicNo": "০৪",
+  "titleEn": "Regular & Irregular Verbs, Stative vs Dynamic Verbs",
+  "titleBn": "নিয়মিত-অনিয়মিত ক্রিয়া এবং অনুভূতিমূলক (Stative) ক্রিয়ার নিয়ম",
+  "slug": "regular-irregular-stative-dynamic-verbs",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Past ও Past Participle গঠনে -ed যুক্ত Regular Verbs বনাম ভিতরের স্বরবর্ণ পরিবর্তনের Irregular Verbs (V1, V2, V3)। Continuous Tense-এ ব্যবহার নিষিদ্ধ Stative Verbs-এর তালিকা।",
+  "definitionEn": "Regular verbs form their past and past participle by adding -d or -ed. Irregular verbs form past tenses through internal vowel shifts. Stative verbs describe states of mind or senses and cannot be used in continuous tenses.",
+  "definitionBn": "যেসব Verb-এর শেষে -d বা -ed যোগ করে Past ও Past Participle করা হয় তাদের Regular/Weak Verb বলে। আর যাদের ভেতরের ভাওয়েল বদলে রূপান্তর হয় তাদের Irregular/Strong Verb বলে। যে ক্রিয়া অবস্থা বা অনুভূতি নির্দেশ করে তাদের Stative Verb বলে।",
+  "explanationBn": "Stative Verbs-এর গুরুত্বপূর্ণ নিয়ম: Love, like, hate, believe, know, understand, remember, smell, taste, see, hear, possess, belong, prefer — এই ভার্বগুলোকে সাধারণত কোনো Continuous Tense-এ (ing যোগে) ব্যবহার করা যায় না! যেমন: \"I am knowing him\" বলা মারাত্মক ভুল; বলতে হবে \"I know him\"।",
+  "teacherGoldenTips": "গোল্ডেন ট্রিক: Stative Verbs মানসিক অবস্থা, অনুভূতি ও মালিকানা প্রকাশ করে। পরীক্ষায় এদের continuous tense দিলে সাথে সাথে কেটে Simple Present বা Simple Past করবেন!",
+  "mainFormula": "Regular: V1 + ed = V2/V3 | Irregular: Vowel Mutation | Stative Verbs ≠ Continuous Tense (No V-ing)",
+  "formulas": [
+    {
+      "label": "Regular Verbs",
+      "structure": "Play -> Played -> Played | Work -> Worked -> Worked",
+      "tag": "Predictable",
+      "example": "They played football."
+    },
+    {
+      "label": "Irregular Verbs",
+      "structure": "Go -> Went -> Gone | Write -> Wrote -> Written",
+      "tag": "Mutation",
+      "example": "She wrote a letter."
+    },
+    {
+      "label": "Stative Verbs Rule",
+      "structure": "Subject + Stative Verb (Present Simple, NOT Continuous)",
+      "tag": "No -ing",
+      "example": "I believe you (NOT I am believing you)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Stative Verbs-এর Continuous ব্যবহারে নিষেধাজ্ঞা",
+      "nameEn": "Non-Progressive Nature of Stative Verbs",
+      "formula": "Subject + am/is/are + Stative-ing = INCORRECT | Subject + Stative V1 = CORRECT",
+      "shortcutTrick": "মস্তিষ্কের চিন্তা বা অনুভূতির সাথে ing বসে না!",
+      "descriptionBn": "Know, think (মতামত অর্থে), want, need, wish ইত্যাদি ভার্ব বর্তমান অবস্থা প্রকাশ করায় Simple Indefinite টেন্সে লিখতে হয়।",
+      "examples": [
+        {
+          "en": "I know him very well (NOT I am knowing him).",
+          "bn": "আমি তাকে খুব ভালো করে চিনি।",
+          "note": "know হলো Stative Verb।"
+        },
+        {
+          "en": "He possesses immense wealth (NOT He is possessing).",
+          "bn": "সে বিপুল সম্পদের অধিকারী।",
+          "note": "possess মালিকানা প্রকাশক Stative।"
+        }
+      ]
+    },
+    {
+      "nameBn": "একই শব্দের Stative ও Dynamic ব্যবহারের দ্বৈত রূপ",
+      "nameEn": "Dual Stative and Dynamic Usages",
+      "formula": "State/Perception = Simple Tense | Active Physical Action = Continuous Tense",
+      "shortcutTrick": "স্মেল মানে ঘ্রাণ দেওয়া হলে Stative, আর নাক দিয়ে ঘ্রাণ নেওয়া বোঝালে Dynamic!",
+      "descriptionBn": "The rose smells sweet (গোলাপটি মিষ্টি ঘ্রাণ দেয় - Stative)। কিন্তু She is smelling the flower (সে ফুলটির ঘ্রাণ নিচ্ছে - সক্রিয় কাজ, Dynamic)।",
+      "examples": [
+        {
+          "en": "The medicine tastes bitter (Stative).",
+          "bn": "ওষুধটি খেতে তেতো।",
+          "note": "স্বাদ প্রকাশে Stative।"
+        },
+        {
+          "en": "The doctor is tasting the mixture (Dynamic).",
+          "bn": "ডাক্তার মিশ্রণটি চেখে দেখছেন।",
+          "note": "সক্রিয় কাজ হওয়ায় continuous বৈধ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "She understands the whole concept now.",
+      "bn": "সে এখন পুরো ধারণাটি বুঝতে পারছে।",
+      "note": "understands হলো Stative Verb।"
+    },
+    {
+      "en": "They have broken the fragile vase.",
+      "bn": "তারা ভঙ্গুর ফুলদানিটি ভেঙে ফেলেছে।",
+      "note": "break -> broke -> broken (Irregular)।"
+    },
+    {
+      "en": "This ancient house belongs to my grandfather.",
+      "bn": "এই প্রাচীন বাড়িটি আমার দাদার।",
+      "note": "belongs to (Stative, no ing)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Have যখন খাওয়া বা উপভোগ করা বোঝায়",
+      "exceptionText": "Have যখন মালিকানা বোঝায় তখন Stative (I have a car)। কিন্তু যখন খাওয়া (eat) বা সময় কাটানো বোঝায় তখন এটি Dynamic এবং continuous হতে পারে (I am having breakfast / We are having a great time)।",
+      "exampleEn": "We are having lunch together.",
+      "exampleBn": "আমরা একসাথে দুপুরের খাবার খাচ্ছি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I am hearing a loud sound.",
+      "correct": "I hear a loud sound.",
+      "reasonBn": "Hear একটি Stative Verb, এর continuous রূপ সাধারণত হয় না।"
+    },
+    {
+      "mistake": "He is having two brothers.",
+      "correct": "He has two brothers.",
+      "reasonBn": "ভাই থাকা মালিকানা ও সম্পর্ক নির্দেশ করায় \"has\" হবে, \"is having\" নয়।"
+    }
+  ],
+  "tags": [
+    "stative verb",
+    "dynamic verb",
+    "regular verb",
+    "irregular verb",
+    "continuous tense prohibition",
+    "i know him",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60401,
+      "question": "Which of the following sentences is grammatically correct?",
+      "questionBn": "নিচের কোন বাক্যটি ব্যাকরণগতভাবে সম্পূর্ণ সঠিক?",
+      "options": [
+        "I am understanding your problem.",
+        "I understand your problem.",
+        "I am understood your problem.",
+        "I was understanding your problem."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Understand একটি Stative Verb; এটি মানসিক উপলব্ধি প্রকাশ করায় Continuous Tense-এ ব্যবহৃত হয় না, তাই \"I understand\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 60402,
+      "question": "In which case can \"have\" be used in a continuous tense (-ing)?",
+      "questionBn": "কোন ক্ষেত্রে \"have\"-এর সাথে ing যুক্ত করে continuous tense তৈরি করা যায়?",
+      "options": [
+        "When indicating possession of a car",
+        "When indicating family relationships",
+        "When indicating an action like eating a meal or having fun",
+        "When indicating knowledge"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Have যখন খাওয়া (having dinner) বা সময় কাটানো (having fun) প্রকাশ করে তখন এটি Dynamic Verb হিসেবে continuous হতে পারে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60401,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"This dictionary is belonging to our school library.\"",
+      "correctAnswer": "This dictionary belongs to our school library.",
+      "explanationBn": "Belong একটি Stative Verb, তাই Present Simple \"belongs\" হবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Stative verb identification and Tense concordance:",
+      "subQuestions": [
+        {
+          "questionText": "List 6 common Stative verbs that do not take continuous forms.",
+          "answer": "Love, Hate, Know, Understand, Belong, Believe (also Smell, Taste, Possess).",
+          "explanationBn": "অনুভূতি ও মানসিক উপলব্ধি প্রকাশক ক্রিয়াপদ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বসে এটি একটি নিশ্চিত ১ নম্বরের প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'finite-nonfinite-gerund-participle-infinitive': {
+  "id": 603,
+  "chapterId": 6,
+  "topicNo": "০৩",
+  "titleEn": "Finite vs Non-Finite Verbs: Gerund, Participle & Infinitive",
+  "titleBn": "সমাপিকা বনাম অসমাপিকা ক্রিয়া: জেরান্ড, পার্টিসিপল ও ইনফিনিটিভ",
+  "slug": "finite-nonfinite-gerund-participle-infinitive",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "টেন্স অনুযায়ী পরিবর্তিত হওয়া Finite Verb এবং অপরিবর্তিত থাকা Non-Finite Verb। Gerund (Noun+Verb), Participle (Adjective+Verb) এবং Infinitive (To+Verb)-এর পূর্ণাঙ্গ রূপ।",
+  "definitionEn": "A Finite verb changes its form according to tense, number, and person. A Non-finite verb does not show tense or person and functions as a noun, adjective, or adverb.",
+  "definitionBn": "যে Verb Subject-এর Number, Person ও Tense অনুযায়ী নিজের রূপ পরিবর্তন করে তাকে Finite Verb (সমাপিকা) বলে। আর যা টেন্স বা সাবজেক্ট দ্বারা প্রভাবিত না হয়ে Noun, Adjective বা Adverb-এর কাজ করে তাকে Non-Finite Verb (অসমাপিকা) বলে।",
+  "explanationBn": "Non-finite Verb তিন প্রকার: ১. Infinitive (To + Base Verb, যেমন: to read), ২. Gerund (Verb + ing = Noun হিসেবে কাজ করে, যেমন: Swimming is good), ৩. Participle (Verb + ing বা V3 = Adjective হিসেবে কাজ করে)।",
+  "teacherGoldenTips": "জেরান্ড বনাম পার্টিসিপল চেনার জাদুকরী টেস্ট: Verb-ing-এর জায়গায় \"IT\" বসিয়ে দেখুন। যদি অর্থ সঠিক থাকে তবে তা Gerund (I like swimming -> I like IT)। যদি অর্থ না মিলে তবে তা Participle (A flying bird -> A \"it\" bird হয় না)!",
+  "mainFormula": "Finite = Governed by Tense/Subject | Infinitive = To + V1 | Gerund = V1-ing (Noun) | Participle = V1-ing / V3 (Adjective)",
+  "formulas": [
+    {
+      "label": "Infinitive Form",
+      "structure": "To + V1 (Base Form)",
+      "tag": "Purpose/Noun",
+      "example": "He came to see me."
+    },
+    {
+      "label": "Gerund Form",
+      "structure": "V1 + ing = Noun (Subject / Object)",
+      "tag": "Verbal Noun",
+      "example": "Reading books enriches the mind."
+    },
+    {
+      "label": "Present Participle",
+      "structure": "V1 + ing = Adjective (Active / Ongoing)",
+      "tag": "Verbal Adjective",
+      "example": "I saw a running train."
+    },
+    {
+      "label": "Past Participle",
+      "structure": "V3 = Adjective (Completed State)",
+      "tag": "Past State",
+      "example": "A lost opportunity never returns."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Bare Infinitive (To ছাড়া ইনফিনিটিভ)-এর ক্ষেত্রসমূহ",
+      "nameEn": "Rules of Bare Infinitive",
+      "formula": "(Make / Let / Bid / Watch / See / Hear / Feel / Had better / Would rather) + BASE VERB (No \"to\")",
+      "shortcutTrick": "Make, Let, See এবং Had better-এর পরে \"to\" বসানো যাবে না!",
+      "descriptionBn": "সক্রিয় বাক্যে এই শব্দগুলোর পরে Infinitive-এর \"to\" উহ্য থাকে (Bare Infinitive)।",
+      "examples": [
+        {
+          "en": "Mother made me clean my room (NOT to clean).",
+          "bn": "মা আমাকে দিয়ে আমার ঘর পরিষ্কার করালেন।",
+          "note": "clean হলো Bare Infinitive।"
+        },
+        {
+          "en": "You had better consult a doctor immediately.",
+          "bn": "তোমার বরং অবিলম্বে একজন ডাক্তারের পরামর্শ নেওয়া উচিত।",
+          "note": "had better + consult।"
+        },
+        {
+          "en": "Let him speak freely.",
+          "bn": "তাকে স্বাধীনভাবে কথা বলতে দাও।",
+          "note": "let + speak।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Preposition-এর পরে Gerund বসার নিয়ম",
+      "nameEn": "Gerund after Prepositions",
+      "formula": "Preposition (in, on, for, of, by, without, about) + VERB-ING (Gerund)",
+      "shortcutTrick": "সাধারণ Preposition-এর পরে Verb আসলে চোখ বন্ধ করে ing যোগ হবে!",
+      "descriptionBn": "Preposition-এর Object হিসেবে সর্বদা Noun বা Pronoun দরকার হয়, তাই Verb আসলে তা Gerund (ing) রূপ ধারণ করে।",
+      "examples": [
+        {
+          "en": "He is fond of reading novels.",
+          "bn": "সে উপন্যাস পড়তে ভালোবাসে।",
+          "note": "of + reading।"
+        },
+        {
+          "en": "Without working hard, you cannot prosper.",
+          "bn": "কঠোর পরিশ্রম করা ছাড়া তুমি উন্নতি করতে পারবে না।",
+          "note": "Without + working।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "To err is human, to forgive divine.",
+      "bn": "ভুল করা মানুষের স্বভাব, ক্ষমা করা স্বর্গীয় গুণ।",
+      "note": "To err এবং to forgive হলো Infinitives।"
+    },
+    {
+      "en": "Hearing the noise, the boy woke up.",
+      "bn": "শব্দটি শুনে বালকটি জেগে উঠল।",
+      "note": "Hearing হলো Present Participle।"
+    },
+    {
+      "en": "The police found the stolen bicycle.",
+      "bn": "পুলিশ চুরি যাওয়া সাইকেলটি উদ্ধার করল।",
+      "note": "stolen হলো Past Participle।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Look forward to, With a view to-র পরে ing বসে",
+      "exceptionText": "সাধারণত \"to\"-র পরে Base Verb বসলেও Look forward to, With a view to, Be used to, Accustomed to-র পরে Gerund (V-ing) বসে।",
+      "exampleEn": "I am looking forward to meeting you (NOT to meet).",
+      "exampleBn": "আমি আপনার সাথে দেখা করার অপেক্ষায় আছি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He made me to do the math.",
+      "correct": "He made me do the math.",
+      "reasonBn": "Make-এর পরে Bare Infinitive বসে, \"to\" বসে না।"
+    },
+    {
+      "mistake": "He went to market with a view to buy books.",
+      "correct": "He went to market with a view to buying books.",
+      "reasonBn": "With a view to-র পর verb-এর সাথে ing যুক্ত হয়।"
+    }
+  ],
+  "tags": [
+    "finite verb",
+    "non-finite verb",
+    "gerund",
+    "participle",
+    "bare infinitive",
+    "with a view to",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60301,
+      "question": "In \"A rolling stone gathers no moss\", what is \"rolling\"?",
+      "questionBn": "\"A rolling stone gathers no moss\" প্রবাদে \"rolling\" কী?",
+      "options": [
+        "Gerund",
+        "Present Participle",
+        "Finite Verb",
+        "Infinitive"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Stone (Noun)-কে modify করে অবস্থা প্রকাশ করায় rolling এখানে Verbal Adjective বা Present Participle।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 60302,
+      "question": "I saw him _____ the street.",
+      "questionBn": "\"I saw him _____ the street\" শূন্যস্থানে কোনটি সবচেয়ে ব্যাকরণসম্মত?",
+      "options": [
+        "cross",
+        "to cross",
+        "crossed",
+        "to crossing"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "See ভার্বের পর Bare Infinitive (cross) অথবা Present Participle (crossing) বসে; কখনো \"to cross\" বসে না।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60301,
+      "type": "Gerund or Participle",
+      "prompt": "Identify whether the underlined word is a Gerund or a Participle: \"<u>Swimming</u> is an excellent exercise.\"",
+      "correctAnswer": "Gerund",
+      "explanationBn": "বাক্যের Subject হিসেবে Noun-এর কাজ করায় এটি Gerund।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Finite and Non-Finite verb discrimination in SSC Transformation:",
+      "subQuestions": [
+        {
+          "questionText": "How many finite verbs does a Simple Sentence have?",
+          "answer": "A Simple Sentence contains exactly one Finite Verb, though it may contain multiple Non-Finite verbs.",
+          "explanationBn": "সিম্পল সেন্টেন্সের মূল গঠন শর্ত।"
+        }
+      ],
+      "fullExplanationBn": "সিম্পল, কমপ্লেক্স ও কম্পাউন্ড সেন্টেন্স রূপান্তরের মূল চাবিকাঠি।",
+      "isVerified": true
+    }
+  ]
+},
+  'transitive-intransitive-linking-verbs': {
+  "id": 602,
+  "chapterId": 6,
+  "topicNo": "০২",
+  "titleEn": "Transitive, Intransitive & Linking/Copular Verbs",
+  "titleBn": "সকর্মক, অকর্মক ও সংযোগকারী ক্রিয়া (Linking Verbs)",
+  "slug": "transitive-intransitive-linking-verbs",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "যার কর্ম থাকে তা Transitive, যার কর্ম থাকে না তা Intransitive, আর যা সাবজেক্টের সাথে কমপ্লিমেন্টকে জোড়া লাগায় তা Linking Verb। Cognate Object ও Factitive Verb-এর বিশেষ নিয়ম।",
+  "definitionEn": "A Transitive verb requires a direct object to complete its action. An Intransitive verb does not take a direct object. A Linking verb connects the subject to a subject complement.",
+  "definitionBn": "যে Verb-এর অর্থ সম্পন্ন করতে কর্ম বা Object প্রয়োজন হয় তাকে Transitive Verb বলে। যে Verb কর্ম ছাড়াই অর্থ প্রকাশ করতে পারে তাকে Intransitive Verb বলে। আর যা কর্তা ও তার পরিচায়ক শব্দের সংযোগ ঘটায় তাকে Linking Verb বলে।",
+  "explanationBn": "Transitive Verb-কে প্যাসিভ ভয়েস করা যায়, কিন্তু Intransitive Verb-কে কখনো প্যাসিভ করা যায় না। Linking Verb-এর পরে Adverb নয়, Adjective বসে (যেমন: Honey tastes sweet, NOT sweetly)।",
+  "teacherGoldenTips": "ম্যাজিক ট্রিক: মূল ভার্বকে \"কী (What)\" বা \"কাকে (Whom)\" দ্বারা প্রশ্ন করুন। উত্তর পেলে Transitive, উত্তর না পেলে Intransitive। আর Subject এবং পরের শব্দের মাঝে \"=\" বসিয়ে মিললে Linking Verb!",
+  "mainFormula": "Transitive: S + V + Direct Object | Intransitive: S + V (+ Adverbial) | Linking: S + Linking Verb + Adjective/Noun Complement",
+  "formulas": [
+    {
+      "label": "Transitive Pattern",
+      "structure": "Subject + Transitive Verb + Object (Passive-capable)",
+      "tag": "With Object",
+      "example": "She wrote a letter."
+    },
+    {
+      "label": "Intransitive Pattern",
+      "structure": "Subject + Intransitive Verb + (No Object)",
+      "tag": "No Object",
+      "example": "Birds fly in the sky."
+    },
+    {
+      "label": "Linking Verb Pattern",
+      "structure": "Subject + (be, feel, taste, look, seem, appear, sound) + Adjective",
+      "tag": "Copular",
+      "example": "The food smells delicious."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Linking Verbs-এর পর Adverb নয় Adjective বসে",
+      "nameEn": "Adjective Complement after Linking Verbs",
+      "formula": "Subject + (Taste, Smell, Feel, Sound, Look, Become, Seem) + ADJECTIVE (NOT Adverb)",
+      "shortcutTrick": "ইন্দ্রিয়গ্রাহ্য অনুভূতিমূলক ভার্বের পরে -ly যুক্ত অ্যাডভার্ব বসানো সম্পূর্ণ নিষিদ্ধ!",
+      "descriptionBn": "বাংলায় আমরা বলি \"গোলাপটির গন্ধ মিষ্টিভাবে ছড়ায়\", কিন্তু ইংরেজিতে বলতে হবে \"The rose smells sweet\", \"sweetly\" বলা মারাত্মক ভুল।",
+      "examples": [
+        {
+          "en": "The soup tastes delicious (NOT deliciously).",
+          "bn": "স্যুপটি খেতে সুস্বাদু।",
+          "note": "delicious হলো Adjective Complement।"
+        },
+        {
+          "en": "She looks very cheerful today (NOT cheerfully).",
+          "bn": "আজ তাকে খুব প্রফুল্ল দেখাচ্ছে।",
+          "note": "looks-এর পর Adjective।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Cognate Object ও সমজাতীয় সকর্মক রূপ",
+      "nameEn": "Intransitive Verbs with Cognate Objects",
+      "formula": "Intransitive Verb + Cognate Noun (derived from same root) = Transitive Structure",
+      "shortcutTrick": "ভার্ব এবং অবজেক্ট যদি একই মূল শব্দ থেকে জন্ম নেয়, তবে তা Cognate Object!",
+      "descriptionBn": "Sleep একটি Intransitive Verb হলেও যখন বলি \"She slept a sound sleep\", তখন sleep কর্ম হিসেবে বসে এটিকে সকর্মক রূপ দেয়।",
+      "examples": [
+        {
+          "en": "He ran a race.",
+          "bn": "সে একটি দৌড়ে অংশ নিল।",
+          "note": "ran এবং race একই ধাতু থেকে উৎপন্ন।"
+        },
+        {
+          "en": "She sang a melodious song.",
+          "bn": "সে একটি সুরেলা গান গাইল।",
+          "note": "sang এবং song সমজাতীয়।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The boy broke the window pane.",
+      "bn": "ছেলেটি জানালার কাচ ভেঙে ফেলল।",
+      "note": "broke হলো Transitive Verb (Object = window pane)।"
+    },
+    {
+      "en": "The baby was crying bitterly.",
+      "bn": "শিশুটি তীব্রভাবে কাঁদছিল।",
+      "note": "crying হলো Intransitive Verb (bitterly = Adverb of manner)।"
+    },
+    {
+      "en": "The music sounds soothing.",
+      "bn": "সংগীতটি শুনতে স্নিগ্ধিদায়ক লাগছে।",
+      "note": "sounds হলো Linking Verb।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Preposition যুক্ত হয়ে Intransitive Verb-এর Transitive রূপ (Prepositional Verb)",
+      "exceptionText": "Intransitive Verb-এর পর Preposition যুক্ত হলে তা সম্মিলিতভাবে Transitive Verb-এর মতো আচরণ করে এবং প্যাসিভ করা যায়।",
+      "exampleEn": "They laughed at the poor boy -> The poor boy was laughed at by them.",
+      "exampleBn": "তারা গরিব ছেলেটিকে উপহাস করল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The mango tastes sweetly.",
+      "correct": "The mango tastes sweet.",
+      "reasonBn": "Tastes একটি Linking Verb, এরপরে Adjective Complement \"sweet\" বসবে।"
+    },
+    {
+      "mistake": "He arrived to the station.",
+      "correct": "He arrived at the station.",
+      "reasonBn": "Arrive-এর পরে নির্দিষ্ট স্থানে \"at\" বসে।"
+    }
+  ],
+  "tags": [
+    "transitive verb",
+    "intransitive verb",
+    "linking verb",
+    "copular verb",
+    "cognate object",
+    "adjective complement",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60201,
+      "question": "Which of the following sentences contains a Linking Verb?",
+      "questionBn": "নিচের কোন বাক্যে একটি Linking Verb রয়েছে?",
+      "options": [
+        "The chef cooked dinner.",
+        "The food smells great.",
+        "The dog chased the ball.",
+        "The bell rang loudly."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The food smells great\" বাক্যে smells একটি Linking Verb যা food এবং great (Adjective)-কে যুক্ত করেছে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 60202,
+      "question": "In \"He fought a brave fight\", what kind of object is \"a brave fight\"?",
+      "questionBn": "\"He fought a brave fight\" বাক্যে \"a brave fight\" কোন ধরনের Object?",
+      "options": [
+        "Direct Object",
+        "Cognate Object",
+        "Indirect Object",
+        "Retained Object"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Fought ভার্ব এবং fight অবজেক্ট একই ধাতু থেকে উৎপন্ন হওয়ায় এটি Cognate Object।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60201,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"The bell rang and the students appeared anxiously.\"",
+      "correctAnswer": "The bell rang and the students appeared anxious.",
+      "explanationBn": "Appeared একটি Linking Verb, তাই Adjective \"anxious\" বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Transitive, Intransitive, and Linking verb mechanics:",
+      "subQuestions": [
+        {
+          "questionText": "Why can Transitive verbs be changed into Passive voice while Intransitive verbs cannot?",
+          "answer": "Because Passive voice requires an Object to become the new Subject. Intransitive verbs do not have any Object, making passive transformation impossible.",
+          "explanationBn": "ভয়েস চেঞ্জের মূল শর্ত হলো অবজেক্টের উপস্থিতি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ভয়েস চেঞ্জ ও পদ নির্ধারণে অত্যন্ত গুরুত্বপূর্ণ মৌলিক ধারণা।",
+      "isVerified": true
+    }
+  ]
+},
+  'verb-classification-principal-auxiliary': {
+  "id": 601,
+  "chapterId": 6,
+  "topicNo": "০১",
+  "titleEn": "Principal & Auxiliary Verbs: Primary & Modal Auxiliaries",
+  "titleBn": "মূল ক্রিয়া ও সাহায্যকারী ক্রিয়া: প্রাইমারি ও মোডাল অক্সিলিয়ারি",
+  "slug": "verb-classification-principal-auxiliary",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "বাক্যের প্রধান অর্থ বহনকারী Principal Verb এবং কাল ও বাচ্য গঠনে সাহায্যকারী Auxiliary Verb। Primary Auxiliaries (Be, Do, Have) ও Modal Auxiliaries-এর বিশদ বিশ্লেষণ।",
+  "definitionEn": "A Principal (Main) verb expresses the main action or state of being independently. An Auxiliary (Helping) verb assists the main verb in forming tense, aspect, mood, or voice.",
+  "definitionBn": "যে Verb অন্য কোনো Verb-এর সাহায্য ছাড়াই স্বাধীনভাবে অর্থ প্রকাশ করতে পারে তাকে Principal Verb বলে। আর যে Verb টেন্স, ভয়েস বা মুড গঠনে Principal Verb-কে সাহায্য করে তাকে Auxiliary Verb বলে।",
+  "explanationBn": "Auxiliary Verb মূলত দুই প্রকার: ১. Primary Auxiliary (Be, Do, Have) — এরা প্রয়োজনভেদে একাই Principal Verb হিসেবেও বসতে পারে (যেমন: I have a pen), আবার অন্য ভার্বকে সাহায্যও করতে পারে (I have done the work)। ২. Modal Auxiliary (Can, Could, May, Might, Shall, Should, Will, Would, Must, Ought to, Need, Dare) — এদের পরে সর্বদা Principal Verb-এর Base Form (V1) বসে এবং এদের সাথে কখনো s/es, ing বা ed যুক্ত হয় না।",
+  "teacherGoldenTips": "গোল্ডেন মোডাল রুল: Modal Auxiliary-র পরে সর্বদা Verb-এর আদি রূপ বা Base Form (V1) বসে (যেমন: He can do the work, NOT does or doing)! তবে Modal + Be থাকলে V3 (Passive) বা V-ing (Continuous) হয়।",
+  "mainFormula": "Modal Auxiliary + Base Verb (V1) | Modal + BE + V3 (Passive) | Primary Aux (be/do/have) + V1-ing / V3 / V1",
+  "formulas": [
+    {
+      "label": "Primary Auxiliaries",
+      "structure": "Be (am, is, are, was, were) | Do (do, does, did) | Have (have, has, had)",
+      "tag": "Dual Role",
+      "example": "She is singing (Aux). She is a teacher (Main)."
+    },
+    {
+      "label": "Modal Base Rule",
+      "structure": "Subject + Modal + V1 (Base Form)",
+      "tag": "Active Modal",
+      "example": "You should respect your elders."
+    },
+    {
+      "label": "Modal Passive Rule",
+      "structure": "Subject + Modal + BE + V3 (Past Participle)",
+      "tag": "Passive Modal",
+      "example": "The work must be finished today."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Primary Auxiliaries-এর স্বাধীন বনাম সাহায্যকারী ভূমিকা",
+      "nameEn": "Dual Function of Primary Auxiliaries",
+      "formula": "Aux alone in sentence = PRINCIPAL VERB | Aux + Main Verb = AUXILIARY VERB",
+      "shortcutTrick": "যদি বাক্যে আর কোনো Verb না থাকে, তবে সাহায্যকারী ভার্বটিই মূল ভার্ব!",
+      "descriptionBn": "He is playing cricket বাক্যে \"is\" হলো Auxiliary এবং playing হলো Principal। কিন্তু \"He is a student\" বাক্যে আর কোনো ভার্ব না থাকায় \"is\" নিজেই Principal Verb।",
+      "examples": [
+        {
+          "en": "He has done the work (Auxiliary).",
+          "bn": "সে কাজটি করেছে।",
+          "note": "has সাহায্যকারী, done মূল ক্রিয়া।"
+        },
+        {
+          "en": "He has a nice car (Principal).",
+          "bn": "তার একটি সুন্দর গাড়ি আছে।",
+          "note": "has এখানে মূল ক্রিয়া (মালিকানা প্রকাশে)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Semi-Modals: Need এবং Dare-এর দ্বৈত রূপ",
+      "nameEn": "Semi-Modal Auxiliaries (Need and Dare)",
+      "formula": "Negative/Question: Need/Dare + V1 (Modal) | Affirmative: Need/Dare + to + V1 (Main Verb)",
+      "shortcutTrick": "না-বোধক ও প্রশ্নে Need-এর পর \"to\" বসে না; হ্যাঁ-বোধকে \"to\" বসে!",
+      "descriptionBn": "Need ও Dare যখন Modal হিসেবে বসে তখন এর সাথে s/es বসে না এবং to ছাড়া V1 বসে। কিন্তু Main Verb হিসেবে বসলে সাধারণ ভার্বের মতো s/es এবং infinitive (to) নেয়।",
+      "examples": [
+        {
+          "en": "You need not go there (Modal - no \"to\").",
+          "bn": "তোমার সেখানে যাওয়ার প্রয়োজন নেই।",
+          "note": "need হলো Modal, তাই to নেই।"
+        },
+        {
+          "en": "He needs to buy a pen (Main Verb).",
+          "bn": "তার একটি কলম কেনা প্রয়োজন।",
+          "note": "needs (Main) + to buy।"
+        },
+        {
+          "en": "How dare you speak like this! (Modal)",
+          "bn": "তোমার এভাবে কথা বলার সাহস কীভাবে হলো!",
+          "note": "dare হলো Modal।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "We must obey the laws of our country.",
+      "bn": "আমাদের অবশ্যই দেশের আইন মেনে চলতে হবে।",
+      "note": "must + obey (V1)।"
+    },
+    {
+      "en": "They were playing in the field.",
+      "bn": "তারা মাঠে খেলছিল।",
+      "note": "were = Auxiliary, playing = Principal।"
+    },
+    {
+      "en": "You ought to respect your parents.",
+      "bn": "পিতা-মাতাকে সম্মান করা তোমার নৈতিক দায়িত্ব।",
+      "note": "ought to হলো নৈতিক বাধ্যবাধকতা প্রকাশক Modal।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Modal + Have + V3 (Past Deduction / Regret)",
+      "exceptionText": "অতীতের কোনো সম্ভাবনা বা আক্ষেপ বোঝাতে Modal-এর সাথে Have + V3 বসে।",
+      "exampleEn": "You should have informed me earlier (You did not inform).",
+      "exampleBn": "তোমার আমাকে আগেই জানানো উচিত ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He can plays football well.",
+      "correct": "He can play football well.",
+      "reasonBn": "Modal-এর পর কখনো s/es যুক্ত হয় না; সর্বদা Base Verb বসে।"
+    },
+    {
+      "mistake": "You need not to worry.",
+      "correct": "You need not worry.",
+      "reasonBn": "Negative বাক্যে Need মোডাল হিসেবে কাজ করায় \"to\" বসবে না।"
+    }
+  ],
+  "tags": [
+    "verb",
+    "principal verb",
+    "auxiliary verb",
+    "modal auxiliary",
+    "primary auxiliary",
+    "semi-modal",
+    "need not",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 60101,
+      "question": "In which sentence does the verb \"have\" function as a Principal Verb?",
+      "questionBn": "কোন বাক্যটিতে \"have\" একটি Principal Verb হিসেবে ব্যবহৃত হয়েছে?",
+      "options": [
+        "They have finished their assignment.",
+        "I have a pair of binoculars.",
+        "She has been sleeping for two hours.",
+        "We have seen the monument."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"I have a pair of binoculars\" বাক্যে আর কোনো ভার্ব না থাকায় have একাই মূল ক্রিয়া হিসেবে বসেছে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 60102,
+      "question": "Complete the sentence: \"He _____ not worry about the result, for he worked hard.\"",
+      "questionBn": "\"He _____ not worry about the result, for he worked hard\" শূন্যস্থানে কোন মোডালটি বসবে?",
+      "options": [
+        "needs",
+        "need",
+        "ought",
+        "dared"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "মোডাল হিসেবে নেগেটিভ বাক্যে Need-এর সাথে s/es যোগ হয় না; তাই \"need not\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 60101,
+      "type": "Error Correction",
+      "prompt": "Correct the sentence: \"Students must to follow the examination rules strictly.\"",
+      "correctAnswer": "Students must follow the examination rules strictly.",
+      "explanationBn": "Modal auxiliary \"must\"-এর পর সরাসরি Base Form বসে, \"to\" বসে না।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 60101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Classification and usage of auxiliary and modal verbs:",
+      "subQuestions": [
+        {
+          "questionText": "Explain with examples when \"Need\" acts as a Modal and when as a Principal verb.",
+          "answer": "As a Modal in negative/interrogative contexts without \"to\": \"You need not go.\" As a Principal verb in affirmative with \"to\": \"He needs to go.\"",
+          "explanationBn": "নিড-এর দ্বৈত ব্যাকরণিক চরিত্র।"
+        }
+      ],
+      "fullExplanationBn": "রাইট ফর্ম অব ভার্বস ও ট্যাগ কোয়েশ্চেনস-এ এই নিয়মটি বহুল ব্যবহৃত।",
+      "isVerified": true
+    }
+  ]
+},
   'double-comparatives-special-rules': {
   "id": 505,
   "chapterId": 5,
