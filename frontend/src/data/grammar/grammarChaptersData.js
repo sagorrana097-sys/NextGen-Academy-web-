@@ -306,6 +306,618 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'voice-chapter-practice-set': {
+  "id": 1306,
+  "chapterId": 13,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: Voice Practice & Master Challenge Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: বাচ্য রূপান্তর পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Voice Practice)",
+  "slug": "voice-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 13-এর সম্পূর্ণ বাচ্য পরিবর্তনের সমন্বিত প্র্যাকটিস সেট। Active ↔ Passive, Tense-wise রূপান্তর, Imperative (Let be/Let not), Interrogative (Who ↔ By whom), Quasi-Passive (Honey tastes sweet) এবং Causative Verbs (Made to rewrite)।",
+  "definitionEn": "An integrated voice practice assessment covering standard tense paradigms, interrogative and imperative modalities, ditransitive complements, and complex quasi-passive variations.",
+  "definitionBn": "সকল প্রকার বাচ্য রূপান্তরের (সাধারণ কালভিত্তিক, প্রশ্নবোধক, অনুজ্ঞাবাচক, দ্বিকর্মক ও ব্যতিক্রমী গঠন) চূড়ান্ত মূল্যায়ন ও প্র্যাকটিস সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এর ভয়েস চেঞ্জ অংশে যেসব ফাঁদ ও ব্যতিক্রম সবচেয়ে বেশি আসে, সেগুলোর ওপর ভিত্তি করে তৈরি পূর্ণাঙ্গ প্রশ্নভাণ্ডার।",
+  "teacherGoldenTips": "ভয়েস চেঞ্জ পরীক্ষার ৫টি সোনার নিয়ম:\n১. Active থেকে Passive-এ যাওয়ার সময় মূল Verb সর্বদা V3 (Past Participle) হবে!\n২. Continuous টেন্সে Being এবং Perfect টেন্সে Been কখনো বাদ দেওয়া যাবে না!\n৩. Know থাকলে to me, Surprise থাকলে at the news!\n৪. Imperative বাক্যে Let-এর পর Be verb বসবে (Let it be done)!\n৫. Interrogative প্যাসিভে Auxiliary Verb অবশ্যই Subject-এর আগে থাকবে!",
+  "mainFormula": "Voice Master Matrix: SVO -> O + BE + V3 + by + S | Imperative -> Let + O + be + V3 | Interrogative -> By whom / Did -> was/were",
+  "formulas": [
+    {
+      "label": "Universal Voice Matrix",
+      "structure": "Active: Subject + Verb + Object -> Passive: New Subject + (Aux + Be + V3) + Preposition + New Object",
+      "tag": "Master Matrix",
+      "example": "The government built the bridge. -> The bridge was built by the government."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Passive থেকে Active রূপান্তরের কৌশল (Reverse Voice Change)",
+      "nameEn": "Reversing Passive to Active Voice (Supplying Elliptical Agents)",
+      "formula": "Agent present: Agent -> Subject + Active Verb + Passive Subject -> Object | Agent absent: Assume \"Someone / People / We / The authorities\"",
+      "shortcutTrick": "যদি প্যাসিভ বাক্যে \"by...\" না থাকে, তবে বাস্তব পরিস্থিতি অনুযায়ী We, People, Police বা Someone সাবজেক্ট হিসেবে নিয়ে আসুন!",
+      "descriptionBn": "\"My pocket was picked\" -> Someone picked my pocket. \"The thief was arrested\" -> The police arrested the thief.",
+      "examples": [
+        {
+          "en": "English is spoken all over the world (Passive without agent).",
+          "bn": "সারা বিশ্বে ইংরেজি বলা হয়।",
+          "note": "কর্তাহীন Passive।"
+        },
+        {
+          "en": "People speak English all over the world (Active).",
+          "bn": "মানুষ সারা বিশ্বে ইংরেজি বলে।",
+          "note": "People কর্তা হিসেবে এনে Active রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Who will bell the ferocious cat?",
+      "bn": "হিংস্র বিড়ালটির গলায় ঘণ্টা কে বাঁধবে?",
+      "note": "Active Question।"
+    },
+    {
+      "en": "By whom will the ferocious cat be belled?",
+      "bn": "কার দ্বারা হিংস্র বিড়ালটির গলায় ঘণ্টা বাঁধা হবে?",
+      "note": "Passive Question।"
+    },
+    {
+      "en": "The doctor advised the diabetic patient to walk daily.",
+      "bn": "ডাক্তার ডায়াবেটিস রোগীকে প্রতিদিন হাঁটার পরামর্শ দিলেন।",
+      "note": "Active Voice।"
+    },
+    {
+      "en": "The diabetic patient was advised to walk daily by the doctor.",
+      "bn": "ডায়াবেটিস রোগীকে ডাক্তারের দ্বারা প্রতিদিন হাঁটার পরামর্শ দেওয়া হলো।",
+      "note": "Passive রূপান্তর।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Need / Want-এর সাথে V-ing নিজেই Passive অর্থ দেয়",
+      "exceptionText": "Need বা Want-এর পর Gerund (V-ing) বসলে তা স্বয়ংক্রিয়ভাবে Passive অর্থ প্রকাশ করে (e.g. My car needs washing = My car needs to be washed).",
+      "exampleEn": "The roof needs repairing (= needs to be repaired).",
+      "exampleBn": "ছাদটি মেরামতের প্রয়োজন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "By whom was the glass broke?",
+      "correct": "By whom was the glass broken?",
+      "reasonBn": "প্যাসিভ ভয়েসে সর্বদা Verb-এর Past Participle (broken) বসবে।"
+    },
+    {
+      "mistake": "He was made sing a song.",
+      "correct": "He was made to sing a song.",
+      "reasonBn": "Make-এর প্যাসিভ রূপে অবশ্যই \"to\" বসাতে হবে।"
+    }
+  ],
+  "tags": [
+    "voice practice",
+    "chapter practice set",
+    "active to passive test",
+    "reverse voice change",
+    "quasi passive test"
+  ],
+  "mcqs": [
+    {
+      "id": 130601,
+      "question": "Change into Active: \"The criminal was sentenced to death by the high court.\"",
+      "questionBn": "\"The criminal was sentenced to death by the high court\" বাক্যটিকে Active-এ রূপান্তর করো:",
+      "options": [
+        "The high court sentenced the criminal to death.",
+        "The high court had sentenced the criminal to death.",
+        "The high court has sentenced the criminal to death.",
+        "The criminal sentenced the high court to death."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Past Simple Passive (was sentenced) থেকে Active-এ \"The high court sentenced the criminal to death\" হবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 130602,
+      "question": "What is the passive form of \"One should keep one's promises\"?",
+      "questionBn": "\"One should keep one's promises\"-এর সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "Promises should be kept by one.",
+        "Promises should be kept.",
+        "One's promises should be kept.",
+        "One should be kept promises."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "সাধারণ নৈতিক বিধানে \"Promises should be kept\" সবচেয়ে প্রমিত ও ক্লাসিক প্যাসিভ রূপ।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130601,
+      "type": "Voice Master Drill",
+      "prompt": "Change into Passive: (a) Honey tastes sweet. (b) We made him captain. (c) Do not look down upon the poor.",
+      "correctAnswer": "(a) Honey is sweet when it is tasted. (b) He was made captain by us. (c) Let not the poor be looked down upon.",
+      "explanationBn": "ভয়েস চেঞ্জের তিনটি ক্লাসিক ব্যতিক্রমী রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 13 Comprehensive Voice Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"I know that he completed the task.\"",
+          "answer": "It is known to me that the task was completed by him.",
+          "explanationBn": "Complex Sentence-এর উভয় ক্লজের সমন্বিত প্যাসিভ রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এর সর্বোচ্চ স্ট্যান্ডার্ড মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-chapter-practice-set': {
+  "id": 1206,
+  "chapterId": 12,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: Transformation Practice & SSC Exam Drills",
+  "titleBn": "অধ্যায় অনুশীলন সেট: বাক্য রূপান্তর পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড ড্রিল (Transformation Practice)",
+  "slug": "transformation-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ ১০ নম্বরের ট্রান্সফরমেশন অব সেন্টেন্সের পূর্ণাঙ্গ প্র্যাকটিস সেট। এফারমেটিভ ↔ নেগেটিভ, এসারটিভ ↔ ইন্টারোগেটিভ/এক্সক্ল্যামেটরি, সিম্পল ↔ কমপ্লেক্স ↔ কম্পাউন্ড এবং ডিগ্রি পরিবর্তনের সমন্বিত ড্রিল।",
+  "definitionEn": "An exhaustive transformation practice module integrating all grammatical dimensions: polarity, communicative mood, structural complexity, and adjectival comparison.",
+  "definitionBn": "বাক্যের অর্থ অপরিবর্তিত রেখে যাবতীয় রূপান্তরের (নেগেটিভ, প্রশ্নবোধক, বিস্ময়সূচক, সরল-জটিল-যৌগিক ও ডিগ্রি) চূড়ান্ত পরীক্ষাভিত্তিক প্র্যাকটিস সেট।",
+  "explanationBn": "বোর্ড পরীক্ষার হুবহু অনুকরণে প্রতিটি রূপান্তরের সাথে নিয়ম, কৌশল ও ভুল সংশোধনের বিশ্লেষণ অন্তর্ভুক্ত করা হয়েছে।",
+  "teacherGoldenTips": "পরীক্ষার খাতার রূপান্তর চেকলিস্ট:\n১. বাক্য পরিবর্তন করলেও যেন অর্থের একচুলও পরিবর্তন না হয়!\n২. Simple-এ রূপান্তর করতে বললে Finite Verb যেন মাত্র ১টি থাকে!\n৩. Interrogative-এ রূপান্তর করলে শেষে প্রশ্নবোধক চিহ্ন (?) দিতে ভুলবেন না!\n৪. Very few থাকলে ডিগ্রিতে are/were হবে, is/was নয়!\n৫. As soon as থেকে No sooner had করার সময় কমার জায়গায় THAN লিখবেন!",
+  "mainFormula": "Master Transformation Rule = Semantic Equivalence (Meaning Unchanged) + Syntactic Mutation (Grammar Changed)",
+  "formulas": [
+    {
+      "label": "Master Conversion Rules",
+      "structure": "Aff/Neg (None but/Cannot but) | Mood (Who does not/What a) | Structure (By/Without/Though/Too) | Degree (No other/Very few)",
+      "tag": "All Rules",
+      "example": "He is the best -> Better than any other -> No other boy is as good."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "বোর্ড পরীক্ষায় ট্রান্সফরমেশন সমাধানের সময় বাঁচানোর ট্রিকস",
+      "nameEn": "Time-Saving Board Transformation Shortcuts",
+      "formula": "Bracketed instruction -> Apply core key phrase -> Adjust tense & person",
+      "shortcutTrick": "ব্র্যাকেটে যে নির্দেশ দেওয়া থাকবে (Negative, Complex, Positive), শুধু তার কী-ওয়ার্ডটি মনে করুন (যেমন: Complex মানেই Though/Since/If; Positive মানেই No other/Very few)!",
+      "descriptionBn": "দ্রুত ও নির্ভুলভাবে রূপান্তর সম্পন্ন করার কার্যকর কৌশল।",
+      "examples": [
+        {
+          "en": "Only money can solve this crisis (Affirmative).",
+          "bn": "শুধু অর্থই এই সংকট সমাধান করতে পারে।",
+          "note": "Original statement।"
+        },
+        {
+          "en": "Nothing but money can solve this crisis (Negative).",
+          "bn": "অর্থ ছাড়া অন্য কিছুই এই সংকট সমাধান করতে পারে না।",
+          "note": "Nothing but রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Though he ran with all his might, he lost the championship (Complex).",
+      "bn": "যদিও সে তার সর্বশক্তি দিয়ে দৌড়েছিল, সে চ্যাম্পিয়নশিপ হারল।",
+      "note": "Complex Sentence।"
+    },
+    {
+      "en": "In spite of running with all his might, he lost the championship (Simple).",
+      "bn": "সর্বশক্তি দিয়ে দৌড়ানো সত্ত্বেও সে চ্যাম্পিয়নশিপ হারল।",
+      "note": "Simple রূপান্তর।"
+    },
+    {
+      "en": "He ran with all his might, but he lost the championship (Compound).",
+      "bn": "সে তার সর্বশক্তি দিয়ে দৌড়াল, কিন্তু চ্যাম্পিয়নশিপ হারল।",
+      "note": "Compound রূপান্তর।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Meaning Shift পরিহারের চরম সতর্কতা",
+      "exceptionText": "রূপান্তর করার সময় ভুলেও অর্থ বদলানো যাবে না। \"He is rich\" বাক্যকে নেগেটিভ করতে \"He is not rich\" লেখা মারাত্মক ভুল; লিখতে হবে \"He is not poor\".",
+      "exampleEn": "Everyone loves honesty. -> Who does not love honesty? (NOT Everyone does not love honesty).",
+      "exampleBn": "সততাকে কে ভালোবাসে না?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is so weak that he cannot walk. (when instructed to make Simple: writing \"He is very weak and cannot walk\")",
+      "correct": "He is too weak to walk.",
+      "reasonBn": "Simple-এ রূপান্তর করতে বললে Too...to ব্যবহার করতে হবে, And যুক্ত করলে তা Compound হয়ে যায়।"
+    }
+  ],
+  "tags": [
+    "transformation practice",
+    "chapter practice set",
+    "ssc 10 marks transformation",
+    "degree transformation test",
+    "simple complex compound test"
+  ],
+  "mcqs": [
+    {
+      "id": 120601,
+      "question": "Transform into Positive: \"Gold is the most precious of all metals.\"",
+      "questionBn": "\"Gold is the most precious of all metals\" বাক্যটির সঠিক Positive রূপ কোনটি?",
+      "options": [
+        "No other metal is as precious as gold.",
+        "Very few metals are as precious as gold.",
+        "Gold is more precious than any other metal.",
+        "All other metals are not precious as gold."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"The most precious of all metals\" থাকায় Positive রূপান্তর শুরু হবে \"No other metal...as precious as gold\" দিয়ে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 120602,
+      "question": "Transform into Complex: \"By studying attentively, you can secure GPA 5.\"",
+      "questionBn": "\"By studying attentively, you can secure GPA 5\" বাক্যটির সঠিক Complex রূপ কোনটি?",
+      "options": [
+        "If you study attentively, you can secure GPA 5.",
+        "Unless you study attentively, you can secure GPA 5.",
+        "Study attentively and you can secure GPA 5.",
+        "Though you study attentively, you can secure GPA 5."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "By + V-ing-এর শর্তকে Complex-এ রূপান্তর করতে \"If + Subject + Present Simple\" কাঠামো ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120601,
+      "type": "Multi-Directional Transformation",
+      "prompt": "Transform: \"As soon as the teacher entered, the noise stopped.\" (Make Negative and Compound)",
+      "correctAnswer": "Negative: No sooner had the teacher entered than the noise stopped. Compound: The teacher entered and the noise stopped immediately.",
+      "explanationBn": "বহুমাত্রিক রূপান্তর সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 12 Comprehensive Transformation Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Simple: \"A student who is regular in studies always succeeds.\"",
+          "answer": "A regular student always succeeds.",
+          "explanationBn": "Relative Clause-কে সংক্ষেপিত করে Adjective-এ রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এর আদর্শ মানসম্পন্ন মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-chapter-practice-set': {
+  "id": 1105,
+  "chapterId": 11,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Sentence Practice & Analysis Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: বাক্যতত্ত্ব ও ক্লজ বিশ্লেষণ প্র্যাকটিস (Sentence Practice)",
+  "slug": "sentence-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 11-এর পূর্ণাঙ্গ সমন্বিত প্র্যাকটিস সেট। বাক্য শনাক্তকরণ (Assertive, Interrogative, Imperative, Optative, Exclamatory), গঠনগত বিশ্লেষণ (Simple, Complex, Compound), ক্লজ চিহ্নিতকরণ এবং সিনট্যাক্স এরর সংশোধন।",
+  "definitionEn": "An integrated chapter practice set testing sentence classification by meaning and structure, clause hierarchies, canonical patterns, and structural error eradication.",
+  "definitionBn": "বাক্যের অর্থ ও গঠনভিত্তিক শ্রেণিবিভাগ, ক্লজ বিশ্লেষণ, প্যাটার্ন শনাক্তকরণ এবং ফ্র্যাগমেন্ট ও রান-অন বাক্য সংশোধনের সার্বিক অনুশীলন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ সিলেবাস অনুযায়ী অর্থানুসারে ৫ প্রকার বাক্য এবং গঠনানুসারে ৩ প্রকার বাক্যের ওপর বাস্তবসম্মত প্রশ্নব্যাংক।",
+  "teacherGoldenTips": "ক্লজ দ্রুত শনাক্তকরণ ট্রিক:\n- Dependent marker (If/When/Though/Because/Who/Which) যুক্ত ক্লজ = Subordinate Clause!\n- FANBOYS (And/But/Or/So) যুক্ত ক্লজ = Coordinate Clause!\n- কোনো কনজাংশন ছাড়া স্বাধীনভাবে দাঁড়াতে পারা ক্লজ = Principal / Main Clause!",
+  "mainFormula": "Sentence Master Analysis = Structural Tier (Simple/Complex/Compound) + Functional Tier (Assertive/Interrogative/Imperative/Optative/Exclamatory)",
+  "formulas": [
+    {
+      "label": "Sentence Classification Tree",
+      "structure": "Meaning: Assertive, Interrogative, Imperative, Optative, Exclamatory | Structure: Simple, Complex, Compound",
+      "tag": "Master Tree",
+      "example": "Though he is rich (Complex), he leads a simple life (Assertive)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ক্লজ ও বাক্য ব্যবচ্ছেদের চূড়ান্ত ধাপসমূহ",
+      "nameEn": "Methodology for Clause and Sentence Parsing",
+      "formula": "1. Count Finite Verbs -> 2. Identify Connectives -> 3. Isolate Independent from Dependent Clauses",
+      "shortcutTrick": "প্রথমে ফাইনাইট ভার্ব গুনুন: ১টি হলে Simple; একাধিক হলে কনজাংশন দেখে Complex বা Compound নির্ধারণ করুন!",
+      "descriptionBn": "বাক্যের গভীর ব্যাকরণিক কাঠামো সহজে উন্মোচনের বৈজ্ঞানিক পদ্ধতি।",
+      "examples": [
+        {
+          "en": "While crossing the street, the boy dropped his umbrella.",
+          "bn": "রাস্তা পার হওয়ার সময় বালকটি তার ছাতা ফেলে দিল।",
+          "note": "Simple (একটিমাত্র Finite Verb: dropped)।"
+        },
+        {
+          "en": "When the bell rang, the students entered their respective classrooms.",
+          "bn": "ঘণ্টা বাজার সাথে সাথেই শিক্ষার্থীরা নিজ নিজ শ্রেণিকক্ষে প্রবেশ করল।",
+          "note": "Complex (When যুক্ত Subordinate Clause)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Be honest and you will be respected by all.",
+      "bn": "সৎ হও এবং তুমি সবার কাছে শ্রদ্ধেয় হবে।",
+      "note": "Compound Sentence (Imperative + and)।"
+    },
+    {
+      "en": "How generously the philanthropist helped the orphans!",
+      "bn": "দানবীর মানুষটি কত উদারভাবেই না এতিমদের সাহায্য করলেন!",
+      "note": "Exclamatory Sentence।"
+    },
+    {
+      "en": "The old sailor sat on a stony rock near the sea.",
+      "bn": "বৃদ্ধ নাবিক সমুদ্রের কাছে একটি পাথুরে শিলার ওপর বসলেন।",
+      "note": "Pattern: SVA (sat = Verb, on a stony rock = Adverbial)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Elliptical Clause (উহ্য পদযুক্ত ক্লজ)",
+      "exceptionText": "কিছু ক্লজে শব্দের পুনরাবৃত্তি এড়াতে Subject বা Be verb উহ্য থাকে, তবুও তা ব্যাকরণগতভাবে পূর্ণাঙ্গ ক্লজ। যেমন: \"Though (he was) poor, he was honest.\"",
+      "exampleEn": "When (I was) in Dhaka, I visited the National Museum.",
+      "exampleBn": "ঢাকায় থাকাকালীন আমি জাতীয় জাদুঘর পরিদর্শন করেছিলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He worked hard. Because he wanted to support his parents.",
+      "correct": "He worked hard because he wanted to support his parents.",
+      "reasonBn": "Because ক্লজকে একা বাক্যের মতো ফুলস্টপ দিয়ে লেখা যাবে না (Sentence Fragment)।"
+    }
+  ],
+  "tags": [
+    "sentence practice",
+    "chapter practice set",
+    "clause analysis",
+    "simple complex compound test",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 110501,
+      "question": "Identify the sentence type: \"Although he started early, he could not catch the morning express.\"",
+      "questionBn": "\"Although he started early, he could not catch the morning express\" বাক্যটি কোন শ্রেণির?",
+      "options": [
+        "Simple Sentence",
+        "Complex Sentence",
+        "Compound Sentence",
+        "Optative Sentence"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Although\" দ্বারা যুক্ত Subordinate Clause থাকায় এটি একটি Complex Sentence।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 110502,
+      "question": "In \"The president awarded the brave firefighter a national medal\", what is the pattern?",
+      "questionBn": "\"The president awarded the brave firefighter a national medal\" বাক্যটির প্যাটার্ন কোনটি?",
+      "options": [
+        "SVOC",
+        "SVOO",
+        "SVOA",
+        "SVC"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "The president (S) + awarded (V) + the brave firefighter (Indirect Obj) + a national medal (Direct Obj) -> SVOO প্যাটার্ন।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 110501,
+      "type": "Sentence Analysis Drill",
+      "prompt": "Identify the clause types: \"The man [who stole the car] was arrested [when he was refueling].\"",
+      "correctAnswer": "[who stole the car] = Adjective Clause, [when he was refueling] = Adverbial Clause of Time.",
+      "explanationBn": "ক্লজ ব্যবচ্ছেদ ও শনাক্তকরণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 110501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 11 Comprehensive Structural Evaluation:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"A rolling stone gathers no moss\" is a Simple Sentence.",
+          "answer": "Because it contains only one Finite Verb (\"gathers\"). The word \"rolling\" is a non-finite participle modifying \"stone\", which does not constitute an independent clause.",
+          "explanationBn": "একটিমাত্র সমাপিকা ক্রিয়া থাকায় বাক্যটি সিম্পল সেন্টেন্স।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ব্যাকরণের অত্যন্ত স্ট্যান্ডার্ড কনসেপচুয়াল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-chapter-practice-set': {
+  "id": 1007,
+  "chapterId": 10,
+  "topicNo": "০৭",
+  "titleEn": "Chapter Practice Set: Preposition Practice & Mastery Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: প্রেপজিশন প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Preposition Practice)",
+  "slug": "preposition-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 10-এর সকল নিয়মের সমন্বয়ে একটি পূর্ণাঙ্গ প্র্যাকটিস সেট। ইন/অন/অ্যাট, বাই/উইথ, সিন্স/ফর, বিটুইন/অ্যামং, ডিসপাইট, ডাই-এর ভ্যারিয়েশন এবং এসএসসি বোর্ড প্যাসেজ ড্রিল।",
+  "definitionEn": "A comprehensive chapter practice set synthesizing all prepositional classifications, temporal anchors, spatial trajectories, and appropriate collocations for SSC examinations.",
+  "definitionBn": "প্রেপজিশন অধ্যায়ের সকল প্রকার নিয়ম, যেমন: সময়, স্থান, গতি, মাধ্যম, কারণ এবং উপযুক্ত প্রেপজিশনের পূর্ণাঙ্গ অনুশীলন ও মূল্যায়ন সেট।",
+  "explanationBn": "এই প্র্যাকটিস সেটে বিগত ১০ বছরের বোর্ড পরীক্ষার স্ট্যান্ডার্ড ফিল ইন দ্য ব্ল্যাংকস, এরর কারেকশন ও কনফিউজিং পেয়ারস একত্রিত করা হয়েছে যাতে শিক্ষার্থীরা অধ্যায়ের সমস্ত নিয়ম এক নজরে রিভিশন ও প্র্যাকটিস করতে পারে।",
+  "teacherGoldenTips": "পরীক্ষার আগের ৫ মিনিটের রিভিশন টিপস:\n১. রোগ বোঝাতে die of, দেশের জন্য die for!\n২. মানুষ দ্বারা by, হাতিয়ার দিয়ে with!\n৩. বড় স্থান ও বড় সময়ে in, নির্দিষ্ট বিন্দু বা মুহূর্তে at!\n৪. Despite-এর সাথে of বসে না, In spite of-এ of বসে!\n৫. ঘণ্টা ও বারের আগে On, মাসের আগে In!",
+  "mainFormula": "Master Review: Time (At/On/In) + Space (In/Into/Above/Over/Through) + Appropriate (Senior to / Blind to / Good at)",
+  "formulas": [
+    {
+      "label": "Time & Space Summary",
+      "structure": "At (Specific Point) | On (Surface/Day) | In (Enclosed/Period)",
+      "tag": "Core Rules",
+      "example": "At 7 PM on Friday in Dhaka."
+    },
+    {
+      "label": "Phrasal Master Rules",
+      "structure": "Despite (No of) | With a view to + V-ing | Abide by",
+      "tag": "Collocations",
+      "example": "Despite poverty, he succeeded with a view to helping society."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "প্রেপজিশন পরীক্ষায় সর্বোচ্চ নম্বর পাওয়ার কৌশল",
+      "nameEn": "Top Strategy for Preposition Exams",
+      "formula": "Read context -> Identify relation (Time/Place/Reason/Collocation) -> Select precise preposition",
+      "shortcutTrick": "আগে শূন্যস্থানের পরের শব্দটি দেখুন — সেটি যদি দিন/তারিখ হয় On, মাস/সাল হয় In, রোগ হয় Of!",
+      "descriptionBn": "বাক্যের অর্থ ও পরবর্তী শব্দের ব্যাকরণিক ধরন দেখে সঠিক প্রেপজিশন নির্বাচন করতে হয়।",
+      "examples": [
+        {
+          "en": "He is proficient in Mathematics and good at English.",
+          "bn": "তিনি গণিতে দক্ষ এবং ইংরেজিতে ভালো।",
+          "note": "দক্ষতায় good at ও proficient in।"
+        },
+        {
+          "en": "We walked along the river bank during our holiday.",
+          "bn": "ছুটির দিনে আমরা নদী তট ধরে হাঁটলাম।",
+          "note": "along (বরাবর) এবং during (সময়ে)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "কনফিউজিং প্রেপজিশন দ্রুত সমাধানের কৌশল",
+      "nameEn": "Rapid Resolution of Confusing Pairs",
+      "formula": "Between (2 entities) vs Among (3+ entities) | Beside (by side) vs Besides (in addition to)",
+      "shortcutTrick": "২ হলে between, ৩+ হলে among! পাশে হলে beside, অতিরিক্ত হলে besides!",
+      "descriptionBn": "পরীক্ষায় সবচেয়ে বেশি ভুল হওয়া শব্দজোড়াগুলো রিভিশন সেটে নির্ভুলভাবে প্রয়োগ করা হয়েছে।",
+      "examples": [
+        {
+          "en": "The prize was distributed between the two brilliant debaters.",
+          "bn": "দুই মেধাবী তার্কিকের মধ্যে পুরস্কারটি ভাগ করে দেওয়া হলো।",
+          "note": "between (দুইজন)।"
+        },
+        {
+          "en": "The sweets were distributed among the children.",
+          "bn": "মিষ্টিগুলো শিশুদের মাঝে বিতরণ করা হলো।",
+          "note": "among (অনেকের মাঝে)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He was prevented from going to school by heavy downpour.",
+      "bn": "প্রচণ্ড বৃষ্টির কারণে তাকে বিদ্যালয়ে যাওয়া থেকে বিরত রাখা হয়েছিল।",
+      "note": "prevented from + V-ing।"
+    },
+    {
+      "en": "One should not boast of one's vast wealth.",
+      "bn": "কারো নিজের বিপুল সম্পদের বড়াই করা উচিত নয়।",
+      "note": "boast of (বড়াই করা)।"
+    },
+    {
+      "en": "Water was poured into the crystal jug.",
+      "bn": "স্ফটিকের জগে পানি ঢালা হলো।",
+      "note": "into (গতিশীল প্রবেশ)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Enter-এর সাথে Into বসে না (প্রবেশ অর্থে)",
+      "exceptionText": "কোনো ঘরে বা কক্ষে প্রবেশের ক্ষেত্রে Enter-এর পর \"into\" বসে না (He entered the room, NOT entered into). তবে আলোচনা বা চুক্তিতে জড়ানো বোঝাতে \"Enter into\" বসে (e.g. Enter into an agreement).",
+      "exampleEn": "The teacher entered the classroom (NOT entered into).",
+      "exampleBn": "শিক্ষক শ্রেণিকক্ষে প্রবেশ করলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He entered into the classroom.",
+      "correct": "He entered the classroom.",
+      "reasonBn": "কক্ষে প্রবেশের ক্ষেত্রে Enter-এর পর into বসে না।"
+    },
+    {
+      "mistake": "He discussed about the matter.",
+      "correct": "He discussed the matter.",
+      "reasonBn": "Discuss একটি Transitive Verb, এর পর \"about\" বসে না।"
+    }
+  ],
+  "tags": [
+    "preposition practice",
+    "chapter practice set",
+    "preposition revision",
+    "appropriate preposition test",
+    "ssc board standard"
+  ],
+  "mcqs": [
+    {
+      "id": 100701,
+      "question": "The headmaster entered _____ the classroom and looked _____ the students.",
+      "questionBn": "\"The headmaster entered _____ the classroom and looked _____ the students\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "into, to",
+        "no preposition, at",
+        "into, at",
+        "in, towards"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Enter-এর পর কক্ষে প্রবেশ অর্থে কোনো preposition বসে না, আর ছাত্রদের দিকে তাকানো অর্থে \"looked at\" বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 100702,
+      "question": "The brave freedom fighter died _____ the noble cause of our freedom.",
+      "questionBn": "\"The brave freedom fighter died _____ the noble cause of our freedom\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "of",
+        "from",
+        "for",
+        "by"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "মহৎ উদ্দেশ্য বা দেশের জন্য জীবন দেওয়া বোঝাতে \"die for\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100701,
+      "type": "Comprehensive Preposition Drill",
+      "prompt": "Fill in: (a) He is senior _____ me. (b) Despite _____ his illness, he passed. (c) Write _____ blue ink.",
+      "correctAnswer": "(a) to, (b) no preposition (of বসবে না), (c) in",
+      "explanationBn": "অধ্যায়ের মূল প্রেপজিশন ড্রিল।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100701,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 10 Comprehensive Board Standard Evaluation:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"He discussed about the problem and entered into the room.\"",
+          "answer": "He discussed the problem and entered the room.",
+          "explanationBn": "Discuss এবং Enter উভয়ের পরেই অপ্রয়োজনীয় preposition বর্জনীয়।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত নিশ্চিত ও ট্রিকি প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
   'voice-modals-infinitives-causatives-quasi': {
   "id": 1305,
   "chapterId": 13,

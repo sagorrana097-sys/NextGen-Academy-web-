@@ -16,7 +16,7 @@ import GrammarRightPanel from './GrammarRightPanel';
 export default function InteractiveGrammarBook() {
   const [chapters, setChapters] = useState(GRAMMAR_CHAPTERS);
   const [activeChapter, setActiveChapter] = useState(GRAMMAR_CHAPTERS[6] || GRAMMAR_CHAPTERS[0]); // Tense by default
-  const [currentTopic, setCurrentTopic] = useState(GRAMMAR_TOPICS_DATABASE['present-indefinite-tense']);
+  const [currentTopic, setCurrentTopic] = useState(GRAMMAR_TOPICS_DATABASE['present-tense-simple-continuous'] || Object.values(GRAMMAR_TOPICS_DATABASE)[0]);
   
   const [activeView, setActiveView] = useState('TOPIC'); // 'TOPIC' | 'MODEL_TEST' | 'BOARD_VAULT' | 'BOOKMARKS' | 'PROGRESS'
   const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState(false);
