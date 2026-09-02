@@ -1418,7 +1418,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
           <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
             <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
-              {textbooks.length || 2}
+              {textbooks.length || 4}
             </span>
             <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
               ফাইল
@@ -1427,7 +1427,7 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
 
           <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
             <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
-              ৩১৪৭
+              ৪৫৯৯
             </span>
             <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
               প্রশ্ন
