@@ -306,6 +306,3813 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'voice-modals-infinitives-causatives-quasi': {
+  "id": 1305,
+  "chapterId": 13,
+  "topicNo": "০৫",
+  "titleEn": "Special Voice Constructions: Modals, Infinitives, Causatives & Quasi-Passive",
+  "titleBn": "বাচ্যের বিশেষ রূপান্তর: মোডাল, ইনফিনিটিভ, পজিটিভ ভার্ব ও Quasi-Passive",
+  "slug": "voice-modals-infinitives-causatives-quasi",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি ও ভর্তি পরীক্ষার সবচেয়ে আকর্ষণীয় অংশ। Quasi-Passive (Honey tastes sweet -> Honey is sweet when it is tasted), Modal Auxiliaries (Can/Must be + V3), Infinitive (To be + V3), এবং Causative/Perception Verbs (Make/See/Hear-এর Bare Infinitive প্যাসিভে To গ্রহণ করা)।",
+  "definitionEn": "Special voice structures address non-canonical active-passive shifts, including quasi-passive middle verbs, bare infinitives regaining \"to\" in the passive, and modal auxiliary periphrasis.",
+  "definitionBn": "ইংরেজি ব্যাকরণের কিছু ব্যতিক্রমী রূপান্তর যেখানে সাধারণ প্যাসিভ নিয়ম খাটে না; যেমন: অর্ধ-কর্মবাচ্য (Quasi-Passive), মোডাল অক্সিলিয়ারি, ইনফিনিটিভ ও প্রযোজক ক্রিয়া।",
+  "explanationBn": "১. Quasi-Passive (অর্ধ-কর্মবাচ্য): গঠন অ্যাক্টিভ কিন্তু অর্থ প্যাসিভ।\n- Adjective থাকলে: Subject + Be verb + Adjective + WHEN IT IS / THEY ARE + V3 (Honey tastes sweet -> Honey is sweet when it is tasted / Honey is tasted sweet)।\n- Adjective না থাকলে: Subject + Be verb + V3 (The house is building -> The house is being built / Rice sells cheap -> Rice is cheap when it is sold)।\n২. Modal Auxiliary: Modal (can, may, must, should) + BE + V3 (You must do it -> It must be done by you)।\n৩. Infinitive: To + V1 -> TO BE + V3 (I want him to write a letter -> I want a letter to be written by him)।\n৪. Make / See / Hear / Help: সক্রিয় বাক্যে To উহ্য থাকলেও প্যাসিভ বাক্যে বাধ্যতামূলকভাবে \"TO\" বসাতে হবে! (I made him cry -> He was made TO cry by me)!",
+  "teacherGoldenTips": "মেক ও সি-র মারাত্মক প্যাসিভ রুল: Active বাক্যে \"I saw him go\" থাকলেও Passive-এ অবশ্যই \"He was seen TO go by me\" লিখতে হবে! প্যাসিভে Bare Infinitive কখনোই একা বসে না, তার আগে \"to\" বসাতেই হবে (তবে Let-এর ক্ষেত্রে \"to\" বসে না)!",
+  "mainFormula": "Modal + BE + V3 | Quasi-Passive: S + is + Adj + WHEN IT IS + V3 | Causative Passive: was made / seen + TO + V1",
+  "formulas": [
+    {
+      "label": "Modal Passive",
+      "structure": "Subject + can / could / must / should + BE + V3 + by + Object",
+      "tag": "Modals",
+      "example": "We should respect our teachers. -> Our teachers should be respected by us."
+    },
+    {
+      "label": "Quasi-Passive with Complement",
+      "structure": "Subject + be + Adjective + WHEN IT IS / THEY ARE + V3",
+      "tag": "Quasi Adj",
+      "example": "Honey tastes sweet. -> Honey is sweet when it is tasted."
+    },
+    {
+      "label": "Bare Infinitive to Full Infinitive",
+      "structure": "Active: made/saw + Person + V1 -> Passive: Person -> Subject + was made/seen + TO + V1",
+      "tag": "Causative",
+      "example": "I made him clean the room. -> He was made to clean the room by me."
+    },
+    {
+      "label": "Infinitive Passive",
+      "structure": "To + V1 -> TO BE + V3",
+      "tag": "Infinitive",
+      "example": "He wants to buy a car. -> He wants a car to be bought."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Quasi-Passive (অর্ধ-কর্মবাচ্য)-এর রূপান্তর কৌশল",
+      "nameEn": "Transforming Quasi-Passive (Middle Voice) Verbs",
+      "formula": "Subject + BE (am/is/are) + Adjective + WHEN IT IS / THEY ARE + V3 (Past Participle)",
+      "shortcutTrick": "সাবজেক্ট + বি-ভার্ব + অ্যাডজেক্টিভ বসিয়ে দিন, তারপর \"when it is\" লিখে মূল ভার্বের V3 করে দিন!",
+      "descriptionBn": "The rose smells sweet -> The rose is sweet when it is smelled. The bed feels soft -> The bed is soft when it is felt.",
+      "examples": [
+        {
+          "en": "Green mangoes taste sour.",
+          "bn": "কাঁচা আম খেতে টক।",
+          "note": "Quasi-Passive Active।"
+        },
+        {
+          "en": "Green mangoes are sour when they are tasted.",
+          "bn": "কাঁচা আম যখন চেখে দেখা হয় তখন টক লাগে।",
+          "note": "Passive রূপান্তর (they are tasted)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Active-এর Bare Infinitive প্যাসিভে \"To\" নেওয়ার নিয়ম",
+      "nameEn": "Reinstating \"To\" in Passive of Perception and Causative Verbs",
+      "formula": "Active: S + (make / see / hear / watch) + Obj + V1 -> Passive: Obj -> S + was/were + V3 + TO + V1",
+      "shortcutTrick": "Made, saw, heard-এর প্যাসিভ করলেই পরের ভার্বের আগে \"to\" বসিয়ে দিন!",
+      "descriptionBn": "Mother made the baby eat milk -> The baby was made TO eat milk by mother. We saw him steal the mangoes -> He was seen TO steal the mangoes by us.",
+      "examples": [
+        {
+          "en": "I heard her sing a melodious Tagore song.",
+          "bn": "আমি তাকে একটি সুরেলা রবীন্দ্রসংগীত গাইতে শুনলাম।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "She was heard to sing a melodious Tagore song by me.",
+          "bn": "আমার দ্বারা তাকে একটি সুরেলা রবীন্দ্রসংগীত গাইতে শোনা গেল।",
+          "note": "Passive রূপান্তর (was heard to sing)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Every citizen must defend the motherland against invaders.",
+      "bn": "প্রত্যেক নাগরিককে অবশ্যই আক্রমণকারীদের বিরুদ্ধে মাতৃভূমি রক্ষা করতে হবে।",
+      "note": "Active with Modal (must)।"
+    },
+    {
+      "en": "The motherland must be defended against invaders by every citizen.",
+      "bn": "আক্রমণকারীদের বিরুদ্ধে প্রতিটি নাগরিক দ্বারা মাতৃভূমি অবশ্যই সুরক্ষিত হতে হবে।",
+      "note": "Passive (must be defended)।"
+    },
+    {
+      "en": "Rice sells cheap in the harvesting season.",
+      "bn": "ফসল তোলার মৌসুমে চাল সস্তায় বিক্রি হয়।",
+      "note": "Quasi-Passive।"
+    },
+    {
+      "en": "Rice is cheap when it is sold in the harvesting season.",
+      "bn": "ফসল তোলার মৌসুমে বিক্রির সময় চাল সস্তা হয়।",
+      "note": "Passive রূপান্তর।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Let-এর ক্ষেত্রে প্যাসিভেও \"to\" বসে না",
+      "exceptionText": "Make, see, hear ইত্যাদির প্যাসিভে \"to\" বসলেও Let-এর প্যাসিভ রূপে কখনো \"to\" বসে না! যেমন: \"He let me go -> I was let go by him (NOT I was let to go).",
+      "exampleEn": "The guard let them enter the hall. -> They were let enter the hall by the guard.",
+      "exampleBn": "পাহারাদার তাদের হলে প্রবেশের অনুমতি দিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He was made write the letter.",
+      "correct": "He was made to write the letter.",
+      "reasonBn": "Make-এর প্যাসিভ রূপে অবশ্যই Bare Infinitive-এর পূর্বে \"to\" বসাতে হবে।"
+    },
+    {
+      "mistake": "Honey is sweet when tasting.",
+      "correct": "Honey is sweet when it is tasted.",
+      "reasonBn": "Quasi-passive-এ \"when it is tasted\" (V3) বসবে।"
+    }
+  ],
+  "tags": [
+    "quasi passive",
+    "honey tastes sweet",
+    "made to cry",
+    "modal passive",
+    "infinitive to be v3",
+    "let no to exception",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 130501,
+      "question": "What is the correct passive form of \"Honey tastes sweet\"?",
+      "questionBn": "\"Honey tastes sweet\" বাক্যটির সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "Honey is sweet when it is tasted.",
+        "Honey is tasted sweet.",
+        "Sweet is tasted by honey.",
+        "Honey is tasted sweetly."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Quasi-Passive রূপান্তরের ক্লাসিক মানসম্মত রূপ হলো \"Honey is sweet when it is tasted\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 130502,
+      "question": "Change into Passive: \"The teacher made the students rewrite the assignment.\"",
+      "questionBn": "\"The teacher made the students rewrite the assignment\" বাক্যটিকে Passive-এ রূপান্তর করো:",
+      "options": [
+        "The students were made rewrite the assignment by the teacher.",
+        "The students were made to rewrite the assignment by the teacher.",
+        "The assignment was made rewritten by the teacher.",
+        "The students was made to rewrite the assignment."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Make-এর সক্রিয় বাক্যে to উহ্য থাকলেও Passive বাক্যে \"were made TO rewrite\" অবশ্যই বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130501,
+      "type": "Passive of Modal",
+      "prompt": "Change into Passive: \"You ought to respect the noble teachers.\"",
+      "correctAnswer": "The noble teachers ought to be respected by you.",
+      "explanationBn": "Modal (ought to) + be + V3 (respected) নিয়ম।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Quasi-Passive and Causative verbs in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"We saw the boat sink into the river.\"",
+          "answer": "The boat was seen to sink into the river by us.",
+          "explanationBn": "Perception verb \"saw\"-এর প্যাসিভে \"was seen to sink\" রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এর একটি অত্যন্ত মর্যাদাপূর্ণ স্ট্যান্ডার্ড প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'voice-double-object-and-prepositional-verbs': {
+  "id": 1304,
+  "chapterId": 13,
+  "topicNo": "০৪",
+  "titleEn": "Voice: Double Objects, Factitive Objects & Prepositional Group Verbs",
+  "titleBn": "দ্বি-কর্মক, প্রযোজ্য কর্ম (Factitive) ও গ্রুপ ভার্বের বাচ্য পরিবর্তন",
+  "slug": "voice-double-object-and-prepositional-verbs",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "দুটি অবজেক্ট থাকলে (Retained Object), Factitive Verb (Call, Make, Elect, Nominate) যা অবজেক্ট কমপ্লিমেন্ট নেয়, এবং Group/Prepositional Verbs (Laugh at, Look after) যেখানে প্রেপজিশন বাদ দেওয়া যায় না।",
+  "definitionEn": "Complex transitivity involves ditransitive verbs with dual objects (direct/indirect), complex transitive verbs taking factitive complements, and fixed prepositional verbs whose particles must remain intact in the passive.",
+  "definitionBn": "যেসব বাক্যে দুটি কর্ম (Double Object) থাকে, বা অতিরিক্ত পরিচায়ক কমপ্লিমেন্ট (Factitive Object) থাকে, অথবা Verb-এর সাথে Preposition যুক্ত থাকে, তাদের বাচ্য পরিবর্তনের বিশেষ নিয়মাবলী।",
+  "explanationBn": "১. Double Object: বাক্যে ব্যক্তিবাচক (Indirect) এবং বস্তুবাচক (Direct) দুটি অবজেক্ট থাকলে যেকোনো একটিকে সাবজেক্ট করা যায়; তবে ব্যক্তিবাচকটিকে সাবজেক্ট করা বেশি স্বাভাবিক। বাকি অবজেক্টটিকে Retained Object বলে (He gave me a pen -> I was given a pen by him)।\n২. Factitive Verb: Elect, select, make, call, nominate-এর পরের কমপ্লিমেন্টটিকে কখনো প্যাসিভের সাবজেক্ট করা যায় না! (We elected him captain -> He was elected captain by us, NOT Captain was elected him)।\n৩. Prepositional Verb: মূল ভার্বের সাথে লেগে থাকা Preposition প্যাসিভে কোনো অবস্থাতেই বাদ দেওয়া যাবে না (He laughed at the poor man -> The poor man was laughed AT by him)।",
+  "teacherGoldenTips": "ফ্যাক্টিটিভ অবজেক্টের মারাত্মক ফাঁদ: \"We made him captain\" বাক্যে \"Captain\" কিন্তু কোনো আসল অবজেক্ট নয়, এটি কমপ্লিমেন্ট! তাই কখনো \"Captain was made him\" লিখবেন না; লিখতে হবে \"He was made captain by us\"!",
+  "mainFormula": "Double Object: Personal Object -> New Subject + BE + V3 + Retained Object + by + Agent | Factitive: Real Object -> Subject + BE + V3 + Factitive Noun",
+  "formulas": [
+    {
+      "label": "Double Object Rule",
+      "structure": "Indirect Object (Person) -> New Subject + BE + V3 + Direct Object (Thing) + by + Agent",
+      "tag": "Double Object",
+      "example": "Mr. Rahim teaches us English. -> We are taught English by Mr. Rahim."
+    },
+    {
+      "label": "Factitive Complement Rule",
+      "structure": "Real Object -> New Subject + BE + V3 + Factitive Complement (never subject) + by + Agent",
+      "tag": "Factitive",
+      "example": "They called him a hero. -> He was called a hero by them."
+    },
+    {
+      "label": "Prepositional Verb Rule",
+      "structure": "Subject + BE + V3 + MANDATORY PREPOSITION + by + Object",
+      "tag": "Group Verb",
+      "example": "Look after your parents. -> Your parents should be looked after."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Prepositional Group Verbs-এর প্রেপজিশন অক্ষুণ্ণ রাখা",
+      "nameEn": "Retaining Particles in Prepositional Verbs",
+      "formula": "Active: Verb + Preposition + Object -> Passive: Object -> Subject + BE + V3 + PREPOSITION + BY + Agent",
+      "shortcutTrick": "ভার্বের পেটের ভেতরে যে প্রেপজিশন আছে তা থাকবেই, তার সাথে প্যাসিভের \"by\" আলাদা বসবে!",
+      "descriptionBn": "They laughed at the poor boy -> The poor boy was laughed at by them (laughed at by দুটি পাশাপাশি বসবে)।",
+      "examples": [
+        {
+          "en": "A speeding truck ran over the stray dog.",
+          "bn": "একটি দ্রুতগামী ট্রাক বেওয়ারিশ কুকুরটিকে চাপা দিল।",
+          "note": "Active Voice (ran over)।"
+        },
+        {
+          "en": "The stray dog was run over by a speeding truck.",
+          "bn": "বেওয়ারিশ কুকুরটি একটি দ্রুতগামী ট্রাকের দ্বারা চাপা পড়ল।",
+          "note": "Passive রূপান্তর (run over by)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Cognate Object ও Reflexive Object-এর প্যাসিভ",
+      "nameEn": "Passivizing Cognate and Reflexive Objects",
+      "formula": "Reflexive (myself, himself): Subject remains same + BE + V3 + BY + Reflexive pronoun",
+      "shortcutTrick": "Reflexive-এ আসল সাবজেক্ট পাল্টায় না; শুধু মাঝখানে Be + V3 ঢুকে যায়!",
+      "descriptionBn": "He fanned himself (সে নিজেকে বাতাস করল) -> He was fanned by himself (Himself was fanned by him ভুল)। She sang a sweet song (Cognate) -> A sweet song was sung by her.",
+      "examples": [
+        {
+          "en": "The depressed man killed himself.",
+          "bn": "হতাশ লোকটি আত্মহত্যা করল।",
+          "note": "Active (Reflexive)।"
+        },
+        {
+          "en": "The depressed man was killed by himself.",
+          "bn": "লোকটি নিজের দ্বারাই নিহত হলো।",
+          "note": "Passive রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The villagers selected Mr. Rahman chairman of the union.",
+      "bn": "গ্রামবাসীরা জনাব রহমানকে ইউনিয়নের চেয়ারম্যান নির্বাচিত করল।",
+      "note": "Factitive Verb (selected)।"
+    },
+    {
+      "en": "Mr. Rahman was selected chairman of the union by the villagers.",
+      "bn": "জনাব রহমান গ্রামবাসীদের দ্বারা ইউনিয়নের চেয়ারম্যান নির্বাচিত হলেন।",
+      "note": "Passive (chairman অবিকল থাকে)।"
+    },
+    {
+      "en": "Father promised me a high-speed laptop on my birthday.",
+      "bn": "বাবা আমার জন্মদিনে আমাকে একটি দ্রুতগতির ল্যাপটপের প্রতিশ্রুতি দিয়েছিলেন।",
+      "note": "Double Object (me ও laptop)।"
+    },
+    {
+      "en": "I was promised a high-speed laptop on my birthday by father.",
+      "bn": "বাবার দ্বারা জন্মদিনে আমাকে একটি দ্রুতগতির ল্যাপটপের প্রতিশ্রুতি দেওয়া হয়েছিল।",
+      "note": "Passive (I-কে প্রাধান্য)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Elect / Select / Make-এর পরে \"As\" থাকলে তা উঠে যায়",
+      "exceptionText": "কথ্য ভাষায় অনেক সময় As বসানো হলেও প্রমিত ব্যাকরণে Factitive কমপ্লিমেন্টের পূর্বে As বসে না।",
+      "exampleEn": "We elected him president (NOT as president).",
+      "exampleBn": "আমরা তাকে সভাপতি নির্বাচিত করলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Captain was made him by us.",
+      "correct": "He was made captain by us.",
+      "reasonBn": "Factitive Complement (captain) কখনো প্যাসিভের Subject হতে পারে না।"
+    },
+    {
+      "mistake": "The poor boy was laughed by them.",
+      "correct": "The poor boy was laughed at by them.",
+      "reasonBn": "Laugh-এর সাথে থাকা \"at\" বাদ দেওয়া যাবে না।"
+    }
+  ],
+  "tags": [
+    "double object voice",
+    "retained object",
+    "factitive verb",
+    "group verb passive",
+    "reflexive voice",
+    "ran over by",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 130401,
+      "question": "Change into Passive: \"The students elected Sakib class captain unanimously.\"",
+      "questionBn": "\"The students elected Sakib class captain unanimously\" বাক্যটিকে Passive-এ রূপান্তর করো:",
+      "options": [
+        "Class captain was elected Sakib unanimously by the students.",
+        "Sakib was elected class captain unanimously by the students.",
+        "Sakib was elected as class captain by the students.",
+        "Sakib had been elected class captain by the students."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Sakib\" হলো আসল Object এবং \"class captain\" হলো Factitive Complement; তাই Sakib সাবজেক্ট হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 130402,
+      "question": "What is the correct passive form of \"He looks after his aged parents lovingly\"?",
+      "questionBn": "\"He looks after his aged parents lovingly\"-এর সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "His aged parents are looked lovingly by him.",
+        "His aged parents are looked after lovingly by him.",
+        "His aged parents were looked after by him.",
+        "His aged parents are being looked after lovingly."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Group verb \"look after\"-এর \"after\" অক্ষুণ্ণ রেখে \"are looked after by him\" কাঠামো সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130401,
+      "type": "Change into Passive",
+      "prompt": "Change into Passive: \"The teacher gave each student a prize.\"",
+      "correctAnswer": "Each student was given a prize by the teacher. (or A prize was given to each student by the teacher.)",
+      "explanationBn": "Double Object-এর প্যাসিভ রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Factitive and Prepositional verb passive forms in SSC exams:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"The girl fanned herself with a palm leaf.\"",
+          "answer": "The girl was fanned by herself with a palm leaf.",
+          "explanationBn": "Reflexive Pronoun-এর প্যাসিভ নিয়ম (Subject অপরিবর্তিত থাকে)।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ভয়েস সেকশনের অত্যন্ত গুরুত্বপূর্ণ মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'voice-interrogative-sentences': {
+  "id": 1303,
+  "chapterId": 13,
+  "topicNo": "০৩",
+  "titleEn": "Voice of Interrogative Sentences: Who, Whom, Do/Does/Did & WH-Words",
+  "titleBn": "প্রশ্নবোধক বাক্যের বাচ্য পরিবর্তন (Interrogative Voice: Who, Whom, Do/Did)",
+  "slug": "voice-interrogative-sentences",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "শিক্ষার্থীদের সবচেয়ে বেশি বিভ্রান্তিকর প্রশ্নবোধক বাক্যের রূপান্তর। Who থাকলে By whom, Whom থাকলে Who, Do/Does/Did থাকলে Am/Is/Are/Was/Were, এবং শেষে প্রশ্নবোধক চিহ্নের বাধ্যবাধকতা।",
+  "definitionEn": "Interrogative passivization maintains the syntactic question order (Auxiliary preceding Subject) while transforming the agency via WH-inversion (Who → By whom, Whom → Who).",
+  "definitionBn": "প্রশ্নবোধক (Interrogative) বাক্যকে Passive Voice-এ রূপান্তর করার নিয়ম। রূপান্তরিত বাক্যটিও অবশ্যই প্রশ্নবোধক কাঠামোতে (Subject-এর পূর্বে Auxiliary Verb) থাকবে এবং শেষে \"?\" বসবে।",
+  "explanationBn": "প্রধান ৩টি সহজ কৌশল:\n১. Do / Does / Did দিয়ে প্রশ্ন থাকলে:\n- Do/Does উঠে গিয়ে Am / Is / Are + Object + V3 + by + Subject?\n- Did উঠে গিয়ে Was / Were + Object + V3 + by + Subject?\n(Did you break the glass? -> Was the glass broken by you?)\n\n২. Who থাকলে:\n- \"BY WHOM + Auxiliary + Object + V3?\"\n(Who broke the mirror? -> By whom was the mirror broken?)\n\n৩. Whom থাকলে:\n- \"WHO + Auxiliary + V3 + by + Subject?\"\n(Whom did you see? -> Who was seen by you?)",
+  "teacherGoldenTips": "হু বনাম হুমের সহজ ট্রিক: প্রশ্নে \"Who\" থাকলে প্যাসিভ শুরু হবে \"BY WHOM\" দিয়ে! আর প্রশ্নে \"Whom\" থাকলে প্যাসিভ শুরু হবে \"WHO\" দিয়ে! এবং ভুলেও বাক্যকে এসারটিভ বানাবেন না; অক্সিলিয়ারি অবশ্যই সাবজেক্টের আগে থাকবে!",
+  "mainFormula": "Who -> BY WHOM + Aux + Object + V3 ? | Whom -> WHO + Aux + V3 + by + Object ? | Did + S + V1? -> WAS/WERE + O + V3 + by + S?",
+  "formulas": [
+    {
+      "label": "Who Transformation",
+      "structure": "BY WHOM + (am/is/are/was/were/has been) + Object + V3 ?",
+      "tag": "By whom",
+      "example": "Who wrote Hamlet? -> By whom was Hamlet written?"
+    },
+    {
+      "label": "Whom Transformation",
+      "structure": "WHO + (is/was/has been) + V3 + by + Subject ?",
+      "tag": "Whom to Who",
+      "example": "Whom do you want? -> Who is wanted by you?"
+    },
+    {
+      "label": "Do/Does/Did Shift",
+      "structure": "Am/Is/Are/Was/Were + Object + V3 + by + Subject ?",
+      "tag": "Do Auxiliary",
+      "example": "Did he complete the task? -> Was the task completed by him?"
+    },
+    {
+      "label": "Other WH-Words",
+      "structure": "WH-word (What/Why/When/Where) + Aux + Object + V3 + by + S ?",
+      "tag": "WH-Words",
+      "example": "Why did you punish him? -> Why was he punished by you?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Who থেকে By whom রূপান্তরের নিখুঁত ধাপ",
+      "nameEn": "Converting \"Who\" to \"By whom\"",
+      "formula": "BY WHOM + BE VERB + New Subject (Old Object) + V3 (Past Participle) ?",
+      "shortcutTrick": "Who-এর বদলে By whom বসবে, তারপর টেন্স অনুযায়ী Be Verb, তারপর অবজেক্ট, তারপর V3!",
+      "descriptionBn": "Who will do the work? -> By whom will the work be done? Who has broken the chair? -> By whom has the chair been broken?",
+      "examples": [
+        {
+          "en": "Who taught you English literature?",
+          "bn": "তোমাকে ইংরেজি সাহিত্য কে পড়িয়েছেন?",
+          "note": "Active Question।"
+        },
+        {
+          "en": "By whom were you taught English literature?",
+          "bn": "কার দ্বারা তোমাকে ইংরেজি সাহিত্য পড়ানো হয়েছিল?",
+          "note": "Passive রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "What যখন Subject বনাম What যখন Object",
+      "nameEn": "What as Subject vs What as Object in Interrogatives",
+      "formula": "What as Subject: BY WHAT + Aux + O + V3? | What as Object: WHAT + Aux + V3 + by + S?",
+      "shortcutTrick": "What যদি নিজে কাজ করে তবে By what; আর What যদি কর্ম হয় তবে শুরুতে What বসবে!",
+      "descriptionBn": "What made you laugh? (What কর্তা) -> By what were you made to laugh? What do you want? (What কর্ম) -> What is wanted by you?",
+      "examples": [
+        {
+          "en": "What caused the sudden explosion?",
+          "bn": "কী কারণে হঠাৎ বিস্ফোরণ ঘটল?",
+          "note": "What হলো Subject।"
+        },
+        {
+          "en": "By what was the sudden explosion caused?",
+          "bn": "কীসের দ্বারা আকস্মিক বিস্ফোরণটি ঘটেছিল?",
+          "note": "Passive (By what)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Are they constructing the new flyover?",
+      "bn": "তারা কি নতুন ফ্লাইওভারটি নির্মাণ করছে?",
+      "note": "Active (Continuous)।"
+    },
+    {
+      "en": "Is the new flyover being constructed by them?",
+      "bn": "নতুন ফ্লাইওভারটি কি তাদের দ্বারা নির্মিত হচ্ছে?",
+      "note": "Passive (Is ... being constructed)।"
+    },
+    {
+      "en": "Where did you find this lost wallet?",
+      "bn": "তুমি এই হারানো ওয়ালেটটি কোথায় পেয়েছিলে?",
+      "note": "Active Question।"
+    },
+    {
+      "en": "Where was this lost wallet found by you?",
+      "bn": "এই হারানো ওয়ালেটটি তোমার দ্বারা কোথায় পাওয়া গিয়েছিল?",
+      "note": "Passive Question।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "আধুনিক ইংরেজিতে By বাক্যের শেষে বসে",
+      "exceptionText": "কথ্য বা ইনফরমাল ইংরেজিতে \"By whom\"-এর বদলে Who শুরুতে রেখে By বাক্যের একদম শেষে বসানো যায়: \"Who was Hamlet written by?\"। তবে বোর্ড পরীক্ষার জন্য \"By whom\" সর্বাধিক নিরাপদ।",
+      "exampleEn": "Who was the telephone invented by? (Informal) = By whom was the telephone invented? (Standard)",
+      "exampleBn": "টেলিফোন কার দ্বারা আবিষ্কৃত হয়েছিল?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "By whom the glass was broken? (Wrong word order)",
+      "correct": "By whom was the glass broken?",
+      "reasonBn": "Interrogative বাক্যে Auxiliary Verb (was) অবশ্যই Subject (the glass)-এর আগে বসবে।"
+    },
+    {
+      "mistake": "Did the work finished by him?",
+      "correct": "Was the work finished by him?",
+      "reasonBn": "প্যাসিভে Did বসে না; Be verb (Was) বসবে।"
+    }
+  ],
+  "tags": [
+    "interrogative voice",
+    "by whom",
+    "whom to who",
+    "did to was were",
+    "auxiliary subject inversion",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 130301,
+      "question": "Change into Passive: \"Who has composed this inspiring patriotic song?\"",
+      "questionBn": "\"Who has composed this inspiring patriotic song\" বাক্যটির সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "By whom has this inspiring patriotic song been composed?",
+        "By whom this inspiring patriotic song has been composed?",
+        "Who has been composed this inspiring patriotic song?",
+        "By whom was this inspiring patriotic song composed?"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Who পরিবর্তিত হয়ে By whom হবে এবং Present Perfect Passive-এ \"has [Subject] been composed?\" ক্রম বজায় থাকবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 130302,
+      "question": "Transform into Passive: \"Did the principal inspect all the classrooms?\"",
+      "questionBn": "\"Did the principal inspect all the classrooms\" বাক্যটির Passive রূপ কোনটি?",
+      "options": [
+        "Was all the classrooms inspected by the principal?",
+        "Were all the classrooms inspected by the principal?",
+        "Did all the classrooms inspected by the principal?",
+        "Are all the classrooms inspected by the principal?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Did (Past Simple)-এর জন্য Plural Object \"all the classrooms\"-এর পূর্বে Auxiliary Verb \"Were\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130301,
+      "type": "Interrogative to Passive",
+      "prompt": "Change into Passive: \"Whom did you invite to your birthday party?\"",
+      "correctAnswer": "Who was invited to your birthday party by you?",
+      "explanationBn": "Whom থেকে Who + was invited রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Interrogative voice conversions in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"Why did you disobey the instructions?\"",
+          "answer": "Why were the instructions disobeyed by you?",
+          "explanationBn": "Why + were (auxiliary) + instructions (subject) + disobeyed (V3) + by you।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এর অন্যতম নিয়মিত আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'voice-imperative-sentences': {
+  "id": 1302,
+  "chapterId": 13,
+  "topicNo": "০২",
+  "titleEn": "Voice of Imperative Sentences: Orders, Prohibitions, Requests & Advice",
+  "titleBn": "অনুজ্ঞাবাচক বাক্যের বাচ্য পরিবর্তন (Imperative Voice: Let, Never, Advice)",
+  "slug": "voice-imperative-sentences",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "আদেশ, নিষেধ ও উপদেশের ভয়েস চেঞ্জ। Let + Object + be + V3, না-বোধকে Let not, Never থাকলে Let never + be + V3, এবং নৈতিক উপদেশে \"Should be + V3\"-এর সার্বিক প্রয়োগ।",
+  "definitionEn": "Imperative passivization predominantly utilizes periphrastic modal constructions beginning with \"Let\" or deontic modals (\"should be\") to retain command or advisory semantics.",
+  "definitionBn": "আদেশ, নিষেধ, অনুরোধ বা উপদেশমূলক (Imperative) বাক্যকে Passive করতে সাধারণত বাক্যের শুরুতে \"Let\" এনে \"Let + Object + be + V3\" কাঠামোতে সাজানো হয়।",
+  "explanationBn": "প্রধান ৪টি প্যাটার্ন:\n১. সাধারণ আদেশ (Verb + Object): \"LET + Object + BE + V3\" (Do the work -> Let the work be done)।\n২. না-বোধক নিষেধ (Do not + Verb + Object): \"LET NOT + Object + BE + V3\" (Do not open the door -> Let not the door be opened)।\n৩. Never যুক্ত নিষেধ: \"LET NEVER + Object + BE + V3\" (Never tell a lie -> Let never a lie be told)।\n৪. নৈতিক উপদেশ: \"Object + SHOULD BE + V3\" (Help the poor -> The poor should be helped / Let the poor be helped)।\n৫. Please / Kindly থাকলে: \"You are requested to + V1\" (Please help me -> You are requested to help me)।",
+  "teacherGoldenTips": "লেট-এর গোল্ডেন ফর্মুলা: আদেশ থাকলে চোখ বন্ধ করে \"LET\" দিয়ে শুরু করুন! অবজেক্টের পর একটি \"BE\" বসিয়ে মূল ভার্বকে V3 করে দিন! আর \"Do not\" থাকলে শুরুতে বসবে \"LET NOT\"!",
+  "mainFormula": "Affirmative Imperative: LET + Object + BE + V3 | Negative: LET NOT + Object + BE + V3 | Never: LET NEVER + Object + BE + V3",
+  "formulas": [
+    {
+      "label": "Standard Command",
+      "structure": "LET + Object + BE + V3",
+      "tag": "Let Command",
+      "example": "Shut the window. -> Let the window be shut."
+    },
+    {
+      "label": "Negative Prohibition",
+      "structure": "LET NOT + Object + BE + V3",
+      "tag": "Let Not",
+      "example": "Do not pluck the flowers. -> Let not the flowers be plucked."
+    },
+    {
+      "label": "Never Rule",
+      "structure": "LET NEVER + Object + BE + V3",
+      "tag": "Let Never",
+      "example": "Never deceive your friends. -> Let never your friends be deceived."
+    },
+    {
+      "label": "Request with Please",
+      "structure": "YOU ARE REQUESTED TO + Base Verb + Object",
+      "tag": "Requested",
+      "example": "Please maintain silence. -> You are requested to maintain silence."
+    },
+    {
+      "label": "Moral Advice",
+      "structure": "Object + SHOULD BE + V3",
+      "tag": "Should be",
+      "example": "Love your country. -> Your country should be loved."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Let দ্বারা শুরু হওয়া Active বাক্যের প্যাসিভ রূপ",
+      "nameEn": "Passive of Active Sentences already starting with \"Let\"",
+      "formula": "Active: LET + Person 1 + V1 + Object -> Passive: LET + Object + BE + V3 + BY + Person 1",
+      "shortcutTrick": "Let দিয়ে শুরু হলে Passive-ও Let দিয়েই শুরু হবে, আর ১ম ব্যক্তিটি শেষে by him/them হয়ে যাবে!",
+      "descriptionBn": "Let him do the work -> Let the work be done by him. Let her sing a song -> Let a song be sung by her.",
+      "examples": [
+        {
+          "en": "Let him read the storybook.",
+          "bn": "তাকে গল্পের বইটি পড়তে দাও।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "Let the storybook be read by him.",
+          "bn": "গল্পের বইটি তার দ্বারা পঠিত হোক।",
+          "note": "Passive রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Intransitive Imperative বাক্যে You are ordered/requested to",
+      "nameEn": "Passive of Imperative Verbs without Object",
+      "formula": "Active: Verb (Intransitive) -> Passive: YOU ARE ORDERED / ADVISED / REQUESTED + TO + V1",
+      "shortcutTrick": "যদি বাক্যে কোনো Object না থাকে, তবে You are ordered/advised to দিয়ে শুরু করুন!",
+      "descriptionBn": "Go home at once -> You are ordered to go home at once. Stand up -> You are ordered to stand up.",
+      "examples": [
+        {
+          "en": "Get out of the room immediately!",
+          "bn": "অবিলম্বে ঘর থেকে বের হয়ে যাও!",
+          "note": "Active (আদেশ)।"
+        },
+        {
+          "en": "You are ordered to get out of the room immediately.",
+          "bn": "আপনাকে অবিলম্বে ঘর থেকে বের হওয়ার আদেশ দেওয়া হচ্ছে।",
+          "note": "Passive রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Post this confidential letter immediately.",
+      "bn": "এই গোপনীয় চিঠিটি অবিলম্বে ডাকযোগে পাঠাও।",
+      "note": "Active Command।"
+    },
+    {
+      "en": "Let this confidential letter be posted immediately.",
+      "bn": "এই গোপনীয় চিঠিটি অবিলম্বে ডাকযোগে পাঠানো হোক।",
+      "note": "Passive রূপান্তর।"
+    },
+    {
+      "en": "Do not hate the helpless poor people.",
+      "bn": "অসহায় গরিব মানুষদের ঘৃণা করো না।",
+      "note": "Active Prohibition।"
+    },
+    {
+      "en": "Let not the helpless poor people be hated.",
+      "bn": "অসহায় গরিব মানুষরা ঘৃণিত না হোক।",
+      "note": "Passive (Let not)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Let's / Let us যুক্ত প্রস্তাবের প্যাসিভ",
+      "exceptionText": "Let us দ্বারা কোনো প্রস্তাব প্রকাশ পেলে প্যাসিভ করার সময় \"It is suggested that we should + V1\" বা \"We should be allowed to\" ব্যবহৃত হয়।",
+      "exampleEn": "Let us settle the dispute -> It is suggested that the dispute should be settled.",
+      "exampleBn": "প্রস্তাব করা হলো যে বিবাদটির নিষ্পত্তি হওয়া উচিত।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Let the work is done.",
+      "correct": "Let the work be done.",
+      "reasonBn": "Let-এর পরে বি-ভার্বের মূল রূপ \"be\" বসবে, \"is/are\" নয়।"
+    },
+    {
+      "mistake": "Do not let the door be opened.",
+      "correct": "Let not the door be opened.",
+      "reasonBn": "প্যাসিভ বাক্যের শুরুতে \"Let not\" বসবে।"
+    }
+  ],
+  "tags": [
+    "imperative voice",
+    "let be v3",
+    "let not be v3",
+    "let never",
+    "you are requested to",
+    "should be loved",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 130201,
+      "question": "Change into Passive: \"Never tell a lie to anyone.\"",
+      "questionBn": "\"Never tell a lie to anyone\" বাক্যটিকে Passive-এ রূপান্তর করো:",
+      "options": [
+        "Let a lie never be told to anyone.",
+        "Let never a lie be told to anyone.",
+        "A lie should never be told to anyone.",
+        "You are advised never to tell a lie to anyone."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Never যুক্ত Imperative বাক্যে \"Let never + Object (a lie) + be told\" সবচেয়ে প্রমিত রূপ।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 130202,
+      "question": "What is the passive form of \"Let her recite the poem\"?",
+      "questionBn": "\"Let her recite the poem\"-এর সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "Let the poem recited by her.",
+        "Let the poem be recited by her.",
+        "The poem should be recited by her.",
+        "Let she be recited the poem."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Active বাক্যে Let থাকলে Passive-এ \"Let + Object (the poem) + be recited + by her\" কাঠামো হবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130201,
+      "type": "Imperative to Passive",
+      "prompt": "Change into Passive: \"Take care of your health regularly.\"",
+      "correctAnswer": "Your health should be taken care of regularly. (or Let your health be taken care of regularly.)",
+      "explanationBn": "উপদেশমূলক বাক্যের প্যাসিভ রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Imperative voice conversions in SSC examinations:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"Do not laugh at the lame man.\"",
+          "answer": "Let not the lame man be laughed at.",
+          "explanationBn": "Let not + Object + be + V3 + preposition।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষায় প্রতি বছর এটি প্রায় নিশ্চিত একটি প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'voice-fundamentals-and-tense-rules': {
+  "id": 1301,
+  "chapterId": 13,
+  "topicNo": "০১",
+  "titleEn": "Voice Fundamentals & Tense-Wise Active → Passive Rules",
+  "titleBn": "বাচ্য পরিবর্তন: মৌলিক নিয়ম ও কালভিত্তিক (Tense-wise) বাচ্য রূপান্তর",
+  "slug": "voice-fundamentals-and-tense-rules",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Active থেকে Passive করার ৫টি সার্বজনীন ধাপ। Transitive Verb-এর অনিবার্যতা এবং ৯টি প্রধান Tense-এর Auxiliary Verb চার্ট (am/is/are, was/were, shall/will be, being, been)।",
+  "definitionEn": "Voice is the grammatical form of a verb indicating whether the subject performs the action (Active Voice) or receives the action (Passive Voice). Only transitive verbs can be passivized.",
+  "definitionBn": "Verb-এর যে রূপ দ্বারা প্রকাশ পায় যে Subject নিজে কাজটি সম্পন্ন করছে (Active Voice) নাকি Subject-এর ওপর কাজটি সম্পন্ন হচ্ছে (Passive Voice), তাকে Voice (বাচ্য) বলে। কেবল সকর্মক ক্রিয়া (Transitive Verb)-এরই প্যাসিভ রূপ সম্ভব।",
+  "explanationBn": "Active থেকে Passive করার ৫টি সার্বজনীন স্বর্ণালী ধাপ:\n১. Active-এর Object -> Passive-এর নতুন Subject হবে।\n২. Tense ও নতুন Subject-এর Number/Person অনুযায়ী উপযুক্ত Be Verb (am/is/are/was/were/being/been/be) বসবে।\n৩. মূল Verb-এর সর্বদা Past Participle (V3) বসবে।\n৪. সাধারণত একটি Preposition (by, at, with, to, in) বসবে।\n৫. Active-এর Subject -> Passive-এর Object রূপ ধারণ করবে (I -> me, He -> him, She -> her, They -> them, We -> us)।",
+  "teacherGoldenTips": "টেন্স অনুযায়ী বি-ভার্ব মনে রাখার জাদুকরী মন্ত্র:\n- Indefinite Tense হলে: Am / Is / Are (Present) বা Was / Were (Past) বা Shall/Will be (Future)\n- Continuous Tense হলে: মূল Be verb-এর সাথে \"BEING\" যোগ হবে (am being, was being)\n- Perfect Tense হলে: Have/Has/Had-এর সাথে \"BEEN\" যোগ হবে (have been, had been)!",
+  "mainFormula": "Active: S + V + O -> Passive: New Subject (Object) + Appropriate BE + V3 + by + New Object (Subject)",
+  "formulas": [
+    {
+      "label": "Present Simple Passive",
+      "structure": "Object -> Subject + am / is / are + V3 + by + Subject -> Object",
+      "tag": "Pres Simple",
+      "example": "She writes a letter. -> A letter is written by her."
+    },
+    {
+      "label": "Present Continuous Passive",
+      "structure": "Subject + am / is / are + BEING + V3 + by + Object",
+      "tag": "Pres Cont",
+      "example": "They are playing cricket. -> Cricket is being played by them."
+    },
+    {
+      "label": "Present Perfect Passive",
+      "structure": "Subject + have / has + BEEN + V3 + by + Object",
+      "tag": "Pres Perf",
+      "example": "He has done the work. -> The work has been done by him."
+    },
+    {
+      "label": "Past Simple Passive",
+      "structure": "Subject + was / were + V3 + by + Object",
+      "tag": "Past Simple",
+      "example": "The boy broke the window. -> The window was broken by the boy."
+    },
+    {
+      "label": "Future Simple Passive",
+      "structure": "Subject + will / shall + BE + V3 + by + Object",
+      "tag": "Fut Simple",
+      "example": "We will celebrate the event. -> The event will be celebrated by us."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Continuous Tense-এ \"BEING\" যোগ করার নিয়ম",
+      "nameEn": "The Invariable \"Being\" in Continuous Passives",
+      "formula": "Active: am/is/are/was/were + V-ing -> Passive: am/is/are/was/were + BEING + V3",
+      "shortcutTrick": "Active-এ ing থাকা মানেই Passive-এ \"being\" নিশ্চিতভাবে বসবে!",
+      "descriptionBn": "চলমান ক্রিয়া বোঝাতে সাহায্যকারী ভার্ব এবং V3-এর মাঝে সর্বদা \"being\" যুক্ত করতে হয়।",
+      "examples": [
+        {
+          "en": "The farmers are ploughing the fields.",
+          "bn": "কৃষকেরা জমি চাষ করছে।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "The fields are being ploughed by the farmers.",
+          "bn": "কৃষকদের দ্বারা জমি চাষ করা হচ্ছে।",
+          "note": "Passive রূপান্তর (are being ploughed)।"
+        },
+        {
+          "en": "Mother was cooking biryani.",
+          "bn": "মা বিরিয়ানি রান্না করছিলেন।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "Biryani was being cooked by mother.",
+          "bn": "মায়ের দ্বারা বিরিয়ানি রান্না হচ্ছিল।",
+          "note": "Passive রূপান্তর (was being cooked)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Perfect Tense-এ \"BEEN\" যোগ করার নিয়ম",
+      "nameEn": "The Invariable \"Been\" in Perfect Passives",
+      "formula": "Active: have / has / had / will have + V3 -> Passive: have/has/had/will have + BEEN + V3",
+      "shortcutTrick": "Active-এ have/has/had থাকা মানেই Passive-এ \"been\" বসবে!",
+      "descriptionBn": "The government has built the flyover -> The flyover has been built by the government.",
+      "examples": [
+        {
+          "en": "Scientists have invented the vaccine.",
+          "bn": "বিজ্ঞানীরা টিকা আবিষ্কার করেছেন।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "The vaccine has been invented by scientists.",
+          "bn": "বিজ্ঞানীদের দ্বারা টিকা আবিষ্কৃত হয়েছে।",
+          "note": "Passive রূপান্তর (has been invented)।"
+        },
+        {
+          "en": "He had finished the homework before bedtime.",
+          "bn": "ঘুমানোর আগেই সে বাড়ির কাজ শেষ করেছিল।",
+          "note": "Active Voice।"
+        },
+        {
+          "en": "The homework had been finished by him before bedtime.",
+          "bn": "ঘুমানোর আগেই তার দ্বারা বাড়ির কাজ শেষ হয়েছিল।",
+          "note": "Passive রূপান্তর (had been finished)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The hunter shot the ferocious tiger.",
+      "bn": "শিকারিটি হিংস্র বাঘটিকে গুলি করল।",
+      "note": "Active (Past Simple)।"
+    },
+    {
+      "en": "The ferocious tiger was shot by the hunter.",
+      "bn": "হিংস্র বাঘটি শিকারির দ্বারা গুলিকৃত হলো।",
+      "note": "Passive (was shot)।"
+    },
+    {
+      "en": "We will execute the grand project successfully.",
+      "bn": "আমরা সফলভাবে মহাপরিকল্পনাটি বাস্তবায়ন করব।",
+      "note": "Active (Future Simple)।"
+    },
+    {
+      "en": "The grand project will be executed successfully by us.",
+      "bn": "মহাপরিকল্পনাটি আমাদের দ্বারা সফলভাবে বাস্তবায়িত হবে।",
+      "note": "Passive (will be executed)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "সব Preposition-এ \"By\" বসে না (Know to, Surprise at, Please with)",
+      "exceptionText": "কিছু নির্দিষ্ট ভার্বের প্যাসিভ রূপে \"by\"-এর পরিবর্তে অন্য Preposition বসে: Know TO, Satisfy WITH, Annoy WITH (person) / AT (conduct), Surprise AT, Contain IN, Seize WITH.",
+      "exampleEn": "I know him -> He is known TO me (NOT by me). The news surprised us -> We were surprised AT the news.",
+      "exampleBn": "তিনি আমার পরিচিত। আমরা সংবাদে বিস্মিত হলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is known by me.",
+      "correct": "He is known to me.",
+      "reasonBn": "Know-এর প্যাসিভ রূপে \"by\" নয়, সর্বদা \"to\" বসে।"
+    },
+    {
+      "mistake": "Cricket is playing by them.",
+      "correct": "Cricket is being played by them.",
+      "reasonBn": "Continuous passive-এ being এবং V3 আবশ্যক।"
+    }
+  ],
+  "tags": [
+    "voice change",
+    "active to passive",
+    "tense-wise voice",
+    "continuous being",
+    "perfect been",
+    "known to exception",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 130101,
+      "question": "Change into Passive: \"The earthquake destroyed the ancient town completely.\"",
+      "questionBn": "\"The earthquake destroyed the ancient town completely\" বাক্যটিকে Passive-এ রূপান্তর করো:",
+      "options": [
+        "The ancient town was destroyed completely by the earthquake.",
+        "The ancient town had been destroyed by the earthquake.",
+        "The ancient town is destroyed completely by the earthquake.",
+        "The ancient town has been destroyed by the earthquake."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Active বাক্যটি Past Simple (destroyed) থাকায় Passive-এ \"was destroyed\" কাঠামো বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 130102,
+      "question": "What is the correct passive form of \"I know the famous author well\"?",
+      "questionBn": "\"I know the famous author well\"-এর সঠিক Passive রূপ কোনটি?",
+      "options": [
+        "The famous author is known by me well.",
+        "The famous author is known to me well.",
+        "The famous author was known to me well.",
+        "The famous author has been known to me."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Known-এর পর Passive-এ Preposition হিসেবে \"to\" বসে, \"by\" নয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 130101,
+      "type": "Active to Passive",
+      "prompt": "Change into Passive: \"The students are performing a drama on the stage.\"",
+      "correctAnswer": "A drama is being performed on the stage by the students.",
+      "explanationBn": "Present Continuous-এ is being performed কাঠামো।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 130101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Tense-wise passive transformation in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Passive: \"His strange behavior surprised everyone present.\"",
+          "answer": "Everyone present was surprised at his strange behavior.",
+          "explanationBn": "Surprised-এর পর Passive Preposition \"at\" বসে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন অব সেন্টেন্সে ভয়েস চেঞ্জের বহুল প্রচলিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-degrees-of-comparison-mastery': {
+  "id": 1205,
+  "chapterId": 12,
+  "topicNo": "০৫",
+  "titleEn": "Transformation: Degrees of Comparison (Positive ↔ Comparative ↔ Superlative)",
+  "titleBn": "বাক্য রূপান্তর: তুলনামূলক ডিগ্রির রূপান্তর (Positive, Comparative ও Superlative)",
+  "slug": "transformation-degrees-of-comparison-mastery",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সবচেয়ে নিশ্চিত ১-২ নম্বর। Superlative (The best / One of the best) থেকে Comparative (Than any other / Than most other) এবং Positive (No other ... as / Very few ... as)-এর দ্বি-মুখী রূপান্তর ট্রিকস।",
+  "definitionEn": "Degrees of comparison describe the grammatical inflection and periphrastic syntax used to denote three progressive levels of qualitative intensity: Positive, Comparative, and Superlative.",
+  "definitionBn": "বিশেষণ বা ক্রিয়াবিশেষণের তারতম্য বা গুণগত তীব্রতা বোঝাতে ৩টি ডিগ্রির মধ্যে যে ব্যাকরণিক রূপান্তর ঘটে তাকে Degree of Comparison বলে।",
+  "explanationBn": "২টি মাস্টার ক্যাটাগরি:\n১. সাধারণ সেরা (The + Superlative):\n- Superlative: He is THE BEST boy in the class.\n- Comparative: He is BETTER THAN ANY OTHER boy in the class.\n- Positive: NO OTHER boy in the class is as good as he.\n\n২. অন্যতম সেরা (One of the + Superlative):\n- Superlative: Akbar was ONE OF THE GREATEST kings.\n- Comparative: Akbar was GREATER THAN MOST OTHER kings.\n- Positive: VERY FEW kings were as great as Akbar.",
+  "teacherGoldenTips": "গোল্ডেন ডিগ্রি চার্ট মুখস্থ রাখুন:\n- The best -> Than ANY other -> NO OTHER (সব Singular)\n- One of the best -> Than MOST other -> VERY FEW (সব Plural Verb সহ)!",
+  "mainFormula": "The + Sup ↔ Than any other (Singular) ↔ No other ... as (Singular) | One of the + Sup ↔ Than most other (Plural) ↔ Very few ... as (Plural Verb)",
+  "formulas": [
+    {
+      "label": "Category 1: Absolute Best",
+      "structure": "Sup: The + Adj-est | Comp: Adj-er + THAN ANY OTHER + Sing Noun | Pos: NO OTHER + Sing Noun + as + Adj + as",
+      "tag": "Absolute Best",
+      "example": "Dhaka is the largest city. = Dhaka is larger than any other city. = No other city is as large as Dhaka."
+    },
+    {
+      "label": "Category 2: One of the Best",
+      "structure": "Sup: ONE OF THE + Adj-est | Comp: Adj-er + THAN MOST OTHER + Plural Noun | Pos: VERY FEW + Plural Noun + PLURAL VERB + as + Adj + as",
+      "tag": "One of best",
+      "example": "Nazrul is one of the greatest poets. = Nazrul is greater than most other poets. = Very few poets are as great as Nazrul."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "One of the থাকলে Very few এবং Plural Verb বসার নিয়ম",
+      "nameEn": "The \"One of the\" to \"Very Few\" Rule (Plural Concord)",
+      "formula": "Superlative: One of the + Sup | Positive: VERY FEW + Plural Noun + ARE/WERE + as + Positive + as",
+      "shortcutTrick": "Very few-এর সাথে Noun এবং Verb দুটোই Plural (বহুবচন) হবে!",
+      "descriptionBn": "The cow is one of the most useful animals -> Very few animals are as useful as the cow (is useful নয়, are useful)।",
+      "examples": [
+        {
+          "en": "Chittagong is one of the busiest seaports in Asia (Superlative).",
+          "bn": "চট্টগ্রাম এশিয়ার অন্যতম ব্যস্ত সমুদ্রবন্দর।",
+          "note": "Superlative বাক্য।"
+        },
+        {
+          "en": "Chittagong is busier than most other seaports in Asia (Comparative).",
+          "bn": "চট্টগ্রাম এশিয়ার অধিকাংশ বন্দরের চেয়ে বেশি ব্যস্ত।",
+          "note": "Comparative রূপান্তর।"
+        },
+        {
+          "en": "Very few seaports in Asia are as busy as Chittagong (Positive).",
+          "bn": "এশিয়ার খুব কম বন্দরই চট্টগ্রামের মতো এত ব্যস্ত।",
+          "note": "Positive রূপান্তর (are busy)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শুধুমাত্র দুজনের মধ্যে তুলনা হলে Superlative হয় না",
+      "nameEn": "Binary Comparison (No Superlative Possible)",
+      "formula": "Comparative: A is taller than B | Positive: B is NOT AS TALL AS A",
+      "shortcutTrick": "দুজনের মধ্যে তুলনা থাকলে কেবল Comparative এবং Positive হয়; Superlative অসম্ভব!",
+      "descriptionBn": "Rahim is taller than Karim -> Karim is not as tall as Rahim.",
+      "examples": [
+        {
+          "en": "A tiger is more ferocious than a dog (Comparative).",
+          "bn": "বাঘ কুকুরের চেয়ে বেশি হিংস্র।",
+          "note": "Comparative।"
+        },
+        {
+          "en": "A dog is not as ferocious as a tiger (Positive).",
+          "bn": "কুকুর বাঘের মতো এত হিংস্র নয়।",
+          "note": "Positive রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Iron is the most useful of all metals.",
+      "bn": "লোহা সকল ধাতুর মধ্যে সবচেয়ে বেশি দরকারী।",
+      "note": "Superlative Degree।"
+    },
+    {
+      "en": "Iron is more useful than all other metals.",
+      "bn": "লোহা অন্যান্য সকল ধাতুর চেয়ে বেশি দরকারী।",
+      "note": "Comparative Degree।"
+    },
+    {
+      "en": "No other metal is as useful as iron.",
+      "bn": "অন্য কোনো ধাতুই লোহার মতো এত দরকারী নয়।",
+      "note": "Positive Degree।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "As...as (হ্যাঁ-বোধক) বনাম So...as (না-বোধক)",
+      "exceptionText": "ঐতিহ্যবাহী স্ট্যান্ডার্ড ইংরেজিতে না-বোধক তুলনার ক্ষেত্রে \"Not so...as\" এবং হ্যাঁ-বোধকে \"As...as\" সর্বাধিক ব্যাকরণসম্মত ধরা হয়।",
+      "exampleEn": "He is as bright as his brother. He is not so bright as his brother.",
+      "exampleBn": "সে তার ভাইয়ের মতোই বুদ্ধিমান। সে তার ভাইয়ের মতো অতটা বুদ্ধিমান নয়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Very few boys is as good as Rahim.",
+      "correct": "Very few boys are as good as Rahim.",
+      "reasonBn": "Very few-এর পরে সর্বদা Plural Verb \"are\" বা \"were\" বসে।"
+    },
+    {
+      "mistake": "Dhaka is larger than all other city.",
+      "correct": "Dhaka is larger than all other cities. (or larger than any other city)",
+      "reasonBn": "Than any other-এর পর Singular Noun (city), কিন্তু all other-এর পর Plural Noun (cities) বসে।"
+    }
+  ],
+  "tags": [
+    "degrees of comparison",
+    "positive comparative superlative",
+    "the best no other",
+    "one of the very few",
+    "than any other",
+    "than most other",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 120501,
+      "question": "Transform into Positive: \"The Padma is the biggest river in Bangladesh.\"",
+      "questionBn": "\"The Padma is the biggest river in Bangladesh\" বাক্যটিকে Positive-এ রূপান্তর করো:",
+      "options": [
+        "No other river in Bangladesh is as big as the Padma.",
+        "Very few rivers in Bangladesh are as big as the Padma.",
+        "The Padma is bigger than any other river in Bangladesh.",
+        "All other rivers in Bangladesh are not big as the Padma."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"The biggest\" (সাধারণ সেরা) থাকায় Positive রূপান্তর শুরু হবে \"No other river...as big as the Padma\" দিয়ে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 120502,
+      "question": "Transform into Comparative: \"Very few metals are as precious as gold.\"",
+      "questionBn": "\"Very few metals are as precious as gold\" বাক্যটির সঠিক Comparative রূপ কোনটি?",
+      "options": [
+        "Gold is more precious than any other metal.",
+        "Gold is more precious than most other metals.",
+        "Gold is the most precious of all metals.",
+        "Gold is as precious as other metals."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Very few\" দিয়ে Positive শুরু হলে Comparative-এ \"than most other + Plural Noun (metals)\" বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120501,
+      "type": "Degree Transformation",
+      "prompt": "Transform into Superlative: \"He is sharper than any other boy in the class.\"",
+      "correctAnswer": "He is the sharpest boy in the class.",
+      "explanationBn": "Than any other থেকে The + Superlative রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Degree conversions in SSC English 2nd Paper Question 6:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Positive: \"Kazi Nazrul Islam is one of the most famous poets of Bangladesh.\"",
+          "answer": "Very few poets of Bangladesh are as famous as Kazi Nazrul Islam.",
+          "explanationBn": "One of the most famous থেকে Very few + Plural Verb (are) রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষায় প্রতি বছর নিশ্চিত ১ নম্বরের প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-complex-compound-advanced': {
+  "id": 1204,
+  "chapterId": 12,
+  "topicNo": "০৪",
+  "titleEn": "Transformation: Reason, Time, Relative Clauses & Participles",
+  "titleBn": "বাক্য রূপান্তর: কারণ, সময়, রিলেটিভ ক্লজ ও পার্টিসিপলের উন্নত রূপান্তর",
+  "slug": "transformation-complex-compound-advanced",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কারণ প্রকাশক (Because of ↔ Since/As/Because ↔ And so), সময় প্রকাশক (At the time of ↔ When ↔ And then), রিলেটিভ ক্লজ (Who/Which ↔ Simple Noun Phrase), এবং Participle রূপান্তরের কৌশল।",
+  "definitionEn": "Advanced clausal transformation systematically addresses adverbial clauses of cause and time, relative adjective clauses, and non-finite participial reductions across structural sentence types.",
+  "definitionBn": "সময়, কারণ এবং বিশেষ্য বর্ণনাকারী ক্লজগুলোকে পার্টিসিপল বা ফ্রেজের মাধ্যমে Simple, Complex ও Compound বাক্যে রূপান্তরের সার্বিক নিয়মাবলি।",
+  "explanationBn": "১. কারণ: Because of his illness (Simple) = Since / As he was ill (Complex) = He was ill, and so he could not come (Compound)। ২. সময়: At the time of raining (Simple) = When it was raining (Complex) = It was raining, and then we stayed home (Compound)। ৩. ঋতু/বয়স: At the age of four (Simple) = When he was four (Complex)। ৪. Relative Pronoun: I saw a flying bird (Simple) = I saw a bird which was flying (Complex)।",
+  "teacherGoldenTips": "যেহেতু-সেহেতু রুল: Complex বাক্যে Since বা As থাকলে Compound বাক্যে \"And so\" বা \"And therefore\" বসবে! আর Simple বাক্যে \"Because of + Possessive + Noun/Being\" বসবে!",
+  "mainFormula": "Because of + Noun Phrase ↔ Since / As / Because ↔ And so | At the time of / In + Time ↔ When + Clause",
+  "formulas": [
+    {
+      "label": "Causal Transformation",
+      "structure": "Simple: Because of / On account of | Complex: Since / As / Because | Compound: Clause + and so + Clause",
+      "tag": "Causal Triad",
+      "example": "Because of rain, match stopped. = As it rained, match stopped. = It rained, and so the match stopped."
+    },
+    {
+      "label": "Temporal Transformation",
+      "structure": "Simple: In / At + time phrase | Complex: When + Subject + Verb | Compound: Clause + and then + Clause",
+      "tag": "Temporal Triad",
+      "example": "He woke up at sunrise. = He woke up when the sun rose. = The sun rose, and then he woke up."
+    },
+    {
+      "label": "Relative Clause to Simple",
+      "structure": "Complex: S + who/which + V -> Simple: S + V-ing / V3 / Noun in Apposition",
+      "tag": "Relative Red",
+      "example": "A man who is honest is respected. -> An honest man is respected."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Since / As থেকে Because of এবং And so রূপান্তর",
+      "nameEn": "The Reason Triad: Because of ↔ Since/As ↔ And so",
+      "formula": "Simple: BECAUSE OF + (Possessive) + Being/Having/Noun | Complex: SINCE / AS + S + V | Compound: S + V, AND SO + S + V",
+      "shortcutTrick": "Complex-এ Since/As, Simple-এ Because of, Compound-এ And so!",
+      "descriptionBn": "Since the water was salty, they could not drink it -> Because of the water being salty, they could not drink it -> The water was salty, and so they could not drink it.",
+      "examples": [
+        {
+          "en": "As he was ill, he could not attend the examination (Complex).",
+          "bn": "যেহেতু সে অসুস্থ ছিল, সে পরীক্ষায় বসতে পারল না।",
+          "note": "Complex বাক্য।"
+        },
+        {
+          "en": "Because of his illness, he could not attend the examination (Simple).",
+          "bn": "অসুস্থতার কারণে সে পরীক্ষায় বসতে পারল না।",
+          "note": "Simple রূপান্তর।"
+        },
+        {
+          "en": "He was ill, and so he could not attend the examination (Compound).",
+          "bn": "সে অসুস্থ ছিল এবং তাই সে পরীক্ষায় বসতে পারল না।",
+          "note": "Compound রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "When যুক্ত সময় নির্দেশক বাক্যের রূপান্তর",
+      "nameEn": "Transforming Temporal \"When\" Clauses",
+      "formula": "When it is daybreak -> At daybreak | When he was four -> At the age of four | When it rained -> At the time of rain",
+      "shortcutTrick": "বয়স বোঝালে At the age of, ঋতু বোঝালে In, আর ছোট সময় বোঝালে At!",
+      "descriptionBn": "When it is spring, the cuckoo sings -> In spring, the cuckoo sings. When he was six, he left for Dhaka -> At the age of six, he left for Dhaka.",
+      "examples": [
+        {
+          "en": "When the thief saw the houseowner, he fled (Complex).",
+          "bn": "চোরটি গৃহকর্তাকে দেখে পালিয়ে গেল।",
+          "note": "Complex বাক্য।"
+        },
+        {
+          "en": "Seeing the houseowner, the thief fled (Simple).",
+          "bn": "গৃহকর্তাকে দেখে চোরটি পালিয়ে গেল।",
+          "note": "Present Participle Simple।"
+        },
+        {
+          "en": "The thief saw the houseowner and fled immediately (Compound).",
+          "bn": "চোরটি গৃহকর্তাকে দেখল এবং অবিলম্বে পালিয়ে গেল।",
+          "note": "Compound রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "I know the place where Kazi Nazrul was born.",
+      "bn": "আমি কাজী নজরুলের জন্মস্থানটি চিনি।",
+      "note": "Complex Sentence (Adjective Clause)।"
+    },
+    {
+      "en": "I know the birthplace of Kazi Nazrul.",
+      "bn": "আমি কাজী নজরুলের জন্মস্থান চিনি।",
+      "note": "Simple Sentence।"
+    },
+    {
+      "en": "The police arrested the thief who stole the necklace.",
+      "bn": "পুলিশ সেই চোরটিকে গ্রেপ্তার করল যে কণ্ঠহারটি চুরি করেছিল।",
+      "note": "Complex Sentence।"
+    },
+    {
+      "en": "The police arrested the necklace-stealing thief.",
+      "bn": "পুলিশ কণ্ঠহার চোরটিকে গ্রেপ্তার করল।",
+      "note": "Simple Sentence।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "উভয় ক্লজের Subject ভিন্ন হলে Nominative Absolute হয়",
+      "exceptionText": "Simple করার সময় দুটি ক্লজের সাবজেক্ট আলাদা হলে ১ম সাবজেক্ট অপরিবর্তিত থেকে Being/Having বসে (The sun having set, we returned home).",
+      "exampleEn": "When the meeting was over, the members left the hall. -> The meeting being over, the members left the hall.",
+      "exampleBn": "সভা শেষ হওয়ায় সদস্যরা হল ত্যাগ করলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Because of he was ill, he stayed at home.",
+      "correct": "Because of his illness, he stayed at home.",
+      "reasonBn": "Because of-এর পরে Clause বসে না, Noun Phrase বসে।"
+    },
+    {
+      "mistake": "Since the weather was bad, so we cancelled the trip.",
+      "correct": "Since the weather was bad, we cancelled the trip.",
+      "reasonBn": "Complex বাক্যে Since এবং So একসাথে বসে না।"
+    }
+  ],
+  "tags": [
+    "since as because",
+    "because of",
+    "when clause simple",
+    "relative clause reduction",
+    "nominative absolute",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 120401,
+      "question": "Transform into Simple: \"Since the boy worked hard, he earned a handsome salary.\"",
+      "questionBn": "\"Since the boy worked hard, he earned a handsome salary\" বাক্যটিকে Simple-এ রূপান্তর করো:",
+      "options": [
+        "By working hard, the boy earned a handsome salary.",
+        "The boy worked hard and earned a handsome salary.",
+        "The boy earned a handsome salary because he worked hard.",
+        "Though the boy worked hard, he earned a handsome salary."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "কঠোর পরিশ্রমের মাধ্যমে অর্জনের ক্ষেত্রে \"By + V-ing (working hard)\" দিয়ে Simple করা ব্যাকরণগতভাবে সবচেয়ে নিখুঁত।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 120402,
+      "question": "Transform into Complex: \"I met a wounded soldier returning from the battlefield.\"",
+      "questionBn": "\"I met a wounded soldier returning from the battlefield\" বাক্যটির Complex রূপ কোনটি?",
+      "options": [
+        "I met a soldier who was wounded and returning from the battlefield.",
+        "I met a soldier and he was wounded from the battlefield.",
+        "When I met a soldier, he was wounded in the battlefield.",
+        "Since the soldier was wounded, I met him."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Wounded soldier-কে Relative Clause দিয়ে বিস্তৃত করে \"a soldier who was wounded\" করা হয়েছে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120401,
+      "type": "Transform to Simple",
+      "prompt": "Transform into Simple: \"When he arrived at the age of ten, he went to school.\"",
+      "correctAnswer": "At the age of ten, he went to school.",
+      "explanationBn": "বয়স নির্দেশক ক্লজের সংক্ষেপণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Relative and causal clausal reductions in SSC exams:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Complex: \"A drowning man catches at a straw.\"",
+          "answer": "A man who is drowning catches at a straw.",
+          "explanationBn": "Participle Adjective (drowning) থেকে Relative Clause তৈরি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন অব সেন্টেন্সের সর্বাধিক স্ট্যান্ডার্ড মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-simple-complex-compound-basics': {
+  "id": 1203,
+  "chapterId": 12,
+  "topicNo": "০৩",
+  "titleEn": "Transformation: Simple ↔ Complex ↔ Compound (Condition, Concession & Result)",
+  "titleBn": "বাক্য রূপান্তর: শর্ত, বৈপরীত্য ও ফলাফলের Simple ↔ Complex ↔ Compound",
+  "slug": "transformation-simple-complex-compound-basics",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার ৩টি মাস্টার ট্রায়াঙ্গেল: ১. By + V-ing ↔ If you ↔ And (শর্ত), ২. Without + V-ing ↔ Unless ↔ Or (না-বোধক শর্ত), ৩. In spite of / Despite ↔ Though / Although ↔ But (বৈপরীত্য), এবং Too...to ↔ So...that (ফলাফল)।",
+  "definitionEn": "Triangular structural transformation coordinates clause hierarchies between non-finite phrase structures (Simple), subordinate dependency (Complex), and coordinated independence (Compound).",
+  "definitionBn": "বাক্যের অর্থ পুরোপুরি অপরিবর্তিত রেখে Simple, Complex এবং Compound-এর পারস্পরিক রূপান্তর। ক্লজের সংখ্যা ও সংযোগকারী কনজাংশন পরিবর্তনের মাধ্যমে এই রূপান্তর সম্পন্ন হয়।",
+  "explanationBn": "৪টি মহা-রূপান্তর সূত্র: ১. By + V-ing (Simple) = If + Present (Complex) = Imperative + and (Compound)। ২. Without + V-ing (Simple) = Unless / If you do not (Complex) = Imperative + or (Compound)। ৩. In spite of / Despite (Simple) = Though / Although (Complex) = Independent clause + but (Compound)। ৪. Too...to (Simple) = So...that + cannot/could not (Complex) = Very...and so (Compound)।",
+  "teacherGoldenTips": "মাস্টার ট্রায়াঙ্গেল চার্ট মুখস্থ রাখুন:\n- Simple: In spite of + Possessive + Noun/Being\n- Complex: Though / Although + Subject + Verb\n- Compound: Subject + Verb, BUT + Subject + Verb\nমনে রাখবেন: Though এবং But কখনো এক বাক্যে বসবে না!",
+  "mainFormula": "By + V-ing ↔ If + affirmative ↔ And | In spite of ↔ Though/Although ↔ But | Too...to ↔ So...that + cannot",
+  "formulas": [
+    {
+      "label": "Positive Condition Triangle",
+      "structure": "Simple: By + V-ing | Complex: If + Subject + V1 | Compound: Imperative + and + Clause",
+      "tag": "Condition",
+      "example": "By working hard, you will prosper. = If you work hard, you will prosper. = Work hard and you will prosper."
+    },
+    {
+      "label": "Negative Condition Triangle",
+      "structure": "Simple: Without + V-ing | Complex: Unless / If not | Compound: Imperative + or + Clause",
+      "tag": "Neg Condition",
+      "example": "Without reading, you will fail. = Unless you read, you will fail. = Read or you will fail."
+    },
+    {
+      "label": "Concession / Contrast Triangle",
+      "structure": "Simple: In spite of / Despite + Noun | Complex: Though / Although | Compound: Clause + but + Clause",
+      "tag": "Contrast",
+      "example": "Despite his poverty, he is honest. = Though he is poor, he is honest. = He is poor, but he is honest."
+    },
+    {
+      "label": "Too...to to So...that",
+      "structure": "Simple: Too + Adj + to + V1 | Complex: So + Adj + THAT + S + cannot / could not + V1",
+      "tag": "So that",
+      "example": "He is too weak to walk. = He is so weak that he cannot walk."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Though / Although থেকে In spite of এবং But রূপান্তর",
+      "nameEn": "The Contrast Triad: In spite of ↔ Though ↔ But",
+      "formula": "Simple: In spite of + (Possessive) + Being/Having/Noun | Complex: THOUGH/ALTHOUGH + S + V | Compound: S + V, BUT + S + V",
+      "shortcutTrick": "Simple-এ ইন স্পাইট অব, Complex-এ দো/অলদো, Compound-এ বাট!",
+      "descriptionBn": "Though he had great wealth, he was unhappy (Complex) -> In spite of having great wealth, he was unhappy (Simple) -> He had great wealth, but he was unhappy (Compound)।",
+      "examples": [
+        {
+          "en": "Though the boy was small, he fought bravely (Complex).",
+          "bn": "যদিও বালকটি ছোট ছিল, সে সাহসের সাথে লড়াই করল।",
+          "note": "Complex বাক্য।"
+        },
+        {
+          "en": "In spite of being small, the boy fought bravely (Simple).",
+          "bn": "ছোট হওয়া সত্ত্বেও বালকটি সাহসের সাথে লড়াই করল।",
+          "note": "Simple রূপান্তর।"
+        },
+        {
+          "en": "The boy was small, but he fought bravely (Compound).",
+          "bn": "বালকটি ছোট ছিল, কিন্তু সে সাহসের সাথে লড়াই করল।",
+          "note": "Compound রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Too ... to থেকে So ... that রূপান্তর",
+      "nameEn": "Transforming \"Too...to\" into \"So...that\"",
+      "formula": "Subject + Verb + SO + Adjective + THAT + Subject + CANNOT / COULD NOT + Base Verb",
+      "shortcutTrick": "Present Tense হলে cannot; Past Tense হলে could not!",
+      "descriptionBn": "The load is too heavy for him to carry -> The load is so heavy that he cannot carry it. The man was too poor to buy medicine -> The man was so poor that he could not buy medicine.",
+      "examples": [
+        {
+          "en": "He is too proud to admit his fault (Simple).",
+          "bn": "সে এত অহংকারী যে নিজের দোষ স্বীকার করতে পারে না।",
+          "note": "Simple বাক্য।"
+        },
+        {
+          "en": "He is so proud that he cannot admit his fault (Complex).",
+          "bn": "সে এতটাই অহংকারী যে সে তার দোষ স্বীকার করতে পারে না।",
+          "note": "Complex রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "By reading newspapers daily, you can enrich your vocabulary.",
+      "bn": "প্রতিদিন সংবাদপত্র পড়ার মাধ্যমে তুমি তোমার শব্দভাণ্ডার সমৃদ্ধ করতে পারো।",
+      "note": "Simple Sentence।"
+    },
+    {
+      "en": "If you read newspapers daily, you can enrich your vocabulary.",
+      "bn": "যদি তুমি প্রতিদিন সংবাদপত্র পড়ো, তুমি তোমার শব্দভাণ্ডার সমৃদ্ধ করতে পারবে।",
+      "note": "Complex রূপান্তর।"
+    },
+    {
+      "en": "Read newspapers daily, and you can enrich your vocabulary.",
+      "bn": "প্রতিদিন সংবাদপত্র পড়ো এবং তুমি তোমার শব্দভাণ্ডার সমৃদ্ধ করতে পারবে।",
+      "note": "Compound রূপান্তর।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "So that (উদ্দেশ্য) বনাম So...that (ফলাফল)",
+      "exceptionText": "মাঝে Adjective ছাড়া \"So that\" একত্রে বসলে তা উদ্দেশ্য প্রকাশ করে এবং পরের ক্লজে can/could বসে (e.g. He studies hard so that he can succeed).",
+      "exampleEn": "He works hard to prosper (Simple) -> He works hard so that he can prosper (Complex).",
+      "exampleBn": "সে কঠোর পরিশ্রম করে যাতে সে উন্নতি করতে পারে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Though he was ill, but he attended the class.",
+      "correct": "Though he was ill, he attended the class. (or He was ill, but he attended the class.)",
+      "reasonBn": "Though এবং But একই বাক্যে একসাথে বসে না।"
+    },
+    {
+      "mistake": "The old man was so weak that he cannot walk.",
+      "correct": "The old man was so weak that he could not walk.",
+      "reasonBn": "প্রথম অংশে Past Tense (was) থাকায় পরের অংশে cannot-এর পরিবর্তে could not হবে।"
+    }
+  ],
+  "tags": [
+    "simple complex compound",
+    "by v-ing",
+    "without v-ing",
+    "though although",
+    "in spite of",
+    "too to so that",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 120301,
+      "question": "Transform into Complex: \"In spite of his honesty, he was insulted.\"",
+      "questionBn": "\"In spite of his honesty, he was insulted\" বাক্যটির সঠিক Complex রূপ কোনটি?",
+      "options": [
+        "Though he was honest, he was insulted.",
+        "He was honest and he was insulted.",
+        "He was honest, but he was insulted.",
+        "Since he was honest, he was insulted."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "In spite of যুক্ত বৈপরীত্যমূলক Simple বাক্যকে Complex করতে \"Though + S + Verb\" কাঠামো ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 120302,
+      "question": "Transform into Simple: \"He was so exhausted that he could not speak a single word.\"",
+      "questionBn": "\"He was so exhausted that he could not speak a single word\" বাক্যটিকে Simple-এ রূপান্তর করো:",
+      "options": [
+        "He was too exhausted to speak a single word.",
+        "Being exhausted, he did not speak.",
+        "He was very exhausted and did not speak.",
+        "Because of exhaustion he could not speak."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"So + Adj + that + could not\"-এর আদর্শ Simple রূপ হলো \"Too + Adj + to + V1 (to speak)\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120301,
+      "type": "Transform to Compound",
+      "prompt": "Transform into Compound: \"If you do not run fast, you will miss the morning train.\"",
+      "correctAnswer": "Run fast, or you will miss the morning train.",
+      "explanationBn": "Negative Condition থেকে Imperative + or রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Simple, Complex, Compound triangular transformation in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Complex: \"Without taking physical exercise, you cannot keep fit.\"",
+          "answer": "If you do not take physical exercise, you cannot keep fit. (or Unless you take physical exercise, you cannot keep fit.)",
+          "explanationBn": "Without + V-ing থেকে If not / Unless রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত নিশ্চিত ২ নম্বরের প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-assertive-interrogative-exclamatory': {
+  "id": 1202,
+  "chapterId": 12,
+  "topicNo": "০২",
+  "titleEn": "Transformation: Assertive ↔ Interrogative ↔ Exclamatory Conversions",
+  "titleBn": "বাক্য রূপান্তর: বর্ণনামূলক, প্রশ্নবোধক ও বিস্ময়সূচকের পারস্পরিক রূপান্তর",
+  "slug": "transformation-assertive-interrogative-exclamatory",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Assertive থেকে Interrogative করার সময় অর্থ ঠিক রাখতে হ্যাঁ-বোধক থাকলে না-বোধক প্রশ্ন (Isn't he?) এবং না-বোধক থাকলে হ্যাঁ-বোধক প্রশ্ন। Everyone থাকলে Who does not, এবং Assertive থেকে Exclamatory (What a / How)-এর সম্পূর্ণ গাইড।",
+  "definitionEn": "Mood transformations interchange statements, rhetorical questions, and emotive exclamations while rigorously maintaining the speaker's underlying presupposition and tone.",
+  "definitionBn": "বক্তার মূল ভাব অক্ষুণ্ণ রেখে বিবৃতিমূলক (Assertive) বাক্যকে অলংকারিক প্রশ্ন (Interrogative) বা আবেগপূর্ণ বিস্ময়সূচক (Exclamatory) বাক্যে রূপান্তর করার নিয়ম।",
+  "explanationBn": "১. Assertive হ্যাঁ-বোধক হলে Interrogative হবে Negative-Interrogative (He is honest -> Isn't he honest?)। ২. Assertive না-বোধক হলে Interrogative হবে Affirmative (He is not a thief -> Is he a thief?)। ৩. Never পরিবর্তিত হয়ে Ever এবং Nothing পরিবর্তিত হয়ে Anything হয়। ৪. Everyone / Everybody / All থাকলে \"Who does not + V1?\" হয়। ৫. Nobody / None / No one থাকলে \"Who + V1?\" হয়। ৬. Assertive থেকে Exclamatory: Very থাকলে How; A very + Noun থাকলে What a/an!",
+  "teacherGoldenTips": "রুল অব পোলারিটি: Assertive হ্যাঁ-বোধক হলে প্রশ্ন হবে না-বোধক! Assertive না-বোধক হলে প্রশ্ন হবে হ্যাঁ-বোধক! আর প্রশ্নের শেষে প্রশ্নবোধক চিহ্ন (?) ও এক্সক্ল্যামেটরির শেষে (!) না দিলে পরীক্ষায় পুরো নম্বর কাটা যাবে!",
+  "mainFormula": "Assertive (+) -> Aux + not + S + V? (-) | Everyone -> Who does not + V1? | Nobody -> Who + V? | S + is + very [Adj] -> How [Adj] + S + is!",
+  "formulas": [
+    {
+      "label": "Positive Assertive to Interrogative",
+      "structure": "Auxiliary + not + Subject + Main Verb + Object ?",
+      "tag": "Neg Question",
+      "example": "Smoking is a bad habit. -> Isn't smoking a bad habit?"
+    },
+    {
+      "label": "Nobody Rule",
+      "structure": "Nobody / None / No one -> WHO + Verb + Extension ?",
+      "tag": "Who Pos",
+      "example": "Nobody believes a liar. -> Who believes a liar?"
+    },
+    {
+      "label": "Everybody Rule",
+      "structure": "Everybody / Everyone / All -> WHO DOES NOT + V1 + Extension ?",
+      "tag": "Who Neg",
+      "example": "Everybody wishes to be happy. -> Who does not wish to be happy?"
+    },
+    {
+      "label": "Assertive to Exclamatory",
+      "structure": "Subject + verb + (a) very + Adj -> WHAT A / HOW + Adj + S + V !",
+      "tag": "Exclamatory",
+      "example": "It is a very charming place. -> What a charming place it is!"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Nobody / None থেকে সরাসরি \"Who\" দিয়ে প্রশ্ন গঠন",
+      "nameEn": "Nobody / None transformed into \"Who\"",
+      "formula": "Nobody / None / No one + Verb -> WHO + Verb + Extension ?",
+      "shortcutTrick": "Nobody তুলে দিয়ে শুধু \"Who\" বসিয়ে শেষে প্রশ্নবোধক চিহ্ন (?) দিন!",
+      "descriptionBn": "Nobody trusts a dishonest person -> Who trusts a dishonest person? (কে অসৎ লোককে বিশ্বাস করে?)",
+      "examples": [
+        {
+          "en": "None can escape death.",
+          "bn": "কেউ মৃত্যুকে এড়াতে পারে না।",
+          "note": "Assertive।"
+        },
+        {
+          "en": "Who can escape death?",
+          "bn": "মৃত্যুকে কে এড়াতে পারে?",
+          "note": "Interrogative রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Assertive থেকে Exclamatory-র নিয়ম",
+      "nameEn": "Assertive to Exclamatory Transformation",
+      "formula": "Subject + be + A VERY + Adj + Noun -> WHAT A/AN + Adj + Noun + S + be ! | Subject + be + VERY + Adj -> HOW + Adj + S + be !",
+      "shortcutTrick": "বাক্যে \"a very\" থাকলে What a; শুধু \"very\" থাকলে How!",
+      "descriptionBn": "The cuckoo sings very sweetly -> How sweetly the cuckoo sings! It is a very lovely sight -> What a lovely sight it is!",
+      "examples": [
+        {
+          "en": "The Padma is a very mighty river.",
+          "bn": "পদ্মা একটি অত্যন্ত প্রমত্তা নদী।",
+          "note": "Assertive।"
+        },
+        {
+          "en": "What a mighty river the Padma is!",
+          "bn": "পদ্মা কী প্রমত্তা একটি নদী!",
+          "note": "Exclamatory রূপান্তর।"
+        },
+        {
+          "en": "The scenery looks very picturesque.",
+          "bn": "দৃশ্যটি দেখতে খুব মনোরম।",
+          "note": "Assertive।"
+        },
+        {
+          "en": "How picturesque the scenery looks!",
+          "bn": "দৃশ্যটি দেখতে কী মনোরম!",
+          "note": "Exclamatory রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Their glory can never fade.",
+      "bn": "তাদের গৌরব কখনো ম্লান হতে পারে না।",
+      "note": "Assertive।"
+    },
+    {
+      "en": "Can their glory ever fade?",
+      "bn": "তাদের গৌরব কি কখনো ম্লান হতে পারে?",
+      "note": "Interrogative (never -> ever)।"
+    },
+    {
+      "en": "I wish I had the wings of a dove.",
+      "bn": "আমার যদি ঘুঘু পাখির ডানা থাকত!",
+      "note": "Assertive।"
+    },
+    {
+      "en": "Had I the wings of a dove! (or If I had the wings of a dove!)",
+      "bn": "আমার যদি ঘুঘু পাখির মতো ডানা থাকত!",
+      "note": "Exclamatory রূপান্তর।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "It does not matter-এর জায়গায় \"What though\" বসে",
+      "exceptionText": "Assertive বাক্যে \"It does not matter if/though\" থাকলে Interrogative-এ \"What though\" বা \"What if\" ব্যবহার করা হয়।",
+      "exampleEn": "It does not matter if we lose the game. -> What though we lose the game?",
+      "exampleBn": "আমরা খেলায় হারলেও বা কী আসে যায়?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Who does not love flowers. (putting full stop instead of question mark)",
+      "correct": "Who does not love flowers?",
+      "reasonBn": "Interrogative বাক্যের শেষে অবশ্যই প্রশ্নবোধক চিহ্ন (?) দিতে হবে।"
+    },
+    {
+      "mistake": "What a beautiful the bird is!",
+      "correct": "What a beautiful bird it is!",
+      "reasonBn": "What a-র পর Noun Phrase বসবে এবং Subject + Verb শেষে যাবে।"
+    }
+  ],
+  "tags": [
+    "assertive to interrogative",
+    "assertive to exclamatory",
+    "who does not",
+    "nobody who",
+    "what a how",
+    "punctuation rules",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 120201,
+      "question": "Transform into Interrogative: \"Everybody loves his motherland.\"",
+      "questionBn": "\"Everybody loves his motherland\" বাক্যটির সঠিক Interrogative রূপ কোনটি?",
+      "options": [
+        "Does everybody love his motherland?",
+        "Who does not love his motherland?",
+        "Who loves his motherland?",
+        "Is everybody love his motherland?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Everybody যুক্ত Assertive বাক্যকে Interrogative করতে \"Who does not + V1 (love)\" কাঠামো ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 120202,
+      "question": "Transform into Exclamatory: \"It is a very wonderful invention.\"",
+      "questionBn": "\"It is a very wonderful invention\" বাক্যটির Exclamatory রূপ কোনটি?",
+      "options": [
+        "How wonderful an invention it is!",
+        "What a wonderful invention it is!",
+        "What wonderful invention is it!",
+        "How a wonderful invention it is!"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"A very\" + Adjective + Noun থাকায় \"What a wonderful invention it is!\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120201,
+      "type": "Assertive to Interrogative",
+      "prompt": "Transform into Interrogative: \"Friendship is nothing but a name.\"",
+      "correctAnswer": "What is friendship but a name? (or Is friendship anything but a name?)",
+      "explanationBn": "Nothing but যুক্ত বাক্যের অলংকারিক রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Mood conversions in SSC English 2nd Paper Question 6:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Exclamatory: \"I wish I were a child again.\"",
+          "answer": "If I were a child again! (or Would that I were a child again!)",
+          "explanationBn": "Wish-এর বিস্ময়সূচক রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার একটি নিশ্চিত কমন আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'transformation-affirmative-negative-meaning': {
+  "id": 1201,
+  "chapterId": 12,
+  "topicNo": "০১",
+  "titleEn": "Transformation: Affirmative ↔ Negative Meaning Conversion",
+  "titleBn": "বাক্য রূপান্তর: অর্থ অপরিবর্তিত রেখে হ্যাঁ-বোধক থেকে না-বোধক",
+  "slug": "transformation-affirmative-negative-meaning",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার ১০ নম্বরের রূপান্তর প্রশ্নের প্রাণ। Only/Alone (None but / Nothing but), Must (Cannot but), As soon as (No sooner had...than), Both...and (Not only...but also), এবং বিপরীতার্থক শব্দ ব্যবহারের সোনালী নিয়মাবলি।",
+  "definitionEn": "Transformation of sentence is the syntactic process of altering the grammatical form of a sentence without altering its original semantic meaning.",
+  "definitionBn": "বাক্যের মূল অর্থ সম্পূর্ণ অপরিবর্তিত রেখে কেবল ব্যাকরণগত রূপ পরিবর্তন করার পদ্ধতিকে Transformation of Sentence বলে। Affirmative থেকে Negative করার সময় অর্থ অবিকল রাখতে হয়।",
+  "explanationBn": "মূল নিয়মাবলী: ১. Only/Alone ব্যক্তি বোঝালে \"None but\", বস্তু বোঝালে \"Nothing but\", বয়স বা সংখ্যা বোঝালে \"Not more than / Not less than\"। ২. Must বা Have to থাকলে \"Cannot but + V1\" অথবা \"Cannot help + V-ing\"। ৩. Every থাকলে \"There is no ... but\"। ৪. As soon as থাকলে \"No sooner had ... than\"। ৫. সাধারণ বাক্যে Not + বিপরীত শব্দ (যেমন: He is honest -> He is NOT dishonest)।",
+  "teacherGoldenTips": "অনলি (ONLY)-র ৩টি রূপের শর্টকাট: মানুষ হলে শুরুতে \"None but\"! বস্তু হলে \"Nothing but\"! আর বয়স বা টাকা হলে \"Not more than\"! (যেমন: Only Allah can help us -> None but Allah can help us)!",
+  "mainFormula": "Only/Alone (Person) -> None but | Must -> Cannot but + V1 | As soon as -> No sooner had + S + V3 ... than",
+  "formulas": [
+    {
+      "label": "Only (Person)",
+      "structure": "Affirmative: Only / Alone [Person] -> Negative: NONE BUT [Person]",
+      "tag": "None but",
+      "example": "Only he can do this. -> None but he can do this."
+    },
+    {
+      "label": "Only (Thing / Number)",
+      "structure": "Only [Thing] -> Nothing but | Only [Number] -> Not more than",
+      "tag": "Thing/Num",
+      "example": "He has only a toy. -> He has nothing but a toy."
+    },
+    {
+      "label": "Must Rule",
+      "structure": "Subject + must + V1 -> Subject + CANNOT BUT + V1",
+      "tag": "Cannot but",
+      "example": "Man must die. -> Man cannot but die."
+    },
+    {
+      "label": "Both...And",
+      "structure": "Both A and B -> NOT ONLY A BUT ALSO B",
+      "tag": "Not only",
+      "example": "He was both wise and brave. -> He was not only wise but also brave."
+    },
+    {
+      "label": "Antonym Method",
+      "structure": "Subject + be + not + OPPOSITE WORD",
+      "tag": "Opposite",
+      "example": "I will remember you. -> I will not forget you."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "As soon as থেকে No sooner had ... than রূপান্তর",
+      "nameEn": "Transforming \"As soon as\" into \"No sooner had...than\"",
+      "formula": "As soon as + S + V2, + S + V2 -> NO SOONER HAD + S + V3 + ... + THAN + S + V2",
+      "shortcutTrick": "As soon as-এর জায়গায় No sooner had, প্রথম কমার জায়গায় THAN, আর প্রথম ভার্বটি V3 হবে!",
+      "descriptionBn": "এসএসসি পরীক্ষায় এই রূপান্তরটি সর্বাধিক জিজ্ঞাসিত হয়। কমার জায়গায় \"then\" বা \"when\" বসালে সম্পূর্ণ শূন্য পাবে।",
+      "examples": [
+        {
+          "en": "As soon as the thief saw the police, he ran away.",
+          "bn": "চোরটি পুলিশকে দেখামাত্রই পালিয়ে গেল।",
+          "note": "Affirmative বাক্য।"
+        },
+        {
+          "en": "No sooner had the thief seen the police than he ran away.",
+          "bn": "চোরটি পুলিশকে দেখতে না দেখতেই পালিয়ে গেল।",
+          "note": "Negative রূপান্তর (অর্থ অপরিবর্তিত)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Every যুক্ত বাক্যকে There is no ... but-এ রূপান্তর",
+      "nameEn": "Transforming \"Every\" with \"There is no ... but\"",
+      "formula": "EVERY + Noun + Verb -> THERE IS NO + Noun + BUT + Verb",
+      "shortcutTrick": "Every-র জায়গায় There is no, মাঝের Noun-এর পর BUT!",
+      "descriptionBn": "Every mother loves her child -> There is no mother but loves her child (এমন কোনো মা নেই যিনি সন্তানকে ভালোবাসেন না)।",
+      "examples": [
+        {
+          "en": "Every patriot loves his motherland.",
+          "bn": "প্রত্যেক দেশপ্রেমিক তার মাতৃভূমিকে ভালোবাসে।",
+          "note": "Affirmative।"
+        },
+        {
+          "en": "There is no patriot but loves his motherland.",
+          "bn": "এমন কোনো দেশপ্রেমিক নেই যে তার মাতৃভূমিকে ভালোবাসে না।",
+          "note": "Negative রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He was both an actor and a singer.",
+      "bn": "সে একাধারে একজন অভিনেতা এবং গায়ক ছিল।",
+      "note": "Affirmative।"
+    },
+    {
+      "en": "He was not only an actor but also a singer.",
+      "bn": "সে কেবল অভিনেতাই ছিল না, একজন গায়কও ছিল।",
+      "note": "Negative রূপান্তর।"
+    },
+    {
+      "en": "A good student always obeys his teachers.",
+      "bn": "একজন ভালো শিক্ষার্থী সর্বদা তার শিক্ষকদের মান্য করে।",
+      "note": "Affirmative।"
+    },
+    {
+      "en": "A good student never disobeys his teachers.",
+      "bn": "একজন ভালো শিক্ষার্থী কখনো তার শিক্ষকদের অমান্য করে না।",
+      "note": "Negative (always -> never + opposite)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Cannot help ব্যবহার করলে V-ing হয়",
+      "exceptionText": "Must-এর পরিবর্তে Cannot but-এর জায়গায় যদি Cannot help ব্যবহার করা হয়, তবে পরবর্তী Verb-টির সাথে ing যোগ করতে হয় (He cannot help going there).",
+      "exampleEn": "We must respect honesty. -> We cannot help respecting honesty.",
+      "exampleBn": "আমরা সততাকে শ্রদ্ধা না করে পারি না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "No sooner had I reached the station then the train left.",
+      "correct": "No sooner had I reached the station than the train left.",
+      "reasonBn": "No sooner had-এর সাথে সর্বদা \"than\" বসে, \"then\" নয়।"
+    },
+    {
+      "mistake": "None but a pen will do.",
+      "correct": "Nothing but a pen will do.",
+      "reasonBn": "কলম একটি বস্তু, তাই \"Nothing but\" হবে, \"None but\" নয়।"
+    }
+  ],
+  "tags": [
+    "transformation of sentences",
+    "affirmative to negative",
+    "none but",
+    "nothing but",
+    "cannot but",
+    "as soon as no sooner",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 120101,
+      "question": "Transform into Negative: \"Only the courageous deserve the prize.\"",
+      "questionBn": "\"Only the courageous deserve the prize\" বাক্যটিকে Negative রূপান্তর করো:",
+      "options": [
+        "Nothing but the courageous deserve the prize.",
+        "None but the courageous deserve the prize.",
+        "Not more than the courageous deserve the prize.",
+        "Every courageous do not deserve the prize."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The courageous\" ব্যক্তি নির্দেশ করায় \"Only\"-র পরিবর্তে \"None but\" ব্যবহৃত হবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 120102,
+      "question": "What is the correct negative transformation of \"We must yield to our fate\"?",
+      "questionBn": "\"We must yield to our fate\"-এর সঠিক Negative রূপ কোনটি?",
+      "options": [
+        "We cannot but yield to our fate.",
+        "We must not yield to our fate.",
+        "We cannot help yield to our fate.",
+        "There is no yielding to our fate."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Must-এর নেগেটিভ রূপান্তরের আদর্শ সূত্র হলো \"cannot but + V1 (yield)\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 120101,
+      "type": "Affirmative to Negative",
+      "prompt": "Transform into Negative: \"As soon as he entered the hall, the audience applauded loudly.\"",
+      "correctAnswer": "No sooner had he entered the hall than the audience applauded loudly.",
+      "explanationBn": "As soon as থেকে No sooner had ... than রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 120101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Affirmative to Negative conversions in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Negative: \"Every rose has a thorn.\"",
+          "answer": "There is no rose without a thorn. (or There is no rose but has a thorn.)",
+          "explanationBn": "Every-র ক্লাসিক নেগেটিভ রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬-এ এটি বহুবার এসেছে।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-classification-by-structure': {
+  "id": 1104,
+  "chapterId": 11,
+  "topicNo": "০৪",
+  "titleEn": "Sentence Classification by Structure: Simple, Complex & Compound",
+  "titleBn": "গঠনানুসারে বাক্যের প্রকারভেদ: সরল, জটিল ও যৌগিক বাক্য",
+  "slug": "sentence-classification-by-structure",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি ও এইচএসসি পরীক্ষার সবচেয়ে গুরুত্বপূর্ণ অধ্যায়। Simple (একটিমাত্র Finite Verb), Complex (একটি Principal ও এক বা একাধিক Subordinate Clause) এবং Compound (Coordinating Conjunction দ্বারা যুক্ত একাধিক স্বাধীন Clause)।",
+  "definitionEn": "Syntactically, sentences are classified into Simple, Complex, and Compound structures according to the number and type of independent and dependent clauses they contain.",
+  "definitionBn": "বাক্যে উপস্থিত Clause (খন্ডবাক্য) এবং Finite Verb (সমাপিকা ক্রিয়া)-এর সংখ্যা ও ধরনের ওপর ভিত্তি করে বাক্যকে ৩ ভাগে ভাগ করা হয়: Simple, Complex ও Compound।",
+  "explanationBn": "১. Simple Sentence: এতে কেবল একটি Subject এবং একটিমাত্র Finite Verb থাকে (In spite of his poverty, he is honest)। ২. Complex Sentence: এতে একটি Principal Clause এবং অন্তত একটি Subordinate Clause (যা If, Though, Although, Since, As, When, Because, That, Who, Which ইত্যাদি দ্বারা যুক্ত) থাকে। ৩. Compound Sentence: এতে দুই বা ততোধিক Principal Clause কো-অর্ডিনেটিং কনজাংশন (FANBOYS: For, And, Nor, But, Or, Yet, So) দ্বারা যুক্ত থাকে।",
+  "teacherGoldenTips": "ক্লজ গোনার গোল্ডেন ট্রিক: বাক্যের Finite Verb গুনুন! ১টি Finite Verb = Simple Sentence! ২টি Finite Verb এবং যুক্তকারী শব্দ If/Though/Since/Who হলে = Complex Sentence! আর ২টি Finite Verb এবং মাঝখানে And/But/Or/So থাকলে = Compound Sentence!",
+  "mainFormula": "Simple = 1 Finite Verb | Complex = 1 Principal Clause + Subordinate Clause | Compound = Independent Clause + (and/but/or/so) + Independent Clause",
+  "formulas": [
+    {
+      "label": "Simple Sentence",
+      "structure": "Subject + 1 Finite Verb (+ Non-finite verbs / Phrases)",
+      "tag": "1 Finite",
+      "example": "Closing the door, I went out to play."
+    },
+    {
+      "label": "Complex Sentence",
+      "structure": "Principal Clause + (if / though / since / when / who / which / that) + Subordinate Clause",
+      "tag": "Subordinate",
+      "example": "Though he was poor, he was honest."
+    },
+    {
+      "label": "Compound Sentence",
+      "structure": "Clause 1 + FANBOYS (And, But, Or, Yet, So) + Clause 2",
+      "tag": "Coordinate",
+      "example": "He was poor, but he was honest."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "FANBOYS কো-অর্ডিনেটিং কনজাংশনসমূহ",
+      "nameEn": "The \"FANBOYS\" Mnemonic for Compound Sentences",
+      "formula": "F = For, A = And, N = Nor, B = But, O = Or, Y = Yet, S = So",
+      "shortcutTrick": "এই ৭টি কনজাংশন দিয়ে দুটি স্বাধীন ক্লজ যুক্ত হলে সেটি নিশ্চিতভাবে Compound Sentence!",
+      "descriptionBn": "Compound বাক্যের ক্লজগুলো ব্যাকরণগতভাবে সমমর্যাদাসম্পন্ন এবং কোনো ক্লজ অন্য ক্লজের ওপর নির্ভরশীল নয়।",
+      "examples": [
+        {
+          "en": "He worked hard, yet he failed in the test.",
+          "bn": "সে কঠোর পরিশ্রম করেছিল, তবুও সে পরীক্ষায় অকৃতকার্য হলো।",
+          "note": "yet দ্বারা যুক্ত Compound।"
+        },
+        {
+          "en": "Read attentively, or you will fail in the exam.",
+          "bn": "মনোযোগ দিয়ে পড়ো, নতুবা তুমি পরীক্ষায় ফেল করবে।",
+          "note": "or দ্বারা যুক্ত Compound।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Subordinate Clause-এর ৩টি রূপ (Noun, Adjective, Adverb Clause)",
+      "nameEn": "Three Types of Subordinate Clauses",
+      "formula": "Noun Clause (acts as Noun) | Adjective Clause (modifies Noun) | Adverb Clause (modifies Verb)",
+      "shortcutTrick": "Who/Which যদি ঠিক আগের Noun-কে বর্ণনা করে তবে Adjective Clause; আর When/If/Because শর্ত বা সময় বোঝালে Adverb Clause!",
+      "descriptionBn": "I know who did it (Noun Clause)। The boy who came here is my brother (Adjective Clause)। When he came, I was sleeping (Adverb Clause)।",
+      "examples": [
+        {
+          "en": "I know where he lives (Noun Clause).",
+          "bn": "আমি জানি সে কোথায় বাস করে।",
+          "note": "know-এর Object হিসেবে কাজ করছে।"
+        },
+        {
+          "en": "This is the school where I studied (Adjective Clause).",
+          "bn": "এটি সেই বিদ্যালয় যেখানে আমি পড়েছিলাম।",
+          "note": "school-কে modify করছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Having finished his homework, the boy went to sleep.",
+      "bn": "বাড়ির কাজ শেষ করে বালকটি ঘুমাতে গেল।",
+      "note": "Simple Sentence (একমাত্র Finite Verb = went)।"
+    },
+    {
+      "en": "Since the weather was stormy, the ship could not sail.",
+      "bn": "যেহেতু আবহাওয়া দুর্যোগপূর্ণ ছিল, তাই জাহাজটি যাত্রা করতে পারল না।",
+      "note": "Complex Sentence (Since যুক্ত Subordinate Clause)।"
+    },
+    {
+      "en": "The sun set, and the birds returned to their nests.",
+      "bn": "সূর্য অস্ত গেল এবং পাখিরা তাদের নীড়ে ফিরে এল।",
+      "note": "Compound Sentence (and দ্বারা যুক্ত দুটি স্বাধীন ক্লজ)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Compound-Complex Sentence (যৌগিক-জটিল বাক্য)",
+      "exceptionText": "অ্যাডভান্সড ব্যাকরণে এমন কিছু বাক্য থাকে যাতে অন্তত দুটি স্বাধীন ক্লজ এবং এক বা একাধিক অধীনস্থ ক্লজ থাকে।",
+      "exampleEn": "Though he was tired, he completed the report, and his boss praised him.",
+      "exampleBn": "যদিও সে ক্লান্ত ছিল, সে রিপোর্টটি শেষ করল এবং তার বস তার প্রশংসা করলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Though he was poor, but he was honest.",
+      "correct": "Though he was poor, he was honest. (or He was poor, but he was honest.)",
+      "reasonBn": "একই বাক্যে Though এবং But উভয়টি একসাথে ব্যবহার করা যাবে না।"
+    },
+    {
+      "mistake": "In spite of he was poor, he was honest.",
+      "correct": "In spite of his poverty, he was honest.",
+      "reasonBn": "In spite of-এর পর Clause বসে না, Noun Phrase বসে।"
+    }
+  ],
+  "tags": [
+    "simple complex compound",
+    "structural classification",
+    "fanboys",
+    "subordinate clause",
+    "finite verb count",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 110401,
+      "question": "\"In spite of studying day and night, he could not achieve GPA 5\" — What kind of sentence is this?",
+      "questionBn": "\"In spite of studying day and night, he could not achieve GPA 5\" — এটি কোন ধরনের বাক্য?",
+      "options": [
+        "Simple Sentence",
+        "Complex Sentence",
+        "Compound Sentence",
+        "Compound-Complex Sentence"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "বাক্যটিতে একমাত্র Finite Verb হলো \"could not achieve\"; studying একটি Gerund। তাই এটি Simple Sentence।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 110402,
+      "question": "Which of the following is a Compound Sentence?",
+      "questionBn": "নিচের কোনটি একটি Compound Sentence?",
+      "options": [
+        "If you work hard, you will prosper.",
+        "Work hard, and you will prosper.",
+        "By working hard, you will prosper.",
+        "Because of working hard, he prospered."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Work hard, and you will prosper\" বাক্যে দুটি স্বাধীন ক্লজ \"and\" দ্বারা যুক্ত হওয়ায় এটি Compound Sentence।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 110401,
+      "type": "Classify Structure",
+      "prompt": "Classify according to structure: (a) He is poor but honest. (b) When he arrived, the class started. (c) He went to market to buy books.",
+      "correctAnswer": "(a) Compound Sentence, (b) Complex Sentence, (c) Simple Sentence.",
+      "explanationBn": "গঠনানুসারে বাক্যের বিশ্লেষণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 110401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Structural identification and transformation in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "How do you identify a Simple sentence despite having multiple non-finite verbs?",
+          "answer": "By checking the count of Finite Verbs. A Simple Sentence will always contain exactly ONE Finite Verb governed by tense, regardless of how many participles, gerunds, or infinitives are present.",
+          "explanationBn": "সিম্পল সেন্টেন্স চেনার বৈজ্ঞানিক সূত্র।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন অব সেন্টেন্সের প্রশ্ন ৬-এর ভিত্তিপ্রস্তর।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-classification-by-meaning': {
+  "id": 1103,
+  "chapterId": 11,
+  "topicNo": "০৩",
+  "titleEn": "Sentence Classification by Meaning: Assertive, Interrogative, Imperative, Optative & Exclamatory",
+  "titleBn": "অর্থানুসারে বাক্যের প্রকারভেদ: বর্ণনামূলক, প্রশ্নবোধক, অনুজ্ঞাবাচক, প্রার্থনামূলক ও বিস্ময়সূচক",
+  "slug": "sentence-classification-by-meaning",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "অর্থ ও বাচনভঙ্গির ওপর ভিত্তি করে বাক্যের ৫টি শ্রেণি: Assertive (হ্যাঁ/না-বোধক), Interrogative (প্রশ্নবোধক), Imperative (আদেশ/উপদেশ), Optative (প্রার্থনা/আশীর্বাদ), এবং Exclamatory (আবেগ ও বিস্ময়)।",
+  "definitionEn": "Functionally, sentences are categorized into five types based on the speaker's communicative intent: stating facts, interrogating, commanding, expressing wishes, or shouting emotions.",
+  "definitionBn": "বক্তার মনের ভাব বা অভিব্যক্তির অর্থ অনুসারে ইংরেজি বাক্যকে ৫ ভাগে ভাগ করা হয়: Assertive, Interrogative, Imperative, Optative এবং Exclamatory Sentence।",
+  "explanationBn": "১. Assertive: কোনো বিবৃতি বা বর্ণনা দেয় (Affirmative: He reads, Negative: He does not read)। ২. Interrogative: কোনো প্রশ্ন জিজ্ঞাসা করে এবং শেষে \"?\" বসে (Do you know him?)। ৩. Imperative: আদেশ, নিষেধ, অনুরোধ বা উপদেশ দেয় এবং Verb দিয়ে শুরু হয় (Obey your parents)। ৪. Optative: ইচ্ছা বা প্রার্থনা প্রকাশ করে, সাধারণত \"May\" বা \"Long live\" দিয়ে শুরু হয় (May you prosper in life)। ৫. Exclamatory: আকস্মিক আবেগ বা আনন্দ-বেদনা প্রকাশ করে এবং শেষে \"!\" বসে (What a scenic view it is!)।",
+  "teacherGoldenTips": "বিরামচিহ্নের গোল্ডেন সূত্র: Interrogative-এর শেষে অবশ্যই প্রশ্নবোধক চিহ্ন (?), Exclamatory-র শেষে অবশ্যই আশ্চর্যবোধক চিহ্ন (!), আর বাকি তিনটিতে (Assertive, Imperative, Optative) ফুলস্টপ (.) বসবে!",
+  "mainFormula": "Assertive (.) | Interrogative (?) | Imperative (.) | Optative (.) | Exclamatory (!)",
+  "formulas": [
+    {
+      "label": "Assertive Structure",
+      "structure": "Subject + Verb + Object / Extension .",
+      "tag": "Statement",
+      "example": "Education is the backbone of a nation."
+    },
+    {
+      "label": "Interrogative Structure",
+      "structure": "Auxiliary + Subject + Main Verb + Object ? (or WH-word + Aux + S + V?)",
+      "tag": "Question",
+      "example": "Did you finish the assignment? Where do you live?"
+    },
+    {
+      "label": "Imperative Structure",
+      "structure": "Base Verb (V1) / Do not / Please / Let + Object / Extension .",
+      "tag": "Command/Request",
+      "example": "Always speak the truth. Never tell a lie."
+    },
+    {
+      "label": "Optative Structure",
+      "structure": "May + Subject + Base Verb + Extension . (or Long live + Subject)",
+      "tag": "Wish/Prayer",
+      "example": "May Allah bless you. Long live our motherland."
+    },
+    {
+      "label": "Exclamatory Structure",
+      "structure": "What a/an / How + Adj/Noun + Subject + Verb !",
+      "tag": "Emotion",
+      "example": "How beautiful the scenery is! Alas! He is undone!"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Exclamatory বাক্যে \"What a\" বনাম \"How\"-এর নিয়ম",
+      "nameEn": "Exclamatory: \"What a/an\" vs \"How\"",
+      "formula": "WHAT A/AN + Adjective + Singular Countable Noun + S + V ! | HOW + Adjective / Adverb + S + V !",
+      "shortcutTrick": "Noun থাকলে What a/an; আর শুধু Adjective বা Adverb থাকলে How!",
+      "descriptionBn": "What a beautiful flower it is! (Flower Noun থাকায় What a)। কিন্তু How beautiful it is! (শুধু Adjective থাকায় How)।",
+      "examples": [
+        {
+          "en": "What an interesting novel this is!",
+          "bn": "এটি কী চমকপ্রদ একটি উপন্যাস!",
+          "note": "novel (Noun) থাকায় What an।"
+        },
+        {
+          "en": "How sweetly the nightingale sings!",
+          "bn": "নাইটিঙ্গেল পাখিটি কী মিষ্টি করেই না গান গায়!",
+          "note": "sweetly (Adverb) থাকায় How।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Let দ্বারা প্রস্তাব বনাম অনুমতির পার্থক্য (Imperative)",
+      "nameEn": "Imperative with \"Let us\" (Proposal) vs \"Let him\" (Permission)",
+      "formula": "LET US / LET'S + V1 = Proposal / Suggestion | LET + Him/Her/Them + V1 = Permission",
+      "shortcutTrick": "Let-এর পর \"us\" থাকলে প্রস্তাব (Suggestion); আর অন্য অবজেক্ট থাকলে অনুমতি (Permission)!",
+      "descriptionBn": "Let us discuss the matter (চলো আমরা বিষয়টি আলোচনা করি - প্রস্তাব)। Let him do the work (তাকে কাজটি করতে দাও - অনুমতি)।",
+      "examples": [
+        {
+          "en": "Let us arrange a picnic this weekend.",
+          "bn": "চলো এই সপ্তাহে আমরা একটি চড়ুইভাতির আয়োজন করি।",
+          "note": "Let us হলো প্রস্তাব।"
+        },
+        {
+          "en": "Let her express her own opinion.",
+          "bn": "তাকে তার নিজস্ব মতামত প্রকাশ করতে দেওয়া হোক।",
+          "note": "Let her হলো অনুমতি।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "May you achieve brilliant success in your SSC exams.",
+      "bn": "তুমি তোমার এসএসসি পরীক্ষায় উজ্জ্বল সাফল্য অর্জন করো।",
+      "note": "Optative Sentence (প্রার্থনা)।"
+    },
+    {
+      "en": "Do not run in the scorching sun.",
+      "bn": "প্রখর রোদের মধ্যে দৌড়াদৌড়ি করো না।",
+      "note": "Imperative Sentence (উপদেশ/নিষেধ)।"
+    },
+    {
+      "en": "Who broke this expensive mirror?",
+      "bn": "এই দামি আয়নাটি কে ভেঙেছে?",
+      "note": "Interrogative Sentence (প্রশ্নবোধক)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "May উহ্য রেখে Optative বাক্য গঠন",
+      "exceptionText": "কিছু ঐতিহ্যবাহী উক্তিতে May উহ্য থাকে, যেমন: \"God bless you\" (= May God bless you) বা \"Long live the King\".",
+      "exampleEn": "Long live Bangladesh!",
+      "exampleBn": "বাংলাদেশ চিরজীবী হোক!"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "How a beautiful flower it is!",
+      "correct": "What a beautiful flower it is! (or How beautiful the flower is!)",
+      "reasonBn": "Noun থাকলে How a বসে না, What a বসে।"
+    },
+    {
+      "mistake": "May you will live long.",
+      "correct": "May you live long.",
+      "reasonBn": "May মোডালের পর সরাসরি Base Verb (live) বসে, will বসে না।"
+    }
+  ],
+  "tags": [
+    "sentence types by meaning",
+    "assertive",
+    "interrogative",
+    "imperative",
+    "optative",
+    "exclamatory",
+    "what a how",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 110301,
+      "question": "\"May Allah shower His infinite blessings upon you\" — What type of sentence is this?",
+      "questionBn": "\"May Allah shower His infinite blessings upon you\" — এটি কোন ধরনের বাক্য?",
+      "options": [
+        "Assertive",
+        "Imperative",
+        "Optative",
+        "Exclamatory"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "আল্লাহর কাছে প্রার্থনা বা আশীর্বাদ প্রকাশ করায় এটি একটি Optative Sentence।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 110302,
+      "question": "Which of the following is a grammatically correct Exclamatory sentence?",
+      "questionBn": "নিচের কোনটি ব্যাকরণগতভাবে সঠিক Exclamatory বাক্য?",
+      "options": [
+        "What a fool you are!",
+        "How a fool you are!",
+        "What you are a fool!",
+        "How fool you are!"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Fool\" একটি Noun হওয়ায় এর পূর্বে \"What a\" বসে এবং Verb বাক্যের শেষে যায়: \"What a fool you are!\"",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 110301,
+      "type": "Identify Sentence Types",
+      "prompt": "Identify the sentence types: (a) Keep quiet, please. (b) Have you seen my keys? (c) How cold the night is!",
+      "correctAnswer": "(a) Imperative, (b) Interrogative, (c) Exclamatory.",
+      "explanationBn": "অর্থানুসারে বাক্য শনাক্তকরণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 110301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Classification and functional conversion of sentences by meaning:",
+      "subQuestions": [
+        {
+          "questionText": "Change the Assertive statement \"He leads a very miserable life\" into an Exclamatory sentence.",
+          "answer": "What a miserable life he leads!",
+          "explanationBn": "Very miserable life (Noun) থাকায় What a miserable life দিয়ে গঠন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন অব সেন্টেন্সে এটি নিশ্চিত ১ নম্বরের আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-patterns-syntax-analysis': {
+  "id": 1102,
+  "chapterId": 11,
+  "topicNo": "০২",
+  "titleEn": "The 7 Sentence Patterns (SV, SVO, SVC, SVOO, SVOC) & Sentence Errors",
+  "titleBn": "বাক্যের ৭টি মৌলিক প্যাটার্ন এবং বাক্য গঠনের সাধারণ ত্রুটি (Fragments & Run-ons)",
+  "slug": "sentence-patterns-syntax-analysis",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "ইংরেজি ভাষার সমস্ত বাক্য মাত্র ৭টি মৌলিক প্যাটার্নে বিন্যস্ত: SV, SVO, SVC, SVA, SVOO, SVOC, SVOA। বাক্য গঠনের মারাত্মক ত্রুটি: Sentence Fragments (অসম্পূর্ণ বাক্য) এবং Run-on Sentences।",
+  "definitionEn": "Sentence patterns describe the fundamental canonical arrangements of grammatical constituents in English syntax. Syntactic integrity requires avoiding sentence fragments and comma splices.",
+  "definitionBn": "ইংরেজি ব্যাকরণে বাক্যের উপাদানগুলোর পারস্পরিক ক্রম অনুযায়ী ৭টি স্বীকৃত মৌলিক বিন্যাস বা প্যাটার্ন রয়েছে। বাক্যের সম্পূর্ণতা রক্ষায় ফ্র্যাগমেন্ট ও রান-অন বাক্য পরিহার করা আবশ্যক।",
+  "explanationBn": "৭টি মৌলিক প্যাটার্ন: ১. SV (Birds fly), ২. SVO (She reads books), ৩. SVC (He looks happy), ৪. SVA (The train arrived late), ৫. SVOO (He lent me money), ৬. SVOC (They made him captain), ৭. SVOA (He put the phone on the desk)। বাক্য গঠনের দুটি প্রধান ভুল: Fragment (ক্লজ ছাড়া অসম্পূর্ণ শব্দগুচ্ছ যেমন: \"Because he was tired.\") এবং Run-on (পাংকচুয়েশন বা কনজাংশন ছাড়া দুই বাক্য জুড়ে দেওয়া)।",
+  "teacherGoldenTips": "কমা স্প্লাইস ও রান-অন ভুলের প্রতিকার: দুটি স্বাধীন বাক্যকে কেবল একটি কমা (,) দিয়ে জোড়া দেওয়া মারাত্মক ভুল! তাদের মাঝে Full stop (.), Semicolon (;), অথবা Conjunction (and/but/so) বসাতে হবে!",
+  "mainFormula": "The 7 Core Syntax Patterns: SV | SVO | SVC | SVA | SVOO | SVOC | SVOA",
+  "formulas": [
+    {
+      "label": "Pattern 1: SV",
+      "structure": "Subject + Intransitive Verb",
+      "tag": "SV",
+      "example": "The sun shines."
+    },
+    {
+      "label": "Pattern 2: SVO",
+      "structure": "Subject + Transitive Verb + Direct Object",
+      "tag": "SVO",
+      "example": "Students respect their teachers."
+    },
+    {
+      "label": "Pattern 3: SVC",
+      "structure": "Subject + Linking Verb + Subject Complement",
+      "tag": "SVC",
+      "example": "Honey tastes sweet."
+    },
+    {
+      "label": "Pattern 5: SVOO",
+      "structure": "Subject + Verb + Indirect Object + Direct Object",
+      "tag": "SVOO",
+      "example": "The teacher taught us English."
+    },
+    {
+      "label": "Pattern 6: SVOC",
+      "structure": "Subject + Verb + Object + Object Complement",
+      "tag": "SVOC",
+      "example": "We proved him innocent."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Sentence Fragment (অসম্পূর্ণ বাক্যখণ্ড) পরিহারের নিয়ম",
+      "nameEn": "Eliminating Sentence Fragments",
+      "formula": "Subordinate Clause alone = INCOMPLETE FRAGMENT | Subordinate Clause + Main Clause = COMPLETE SENTENCE",
+      "shortcutTrick": "Because, although, since দিয়ে শুরু হওয়া বাক্য একা একা কোনো স্বাধীন বাক্য হতে পারে না!",
+      "descriptionBn": "\"Although he worked hard.\" এটি কোনো পূর্ণাঙ্গ বাক্য নয়, এটি একটি ফ্র্যাগমেন্ট। এর সাথে একটি স্বাধীন অংশ যোগ করতে হবে: \"Although he worked hard, he failed.\"",
+      "examples": [
+        {
+          "en": "Incorrect Fragment: Because it was raining heavily.",
+          "bn": "ভুল: কারণ প্রচণ্ড বৃষ্টি হচ্ছিল।",
+          "note": "স্বাধীন ক্লজ নেই।"
+        },
+        {
+          "en": "Correct: We postponed the match because it was raining heavily.",
+          "bn": "সঠিক: আমরা ম্যাচটি পিছিয়ে দিলাম কারণ প্রচণ্ড বৃষ্টি হচ্ছিল।",
+          "note": "পূর্ণাঙ্গ বাক্য।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Run-on Sentence ও Comma Splice সংশোধনের উপায়",
+      "nameEn": "Correcting Run-on Sentences and Comma Splices",
+      "formula": "Independent Clause 1 + COMMA + Independent Clause 2 = COMMA SPLICE (ERROR)",
+      "shortcutTrick": "কমা দিয়ে দুটি পূর্ণাঙ্গ বাক্য জোড়া লাগানো যাবে না; সেমিকোলন বা কনজাংশন ব্যবহার করুন!",
+      "descriptionBn": "He studied hard, he scored an A+ (ভুল কমা স্প্লাইস)। সঠিক: He studied hard, and he scored an A+ (অথবা He studied hard; he scored an A+)।",
+      "examples": [
+        {
+          "en": "Incorrect: I love music, it relaxes my mind.",
+          "bn": "ভুল: কমা দিয়ে দুটি স্বাধীন বাক্য জোড়া।",
+          "note": "Comma splice error।"
+        },
+        {
+          "en": "Correct: I love music because it relaxes my mind.",
+          "bn": "সঠিক: কনজাংশন যোগ করে নির্ভুল সংযোগ।",
+          "note": "Grammatically sound।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The jury declared the prisoner guilty.",
+      "bn": "জুরি বন্দিটিকে দোষী সাব্যস্ত করল।",
+      "note": "Pattern: SVOC (guilty = Object Complement)।"
+    },
+    {
+      "en": "He placed the fragile vase carefully on the table.",
+      "bn": "সে ফুলদানিটি সাবধানে টেবিলের ওপর রাখল।",
+      "note": "Pattern: SVOA (on the table = Adverbial)।"
+    },
+    {
+      "en": "Silence prevailed throughout the massive hall.",
+      "bn": "বিশাল হলজুড়ে নীরবতা বিরাজ করছিল।",
+      "note": "Pattern: SV (prevailed = Intransitive)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Inverted Sentence Pattern (VS)",
+      "exceptionText": "বাক্যের জোর বা স্টাইলিস্টিক প্রয়োজনে Verb কখনো Subject-এর পূর্বে বসতে পারে (Inversion)। যেমন: \"Under the tree sat an old beggar.\"",
+      "exampleEn": "Down came the pouring rain.",
+      "exampleBn": "ঝমঝম করে বৃষ্টি নেমে আসল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He ran fast, he wanted to catch the train.",
+      "correct": "He ran fast because he wanted to catch the train.",
+      "reasonBn": "দুটি পূর্ণাঙ্গ ক্লজকে শুধু কমা দিয়ে জোড়া দেওয়া (Comma Splice) ব্যাকরণগত ভুল।"
+    },
+    {
+      "mistake": "Since he was ill.",
+      "correct": "Since he was ill, he did not attend the meeting.",
+      "reasonBn": "Since যুক্ত ক্লজ একা বাক্য হতে পারে না (Sentence Fragment)।"
+    }
+  ],
+  "tags": [
+    "sentence patterns",
+    "svo",
+    "svoc",
+    "svoo",
+    "sentence fragments",
+    "comma splice",
+    "run-on sentence",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 110201,
+      "question": "Identify the pattern of the sentence: \"The members elected him chairman of the club.\"",
+      "questionBn": "\"The members elected him chairman of the club\" বাক্যটির প্যাটার্ন কোনটি?",
+      "options": [
+        "SVOO",
+        "SVOC",
+        "SVOA",
+        "SVC"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "The members (S) + elected (V) + him (O) + chairman (C: Object Complement) -> SVOC প্যাটার্ন।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 110202,
+      "question": "Which of the following is a Sentence Fragment (an incomplete sentence)?",
+      "questionBn": "নিচের কোনটি একটি Sentence Fragment (অসম্পূর্ণ বাক্য)?",
+      "options": [
+        "Birds chirp early in the morning.",
+        "Open the window right now.",
+        "Although he practiced regularly every single day.",
+        "The match was postponed due to rain."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Although he practiced regularly every single day\" একটি Subordinate Clause এবং এতে কোনো Main Clause না থাকায় এটি একটি Fragment।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 110201,
+      "type": "Correct the Comma Splice",
+      "prompt": "Fix the comma splice: \"The library was closed, we returned to our dormitory.\"",
+      "correctAnswer": "The library was closed, so we returned to our dormitory. (or The library was closed; we returned to our dormitory.)",
+      "explanationBn": "কনজাংশন (so) অথবা সেমিকোলন দিয়ে রান-অন দূরীকরণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 110201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Sentence syntax patterns and error repair in SSC composition:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between SVOO and SVOC with one clear example for each.",
+          "answer": "SVOO has two distinct entities (Indirect Person + Direct Thing): \"He gave me (O1) a pen (O2)\". SVOC has an object followed by a complement describing the same object: \"We made him (O) monitor (C)\".",
+          "explanationBn": "SVOO এবং SVOC-এর মধ্যকার মূল তফাত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন ও ভয়েস পরিবর্তনের প্রাথমিক ব্যাকরণিক জ্ঞান।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-elements-clause-phrase': {
+  "id": 1101,
+  "chapterId": 11,
+  "topicNo": "০১",
+  "titleEn": "Sentence Elements: Subject, Predicate, Object, Complement & Modifier",
+  "titleBn": "বাক্যের মৌলিক উপাদান: উদ্দেশ্য, বিধেয়, কর্ম, পূরক ও সংশোধক",
+  "slug": "sentence-elements-clause-phrase",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "একটি পূর্ণাঙ্গ বাক্যের মূল কাঠামোগত অংশ: Subject ও Predicate। Direct ও Indirect Object, Subject Complement বনাম Object Complement, এবং Phrase বনাম Clause-এর স্পষ্ট পার্থক্য।",
+  "definitionEn": "A sentence is a grammatically complete string of words expressing a full thought, comprising a Subject and a Predicate, along with optional Objects, Complements, and Modifiers.",
+  "definitionBn": "এক বা একাধিক শব্দ সুসংবদ্ধভাবে মিলিত হয়ে যখন বক্তার মনের ভাব সম্পূর্ণরূপে প্রকাশ করে তখন তাকে Sentence (বাক্য) বলে। একটি আদর্শ বাক্যের প্রধান দুটি অংশ: Subject (উদ্দেশ্য) ও Predicate (বিধেয়)।",
+  "explanationBn": "১. Subject: যার সম্পর্কে কিছু বলা হয় (Rahim is reading)। ২. Predicate: Subject সম্পর্কে যা কিছু বলা হয় (is reading a book)। ৩. Direct Object: ভার্বকে \"কী\" দিয়ে প্রশ্ন করলে যে উত্তর পাওয়া যায় (a book)। ৪. Indirect Object: ভার্বকে \"কাকে\" দিয়ে প্রশ্ন করলে পাওয়া উত্তর (He gave ME a book)। ৫. Complement: যা Subject বা Object-এর পরিচয় পূর্ণ করে (He is a DOCTOR [Subject Complement], They elected him CAPTAIN [Object Complement])।",
+  "teacherGoldenTips": "অবজেক্ট বনাম কমপ্লিমেন্ট চেনার ম্যাজিক ট্রিক: Subject এবং ভার্বের পরের শব্দের মাঝে \"=\" বসিয়ে দেখুন। যদি উভয় ব্যক্তি বা বস্তু এক হয় তবে তা COMPLEMENT (He = doctor -> Complement)! আর যদি দুটি আলাদা সত্তা হয় তবে তা OBJECT (He ≠ mango -> Object)!",
+  "mainFormula": "Sentence = Subject + Predicate (Verb + Object / Complement + Modifier)",
+  "formulas": [
+    {
+      "label": "Subject + Predicate",
+      "structure": "Subject (Who/What) + Predicate (Verb + Extensions)",
+      "tag": "Core Division",
+      "example": "The brilliant student / solved the problem effortlessly."
+    },
+    {
+      "label": "Direct vs Indirect Object",
+      "structure": "Subject + Verb + Indirect Object (Person) + Direct Object (Thing)",
+      "tag": "Dual Object",
+      "example": "My father bought me (Indirect) a laptop (Direct)."
+    },
+    {
+      "label": "Subject Complement",
+      "structure": "Subject + Linking Verb + Complement (Noun / Adjective = Subject)",
+      "tag": "Subj Comp",
+      "example": "She is a talented singer. The soup tastes good."
+    },
+    {
+      "label": "Object Complement",
+      "structure": "Subject + Verb + Object + Complement (renaming Object)",
+      "tag": "Obj Comp",
+      "example": "We nominated Tanvir team captain."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Phrase বনাম Clause-এর পার্থক্য",
+      "nameEn": "Phrase vs Clause Distinction",
+      "formula": "PHRASE = Group of words WITHOUT Finite Verb | CLAUSE = Group of words WITH Subject & Finite Verb",
+      "shortcutTrick": "যদি কোনো সমাপিকা ক্রিয়া (Finite Verb) না থাকে তবে Phrase; আর Subject + Finite Verb থাকলে Clause!",
+      "descriptionBn": "\"In the morning\" একটি Phrase (কোনো সমাপিকা ক্রিয়া নেই)। কিন্তু \"When the morning came\" একটি Clause (Subject morning এবং Finite Verb came বিদ্যমান)।",
+      "examples": [
+        {
+          "en": "He walked into the garden (Phrase).",
+          "bn": "সে বাগানে হেঁটে গেল।",
+          "note": "into the garden-এ কোনো Finite Verb নেই।"
+        },
+        {
+          "en": "He walked because he needed exercise (Clause).",
+          "bn": "সে হাঁটল কারণ তার ব্যায়াম প্রয়োজন ছিল।",
+          "note": "he needed exercise হলো ক্লজ।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Direct ও Indirect Object-এর অবস্থান পরিবর্তন",
+      "nameEn": "Inverting Direct and Indirect Objects with Prepositions",
+      "formula": "S + V + Indirect Object (Person) + Direct Object (Thing) = S + V + Direct Object + TO/FOR + Indirect Object",
+      "shortcutTrick": "মানুষ আগে বসলে কোনো প্রেপজিশন লাগবে না; কিন্তু বস্তু আগে আসলে To বা For বসাতে হবে!",
+      "descriptionBn": "He gave me a gift (ব্যক্তি me আগে)। কিন্তু He gave a gift TO me (বস্তু a gift আগে)।",
+      "examples": [
+        {
+          "en": "She sent him an email.",
+          "bn": "সে তাকে একটি ইমেইল পাঠাল।",
+          "note": "him (Indirect) + email (Direct)।"
+        },
+        {
+          "en": "She sent an email to him.",
+          "bn": "সে তার কাছে একটি ইমেইল পাঠাল।",
+          "note": "email (Direct) + to him (Indirect)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The students selected Arif monitor of the class.",
+      "bn": "শিক্ষার্থীরা আরিফকে শ্রেণির মনিটর নির্বাচিত করল।",
+      "note": "monitor হলো Object Complement (Arif = monitor)।"
+    },
+    {
+      "en": "Honesty is a great virtue.",
+      "bn": "সততা একটি মহৎ গুণ।",
+      "note": "a great virtue হলো Subject Complement।"
+    },
+    {
+      "en": "Early in the morning, birds begin chirping merrily.",
+      "bn": "খুব ভোরে পাখিরা আনন্দের সাথে কিচিরমিচির শুরু করে।",
+      "note": "Early in the morning হলো Adverbial Modifier Phrase।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Imperative বাক্যে Subject উহ্য থাকে",
+      "exceptionText": "Imperative বাক্যে সাধারণত Subject \"You\" উহ্য (Elliptical) থাকে, কিন্তু ব্যাকরণগতভাবে সেটিই বাক্যের আসল সাবজেক্ট।",
+      "exampleEn": "(You) Close the door immediately.",
+      "exampleBn": "অবিলম্বে দরজাটি বন্ধ করো।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He gave to me a book.",
+      "correct": "He gave me a book. (or He gave a book to me)",
+      "reasonBn": "Indirect Object (me) সরাসরি ভার্বের পরে বসলে \"to\" বসে না।"
+    },
+    {
+      "mistake": "They made him as captain.",
+      "correct": "They made him captain.",
+      "reasonBn": "Object Complement-এর পূর্বে \"as\" বসানো অপ্রয়োজনীয় ভুল।"
+    }
+  ],
+  "tags": [
+    "sentence elements",
+    "subject predicate",
+    "direct indirect object",
+    "complement",
+    "phrase vs clause",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 110101,
+      "question": "In \"The committee appointed him secretary\", what is \"secretary\"?",
+      "questionBn": "\"The committee appointed him secretary\" বাক্যে \"secretary\" পদটি কী?",
+      "options": [
+        "Direct Object",
+        "Indirect Object",
+        "Object Complement",
+        "Subject Complement"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Secretary\" শব্দটি অবজেক্ট \"him\"-এর পদবী বা পরিচয় প্রকাশ করায় এটি Object Complement।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 110102,
+      "question": "Which of the following contains a Finite Verb and therefore qualifies as a Clause?",
+      "questionBn": "নিচের কোনটিতে একটি Finite Verb রয়েছে এবং সেটি একটি Clause?",
+      "options": [
+        "in spite of his hard work",
+        "to achieve success in life",
+        "when he arrived at the station",
+        "singing a melodious song"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"when he arrived at the station\"-এ Subject (he) এবং Finite Verb (arrived) থাকায় এটি একটি Clause।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 110101,
+      "type": "Identify Sentence Parts",
+      "prompt": "Break down the sentence into Subject, Verb, Indirect Object, and Direct Object: \"Mother gave me a delicious mango.\"",
+      "correctAnswer": "Subject: Mother, Verb: gave, Indirect Object: me, Direct Object: a delicious mango.",
+      "explanationBn": "বাক্যের পদ ব্যবচ্ছেদ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 110101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Structural element analysis in SSC English grammar:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between an Object and a Complement with examples.",
+          "answer": "An Object is a recipient of an action and refers to an entity distinct from the subject (\"He kicked the ball\"). A Complement refers back to and renames the subject or object through a linking relationship (\"He is a teacher\").",
+          "explanationBn": "অবজেক্ট বনাম কমপ্লিমেন্টের মৌলিক পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "ভয়েস চেঞ্জ ও পদ নির্বাচনে এই পার্থক্য জানা অপরিহার্য।",
+      "isVerified": true
+    }
+  ]
+},
+  'appropriate-prepositions-board-vault': {
+  "id": 1006,
+  "chapterId": 10,
+  "topicNo": "০৬",
+  "titleEn": "Appropriate Prepositions: Master List & SSC Board Exam Pitfalls",
+  "titleBn": "উপযুক্ত প্রেপজিশন (Appropriate Prepositions): বোর্ড পরীক্ষার চূড়ান্ত তালিকা",
+  "slug": "appropriate-prepositions-board-vault",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষায় সর্বাধিক জিজ্ঞাসিত উপযুক্ত প্রেপজিশনের তালিকা। Die-এর সাথে ৫টি ভিন্ন প্রেপজিশন (of, from, for, by, in), Senior to, Abide by, Accused of, Blind to/of এবং বোর্ড প্যাসেজ ড্রিল।",
+  "definitionEn": "Appropriate prepositions are fixed, idiomatic prepositional collocations governed by specific verbs, nouns, or adjectives that cannot be altered by general rules.",
+  "definitionBn": "নির্দিষ্ট কিছু Noun, Adjective বা Verb-এর পরে সবসময় সুনির্দিষ্ট Preposition বসে। এদের সাধারণ নিয়মে পরিবর্তন করা যায় না; এদের Appropriate Prepositions বলে।",
+  "explanationBn": "সবচেয়ে গুরুত্বপূর্ণ ক্লাসিক ডাই (DIE) রুল: ১. Die OF = রোগে মারা যাওয়া (He died of cholera)। ২. Die FROM = অতিরিক্ত খাওয়া বা ক্ষতের কারণে মারা যাওয়া (He died from overeating)। ৩. Die FOR = দেশের বা মহৎ উদ্দেশ্যে জীবন দেওয়া (He died for his country)। ৪. Die BY = বিষপান, আত্মহত্যা বা দুর্ঘটনায় মারা যাওয়া (He died by poison / by accident)। ৫. Die IN = শান্তিতে বা যুদ্ধক্ষেত্রে মারা যাওয়া (He died in peace / in the battle)।",
+  "teacherGoldenTips": "অন্ধের জাদুকরী রুল: চোখে অন্ধ হলে \"Blind OF\" (Blind of one eye)। কিন্তু সন্তানের দোষের প্রতি অন্ধ হলে \"Blind TO\" (A father is blind to his son's faults)!",
+  "mainFormula": "Fixed Collocation: Verb/Adj/Noun + MANDATORY APPROPRIATE PREPOSITION",
+  "formulas": [
+    {
+      "label": "Die Variations",
+      "structure": "Die of (Disease) | Die from (Overwork/Effect) | Die for (Country/Cause) | Die by (Accident/Poison)",
+      "tag": "Die Rules",
+      "example": "Died of cancer. Died for his motherland."
+    },
+    {
+      "label": "Blind Variations",
+      "structure": "Blind of (Eye sight) | Blind to (Faults/Shortcomings)",
+      "tag": "Blind Rules",
+      "example": "Blind of left eye. Blind to his children's misdeeds."
+    },
+    {
+      "label": "Essential Board Classics",
+      "structure": "Abide BY, Accused OF, Addicted TO, Congratulate ON, Good AT",
+      "tag": "Board Favorites",
+      "example": "Abide by rules. Congratulate on success. Good at English."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Die-এর সাথে বিভিন্ন প্রেপজিশনের সুনির্দিষ্ট প্রয়োগ",
+      "nameEn": "The Five Variations of \"Die\"",
+      "formula": "Die OF (disease) | Die FROM (external cause/wound) | Die FOR (noble cause) | Die BY (violence/poison/accident)",
+      "shortcutTrick": "রোগে of, অতিরিক্ততে from, দেশের জন্য for, বিষে by!",
+      "descriptionBn": "এসএসসি পরীক্ষায় প্রতি বছর এই পাঁচটি রূপের কোনো না কোনোটি ফিল ইন দ্য ব্ল্যাংকসে আসে।",
+      "examples": [
+        {
+          "en": "The patient died of pneumonia.",
+          "bn": "রোগীটি নিউমোনিয়ায় মারা গেল।",
+          "note": "রোগের কারণে of।"
+        },
+        {
+          "en": "Many freedom fighters died for the independence of Bangladesh.",
+          "bn": "অনেক মুক্তিযোদ্ধা বাংলাদেশের স্বাধীনতার জন্য প্রাণ দিয়েছিলেন।",
+          "note": "মহৎ উদ্দেশ্যে for।"
+        },
+        {
+          "en": "He died from severe over-exhaustion.",
+          "bn": "সে অতিরিক্ত ক্লান্তির ফলে মারা গেল।",
+          "note": "কারণ থেকে from।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Good at বনাম Weak in-এর ব্যবহার",
+      "nameEn": "Good AT (Proficient) vs Weak IN (Deficient)",
+      "formula": "Subject + is + GOOD AT + Subject / Skill | Subject + is + WEAK IN + Subject",
+      "shortcutTrick": "দক্ষতায় At, আর দুর্বলতায় In!",
+      "descriptionBn": "কোনো বিষয়ে দক্ষ বোঝাতে good at (He is good at Mathematics)। কিন্তু অদক্ষ বোঝাতে weak in (He is weak in English)।",
+      "examples": [
+        {
+          "en": "Tamim is very good at English grammar.",
+          "bn": "তামিম ইংরেজি ব্যাকরণে অত্যন্ত দক্ষ।",
+          "note": "দক্ষতায় good at।"
+        },
+        {
+          "en": "He is weak in Physics but excels in Chemistry.",
+          "bn": "সে পদার্থবিজ্ঞানে দুর্বল কিন্তু রসায়নে দক্ষ।",
+          "note": "weak in।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Every citizen must abide by the constitution.",
+      "bn": "প্রত্যেক নাগরিককে সংবিধান মেনে চলতে হবে।",
+      "note": "abide by (মেনে চলা)।"
+    },
+    {
+      "en": "The prisoner was accused of murder.",
+      "bn": "বন্দিটিকে হত্যার দায়ে অভিযুক্ত করা হয়েছিল।",
+      "note": "accused of (অভিযুক্ত)।"
+    },
+    {
+      "en": "I congratulated him on his brilliant success.",
+      "bn": "আমি তার চমৎকার সাফল্যে তাকে অভিনন্দন জানালাম।",
+      "note": "congratulate on (অভিনন্দন জানানো)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Agree WITH a person বনাম Agree TO a proposal",
+      "exceptionText": "কোনো ব্যক্তির সাথে একমত হলে \"Agree with\", কিন্তু কারো প্রস্তাব বা পরিকল্পনায় রাজি হলে \"Agree to\" বসে।",
+      "exampleEn": "I agree with you (Person) vs I agree to your proposal (Plan/Idea).",
+      "exampleBn": "আমি তোমার সাথে একমত বনাম আমি তোমার প্রস্তাবে রাজি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He died from cholera.",
+      "correct": "He died of cholera.",
+      "reasonBn": "রোগের কারণে মারা গেলে \"die of\" বসে, \"from\" নয়।"
+    },
+    {
+      "mistake": "I congratulated him for his success.",
+      "correct": "I congratulated him on his success.",
+      "reasonBn": "Congratulate-এর পর সর্বদা \"on\" বসে, \"for\" নয়।"
+    }
+  ],
+  "tags": [
+    "appropriate preposition",
+    "die of",
+    "die for",
+    "blind to",
+    "abide by",
+    "good at",
+    "congratulate on",
+    "ssc board exam"
+  ],
+  "mcqs": [
+    {
+      "id": 100601,
+      "question": "The patriotic soldier died _____ his country in the battlefield.",
+      "questionBn": "\"The patriotic soldier died _____ his country in the battlefield\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "of",
+        "for",
+        "from",
+        "by"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "দেশের জন্য বা মহৎ কারণে আত্মত্যাগ করা বোঝাতে \"die for\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 100602,
+      "question": "A doting mother is often blind _____ her son's obvious misdeeds.",
+      "questionBn": "\"A doting mother is often blind _____ her son's obvious misdeeds\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "of",
+        "to",
+        "with",
+        "at"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "কারো দোষ বা ভুলের প্রতি অন্ধ থাকা বোঝাতে \"blind to\" ব্যবহৃত হয় (চোখে অন্ধ হলে blind of)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100601,
+      "type": "Fill Appropriate Prepositions",
+      "prompt": "Fill in the blanks: (a) He is junior _____ me, (b) He was absorbed _____ deep thought, (c) She is proud _____ her culture.",
+      "correctAnswer": "(a) to, (b) in, (c) of",
+      "explanationBn": "উপযুক্ত প্রেপজিশন সংযোজন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Appropriate Preposition passage completion (SSC Board Standard):",
+      "subQuestions": [
+        {
+          "questionText": "Fill in: \"A student should be attentive (a) _____ his studies. He should not be addicted (b) _____ bad company.\"",
+          "answer": "(a) to, (b) to.",
+          "explanationBn": "Attentive to (মনোযোগী) এবং Addicted to (আসক্ত)।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের ১ ও ২ নম্বর প্রশ্নে নিশ্চিত উপযুক্ত প্রেপজিশন।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-cause-manner-phrasal-compounds': {
+  "id": 1005,
+  "chapterId": 10,
+  "topicNo": "০৫",
+  "titleEn": "Prepositions of Cause, Manner & Phrasal Compounds",
+  "titleBn": "কারণ ও রীতির প্রেপজিশন এবং যৌগিক ফ্রেজাল অব্যয়",
+  "slug": "preposition-cause-manner-phrasal-compounds",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "কারণ প্রকাশে Because of, Due to, Owing to, On account of। বৈপরীত্য প্রকাশে In spite of, Despite। মাধ্যম ও উদ্দেশ্য প্রকাশে By means of, In order to, With a view to-র সম্পূর্ণ নিয়মাবলি।",
+  "definitionEn": "Prepositions of cause, purpose, and manner define causal logic and operational methods, predominantly functioning as multi-word phrase prepositions governing noun phrases.",
+  "definitionBn": "কোনো ঘটনার কারণ, উদ্দেশ্য, মাধ্যম বা বৈপরীত্য প্রকাশে যেসব একক বা যৌগিক শব্দগুচ্ছ Preposition-এর ন্যায় কাজ করে তাদের Phrasal Prepositions বলে।",
+  "explanationBn": "১. Despite বনাম In spite of: In spite of-এর সাথে \"of\" বসে, কিন্তু Despite-এর পরে কখনোই \"of\" বসে না (Despite of বলা মারাত্মক ভুল; শুধু Despite his illness)! ২. Because of বনাম Due to: Due to সাধারণত Be verb-এর পরে Adjective হিসেবে বসে (His failure was due to negligence), আর Because of যেকোনো ভার্বকে কারণ হিসেবে Modify করে (He failed because of his negligence)। ৩. With a view to / In order to: In order to + V1, কিন্তু With a view to + V-ing।",
+  "teacherGoldenTips": "ডিসপাইটের মারাত্মক ভুল: পরীক্ষার খাতায় কখনোই \"Despite of\" লিখবেন না! হয় \"In spite of\" লিখুন, অথবা শুধু \"Despite\" লিখুন!",
+  "mainFormula": "IN SPITE OF + Noun Phrase | DESPITE + Noun Phrase (No \"of\") | BECAUSE OF + Reason",
+  "formulas": [
+    {
+      "label": "Concession / Contrast",
+      "structure": "In spite of / Despite + Noun / Gerund phrase",
+      "tag": "Contrast",
+      "example": "In spite of his poverty, he is generous. Despite working hard, he failed."
+    },
+    {
+      "label": "Causality",
+      "structure": "Because of / On account of / Due to + Noun phrase",
+      "tag": "Causal",
+      "example": "He could not come because of heavy rain."
+    },
+    {
+      "label": "Purpose",
+      "structure": "In order to + V1 | With a view to + V1-ing",
+      "tag": "Purpose",
+      "example": "He studied hard in order to pass. He saved money with a view to buying a home."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Despite-এর পরে \"of\" না বসার নিয়ম",
+      "nameEn": "The \"Despite\" without \"of\" Rule",
+      "formula": "DESPITE + Noun Phrase (NO \"OF\") | IN SPITE + OF + Noun Phrase",
+      "shortcutTrick": "Despite-এর সাথে of বসালে কেটে শূন্য দেওয়া হবে!",
+      "descriptionBn": "Despite নিজেই একটি সম্পূর্ণ Preposition, যার ভেতরে \"in spite of\"-এর পূর্ণ অর্থ নিহিত আছে।",
+      "examples": [
+        {
+          "en": "Despite his poverty, he never cheated anyone.",
+          "bn": "দারিদ্র্য সত্ত্বেও সে কখনো কাউকে ঠকায়নি।",
+          "note": "Despite-এর পর কোনো of নেই।"
+        },
+        {
+          "en": "In spite of having huge riches, he is unhappy.",
+          "bn": "বিপুল ধনসম্পদ থাকা সত্ত্বেও সে অসন্তুষ্ট।",
+          "note": "In spite of সঠিক।"
+        }
+      ]
+    },
+    {
+      "nameBn": "According to বনাম In accordance with",
+      "nameEn": "According to vs In accordance with",
+      "formula": "ACCORDING TO + Source / Statement | IN ACCORDANCE WITH + Law / Rule / Order",
+      "shortcutTrick": "ব্যক্তি বা মতামতের ক্ষেত্রে according to; আইন বা বিধিমালার ক্ষেত্রে in accordance with!",
+      "descriptionBn": "According to the weather forecast (আবহাওয়ার পূর্বাভাস অনুযায়ী)। In accordance with the school rules (বিদ্যালয়ের নিয়ম অনুযায়ী)।",
+      "examples": [
+        {
+          "en": "According to Dr. Yunus, social business can eradicate poverty.",
+          "bn": "ড. ইউনূসের মতে সামাজিক ব্যবসা দারিদ্র্য দূর করতে পারে।",
+          "note": "ব্যক্তির অভিমত।"
+        },
+        {
+          "en": "The decision was taken in accordance with our national constitution.",
+          "bn": "সিদ্ধান্তটি আমাদের জাতীয় সংবিধান অনুযায়ী গৃহীত হয়েছিল।",
+          "note": "আইন ও সংবিধান।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He succeeded by dint of sheer hard labor.",
+      "bn": "সে কেবল কঠোর পরিশ্রমের বদৌলতে সফল হয়েছিল।",
+      "note": "by dint of (বদৌলতে)।"
+    },
+    {
+      "en": "The match was postponed on account of adverse weather.",
+      "bn": "প্রতিকূল আবহাওয়ার কারণে ম্যাচটি স্থগিত করা হয়েছিল।",
+      "note": "on account of (কারণে)।"
+    },
+    {
+      "en": "He sacrificed his life for the sake of his motherland.",
+      "bn": "সে তার মাতৃভূমির স্বার্থে নিজের জীবন উৎসর্গ করল।",
+      "note": "for the sake of।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Instead of বনাম In lieu of",
+      "exceptionText": "ব্যক্তি বা বস্তুর বিকল্প বোঝাতে Instead of বসে, তবে আনুষ্ঠানিক বা আইনি দলিলের ক্ষেত্রে \"In lieu of\" বেশি ব্যবহৃত হয়।",
+      "exampleEn": "He gave me cash in lieu of a bank cheque.",
+      "exampleBn": "তিনি ব্যাংক চেকের পরিবর্তে আমাকে নগদ অর্থ দিলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Despite of his hard work, he did not get the promotion.",
+      "correct": "Despite his hard work, he did not get the promotion.",
+      "reasonBn": "Despite-এর পরে কখনোই \"of\" বসে না।"
+    },
+    {
+      "mistake": "He went to college in view of meeting the teacher.",
+      "correct": "He went to college with a view to meeting the teacher.",
+      "reasonBn": "সঠিক ফ্রেজ হলো \"with a view to\", \"in view of\" নয়।"
+    }
+  ],
+  "tags": [
+    "phrasal prepositions",
+    "despite no of",
+    "in spite of",
+    "because of",
+    "with a view to",
+    "according to",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 100501,
+      "question": "Choose the grammatically correct sentence:",
+      "questionBn": "ব্যাকরণগতভাবে সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "Despite of being poor, he is honest.",
+        "Despite being poor, he is honest.",
+        "In spite being poor, he is honest.",
+        "Despite to being poor, he is honest."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Despite-এর পরে \"of\" বসে না, সরাসরি Noun Phrase বা Gerund বসে: \"Despite being poor\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 100502,
+      "question": "The flight was cancelled _____ adverse weather conditions.",
+      "questionBn": "\"The flight was cancelled _____ adverse weather conditions\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "because of",
+        "due",
+        "in spite",
+        "instead"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "প্রতিকূল আবহাওয়ার কারণে ফ্লাইট বাতিল হওয়ায় কারণ প্রকাশক \"because of\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100501,
+      "type": "Combine using In spite of",
+      "prompt": "Combine using \"In spite of\": \"He was injured. He completed the marathon race.\"",
+      "correctAnswer": "In spite of being injured, he completed the marathon race.",
+      "explanationBn": "In spite of + Gerund (being injured) নিয়মানুযায়ী।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Phrasal prepositions of contrast and cause in SSC transformation:",
+      "subQuestions": [
+        {
+          "questionText": "Rewrite using \"Despite\": \"Though he ran fast, he could not win the race.\"",
+          "answer": "Despite running fast, he could not win the race.",
+          "explanationBn": "Though থেকে Despite + V-ing রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন ও ফিল ইন দ্য ব্ল্যাংকসের অত্যন্ত কমন রুল।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-relational-confusing-pairs': {
+  "id": 1004,
+  "chapterId": 10,
+  "topicNo": "০৪",
+  "titleEn": "Confusing Preposition Pairs: Between/Among, Beside/Besides, By/With, Of/Off",
+  "titleBn": "বিভ্রান্তিকর প্রেপজিশন জোড়া: Between/Among, Beside/Besides, By/With ও Of/Off",
+  "slug": "preposition-relational-confusing-pairs",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "পরীক্ষায় সবচেয়ে বেশি ভুল হওয়া প্রেপজিশন জোড়াগুলোর সূক্ষ্ম পার্থক্য: Beside (পাশে) বনাম Besides (তাছাড়া/অধিকন্তু), By (ব্যক্তি দ্বারা) বনাম With (যন্ত্র/হাতিয়ার দিয়ে), Of (সম্বন্ধ) বনাম Off (বিচ্ছিন্ন হওয়া)।",
+  "definitionEn": "Confusing preposition pairs are morphologically or semantically similar prepositions whose distinct syntactic constraints govern specific nouns and relationships.",
+  "definitionBn": "উচ্চারণ বা বানানে কাছাকাছি কিন্তু অর্থে সম্পূর্ণ ভিন্ন এমন কিছু Preposition ইংরেজি ব্যাকরণে প্রায়ই শিক্ষার্থীদের বিভ্রান্ত করে। তাদের সুনির্দিষ্ট ব্যবহারের নিয়মাবলী।",
+  "explanationBn": "১. Beside বনাম Besides: Beside মানে কারো পাশে বসা বা থাকা (He sat beside me)। আর Besides মানে কোনো কিছু ছাড়াও বা অতিরিক্ত হিসেবে (Besides English, he speaks French)। ২. By বনাম With: কর্তা বা ব্যক্তির দ্বারা কাজ হলে By (The tiger was killed by the hunter)। আর যে হাতিয়ার বা যন্ত্র দিয়ে কাজটি করা হয় তার পূর্বে With (The hunter killed the tiger with a gun)! ৩. Of বনাম Off: Of মালিকানা বা উপাদান বোঝায় (Made of gold), কিন্তু Off কোনো কিছু থেকে বিচ্ছিন্ন বা দূরে হওয়া বোঝায় (Take off your shoes, The ball rolled off the roof)।",
+  "teacherGoldenTips": "হাতিয়ারের গোল্ডেন রুল: মানুষ হলে BY, আর তার হাতের হাতিয়ার বা অস্ত্র হলে WITH (He wrote the letter WITH a pen BY himself)! আর \"S\" থাকা মানে অতিরিক্ত (Besides = ছাড়া/অতিরিক্ত)!",
+  "mainFormula": "By + Agent (Human) | With + Instrument (Tool) | Beside = By the side of | Besides = In addition to | Off = Detachment",
+  "formulas": [
+    {
+      "label": "Agent vs Instrument",
+      "structure": "BY + Person / Doer | WITH + Instrument / Tool",
+      "tag": "By vs With",
+      "example": "The snake was killed by Rahim with a stick."
+    },
+    {
+      "label": "Beside vs Besides",
+      "structure": "Beside (At side of) | Besides (In addition to / As well as)",
+      "tag": "Beside(s)",
+      "example": "Sit beside me. Besides tea, we had snacks."
+    },
+    {
+      "label": "Of vs Off",
+      "structure": "Of (Relationship / Matter) | Off (Separation / Distance)",
+      "tag": "Of/Off",
+      "example": "A ring of gold. Switch off the lights."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "By বনাম With-এর প্রয়োগবিধি",
+      "nameEn": "By (Agent) vs With (Instrument)",
+      "formula": "Action done BY + Person / Living Agent | Action done WITH + Instrument / Weapon / Body Part",
+      "shortcutTrick": "কাজটি যে মানুষটি করে সে By; আর যে যন্ত্র দিয়ে করে তা With!",
+      "descriptionBn": "প্যাসিভ ভয়েস ও বর্ণনামূলক বাক্যে এই নিয়মটি অত্যন্ত প্রয়োজনীয়।",
+      "examples": [
+        {
+          "en": "The tree was cut down by the woodcutter with an axe.",
+          "bn": "কাঠুরে কুড়াল দিয়ে গাছটি কেটে ফেলল।",
+          "note": "woodcutter ব্যক্তি (by), axe হাতিয়ার (with)।"
+        },
+        {
+          "en": "He wrote the poem with a fountain pen.",
+          "bn": "সে একটি ঝরনা কলম দিয়ে কবিতাটি লিখেছিল।",
+          "note": "যন্ত্র বা মাধ্যম হওয়ায় with a pen।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Beside বনাম Besides-এর বানান ও অর্থগত পার্থক্য",
+      "nameEn": "Beside (Location) vs Besides (Addition)",
+      "formula": "BESIDE = By the side of (পাশে) | BESIDES = In addition to (তাছাড়া / অধিকন্তু)",
+      "shortcutTrick": "শেষে \"s\" আছে মানে অতিরিক্ত কিছু যোগ হয়েছে (অধিকন্তু)!",
+      "descriptionBn": "He sat beside his sick mother (মায়ের পাশে বসল)। Besides a salary, he receives free accommodation (বেতন ছাড়াও বিনামূল্যে বাসস্থান পায়)।",
+      "examples": [
+        {
+          "en": "The boy came and sat quietly beside me.",
+          "bn": "বালকটি এসে আমার পাশে শান্ত হয়ে বসল।",
+          "note": "পাশে অবস্থান বোঝাতে beside।"
+        },
+        {
+          "en": "Besides Bangla, we have to study English and ICT.",
+          "bn": "বাংলা ছাড়াও আমাদের ইংরেজি ও আইসিটি পড়তে হয়।",
+          "note": "অতিরিক্ত বিষয় বোঝাতে besides।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Please take off your muddy shoes before entering.",
+      "bn": "প্রবেশ করার পূর্বে দয়া করে তোমার কাদাযুক্ত জুতো খুলে ফেলো।",
+      "note": "off বিচ্ছিন্ন করা অর্থে।"
+    },
+    {
+      "en": "Divide the ripe mangoes between the two brothers.",
+      "bn": "পাকা আমগুলো দুই ভাইয়ের মধ্যে ভাগ করে দাও।",
+      "note": "দুইজনের ক্ষেত্রে between।"
+    },
+    {
+      "en": "Distribute the blankets among the cold-affected villagers.",
+      "bn": "শীতার্থ গ্রামবাসীদের মাঝে কম্বল বিতরণ করো।",
+      "note": "অনেকের মাঝে হওয়ায় among।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "কালি দিয়ে লেখার ক্ষেত্রে \"In ink\" বসে",
+      "exceptionText": "কলম দিয়ে লিখলে \"with a pen\" হয়, কিন্তু সরাসরি কালি বা পেনসিল দিয়ে লিখলে \"in ink\" বা \"in pencil\" বসে (NOT with ink).",
+      "exampleEn": "Please write your signature in blue ink (NOT with blue ink).",
+      "exampleBn": "দয়া করে নীল কালিতে আপনার স্বাক্ষর দিন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The snake was killed by a stick.",
+      "correct": "The snake was killed with a stick.",
+      "reasonBn": "Stick কোনো ব্যক্তি নয়, একটি হাতিয়ার; তাই \"with a stick\" বসবে।"
+    },
+    {
+      "mistake": "Beside this book, I bought three pens.",
+      "correct": "Besides this book, I bought three pens.",
+      "reasonBn": "\"বইটি ছাড়াও\" অর্থে besides বসবে, beside নয়।"
+    }
+  ],
+  "tags": [
+    "by vs with",
+    "beside vs besides",
+    "between vs among",
+    "of vs off",
+    "in ink exception",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 100401,
+      "question": "The robber was shot dead _____ the police officer _____ a revolver.",
+      "questionBn": "\"The robber was shot dead _____ the police officer _____ a revolver\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "by, with",
+        "with, by",
+        "by, by",
+        "with, with"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "পুলিশ কর্মকর্তা (ব্যক্তি) হওয়ায় \"by\" এবং রিভলভার (অস্ত্র/হাতিয়ার) হওয়ায় \"with\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 100402,
+      "question": "_____ knowing French, he can speak fluent Spanish and German.",
+      "questionBn": "\"_____ knowing French, he can speak fluent Spanish and German\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Beside",
+        "Besides",
+        "Between",
+        "Beyond"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"ফরাসি ভাষা জানা ছাড়াও\" (অতিরিক্ত বিষয় হিসেবে) বোঝাতে \"Besides\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100401,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"He wrote the official application with black ink.\"",
+      "correctAnswer": "He wrote the official application in black ink.",
+      "explanationBn": "কালির মাধ্যমের পূর্বে with নয়, in বসে (in black ink)।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Agent vs Instrument prepositions in SSC Board exams:",
+      "subQuestions": [
+        {
+          "questionText": "Why is it incorrect to write \"The letter was written by a pencil\"?",
+          "answer": "Because \"by\" introduces the personal agent/doer. A pencil is a material/instrument, which must be expressed as \"in pencil\" (or \"with a pencil\").",
+          "explanationBn": "ব্যক্তিবাচক কর্তা ও উপাদানের ব্যাকরণিক পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার উপযুক্ত প্রেপজিশন ও প্যাসিভ ভয়েসে নিয়মিত জিজ্ঞাসিত।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-place-space-motion': {
+  "id": 1003,
+  "chapterId": 10,
+  "topicNo": "০৩",
+  "titleEn": "Prepositions of Place & Spatial Motion (Above, Over, In, Into, Across, Through)",
+  "titleBn": "স্থান ও গতি নির্দেশক প্রেপজিশন: Above, Over, In, Into, Across ও Through",
+  "slug": "preposition-place-space-motion",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "স্থির অবস্থান বনাম গতিশীলতা: In (ভেতরে স্থির) বনাম Into (বাইরে থেকে ভেতরে গতিশীল), On (লেগে থাকা) বনাম Onto (গতির সাথে উপরে), Above (উঁচুতে স্থির) বনাম Over (গতির সাথে অতিক্রম), এবং Across (পৃষ্ঠতল পার হওয়া) বনাম Through (ত্রিমাত্রিক ভেদন)।",
+  "definitionEn": "Prepositions of place describe location and position, while prepositions of motion describe directional movement and trajectory relative to boundaries and surfaces.",
+  "definitionBn": "কোনো ব্যক্তি বা বস্তুর অবস্থান, স্থান বা চলাচলের দিক নির্দেশ করতে ব্যবহৃত Preposition-গুলোকে Prepositions of Place & Motion বলে।",
+  "explanationBn": "১. Above বনাম Over: কোনো স্পর্শ ছাড়া উঁচুতে স্থির থাকলে Above (The sky is above us)। কিন্তু এক পাশ থেকে অন্য পাশে গতি নিয়ে অতিক্রম করলে বা আবৃত করলে Over (The bird flew over the roof, Put a blanket over him)। ২. Across বনাম Through: কোনো সমতল বা দ্বি-মাত্রিক অঞ্চল এক প্রান্ত থেকে অন্য প্রান্তে পার হলে Across (Across the road/river)। কিন্তু কোনো ত্রিমাত্রিক বা ঘন বস্তুর ভেতর দিয়ে ঢুকে অন্য পাশ দিয়ে বের হলে Through (Through the forest/tunnel/crowd)।",
+  "teacherGoldenTips": "ত্রিমাত্রিক ভেদনের গোল্ডেন ট্রিক: পাইপ, টানেল, জঙ্গল, ভিড় বা জানালার ভেতর দিয়ে কোনো কিছু ঢুকলে সর্বদা THROUGH! আর রাস্তা, নদী বা ব্রিজ এক পাশ থেকে অন্য পাশে পার হলে ACROSS!",
+  "mainFormula": "Static Place = IN / ON / ABOVE | Dynamic Movement = INTO / ONTO / OVER / THROUGH / ACROSS",
+  "formulas": [
+    {
+      "label": "Surface vs Height",
+      "structure": "On (Contact) | Above (Higher up, static) | Over (Directly above / crossing)",
+      "tag": "Vertical",
+      "example": "Book on table. Fan above head. Plane flew over city."
+    },
+    {
+      "label": "Interior Motion",
+      "structure": "In (Static inside) vs Into (Movement from outside to inside)",
+      "tag": "In/Into",
+      "example": "He is in the room. He walked into the room."
+    },
+    {
+      "label": "Across vs Through",
+      "structure": "Across (2D surface traversal) vs Through (3D volume traversal)",
+      "tag": "Traverse",
+      "example": "Walk across the street. Drive through the tunnel."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Across বনাম Through-এর পার্থক্য",
+      "nameEn": "Across (Surface) vs Through (Three-Dimensional Volume)",
+      "formula": "ACROSS + 2D Flat Surface (road, river, field) | THROUGH + 3D Enclosed Space (forest, tunnel, window)",
+      "shortcutTrick": "চারপাশ ঘেরা কোনো কিছুর ভেতর দিয়ে গেলে Through; খোলা পৃষ্ঠতল পার হলে Across!",
+      "descriptionBn": "The hunter walked through the dense jungle (জঙ্গলের চারপাশ গাছপালায় ঘেরা ত্রিমাত্রিক স্থান, তাই Through)। The boat sailed across the river (নদীর উপরিভাগ পার হওয়ায় Across)।",
+      "examples": [
+        {
+          "en": "The bullet passed through his shoulder.",
+          "bn": "গুলিটি তার কাঁধ ভেদ করে চলে গেল।",
+          "note": "ভেদ করে যাওয়া অর্থে through।"
+        },
+        {
+          "en": "We walked across the sandy beach at sunset.",
+          "bn": "সূর্যাস্তের সময় আমরা বালুকাময় সমুদ্রসৈকত ধরে হাঁটলাম।",
+          "note": "উপরিভাগ দিয়ে অতিক্রম করায় across।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Above বনাম Over-এর ব্যবহারের নিয়ম",
+      "nameEn": "Above (Higher level) vs Over (Directly vertical / Motion / Covering)",
+      "formula": "ABOVE = Greater altitude / Level (no motion) | OVER = Movement across / Touching cover / Direct verticality",
+      "shortcutTrick": "যদি গতি থাকে বা ঢাকা দেওয়া বোঝায় তবে Over; শুধু উচ্চতার তুলনা হলে Above!",
+      "descriptionBn": "Water came above our knees (উচ্চতার স্তর, তাই above)। Spread the cloth over the table (টেবিল ঢেকে ফেলা অর্থে over)।",
+      "examples": [
+        {
+          "en": "The ceiling fan is rotating over my head.",
+          "bn": "সিলিং ফ্যানটি আমার মাথার ঠিক ওপর ঘুরছে।",
+          "note": "সরাসরি খাড়া উপরে থাকায় over।"
+        },
+        {
+          "en": "The summit of Mount Everest is high above the clouds.",
+          "bn": "মাউন্ট এভারেস্টের চূড়া মেঘের বহু উঁচুতে।",
+          "note": "উচ্চতার লেভেল বোঝাতে above।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The train sped through the dark railway tunnel.",
+      "bn": "ট্রেনটি অন্ধকার রেল সুড়ঙ্গের মধ্য দিয়ে দ্রুত চলে গেল।",
+      "note": "tunnel-এর ভেতর দিয়ে যাওয়ায় through।"
+    },
+    {
+      "en": "The dog jumped over the wooden fence.",
+      "bn": "কুকুরটি কাঠের বেড়ার ওপর দিয়ে লাফিয়ে পার হলো।",
+      "note": "গতির সাথে অতিক্রম করায় over।"
+    },
+    {
+      "en": "Pour the boiling milk into the cup.",
+      "bn": "ফুটন্ত দুধ কাপের মধ্যে ঢালো।",
+      "note": "বাইরে থেকে ভেতরে গতিশীল প্রবেশে into।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Over বয়স, সংখ্যা ও গতি পরিমাপে ব্যবহৃত হয়",
+      "exceptionText": "বয়স (Age), গতি (Speed) বা পরিমাণের ক্ষেত্রে \"বেশি\" বোঝাতে Above নয়, সর্বদা \"Over\" বসে (e.g. He is over sixty years old / Over 50 miles per hour).",
+      "exampleEn": "There were over a thousand spectators in the stadium.",
+      "exampleBn": "স্টেডিয়ামে এক হাজারের বেশি দর্শক ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He jumped in the river.",
+      "correct": "He jumped into the river.",
+      "reasonBn": "বাইরে থেকে গতি নিয়ে ভেতরে প্রবেশের ক্ষেত্রে \"into\" বসবে।"
+    },
+    {
+      "mistake": "The train passed across the tunnel.",
+      "correct": "The train passed through the tunnel.",
+      "reasonBn": "সুড়ঙ্গ ত্রিমাত্রিক ঘেরা স্থান, তাই \"through\" বসবে।"
+    }
+  ],
+  "tags": [
+    "prepositions of place",
+    "spatial motion",
+    "above vs over",
+    "across vs through",
+    "in vs into",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 100301,
+      "question": "The sunlight filtered _____ the dense green leaves of the banyan tree.",
+      "questionBn": "\"The sunlight filtered _____ the dense green leaves of the banyan tree\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "across",
+        "through",
+        "over",
+        "into"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ঘন পাতার ত্রিমাত্রিক ফাঁকফোকর ভেদ করে সূর্যের আলো প্রবেশ করায় \"through\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 100302,
+      "question": "A bridge was constructed _____ the river Padma.",
+      "questionBn": "\"A bridge was constructed _____ the river Padma\" শূন্যস্থানে কোন Preposition বসবে?",
+      "options": [
+        "through",
+        "across",
+        "into",
+        "under"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "নদীর এক কূল থেকে অপর কূল পর্যন্ত পারাপারের সংযোগ সেতু নির্দেশ করতে \"across\" (or over) ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100301,
+      "type": "Fill in Place Prepositions",
+      "prompt": "The cat jumped _____ the kitchen counter and slipped _____ the narrow window.",
+      "correctAnswer": "onto, through",
+      "explanationBn": "কাউন্টারের উপর গতিশীল অবতরণে onto এবং জানালার ভেতর দিয়ে যাওয়ায় through।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Spatial prepositions in SSC descriptive passages:",
+      "subQuestions": [
+        {
+          "questionText": "Explain when \"through\" is chosen over \"across\" with two contrasting examples.",
+          "answer": "\"Across\" is used for crossing a 2D open surface (\"Swim across the river\"). \"Through\" is used for moving inside a 3D enclosed volume (\"Walk through the forest\").",
+          "explanationBn": "সারফেস বনাম থ্রি-ডি ভলিউম অতিক্রমের তফাত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার শূন্যস্থান পূরণে এটি একটি ক্লাসিক ব্যাকরণিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-time-temporal-logic': {
+  "id": 1002,
+  "chapterId": 10,
+  "topicNo": "০২",
+  "titleEn": "Prepositions of Time: At, On, In, By, Until, During & For",
+  "titleBn": "সময় নির্দেশক প্রেপজিশন: At, On, In, By, Until ও During-এর পিরামিড",
+  "slug": "preposition-time-temporal-logic",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "সময়ের পরিমাপে AT-ON-IN পিরামিড। সুনির্দিষ্ট ঘণ্টা (At 7 AM), দিন/তারিখ (On Sunday), মাস/ঋতু/বছর (In May, In 2026), নির্দিষ্ট সময়সীমার মধ্যে (Within), এবং By বনাম Until-এর পার্থক্য।",
+  "definitionEn": "Prepositions of time indicate the temporal point or duration when an action takes place, categorized logically by precise moments, calendar days, or extended periods.",
+  "definitionBn": "কোনো কাজ কখন ঘটে, কতক্ষণ ধরে চলে বা কখন শেষ হবে তা নির্দেশ করতে যে Preposition ব্যবহৃত হয় তাকে Preposition of Time বলে।",
+  "explanationBn": "সময় পিরামিড: ১. AT: সবচেয়ে সুনির্দিষ্ট ক্ষুদ্র সময় (At 5 o'clock, At noon, At night, At sunrise, At dawn)। ২. ON: দিন ও তারিখ (On Friday, On 26th March, On Eid day)। ৩. IN: বড় সময়কাল (In January, In summer, In 2026, In the 21st century)। ৪. BY: কোনো সময়ের \"মধ্যে বা আগে\" (Submit by 5 PM)। ৫. UNTIL: কোনো সময় \"পর্যন্ত\" কাজ চলতে থাকা (Wait until I return)।",
+  "teacherGoldenTips": "By বনাম Until-এর সহজ পার্থক্য: কাজটি যদি নির্দিষ্ট সময়ের আগেই একবার ঘটে শেষ হয় তবে BY (You must finish by Monday)! আর কাজটি যদি সেই সময় পর্যন্ত একটানা চলতে থাকে তবে UNTIL (He worked until 10 PM)!",
+  "mainFormula": "AT (Exact Hour/Moment) -> ON (Days/Dates) -> IN (Months/Seasons/Years/Centuries)",
+  "formulas": [
+    {
+      "label": "At (Specific Time)",
+      "structure": "AT + 5 PM / sunrise / noon / midnight / night",
+      "tag": "Clock/Point",
+      "example": "The class begins at 9:00 AM."
+    },
+    {
+      "label": "On (Days & Dates)",
+      "structure": "ON + Monday / 16 December / birthday",
+      "tag": "Day/Date",
+      "example": "Our victory day is on 16 December."
+    },
+    {
+      "label": "In (Extended Period)",
+      "structure": "IN + morning / May / winter / 2026 / 21st century",
+      "tag": "Long Period",
+      "example": "SSC examination will start in February."
+    },
+    {
+      "label": "By (Deadline)",
+      "structure": "BY + deadline time (At or before that point)",
+      "tag": "Deadline",
+      "example": "Submit the application by tomorrow afternoon."
+    },
+    {
+      "label": "During (Span)",
+      "structure": "DURING + noun denoting a period or event",
+      "tag": "Throughout",
+      "example": "He was hospitalized during the vacation."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "At night বনাম In the night-এর পার্থক্য",
+      "nameEn": "At night vs In the night",
+      "formula": "General habit / state = AT NIGHT | Specific particular night = IN THE NIGHT",
+      "shortcutTrick": "প্রতি রাতের সাধারণ অভ্যাসে at night; নির্দিষ্ট কোনো এক রাতের ঘটনায় in the night!",
+      "descriptionBn": "Stars shine at night (সাধারণ প্রাকৃতিক নিয়ম)। কিন্তু I woke up several times in the night (গত রাতের নির্দিষ্ট ঘটনা)।",
+      "examples": [
+        {
+          "en": "Owls hunt for food at night (General habit).",
+          "bn": "পেঁচারা রাতে শিকার খোঁজে।",
+          "note": "সাধারণ রাতের অভ্যাস।"
+        },
+        {
+          "en": "I heard a strange weeping sound in the night.",
+          "bn": "আমি রাতের বেলা একটি অদ্ভুত কান্নার শব্দ শুনলাম।",
+          "note": "নির্দিষ্ট রাতের ঘটনা।"
+        }
+      ]
+    },
+    {
+      "nameBn": "In time বনাম On time-এর সূক্ষ্ম তফাত",
+      "nameEn": "In time vs On time",
+      "formula": "ON TIME = Punctual / Exact scheduled minute | IN TIME = Before the deadline / With enough time to spare",
+      "shortcutTrick": "অন টাইম মানে ঘড়ির কাঁটায় কাঁটায়; ইন টাইম মানে সময়ের একটু আগেই বা যথাসময়ে!",
+      "descriptionBn": "The train departed on time (নির্ধারিত সিডিউল অনুযায়ী)। He reached the hall in time for the exam (পরীক্ষার পূর্বে যথেষ্ট সময় হাতে নিয়ে)।",
+      "examples": [
+        {
+          "en": "The meeting began on time at 10 AM.",
+          "bn": "মিটিংটি সকাল ১০টায় ঘড়ির কাঁটায় শুরু হলো।",
+          "note": "সিডিউলড সময়।"
+        },
+        {
+          "en": "He arrived in time to catch the departing flight.",
+          "bn": "সে ছেড়ে যাওয়া বিমানটি ধরার মতো পর্যাপ্ত সময় থাকতে পৌঁছাল।",
+          "note": "হাতে সময় রেখে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The historical battle took place in 1971 on 16th December at 4:30 PM.",
+      "bn": "ঐতিহাসিক ঘটনাটি ১৯৭১ সালের ১৬ই ডিসেম্বর বিকেল ৪টা ৩০ মিনিটে ঘটেছিল।",
+      "note": "In (বছর) + On (তারিখ) + At (ঘণ্টা)।"
+    },
+    {
+      "en": "Please wait here until the manager arrives.",
+      "bn": "দয়া করে ম্যানেজার না আসা পর্যন্ত এখানে অপেক্ষা করুন।",
+      "note": "until (সময় পর্যন্ত)।"
+    },
+    {
+      "en": "I will complete the manuscript within two weeks.",
+      "bn": "আমি দুই সপ্তাহের মধ্যেই পাণ্ডুলিপিটি শেষ করব।",
+      "note": "within (সময়সীমার অভ্যন্তরে)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "This, Next, Last, Every-র পূর্বে At, On, In বসে না",
+      "exceptionText": "দিন, মাস বা সময়ের পূর্বে This, Next, Last, Every থাকলে কোনো Preposition বসে না! (e.g. He is coming next Monday, NOT on next Monday).",
+      "exampleEn": "I met him last Sunday (NOT on last Sunday).",
+      "exampleBn": "গত রবিবার তার সাথে আমার দেখা হয়েছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I will see you on next Friday.",
+      "correct": "I will see you next Friday.",
+      "reasonBn": "Next, last, this-এর পূর্বে কোনো Preposition বসে না।"
+    },
+    {
+      "mistake": "He was born in 10th May.",
+      "correct": "He was born on 10th May.",
+      "reasonBn": "নির্দিষ্ট তারিখের পূর্বে In নয়, On বসে।"
+    }
+  ],
+  "tags": [
+    "preposition of time",
+    "at on in pyramid",
+    "by vs until",
+    "in time on time",
+    "at night in the night",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 100201,
+      "question": "The final match will be held _____ 15th December _____ 3 PM.",
+      "questionBn": "\"The final match will be held _____ 15th December _____ 3 PM\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "on, at",
+        "in, at",
+        "at, on",
+        "on, in"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "নির্দিষ্ট তারিখের পূর্বে \"on\" এবং নির্দিষ্ট ঘণ্টার পূর্বে \"at\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 100202,
+      "question": "You must submit your assignment _____ 5 PM tomorrow; no submissions will be accepted later.",
+      "questionBn": "\"You must submit your assignment _____ 5 PM tomorrow\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "until",
+        "by",
+        "since",
+        "during"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "নির্দিষ্ট সময়সীমার মধ্যে বা পূর্বে শেষ করার ডেডলাইন নির্দেশ করতে \"by\" ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100201,
+      "type": "Fill with Preposition of Time",
+      "prompt": "The train is scheduled to arrive _____ 8:30 AM _____ Monday morning.",
+      "correctAnswer": "at, on",
+      "explanationBn": "সময়ের পূর্বে at এবং বারের পূর্বে on বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Temporal prepositions and dead-line logic in SSC passages:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between \"By 5 PM\" and \"Until 5 PM\" with suitable sentences.",
+          "answer": "\"By 5 PM\" means at or before 5 PM (He will finish the work by 5 PM). \"Until 5 PM\" means continuously up to that point (He worked until 5 PM).",
+          "explanationBn": "ডেডলাইন বনাম সময়ব্যাপী ধারাবাহিকতার পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার রাইটিং ও প্র্যাকটিস সেটে অত্যন্ত গুরুত্বপূর্ণ।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-classification-types': {
+  "id": 1001,
+  "chapterId": 10,
+  "topicNo": "০১",
+  "titleEn": "Types & Classifications of Prepositions",
+  "titleBn": "পদান্বয়ী অব্যয়ের প্রকারভেদ ও গঠনরীতি",
+  "slug": "preposition-classification-types",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "গঠন ও ব্যবহারের ওপর ভিত্তি করে Preposition-এর ৬টি প্রধান রূপ: Simple, Double, Compound, Phrase, Participial এবং Disguised Preposition।",
+  "definitionEn": "A preposition is a word placed before a noun or pronoun to show its relation to some other word in the sentence. Structurally, it is classified into six distinct types.",
+  "definitionBn": "যে শব্দ কোনো Noun বা Pronoun-এর পূর্বে বসে বাক্যের অন্য কোনো পদের সাথে সম্পর্ক স্থাপন করে তাকে Preposition বলে। গঠনগত দিক থেকে এটি ৬ ভাগে বিভক্ত।",
+  "explanationBn": "১. Simple (একক শব্দ: in, on, at, by, for, of, to, with)। ২. Double (দুটি সিম্পল মিলে: into = in+to, onto = on+to, within = with+in)। ৩. Compound (Noun/Adj/Adv-এর পূর্বে Preposition যুক্ত হয়ে: across = on+cross, behind = by+hind, beside = by+side, along = on+long)। ৪. Phrase (একাধিক শব্দের সমন্বয়ে: in front of, on account of, in spite of)। ৫. Participial (Participle রূপ নিয়ে: considering, regarding, barring, respecting)। ৬. Disguised (ছদ্মবেশী রূপ: o'clock = of clock, a-hunting = on hunting)।",
+  "teacherGoldenTips": "Compound Preposition-এর গোপন সূত্র: প্রাচীন ইংরেজিতে On পরিবর্তিত হয়ে \"A\" (যেমন: on+board = aboard, on+cross = across) এবং By পরিবর্তিত হয়ে \"Be\" (যেমন: by+side = beside, by+hind = behind, by+fore = before) হয়!",
+  "mainFormula": "Preposition + Noun / Pronoun / Gerund (Object of Preposition)",
+  "formulas": [
+    {
+      "label": "Simple Preposition",
+      "structure": "Single word (in, on, at, by, for, to, with, of)",
+      "tag": "Single",
+      "example": "The book is on the table."
+    },
+    {
+      "label": "Compound Preposition",
+      "structure": "Prefix (A = on / Be = by) + Root Word",
+      "tag": "Compound",
+      "example": "Across (on+cross), Beside (by+side), Behind (by+hind)"
+    },
+    {
+      "label": "Phrase Preposition",
+      "structure": "Group of words acting as a single preposition",
+      "tag": "Phrase",
+      "example": "In front of the house, On account of illness"
+    },
+    {
+      "label": "Participial Preposition",
+      "structure": "Present / Past Participle (-ing / -ed) acting as Preposition",
+      "tag": "Participial",
+      "example": "Considering his age, he was forgiven."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Participial Preposition চেনার সহজ উপায়",
+      "nameEn": "Identifying Participial Prepositions",
+      "formula": "Verb-ing / V3 + Object = Relational Function (Preposition)",
+      "shortcutTrick": "যদি considering বা regarding কোনো কর্তা ছাড়াই \"সম্পর্কে/বিবেচনায়\" অর্থ দেয়, তবে তা Participial Preposition!",
+      "descriptionBn": "Considering, regarding, concerning, judging ইত্যাদি শব্দ বাক্যে কোনো ভার্বের কাজ না করে সরাসরি Preposition-এর ন্যায় Noun-এর পূর্বে সম্পর্ক প্রকাশ করে।",
+      "examples": [
+        {
+          "en": "Considering his poverty, the principal exempted his tuition fee.",
+          "bn": "তার দারিদ্র্য বিবেচনা করে অধ্যক্ষ তার বেতন মওকুফ করলেন।",
+          "note": "considering এখানে Preposition।"
+        },
+        {
+          "en": "I know nothing regarding this incident.",
+          "bn": "এই ঘটনা সম্পর্কে আমি কিছুই জানি না।",
+          "note": "regarding = about (Preposition)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Disguised Preposition (ছদ্মবেশী অব্যয়)",
+      "nameEn": "Disguised Prepositions in Idiomatic English",
+      "formula": "O' = OF | A- = ON / AT",
+      "shortcutTrick": "O'clock-এর \"O'\" হলো \"of\"-এর ছদ্মবেশ, আর He went a-hunting-এর \"a\" হলো \"on\"-এর ছদ্মবেশ!",
+      "descriptionBn": "কথ্য ভাষায় অনেক সময় of বা on সংক্ষেপিত হয়ে o' বা a- রূপ ধারণ করে।",
+      "examples": [
+        {
+          "en": "It is 7 o'clock in the morning (7 of the clock).",
+          "bn": "এখন সকাল ৭টা বাজে।",
+          "note": "o' হলো of-এর disguised রূপ।"
+        },
+        {
+          "en": "He went a-begging from door to door (on begging).",
+          "bn": "সে দ্বারে দ্বারে ভিক্ষা করতে গেল।",
+          "note": "a- হলো on-এর disguised রূপ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The temple is situated across the river.",
+      "bn": "মন্দিরটি নদীর ওপারে অবস্থিত।",
+      "note": "across হলো Compound Preposition।"
+    },
+    {
+      "en": "He could not attend the class on account of illness.",
+      "bn": "অসুস্থতার কারণে সে ক্লাসে উপস্থিত হতে পারেনি।",
+      "note": "on account of হলো Phrase Preposition।"
+    },
+    {
+      "en": "The frog jumped into the pond.",
+      "bn": "ব্যাঙটি পুকুরে ঝাঁপ দিল।",
+      "note": "into হলো Double Preposition (গতিশীল)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Preposition যখন Adverb হয়ে যায়",
+      "exceptionText": "যদি Preposition-এর পরে কোনো Object (Noun/Pronoun) না থাকে, তবে সেটি আর Preposition থাকে না; স্বয়ংক্রিয়ভাবে Adverb হয়ে যায়।",
+      "exampleEn": "He is in the room (Preposition) vs Please come in (Adverb of Place).",
+      "exampleBn": "সে ঘরের ভেতরে আছে (Preposition) বনাম দয়া করে ভেতরে আসুন (Adverb)।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "In \"Stand up\", up is a preposition.",
+      "correct": "\"Up\" is an adverb particle modifying the verb stand.",
+      "reasonBn": "Up-এর কোনো object না থাকায় এটি Adverb particle।"
+    }
+  ],
+  "tags": [
+    "preposition types",
+    "simple preposition",
+    "compound preposition",
+    "participial preposition",
+    "disguised preposition",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 100101,
+      "question": "In \"It is 4 o'clock\", what kind of preposition is \"o'\"?",
+      "questionBn": "\"It is 4 o'clock\" বাক্যে \"o'\" কোন ধরনের Preposition?",
+      "options": [
+        "Simple Preposition",
+        "Disguised Preposition",
+        "Double Preposition",
+        "Participial Preposition"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "O'clock-এর \"o'\" হলো \"of the clock\"-এর সংক্ষেপিত বা ছদ্মবেশী (Disguised) রূপ।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 100102,
+      "question": "In the sentence \"Considering his youth, we excused him\", what part of speech is \"Considering\"?",
+      "questionBn": "\"Considering his youth, we excused him\" বাক্যে \"Considering\" কী?",
+      "options": [
+        "Present Participle",
+        "Participial Preposition",
+        "Gerund",
+        "Adverb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "এখানে considering কোনো কাজ না বুঝিয়ে Noun \"youth\"-এর পূর্বে সম্পর্ক তৈরি করায় এটি Participial Preposition।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 100101,
+      "type": "Classify Prepositions",
+      "prompt": "Classify the prepositions: (a) onto, (b) behind, (c) on account of.",
+      "correctAnswer": "(a) Double Preposition, (b) Compound Preposition, (c) Phrase Preposition.",
+      "explanationBn": "গঠনগত প্রকারভেদ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 100101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Classification and structural analysis of prepositions:",
+      "subQuestions": [
+        {
+          "questionText": "When does a Preposition become an Adverb? Give an example.",
+          "answer": "When a preposition is used without an object (noun or pronoun), it functions as an adverb. Example: \"The book fell off the shelf\" (Preposition) vs \"The plane took off\" (Adverb).",
+          "explanationBn": "অবজেক্টের অনুপস্থিতিতে প্রেপজিশন অ্যাডভার্বে পরিণত হয়।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পদ নির্ণয় ও অ্যাডভান্সড ব্যাকরণে অত্যন্ত জনপ্রিয় প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
   'article-idiomatic-phrases-ssc-errors': {
   "id": 905,
   "chapterId": 9,
