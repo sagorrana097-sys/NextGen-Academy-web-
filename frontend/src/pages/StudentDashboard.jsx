@@ -472,23 +472,24 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
       {activeTab === 'dashboard' && (
         <>
       {/* Student Banner */}
-      <div className="bg-gradient-to-r from-emerald-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold mb-2 border border-emerald-500/30">
-            <GraduationCap className="w-3.5 h-3.5" />
+      <div className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-indigo-950 to-purple-950 rounded-3xl p-6 sm:p-7 text-white shadow-2xl border border-indigo-500/20 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div className="absolute -top-16 -right-16 w-52 h-52 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-black mb-2.5 border border-indigo-500/40 backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('studentTitle')}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold">{profile?.user?.name || user?.name}</h2>
-          <p className="text-xs text-emerald-200/80 mt-1">
-            {profile?.class?.nameBn} • রোল {profile?.rollNo} • {profile?.section?.nameBn} শাখা • আইডি: {profile?.studentIdNumber} • ভর্তির তারিখ: {profile?.admissionDate || profile?.admission_date ? new Date(profile?.admissionDate || profile?.admission_date).toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' }) : '০১ জানুয়ারি ২০২৪'}
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{profile?.user?.name || user?.name}</h2>
+          <p className="text-xs sm:text-sm text-indigo-200/80 mt-1 font-medium">
+            {profile?.class?.nameBn} • রোল {profile?.rollNo} • {profile?.section?.nameBn} শাখা • আইডি: <span className="font-mono text-amber-300 font-bold">{profile?.studentIdNumber}</span>
           </p>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="relative z-10 flex flex-wrap items-center gap-2.5">
           <button
             type="button"
             onClick={() => setShowCalculator(!showCalculator)}
-            className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black rounded-2xl shadow-lg shadow-amber-500/20 flex items-center space-x-2 transition-all active:scale-95 border border-amber-300/40"
+            className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black rounded-2xl shadow-lg shadow-amber-500/25 flex items-center space-x-2 transition-all active:scale-95 border border-amber-300/40 cursor-pointer"
             title="সায়েন্টিফিক ক্যালকুলেটর (Scientific Calculator)"
           >
             <Calculator className="w-4 h-4" />
@@ -497,14 +498,14 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           <button
             type="button"
             onClick={() => setShowIdCardModal(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white text-xs font-bold rounded-2xl shadow-lg shadow-emerald-500/20 flex items-center space-x-2 transition-all active:scale-95 border border-emerald-400/30"
+            className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:opacity-90 text-white text-xs font-black rounded-2xl shadow-lg shadow-indigo-600/30 flex items-center space-x-2 transition-all active:scale-95 border border-indigo-400/30 cursor-pointer"
           >
             <Printer className="w-4 h-4" />
             <span>আইডি কার্ড প্রিন্ট</span>
           </button>
-          <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10 text-center">
-            <span className="text-[10px] text-emerald-200 block uppercase font-bold">শিক্ষাবর্ষ</span>
-            <span className="text-sm font-bold">২০২৬</span>
+          <div className="px-3.5 py-2 bg-white/10 rounded-2xl backdrop-blur-md border border-white/10 text-center flex items-center gap-2">
+            <span className="text-[11px] text-indigo-200 font-bold uppercase">সেশন</span>
+            <span className="text-xs font-black text-amber-300">২০২৬</span>
           </div>
         </div>
       </div>
@@ -512,82 +513,82 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
       {/* KPI Cards (including Daily Study Streak) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Attendance */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase">{t('overallAttendance')}</span>
-            <div className="p-2 rounded-xl bg-teal-50 text-teal-600">
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('overallAttendance')}</span>
+            <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400">
               <CalendarCheck className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-black text-slate-900 mt-2">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {dashboard?.metrics?.attendanceRate || 96.0}%
           </p>
-          <span className="text-[11px] text-teal-600 font-semibold mt-1 inline-block">
+          <span className="text-[11px] text-teal-600 dark:text-teal-400 font-bold mt-1 inline-block">
             {dashboard?.metrics?.presentDays || 24} দিন উপস্থিত
           </span>
         </div>
 
         {/* GPA */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase">{t('currentGPA')}</span>
-            <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('currentGPA')}</span>
+            <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400">
               <Award className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-black text-slate-900 mt-2">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {results?.summary?.gpa || '5.00'}
           </p>
-          <span className="text-[11px] text-purple-600 font-semibold mt-1 inline-block">
+          <span className="text-[11px] text-purple-600 dark:text-purple-400 font-bold mt-1 inline-block">
             ১ম সাময়িক পরীক্ষা
           </span>
         </div>
 
         {/* Daily Study Streak & Gamification */}
-        <div className="bg-gradient-to-br from-amber-500/10 via-orange-500/15 to-amber-500/10 p-5 rounded-2xl border border-amber-500/30 shadow-sm">
+        <div className="bg-gradient-to-br from-amber-500/10 via-orange-500/15 to-amber-500/10 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-amber-950/40 p-5 rounded-2xl border border-amber-500/30 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-700 uppercase">দৈনিক পড়ার স্ট্রিক</span>
-            <div className="p-2 rounded-xl bg-amber-500/20 text-orange-600">
+            <span className="text-xs font-black text-amber-700 dark:text-amber-400 uppercase tracking-wider">দৈনিক পড়ার স্ট্রিক</span>
+            <div className="p-2 rounded-xl bg-amber-500/20 text-orange-600 dark:text-orange-400">
               <Flame className="w-4 h-4 fill-orange-500 animate-pulse" />
             </div>
           </div>
-          <p className="text-2xl font-black text-slate-900 mt-2 flex items-baseline space-x-1.5">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-2 flex items-baseline space-x-1.5">
             <span>🔥 {streakData.current_streak || 5}</span>
-            <span className="text-xs text-amber-700 font-bold">দিনের স্ট্রিক</span>
+            <span className="text-xs text-amber-700 dark:text-amber-400 font-black">দিনের স্ট্রিক</span>
           </p>
-          <span className="text-[11px] text-amber-700 font-semibold mt-1 inline-block">
+          <span className="text-[11px] text-amber-700 dark:text-amber-400 font-bold mt-1 inline-block">
             🏆 {streakData.badges?.filter(b => b.unlocked)?.length || 5}টি ব্যাজ আনলকড
           </span>
         </div>
 
         {/* Study Materials Count */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase">{t('materialsTitle')}</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('materialsTitle')}</span>
+            <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
               <BookMarked className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-black text-slate-900 mt-2">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {materialsList.length}টি শিট
           </p>
-          <span className="text-[11px] text-blue-600 font-semibold mt-1 inline-block">
+          <span className="text-[11px] text-blue-600 dark:text-blue-400 font-bold mt-1 inline-block">
             অধ্যায়ভিত্তিক লেকচার নোট
           </span>
         </div>
 
         {/* Homework Tasks */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase">{t('homeworkTitle')}</span>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('homeworkTitle')}</span>
+            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
               <ClipboardList className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-black text-slate-900 mt-2">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {homeworkList.filter(h => h.status === 'PENDING').length}টি বাকি
           </p>
-          <span className="text-[11px] text-emerald-600 font-semibold mt-1 inline-block">
+          <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1 inline-block">
             {homeworkList.filter(h => h.status === 'COMPLETED').length}টি সম্পন্ন
           </span>
         </div>

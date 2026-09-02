@@ -168,45 +168,68 @@ export default function Login() {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Language Switcher Pill */}
-      <div className="absolute top-14 right-6 z-20">
+      <div className="absolute top-12 right-6 z-20">
         <button
           onClick={toggleLanguage}
-          className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/20 transition-all flex items-center space-x-1.5 shadow-lg"
+          className="px-4 py-2 rounded-full bg-slate-900/80 hover:bg-slate-800/90 backdrop-blur-xl text-white text-xs font-black border border-slate-700/80 transition-all flex items-center space-x-2 shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
         >
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
           <span>{lang === 'bn' ? 'English' : 'বাংলা'}</span>
         </button>
       </div>
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center space-y-3">
-        {/* Brand Logo & Name */}
-        <div className="inline-flex items-center justify-center space-x-3 p-2 rounded-2xl bg-slate-950/80 border border-amber-500/40 shadow-2xl shadow-amber-500/10 backdrop-blur-xl">
-          <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center p-1 ring-2 ring-amber-400/50 shadow-inner">
-            <img
-              src={settings?.logoUrl || '/logo.png'}
-              alt={settings?.academyName || 'NextGen Academy'}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="text-left pr-3 border-l border-slate-800 pl-3">
-            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 leading-tight">
-              {settings?.academyName || 'NextGen ACADEMY'}
-            </h2>
-            <p className="text-[10px] font-bold text-amber-200/80 tracking-widest uppercase">
-              {settings?.tagline || 'LEARN · GROW · SUCCEED'}
+      {/* Main Container */}
+      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
+        {/* Floating Modern Login Card */}
+        <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl py-9 px-7 sm:px-10 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.35)] rounded-[32px] border border-slate-200/80 dark:border-slate-800 space-y-6">
+          
+          {/* Card Brand Header */}
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center justify-center gap-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center shadow-lg shadow-rose-500/30 text-white">
+                <GraduationCap className="w-6 h-6" />
+              </div>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                NextGen Academy
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
+              {lang === 'bn' ? 'আপনার অ্যাকাউন্টে লগইন করুন' : 'Sign in to your account'}
             </p>
           </div>
-        </div>
 
-        <h3 className="text-lg font-bold text-white tracking-tight">
-          {lang === 'bn' ? 'সমন্বিত শিক্ষা ও অভিভাবক পোর্টাল' : 'Integrated Smart Portal'}
-        </h3>
-      </div>
+          {/* Quick Role Selection Tabs */}
+          {!is2FAStep && (
+            <div className="p-1 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 grid grid-cols-4 gap-1">
+              {[
+                { label: 'অ্যাডমিন', role: 'ADMIN', demo: 'admin@academy.com', pass: 'admin123' },
+                { label: 'শিক্ষক', role: 'TEACHER', demo: 'teacher@academy.com', pass: 'teacher123' },
+                { label: 'শিক্ষার্থী', role: 'STUDENT', demo: 'student@academy.com', pass: 'student123' },
+                { label: 'অভিভাবক', role: 'PARENT', demo: 'parent@academy.com', pass: 'parent123' }
+              ].map((r) => (
+                <button
+                  key={r.role}
+                  type="button"
+                  onClick={() => {
+                    setIdentifier(r.demo);
+                    setPassword(r.pass);
+                    setLocalError(null);
+                  }}
+                  className={`py-1.5 px-1 rounded-xl text-[11px] font-extrabold transition-all text-center cursor-pointer ${
+                    identifier === r.demo
+                      ? 'bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-400 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title={`ডেমো হিসেবে পূরণ করুন: ${r.demo}`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
+          )}
 
-      {/* Main Login Card */}
-      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
-        <div className="bg-white/95 backdrop-blur-xl py-8 px-6 sm:px-10 shadow-2xl rounded-3xl border border-white/20 space-y-6">
           {localError && (
-            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center space-x-2.5 animate-in fade-in">
+            <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/80 text-rose-800 dark:text-rose-300 text-xs flex items-center space-x-2.5 animate-in fade-in">
               <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
               <span className="font-semibold">{localError}</span>
             </div>
@@ -221,16 +244,16 @@ export default function Login() {
                 <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-100 shadow-inner">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-black text-slate-900">
+                <h3 className="text-base font-black text-slate-900 dark:text-white">
                   দ্বি-স্তরীয় প্রমাণীকরণ (2FA)
                 </h3>
-                <p className="text-xs text-slate-500 max-w-xs mx-auto">
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
                   আপনার Google Authenticator অ্যাপে প্রদর্শিত ৬-সংখ্যার কোডটি লিখুন।
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 text-center">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 text-center">
                   ৬-সংখ্যার ওটিপি কোড (OTP Code) *
                 </label>
                 <div className="relative">
@@ -243,7 +266,7 @@ export default function Login() {
                     onChange={(e) => setTwoFactorCode((e.target?.value || '').replace(/\D/g, ''))}
                     required
                     placeholder="123456"
-                    className="w-full text-center text-xl font-mono tracking-widest pl-10 pr-4 py-3 bg-slate-50 rounded-2xl border border-slate-300 focus:bg-white focus:ring-2 focus:ring-rose-500 focus:outline-none font-black text-slate-900"
+                    className="w-full text-center text-xl font-mono tracking-widest pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-300 dark:border-slate-800 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-rose-500 focus:outline-none font-black text-slate-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -252,7 +275,7 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={loading || twoFactorCode.length < 6}
-                  className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 flex items-center justify-center space-x-2 transition-all disabled:opacity-50"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rose-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold text-sm shadow-xl shadow-rose-600/30 flex items-center justify-center space-x-2 transition-all disabled:opacity-50 transform active:scale-95 cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>{loading ? 'যাচাই করা হচ্ছে...' : 'নিরাপদ লগইন সম্পন্ন করুন'}</span>
@@ -265,7 +288,7 @@ export default function Login() {
                     setTwoFactorCode('');
                     setLocalError(null);
                   }}
-                  className="w-full py-2 text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center space-x-1 transition-colors"
+                  className="w-full py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center space-x-1 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>আগের ধাপে ফিরে যান</span>
@@ -277,11 +300,9 @@ export default function Login() {
             /* STEP 1: REGULAR CREDENTIALS LOGIN */
             /* ========================================================== */
             <form onSubmit={handleSubmit} className="space-y-4">
-              
-
               <div>
-                <label className="block text-xs font-bold text-slate-900 mb-1">
-                  {lang === 'bn' ? 'স্টুডেন্ট আইডি / ইউজার আইডি / ইমেইল / মোবাইল নম্বর' : 'Student ID / User ID / Email / Phone'}
+                <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+                  {lang === 'bn' ? 'ইমেইল / ইউজার আইডি' : 'Email / User ID'}
                 </label>
                 <div className="relative">
                   <input
@@ -289,22 +310,22 @@ export default function Login() {
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     required
-                    placeholder={lang === 'bn' ? 'যেমন: NGA-26-4821 বা 4821 বা 01712345678' : 'e.g. NGA-26-4821, 4821 or 01712345678'}
-                    className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-emerald-500/30 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-lg pl-10 pr-4 py-2.5 outline-none font-medium text-xs sm:text-sm shadow-sm"
+                    placeholder="admin@academy.com"
+                    className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 border border-slate-200 dark:border-slate-800 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 rounded-2xl pl-10 pr-4 py-3 outline-none font-medium text-xs sm:text-sm shadow-xs transition-all"
                   />
-                  <UserIcon className="w-4 h-4 text-slate-500 absolute left-3 top-3.5" />
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-bold text-slate-900">
-                    {lang === 'bn' ? 'পাসওয়ার্ড (Password)' : 'Password'}
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {lang === 'bn' ? 'পাসওয়ার্ড' : 'Password'}
                   </label>
                   <button
                     type="button"
                     onClick={() => setShowForgotPasswordModal(true)}
-                    className="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline transition-colors focus:outline-none"
+                    className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline transition-colors focus:outline-none cursor-pointer"
                   >
                     {lang === 'bn' ? 'পাসওয়ার্ড ভুলে গেছেন?' : 'Forgot Password?'}
                   </button>
@@ -316,34 +337,30 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="••••••••"
-                    className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-emerald-500/30 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-lg pl-10 pr-10 py-2.5 outline-none font-medium text-xs sm:text-sm shadow-sm"
+                    className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 border border-slate-200 dark:border-slate-800 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 rounded-2xl pl-10 pr-10 py-3 outline-none font-medium text-xs sm:text-sm shadow-xs transition-all"
                   />
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-3.5" />
+                  <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-500 hover:text-slate-800 focus:outline-none transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white focus:outline-none transition-colors cursor-pointer"
                     title={showPassword ? 'Hide password' : 'Show password'}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4 text-slate-500" /> : <Eye className="w-4 h-4 text-slate-500" />}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {/* Skeleton Visual Loading Feedback State */}
               {loading && (
-                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200/80 animate-pulse space-y-2.5">
-                  <div className="flex items-center space-x-2 text-xs font-black text-emerald-800">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    <span>{lang === 'bn' ? '🔒 নিরাপদ যাচাইকরণ ও প্রোফাইল লোড হচ্ছে...' : '🔒 Authenticating & loading profile...'}</span>
+                <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 animate-pulse space-y-2.5">
+                  <div className="flex items-center space-x-2 text-xs font-black text-rose-800 dark:text-rose-300">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                    <span>{lang === 'bn' ? '🔒 নিরাপদ যাচাইকরণ ও ড্যাশবোর্ড লোড হচ্ছে...' : '🔒 Authenticating & loading profile...'}</span>
                   </div>
-                  <div className="h-2 w-full bg-emerald-200/60 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse w-4/5"></div>
-                  </div>
-                  <div className="flex justify-between items-center text-[10px] text-emerald-700 font-semibold">
-                    <span>{lang === 'bn' ? 'সেশন ক্যাশ ও ড্যাশবোর্ড প্রস্তুত হচ্ছে' : 'Preparing session cache & dashboard'}</span>
-                    <span>১০০% সুরক্ষিত</span>
+                  <div className="h-2 w-full bg-rose-200/60 dark:bg-rose-900/60 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-full animate-pulse w-4/5"></div>
                   </div>
                 </div>
               )}
@@ -351,7 +368,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-75 active:scale-95"
+                className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rose-600 hover:from-rose-500 hover:to-pink-500 text-white text-xs sm:text-sm font-black shadow-xl shadow-rose-600/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-75 transform active:scale-95 cursor-pointer mt-2"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
@@ -360,8 +377,7 @@ export default function Login() {
                   </span>
                 ) : (
                   <>
-                    <span>{lang === 'bn' ? 'লগইন করুন' : 'Sign In'}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>➔] {lang === 'bn' ? 'লগইন' : 'Sign In'}</span>
                   </>
                 )}
               </button>
@@ -370,18 +386,18 @@ export default function Login() {
 
           {/* Online Admission CTA Card */}
           {!is2FAStep && settings?.admissionActive && (
-            <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 border border-indigo-500/30 flex items-center justify-between gap-3">
               <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/30 flex-shrink-0">
+                <div className="p-2.5 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 flex-shrink-0">
                   <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-slate-900">
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white">
                     {lang === 'bn'
                       ? `অনলাইন ভর্তি ${settings?.admissionSessionYear || '২০২৬'}`
                       : `Online Admission ${settings?.admissionSessionYear || '2026'}`}
                   </h4>
-                  <p className="text-[10px] text-slate-600 font-medium">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                     {lang === 'bn' ? 'নতুন সেশনে আবেদন করুন ও স্লিপ নিন' : 'Apply online & track application'}
                   </p>
                 </div>
@@ -389,7 +405,7 @@ export default function Login() {
 
               <button
                 onClick={() => setShowAdmissionForm(true)}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1 flex-shrink-0"
+                className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1 flex-shrink-0 cursor-pointer"
               >
                 <span>{lang === 'bn' ? 'আবেদন' : 'Apply'}</span>
                 <UserPlus className="w-3.5 h-3.5" />
