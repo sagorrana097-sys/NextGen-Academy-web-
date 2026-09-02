@@ -306,6 +306,3734 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'punctuation-chapter-practice-set': {
+  "id": 2105,
+  "chapterId": 21,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Punctuation Practice & SSC Board 5-Mark Passage Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: বিরামচিহ্ন ও ক্যাপিটালাইজেশন পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Punctuation Practice)",
+  "slug": "punctuation-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের Punctuation & Capitalization প্রশ্নব্যাংক। সংলাপভিত্তিক প্যাসেজে কমা, ফুলস্টপ, প্রশ্নবোধক চিহ্ন, ইনভার্টেড কমা ও ক্যাপিটালাইজেশনের সমন্বিত ১০টি শূন্যস্থানের বোর্ড স্ট্যান্ডার্ড মডেল টেস্ট ড্রিল।",
+  "definitionEn": "An exhaustive, high-stakes punctuation and capitalization practice module reproducing the official SSC Question 11 format, evaluating dialogue punctuation, quotation conventions, and syntactic boundary markers.",
+  "definitionBn": "বিরামচিহ্ন ও ক্যাপিটালাইজেশন অধ্যায়ের সমস্ত নিয়মাবলি ও বিগত ১০ বছরের বোর্ড পরীক্ষার হুবহু ৫ নম্বরের প্যাসেজ মডেলের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের সর্বশেষ প্রশ্ন (প্রশ্ন ১১)-তে ৫ নম্বরে পূর্ণ ৫ পেতে এই প্র্যাকটিস সেটটি শিক্ষার্থীদের সম্পূর্ণ প্রস্তুত করে।",
+  "teacherGoldenTips": "বোর্ড পরীক্ষার বিরামচিহ্ন সমাধানের ৫টি চূড়ান্ত টিপস:\n১. পুরো প্যাসেজটি আগে মন দিয়ে পড়ে কে কার সাথে কথা বলছে তা চিহ্নিত করুন!\n২. বক্তা যখনই কথা বলবে, তার মূল বক্তব্যকে ইনভার্টেড কমার (\"...\") ভেতরে ঢুকিয়ে দিন!\n৩. ইনভার্টেড কমার ভেতরের প্রথম অক্ষরটি অবশ্যই Capital করবেন!\n৪. প্রশ্ন করলে (?), আর সাধারণ বক্তব্য হলে কমা (,) বা ফুলস্টপ (.) ইনভার্টেড কমার ভেতরে রাখবেন!\n৫. নিজের উত্তরটি রিভিশন দিয়ে গুনে দেখুন মোট ১০টি বিরামচিহ্ন ও বড় হাতের অক্ষরের পরিবর্তন ঠিকমতো হয়েছে কি না (১০টি কারেকশনে ৫ নম্বর)!",
+  "mainFormula": "Master Punctuation Matrix: Capitalization Checks (Onset/Proper) + Dialogue Enclosures (\"...\") + Internal Sentence Pauses (,) + Terminal Bounds (. ? !)",
+  "formulas": [
+    {
+      "label": "Universal Punctuation Matrix",
+      "structure": "Capitalize onsets -> Enclose direct utterances in quotes -> Insert vocative commas -> Terminate properly",
+      "tag": "Master Matrix",
+      "example": "Master execution across all 15 punctuation and capitalization marks."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "বোর্ড পরীক্ষার প্যাসেজ পাঙ্কচুয়েশনে ৫/৫ পাওয়ার নিখুঁত অ্যালগরিদম",
+      "nameEn": "The 5/5 Algorithm for SSC Board Passage Punctuation",
+      "formula": "Read unpunctuated text -> Detect speaker shifts -> Apply quotes to spoken words -> Capitalize first letters -> Fix terminal punctuation",
+      "shortcutTrick": "প্যাসেজে সাধারণত দুজন ব্যক্তির কথোপকথন থাকে — একজনের কথা শেষ হলে ফুলস্টপ দিয়ে অন্যজনের উত্তর ইনভার্টেড কমার ভেতরে শুরু করুন!",
+      "descriptionBn": "এসএসসি পরীক্ষায় সম্পূর্ণ অনুচ্ছেদটি বিরামচিহ্নহীন অবস্থায় দেওয়া থাকে; শিক্ষার্থীদের সঠিক স্থানে বিরামচিহ্ন ও বড় হাতের অক্ষর বসাতে হয়।",
+      "examples": [
+        {
+          "en": "Unpunctuated: have you heard the name of aesop asked the teacher",
+          "bn": "বিরামচিহ্নহীন বাক্য।",
+          "note": "মূল প্রশ্ন।"
+        },
+        {
+          "en": "Punctuated: \"Have you heard the name of Aesop?\" asked the teacher.",
+          "bn": "সঠিক বিরামচিহ্নযুক্ত রূপ।",
+          "note": "Have, Aesop এবং কোটেশন মার্ক সংযোজন।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "\"Where are you going, Rahim?\" said the master. \"I am going to the library, sir,\" he replied.",
+      "bn": "\"তুমি কোথায় যাচ্ছ, রহিম?\" প্রভু বললেন। \"আমি লাইব্রেরিতে যাচ্ছি, স্যার,\" সে উত্তর দিল।",
+      "note": "সংলাপ বিরামচিহ্ন।"
+    },
+    {
+      "en": "Knowledge is power, but wisdom is liberty.",
+      "bn": "জ্ঞানই শক্তি, কিন্তু প্রজ্ঞাই হলো মুক্তি।",
+      "note": "Compound sentence comma।"
+    },
+    {
+      "en": "How magnificent the Taj Mahal appears under a moonlit sky!",
+      "bn": "জোছনা রাতে তাজমহল কত চমৎকারই না দেখায়!",
+      "note": "Exclamation Mark।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "সংলাপ ভেঙে দুই ভাগে বিভক্ত হলে দ্বিতীয় ভাগের ক্যাপিটালাইজেশন",
+      "exceptionText": "একই বাক্য ভেঙে যদি মাঝখানে \"said he\" বা \"replied she\" ঢুকে যায়, তবে কোটেশনের দ্বিতীয় অংশের প্রথম অক্ষর ছোট হাতের (small letter) থাকবে (e.g. \"I know,\" said he, \"that you are innocent\").",
+      "exampleEn": "\"If it rains,\" said father, \"we will stay indoors.\"",
+      "exampleBn": "\"বৃষ্টি হলে,\" বাবা বললেন, \"আমরা ঘরের ভেতরেই থাকব।\""
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "\"Where are you going\" asked Karim.",
+      "correct": "\"Where are you going?\" asked Karim.",
+      "reasonBn": "ইনভার্টেড কমার ভেতরের প্রশ্নবোধক চিহ্নটি কখনো বাদ দেওয়া যাবে না।"
+    },
+    {
+      "mistake": "He said, \"yes, I will come.\"",
+      "correct": "He said, \"Yes, I will come.\"",
+      "reasonBn": "ইনভার্টেড কমার ভেতরের প্রথম অক্ষরটি অবশ্যই Capital Letter হতে হবে।"
+    }
+  ],
+  "tags": [
+    "punctuation practice",
+    "chapter practice set",
+    "ssc 5 marks punctuation vault",
+    "passage punctuation test",
+    "dialogue mechanics"
+  ],
+  "mcqs": [
+    {
+      "id": 210501,
+      "question": "Which option accurately punctuates the split sentence: \"if you come said he we will start immediately\"?",
+      "questionBn": "\"if you come said he we will start immediately\" বাক্যটির শতভাগ নিখুঁত বিরামচিহ্নযুক্ত রূপ কোনটি?",
+      "options": [
+        "\"If you come,\" said he, \"we will start immediately.\"",
+        "\"If you come\" said he \"We will start immediately.\"",
+        "\"If you come,\" said he, \"We will start immediately.\"",
+        "If you come, said he, we will start immediately."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "বাক্যটির ১ম অংশ কমা সহ কোটেশনে ঢুকবে এবং ২য় অংশটি একই বাক্যের অবশিষ্ট অংশ হওয়ায় ছোট হাতের \"we\" দিয়ে শুরু হয়ে ফুলস্টপ সহ কোটেশন সমাপ্ত হবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 210502,
+      "question": "Identify the sentence with correct capitalization and punctuation for titles and proper nouns:",
+      "questionBn": "উপাধি ও ব্যক্তিনামের সঠিক বিরামচিহ্নযুক্ত বাক্য কোনটি?",
+      "options": [
+        "Prof. Dr. Jamal Hossain delivered the keynote lecture on Renewable Energy.",
+        "prof. dr. jamal hossain delivered the keynote lecture on renewable energy.",
+        "Prof. Dr. Jamal Hossain delivered the keynote lecture on renewable energy.",
+        "Prof Dr Jamal Hossain delivered the keynote lecture on Renewable energy."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "সংক্ষেপণ পদবি \"Prof. Dr.\", নাম \"Jamal Hossain\", সাধারণ বিষয় হওয়ায় ছোট হাতের \"renewable energy\" এবং শেষে ফুলস্টপ সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 210501,
+      "type": "SSC Board Passage Punctuation Model",
+      "prompt": "Punctuate and capitalize the entire passage: \"my dear son why are you sitting alone in this gloomy room said mother i have lost my favorite fountain pen replied the boy do not worry i will purchase another for you said mother smilingly\"",
+      "correctAnswer": "\"My dear son, why are you sitting alone in this gloomy room?\" said mother. \"I have lost my favorite fountain pen,\" replied the boy. \"Do not worry, I will purchase another for you,\" said mother smilingly.",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের আদর্শ প্যাসেজ বিরামচিহ্ন সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 210501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 21 Comprehensive Punctuation Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Punctuate and capitalize: \"give me a few coins sir said the blind beggar i am starving for two days\"",
+          "answer": "\"Give me a few coins, sir,\" said the blind beggar. \"I am starving for two days.\"",
+          "explanationBn": "এসএসসি বোর্ড পরীক্ষার প্রশ্ন ১১-এর হুবহু মডেল প্রশ্ন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার সর্বশেষ এবং অত্যন্ত নিশ্চিত ৫ নম্বরের প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'punctuation-apostrophe-quotation-dialogue': {
+  "id": 2104,
+  "chapterId": 21,
+  "topicNo": "০৪",
+  "titleEn": "Apostrophes, Quotations & Direct Speech Dialogue Mechanics",
+  "titleBn": "অ্যাপোস্ট্রফি, ইনভার্টেড কমা ও প্রত্যক্ষ উক্তির সংলাপ বিরামচিহ্নের নিয়ম",
+  "slug": "punctuation-apostrophe-quotation-dialogue",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "মালিকানা ও সংক্ষেপণে Apostrophe (')-এর ব্যবহার: একবচনে boy's, বহুবচনে boys'। মারাত্মক বিভ্রান্তি: It's (It is) বনাম Its (মালিকানা)। সংলাপে Quotation Marks (\" \"): কমা ইনভার্টেড কমার ভেতরে বসা, প্রশ্নবোধক চিহ্নের অবস্থান এবং পরোক্ষ সংলাপে ক্যাপিটালাইজেশন।",
+  "definitionEn": "The apostrophe indicates genitive possession (singular -'s, plural -s') and phonetic contraction/omission. Quotation marks enclose direct verbatim discourse, adhering to strict typographical boundary conventions regarding commas and terminal marks.",
+  "definitionBn": "মালিকানা (Possession) এবং শব্দের বর্ণ বিলোপ বা সংক্ষেপণ (Contraction) নির্দেশ করতে Apostrophe (') ব্যবহৃত হয়। আর বক্তার প্রত্যক্ষ উক্তি উদ্ধৃত করতে ইনভার্টেড কমা বা Quotation Marks (\" \") ব্যবহৃত হয়।",
+  "explanationBn": "২টি অতি গুরুত্বপূর্ণ অংশ:\n১. Apostrophe (')-এর সঠিক ব্যবহার:\n- একবচন Noun-এর মালিকানায় ('s): The boy's book, The teacher's desk, Dickens's novel.\n- 's' দিয়ে শেষ হওয়া বহুবচন Noun-এর মালিকানায় শুধু অ্যাপোস্ট্রফি (s'): The boys' school (ছেলেদের বিদ্যালয়), The girls' hostel, Teachers' common room.\n- 's' ছাড়া অনিয়মিত বহুবচনে ('s): Children's park, Men's salon, Women's college.\n- সংক্ষেপণে (Contraction): Don't, Can't, Won't, It's (= It is / It has), Who's (= Who is).\n- মহা-ফাঁদ: IT'S বনাম ITS:\n  \"It's\" = It is বা It has (It's a sunny day).\n  \"Its\" (কোনো অ্যাপোস্ট্রফি নেই) = ইহার/তার (The cat licked its paws).\n\n২. Quotation Marks (\" \") ও প্রত্যক্ষ উক্তির বিরামচিহ্ন:\n- বক্তার কথা শুরু হওয়ার আগে Reporting Verb-এর পর কমা বসে: He said, \"...\"\n- ইনভার্টেড কমার ভেতরের প্রথম অক্ষরটি অবশ্যই Capital হবে: \"HONESTY is...\"\n- কমা বা ফুলস্টপ সর্বদা ইনভার্টেড কমার ভেতরে ঢুকবে: \"I will go,\" said Karim.\n- প্রত্যক্ষ প্রশ্ন বা বিস্ময় চিহ্নও ইনভার্টেড কমার ভেতরে থাকবে: \"Where are you going?\" asked mother.",
+  "teacherGoldenTips": "সংলাপের বিরামচিহ্নের ৪টি স্বর্ণালী ট্রিক:\n১. He said-এর পর কমা (,) দিতে ভুলবেন না!\n২. ইনভার্টেড কমার ভেতরের প্রথম অক্ষরটি বড় হাতের (Capital) করবেন!\n৩. কমা, ফুলস্টপ, প্রশ্নবোধক চিহ্ন ইনভার্টেড কমার পেটের ভেতরে (ভেতরে) থাকবে: \"I know him,\" said Rahim!\n৪. বয়েজ স্কুল লিখতে boy's নয়, BOYS' SCHOOL লিখবেন!",
+  "mainFormula": "Singular: Noun + 's | Plural in S: Noun + s' | It's = It is | Its = Possessive | He said , \"Capitalized speech ... [punctuation inside]\"",
+  "formulas": [
+    {
+      "label": "Singular vs Plural Possessive",
+      "structure": "Boy's (one boy) | Boys' (many boys) | Children's (irregular plural)",
+      "tag": "Possession",
+      "example": "A boy's toy vs The boys' high school."
+    },
+    {
+      "label": "Contraction vs Possessive (It's vs Its)",
+      "structure": "IT'S = Contraction of \"It is\" | ITS = Neuter possessive pronoun (NO APOSTROPHE)",
+      "tag": "It's vs Its",
+      "example": "It's raining, and the bird is shivering in its nest."
+    },
+    {
+      "label": "Direct Dialogue Punctuation",
+      "structure": "Speaker said , \"Capitalized utterance , ? !\" reporting tag continues .",
+      "tag": "Direct Dialogue",
+      "example": "Father said, \"Where have you been all evening?\""
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "It's (It is) বনাম Its (ইহার)-এর মারাত্মক বিভ্রান্তি নিরসন",
+      "nameEn": "The Definitive \"It's\" (Contraction) vs \"Its\" (Possessive) Rule",
+      "formula": "IT'S = IT IS / IT HAS | ITS = Possessive determiner of \"it\" (NO APOSTROPHE)",
+      "shortcutTrick": "বাক্যে \"it is\" বসিয়ে অর্থ ঠিক থাকলে It's; আর \"ইহার\" বা \"তার\" বোঝালে Its!",
+      "descriptionBn": "The dog wagged it's tail ভুল; কুকুর তার নিজের লেজ নাড়াল, তাই \"its tail\"। It's a cold morning (It is a cold morning)।",
+      "examples": [
+        {
+          "en": "It's undeniable that the smartphone has transformed modern lifestyle.",
+          "bn": "এটি অনস্বীকার্য যে স্মার্টফোন আধুনিক জীবনযাত্রাকে রূপান্তরিত করেছে।",
+          "note": "It's = It is।"
+        },
+        {
+          "en": "The ancient banyan tree spread its majestic branches over the courtyard.",
+          "bn": "প্রাচীন বটগাছটি উঠানের ওপর তার বিশাল ডালপালা ছড়িয়ে দিল।",
+          "note": "its branches (মালিকানা)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সংলাপে বিরামচিহ্ন ইনভার্টেড কমার ভেতরে বসার নিয়ম",
+      "nameEn": "Internal Placement of Punctuation within Quotation Marks",
+      "formula": "Reporting Verb , \"[Direct Speech] [Punctuation Mark INSIDE]\"",
+      "shortcutTrick": "কমার পেটের ভেতরেই সমস্ত বিরামচিহ্ন (কমা, ফুলস্টপ, ?, !) ঢুকিয়ে দিন!",
+      "descriptionBn": "\"Will you come\"?, asked Karim ভুল; সঠিক হলো \"Will you come?\" asked Karim.",
+      "examples": [
+        {
+          "en": "\"Have you completed your practical experiment?\" inquired the teacher.",
+          "bn": "\"তুমি কি তোমার ব্যবহারিক পরীক্ষা শেষ করেছ?\" শিক্ষক জানতে চাইলেন।",
+          "note": "প্রশ্নবোধক চিহ্ন ইনভার্টেড কমার ভেতরে।"
+        },
+        {
+          "en": "\"Yes, sir, I have finished it,\" the student replied politely.",
+          "bn": "\"হ্যাঁ, স্যার, আমি এটি শেষ করেছি,\" শিক্ষার্থী বিনীতভাবে উত্তর দিল।",
+          "note": "কমা ইনভার্টেড কমার ভেতরে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The girls' dormitory was renovated ahead of the new academic session.",
+      "bn": "নতুন শিক্ষাবর্ষের আগেই ছাত্রীদের ছাত্রাবাসটি সংস্কার করা হয়েছিল।",
+      "note": "girls' (ছাত্রীদের)।"
+    },
+    {
+      "en": "The children's laughter resonated throughout the sunlit playground.",
+      "bn": "শিশুদের হাসির রোল রৌদ্রোজ্জ্বল খেলার মাঠজুড়ে প্রতিধ্বনিত হলো।",
+      "note": "children's (অনিয়মিত বহুবচনে 's)।"
+    },
+    {
+      "en": "The professor said, \"Perseverance is the cornerstone of academic achievement.\"",
+      "bn": "অধ্যাপক বললেন, \"অধ্যবসায়ই প্রাতিষ্ঠানিক অর্জনের মূলভিত্তি।\"",
+      "note": "Direct Speech Punctuation।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Pronouns-এর মালিকানায় কখনোই অ্যাপোস্ট্রফি বসে না",
+      "exceptionText": "Yours, ours, hers, theirs, its — এই Possessive Pronoun-গুলোর কোনোটিতেই কখনো অ্যাপোস্ট্রফি (') বসে না (Yours truly, NOT Your's truly).",
+      "exampleEn": "This dictionary is yours; that one is hers.",
+      "exampleBn": "এই অভিধানটি তোমার; ওটি তার।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The company launched it's new website.",
+      "correct": "The company launched its new website.",
+      "reasonBn": "কোম্পানির নিজস্ব ওয়েবসাইট বোঝাতে কোনো অ্যাপোস্ট্রফি ছাড়া \"its\" বসবে।"
+    },
+    {
+      "mistake": "He went to a boy's school.",
+      "correct": "He went to a boys' school.",
+      "reasonBn": "বিদ্যালয়টি অনেক ছেলের জন্য, তাই বহুবচনে \"boys'\" হবে।"
+    }
+  ],
+  "tags": [
+    "apostrophe rules",
+    "its vs it is",
+    "boys school punctuation",
+    "quotation marks direct speech",
+    "dialogue punctuation",
+    "ssc punctuation"
+  ],
+  "mcqs": [
+    {
+      "id": 210401,
+      "question": "Choose the sentence with the grammatically immaculate use of the apostrophe:",
+      "questionBn": "অ্যাপোস্ট্রফির শতভাগ নির্ভুল ব্যবহার নিচের কোন বাক্যে রয়েছে?",
+      "options": [
+        "The committee published it's annual financial audit yesterday.",
+        "The committee published its annual financial audit yesterday.",
+        "The committee published its' annual financial audit yesterday.",
+        "The committee published it is annual financial audit yesterday."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "কমিটির নিজস্ব আর্থিক নিরীক্ষা বোঝাতে Possessive Determiner হিসেবে কোনো অ্যাপোস্ট্রফি ছাড়া \"its\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 210402,
+      "question": "Which direct speech sentence is punctuated with complete precision?",
+      "questionBn": "প্রত্যক্ষ সংলাপে সঠিক বিরামচিহ্নযুক্ত বাক্য কোনটি?",
+      "options": [
+        "The teacher said, \"Why are you absent yesterday\"?",
+        "The teacher said, \"Why were you absent yesterday?\"",
+        "The teacher said \"Why were you absent yesterday\"?",
+        "The teacher said, Why were you absent yesterday?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Reporting Verb-এর পর কমা, ইনভার্টেড কমা শুরু ও ভেতরে বড় হাতের \"Why\" এবং প্রশ্নবোধক চিহ্নটি ইনভার্টেড কমার ভেতরে বসায় ২য় বাক্যটি সম্পূর্ণ নির্ভুল।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 210401,
+      "type": "Dialogue Punctuation Drill",
+      "prompt": "Punctuate the dialogue: \"the traveler said can you tell me the way to the nearest hotel yes i can replied the peasant\"",
+      "correctAnswer": "The traveler said, \"Can you tell me the way to the nearest hotel?\" \"Yes, I can,\" replied the peasant.",
+      "explanationBn": "সংলাপের ইনভার্টেড কমা, প্রশ্নবোধক চিহ্ন ও ক্যাপিটালাইজেশন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 210401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Direct speech and dialogue punctuation in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Punctuate and capitalize: \"my friend said to me why are you wasting your time\"",
+          "answer": "My friend said to me, \"Why are you wasting your time?\"",
+          "explanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১১-এর ক্লাসিক ১ নম্বরের সমাধান।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার বিরামচিহ্ন অংশে এটি অন্যতম নিশ্চিত প্যাটার্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'punctuation-semicolon-colon-dash-hyphen': {
+  "id": 2103,
+  "chapterId": 21,
+  "topicNo": "০৩",
+  "titleEn": "Semicolons, Colons, Dashes & Hyphens: The Architecture of Advanced Punctuation",
+  "titleBn": "সেমিকোলন, কোলন, ড্যাশ ও হাইফেন: উচ্চতর বিরামচিহ্নের ব্যাকরণিক কাঠামো",
+  "slug": "punctuation-semicolon-colon-dash-hyphen",
+  "difficulty": "HARD",
+  "classLevel": "Class 9-10 / SSC",
+  "summaryBn": "সেমিকোলন (;) কমা অপেক্ষা দীর্ঘ বিরতিতে দুটি ঘনিষ্ঠ স্বাধীন ক্লজ যুক্ত করে। Transitional Adverb-এর পূর্বে সেমিকোলন এবং পরে কমা (; however,)। কোলন (:) বিস্তারিত তালিকা, সংজ্ঞা ও ব্যাখ্যার পূর্বে বসে। ড্যাশ (—) আকস্মিক নাটকীয় বিরতি প্রকাশে এবং হাইফেন (-) যৌগিক শব্দ নির্মাণে।",
+  "definitionEn": "The semicolon bridges closely related independent clauses without coordinating conjunctions. The colon introduces formal enumerations, quotations, or explanatory amplifications. The em-dash signals dramatic parenthetical ruptures, while the hyphen binds compound lexemes.",
+  "definitionBn": "সেমিকোলন (;) কমার চেয়ে বেশি কিন্তু ফুলস্টপের চেয়ে কম বিরতি প্রকাশে দুটি সম্পর্কিত স্বাধীন বাক্যকে যুক্ত করে। কোলন (:) কোনো তালিকা, ব্যাখ্যা বা ব্যাখ্যার প্রারম্ভে বসে। ড্যাশ (—) নাটকীয় বিরতি ও হাইফেন (-) যৌগিক শব্দ তৈরিতে ব্যবহৃত হয়।",
+  "explanationBn": "৪টি উচ্চতর বিরামচিহ্নের নিয়মানুগ ব্যবহার:\n১. Semicolon (;):\n- কোনো Conjunction ছাড়া দুটি ঘনিষ্ঠ স্বাধীন বাক্যকে জুড়তে:\n  To err is human; to forgive is divine.\n- Transitional Adverbs (however, therefore, moreover, nevertheless)-এর পূর্বে সেমিকোলন এবং পরে কমা বসে:\n  He studied with immense devotion; HOWEVER, he failed to secure the scholarship.\n\n২. Colon (:):\n- কোনো তালিকা (List) বা দৃষ্টান্তের পূর্বে (যদি আগের বাক্যটি স্বয়ংসম্পূর্ণ হয়):\n  The candidate must submit three credentials: a national ID, academic transcripts, and a character certificate.\n- কোনো বক্তব্যের বিশদ ব্যাখ্যা দিতে:\n  He had only one ambition in life: to eradicate illiteracy from his homeland.\n- অনুপাত প্রকাশে (Ratio: 3:1) এবং সময় প্রকাশে (10:30 AM)।\n\n৩. Dash (— বা Em-dash):\n- বাক্যের মাঝে আকস্মিক কোনো চিন্তা বা আবেগপূর্ণ তথ্য সন্নিবেশ করতে:\n  The ancient monument—built during the Mughal dynasty—is now crumbling.\n\n৪. Hyphen (-):\n- দুটি বা ততোধিক শব্দ যুক্ত করে Compound Noun বা Adjective তৈরিতে:\n  Well-known, twenty-one, father-in-law, up-to-date, self-reliant.",
+  "teacherGoldenTips": "সেমিকোলন ও কোলনের মাস্টার ট্রিক:\n১. বাক্য ১ + ; HOWEVER , + বাক্য ২ (However-এর আগে সেমিকোলন, পরে কমা)!\n২. কোলন (:) তখনই বসাবেন যখন তার আগে একটি সম্পূর্ণ অর্থপূর্ণ বাক্য থাকবে এবং কোলনের পরে তার তালিকা বা ব্যাখ্যা থাকবে!\n৩. হাইফেন ছোট (-), শব্দ জোড়ে (well-known); ড্যাশ লম্বা (—), চিন্তার বিরতি দেয়!",
+  "mainFormula": "Independent Clause ; Independent Clause | Semicolon + HOWEVER + Comma | Full Sentence : List or Explanation | Word-Hyphen-Word",
+  "formulas": [
+    {
+      "label": "Semicolon Independent Link",
+      "structure": "Independent Clause 1 ; Independent Clause 2 (thematically intertwined)",
+      "tag": "Semicolon Link",
+      "example": "Silence is sometimes the best answer; it conveys profound wisdom."
+    },
+    {
+      "label": "Conjunctive Adverb Semicolon",
+      "structure": "Independent Clause 1 ; (HOWEVER / THEREFORE / CONSEQUENTLY) , Independent Clause 2",
+      "tag": "Semicolon Conjunctive",
+      "example": "The weather was frigid; nevertheless, they continued their trek."
+    },
+    {
+      "label": "Explanatory Colon",
+      "structure": "Complete Declarative Sentence : List of items / Elaborative explanation",
+      "tag": "Colon Explanatory",
+      "example": "The backpack contained essential gear: a flashlight, rope, water, and dried fruit."
+    },
+    {
+      "label": "Compound Modifying Hyphen",
+      "structure": "Word - Word + Noun (acting as a pre-nominal single adjective)",
+      "tag": "Hyphen Compound",
+      "example": "A well-known philosopher, a five-year-old child."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Conjunctive Adverbs-এর সাথে সেমিকোলন ও কমার যুগলবন্দি",
+      "nameEn": "Semicolon-Comma Pairing with Transitional Conjunctive Adverbs",
+      "formula": "Clause 1 ; (however / therefore / moreover / nevertheless) , Clause 2",
+      "shortcutTrick": "আগে সেমিকোলন (;), শব্দটির পর কমা (,) — এটি বোর্ড পরীক্ষার ক্লাসিক প্যাটার্ন!",
+      "descriptionBn": "He worked hard, however, he failed ভুল (Comma Splice); বলতে হবে \"He worked hard; however, he failed.\"",
+      "examples": [
+        {
+          "en": "The laboratory equipment was outdated; therefore, the experiment yielded erratic findings.",
+          "bn": "ল্যাবরেটরির সরঞ্জামগুলো মান্ধাতার আমলের ছিল; অতএব, পরীক্ষায় অনির্ভরযোগ্য ফলাফল পাওয়া গেল।",
+          "note": "; therefore, এর ব্যবহার।"
+        },
+        {
+          "en": "He was warned repeatedly; nevertheless, he persisted in his perilous venture.",
+          "bn": "তাকে বারবার সতর্ক করা হয়েছিল; তা সত্ত্বেও, সে তার বিপজ্জনক উদ্যোগ চালিয়ে গেল।",
+          "note": "; nevertheless, এর ব্যবহার।"
+        }
+      ]
+    },
+    {
+      "nameBn": "কোলন (:) ব্যবহারের পূর্বশর্ত — পূর্ববর্তী বাক্য পূর্ণাঙ্গ হতে হবে",
+      "nameEn": "Prerequisite for Colons: Independent Matrix Clause",
+      "formula": "Complete Grammatical Sentence : List / Explanation (NEVER after a bare verb or preposition)",
+      "shortcutTrick": "verb বা preposition-এর পর সরাসরি কোলন দেওয়া ভুল! \"The colors are: red...\" ভুল; \"The colors are red...\" সঠিক!",
+      "descriptionBn": "\"The ingredients are: flour, sugar, and butter\" ভুল; সঠিক হলো \"The recipe requires three ingredients: flour, sugar, and butter।\"",
+      "examples": [
+        {
+          "en": "The survey revealed one alarming fact: clean drinking water is scarce in the coastal belt.",
+          "bn": "জরিপে একটি উদ্বেগজনক সত্য প্রকাশিত হলো: উপকূলীয় অঞ্চলে বিশুদ্ধ খাবার পানির তীব্র সংকট।",
+          "note": "ব্যাখ্যা হিসেবে কোলন।"
+        },
+        {
+          "en": "Please purchase the following items: milk, whole wheat flour, and olive oil.",
+          "bn": "দয়া করে নিচের পণ্যগুলো কিনুন: দুধ, লাল আটা এবং জলপাই তেল।",
+          "note": "তালিকার পূর্বে কোলন।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "My mother is a doctor; my father is a civil engineer.",
+      "bn": "আমার মা একজন চিকিৎসক; আমার বাবা একজন পুরকৌশলী।",
+      "note": "ঘনিষ্ঠ দুই বাক্যে সেমিকোলন।"
+    },
+    {
+      "en": "The prime suspect—who had evaded capture for three months—was apprehended at the border.",
+      "bn": "প্রধান সন্দেহভাজন ব্যক্তি—যিনি তিন মাস ধরে আত্মগোপনে ছিলেন—সীমান্তে গ্রেপ্তার হন।",
+      "note": "Em-dash বিরতি।"
+    },
+    {
+      "en": "They organized a state-of-the-art exhibition showcasing artificial intelligence.",
+      "bn": "তারা কৃত্রিম বুদ্ধিমত্তা প্রদর্শনকারী একটি সর্বাধুনিক প্রদর্শনীর আয়োজন করল।",
+      "note": "state-of-the-art হাইফেনেট যৌগিক শব্দ।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Predicative Adjective-এ হাইফেন বসে না",
+      "exceptionText": "যৌগিক বিশেষণ যখন Noun-এর আগে বসে তখন হাইফেন হয় (a well-known author), কিন্তু Noun-এর পরে Predicate-এ বসলে হাইফেন বাদ যায় (The author is well known).",
+      "exampleEn": "The author is well known worldwide (NOT well-known).",
+      "exampleBn": "লেখক বিশ্বজুড়ে সুপরিচিত।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He worked hard, however, he failed. (Comma splice error)",
+      "correct": "He worked hard; however, he failed. (or He worked hard. However, he failed.)",
+      "reasonBn": "দুটি স্বাধীন বাক্যের মাঝে However থাকলে আগে সেমিকোলন বা ফুলস্টপ দিতে হবে।"
+    },
+    {
+      "mistake": "My favorite subjects are: English, Physics, and Math.",
+      "correct": "My favorite subjects are English, Physics, and Math. (or ...subjects are the following: English...)",
+      "reasonBn": "Be verb \"are\"-এর ঠিক পরেই কোলন বসানো ব্যাকরণগতভাবে অশুদ্ধ।"
+    }
+  ],
+  "tags": [
+    "semicolon rules",
+    "colon punctuation",
+    "comma splice fix",
+    "hyphen vs dash",
+    "conjunctive adverbs semicolon",
+    "ssc punctuation"
+  ],
+  "mcqs": [
+    {
+      "id": 210301,
+      "question": "Which of the following sentences utilizes the semicolon and conjunctive adverb correctly?",
+      "questionBn": "কোন বাক্যটিতে সেমিকোলন এবং কনজাংক্টিক অ্যাডভার্বের সঠিক বিরামচিহ্ন ব্যবহৃত হয়েছে?",
+      "options": [
+        "The inflation rate escalated, however, the central bank took no measures.",
+        "The inflation rate escalated; however, the central bank took no measures.",
+        "The inflation rate escalated; however; the central bank took no measures.",
+        "The inflation rate escalated, however; the central bank took no measures."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Transitional Adverb-এর পূর্বে সেমিকোলন (;) এবং পরে কমা (,) বসবে: \"; however, \"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 210302,
+      "question": "Identify the sentence with correct colon usage:",
+      "questionBn": "সঠিক কোলনযুক্ত বাক্যটি চিহ্নিত করো:",
+      "options": [
+        "The three core branches of governance are: the legislature, the executive, and the judiciary.",
+        "The constitution establishes three branches of governance: the legislature, the executive, and the judiciary.",
+        "The constitution establishes: three branches of governance.",
+        "The three core branches of governance: legislature, executive, and judiciary."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "কোলনের পূর্বে একটি ব্যাকরণগতভাবে পূর্ণাঙ্গ বাক্য (\"The constitution establishes three branches of governance\") রয়েছে যা তালিকাকে সূচিত করেছে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 210301,
+      "type": "Semicolon & Colon Insertion",
+      "prompt": "Punctuate appropriately: \"The project was immensely demanding therefore the team worked day and night to accomplish their target they delivered the product on schedule\"",
+      "correctAnswer": "The project was immensely demanding; therefore, the team worked day and night to accomplish their target; they delivered the product on schedule.",
+      "explanationBn": "; therefore, এবং দুটি ক্লজের মাঝে সেমিকোলন প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 210301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Semicolon, colon and hyphen precision in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference between a Hyphen and a Dash in terms of function and length.",
+          "answer": "A Hyphen (-) is the shortest horizontal mark, used to join compound words or prefixes (e.g., \"mother-in-law\", \"co-operate\"). A Dash (—, em-dash) is longer, used within sentences to indicate an abrupt dramatic pause, parenthetical interruption, or appositive emphasis.",
+          "explanationBn": "হাইফেন বনাম ড্যাশের দৈর্ঘ্য ও ব্যাকরণিক কাজের পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১১-এর অত্যন্ত মার্জিত উচ্চতর প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'punctuation-comma-mastery-and-direct-address': {
+  "id": 2102,
+  "chapterId": 21,
+  "topicNo": "০২",
+  "titleEn": "The Master Comma Rules: Serial Lists, Introductory Clauses, FANBOYS & Direct Address",
+  "titleBn": "কমার (Comma) মাস্টার রুলস: তালিকা, প্রারম্ভিক ক্লজ, যৌগিক বাক্য ও সরাসরি সম্বোধনের নিয়ম",
+  "slug": "punctuation-comma-mastery-and-direct-address",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "ইংরেজির সবচেয়ে গুরুত্বপূর্ণ বিরামচিহ্ন কমার ৬টি প্রধান ব্যবহার: ৩ বা ততোধিক শব্দের তালিকায় কমা (Serial/Oxford Comma), বাক্যের শুরুতে Dependent Clause আসলে কমা, FANBOYS দ্বারা দুটি স্বাধীন ক্লজ যুক্ত হলে কমা, সম্বোধন পদে (Vocative), Tag Question-এর পূর্বে, এবং তারিখ ও ঠিকানায় কমা।",
+  "definitionEn": "The comma represents the briefest syntactic pause, organizing serial enumerations, delimiting introductory dependent elements from matrix clauses, separating coordinate independent clauses conjoined by FANBOYS, and setting off vocative direct addresses.",
+  "definitionBn": "বাক্যের ভেতর সবচেয়ে স্বল্পকালীন বিরতি নির্দেশ করার জন্য কমা (,) ব্যবহৃত হয়। এটি বাক্যের অর্থ স্পষ্ট রাখে এবং বিভ্রান্তি দূর করে।",
+  "explanationBn": "কমার প্রধান ৬টি মাস্টার ব্যবহার:\n১. তালিকার উপাদান পৃথকীকরণে (Series of Items):\n- তিন বা ততোধিক শব্দ পাশাপাশি থাকলে: He bought APPLES, ORANGES, BANANAS, AND GRAPES.\n\n২. প্রারম্ভিক ক্লজ বা ফ্রেজের পর (Introductory Clause/Phrase):\n- যদি Subordinate Clause বাক্যের শুরুতে বসে, তবে তার পরে অবশ্যই কমা বসবে: WHEN HE ARRIVED AT THE STATION, the train had already departed. (কিন্তু ক্লজটি শেষে বসলে সাধারণত কমা বসে না: The train had departed when he arrived).\n- প্রারম্ভিক বড় ফ্রেজে: After completing his medical studies in London, he returned home.\n\n৩. FANBOYS দ্বারা স্বাধীন বাক্য সংযোগে (Compound Sentence):\n- দুটি স্বাধীন ক্লজ যখন For, And, Nor, But, Or, Yet, So দিয়ে যুক্ত হয়, তখন কনজাংশনের আগে কমা বসে: The sun was blazing hot, BUT the laborers continued working.\n\n৪. সরাসরি সম্বোধনে (Vocative Case / Direct Address):\n- শ্রোতার নাম বাক্যের যেখানেই থাকুক কমা দিয়ে আলাদা করতে হবে:\n  RAHIM, listen to my advice carefully.\n  Listen to my advice carefully, RAHIM.\n  Listen, RAHIM, to my advice carefully.\n\n৫. ট্যাগ কোশ্চেনের পূর্বে (Before Tag Questions):\n- You are coming, AREN'T YOU?\n\n৬. তারিখ ও ঠিকানায় (Dates & Geographical Names):\n- December 16, 1971. He was born in Sylhet, Bangladesh.",
+  "teacherGoldenTips": "কমার ৩টি সোনার কাঠি:\n১. বাক্য শুরু যদি If, When, Though, Because, As দিয়ে হয় -> মাঝখানে কমা (,) ১০০% বসাতে হবে!\n২. কারোর নাম ধরে ডাকলে (কামাল, এদিকে এসো) -> Kamal, come here (নামের পর কমা)!\n৩. Tag Question বানানোর আগে মূল বাক্যের শেষে অবশ্যই কমা (,) বসাবেন!",
+  "mainFormula": "Introductory Clause / Phrase + COMMA (,) + Main Clause | Independent 1 + , + (and/but/or) + Independent 2 | Direct Address , Action",
+  "formulas": [
+    {
+      "label": "Introductory Dependent Comma",
+      "structure": "(When / If / Though / Because + S + V) , Principal Clause",
+      "tag": "Intro Comma",
+      "example": "If you work with integrity, you will reap honors."
+    },
+    {
+      "label": "Serial / Oxford Comma",
+      "structure": "Item 1 , Item 2 , Item 3 , and Item 4",
+      "tag": "Serial Comma",
+      "example": "He ordered notebooks, pens, erasers, and staplers."
+    },
+    {
+      "label": "Compound Sentence Comma",
+      "structure": "Independent Clause 1 , (FOR/AND/NOR/BUT/OR/YET/SO) + Independent Clause 2",
+      "tag": "FANBOYS Comma",
+      "example": "The hour was late, but the weary scholars read on."
+    },
+    {
+      "label": "Vocative Direct Address",
+      "structure": "Name , Imperative / Sentence OR Sentence , Name",
+      "tag": "Vocative Comma",
+      "example": "Karim, please pass the reference dictionary."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Introductory Dependent Clause-এর পর কমা বনাম শেষে কমা না বসার নিয়ম",
+      "nameEn": "Introductory Adverbial Clause Comma vs Postposed Omission",
+      "formula": "Dependent Clause FIRST -> COMMA (,) + Main Clause | Main Clause FIRST -> NO COMMA + Dependent Clause",
+      "shortcutTrick": "শুরুতে When/If থাকলে মাঝে কমা হবে; কিন্তু শুরুতে Main Clause থাকলে মাঝে কমা হবে না!",
+      "descriptionBn": "\"Although he was tired, he worked\" (কমা বসবে)। কিন্তু \"He worked although he was tired\" (কমা বসবে না)।",
+      "examples": [
+        {
+          "en": "Because the rainfall was inadequate, the agricultural output dwindled.",
+          "bn": "বৃষ্টিপাত অপ্রতুল হওয়ায় কৃষিজ উৎপাদন কমে গিয়েছিল।",
+          "note": "শুরুতে Because থাকায় মাঝে কমা।"
+        },
+        {
+          "en": "The agricultural output dwindled because the rainfall was inadequate.",
+          "bn": "বৃষ্টিপাত অপ্রতুল হওয়ায় কৃষিজ উৎপাদন কমে গিয়েছিল।",
+          "note": "Because মাঝে থাকায় কমা বর্জিত।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সরাসরি সম্বোধনে কমার গুরুত্ব (জীবনের প্রশ্ন!)",
+      "nameEn": "Vocative Comma to Prevent Catastrophic Misinterpretation",
+      "formula": "Sentence , VOCATIVE NAME | VOCATIVE NAME , Sentence",
+      "shortcutTrick": "কমা না দিলে অর্থ বদলে মারাত্মক বিপর্যয় ঘটে! \"Let's eat, grandfather\" বনাম \"Let's eat grandfather\"!",
+      "descriptionBn": "\"Let's eat, grandfather\" মানে দাদাকে খেতে ডাকা; কিন্তু কমা ছাড়া \"Let's eat grandfather\" মানে দাদাকে খেয়ে ফেলা!",
+      "examples": [
+        {
+          "en": "Let us eat, grandfather (Inviting grandfather to eat).",
+          "bn": "চলুন খাই, দাদা।",
+          "note": "সঠিক সম্বোধন কমা।"
+        },
+        {
+          "en": "Friends, Romans, countrymen, lend me your ears.",
+          "bn": "বন্ধুগণ, রোমবাসীগণ, স্বদেশবাসীগণ, আমার কথা শুনুন।",
+          "note": "সম্বোধনে পরপর কমা।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "She packed warm garments, sturdy hiking boots, and a compass for the trek.",
+      "bn": "তিনি অভিযানের জন্য গরম জামাকাপড়, মজবুত হাইকিং বুট এবং একটি কম্পাস ব্যাগে নিলেন।",
+      "note": "তালিকা কমা।"
+    },
+    {
+      "en": "He wanted to attend the conference, but his official leave was declined.",
+      "bn": "তিনি সম্মেলনে অংশ নিতে চেয়েছিলেন, কিন্তু তার প্রাতিষ্ঠানিক ছুটি বাতিল করা হয়েছিল।",
+      "note": "but-এর আগে কমা।"
+    },
+    {
+      "en": "Truth to tell, he was completely oblivious of the impending peril.",
+      "bn": "সত্য বলতে কী, তিনি আসন্ন বিপদ সম্পর্কে সম্পূর্ণ অজ্ঞ ছিলেন।",
+      "note": "Introductory Phrase Comma।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "খুব ছোট প্রারম্ভিক প্রিপজিশনাল ফ্রেজে কমা ঐচ্ছিক",
+      "exceptionText": "বাক্যের শুরুতে যদি মাত্র ২-৩ শব্দের ছোট প্রিপজিশনাল ফ্রেজ থাকে (যেমন: In 1971, At dawn), তবে বিভ্রান্তির ঝুঁকি না থাকলে কমা বাদ দেওয়া যায় (In 1971 Bangladesh gained independence).",
+      "exampleEn": "By morning the storm had abated.",
+      "exampleBn": "সকালের মধ্যে ঝড় শান্ত হয়েছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "When he came I was sleeping. (Omitting comma)",
+      "correct": "When he came, I was sleeping.",
+      "reasonBn": "শুরুতে Subordinate Clause বসলে মূল ক্লজের আগে কমা (,) দেওয়া বাধ্যতামূলক।"
+    },
+    {
+      "mistake": "He ran fast, and won the race. (Compound predicate, not compound sentence)",
+      "correct": "He ran fast and won the race.",
+      "reasonBn": "উভয় পাশে আলাদা Subject না থাকলে And-এর আগে কমা বসবে না।"
+    }
+  ],
+  "tags": [
+    "comma rules",
+    "introductory clause comma",
+    "oxford comma",
+    "fanboys comma",
+    "vocative comma",
+    "lets eat grandfather",
+    "ssc punctuation"
+  ],
+  "mcqs": [
+    {
+      "id": 210201,
+      "question": "Which of the following demonstrates the correct use of the vocative comma in direct address?",
+      "questionBn": "সরাসরি সম্বোধনে কমার সঠিক ব্যবহার নিচের কোন বাক্যে প্রদর্শিত হয়েছে?",
+      "options": [
+        "Rahim bring me that reference manual immediately.",
+        "Rahim, bring me that reference manual immediately.",
+        "Rahim bring, me that reference manual immediately.",
+        "Rahim bring me that reference manual, immediately."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "শ্রোতাকে নাম ধরে সরাসরি সম্বোধন করায় \"Rahim\"-এর ঠিক পরেই কমা বসবে: \"Rahim, bring me...\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 210202,
+      "question": "Identify the sentence punctuated correctly with a coordinating conjunction:",
+      "questionBn": "Coordinating conjunction সহ সঠিক বিরামচিহ্নযুক্ত বাক্য কোনটি?",
+      "options": [
+        "The treasury was completely exhausted yet the monarch refused to levy taxes.",
+        "The treasury was completely exhausted, yet the monarch refused to levy taxes.",
+        "The treasury was completely exhausted yet, the monarch refused to levy taxes.",
+        "The treasury, was completely exhausted yet the monarch refused to levy taxes."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "দুটি পূর্ণাঙ্গ স্বাধীন ক্লজ \"yet\" দ্বারা যুক্ত হওয়ায় কনজাংশনের ঠিক পূর্বে কমা (,) বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 210201,
+      "type": "Comma Insertion Drill",
+      "prompt": "Insert commas correctly: \"Although he had prepared thoroughly for the viva he experienced sudden nervousness Tanvir.\"",
+      "correctAnswer": "Although he had prepared thoroughly for the viva, he experienced sudden nervousness, Tanvir.",
+      "explanationBn": "প্রারম্ভিক ক্লজের পর কমা এবং শেষ সম্বোধন Tanvir-এর আগে কমা।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 210201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Comma boundaries and syntactic rules in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Demonstrate how the omission of a comma drastically alters the meaning in: \"Let us eat, children!\" versus \"Let us eat children!\"",
+          "answer": "With the comma (\"Let us eat, children!\"), \"children\" is in the vocative case being invited to share a meal. Without the comma (\"Let us eat children!\"), \"children\" becomes the direct object of the verb \"eat\", resulting in a grotesque and absurd cannibalistic meaning.",
+          "explanationBn": "কমার অনুপস্থিতিতে অর্থ বিপর্যয়ের ক্লাসিক প্রমাণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি বিরামচিহ্ন শিক্ষার অন্যতম সবচেয়ে জনপ্রিয় ও স্মরণীয় উদাহরণ।",
+      "isVerified": true
+    }
+  ]
+},
+  'punctuation-terminal-marks-and-capitalization': {
+  "id": 2101,
+  "chapterId": 21,
+  "topicNo": "০১",
+  "titleEn": "Terminal Punctuation Marks & Comprehensive Capitalization Rules",
+  "titleBn": "সমাপনী বিরামচিহ্ন (দাঁড়ি, প্রশ্নবোধক, আশ্চর্যবোধক) ও বড় হাতের অক্ষরের (Capitalization) পূর্ণাঙ্গ নিয়ম",
+  "slug": "punctuation-terminal-marks-and-capitalization",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "বাক্যের সমাপ্তি নির্দেশক চিহ্ন: Full Stop (.), Question Mark (?), Exclamation Mark (!)। বড় হাতের অক্ষর (Capital Letters) ব্যবহারের ১১টি সুনির্দিষ্ট নিয়ম: বাক্যের প্রারম্ভ, Proper Nouns, দিন ও মাস, ঐতিহাসিক ঘটনা, পদবি, বইয়ের নাম, একক Pronoun \"I\" এবং সম্বোধনে \"O\"।",
+  "definitionEn": "Terminal punctuation establishes complete syntactic closure through periods (declaratives/imperatives), question marks (interrogatives), and exclamation marks (affective intensity). Capitalization governs the typographical elevation of proper nominals, sentence onsets, and honorifics.",
+  "definitionBn": "বাক্যের পরিসমাপ্তি নির্দেশক চিহ্নগুলোকে Terminal Punctuation বলে। আর বাক্যের প্রথম অক্ষর, নির্দিষ্ট ব্যক্তিনাম, স্থান, বার, মাস ও গুরুত্বপূর্ণ শিরোনাম বড় হাতের অক্ষরে রূপান্তর করার নিয়মকে Capitalization বলে।",
+  "explanationBn": "১. তিনটি প্রধান সমাপনী চিহ্ন:\n- Full Stop (.) বা Period: বর্ণনামূলক (Assertive) ও অনুজ্ঞাবাচক (Imperative) বাক্যের শেষে পূর্ণ বিরতি হিসেবে বসে (He is a student. Please sit down.)। এছাড়া সংক্ষেপণে (A.M., P.M., e.g., Dr.) বসে।\n- Question Mark (?): সরাসরি প্রশ্নবোধক (Direct Question) বাক্যের শেষে বসে (Where do you live? Can you help me?)। পরোক্ষ প্রশ্নে কখনো বসে না।\n- Exclamation Mark (!): তীব্র আনন্দ, দুঃখ, বিস্ময় বা আবেগের শেষে বসে (What a splendid victory! Alas! We are ruined!)।\n\n২. Capitalization-এর ১১টি স্বর্ণালী নিয়ম:\n১. প্রতিটি নতুন বাক্যের প্রথম অক্ষর: Birds fly in the sky.\n২. Proper Noun এবং Proper Adjective: Rahim, Bangladesh, English, Bangladeshi.\n৩. বার (Days) ও মাসের (Months) নাম: Sunday, Friday, January, December (ঋতুর নামে সাধারণ অবস্থায় ছোট হাত হয়: spring, summer)।\n৪. একক সর্বনাম \"I\" (আমি) এবং সম্বোধনে \"O\": Whenever I go there, I meet him. Hear, O Lord!\n৫. বই, সংবাদপত্র, ধর্মীয় গ্রন্থের নাম: The Quran, The Bible, The Daily Star, Hamlet.\n৬. উপাধি ও পদবি (নামের সাথে থাকলে): Prime Minister Sheikh Hasina, President Biden.\n৭. সরাসরি উক্তিতে (Direct Speech) ইনভার্টেড কমার ভেতরের প্রথম অক্ষর: He said, \"HONESTY is the best policy.\"\n৮. ঐতিহাসিক যুগ বা যুদ্ধ: The Second World War, The French Revolution, The Liberation War of 1971.\n৯. জাতির নাম, ভাষার নাম, ধর্ম ও জাতিসত্তা: The Muslims, The Hindus, English, Bengali.\n১০. সৃষ্টিকর্তার নাম ও তাঁর নির্দেশক Pronoun: God, Allah, and HIS divine mercy.\n১১. কবিতার প্রতি চরণের প্রথম অক্ষর প্রথাগতভাবে বড় হাতের হয়।",
+  "teacherGoldenTips": "ক্যাপিটালাইজেশনের ৩টি জরুরি সতর্কতা:\n১. ইংরেজি বর্ণমালায় \"I\" (আমি) একা যেখানেই বসুক না কেন, তা সর্বদা CAPITAL LETTER (বড় হাতের) হবে!\n২. ইনভার্টেড কমা (\"...\") শুরু হলেই ভেতরের প্রথম অক্ষরটি অবশ্যই Capital দিয়ে শুরু করবেন!\n৩. বারের নাম (Monday) ও মাসের নাম (July) বড় হাতের হলেও ঋতুর নাম (winter, summer) ছোট হাতের হয়!",
+  "mainFormula": "Sentence Closure: Assertive/Imperative -> (.) | Question -> (?) | Emotion -> (!) | Proper Nominals / Initial -> CAPITAL",
+  "formulas": [
+    {
+      "label": "Terminal Punctuation Matrix",
+      "structure": "Statement / Command -> . | Direct Question -> ? | Affective Interjection -> !",
+      "tag": "Closure",
+      "example": "He won. Did you see? How marvelous!"
+    },
+    {
+      "label": "Proper Noun Capitalization",
+      "structure": "Name of Person / Place / Language / Nation / Scripture -> Always Capitalized",
+      "tag": "Proper Nominals",
+      "example": "Rabindranath Tagore wrote in Bengali and English."
+    },
+    {
+      "label": "Direct Speech Capitalization",
+      "structure": "Reporting Clause , \"CAPITALIZED first word of direct speech ... \"",
+      "tag": "Direct Speech Onset",
+      "example": "Mother said, \"Work diligently to achieve greatness.\""
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরোক্ষ প্রশ্নে ফুলস্টপ বনাম প্রত্যক্ষ প্রশ্নে প্রশ্নবোধক চিহ্ন",
+      "nameEn": "Direct Question (?) vs Indirect Interrogative Closure (.)",
+      "formula": "Direct Question -> QUESTION MARK (?) | Indirect Reported Question -> FULL STOP (.)",
+      "shortcutTrick": "প্রশ্নটি যদি সরাসরি বক্তা করে তবে (?); আর যদি পরোক্ষভাবে কেউ বলে (He asked me where I lived) তবে ফুলস্টপ (.)!",
+      "descriptionBn": "He asked me what was my name? মারাত্মক ভুল; বলতে হবে \"He asked me what my name was.\"",
+      "examples": [
+        {
+          "en": "Could you please enlighten me regarding this archaeological discovery?",
+          "bn": "আপনি কি দয়া করে এই প্রত্নতাত্ত্বিক আবিষ্কার সম্পর্কে আমাকে জানাবেন?",
+          "note": "সরাসরি প্রশ্ন হওয়ায় (?)।"
+        },
+        {
+          "en": "The officer inquired whether I possessed a valid driving license.",
+          "bn": "কর্মকর্তা জানতে চাইলেন আমার বৈধ ড্রাইভিং লাইসেন্স ছিল কিনা।",
+          "note": "পরোক্ষ প্রশ্ন হওয়ায় ফুলস্টপ (.)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সৃষ্টিকর্তা এবং তাঁর নির্দেশক সর্বনামে Capitalization",
+      "nameEn": "Capitalization of the Deity and Divine Pronouns",
+      "formula": "God / Allah / Lord / The Almighty / Creator + Divine Pronouns (He, Him, His, Thou, Thee)",
+      "shortcutTrick": "আল্লাহ বা ঈশ্বরের নামের পাশাপাশি তাঁর নির্দেশক He, Him, His-ও বড় হাতের হবে!",
+      "descriptionBn": "We pray to God that He in His infinite mercy may forgive our sins.",
+      "examples": [
+        {
+          "en": "Trust in Allah, for He knows what is best for His servants.",
+          "bn": "আল্লাহর ওপর ভরসা রাখো, কারণ তিনি জানেন তাঁর বান্দাদের জন্য কোনটি সর্বোত্তম।",
+          "note": "Allah, He, His বড় হাতের।"
+        },
+        {
+          "en": "The Almighty will shower His divine blessings upon the righteous.",
+          "bn": "সর্বশক্তিমান পরম করুণাময় সৎকর্মশীলদের ওপর তাঁর আশীর্বাদ বর্ষণ করবেন।",
+          "note": "The Almighty, His।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Dr. Muhammad Shahidullah was a distinguished linguist and philologist.",
+      "bn": "ড. মুহম্মদ শহীদুল্লাহ ছিলেন একজন প্রখ্যাত ভাষাবিদ ও পণ্ডিত।",
+      "note": "Dr. এ ফুলস্টপ এবং নামের ক্যাপিটালাইজেশন।"
+    },
+    {
+      "en": "Alas! The noble philanthropist breathed his last this morning.",
+      "bn": "হায়! মহান দানবীর মানুষটি আজ সকালে শেষ নিঃশ্বাস ত্যাগ করলেন।",
+      "note": "Alas! এর পর আশ্চর্যবোধক চিহ্ন।"
+    },
+    {
+      "en": "The historic Liberation War of Bangladesh commenced in March 1971.",
+      "bn": "বাংলাদেশের ঐতিহাসিক মুক্তিযুদ্ধ ১৯৭১ সালের মার্চ মাসে শুরু হয়েছিল।",
+      "note": "ঐতিহাসিক ঘটনা ও মাসের নাম ক্যাপিটাল।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "ঋতুর নাম সাধারণত ছোট হাতের অক্ষরে লেখা হয়",
+      "exceptionText": "বার ও মাসের নাম Capital Letter হলেও চারটি ঋতু (spring, summer, autumn, winter) সাধারণত Personified (মানবরূপ) না করা পর্যন্ত ছোট হাতের অক্ষরে লেখা হয়।",
+      "exampleEn": "We adore the pleasant breeze of spring and autumn.",
+      "exampleBn": "আমরা বসন্ত ও শরতের মনোরম হাওয়া উপভোগ করি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He asked me where did I live?",
+      "correct": "He asked me where I lived.",
+      "reasonBn": "পরোক্ষ প্রশ্নে শেষে প্রশ্নবোধক চিহ্ন বসে না; ফুলস্টপ বসে।"
+    },
+    {
+      "mistake": "whenever i meet him, i feel delighted.",
+      "correct": "Whenever I meet him, I feel delighted.",
+      "reasonBn": "বাক্যের প্রথম অক্ষর এবং সর্বনাম \"I\" সর্বদা বড় হাতের অক্ষরে লিখতে হবে।"
+    }
+  ],
+  "tags": [
+    "punctuation marks",
+    "full stop period",
+    "question mark interrogation",
+    "exclamation mark",
+    "capitalization rules",
+    "proper nouns",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 210101,
+      "question": "Which of the following sentences exhibits completely flawless capitalization and terminal punctuation?",
+      "questionBn": "নিচের কোন বাক্যটিতে সঠিক Capitalization এবং সমাপনী বিরামচিহ্ন ব্যবহৃত হয়েছে?",
+      "options": [
+        "On friday, president Wilson signed the treaty.",
+        "On Friday, President Wilson signed the treaty.",
+        "on Friday, President wilson signed the treaty.",
+        "On Friday, President Wilson signed the treaty?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "বাক্যের শুরুতে \"On\", বারের নাম \"Friday\", পদবি ও নাম \"President Wilson\" এবং শেষে ফুলস্টপ (.) থাকায় ২য় বাক্যটি সম্পূর্ণ নির্ভুল।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 210102,
+      "question": "Identify the sentence with correct punctuation for an indirect question:",
+      "questionBn": "পরোক্ষ প্রশ্নের সঠিক বিরামচিহ্নযুক্ত বাক্যটি চিহ্নিত করো:",
+      "options": [
+        "She asked me why was I late for the meeting?",
+        "She asked me why I was late for the meeting.",
+        "She asked me that why I was late for the meeting.",
+        "She asked me, why I was late for the meeting?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "পরোক্ষ প্রশ্নে এসারটিভ শব্দক্রম (why I was late) বজায় থাকে এবং শেষে ফুলস্টপ (.) বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 210101,
+      "type": "Capitalization & Terminal Marks Drill",
+      "prompt": "Punctuate and capitalize: \"have you read the holy quran or the bible during your stay in london\"",
+      "correctAnswer": "Have you read the Holy Quran or the Bible during your stay in London?",
+      "explanationBn": "Holy Quran, Bible, London এবং শুরুতে Have ও শেষে (?) যুক্ত করা।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 210101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Terminal punctuation and capitalization mechanics in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "State 4 essential situations where capital letters must be employed in English writing.",
+          "answer": "1. The initial letter of every new sentence. 2. Proper nouns and adjectives derived from them (e.g., Bangladesh, Bangladeshi). 3. The pronoun \"I\" and interjection \"O\". 4. The initial letter of direct speech enclosed in quotation marks.",
+          "explanationBn": "ক্যাপিটাল লেটার ব্যবহারের ৪টি প্রধান পরিস্থিতি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১১ (Punctuation)-এর অন্যতম মৌলিক ভিত্তি।",
+      "isVerified": true
+    }
+  ]
+},
+  'connectors-chapter-practice-set': {
+  "id": 2005,
+  "chapterId": 20,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Connectors Practice & SSC Board 5-Mark Passage Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: বাক্য সংযোগকারী পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Connectors Practice)",
+  "slug": "connectors-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 9-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের Connectors প্যাসেজ প্রশ্নব্যাংক। Addition (Moreover), Contrast (However/Although), Cause/Effect (Therefore/Because), Purpose (So that), Condition (Unless) এবং Sequence (Firstly/Finally)-এর সমন্বিত প্যাসেজ ড্রিল।",
+  "definitionEn": "An exhaustive, high-stakes sentence connectors practice module simulating SSC Question 10 discourse linking across cohesive paragraphs, narrative discourses, and argumentative texts.",
+  "definitionBn": "কানেক্টরস অধ্যায়ের সমস্ত প্রকারভেদ, অর্থের সূক্ষ্মতা, বিরামচিহ্ন ও বিগত ১০ বছরের বোর্ড পরীক্ষার হুবহু ৫ নম্বরের প্যাসেজ মডেলের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের প্রশ্ন ১০-এ ৫ নম্বরের মধ্যে ৫ নম্বর নিশ্চিত করতে এই প্র্যাকটিস সেটটি প্রতিটি ছাত্রছাত্রীর জন্য চূড়ান্ত প্রস্তুতি নিশ্চিত করে।",
+  "teacherGoldenTips": "প্যাসেজ কানেক্টরস সমাধানের ৫টি অব্যর্থ টেকনিক:\n১. পুরো প্যাসেজটি আগে অর্থ বুঝে রিডিং পড়ুন!\n২. পূর্ববর্তী বাক্যের সাথে পরবর্তী বাক্যের সম্পর্ক কী (যোগ, বৈপরীত্য, কারণ নাকি ফলাফল) তা নির্ধারণ করুন!\n৩. শুরুতে ফুলস্টপ ও কমা থাকলে: Moreover, However, Therefore, In fact!\n৪. একই বাক্যের ভেতরে থাকলে: So that, Although, Because, While!\n৫. সমাধানের পর পুরো প্যাসেজটি আরেকবার পড়ে দেখুন অর্থ স্বাভাবিক শোনাচ্ছে কি না!",
+  "mainFormula": "Master Connector Flow: Discourse Logic (Addition/Contrast/Causation/Sequence) + Punctuation Cadence (Comma/Period)",
+  "formulas": [
+    {
+      "label": "Universal Connector Taxonomy",
+      "structure": "Addition (Moreover) | Contrast (However) | Cause (Because) | Result (Therefore) | Purpose (So that)",
+      "tag": "Master Taxonomy",
+      "example": "Master taxonomy across all 16 connective categories."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "প্যাসেজ কানেক্টরে পূর্ণ নম্বর পাওয়ার ৫টি সোনালী কৌশল",
+      "nameEn": "Master Strategies for Scoring 5/5 in SSC Passage Connectors",
+      "formula": "Read paragraph context -> Identify transitional vector -> Match structural tier -> Check punctuation comma",
+      "shortcutTrick": "কানেক্টরটি কি দুটি আলাদা বাক্যকে জুড়ছে (Moreover,) নাকি একটি বাক্যের দুটি ক্লজকে জুড়ছে (so that) তা আগে দেখুন!",
+      "descriptionBn": "প্যাসেজে ধারাবাহিক প্রবাহ বজায় রেখে উপযুক্ত সংযোগকারী শব্দ নির্বাচন করা।",
+      "examples": [
+        {
+          "en": "Trees are our best friends. They give us oxygen. Furthermore, they protect us from natural disasters.",
+          "bn": "গাছ আমাদের পরম বন্ধু। তারা আমাদের অক্সিজেন দেয়। অধিকন্তু, তারা আমাদের প্রাকৃতিক দুর্যোগ থেকে রক্ষা করে।",
+          "note": "Furthermore (সংযোজন)।"
+        },
+        {
+          "en": "Some people cut down trees indiscriminately. As a result, the global climate is becoming hostile.",
+          "bn": "কিছু মানুষ নির্বিচারে গাছ কেটে ফেলে। ফলস্বরূপ, বৈশ্বিক জলবায়ু প্রতিকূল হয়ে উঠছে।",
+          "note": "As a result (পরিণাম)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Honesty is a noble virtue. A dishonest man may prosper temporarily; however, he suffers in the long run.",
+      "bn": "সততা একটি মহৎ গুণ। একজন অসৎ ব্যক্তি সাময়িকভাবে সফল হতে পারে; যাই হোক, দীর্ঘমেয়াদে সে ভোগে।",
+      "note": "however (বৈপরীত্য)।"
+    },
+    {
+      "en": "We must cultivate the habit of speaking the truth. Otherwise, nobody will respect our integrity.",
+      "bn": "আমাদের সত্য বলার অভ্যাস গড়ে তুলতে হবে। নতুবা, কেউ আমাদের সততাকে সম্মান করবে না।",
+      "note": "Otherwise (নতুবা)।"
+    },
+    {
+      "en": "Education dispels the darkness of ignorance. In short, it is the backbone of a nation.",
+      "bn": "শিক্ষা অজ্ঞতার অন্ধকার দূর করে। সংক্ষেপে, এটি একটি জাতির মেরুদণ্ড।",
+      "note": "In short (উপসংহার)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "একই প্যাসেজে একই কানেক্টরের পুনরাবৃত্তি বর্জন",
+      "exceptionText": "একই অনুচ্ছেদে বারবার But বা And ব্যবহার না করে বৈচিত্র্যময় কানেক্টরস যেমন However, On the other hand, Moreover, Besides ব্যবহার করলে পরীক্ষকের কাছে রচনার মান বহুগুণ বৃদ্ধি পায়।",
+      "exampleEn": "Use diverse discourse markers rather than repeating \"and\" and \"but\".",
+      "exampleBn": "প্যাসেজে বারবার একই শব্দ ব্যবহার না করে সমার্থক উন্নত কানেক্টরস ব্যবহার করুন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He was punished, because he broke the law.",
+      "correct": "He was punished because he broke the law.",
+      "reasonBn": "Because ক্লজ বাক্যের শেষে বসলে সাধারণত কমা বসে না।"
+    },
+    {
+      "mistake": "Therefore he resigned.",
+      "correct": "Therefore, he resigned.",
+      "reasonBn": "বাক্যের শুরুতে বসা Transitional Adverb-এর পরে কমা (,) দেওয়া আবশ্যক।"
+    }
+  ],
+  "tags": [
+    "connectors practice",
+    "chapter practice set",
+    "ssc 5 marks connectors vault",
+    "passage connectors test",
+    "master discourse linking"
+  ],
+  "mcqs": [
+    {
+      "id": 200501,
+      "question": "Education illuminates our mind. (a) _____, it broadens our outlook on society. (b) _____, an uneducated person remains in darkness.",
+      "questionBn": "অনুচ্ছেদটির (a) এবং (b) শূন্যস্থানে সবচেয়ে উপযুক্ত কানেক্টরস জোড়া কোনটি?",
+      "options": [
+        "(a) Moreover, (b) On the other hand",
+        "(a) However, (b) Therefore",
+        "(a) Therefore, (b) In addition",
+        "(a) Although, (b) Because"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "(a)-তে গুণের সংযোজন ঘটায় \"Moreover\" এবং (b)-তে বিপরীত অবস্থা নির্দেশ করায় \"On the other hand\" সম্পূর্ণ নির্ভুল।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 200502,
+      "question": "Students must prepare systematically for the board examination; _____, they risk forfeiting their academic goals.",
+      "questionBn": "\"Students must prepare systematically for the board examination; _____, they risk forfeiting their academic goals\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "otherwise",
+        "furthermore",
+        "similarly",
+        "in conclusion"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "শর্ত পূরণ না করলে নেতিবাচক পরিণতির সম্ভাবনায় \"otherwise\" (নতুবা) সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 200501,
+      "type": "SSC Board Passage Connectors Model",
+      "prompt": "Fill in the 5 blanks with suitable connectors: \"Mobile phones are very useful. (a) _____, they have revolutionized communication. (b) _____, excessive usage causes severe addiction among teenagers. (c) _____, students waste valuable study hours on social media. (d) _____, radiation impairs their eyesight. (e) _____, we must use this technology with utmost prudence.\"",
+      "correctAnswer": "(a) In fact / Actually / Indeed, (b) However / But, (c) For example / For instance, (d) Moreover / Furthermore / In addition, (e) Therefore / Hence / So",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের আদর্শ প্যাসেজ কানেক্টরস সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 200501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 20 Comprehensive Connectors Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence with an appropriate connector: \"Early rising is beneficial for health. (a) _____ it gives a fresh start to the day.\"",
+          "answer": "Moreover / Furthermore / Besides / In addition",
+          "explanationBn": "স্বাস্থ্যকর অভ্যাসের অতিরিক্ত উপকারিতা যোগ করতে সংযোজক কানেক্টর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১০-এর পূর্ণাঙ্গ মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'connectors-confusing-pairs-mastery': {
+  "id": 2004,
+  "chapterId": 20,
+  "topicNo": "০৪",
+  "titleEn": "Confusing Connector Pairs: Master Discriminations for SSC Examinations",
+  "titleBn": "বিভ্রান্তিকর কানেক্টরস জোড়ার চুলচেরা বিশ্লেষণ (Although vs Despite, Because vs Because of, Besides vs Beside)",
+  "slug": "connectors-confusing-pairs-mastery",
+  "difficulty": "HARD",
+  "classLevel": "Class 9-10 / SSC",
+  "summaryBn": "পরীক্ষায় সবচেয়ে বেশি ভুল হওয়া ৮ জোড়া কানেক্টরসের নিখুঁত পার্থক্য: Although vs Despite, Because vs Because of, So vs Therefore, Besides vs Beside, During vs While, In spite of vs Although, Despite vs Though, Unless vs If not।",
+  "definitionEn": "Syntactic mastery requires navigating pseudo-synonymous connector pairs that differ fundamentally in grammatical category: finite conjunctions versus prepositional heads, coordinating particles versus transitional adverbs.",
+  "definitionBn": "অর্থ প্রায় একই মনে হলেও ব্যাকরণিক গঠন সম্পূর্ণ ভিন্ন এমন বিভ্রান্তিকর কানেক্টরস জোড়ার বিশদ বিশ্লেষণ, যা পরীক্ষায় শিক্ষার্থীদের সর্বোচ্চ বিভ্রান্তিতে ফেলে।",
+  "explanationBn": "৮টি প্রধান বিভ্রান্তিকর জোড়ার চুলচেরা ব্যবচ্ছেদ:\n১. Although বনাম Despite / In spite of:\n- Although-এর পরে CLAUSE (Subject + Verb) বসে: Although he is poor...\n- Despite-এর পরে NOUN PHRASE বসে: Despite his poverty...\n\n২. Because বনাম Because of:\n- Because-এর পর CLAUSE বসে: because it rained.\n- Because of-এর পর NOUN PHRASE বসে: because of rain.\n\n৩. Besides বনাম Beside:\n- Beside (একবচন 's' ছাড়া) = পাশে (He sat beside me).\n- Besides ('s' সহ) = অধিকন্তু / তাছাড়া (Besides English, he speaks French).\n\n৪. During বনাম While:\n- During-এর পর NOUN বসে: during the holiday, during the war.\n- While-এর পর CLAUSE বা V-ing বসে: while I was sleeping, while crossing the street.\n\n৫. Unless বনাম If not:\n- Unless নিজেই নেগেটিভ (Unless you study = If you do not study); Unless-এর ক্লজে আর \"not\" বসানো নিষিদ্ধ।\n\n৬. So বনাম Therefore:\n- So হলো Coordinating Conjunction (কমা দিয়ে একই বাক্যে বসে): He was ill, so he rested.\n- Therefore হলো Transitional Adverb (ফুলস্টপ দিয়ে নতুন বাক্যের শুরুতে কমা সহ বসে): He was ill. Therefore, he rested.",
+  "teacherGoldenTips": "কনফিউজিং পেয়ারস ১ মিনিটের রিভিশন ট্রিক:\n- Verb থাকলে Although / Because / While!\n- Verb না থাকলে (Noun থাকলে) Despite / Because of / During!\n- পাশে হলে Beside; আর অতিরিক্ত কিছু বোঝালে BESIDES!\n- একই বাক্যের মাঝে সো (so); নতুন বাক্যের শুরুতে দেয়ারফোর (Therefore,)!",
+  "mainFormula": "Verb Present -> Conjunction (Although / Because / While) | Noun Present -> Preposition (Despite / Because of / During)",
+  "formulas": [
+    {
+      "label": "Clause vs Phrase Test",
+      "structure": "Conjunction + S + Verb | Preposition + Noun / V-ing (No Verb)",
+      "tag": "Clause vs Phrase",
+      "example": "Because he was ill (Clause) vs Because of his illness (Phrase)."
+    },
+    {
+      "label": "Beside vs Besides",
+      "structure": "BESIDE = By the side of (Place) | BESIDES = In addition to (Additive)",
+      "tag": "Beside/Besides",
+      "example": "Sit beside me. Besides, we must consider the cost."
+    },
+    {
+      "label": "During vs While",
+      "structure": "DURING + Noun (Time window) | WHILE + Subject + Verb (Continuous action)",
+      "tag": "During/While",
+      "example": "During the summer vacation vs While we were holidaying in Cox's Bazar."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Beside (পাশে) বনাম Besides (অধিকন্তু)-এর পার্থক্য",
+      "nameEn": "Spatial \"Beside\" vs Additive Discourse Marker \"Besides\"",
+      "formula": "BESIDE = Next to / By the side of | BESIDES = Furthermore / In addition to",
+      "shortcutTrick": "শেষে 's' থাকলে অতিরিক্ত তথ্য (besides = তাছাড়া); 's' না থাকলে শারীরিক অবস্থান (beside = পাশে)!",
+      "descriptionBn": "He sat beside the fireplace (চুলার পাশে)। Besides teaching, he writes novels (শিক্ষকতার পাশাপাশি)।",
+      "examples": [
+        {
+          "en": "The weeping child walked beside his mother.",
+          "bn": "ক্রন্দনরত শিশুটি তার মায়ের পাশে পাশে হাঁটল।",
+          "note": "beside (পাশে)।"
+        },
+        {
+          "en": "I have no desire to attend the party; besides, I am exhausted.",
+          "bn": "অনুষ্ঠানে যাওয়ার কোনো ইচ্ছা আমার নেই; তাছাড়া, আমি ক্লান্ত।",
+          "note": "besides (তাছাড়া)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "During (Noun) বনাম While (Clause)-এর প্রয়োগ",
+      "nameEn": "Prepositional \"During\" vs Conjunctional \"While\"",
+      "formula": "DURING + Noun Phrase | WHILE + Subject + Verb (Continuous)",
+      "shortcutTrick": "Noun আসলে During; আর Verb আসলে While!",
+      "descriptionBn": "During the concert (কনসার্ট চলাকালে)। While the band was performing (যখন ব্যান্ড সঙ্গীত পরিবেশন করছিল)।",
+      "examples": [
+        {
+          "en": "Many historical discoveries were made during the nineteenth century.",
+          "bn": "উনবিংশ শতাব্দী চলাকালে অনেক ঐতিহাসিক আবিষ্কার সম্পন্ন হয়েছিল।",
+          "note": "during + noun phrase।"
+        },
+        {
+          "en": "He fell asleep while he was reading the lengthy report.",
+          "bn": "দীর্ঘ প্রতিবেদনটি পড়ার সময় সে ঘুমিয়ে পড়ল।",
+          "note": "while + subject + verb।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The match continued despite torrential rain.",
+      "bn": "মুষলধারে বৃষ্টি সত্ত্বেও খেলা অব্যাহত রইল।",
+      "note": "despite + noun phrase।"
+    },
+    {
+      "en": "The match continued although it rained torrentially.",
+      "bn": "যদিও মুষলধারে বৃষ্টি হচ্ছিল, খেলা অব্যাহত রইল।",
+      "note": "although + clause।"
+    },
+    {
+      "en": "Unless you preserve natural resources, the ecosystem will collapse.",
+      "bn": "তোমরা প্রাকৃতিক সম্পদ সংরক্ষণ না করলে বাস্তুতন্ত্র ভেঙে পড়বে।",
+      "note": "Unless = If you do not preserve।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "While-এর পর সরাসরি V-ing বসলে Subject উহ্য থাকে",
+      "exceptionText": "While-এর পর Subject ও Be verb উহ্য রেখে সরাসরি Present Participle (V-ing) বসানো যায়, যেমন: While walking in the garden, he found a coin.",
+      "exampleEn": "Be exceptionally cautious while handling hazardous chemicals.",
+      "exampleBn": "বিপজ্জনক রাসায়নিক নাড়াচাড়া করার সময় অত্যন্ত সতর্ক থাকুন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He sat besides his friend.",
+      "correct": "He sat beside his friend.",
+      "reasonBn": "পাশে বসা অর্থে \"beside\" হবে, besides নয়।"
+    },
+    {
+      "mistake": "During he was studying, the phone rang.",
+      "correct": "While he was studying, the phone rang. (or During his study...)",
+      "reasonBn": "ক্লজের পূর্বে While বসে, During বসে না।"
+    }
+  ],
+  "tags": [
+    "confusing connectors",
+    "although vs despite",
+    "because vs because of",
+    "beside vs besides",
+    "during vs while",
+    "unless vs if not",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 200401,
+      "question": "The foreign delegate sat _____ the president during the bilateral summit.",
+      "questionBn": "\"The foreign delegate sat _____ the president during the bilateral summit\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "besides",
+        "beside",
+        "in addition to",
+        "moreover"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "রাষ্ট্রপতির \"পাশে\" অবস্থান নির্দেশ করায় সঠিক স্থানবাচক Preposition হলো \"beside\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 200402,
+      "question": "_____ the severe economic recession, the technology startup expanded its operations.",
+      "questionBn": "\"_____ the severe economic recession, the technology startup expanded its operations\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Although",
+        "Despite",
+        "Because",
+        "While"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "পরবর্তী অংশটি কোনো ক্লজ নয় বরং Noun Phrase (\"the severe economic recession\") হওয়ায় \"Despite\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 200401,
+      "type": "Connector Discrimination Drill",
+      "prompt": "Fill in the blanks with the correct words: (a) He has two other cars _____ this sedan. (b) The accident occurred _____ the night.",
+      "correctAnswer": "(a) besides, (b) during",
+      "explanationBn": "besides (অতিরিক্ত) এবং during (সময়ে)-এর প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 200401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Confusing connector distinctions in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Transform the sentence using \"Because of\": \"The match was called off because the weather was stormy.\"",
+          "answer": "The match was called off because of stormy weather. (or ...because of the stormy weather.)",
+          "explanationBn": "ক্লজ থেকে ফ্রেজে রূপান্তর করে বিকজ অব-এর প্রয়োগ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১০-এর অত্যন্ত কার্যকর কনসেপচুয়াল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'connectors-cause-effect-purpose-result': {
+  "id": 2003,
+  "chapterId": 20,
+  "topicNo": "০৩",
+  "titleEn": "Connectors of Cause, Effect, Purpose & Result: Because, Therefore, So That & As a Result",
+  "titleBn": "কারণ, ফলাফল, উদ্দেশ্য ও পরিণতির কানেক্টরস: Because, Therefore, So that, In order to ও As a result",
+  "slug": "connectors-cause-effect-purpose-result",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কারণ নির্দেশক: Because, Since, As, Because of, Due to। ফলাফল ও পরিণতি নির্দেশক: Therefore, Thus, Hence, Consequently, As a result, So। উদ্দেশ্য প্রকাশক: So that, In order that, In order to।",
+  "definitionEn": "Causal and consecutive connectors articulate reasons (because, since, as), deduce logical entailments (therefore, thus, consequently), and express prospective targets or intents (so that, in order that).",
+  "definitionBn": "কোনো ঘটনার কারণ (Cause), তার অনিবার্য ফলাফল (Effect/Result) এবং কাজের উদ্দেশ্য (Purpose) প্রকাশ করার জন্য ব্যবহৃত কানেক্টরসসমূহ।",
+  "explanationBn": "৪টি প্রধান শাখা:\n১. কারণ নির্দেশক (Cause / Reason):\n- Because / Since / As (যেহেতু / কারণ - ক্লজ নেয়):\n  He could not attend school BECAUSE he was suffering from acute fever.\n- Because of / Due to / Owing to / On account of (কারণে - ফ্রেজ নেয়):\n  He could not attend school BECAUSE OF his acute fever.\n\n২. ফলাফল ও পরিণতি (Effect / Result / Consequence):\n- Therefore / Consequently / As a result / Thus / Hence (অতএব / ফলস্বরূপ):\n  The factory neglected safety standards. AS A RESULT, a catastrophic fire erupted.\n  He worked with unyielding zeal. THEREFORE, he achieved illustrious triumph.\n\n৩. উদ্দেশ্য প্রকাশক (Purpose):\n- So that / In order that (যাতে / যেন - এরপর can/could/may/might + V1 বসে):\n  Farmers use modern machinery SO THAT they CAN produce surplus food grain.\n- In order to / So as to (উদ্দেশ্যে - এরপর সরাসরি Base Verb V1 বসে):\n  He went to the library IN ORDER TO consult rare manuscripts.",
+  "teacherGoldenTips": "কারণ ও ফলাফলের গোল্ডেন ট্রিক:\n১. যদি আগের বাক্য কারণ হয় এবং পরের বাক্য ফলাফল হয় -> THEREFORE / AS A RESULT / CONSEQUENTLY!\n২. যদি আগের বাক্য ফলাফল হয় এবং পরের বাক্য কারণ হয় -> BECAUSE / AS / SINCE!\n৩. \"যাতে করতে পারে\" (can/could) দেখলে -> SO THAT / IN ORDER THAT!",
+  "mainFormula": "Cause Clause -> SO THAT + S + can/could + V1 | Action . AS A RESULT / THEREFORE , Consequence",
+  "formulas": [
+    {
+      "label": "Causal Formula (Because/Since)",
+      "structure": "Result Clause + BECAUSE / SINCE / AS + Reason Clause",
+      "tag": "Because",
+      "example": "The tournament was abandoned because the pitch was waterlogged."
+    },
+    {
+      "label": "Consecutive Formula (Therefore/Thus)",
+      "structure": "Premise / Action . THEREFORE / CONSEQUENTLY / AS A RESULT , Consequence",
+      "tag": "Therefore",
+      "example": "The irrigation system failed. Consequently, agricultural yield plummeted."
+    },
+    {
+      "label": "Purpose Formula (So that)",
+      "structure": "Main Action + SO THAT / IN ORDER THAT + Subject + CAN / COULD + V1",
+      "tag": "So that",
+      "example": "He worked overtime so that his children could receive tertiary education."
+    },
+    {
+      "label": "Infinitive of Purpose (In order to)",
+      "structure": "Main Action + IN ORDER TO / SO AS TO + Base Verb (V1)",
+      "tag": "In order to",
+      "example": "He migrated to the metropolis in order to seek lucrative employment."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "So that-এর পরে Can / Could বসার আবশ্যকতা",
+      "nameEn": "Mandatory Modal (Can/Could/May/Might) after \"So that\"",
+      "formula": "Present Action + SO THAT + S + CAN / MAY + V1 | Past Action + SO THAT + S + COULD / MIGHT + V1",
+      "shortcutTrick": "শুরুতে Present হলে So that-এর পর can; শুরুতে Past হলে So that-এর পর could!",
+      "descriptionBn": "He works hard so that he can succeed. He worked hard so that he could succeed.",
+      "examples": [
+        {
+          "en": "We eat nutritious food so that we may maintain robust health.",
+          "bn": "আমরা পুষ্টিকর খাবার খাই যাতে আমরা সুস্বাস্থ্য বজায় রাখতে পারি।",
+          "note": "eat (Present) -> may/can maintain।"
+        },
+        {
+          "en": "The soldiers entrenched themselves so that they could repel the sudden ambush.",
+          "bn": "সৈনিকরা পরিখা খনন করল যাতে তারা আকস্মিক আক্রমণ প্রতিহত করতে পারে।",
+          "note": "entrenched (Past) -> could repel।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Therefore বনাম Because-এর বিপরীতমুখী অবস্থান",
+      "nameEn": "Directional Divergence: \"Because\" (Backwards) vs \"Therefore\" (Forwards)",
+      "formula": "Result BECAUSE Reason | Reason . THEREFORE , Result",
+      "shortcutTrick": "কারণ পেছনে থাকলে Because; আর ফলাফল সামনে থাকলে Therefore!",
+      "descriptionBn": "He failed because he was lazy. He was lazy; therefore, he failed.",
+      "examples": [
+        {
+          "en": "The student was unprepared. Therefore, he experienced immense anxiety during the test.",
+          "bn": "শিক্ষার্থীটি অপ্রস্তুত ছিল। অতএব, পরীক্ষার সময় সে তীব্র উৎকণ্ঠা বোধ করল।",
+          "note": "Therefore (ফলাফল নির্দেশক)।"
+        },
+        {
+          "en": "He experienced immense anxiety because he was unprepared.",
+          "bn": "সে তীব্র উৎকণ্ঠা বোধ করল কারণ সে অপ্রস্তুত ছিল।",
+          "note": "because (কারণ নির্দেশক)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Because of heavy fog on the runway, several international flights were diverted.",
+      "bn": "রানওয়েতে ঘন কুয়াশার কারণে কয়েকটি আন্তর্জাতিক ফ্লাইট অন্য বিমানবন্দরে অবতরণ করানো হলো।",
+      "note": "Because of + Noun Phrase।"
+    },
+    {
+      "en": "The river was contaminated with industrial toxins; thus, aquatic life died in droves.",
+      "bn": "নদীটি শিল্পবর্জ্যে দূষিত হয়েছিল; এভাবে জলজ প্রাণীরা দলে দলে মারা গেল।",
+      "note": "thus (এভাবে/ফলস্বরূপ)।"
+    },
+    {
+      "en": "He spoke softly in order not to awaken the sleeping infant.",
+      "bn": "ঘুমন্ত শিশুকে যেন না জাগিয়ে তোলেন সেই উদ্দেশ্যে তিনি মৃদুস্বরে কথা বললেন।",
+      "note": "in order not to + V1।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Due to-র ঐতিহ্যবাহী ব্যবহার Be Verb-এর পরে",
+      "exceptionText": "প্রথাগত ব্যাকরণে Due to একটি Adjective হিসেবে Be Verb-এর পর বসে (His failure was due to laziness), আর বাক্যের শুরুতে Adverb হিসেবে Because of বা Owing to বসা অধিক প্রমিত।",
+      "exampleEn": "The accident was due to brake failure. (Because of brake failure, the car crashed).",
+      "exampleBn": "দুর্ঘটনাটি ব্রেক বিকল হওয়ার কারণে ঘটেছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He worked hard so that he can passed.",
+      "correct": "He worked hard so that he could pass.",
+      "reasonBn": "Worked অতীতে থাকায় could এবং মডালের পর মূল ভার্বের Base form (pass) হবে।"
+    },
+    {
+      "mistake": "Because he was ill, so he could not come.",
+      "correct": "Because he was ill, he could not come. (or He was ill, so he could not come.)",
+      "reasonBn": "Because এবং So কখনো একই বাক্যে একসাথে বসে না।"
+    }
+  ],
+  "tags": [
+    "connectors of cause",
+    "therefore thus hence",
+    "so that can could",
+    "in order to",
+    "as a result",
+    "because of due to",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 200301,
+      "question": "The young athlete trained relentlessly under Olympic coaches _____ he could secure the gold medal.",
+      "questionBn": "\"The young athlete trained relentlessly under Olympic coaches _____ he could secure the gold medal\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "so that",
+        "because",
+        "although",
+        "in order to"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "পরবর্তী অংশে উদ্দেশ্য ও সামর্থ্য (\"he could secure\") নির্দেশ করায় \"so that\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 200302,
+      "question": "The dam burst under unprecedented monsoon deluge. _____, the entire lowland was submerged.",
+      "questionBn": "\"The dam burst under unprecedented monsoon deluge. _____, the entire lowland was submerged\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Consequently",
+        "However",
+        "Furthermore",
+        "Nevertheless"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "বাঁধ ভেঙে যাওয়ার অনিবার্য ফলাফল প্রকাশ করায় \"Consequently\" (ফলস্বরূপ / পরিণামে) সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 200301,
+      "type": "Causal Connector Insertion",
+      "prompt": "Fill in the blank: \"Deforestation destroys the natural habitats of wild animals. _____, many endangered species are facing imminent extinction.\"",
+      "correctAnswer": "Therefore / As a result / Consequently / For this reason",
+      "explanationBn": "পরিণতি ও ফলাফল প্রকাশক কানেক্টর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 200301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Causal and result linkers in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference between \"So that\" and \"In order to\" with examples.",
+          "answer": "\"So that\" is a conjunction followed by a full subordinate clause containing a modal auxiliary (\"He ran so that he could catch the train\"). \"In order to\" is a prepositional infinitive marker followed directly by a base verb (\"He ran in order to catch the train\").",
+          "explanationBn": "সো দ্যাট বনাম ইন অর্ডার টু-র ব্যাকরণিক তফাত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১০-এর অন্যতম নিয়মিত আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'connectors-contrast-concession-adversative': {
+  "id": 2002,
+  "chapterId": 20,
+  "topicNo": "০২",
+  "titleEn": "Connectors of Contrast & Concession: However, Nevertheless, Although & Despite",
+  "titleBn": "বৈপরীত্য ও ছাড়সূচক কানেক্টরস: However, Nevertheless, On the contrary, Although ও Despite",
+  "slug": "connectors-contrast-concession-adversative",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "বিপরীত ভাব প্রকাশকারী কানেক্টরস। স্বাধীন বাক্যের সংযোগে: But, However, Nevertheless, On the other hand, On the contrary, Still, Yet। একই বাক্যের দুটি ক্লজ জোড়ায়: Although, Though, Even though (ক্লজ সহ) বনাম Despite, In spite of (ফ্রেজ সহ)।",
+  "definitionEn": "Adversative and concessive connectors signal unexpected divergence, ideological conflict, or antithetical outcomes between adjoining propositions, operating either as sentence conjuncts (however, nevertheless) or subordinators (although, despite).",
+  "definitionBn": "দুটি পরস্পরবিরোধী বা অপ্রত্যাশিত বক্তব্যকে যুক্ত করার জন্য যে কানেক্টরস ব্যবহৃত হয় তাকে Adversative বা Concessive Connectors বলে।",
+  "explanationBn": "২টি প্রধান ব্যাকরণিক দল:\n১. বাক্য-সংযোজক বৈপরীত্য (Sentence-level Contrast):\n- However / Nevertheless (যাই হোক / তা সত্ত্বেও):\n  He studied with relentless dedication. HOWEVER, he failed to secure the first rank.\n- On the other hand / In contrast (পক্ষান্তরে):\n  The eldest son was exceptionally frugal. ON THE OTHER HAND, the younger son squandered wealth recklessly.\n- On the contrary (বরং / উল্টো - আগের নেতিবাচক ধারণার বিপরীতে):\n  He is not our adversary. ON THE CONTRARY, he is our staunchest ally.\n\n২. ক্লজ ও ফ্রেজ পর্যায়ের বৈপরীত্য (Clause vs Phrase Level):\n- Although / Though / Even though (যদিও):\n  এদের পরে সর্বদা একটি পূর্ণাঙ্গ ক্লজ (Subject + Verb) বসে:\n  ALTHOUGH he was severely injured, he crossed the finish line.\n- Despite / In spite of (সত্ত্বেও):\n  এদের পরে কোনো Finite Verb বসে না; Noun Phrase বা V-ing বসে:\n  DESPITE severe injury, he crossed the finish line (or Despite being injured).",
+  "teacherGoldenTips": "বৈপরীত্যের ৩টি সোনার কাঠি:\n১. আগের বাক্য পজিটিভ কিন্তু পরের বাক্য নেগেটিভ (বা উল্টো)? চোখ বন্ধ করে BUT বা HOWEVER বসবে!\n২. যদি পরে Subject + Verb থাকে তবে ALTHOUGH / THOUGH!\n৩. যদি পরে কোনো Verb না থেকে শুধুই Noun বা V-ing থাকে তবে IN SPITE OF / DESPITE!",
+  "mainFormula": "Positive Sentence . HOWEVER / NEVERTHELESS , Negative Outcome | ALTHOUGH + S + V , Result | DESPITE + Noun , Result",
+  "formulas": [
+    {
+      "label": "Sentence Conjunct However",
+      "structure": "Sentence A . HOWEVER / NEVERTHELESS , Unexpected Sentence B",
+      "tag": "However",
+      "example": "The weather forecast predicted torrential storm. However, the day remained sunny."
+    },
+    {
+      "label": "Subordinating Concession",
+      "structure": "ALTHOUGH / THOUGH + Subject + Verb , Principal Clause",
+      "tag": "Although Clause",
+      "example": "Although the voyage was hazardous, the explorers persevered."
+    },
+    {
+      "label": "Prepositional Concession",
+      "structure": "DESPITE / IN SPITE OF + Noun Phrase / V-ing , Principal Clause",
+      "tag": "Despite Phrase",
+      "example": "Despite immense hardship, the family maintained their dignity."
+    },
+    {
+      "label": "Polar Contrast (On the contrary)",
+      "structure": "Negative Assertion . ON THE CONTRARY , Opposite Reality",
+      "tag": "On the contrary",
+      "example": "He is not timid. On the contrary, he is exceptionally fearless."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Although (ক্লজ) বনাম Despite (ফ্রেজ)-এর রূপান্তর ও পার্থক্য",
+      "nameEn": "Structural Contrast: \"Although + Clause\" vs \"Despite + Phrase\"",
+      "formula": "ALTHOUGH + Subject + Verb | DESPITE / IN SPITE OF + Noun Phrase (NO VERB)",
+      "shortcutTrick": "ভার্ব থাকলে Although, আর ভার্ব না থাকলে Despite!",
+      "descriptionBn": "Although he was poor (was হলো Verb)। Despite his poverty (his poverty হলো Noun Phrase)। Despite of বলা চরম ভুল।",
+      "examples": [
+        {
+          "en": "Although he ran with lightning speed, he could not overtake the leader.",
+          "bn": "যদিও সে বিদ্যুতগতিতে দৌড়েছিল, সে দলনেতাকে অতিক্রম করতে পারল না।",
+          "note": "ran (Verb) থাকায় Although।"
+        },
+        {
+          "en": "Despite running with lightning speed, he could not overtake the leader.",
+          "bn": "বিদ্যুতগতিতে দৌড়ানো সত্ত্বেও সে দলনেতাকে অতিক্রম করতে পারল না।",
+          "note": "running (V-ing) থাকায় Despite।"
+        }
+      ]
+    },
+    {
+      "nameBn": "However বনাম On the other hand-এর সঠিক প্রয়োগ",
+      "nameEn": "\"However\" (Concession) vs \"On the other hand\" (Two-sided comparison)",
+      "formula": "HOWEVER = Unexpected paradox | ON THE OTHER HAND = Weighing two contrasting perspectives",
+      "shortcutTrick": "অপ্রত্যাশিত ফলাফলে However; আর দুটি দিকের তুলনায় On the other hand!",
+      "descriptionBn": "I wanted to travel. However, my flight was canceled (অপ্রত্যাশিত বাধা)। City life offers modern amenities. On the other hand, village life offers peace (দুপক্ষের তুলনা)।",
+      "examples": [
+        {
+          "en": "The project received extensive funding. However, the technical implementation stalled.",
+          "bn": "প্রকল্পটি ব্যাপক অর্থায়ন পেয়েছিল। যাই হোক, প্রযুক্তিগত বাস্তবায়ন স্থবির হয়ে পড়েছিল।",
+          "note": "বাধা বা প্যারাডক্স।"
+        },
+        {
+          "en": "Nuclear power provides massive clean energy. On the other hand, radioactive waste disposal remains perilous.",
+          "bn": "পারমাণবিক শক্তি বিপুল পরিচ্ছন্ন জ্বালানি দেয়। পক্ষান্তরে, তেজস্ক্রিয় বর্জ্য নিষ্কাশন ঝুঁকিপূর্ণ রয়ে গেছে।",
+          "note": "দুই দিকের তুলনা।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He had not reviewed the lecture notes. Nevertheless, he answered all conceptual questions flawlessly.",
+      "bn": "তিনি লেকচার নোট রিভিশন দেননি। তা সত্ত্বেও, তিনি সমস্ত ধারণাগত প্রশ্নের নির্ভুল উত্তর দিয়েছিলেন।",
+      "note": "Nevertheless (তা সত্ত্বেও)।"
+    },
+    {
+      "en": "In spite of the adverse economic climate, our export revenues expanded.",
+      "bn": "প্রতিকূল অর্থনৈতিক পরিস্থিতি সত্ত্বেও আমাদের রপ্তানি আয় বৃদ্ধি পেয়েছিল।",
+      "note": "In spite of + Noun Phrase।"
+    },
+    {
+      "en": "The medicine is bitter in taste, yet it cures chronic infection rapidly.",
+      "bn": "ওষুধটি খেতে তিক্ত, তবুও এটি দীর্ঘস্থায়ী সংক্রমণ দ্রুত নিরাময় করে।",
+      "note": "yet (তবুও)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Despite-এর পরে কখনোই \"of\" বসে না",
+      "exceptionText": "In spite-এর সাথে \"of\" বসলেও Despite-এর সাথে কখনোই \"of\" বসানো যাবে না (Despite of his poverty সম্পূর্ণ অশুদ্ধ; শুদ্ধ হলো Despite his poverty অথবা In spite of his poverty).",
+      "exampleEn": "Despite heavy snowfall, schools remained open (NOT Despite of heavy snowfall).",
+      "exampleBn": "প্রবল তুষারপাত সত্ত্বেও বিদ্যালয়গুলো খোলা ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Despite of working hard, he failed.",
+      "correct": "Despite working hard, he failed. (or In spite of working hard...)",
+      "reasonBn": "Despite-এর পর কখনো \"of\" বসে না।"
+    },
+    {
+      "mistake": "Although he was poor, but he was honest.",
+      "correct": "Although he was poor, he was honest.",
+      "reasonBn": "Although এবং But কখনো একই বাক্যে একসাথে বসে না (ডাবল কনজাংশন ত্রুটি)।"
+    }
+  ],
+  "tags": [
+    "connectors of contrast",
+    "however nevertheless",
+    "although vs despite",
+    "in spite of",
+    "on the other hand",
+    "on the contrary",
+    "ssc connectors"
+  ],
+  "mcqs": [
+    {
+      "id": 200201,
+      "question": "The mountaineers encountered ferocious blizzards near the summit. _____, they succeeded in hoisting the flag.",
+      "questionBn": "\"The mountaineers encountered ferocious blizzards near the summit. _____, they succeeded in hoisting the flag\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Therefore",
+        "Nevertheless",
+        "Furthermore",
+        "Consequently"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ভয়াবহ প্রতিকূলতা সত্ত্বেও চূড়ান্ত সাফল্য অর্জন করায় Concessive Connector হিসেবে \"Nevertheless\" (তা সত্ত্বেও) সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 200202,
+      "question": "_____ possessing formidable talent, he lacked the emotional discipline necessary for elite competition.",
+      "questionBn": "\"_____ possessing formidable talent, he lacked the emotional discipline necessary for elite competition\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "Although",
+        "Despite",
+        "However",
+        "Though"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "পরবর্তী অংশটি কোনো পূর্ণাঙ্গ ক্লজ নয়, বরং V-ing ফ্রেজ (\"possessing formidable talent\") হওয়ায় \"Despite\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 200201,
+      "type": "Contrast Connector Insertion",
+      "prompt": "Fill in the blank with a contrast connector: \"He is extraordinarily affluent. _____, he leads an astonishingly austere life.\"",
+      "correctAnswer": "However / Nevertheless / Yet / Still",
+      "explanationBn": "বিপরীতধর্মী ফলাফল প্রকাশে হাভার বা নেভারদলেস।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 200201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Adversative and concessive linking in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"Although he was ill, but he attended the class\" is ungrammatical.",
+          "answer": "Because \"Although\" is a subordinating conjunction creating a dependent clause, and \"but\" is a coordinating conjunction linking independent clauses. Using both creates an ungrammatical double-conjunction clash. Correction: \"Although he was ill, he attended the class.\"",
+          "explanationBn": "অলদো এবং বাট একসাথে না বসার ব্যাকরণিক কারণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১০ (Connectors)-এর বহুল আলোচিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'connectors-addition-sequence-illustration': {
+  "id": 2001,
+  "chapterId": 20,
+  "topicNo": "০১",
+  "titleEn": "Sentence Connectors: Addition, Numerical Sequence & Illustration",
+  "titleBn": "বাক্য সংযোগকারী: সংযোজন, ধারাবাহিক ক্রম ও দৃষ্টান্তমূলক কানেক্টরস",
+  "slug": "connectors-addition-sequence-illustration",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 9-10 / SSC",
+  "summaryBn": "তথ্য যোগ করার কানেক্টরস: Moreover, Furthermore, In addition, Besides, Not only...but also। অনুচ্ছেদের ক্রম বজায় রাখা: First/Firstly, Secondly, Then, Next, Finally। উদাহরণ ও দৃষ্টান্ত স্থাপন: For example, For instance, Such as, Namely। জোর প্রদান: In fact, Indeed।",
+  "definitionEn": "Sentence connectors (discourse markers) establish logical relations between sentences or paragraphs. Additive connectors append corroborative points, sequential markers establish chronological cadence, and illustrative markers introduce exemplification.",
+  "definitionBn": "একটি বাক্যের সাথে পূর্ববর্তী বা পরবর্তী বাক্যের অর্থের যৌক্তিক সম্পর্ক (Logical Link) স্থাপনকারী শব্দ বা শব্দগুচ্ছকে Sentence Connectors বা Linkers বলে। সংযোজন, অনুক্রম ও দৃষ্টান্ত প্রকাশে এরা অন্যতম কার্যকর ভূমিকা পালন করে।",
+  "explanationBn": "৩টি প্রধান শ্রেণিবিভাগ:\n১. সংযোজনমূলক কানেক্টরস (Connectors of Addition):\n- একই ভাবধারার নতুন তথ্য বা যুক্তি যোগ করতে ব্যবহৃত হয়:\n- Moreover / Furthermore (অধিকন্তু / তাছাড়া):\n  He is an extraordinarily brilliant student. MOREOVER, he possesses exemplary moral character.\n- In addition / Besides / Also (তাছাড়া / পাশাপাশি):\n  Reading books enriches our vocabulary. BESIDES, it expands our mental horizon.\n- Not only ... but also (শুধু এটিই নয় ... ওটিও):\n  He is not only a gifted orator but also a versatile writer.\n\n২. ধারাবাহিক ক্রম ও অনুক্রম (Sequence / Ordering):\n- কোনো প্রক্রিয়া বা প্রবন্ধের ধাপ সাজাতে:\n- Firstly / First of all -> Secondly -> Then / Next -> Finally / At last / In the end.\n\n৩. দৃষ্টান্ত ও উদাহরণ (Illustration / Exemplification):\n- For example / For instance (বাক্যের শুরুতে কমা সহ বসে):\n  Many animals are on the verge of extinction. FOR EXAMPLE, the Royal Bengal Tiger faces severe habitat loss.\n- Such as (বাক্যের মাঝখানে উদাহরণের তালিকায় বসে, এর পর কমা হয় না):\n  Citrus fruits such as oranges and lemons are rich in vitamin C.\n\n৪. গুরুত্ব বা জোর প্রদান (Emphasis):\n- In fact / Indeed / Actually (প্রকৃতপক্ষে / বস্তুত):\n  He seemed indifferent. IN FACT, he was deeply perturbed.",
+  "teacherGoldenTips": "কানেক্টরস সমাধানের গোপন ট্রিক:\n১. আগের বাক্যটির সাথে পরের বাক্যটির মেজাজ দেখুন: আগের বাক্য যদি ভালো গুণ বলে এবং পরের বাক্যও আরও ভালো গুণ বলে, তবে বসবে MOREOVER / FURTHERMORE / IN ADDITION!\n২. উদাহরণ দিলে শুরুতে FOR EXAMPLE / FOR INSTANCE, আর মাঝে বসলে SUCH AS!\n৩. প্রবন্ধের শুরু হলে FIRSTLY, শেষ পয়েন্ট হলে FINALLY!",
+  "mainFormula": "Positive Point 1 + . + MOREOVER / FURTHERMORE + , + Positive Point 2 | Concept + . + FOR EXAMPLE + , + Example",
+  "formulas": [
+    {
+      "label": "Additive Formula (Moreover/Furthermore)",
+      "structure": "Statement A . MOREOVER / FURTHERMORE , Statement B (supplementary reinforcement)",
+      "tag": "Additive",
+      "example": "Smoking is injurious to health. Moreover, it is a colossal waste of financial resources."
+    },
+    {
+      "label": "Sequential Triad",
+      "structure": "FIRSTLY / FIRST OF ALL , ... SECONDLY , ... FINALLY / AT LAST , ...",
+      "tag": "Sequential",
+      "example": "Firstly, gather raw data. Secondly, analyze patterns. Finally, draw conclusions."
+    },
+    {
+      "label": "Illustrative Formula",
+      "structure": "General Principle . FOR INSTANCE / FOR EXAMPLE , Specific Demonstration",
+      "tag": "Illustrative",
+      "example": "Many nations excel in renewable energy. For instance, Denmark generates immense wind power."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Moreover বনাম Furthermore-এর ব্যবহার ও কমার নিয়ম",
+      "nameEn": "Punctuation and Syntax of Sentence-Initial Additive Connectors",
+      "formula": "Sentence 1 . MOREOVER / FURTHERMORE / IN ADDITION , Sentence 2",
+      "shortcutTrick": "ফুলস্টপের পর বড় হাতের অক্ষরে শুরু হবে এবং কানেক্টরের ঠিক পরেই একটি কমা (,) বসবে!",
+      "descriptionBn": "নতুন বাক্যের শুরুতে বসলে Moreover-এর পরে কমা বাধ্যতামূলক।",
+      "examples": [
+        {
+          "en": "The applicant possesses extensive corporate experience. Furthermore, he is fluent in four languages.",
+          "bn": "আবেদনকারীর ব্যাপক প্রাতিষ্ঠানিক অভিজ্ঞতা রয়েছে। অধিকন্তু, তিনি চারটি ভাষায় সাবলীল।",
+          "note": "Furthermore, + বাক্য।"
+        },
+        {
+          "en": "Regular physical exercise strengthens the cardiovascular system. In addition, it alleviates mental stress.",
+          "bn": "নিয়মিত শরীরচর্চা হৃদযন্ত্রকে শক্তিশালী করে। তাছাড়া, এটি মানসিক চাপ কমায়।",
+          "note": "In addition, + বাক্য।"
+        }
+      ]
+    },
+    {
+      "nameBn": "For example বনাম Such as-এর ব্যাকরণিক পার্থক্য",
+      "nameEn": "Syntax: \"For example\" (Independent) vs \"Such as\" (Prepositional)",
+      "formula": "Sentence . FOR EXAMPLE , Example Sentence | Noun Phrase + SUCH AS + Noun 1 , Noun 2",
+      "shortcutTrick": "নতুন বাক্যের শুরুতে বসলে For example; আর একই বাক্যের ভেতরে উদাহরণ তালিকা হলে Such as!",
+      "descriptionBn": "He likes indoor games such as chess and carrom (একই বাক্যের ভেতর)। He likes games. For example, he plays chess daily (নতুন বাক্য)।",
+      "examples": [
+        {
+          "en": "Many Asian countries have achieved phenomenal economic growth, such as Vietnam and Singapore.",
+          "bn": "অনেক এশীয় দেশ অসাধারণ অর্থনৈতিক প্রবৃদ্ধি অর্জন করেছে, যেমন ভিয়েতনাম ও সিঙ্গাপুর।",
+          "note": "such as + তালিকা।"
+        },
+        {
+          "en": "Renewable resources are inexhaustible. For example, solar radiation is abundant in tropical zones.",
+          "bn": "নবায়নযোগ্য সম্পদ অফুরন্ত। উদাহরণস্বরূপ, ক্রান্তীয় অঞ্চলে সৌর বিকিরণ প্রচুর।",
+          "note": "For example, + পূর্ণ বাক্য।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The curriculum offers comprehensive theoretical foundations. Besides, students receive hands-on laboratory training.",
+      "bn": "পাঠ্যক্রমটি পূর্ণাঙ্গ তাত্ত্বিক ভিত্তি প্রদান করে। তাছাড়া, শিক্ষার্থীরা হাতে-কলমে ল্যাবরেটরি প্রশিক্ষণ পায়।",
+      "note": "Besides, (তাছাড়া)।"
+    },
+    {
+      "en": "First of all, clarify your academic priorities; then allocate your study hours accordingly.",
+      "bn": "সর্বপ্রথম, তোমার প্রাতিষ্ঠানিক অগ্রাধিকার স্পষ্ট করো; তারপর সে অনুযায়ী পড়ার সময় বরাদ্দ করো।",
+      "note": "First of all ... then।"
+    },
+    {
+      "en": "He seemed completely nonchalant about the crisis. Indeed, he had anticipated every contingency.",
+      "bn": "সংকট সম্পর্কে তাকে সম্পূর্ণ উদাসীন মনে হয়েছিল। বস্তুত, তিনি প্রতিটি সম্ভাব্য পরিস্থিতি আগে থেকেই আঁচ করেছিলেন।",
+      "note": "Indeed (বস্তুত)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Also বাক্যের শুরুতে বসে না (অনানুষ্ঠানিক ব্যতীত)",
+      "exceptionText": "প্রমিত আনুষ্ঠানিক ইংরেজিতে নতুন বাক্য শুরু করতে \"Also,\" ব্যবহার না করে Moreover, Furthermore বা In addition ব্যবহার করা শ্রেয়।",
+      "exampleEn": "He is diligent; moreover, he is exceptionally creative (Prefer over \"Also, he is creative\").",
+      "exampleBn": "তিনি পরিশ্রমী; অধিকন্তু, তিনি অসাধারণ সৃষ্টিশীল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He likes citrus fruits for example lemons.",
+      "correct": "He likes citrus fruits, such as lemons. (or ...fruits. For example, he likes lemons.)",
+      "reasonBn": "বাক্যের মাঝে উদাহরণের পূর্বে such as বসবে, for example নয়।"
+    },
+    {
+      "mistake": "Moreover he is honest. (Omitting comma)",
+      "correct": "Moreover, he is honest.",
+      "reasonBn": "বাক্যের শুরুতে বসা কানেক্টরের পর কমা (,) দেওয়া বাধ্যতামূলক।"
+    }
+  ],
+  "tags": [
+    "connectors of addition",
+    "moreover furthermore",
+    "sequence connectors",
+    "for example such as",
+    "firstly secondly finally",
+    "ssc english 2nd paper"
+  ],
+  "mcqs": [
+    {
+      "id": 200101,
+      "question": "He is thoroughly proficient in software architecture. _____, his interpersonal communication skills are exemplary.",
+      "questionBn": "\"He is thoroughly proficient in software architecture. _____, his interpersonal communication skills are exemplary\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Moreover",
+        "However",
+        "Therefore",
+        "Otherwise"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "উভয় বাক্যেই প্রার্থীর ইতিবাচক গুণের সংযোজন ঘটায় Additive Connector হিসেবে \"Moreover\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 200102,
+      "question": "We should protect endangered wildlife species _____ the Bengal tiger and the Asian elephant.",
+      "questionBn": "\"We should protect endangered wildlife species _____ the Bengal tiger and the Asian elephant\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "such as",
+        "for example",
+        "moreover",
+        "namely as"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "বাক্যের ভেতরে উদাহরণের তালিকা নির্দেশ করতে \"such as\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 200101,
+      "type": "Additive Connector Insertion",
+      "prompt": "Fill in the blank with a suitable connector: \"Tree plantation maintains ecological balance. _____, it prevents catastrophic soil erosion.\"",
+      "correctAnswer": "Moreover / Furthermore / In addition / Besides",
+      "explanationBn": "একই ধারার বাড়তি গুণ যোগ করতে সংযোজক কানেক্টর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 200101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Additive and illustrative connectors in SSC passage linking:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between the syntactic positions of \"For instance\" and \"Such as\".",
+          "answer": "\"For instance\" typically begins an independent sentence preceded by a period and followed by a comma (\"For instance, ...\"). \"Such as\" functions prepositionally inside a clause to introduce noun examples without a following comma.",
+          "explanationBn": "ফর ইনস্ট্যান্স বনাম সাচ অ্যাজ-এর প্রয়োগ পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১০ (Connectors)-এর অন্যতম সবচেয়ে কমন বিষয়।",
+      "isVerified": true
+    }
+  ]
+},
+  'phrase-clause-chapter-practice-set': {
+  "id": 1905,
+  "chapterId": 19,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Phrase & Clause Practice & Structural Analysis Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: শব্দগুচ্ছ ও বাক্যাংশ পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Phrase & Clause Practice)",
+  "slug": "phrase-clause-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 19-এর সম্পূর্ণ সমন্বিত প্র্যাকটিস সেট। Noun/Adj/Adv Phrases, Verbal Phrases (Infinitive, Gerund, Participle), Noun Clauses, Relative Clauses, Adverbial Clauses এবং Clause Reduction-এর পূর্ণাঙ্গ বোর্ড স্ট্যান্ডার্ড প্রশ্নব্যাংক।",
+  "definitionEn": "An integrated chapter practice set assessing syntactic mastery over phrase taxonomies, subordinate clause typologies, relative restrictiveness, and structural phrase-clause reductions.",
+  "definitionBn": "ফ্রেজ ও ক্লজ অধ্যায়ের সমস্ত প্রকারভেদ, গঠনগত ব্যবচ্ছেদ, রূপান্তর ও বিগত ১০ বছরের বোর্ড প্রশ্নের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি ও এইচএসসি উভয় স্তরেই ইংরেজি বাক্য ব্যবচ্ছেদ ও রাইট ফর্ম অব ভার্বস বোঝার জন্য এই প্র্যাকটিস সেটটি অত্যন্ত অপরিহার্য।",
+  "teacherGoldenTips": "ফ্রেজ বনাম ক্লজ ৩ মিনিটের চূড়ান্ত ট্রিক:\n১. যদি শব্দগুচ্ছে FINITE VERB থাকে -> সেটি CLAUSE!\n২. যদি শব্দগুচ্ছে FINITE VERB না থাকে -> সেটি PHRASE!\n৩. \"It\" দিয়ে প্রতিস্থাপন করা গেলে -> Noun Phrase/Clause!\n৪. Noun-এর গুণ প্রকাশ করলে -> Adjective Phrase/Clause!\n৫. কখন/কোথায়/কেন/কীভাবে প্রশ্নের উত্তর দিলে -> Adverb Phrase/Clause!",
+  "mainFormula": "Master Syntax Divider: Finite Verb Present = CLAUSE | Finite Verb Absent = PHRASE | Function = Noun, Adjective, or Adverb",
+  "formulas": [
+    {
+      "label": "Phrase vs Clause Distinction",
+      "structure": "Group of Words + NO Finite Verb = PHRASE | Group of Words + FINITE VERB = CLAUSE",
+      "tag": "Core Distinction",
+      "example": "In the morning (Phrase) vs When morning arrived (Clause)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষায় দ্রুত ফ্রেজ ও ক্লজ চিহ্নিত করার পদ্ধতি",
+      "nameEn": "Rapid Recognition Methodology for Phrases and Clauses",
+      "formula": "Check for conjugated finite verb -> If none, analyze as Phrase -> If present, identify conjunction to classify Clause",
+      "shortcutTrick": "প্রথমে দাগ দেওয়া অংশের ভেতর কোনো সমাপিকা ক্রিয়া (am, is, are, was, wrote, goes ইত্যাদি) আছে কি না খুঁজুন!",
+      "descriptionBn": "ফাইনাইট ভার্ব না থাকলে নিশ্চিতভাবে ফ্রেজ; আর থাকলে কনজাংশন দেখে ক্লজের ধরন নির্ধারণ করতে হয়।",
+      "examples": [
+        {
+          "en": "Sitting on the veranda, grandfather was reading a journal.",
+          "bn": "বারান্দায় বসে দাদা একটি সাময়িকী পড়ছিলেন।",
+          "note": "Sitting on the veranda হলো Phrase (Finite verb নেই)।"
+        },
+        {
+          "en": "While he was sitting on the veranda, grandfather was reading a journal.",
+          "bn": "যখন তিনি বারান্দায় বসেছিলেন, দাদা একটি সাময়িকী পড়ছিলেন।",
+          "note": "While he was sitting হলো Clause (was sitting রয়েছে)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "To conquer one's own ego is the greatest victory in human life.",
+      "bn": "নিজের অহংকার জয় করাই মানবজীবনের সর্বশ্রেষ্ঠ বিজয়।",
+      "note": "Infinitive Noun Phrase।"
+    },
+    {
+      "en": "The boy whose father is an esteemed university professor secured the highest distinction.",
+      "bn": "যে বালকের পিতা একজন সম্মানিত বিশ্ববিদ্যালয় অধ্যাপক সে সর্বোচ্চ সম্মান অর্জন করল।",
+      "note": "Adjective Relative Clause।"
+    },
+    {
+      "en": "We stayed inside until the torrential downpour stopped completely.",
+      "bn": "মুষলধারে বৃষ্টি সম্পূর্ণরূপে বন্ধ না হওয়া পর্যন্ত আমরা ভেতরে অবস্থান করলাম।",
+      "note": "Adverbial Clause of Time।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Elliptical Clauses দেখতে ফ্রেজের মতো হলেও ব্যাকরণগতভাবে ক্লজ",
+      "exceptionText": "\"Though poor, he is honest\" বাক্যে though-এর পরে \"he is\" উহ্য থাকে; ব্যাকরণে এটি একটি সংকুচিত ক্লজ (Elliptical Clause).",
+      "exampleEn": "When in Rome, do as the Romans do (= When you are in Rome).",
+      "exampleBn": "যখন রোমে থাকবে, রোমানদের মতো আচরণ করো।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "In the middle of the night is a clause.",
+      "correct": "It is a Prepositional / Adverb Phrase.",
+      "reasonBn": "এতে কোনো Subject বা Finite Verb নেই, তাই এটি ফ্রেজ।"
+    },
+    {
+      "mistake": "He told me where does he live.",
+      "correct": "He told me where he lives.",
+      "reasonBn": "পরোক্ষ নাউন ক্লজে প্রশ্নবোধক কাঠামো (does he live) বসে না; এসারটিভ ক্রম (he lives) বসবে।"
+    }
+  ],
+  "tags": [
+    "phrase and clause practice",
+    "chapter practice set",
+    "clause identification drill",
+    "phrase vs clause",
+    "ssc board exam test"
+  ],
+  "mcqs": [
+    {
+      "id": 190501,
+      "question": "Identify the underlined group of words: \"He left the meeting <u>without uttering a single word</u>.\"",
+      "questionBn": "\"He left the meeting <u>without uttering a single word</u>\" বাক্যে দাগ দেওয়া অংশটি কী?",
+      "options": [
+        "Adverb Phrase of Manner",
+        "Adverbial Clause of Manner",
+        "Noun Clause",
+        "Adjective Phrase"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "এতে কোনো Finite Verb নেই এবং এটি Verb \"left\"-কে কীভাবে (How) প্রশ্নের উত্তর দেওয়ায় Adverb Phrase of Manner।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 190502,
+      "question": "In \"I cannot comprehend why he made such an irrational decision\", what is the clause?",
+      "questionBn": "\"I cannot comprehend why he made such an irrational decision\" বাক্যে ক্লজটি কী?",
+      "options": [
+        "Noun Clause functioning as Object",
+        "Adjective Clause modifying decision",
+        "Adverbial Clause of Reason",
+        "Relative Clause"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"comprehend\" (বোঝা) Transitive Verb-এর কর্ম (Object) হিসেবে Noun-এর ন্যায় কাজ করায় এটি Noun Clause।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 190501,
+      "type": "Comprehensive Syntax Drill",
+      "prompt": "Classify both underlined items: (a) The woman <u>carrying a bamboo basket</u> arrived. (b) The woman arrived <u>because she was summoned</u>.",
+      "correctAnswer": "(a) Participial Phrase (Adjective Phrase), (b) Adverbial Clause of Reason.",
+      "explanationBn": "ফ্রেজ বনাম ক্লজের বাস্তব ব্যবচ্ছেদ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 190501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 19 Comprehensive Phrase & Clause Model:",
+      "subQuestions": [
+        {
+          "questionText": "Convert the Adjective Clause into an Adjective Phrase: \"A student who is diligent will always succeed.\"",
+          "answer": "A diligent student will always succeed. (or A student working diligently will always succeed.)",
+          "explanationBn": "ক্লজ থেকে ফ্রেজে রূপান্তরের আদর্শ বোর্ড মডেল।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ও রূপান্তরের অত্যন্ত কার্যকর মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'clause-relative-and-adverbial-clauses': {
+  "id": 1904,
+  "chapterId": 19,
+  "topicNo": "০৪",
+  "titleEn": "Adjective (Relative) Clauses & 9 Types of Adverbial Clauses with Clause Reduction",
+  "titleBn": "বিশেষণ (রিলেটিভ) ক্লজ ও ৯ প্রকার ক্রিয়াবিশেষণ ক্লজ এবং ক্লজ সংক্ষেপণ (Clause Reduction)",
+  "slug": "clause-relative-and-adverbial-clauses",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কোনো Noun-কে মডিফাই করা Adjective Clause (Who, Which, That, Whose, Whom)। Restrictive (কমা ছাড়া) বনাম Non-restrictive (কমা সহ)। Adverbial Clause-এর ৯টি প্রকার: Time, Place, Reason, Purpose, Result, Condition, Concession, Comparison, Manner। ক্লজ থেকে ফ্রেজে সংক্ষেপণ (Clause Reduction)।",
+  "definitionEn": "Adjective clauses qualify antecedents through relative pronouns, divided into defining (restrictive) and non-defining (parenthetical). Adverbial clauses modify predicates across semantic axes (time, reason, concession, condition) and can be reduced to participial phrases.",
+  "definitionBn": "যে Subordinate Clause কোনো Noun বা Pronoun-এর ঠিক পরে বসে তাকে বিশেষায়িত করে তাকে Adjective বা Relative Clause বলে। আর যে ক্লজ মূল বাক্যের ক্রিয়ার সময়, স্থান, কারণ, শর্ত ইত্যাদি প্রকাশ করে তাকে Adverbial Clause বলে।",
+  "explanationBn": "১. Adjective (Relative) Clause:\n- Restrictive (সংজ্ঞায়িত করে; কোনো কমা নেই): The boy WHO WON THE GOLD MEDAL is my cousin.\n- Non-restrictive (অতিরিক্ত তথ্য দেয়; কমা থাকে): Dhaka, WHICH IS THE CAPITAL OF BANGLADESH, is overpopulated.\n- Relative Pronouns: Who (ব্যক্তি), Which (বস্তু), That (উভয়), Whose (মালিকানা), Whom (ব্যক্তি অবজেক্ট)।\n\n২. Adverbial Clause-এর ৯টি প্রকার:\n- Time: When, while, before, after, as soon as, until\n- Place: Where, wherever\n- Reason/Cause: Because, as, since\n- Purpose: So that, in order that + can/could/may/might\n- Result: So ... that (He was so weak that he could not walk)\n- Condition: If, unless, provided that\n- Concession/Contrast: Though, although, even though\n- Comparison: As ... as, than\n- Manner: As, as if, as though\n\n৩. Clause Reduction (ক্লজ সংক্ষেপণ):\n- Adjective Clause Reduction: The man who is sitting there -> The man SITTING THERE (Participle Phrase)।\n- Adverb Clause Reduction: When he saw the police, he fled -> SEEING THE POLICE, he fled।",
+  "teacherGoldenTips": "ক্লজ চেনার চূড়ান্ত পরীক্ষা:\n- যদি Noun-এর পরিচয় দেয় (Which one? / What kind of?) -> ADJECTIVE CLAUSE!\n- যদি কারণ, সময়, শর্ত, তুলনা বা ফলাফল বোঝায় (When? Why? How? Under what condition?) -> ADVERBIAL CLAUSE!\n- আর সংক্ষেপ করতে Relative Pronoun + Be verb কেটে দিন!",
+  "mainFormula": "Adj Clause = Noun + (Who/Which/That + Verb) | Adv Clause = (Because/When/Though/If) + S + Verb | Reduced = Participle Phrase",
+  "formulas": [
+    {
+      "label": "Adjective Clause Formula",
+      "structure": "Noun (Antecedent) + WHO / WHICH / THAT / WHOSE + Clause",
+      "tag": "Adjective Clause",
+      "example": "The scientist who discovered the cure received international acclaim."
+    },
+    {
+      "label": "Adverbial Clause of Concession",
+      "structure": "THOUGH / ALTHOUGH + S + Verb , Principal Clause",
+      "tag": "Concession Adv",
+      "example": "Although he worked diligently, he could not achieve the summit."
+    },
+    {
+      "label": "Adverbial Clause of Purpose",
+      "structure": "Principal Clause + SO THAT / IN ORDER THAT + Subject + CAN/COULD/MAY/MIGHT + V1",
+      "tag": "Purpose Adv",
+      "example": "He studied relentlessly so that he could secure admission."
+    },
+    {
+      "label": "Clause Reduction Formula",
+      "structure": "Relative Pronoun + BE verb deleted -> Participle remains",
+      "tag": "Reduction",
+      "example": "The book [which was written by Nazrul] -> The book [written by Nazrul]."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Restrictive বনাম Non-restrictive Relative Clause-এর কমার নিয়ম",
+      "nameEn": "Punctuation of Restrictive vs Non-Restrictive Relative Clauses",
+      "formula": "Restrictive (essential identifier) -> NO COMMAS | Non-restrictive (extra information) -> COMMAS (,) BOTH SIDES",
+      "shortcutTrick": "তথ্যটি না দিলে মানুষটিকে চেনা যাবে না? তাহলে কমা ছাড়া (Restrictive)! আর মানুষটিকে আগেই চেনা যায়? তাহলে কমা দিয়ে (Non-restrictive)!",
+      "descriptionBn": "My brother who lives in London is a doctor (বোঝাচ্ছে আমার একাধিক ভাই আছে, লন্ডনে থাকা ভাইটি ডাক্তার)। My father, who is 60, has retired (বাবা একজনই, বয়স অতিরিক্ত তথ্য, তাই কমা)।",
+      "examples": [
+        {
+          "en": "The students who submitted assignments on time earned full marks (Restrictive).",
+          "bn": "যেসব শিক্ষার্থী সময়মতো অ্যাসাইনমেন্ট জমা দিয়েছিল তারা পুরো নম্বর পেল।",
+          "note": "কোনো কমা নেই।"
+        },
+        {
+          "en": "Rabindranath Tagore, who won the Nobel Prize in 1913, wrote our national anthem (Non-restrictive).",
+          "bn": "রবীন্দ্রনাথ ঠাকুর, যিনি ১৯১৩ সালে নোবেল পুরস্কার পেয়েছিলেন, আমাদের জাতীয় সংগীত রচনা করেছিলেন।",
+          "note": "উভয় পাশে কমা।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Adverbial Clause সংক্ষেপ করে Participle ফ্রেজ বানানোর কৌশল",
+      "nameEn": "Adverbial Clause Reduction into Participial Phrases",
+      "formula": "When / While + S + Verb -> Present Participle (V-ing) + Object",
+      "shortcutTrick": "উভয় পাশের Subject একই হলে Conjunction ও Subject বাদ দিয়ে মূল ভার্বকে V-ing বানিয়ে দিন!",
+      "descriptionBn": "\"Because he felt fatigued, he rested\" সংক্ষেপিত হয়ে \"Feeling fatigued, he rested\" হয়।",
+      "examples": [
+        {
+          "en": "Clause: When the police arrived, the burglar jumped out the window.",
+          "bn": "ক্লজ: যখন পুলিশ পৌঁছাল, চোরটি জানালা দিয়ে লাফ দিল।",
+          "note": "Adverbial Clause of Time।"
+        },
+        {
+          "en": "Reduced: Arriving at the scene, the police saw the burglar jumping out the window.",
+          "bn": "সংক্ষেপিত রূপ: ঘটনাস্থলে পৌঁছে পুলিশ চোরটিকে লাফ দিতে দেখল।",
+          "note": "Participial Phrase-এ রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The ancient castle which overlooks the tranquil valley was built in the sixteenth century.",
+      "bn": "যে প্রাচীন দুর্গটি শান্ত উপত্যকাটির দিকে মুখ করে আছে তা ষোড়শ শতাব্দীতে নির্মিত হয়েছিল।",
+      "note": "Adjective Clause modifying castle।"
+    },
+    {
+      "en": "Since you have accomplished your assignment brilliantly, you may leave early.",
+      "bn": "যেহেতু তুমি চমৎকারভাবে দায়িত্ব শেষ করেছ, তুমি আগে প্রস্থান করতে পারো।",
+      "note": "Adverbial Clause of Reason।"
+    },
+    {
+      "en": "He spoke as if he knew all the classified intelligence.",
+      "bn": "সে এমনভাবে কথা বলল যেন সে সমস্ত গোপন তথ্য জানত।",
+      "note": "Adverbial Clause of Manner (as if)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "That কখনো Non-restrictive ক্লজে বসে না",
+      "exceptionText": "কমাযুক্ত Non-restrictive ক্লজে কখনো \"that\" ব্যবহার করা যায় না; সেখানে মানুষের ক্ষেত্রে who/whom এবং বস্তুর ক্ষেত্রে strictly \"which\" ব্যবহার করতে হয়।",
+      "exampleEn": "The Taj Mahal, which is made of white marble, attracts millions of tourists (NOT that is made of).",
+      "exampleBn": "তাজমহল, যা শ্বেতপাথরে নির্মিত, লাখ লাখ পর্যটককে আকর্ষণ করে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The car, that he bought yesterday, is electric.",
+      "correct": "The car, which he bought yesterday, is electric.",
+      "reasonBn": "কমাযুক্ত ক্লজে \"that\" বসে না; \"which\" বসাতে হবে।"
+    },
+    {
+      "mistake": "He worked hard so that he can pass. (Past tense context)",
+      "correct": "He worked hard so that he could pass.",
+      "reasonBn": "Worked অতীতে থাকায় So that-এর ক্লজে can নয়, \"could\" হবে।"
+    }
+  ],
+  "tags": [
+    "relative clause",
+    "adjective clause",
+    "adverbial clause of reason",
+    "adverb clause of purpose",
+    "restrictive non restrictive",
+    "clause reduction",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 190401,
+      "question": "In \"The brave firefighter who risked his life to rescue the child was honored\", what is the clause?",
+      "questionBn": "\"The brave firefighter who risked his life to rescue the child was honored\" বাক্যে \"who risked his life...\" কোন ধরনের ক্লজ?",
+      "options": [
+        "Adjective (Relative) Clause",
+        "Noun Clause",
+        "Adverbial Clause of Condition",
+        "Principal Clause"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "ক্লজটি Noun \"The brave firefighter\"-কে বিশেষায়িত করায় এটি একটি Adjective (Relative) Clause।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 190402,
+      "question": "In \"The athlete ran so fast that he broke the world record\", what type of adverbial clause is \"that he broke the world record\"?",
+      "questionBn": "\"The athlete ran so fast that he broke the world record\" বাক্যে ক্লজটি কোন শ্রেণির Adverbial Clause?",
+      "options": [
+        "Adverbial Clause of Result",
+        "Adverbial Clause of Purpose",
+        "Adverbial Clause of Reason",
+        "Adverbial Clause of Condition"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"So ... that\" কাঠামোতে দ্রুত দৌড়ানোর অনিবার্য ফলাফল প্রকাশ করায় এটি Adverbial Clause of Result।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 190401,
+      "type": "Clause Reduction Drill",
+      "prompt": "Reduce the relative clause: \"The precious jewelry which was stolen from the royal vault was recovered.\"",
+      "correctAnswer": "The precious jewelry stolen from the royal vault was recovered.",
+      "explanationBn": "which was বাদ দিয়ে Past Participle Phrase-এ সংক্ষেপণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 190401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Adjective vs Adverbial Clause discrimination in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference between Restrictive and Non-restrictive Relative Clauses with punctuation.",
+          "answer": "A Restrictive clause is essential to identify the noun and takes no commas (\"The man who stole the car was caught\"). A Non-restrictive clause provides supplementary, non-essential information and must be enclosed in commas (\"Dr. Yunus, who won the Nobel Prize, founded the bank\").",
+          "explanationBn": "সংজ্ঞায়িত বনাম সম্পূরক ক্লজের বিরামচিহ্ন পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত গুরুত্বপূর্ণ উচ্চতর ব্যাকরণিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'clause-fundamentals-noun-clauses': {
+  "id": 1903,
+  "chapterId": 19,
+  "topicNo": "০৩",
+  "titleEn": "Clause Fundamentals: Principal, Subordinate, Coordinate & Noun Clauses",
+  "titleBn": "ক্লজের মৌলিক ভিত্তি: প্রধান, অধীনস্থ ও যৌগিক ক্লজ এবং বিশেষ্য ক্লজের (Noun Clause) ভূমিকা",
+  "slug": "clause-fundamentals-noun-clauses",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Subject এবং Finite Verb যুক্ত বাক্যখণ্ড হলো Clause। Principal Clause, Subordinate Clause এবং Coordinate Clause। Noun Clause-এর ৫টি রূপ: Subject (That he is honest is known), Object (I know that he is honest), Preposition-এর Object, Complement ও Appositive হিসেবে প্রয়োগ।",
+  "definitionEn": "A Clause is a syntactic construction possessing both a subject and a finite predicate. Principal clauses stand autonomously, whereas subordinate clauses depend syntactically on a host matrix. Noun clauses serve nominal roles within matrix clauses.",
+  "definitionBn": "যে শব্দগুচ্ছে একটি Subject এবং একটি সমাপিকা ক্রিয়া (Finite Verb) থাকে এবং যা কোনো বড় বাক্যের অংশ হিসেবে ব্যবহৃত হয়, তাকে Clause (বাক্যাংশ) বলে। Noun Clause বাক্যে Noun-এর ৫টি প্রধান অবস্থানে বসে।",
+  "explanationBn": "ক্লজের প্রধান ৩টি শ্রেণিবিভাগ:\n১. Principal / Main Clause: যা অন্য কারো ওপর নির্ভর না করে স্বাধীনভাবে অর্থ প্রকাশ করতে পারে (I know the man).\n২. Subordinate / Dependent Clause: যা কোনো Subordinating Conjunction (that, if, because, who, when ইত্যাদি) দিয়ে শুরু হয় এবং প্রধান ক্লজের ওপর নির্ভরশীল থাকে (who came here yesterday).\n৩. Coordinate Clause: দুটি সমমর্যাদার স্বাধীন ক্লজ যখন FANBOYS (and, but, or, yet, so) দিয়ে যুক্ত হয় (He is poor BUT he is honest).\n\nনাউন ক্লজের (Noun Clause) ৫টি ব্যাকরণিক অবস্থান:\n১. Subject হিসেবে: THAT HONESTY IS THE BEST POLICY is known to all.\n২. Transitive Verb-এর Object হিসেবে: I know WHAT HE WANTS.\n৩. Preposition-এর Object হিসেবে: Listen to WHAT YOUR TEACHER SAYS.\n৪. Be Verb-এর Complement হিসেবে: Life is WHAT WE MAKE IT.\n৫. Noun-এর Apposition হিসেবে: The news THAT HE PASSED delighted everyone.",
+  "teacherGoldenTips": "নাউন ক্লজ চেনার অব্যর্থ ট্রিক:\n- যদি পুরো ক্লজটির (that he is honest / what he said) জায়গায় একটিমাত্র শব্দ \"SOMETHING\" বা \"IT\" বসিয়ে বাক্যটি পড়েন এবং বাক্যটি পূর্ণ অর্থ দেয়, তবে সেটি ১০০% NOUN CLAUSE!\n- যেমন: I know [what he wants] -> I know [IT]! That he is innocent is true -> [IT] is true!",
+  "mainFormula": "Clause = Subject + Finite Verb | Noun Clause = Can be substituted by \"IT\" or \"SOMETHING\"",
+  "formulas": [
+    {
+      "label": "Noun Clause as Subject",
+      "structure": "THAT / WHAT / WHETHER + S + Verb ... + Main Verb + Extension",
+      "tag": "Subject NC",
+      "example": "That he is brilliant cannot be disputed."
+    },
+    {
+      "label": "Noun Clause as Object",
+      "structure": "Subject + Transitive Verb + THAT / WHAT / HOW / WHY + S + Verb",
+      "tag": "Object NC",
+      "example": "We believe that virtue always triumphs."
+    },
+    {
+      "label": "Prepositional Object NC",
+      "structure": "Preposition + WHAT / WHOEVER / WHICHEVER + S + Verb",
+      "tag": "Prep Object NC",
+      "example": "Pay close attention to what the instructor explains."
+    },
+    {
+      "label": "Apposition to Noun NC",
+      "structure": "Abstract Noun (The fact/news/rumor) + THAT + Complete Clause",
+      "tag": "Apposition NC",
+      "example": "The rumor that the bridge had collapsed proved false."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "The \"IT\" Test for Noun Clauses",
+      "nameEn": "Pronominal Substitution (\"It\" Test) for Noun Clause Verification",
+      "formula": "Clause substituted by \"IT\" or \"THIS\" -> SENSE COMPLETE = NOUN CLAUSE",
+      "shortcutTrick": "ক্লজের বদলে \"It\" বসিয়ে দেখুন, যদি বাক্য টিকে থাকে তবে সেটি নাউন ক্লজ!",
+      "descriptionBn": "I know who stole the car -> I know IT (Noun Clause)। That he is innocent is true -> IT is true (Noun Clause)।",
+      "examples": [
+        {
+          "en": "That global warming is accelerating is verified by scientists.",
+          "bn": "বৈশ্বিক উষ্ণায়ন যে দ্রুত বাড়ছে তা বিজ্ঞানীদের দ্বারা যাচাইকৃত।",
+          "note": "That...accelerating হলো Subject Noun Clause (IT is verified)।"
+        },
+        {
+          "en": "The detective discovered where the fugitive was hiding.",
+          "bn": "গোয়েন্দা পলাতক আসামি কোথায় লুকিয়ে ছিল তা আবিষ্কার করলেন।",
+          "note": "where the fugitive was hiding হলো Object Noun Clause।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Noun Clause বনাম Relative Clause-এর Apposition পার্থক্য",
+      "nameEn": "Noun Clause in Apposition vs Adjective (Relative) Clause",
+      "formula": "Noun Clause: explains the content of the noun (Complete statement inside) | Relative Clause: modifies the noun (Pronoun acts as S/O)",
+      "shortcutTrick": "The news that he died (খবরটি হলো সে মারা গেছে -> Noun Clause)। কিন্তু The news that he heard (যে খবরটি সে শুনেছিল -> Relative Clause)!",
+      "descriptionBn": "Noun Clause-এ that একটি Conjunction যা সম্পূর্ণ বাক্য জোড়ে। Relative Clause-এ that একটি Relative Pronoun যা শূন্যস্থান পূরণ করে।",
+      "examples": [
+        {
+          "en": "The report that the economy is stabilizing boosted investor confidence (Noun Clause).",
+          "bn": "অর্থনীতি স্থিতিশীল হচ্ছে এই প্রতিবেদনটি বিনিয়োগকারীদের আস্থা বৃদ্ধি করল।",
+          "note": "অর্থনীতি স্থিতিশীল হওয়ার খবর (Content)।"
+        },
+        {
+          "en": "The report that was published yesterday boosted confidence (Adjective Clause).",
+          "bn": "গতকাল যে প্রতিবেদনটি প্রকাশিত হয়েছিল তা আস্থা বাড়াল।",
+          "note": "report-কে চিহ্নিত করেছে (Modifies)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Tell me what you plan to accomplish after graduation.",
+      "bn": "স্নাতক শেষ করে তুমি কী অর্জনের পরিকল্পনা করছ তা আমাকে বলো।",
+      "note": "Object Noun Clause।"
+    },
+    {
+      "en": "His success depends entirely on how hard he exerts himself.",
+      "bn": "তার সাফল্য সম্পূর্ণরূপে নির্ভর করে সে কতটা কঠোর পরিশ্রম করে তার ওপর।",
+      "note": "Prepositional Object Noun Clause।"
+    },
+    {
+      "en": "My firm conviction is that integrity will ultimately prevail.",
+      "bn": "আমার দৃঢ় বিশ্বাস হলো সততাই চূড়ান্তভাবে জয়ী হবে।",
+      "note": "Complement Noun Clause।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Indirect Questions-এ প্রশ্নবোধক ক্রম থাকে না",
+      "exceptionText": "Noun Clause যখন কোনো প্রশ্নের ওপর ভিত্তি করে তৈরি হয়, তখন Auxiliary Verb কখনোই Subject-এর আগে বসতে পারে না; ক্রমটি সর্বদা এসারটিভ (Subject + Verb) হবে।",
+      "exampleEn": "I inquired where he was staying (NOT where was he staying).",
+      "exampleBn": "আমি জানতে চাইলাম সে কোথায় অবস্থান করছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I do not know that where he lives.",
+      "correct": "I do not know where he lives.",
+      "reasonBn": "That এবং Where একসাথে লিঙ্কার হিসেবে বসে না।"
+    },
+    {
+      "mistake": "Tell me what is your name.",
+      "correct": "Tell me what your name is.",
+      "reasonBn": "Noun Clause-এ এসারটিভ ক্রম (what your name is) বজায় রাখতে হবে।"
+    }
+  ],
+  "tags": [
+    "clause fundamentals",
+    "noun clause",
+    "principal clause",
+    "subordinate clause",
+    "noun clause as subject",
+    "the it test",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 190301,
+      "question": "In \"That virtue has its own intrinsic reward cannot be denied\", what is \"That virtue has its own intrinsic reward\"?",
+      "questionBn": "\"That virtue has its own intrinsic reward cannot be denied\" বাক্যে প্রথম অংশটি কী?",
+      "options": [
+        "Noun Clause functioning as Subject",
+        "Adjective Clause",
+        "Adverb Clause of Reason",
+        "Noun Phrase"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "ক্লজটি \"cannot be denied\" ভার্বের Subject হিসেবে কাজ করায় এটি একটি Noun Clause।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 190302,
+      "question": "Identify the role of the underlined clause: \"His ultimate success depends on <u>how diligently he prepares</u>.\"",
+      "questionBn": "\"His ultimate success depends on <u>how diligently he prepares</u>\"-এ দাগ দেওয়া ক্লজটির ভূমিকা কী?",
+      "options": [
+        "Object of the preposition \"on\"",
+        "Subject of the verb",
+        "Adverbial Clause of Manner",
+        "Adjective Clause modifying success"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Preposition \"on\"-এর কর্ম (Object) হিসেবে কাজ করায় এটি Noun Clause as Object of a Preposition।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 190301,
+      "type": "Noun Clause Conversion",
+      "prompt": "Combine using a Noun Clause: \"He will recover soon. The doctors believe it.\"",
+      "correctAnswer": "The doctors believe that he will recover soon.",
+      "explanationBn": "দ্যাট যুক্ত নাউন ক্লজ দিয়ে বাক্য সংযোগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 190301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Noun clause taxonomy and syntactic functions in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Demonstrate with 2 examples how a Noun Clause can act as a Subject and as an Object.",
+          "answer": "As Subject: \"WHAT HE SAID was profoundly inspiring.\" As Object: \"I know THAT HE IS SINCERE.\"",
+          "explanationBn": "সাবজেক্ট ও অবজেক্ট হিসেবে নাউন ক্লজের দৃষ্টান্ত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ও বাক্য রূপান্তরের অত্যন্ত গুরুত্বপূর্ণ আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'phrase-verbal-nonfinite-phrases': {
+  "id": 1902,
+  "chapterId": 19,
+  "topicNo": "০২",
+  "titleEn": "Non-Finite Verbal Phrases: Infinitive, Gerund & Participial Phrases",
+  "titleBn": "অসমাপিকা ক্রিয়াযুক্ত শব্দগুচ্ছ: ইনফিনিটিভ, জেরান্ড ও পার্টিসিপিয়াল ফ্রেজ",
+  "slug": "phrase-verbal-nonfinite-phrases",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "To + Verb এবং তার আনুষঙ্গিক শব্দ নিয়ে Infinitive Phrase (To tell the truth)। Verb + ing দ্বারা গঠিত Gerund Phrase (Swimming in the ocean is refreshing)। Adjective-এর ন্যায় কাজ করা Participial Phrase (The man sitting in the corner)।",
+  "definitionEn": "Non-finite verbal phrases are syntactic units headed by non-finite verb forms (infinitives, gerunds, participles) together with their complements, objects, and modifiers, functioning as nouns, adjectives, or adverbs.",
+  "definitionBn": "নন-ফাইনাইট ভার্ব (Infinitive, Gerund, Participle)-কে কেন্দ্র করে এবং তার অবজেক্ট বা মডিফায়ার নিয়ে গঠিত শব্দগুচ্ছকে Non-Finite Verbal Phrase বলে।",
+  "explanationBn": "৩টি প্রধান নন-ফাইনাইট ফ্রেজ:\n১. Infinitive Phrase (To + V1 + Complement/Modifier):\n- Noun হিসেবে: TO SOLVE THIS COMPLICATED RIDDLE requires great intellect (Subject).\n- Adjective হিসেবে: I have a lot of assignments TO COMPLETE BY TONIGHT (Modifies assignments).\n- Adverb হিসেবে: He worked day and night TO SUPPORT HIS DESTITUTE FAMILY (Modifies worked - Purpose).\n\n২. Gerund Phrase (V-ing + Complement, Noun-এর ন্যায় কাজ করে):\n- Subject হিসেবে: SAVING MONEY FOR RETIREMENT is a prudent strategy.\n- Object হিসেবে: He dislikes WAKING UP EARLY ON WEEKENDS.\n- Prepositional Object হিসেবে: She is adept at SOLVING ADVANCED CALCULUS.\n\n৩. Participial Phrase (Participle + Modifiers, Adjective-এর ন্যায় কাজ করে):\n- Present: The boy SITTING BY THE WINDOW is the class topper.\n- Past: The letter WRITTEN BY THE CHAIRMAN contained momentous directives.\n- Perfect: HAVING FINISHED HIS WORK, he retired to bed.",
+  "teacherGoldenTips": "জেরান্ড ফ্রেজ বনাম পার্টিসিপিয়াল ফ্রেজ ট্রিক:\n- যদি পুরো ফ্রেজটি তুলে দিয়ে সেখানে \"IT\" বসানো যায় এবং বাক্যটি ব্যাকরণগতভাবে টিকে থাকে, তবে সেটি নিশ্চিতভাবে GERUND PHRASE (I enjoy reading novels -> I enjoy IT)!\n- যদি ফ্রেজটি কোনো ব্যক্তি বা বস্তুকে বিশেষায়িত করে তবে তা PARTICIPIL PHRASE!",
+  "mainFormula": "Infinitive Phrase = TO + V1 + Object | Gerund Phrase = V-ing + Object (Noun) | Participial Phrase = V-ing / V3 + Object (Adj)",
+  "formulas": [
+    {
+      "label": "Infinitive Phrase Formula",
+      "structure": "TO + Base Verb + Object/Adverbial -> functions as Noun/Adj/Adv",
+      "tag": "Inf Phrase",
+      "example": "To cross the ocean in a sailboat requires courage."
+    },
+    {
+      "label": "Gerund Phrase Formula",
+      "structure": "Verb-ing + Direct Object/Modifier -> functions as NOUN",
+      "tag": "Gerund Phrase",
+      "example": "Collecting rare stamps was his childhood passion."
+    },
+    {
+      "label": "Participial Phrase Formula",
+      "structure": "Present/Past Participle + Modifiers -> functions as ADJECTIVE",
+      "tag": "Part Phrase",
+      "example": "Exhausted by the long trek, the mountaineers rested."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Infinitive Phrase-এর উদ্দেশ্যমূলক (Adverbial) ব্যবহার",
+      "nameEn": "Adverbial Infinitive Phrase of Purpose",
+      "formula": "Main Clause + TO + V1 + Object (answers \"Why / For what purpose\")",
+      "shortcutTrick": "যদি \"কেন বা কী উদ্দেশ্যে\" প্রশ্নের উত্তর দেয়, তবে তা Adverbial Infinitive Phrase!",
+      "descriptionBn": "He went to the airport TO RECEIVE HIS ELDER BROTHER (কেন বিমানবন্দরে গেল? ভাইকে রিসিভ করতে -> Adverbial Phrase of Purpose)।",
+      "examples": [
+        {
+          "en": "The students assembled in the auditorium to listen to the guest speaker.",
+          "bn": "অতিথি বক্তার বক্তব্য শোনার জন্য শিক্ষার্থীরা মিলনায়তনে সমবেত হলো।",
+          "note": "to listen... হলো Adverbial Infinitive Phrase।"
+        },
+        {
+          "en": "He opened the vault to inspect the confidential documents.",
+          "bn": "গোপন নথিগুলো পরীক্ষা করার জন্য তিনি ভল্টটি খুললেন।",
+          "note": "to inspect... (উদ্দেশ্য)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Participial Phrase-এর কমা ও অবস্থান",
+      "nameEn": "Punctuation of Participial Phrases at Clause Peripheries",
+      "formula": "Participial Phrase at start + COMMA (,) + Main Subject | Essential Participial Phrase inside -> NO COMMA",
+      "shortcutTrick": "শুরুতে পার্টিসিপিয়াল ফ্রেজ আসলে কমা (,) বসবে; কিন্তু Noun-এর পরিচয় নির্দিষ্ট করতে মাঝে আসলে কমা বসবে না!",
+      "descriptionBn": "\"Having locked the door, he left\" (কমা বসবে)। \"The boy wearing a red shirt is my brother\" (কমা বসবে না)।",
+      "examples": [
+        {
+          "en": "Seeing the menacing storm clouds, the sailors steered toward the harbor.",
+          "bn": "বিপদজনক ঝড়ের মেঘ দেখে নাবিকেরা পোতাশ্রয়ের দিকে জাহাজ ঘোরাল।",
+          "note": "Seeing... ফ্রেজের পর কমা।"
+        },
+        {
+          "en": "The documents signed by the ambassadors were ratified yesterday.",
+          "bn": "রাষ্ট্রদূতদের দ্বারা স্বাক্ষরিত নথিগুলো গতকাল অনুমোদিত হয়েছিল।",
+          "note": "signed by... (অপরিহার্য ফ্রেজ)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Swimming across the turbulent English Channel was her lifelong aspiration.",
+      "bn": "উত্তাল ইংলিশ চ্যানেল সাঁতরে পার হওয়া ছিল তার আজীবনের স্বপ্ন।",
+      "note": "Gerund Phrase (Subject হিসেবে)।"
+    },
+    {
+      "en": "The ancient scroll discovered in the cave dates back to the Bronze Age.",
+      "bn": "গুহায় আবিষ্কৃত প্রাচীন পাণ্ডুলিপিটি ব্রোঞ্জ যুগের।",
+      "note": "Past Participial Phrase।"
+    },
+    {
+      "en": "To err is human; to forgive is divine.",
+      "bn": "ভুল করা মানুষের স্বভাব; ক্ষমা করা স্বর্গীয় গুণ।",
+      "note": "Infinitive Phrases।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Dangling Participial Phrase সংশোধন",
+      "exceptionText": "Participial Phrase বাক্যের শুরুতে বসলে তার ঠিক পরেই সেই কাজটি সম্পাদনকারী আসল কর্তাকে বসাতে হয়; নতুবা বাক্যটি ভুল (Dangling) হবে।",
+      "exampleEn": "Walking through the forest, I saw a majestic deer (NOT a majestic deer was seen).",
+      "exampleBn": "বনের মধ্য দিয়ে হাঁটার সময় আমি একটি চমৎকার হরিণ দেখতে পেলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Swimming in the pond is my hobby. (Calling it Participial Phrase)",
+      "correct": "It is a Gerund Phrase.",
+      "reasonBn": "যেহেতু এটি বাক্যের Subject হিসেবে Noun-এর কাজ করছে, তাই এটি Gerund Phrase।"
+    },
+    {
+      "mistake": "To tell you the truth is a clause.",
+      "correct": "It is an Infinitive Phrase, not a clause.",
+      "reasonBn": "এতে কোনো Finite Verb নেই, তাই এটি ফ্রেজ।"
+    }
+  ],
+  "tags": [
+    "infinitive phrase",
+    "gerund phrase",
+    "participial phrase",
+    "non finite phrases",
+    "verbal phrases",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 190201,
+      "question": "In \"Reading extensively on diverse disciplines enhances critical thinking\", what is \"Reading extensively on diverse disciplines\"?",
+      "questionBn": "\"Reading extensively on diverse disciplines enhances critical thinking\" বাক্যে \"Reading extensively on diverse disciplines\" কী?",
+      "options": [
+        "Gerund Phrase",
+        "Participial Phrase",
+        "Infinitive Phrase",
+        "Adverb Phrase"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "ফ্রেজটি \"enhances\" ভার্বের Subject হিসেবে Noun-এর কাজ সম্পন্ন করায় এটি একটি Gerund Phrase।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 190202,
+      "question": "In \"Having delivered the commencement address, the chancellor sat down\", what is \"Having delivered the commencement address\"?",
+      "questionBn": "\"Having delivered the commencement address, the chancellor sat down\" বাক্যে প্রথম অংশটি কী?",
+      "options": [
+        "Perfect Participial Phrase",
+        "Gerund Phrase",
+        "Noun Clause",
+        "Infinitive Phrase"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Having + V3\" (Having delivered) দ্বারা গঠিত হয়ে Adjective-এর ন্যায় কাজ করায় এটি Perfect Participial Phrase।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 190201,
+      "type": "Non-Finite Phrase Identification",
+      "prompt": "Classify the underlined phrases: (a) <u>To speak the truth</u> is a moral virtue. (b) The wounded soldier, <u>bleeding profusely from the arm</u>, refused to surrender.",
+      "correctAnswer": "(a) Infinitive Phrase (Subject), (b) Participial Phrase (modifying soldier).",
+      "explanationBn": "ইনফিনিটিভ ও পার্টিসিপিয়াল ফ্রেজ নির্ণয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 190201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Non-finite verbal phrase taxonomy in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Demonstrate with examples how an Infinitive Phrase can function as an Adjective and as an Adverb.",
+          "answer": "As an Adjective (modifying noun): \"I have a promise TO KEEP.\" As an Adverb (modifying verb of purpose): \"He studied hard TO PASS THE EXAM.\"",
+          "explanationBn": "ইনফিনিটিভ ফ্রেজের বিশেষণ ও ক্রিয়াবিশেষণ হিসেবে প্রয়োগ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার বাক্য বিশ্লেষণ ও ফ্রেজ আইডেন্টিফিকেশনের আদর্শ প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'phrase-classification-types-mastery': {
+  "id": 1901,
+  "chapterId": 19,
+  "topicNo": "০১",
+  "titleEn": "Phrase Classification & Syntactic Roles: Noun, Adjective, Adverb, Appositive & Absolute Phrases",
+  "titleBn": "শব্দগুচ্ছের শ্রেণিবিভাগ ও ব্যাকরণিক ভূমিকা: বিশেষ্য, বিশেষণ, ক্রিয়াবিশেষণ, অ্যাপোজিটিভ ও অ্যাবসোলিউট ফ্রেজ",
+  "slug": "phrase-classification-types-mastery",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "কোনো Finite Verb বা Subject ছাড়া শব্দের সমষ্টি হলো Phrase। Noun Phrase, Adjective Phrase (A man of letters), Adverb Phrase (In a hurry), Prepositional Phrase, Appositive Phrase (Kazi Nazrul, our national poet) এবং Absolute Phrase (Weather permitting)-এর বিশদ ব্যাকরণিক ব্যবচ্ছেদ।",
+  "definitionEn": "A Phrase is a syntactic unit consisting of a coherent group of words lacking both a finite verb and an explicit subject-predicate nexus, functioning collectively as a single part of speech within a sentence.",
+  "definitionBn": "একগুচ্ছ শব্দ যাতে কোনো সমাপিকা ক্রিয়া (Finite Verb) বা নির্দিষ্ট Subject ও Predicate-এর মিলন থাকে না, অথচ একটি একক Part of Speech-এর ন্যায় কাজ করে, তাকে Phrase (শব্দগুচ্ছ) বলে।",
+  "explanationBn": "প্রধান ফ্রেজের প্রকারভেদ:\n১. Noun Phrase: বাক্যে Subject বা Object হিসেবে কাজ করে (A man of noble character is respected by all).\n২. Adjective Phrase: কোনো Noun বা Pronoun-কে বিশেষায়িত করে (He is a man OF LETTERS = বিদ্বান ব্যক্তি; The ring MADE OF GOLD is expensive).\n৩. Adverb Phrase: Verb-কে কখন, কোথায়, কীভাবে প্রশ্ন করলে উত্তর দেয় (He ran WITH GREAT SPEED = rapidly; She arrived IN THE NICK OF TIME).\n৪. Prepositional Phrase: Preposition দিয়ে শুরু ও শেষ হয়ে সংযোগ স্থাপন করে (In front of, On behalf of, In spite of).\n৫. Appositive Phrase: কোনো Noun-এর পাশে বসে কমা দিয়ে তার অতিরিক্ত পরিচয় দেয় (Kazi Nazrul Islam, OUR NATIONAL POET, was a great rebel).\n৬. Absolute Phrase: ব্যাকরণগতভাবে বাক্যের মূল কাঠামোর সাথে ফাইনাইট ভার্ব ছাড়া স্বাধীনভাবে অবস্থান করে (The sun having set, we returned home).",
+  "teacherGoldenTips": "ফ্রেজ সহজে চেনার কৌশল:\n- যদি সম্পূর্ণ শব্দগুচ্ছটির জায়গায় একটি মাত্র NOUN (যেমন: Something/It) বসানো যায় -> Noun Phrase!\n- যদি শব্দগুচ্ছটি \"What kind of / Which\" প্রশ্নের উত্তর দেয় -> Adjective Phrase!\n- যদি শব্দগুচ্ছটি \"How / When / Where\" প্রশ্নের উত্তর দেয় -> Adverb Phrase!",
+  "mainFormula": "Phrase = Group of words WITHOUT a finite verb | Noun Phrase = Nominal role | Adj Phrase = Modifies Noun | Adv Phrase = Modifies Verb",
+  "formulas": [
+    {
+      "label": "Noun Phrase Formula",
+      "structure": "Determiner + (Adjective) + Head Noun -> acts as Subject or Object",
+      "tag": "Noun Phrase",
+      "example": "The brilliant young scientist discovered a novel compound."
+    },
+    {
+      "label": "Adjective Phrase Formula",
+      "structure": "Noun + Prepositional Phrase / Participial Phrase (answering \"Which one?\")",
+      "tag": "Adjective Phrase",
+      "example": "The girl with long curly hair won the prize."
+    },
+    {
+      "label": "Adverb Phrase Formula",
+      "structure": "Preposition + Noun / Words answering \"How / When / Where / Why\"",
+      "tag": "Adverb Phrase",
+      "example": "He spoke in a very dignified manner (How)."
+    },
+    {
+      "label": "Appositive Phrase Formula",
+      "structure": "Noun , [Noun Phrase explaining the antecedent] , Verb",
+      "tag": "Appositive",
+      "example": "Sher-e-Bangla, a legendary politician of Bengal, loved commoners."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Prepositional Phrase কখন Adjective এবং কখন Adverb ফ্রেজ হয়",
+      "nameEn": "Functional Discrimination: Adjectival vs Adverbial Prepositional Phrases",
+      "formula": "Modifies NOUN -> ADJECTIVE PHRASE | Modifies VERB -> ADVERB PHRASE",
+      "shortcutTrick": "যদি Noun-এর পরিচয় দেয় তবে Adjective Phrase; আর যদি Verb-এর সময়/স্থান/পদ্ধতি বোঝায় তবে Adverb Phrase!",
+      "descriptionBn": "\"The book ON THE TABLE is mine\" (কোন বইটি? টেবিলের বইটি -> Adjective Phrase)। কিন্তু \"He put the book ON THE TABLE\" (কোথায় রাখল? টেবিলে -> Adverb Phrase)।",
+      "examples": [
+        {
+          "en": "The boy in the front row is our class captain (Adjective Phrase).",
+          "bn": "প্রথম সারির ছেলেটি আমাদের ক্লাস ক্যাপ্টেন।",
+          "note": "The boy (Noun)-কে বিশেষায়িত করেছে।"
+        },
+        {
+          "en": "The bird flew over the mountain peaks (Adverb Phrase).",
+          "bn": "পাখিটি পাহাড়ের চূড়ার ওপর দিয়ে উড়ে গেল।",
+          "note": "flew (Verb)-এর স্থান নির্দেশ করেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Appositive Phrase-এর বিরামচিহ্ন ও প্রয়োগ",
+      "nameEn": "Apposition Mechanics and Punctuation Boundaries",
+      "formula": "Main Subject , [Appositive Phrase] , Main Verb + Extension",
+      "shortcutTrick": "Appositive Phrase-এর দুই পাশেই কমা (,) বসবে এবং এটিকে বাক্য থেকে মুছে দিলেও বাক্য অর্থপূর্ণ থাকবে!",
+      "descriptionBn": "Mr. Rahman, our revered English teacher, has retired (Mr. Rahman has retired অর্থবহ থাকে)।",
+      "examples": [
+        {
+          "en": "Dhaka, the bustling capital of Bangladesh, is an ancient city.",
+          "bn": "বাংলাদেশের কোলাহলপূর্ণ রাজধানী ঢাকা একটি প্রাচীন নগরী।",
+          "note": "the bustling capital... হলো Appositive Phrase।"
+        },
+        {
+          "en": "Albert Einstein, the father of modern theoretical physics, was a modest genius.",
+          "bn": "আধুনিক তাত্ত্বিক পদার্থবিজ্ঞানের জনক আলবার্ট আইনস্টাইন ছিলেন একজন বিনম্র প্রতিভাবান ব্যক্তি।",
+          "note": "Appositive Phrase।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He was a man of extraordinary wisdom and integrity.",
+      "bn": "তিনি অসাধারণ প্রজ্ঞা ও সততার মানুষ ছিলেন।",
+      "note": "Adjective Phrase (a man of...)।"
+    },
+    {
+      "en": "The soldiers fought with unparalleled bravery against the invaders.",
+      "bn": "সৈনিকরা দখলদারদের বিরুদ্ধে অতুলনীয় বীরত্বের সাথে যুদ্ধ করেছিল।",
+      "note": "Adverb Phrase of Manner।"
+    },
+    {
+      "en": "Early to bed and early to rise makes a man healthy.",
+      "bn": "তাড়াতাড়ি ঘুমানো এবং ভোরে ওঠা মানুষকে স্বাস্থ্যবান করে।",
+      "note": "Noun Phrase (Subject হিসেবে)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Absolute Phrase বাক্যের মূল ব্যাকরণের সাথে ব্যাকরণগতভাবে বিচ্ছিন্ন",
+      "exceptionText": "Nominative Absolute ফ্রেজে নিজস্ব Subject ও Participle থাকে কিন্তু মূল বাক্যের কোনো ক্লজের সাথে কোনো কনজাংশন দ্বারা সরাসরি যুক্ত থাকে না।",
+      "exampleEn": "The rain having ceased, the children rushed outdoors to play.",
+      "exampleBn": "বৃষ্টি থেমে যাওয়ায় শিশুরা বাইরে খেলতে ছুটে গেল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He lives in a house made of bricks. (Confusing \"made of bricks\" as a clause)",
+      "correct": "It is an Adjective Phrase, not a clause.",
+      "reasonBn": "\"made of bricks\"-এ কোনো Finite Verb নেই, তাই এটি একটি ফ্রেজ।"
+    },
+    {
+      "mistake": "He ran fastly.",
+      "correct": "He ran with great speed. (or He ran fast)",
+      "reasonBn": "Fastly কোনো ইংরেজি শব্দ নয়; ফ্রেজ হিসেবে with great speed বসবে।"
+    }
+  ],
+  "tags": [
+    "phrase classification",
+    "noun phrase",
+    "adjective phrase",
+    "adverb phrase",
+    "appositive phrase",
+    "absolute phrase",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 190101,
+      "question": "In \"The gentleman with grey hair is a renowned surgeon\", what type of phrase is \"with grey hair\"?",
+      "questionBn": "\"The gentleman with grey hair is a renowned surgeon\" বাক্যে \"with grey hair\" কোন ধরনের ফ্রেজ?",
+      "options": [
+        "Noun Phrase",
+        "Adjective Phrase",
+        "Adverb Phrase",
+        "Prepositional Verb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"with grey hair\" শব্দগুচ্ছটি Noun \"The gentleman\"-কে বিশেষায়িত করায় এটি একটি Adjective Phrase।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 190102,
+      "question": "In \"He performed the complicated surgical procedure with extreme care\", what is \"with extreme care\"?",
+      "questionBn": "\"He performed the complicated surgical procedure with extreme care\" বাক্যে \"with extreme care\" কী?",
+      "options": [
+        "Adverb Phrase of Manner",
+        "Adjective Phrase",
+        "Noun Phrase",
+        "Absolute Phrase"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "পদ্ধতি প্রকাশ করে Verb \"performed\"-কে কীভাবে (How) প্রশ্নের উত্তর দেওয়ায় এটি Adverb Phrase of Manner।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 190101,
+      "type": "Phrase Identification",
+      "prompt": "Identify the phrase types: (a) To win the scholarship is his sole ambition. (b) The car parked outside the gate belongs to my uncle.",
+      "correctAnswer": "(a) Noun Phrase (Infinitive phrase functioning as Subject), (b) Adjective Phrase (Participial phrase modifying \"The car\").",
+      "explanationBn": "ফ্রেজ শনাক্তকরণ ড্রিল।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 190101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Phrase identification and classification in SSC examinations:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between a Phrase and a Sentence with examples.",
+          "answer": "A Phrase is a cluster of related words lacking a finite verb and cannot express a complete thought by itself (\"in the morning\"). A Sentence contains at least one subject and a finite verb expressing a complete thought (\"The sun rises in the morning\").",
+          "explanationBn": "ফ্রেজ বনাম বাক্যের সংজ্ঞা ও উদাহরণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ব্যাকরণের মৌলিক বাক্যতত্ত্বের প্রারম্ভিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-question-chapter-practice-set': {
+  "id": 1806,
+  "chapterId": 18,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: Tag Question Practice & Full SSC Board Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: ট্যাগ কোশ্চেন পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Tag Question Practice)",
+  "slug": "tag-question-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের Tag Question প্রশ্নব্যাংক। Polarity, I am (aren't I), Everybody (don't they), Semi-negatives (Hardly/Seldom), Imperatives (Let's -> shall we, Don't -> will you) এবং Used to (didn't he)-এর সমন্বিত চূড়ান্ত পরীক্ষা।",
+  "definitionEn": "A high-stakes, comprehensive tag question assessment testing syntactic polarity, operator inversion, pronominal concord shifts, and imperative directives for SSC examination mastery.",
+  "definitionBn": "ট্যাগ কোশ্চেনের যাবতীয় নিয়ম, ব্যতিক্রমী গঠন, প্রবাদবাক্য ও বিগত ১০ বছরের বোর্ড প্রশ্নের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের প্রশ্ন ৯-এ ৫ নম্বরের মধ্যে ৫ নম্বর নিশ্চিত করতে এই প্র্যাকটিস সেটটি অত্যন্ত সহায়ক।",
+  "teacherGoldenTips": "পরীক্ষার আগের ৫ মিনিটের রিভিশন টিপস:\n১. বাক্য হ্যাঁ হলে ট্যাগ না, বাক্য না হলে ট্যাগ হ্যাঁ!\n২. I am -> aren't I?\n৩. Let's -> shall we?\n৪. Everybody/Nobody -> they!\n৫. Hardly/Seldom/Few/Little -> পজিটিভ ট্যাগ (+)!",
+  "mainFormula": "Master Tag Matrix: Polarity Shift + Auxiliary/Do-support + Pronominal Concord (they/it/we/you/there)",
+  "formulas": [
+    {
+      "label": "Universal Tag Matrix",
+      "structure": "Positive -> Negative tag | Negative -> Positive tag | Imperative -> will you | Let's -> shall we",
+      "tag": "Universal Matrix",
+      "example": "Master review across all tag question categories."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষার খাতায় ট্যাগ কোশ্চেন লেখার নিয়ম",
+      "nameEn": "Standard Examination Format for Tag Questions",
+      "formula": "Rewrite entire sentence + COMMA (,) + TAG QUESTION + QUESTION MARK (?) + Underline tag",
+      "shortcutTrick": "শুধু ট্যাগটি না লিখে পুরো বাক্যটি তুলে কমা ও আন্ডারলাইন সহ লিখলে পুরো নম্বর নিশ্চিত হয়!",
+      "descriptionBn": "বোর্ড পরীক্ষার নির্দেশনা অনুযায়ী সম্পূর্ণ বাক্য লিখে কমা দিয়ে ট্যাগ যুক্ত করে নিচে দাগ দেওয়া শ্রেয়।",
+      "examples": [
+        {
+          "en": "Honesty is the best policy, isn't it?",
+          "bn": "সততাই সর্বোৎকৃষ্ট পন্থা, তাই নয় কি?",
+          "note": "পূর্ণাঙ্গ ফরম্যাট।"
+        },
+        {
+          "en": "Let us build a prosperous nation, shall we?",
+          "bn": "চলো আমরা একটি সমৃদ্ধ জাতি গড়ে তুলি, গড়ব কি?",
+          "note": "shall we?"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "None can prosper in life without diligence, can they?",
+      "bn": "পরিশ্রম ছাড়া কেউ জীবনে উন্নতি করতে পারে না, পারে কি?",
+      "note": "None -> can they?"
+    },
+    {
+      "en": "The mother rose in her, didn't it?",
+      "bn": "তার মধ্যে মাতৃত্ব জেগে উঠল, তাই নয় কি?",
+      "note": "Abstract noun \"The mother\" -> didn't it?"
+    },
+    {
+      "en": "You had better complete the syllabus before the pre-test, hadn't you?",
+      "bn": "প্রাক-নির্বাচনী পরীক্ষার আগেই তোমার সিলেবাস শেষ করা উচিত, তাই নয় কি?",
+      "note": "had better -> hadn't you?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "The mother rose in her (মাতৃত্ব প্রকাশে It)",
+      "exceptionText": "\"The mother\", \"The father\", \"The beast\" যখন গুণবাচক বা ভাববাচক অর্থে বসে (মাতৃত্ব, পিতৃত্ব, পশুত্ব), তখন ট্যাগে Pronoun হিসেবে she/he না বসে \"IT\" বসে।",
+      "exampleEn": "The beast in him suddenly emerged, didn't it?",
+      "exampleBn": "তার ভেতরের পশুটি হঠাৎ জেগে উঠল, তাই নয় কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Everybody has gone, hasn't they?",
+      "correct": "Everybody has gone, haven't they?",
+      "reasonBn": "They-এর সাথে Hasn't নয়, \"haven't\" বসবে।"
+    },
+    {
+      "mistake": "He hardly works hard, doesn't he?",
+      "correct": "He hardly works hard, does he?",
+      "reasonBn": "Hardly থাকায় ট্যাগ হ্যাঁ-বোধক (does he) হবে।"
+    }
+  ],
+  "tags": [
+    "tag question practice",
+    "chapter practice set",
+    "ssc 5 marks tag vault",
+    "the mother rose in her",
+    "board exam tag questions"
+  ],
+  "mcqs": [
+    {
+      "id": 180601,
+      "question": "The mother rose in her when she saw the crying orphan, _____?",
+      "questionBn": "\"The mother rose in her when she saw the crying orphan, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "didn't she",
+        "didn't it",
+        "wasn't it",
+        "did she"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The mother\" এখানে রক্তমাংসের মা নয়, বরং \"মাতৃত্ববোধ\" (Abstract Noun) প্রকাশ করায় Pronoun হিসেবে \"it\" বসবে: \"didn't it?\"।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 180602,
+      "question": "Let us not waste our youth in ephemeral trivialities, _____?",
+      "questionBn": "\"Let us not waste our youth in ephemeral trivialities, _____?\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "shall we",
+        "will you",
+        "should we",
+        "can we"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Let us\" দিয়ে শুরু হওয়া যৌথ প্রস্তাবের ট্যাগ সর্বদা \"shall we?\" হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180601,
+      "type": "Comprehensive SSC Tag Question Set",
+      "prompt": "Add tags to the 5 sentences: (a) Time and tide wait for none, _____? (b) Telling lies is a great sin, _____? (c) One should do one's duty, _____? (d) Let him complete the task, _____? (e) He seldom visits us, _____?",
+      "correctAnswer": "(a) do they? (b) isn't it? (c) shouldn't one? (or shouldn't they?) (d) will you? (e) does he?",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের আদর্শ প্রশ্ন সেট।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 18 Comprehensive Tag Question Model:",
+      "subQuestions": [
+        {
+          "questionText": "Supply the tag question: \"Neither of them was present at the conference, _____?\"",
+          "answer": "were they?",
+          "explanationBn": "Neither of them না-বোধক হওয়ায় ট্যাগ পজিটিভ এবং Pronoun \"they\" হওয়ায় were বসবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৯-এর পূর্ণাঙ্গ মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-marginal-modals-special-subjects': {
+  "id": 1805,
+  "chapterId": 18,
+  "topicNo": "০৫",
+  "titleEn": "Tag Questions: Marginal Modals (Need, Dare, Used to) & Special Subjects (There, This/That)",
+  "titleBn": "বিশেষ মডাল (Need, Dare, Used to) এবং বিশেষ কর্তার ট্যাগ (There, This/That, These/Those)",
+  "slug": "tag-marginal-modals-special-subjects",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Need ও Dare-এর মডাল রূপ (Needn't he? / Daren't he?) বনাম মূল ভার্ব রূপ (Doesn't he? / Didn't he?)। Used to থাকলে didn't he? বসা। Intro There থাকলে ট্যাগে There বহাল থাকা। This/That থাকলে It, এবং These/Those থাকলে They বসার চূড়ান্ত কৌশল।",
+  "definitionEn": "Marginal modals (need, dare, used to) display dual syntactic behavior as either lexical verbs requiring do-support or auxiliary operators acting as their own tags. Demonstratives (this, that, these, those) map respectively to singular \"it\" and plural \"they\".",
+  "definitionBn": "Need এবং Dare যখন Modal হিসেবে বসে তখন সরাসরি ট্যাগে অপারেটর হয়, কিন্তু Lexical Verb হিসেবে বসলে do/does/did গ্রহণ করে। Used to সর্বদা \"didn't\" গ্রহণ করে। This/That থাকলে It এবং These/Those থাকলে They বসে।",
+  "explanationBn": "প্রধান ৪টি ট্রিকি নিয়ম:\n১. Need-এর দ্বৈত ভূমিকা:\n- মডাল হিসেবে (Need not): You needn't go, NEED YOU?\n- মূল ভার্ব হিসেবে: He needs money, DOESN'T HE?\n- He needed help, DIDN'T HE?\n\n২. Dare-এর দ্বৈত ভূমিকা:\n- মডাল হিসেবে: He daren't refuse, DARE HE?\n- মূল ভার্ব হিসেবে: He dares to oppose, DOESN'T HE?\n\n৩. Used to:\n- অতীতের অভ্যাস নির্দেশ করে; এর ট্যাগ সর্বদা \"DIDN'T HE?\"\n- He used to swim in the river, DIDN'T HE?\n\n৪. বিশেষ Subject:\n- There is / There was -> ISN'T THERE? / WASN'T THERE? (There অপরিবর্তিত থাকে)।\n- This is / That is -> ISN'T IT? (This/That পরিবর্তিত হয়ে It হয়)।\n- These are / Those are -> AREN'T THEY? (These/Those পরিবর্তিত হয়ে They হয়)।",
+  "teacherGoldenTips": "নিড ও ইউজড টু-র দ্রুত সমাধান:\n- Need-এর সাথে 's' (needs) থাকলে doesn't; আর Need-এর সাথে not (needn't) থাকলে need!\n- Used to দেখলেই চোখ বন্ধ করে DIDN'T বসিয়ে দিন!\n- There থাকলে ট্যাগেও THERE-ই থাকবে!",
+  "mainFormula": "Used to -> DIDN'T + Pronoun ? | There + is/are -> isn't/aren't THERE ? | This/That -> IT ? | These/Those -> THEY ?",
+  "formulas": [
+    {
+      "label": "Used to Tag",
+      "structure": "Subject + USED TO + Base Verb -> DIDN'T + Subject Pronoun ?",
+      "tag": "Used to",
+      "example": "He used to live in London, didn't he?"
+    },
+    {
+      "label": "There as Subject",
+      "structure": "THERE + is / was / are / were -> Aux + n't + THERE ?",
+      "tag": "There Tag",
+      "example": "There is a high school in our village, isn't there?"
+    },
+    {
+      "label": "Demonstrative This / That",
+      "structure": "THIS / THAT + is -> ISN'T IT ?",
+      "tag": "This/That -> It",
+      "example": "This is your laptop, isn't it?"
+    },
+    {
+      "label": "Demonstrative These / Those",
+      "structure": "THESE / THOSE + are -> AREN'T THEY ?",
+      "tag": "These/Those -> They",
+      "example": "Those are ripe mangoes, aren't they?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Used to-র পর সর্বদা Didn't বসার নিয়ম",
+      "nameEn": "Past Operator \"Didn't\" for \"Used to\"",
+      "formula": "Subject + USED TO + V1 -> DIDN'T + Pronoun ?",
+      "shortcutTrick": "Used to অতীতের ঘটনা নির্দেশ করে, তাই এর ট্যাগ সর্বদা \"didn't\" হবে!",
+      "descriptionBn": "He used to play football, usedn't he? বলা অত্যন্ত অপ্রচলিত; আধুনিক প্রমিত নিয়মে \"didn't he?\" বসবে।",
+      "examples": [
+        {
+          "en": "The old sailor used to narrate fascinating sea voyages, didn't he?",
+          "bn": "বৃদ্ধ নাবিক আকর্ষণীয় সমুদ্র অভিযানের গল্প শোনাতেন, তাই নয় কি?",
+          "note": "used to -> didn't he?"
+        },
+        {
+          "en": "They used to be intimate companions in childhood, didn't they?",
+          "bn": "শৈশবে তারা ঘনিষ্ঠ সঙ্গী ছিল, তাই নয় কি?",
+          "note": "didn't they?"
+        }
+      ]
+    },
+    {
+      "nameBn": "This / That পরিবর্তিত হয়ে It কিন্তু There অপরিবর্তিত থাকার নিয়ম",
+      "nameEn": "Pronominal Mapping: \"This/That\" to \"It\" vs Invariant \"There\"",
+      "formula": "This / That -> IT ? | These / Those -> THEY ? | THERE -> THERE ?",
+      "shortcutTrick": "দিস/দ্যাট হলে ইট (it), দিজ/দোজ হলে দে (they), আর দেয়ার হলে দেয়ার (there)-ই থাকবে!",
+      "descriptionBn": "That is my pen, isn't that? ভুল; বলতে হবে \"isn't it?\"। কিন্তু There is a pond, isn't there? সঠিক।",
+      "examples": [
+        {
+          "en": "That was a sensational performance by the pianist, wasn't it?",
+          "bn": "পিয়ানোবাদকের সেটি একটি চমকপ্রদ পরিবেশনা ছিল, তাই নয় কি?",
+          "note": "That -> wasn't it?"
+        },
+        {
+          "en": "There were many historical manuscripts in the archive, weren't there?",
+          "bn": "মহাফেজখানায় অনেক ঐতিহাসিক পাণ্ডুলিপি ছিল, তাই নয় কি?",
+          "note": "There -> weren't there?"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "You needn't worry about the accommodation logistics, need you?",
+      "bn": "তোমাকে থাকার লজিস্টিকস নিয়ে চিন্তা করতে হবে না, করতে হবে কি?",
+      "note": "needn't -> need you?"
+    },
+    {
+      "en": "He needs a thorough medical checkup, doesn't he?",
+      "bn": "তার একটি পুঙ্খানুপুঙ্খ স্বাস্থ্য পরীক্ষা প্রয়োজন, তাই নয় কি?",
+      "note": "needs (মূল ভার্ব) -> doesn't he?"
+    },
+    {
+      "en": "These are your newly purchased reference books, aren't they?",
+      "bn": "এগুলো তোমার সদ্য কেনা রেফারেন্স বই, তাই নয় কি?",
+      "note": "These -> aren't they?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Had better-এর ট্যাগ Hadn't হয়",
+      "exceptionText": "Had better থাকলে আপাতদৃষ্টিতে better থাকলেও সাহায্যকারী হিসেবে \"had\"-ই ব্যবহৃত হয় (e.g. You had better leave, hadn't you?).",
+      "exampleEn": "You had better consult a legal advisor, hadn't you?",
+      "exampleBn": "তোমার বরং একজন আইনি উপদেষ্টার সাথে কথা বলা উচিত, তাই নয় কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He used to smoke, usedn't he?",
+      "correct": "He used to smoke, didn't he?",
+      "reasonBn": "Used to-র আধুনিক প্রমিত ট্যাগ হলো \"didn't he?\"।"
+    },
+    {
+      "mistake": "This is great, isn't this?",
+      "correct": "This is great, isn't it?",
+      "reasonBn": "This/That ট্যাগে Pronoun \"it\" ধারণ করে।"
+    }
+  ],
+  "tags": [
+    "used to didnt he",
+    "neednt need you",
+    "there isnt there",
+    "this that isnt it",
+    "had better hadnt you",
+    "ssc tag questions"
+  ],
+  "mcqs": [
+    {
+      "id": 180501,
+      "question": "My grandfather used to take a long stroll along the riverbank every dawn, _____?",
+      "questionBn": "\"My grandfather used to take a long stroll along the riverbank every dawn, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "usedn't he",
+        "didn't he",
+        "doesn't he",
+        "wasn't he"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"used to\"-র আধুনিক প্রমিত নেগেটিভ ট্যাগ হলো \"didn't he?\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 180502,
+      "question": "There were considerable obstacles during the initial phase of the venture, _____?",
+      "questionBn": "\"There were considerable obstacles during the initial phase of the venture, _____?\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "weren't they",
+        "weren't there",
+        "were they",
+        "wasn't there"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Introductory \"There\" ট্যাগে অপরিবর্তিত থাকে, তাই \"weren't there?\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180501,
+      "type": "Special Subjects Tag Drill",
+      "prompt": "Form tags for: (a) You had better accept the offer, _____? (b) That was a breathtaking view, _____?",
+      "correctAnswer": "(a) hadn't you? (b) wasn't it?",
+      "explanationBn": "Had better -> hadn't you এবং That -> wasn't it।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Used to and Introductory There in SSC Tag Questions:",
+      "subQuestions": [
+        {
+          "questionText": "Supply the tag: \"There is no cloud without a silver lining, _____.\"",
+          "answer": "is there?",
+          "explanationBn": "দেয়ার ইজ নো ক্লাউড...-এর সঠিক বোর্ড ট্যাগ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৯ (Tag Questions)-এর অত্যন্ত পরিচিত প্রবাদ প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-imperatives-let-proposals': {
+  "id": 1804,
+  "chapterId": 18,
+  "topicNo": "০৪",
+  "titleEn": "Tag Questions: Imperative Sentences & \"Let's\" (Proposal) vs \"Let Him\" (Permission)",
+  "titleBn": "অনুজ্ঞাবাচক বাক্যের ট্যাগ: \"Let's\"-এর ক্ষেত্রে Shall We বনাম \"Let Him\"-এর ক্ষেত্রে Will You",
+  "slug": "tag-imperatives-let-proposals",
+  "difficulty": "MEDIUM",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "আদেশ, নিষেধ ও অনুরোধের ক্ষেত্রে Will you / Won't you / Can you। না-বোধক অনুজ্ঞায় (Don't) সর্বদা Will you। Let's / Let us (প্রস্তাব) থাকলে সর্বদা \"SHALL WE?\" এবং Let him / Let them / Let me (অনুমতি) থাকলে সর্বদা \"WILL YOU?\" বসার চূড়ান্ত নিয়ম।",
+  "definitionEn": "Imperative tag questions appeal to willingness or compliance. Proposals introduced by \"Let's / Let us\" uniquely govern \"shall we?\", while standard directives and permissive \"Let him/her/them\" govern \"will you?\".",
+  "definitionBn": "অনুজ্ঞাবাচক বাক্যের Tag Question মূলত শ্রোতার সম্মতি বা ইচ্ছা জানতে চায়। Let's (প্রস্তাব) থাকলে সর্বদা \"shall we?\" বসে এবং অন্যান্য সমস্ত অনুজ্ঞাবাচক বাক্য ও Let him/them-এর ক্ষেত্রে \"will you?\" বসে।",
+  "explanationBn": "৩টি অতি গুরুত্বপূর্ণ নিয়ম:\n১. Let's / Let us (প্রস্তাব বা Suggestion):\n- Let's বা Let us দিয়ে শুরু হওয়া যেকোনো বাক্যের ট্যাগ চোখ বন্ধ করে \"SHALL WE?\" হবে!\n- Let's discuss the topic, SHALL WE?\n- Let us arrange a tour, SHALL WE?\n\n২. Let him / Let them / Let me / Let her (অনুমতি বা Permission):\n- Let-এর পর \"us\" ছাড়া অন্য কোনো অবজেক্ট থাকলে ট্যাগ হবে \"WILL YOU?\"\n- Let him do whatever he likes, WILL YOU?\n- Let me explain the circumstances, WILL YOU?\n\n৩. সাধারণ Imperative Sentences:\n- আদেশ বা অনুরোধ (হ্যাঁ-বোধক): Open the door, WILL YOU? (বা won't you? / can you?)\n- না-বোধক আদেশ (Don't...): Don't forget to post the letter, WILL YOU?\n- জরুরি বা অধৈর্য প্রকাশে: Shut up, CAN'T YOU?",
+  "teacherGoldenTips": "লেট-এর ট্যাগ কোশ্চেন চেনার সহজ উপায়:\n১. Let-এর সাথে 'S' বা 'US' দেখলেই হবে SHALL WE?\n২. Let-এর পর ME, HIM, HER, THEM দেখলেই হবে WILL YOU?\n৩. Don't দিয়ে শুরু হওয়া বাক্যে সর্বদা হবে WILL YOU?",
+  "mainFormula": "Let's / Let us -> SHALL WE ? | Let him / Let them / Imperative -> WILL YOU ?",
+  "formulas": [
+    {
+      "label": "Proposal (Let's / Let us)",
+      "structure": "LET'S / LET US + Base Verb -> SHALL WE ?",
+      "tag": "Shall we",
+      "example": "Let's go for a swim, shall we? Let us help the poor, shall we?"
+    },
+    {
+      "label": "Permission (Let me/him/them)",
+      "structure": "LET + (me / him / her / them / Rahim) + V1 -> WILL YOU ?",
+      "tag": "Will you",
+      "example": "Let him speak without interruption, will you?"
+    },
+    {
+      "label": "Affirmative Imperative",
+      "structure": "Base Verb + Extension -> WILL YOU ? (or won't you?)",
+      "tag": "Imperative",
+      "example": "Please pass me the salt, will you?"
+    },
+    {
+      "label": "Negative Imperative (Don't)",
+      "structure": "DON'T + Base Verb + Extension -> WILL YOU ?",
+      "tag": "Don't",
+      "example": "Don't disclose this secret to anyone, will you?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Let's বনাম Let him-এর পরিষ্কার পার্থক্য",
+      "nameEn": "Proposal (\"Shall we\") vs Permission (\"Will you\")",
+      "formula": "LET'S / LET US = SHALL WE ? | LET + (him / them / me / her) = WILL YOU ?",
+      "shortcutTrick": "Let us থাকলে We দিয়ে shall we; আর বাকি সব Let-এ You দিয়ে will you!",
+      "descriptionBn": "Let us go home, shall we? (আমরা বাড়ি যাই—প্রস্তাব)। Let him go home, will you? (তাকে বাড়ি যেতে দিন—অনুমতি)।",
+      "examples": [
+        {
+          "en": "Let's resolve this crisis through mutual dialogue, shall we?",
+          "bn": "চলো পারস্পরিক সংলাপের মাধ্যমে এই সংকটের সমাধান করি, করব কি?",
+          "note": "Let's -> shall we?"
+        },
+        {
+          "en": "Let the children play in the open field, will you?",
+          "bn": "বাচ্চাদের খোলা মাঠে খেলতে দাও, দেবে কি?",
+          "note": "Let + the children -> will you?"
+        }
+      ]
+    },
+    {
+      "nameBn": "না-বোধক অনুজ্ঞায় (Don't) সর্বদা Will you",
+      "nameEn": "Invariable \"Will you\" in Negative Imperatives",
+      "formula": "DON'T + Verb -> WILL YOU ?",
+      "shortcutTrick": "শুরুতে Don't দেখলেই চোখ বন্ধ করে \"will you?\" লিখে দিন!",
+      "descriptionBn": "Don't run in the sun, will you? Don't make a noise, will you?",
+      "examples": [
+        {
+          "en": "Don't touch the live electrical wire, will you?",
+          "bn": "বিদ্যুতায়িত তার স্পর্শ করো না, করবে কি?",
+          "note": "Don't -> will you?"
+        },
+        {
+          "en": "Don't arrive late for the interview, will you?",
+          "bn": "সাক্ষাৎকারের জন্য দেরিতে এসো না, আসবে কি?",
+          "note": "Don't -> will you?"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Have a cup of hot coffee with us, won't you? (or will you?)",
+      "bn": "আমাদের সাথে এক কাপ গরম কফি খান, খাবেন কি?",
+      "note": "আমন্ত্রণ/অনুরোধ।"
+    },
+    {
+      "en": "Let me handle this delicate transaction alone, will you?",
+      "bn": "আমাকে একা এই স্পর্শকাতর লেনদেনটি পরিচালনা করতে দাও, দেবে কি?",
+      "note": "Let me -> will you?"
+    },
+    {
+      "en": "Never tell a lie to your benefactors, will you?",
+      "bn": "উপকারকারীদের সাথে কখনো মিথ্যা বোলো না, বলবে কি?",
+      "note": "Never + Imperative -> will you?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "তীব্র বিরক্তি বা তাড়া দিতে Can't you",
+      "exceptionText": "শ্রোতার ওপর চরম অধৈর্য বা বিরক্তি প্রকাশ করার সময় Imperative-এর ট্যাগে will you-র বদলে \"can't you?\" ব্যবহৃত হয় (e.g. Keep quiet, can't you?).",
+      "exampleEn": "Listen to what I am saying, can't you?",
+      "exampleBn": "আমি যা বলছি তা শোনো, শুনতে পাচ্ছ না?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Let's play cricket, will you?",
+      "correct": "Let's play cricket, shall we?",
+      "reasonBn": "Let's দ্বারা প্রস্তাব প্রকাশ পাওয়ায় ট্যাগ হবে \"shall we?\"।"
+    },
+    {
+      "mistake": "Don't make a noise, won't you?",
+      "correct": "Don't make a noise, will you?",
+      "reasonBn": "Don't যুক্ত বাক্যে সর্বদা হ্যাঁ-বোধক ট্যাগ \"will you?\" বসে।"
+    }
+  ],
+  "tags": [
+    "imperative tag",
+    "lets shall we",
+    "let him will you",
+    "dont will you",
+    "shut up cant you",
+    "ssc tag question"
+  ],
+  "mcqs": [
+    {
+      "id": 180401,
+      "question": "Let's plant more trees to preserve our fragile ecosystem, _____?",
+      "questionBn": "\"Let's plant more trees to preserve our fragile ecosystem, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "will you",
+        "shall we",
+        "won't we",
+        "can we"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Let's\" দ্বারা সম্মিলিত প্রস্তাব প্রকাশ পাওয়ায় ট্যাগটি হবে \"shall we?\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 180402,
+      "question": "Don't forget to lock the main entrance securely, _____?",
+      "questionBn": "\"Don't forget to lock the main entrance securely, _____?\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "won't you",
+        "will you",
+        "shall you",
+        "do you"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "না-বোধক অনুজ্ঞা (Don't...)-এর পর ট্যাগ হিসেবে সর্বদা \"will you?\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180401,
+      "type": "Imperative Tag Drill",
+      "prompt": "Provide tags for: (a) Let him speak without fear, _____? (b) Let us examine the data, _____?",
+      "correctAnswer": "(a) will you? (b) shall we?",
+      "explanationBn": "Let him (অনুমতি) -> will you এবং Let us (প্রস্তাব) -> shall we।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Imperative and Let tag questions in SSC examinations:",
+      "subQuestions": [
+        {
+          "questionText": "Differentiate between the tags of \"Let's do it\" and \"Let them do it\".",
+          "answer": "\"Let's do it\" is a first-person plural proposal and takes the tag \"shall we?\". \"Let them do it\" is a request for third-person permission directed to the listener, taking the tag \"will you?\".",
+          "explanationBn": "লেটস (শাল উই) বনাম লেট দেম (উইল ইউ)-এর পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৯ (Tag Questions)-এ এটি প্রতি বছর ১০০% নিশ্চিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-semi-negatives-restrictive-adverbs': {
+  "id": 1803,
+  "chapterId": 18,
+  "topicNo": "০৩",
+  "titleEn": "Tag Questions: Semi-Negative Adverbs (Hardly, Seldom) & Restrictive Quantifiers (Few, Little)",
+  "titleBn": "আধা-না-বোধক শব্দ ও সীমিত পরিমাণবাচক শব্দের ট্যাগ (Hardly, Seldom, Few, Little)",
+  "slug": "tag-semi-negatives-restrictive-adverbs",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "দেখতে হ্যাঁ-বোধক কিন্তু অর্থে না-বোধক শব্দ। Hardly, Scarcely, Barely, Seldom, Rarely, Few, Little থাকলে মূল বাক্যকে নেগেটিভ ধরা হয় এবং ট্যাগটি সর্বদা পজিটিভ (Affirmative) হয়। \"A few\" ও \"A little\" হ্যাঁ-বোধক হওয়ায় এদের ট্যাগ নেগেটিভ বসার তুলনামূলক বিশ্লেষণ।",
+  "definitionEn": "Sentences containing semi-negative adverbs (hardly, scarcely, barely, seldom, rarely) or inherently negative quantifiers (few, little) are syntactically non-assertive and require affirmative tag questions. Conversely, \"a few\" and \"a little\" are positive and demand negative tags.",
+  "definitionBn": "যেসব বাক্যে Hardly, Seldom, Scarcely, Barely, Rarely, Few বা Little থাকে, সেসব বাক্য গঠনগতভাবে হ্যাঁ-বোধক মনে হলেও অর্থগতভাবে না-বোধক। তাই এদের পর Tag Question সর্বদা হ্যাঁ-বোধক (Affirmative) হয়।",
+  "explanationBn": "২টি প্রধান তুলনামূলক দল:\n১. আধা-না-বোধক শব্দ (ট্যাগ সর্বদা POSITIVE):\n- Hardly / Scarcely / Barely (কদাচিৎ/প্রায় না):\n  He hardly comes here, DOES HE?\n- Seldom / Rarely (কদাচিৎ):\n  Barking dogs seldom bite, DO THEY?\n- Few (নেই বললেই চলে - সংখ্যায়):\n  Few students attended the seminar, DID THEY?\n- Little (নেই বললেই চলে - পরিমাপে):\n  There is little milk in the glass, IS THERE?\n\n২. \"A few\" এবং \"A little\" ব্যতিক্রম (ট্যাগ NEGATIVE):\n- \"A few\" মানে কিছুসংখ্যক (পজিটিভ) -> ট্যাগ নেগেটিভ:\n  A few students were present, WEREN'T THEY?\n- \"A little\" মানে কিছুটা (পজিটিভ) -> ট্যাগ নেগেটিভ:\n  There is a little water, ISN'T THERE?",
+  "teacherGoldenTips": "ফিউ বনাম এ ফিউ-এর মারাত্মক ট্রিক:\n- শুধু FEW বা শুধু LITTLE দেখলে ট্যাগ হবে পজিটিভ (+)! যেমন: Little water -> is there?\n- আগে \"A\" (A FEW বা A LITTLE) দেখলে বাক্যটি হ্যাঁ-বোধক, তাই ট্যাগ হবে নেগেটিভ (-)! যেমন: A little water -> isn't there?",
+  "mainFormula": "Hardly / Seldom / Few / Little -> POSITIVE TAG | A few / A little -> NEGATIVE TAG",
+  "formulas": [
+    {
+      "label": "Semi-Negative Adverbs",
+      "structure": "Subject + (hardly / seldom / scarcely / barely) + Verb -> POSITIVE AUXILIARY + Pronoun ?",
+      "tag": "Semi-Negative",
+      "example": "She seldom visits her ancestral village, does she?"
+    },
+    {
+      "label": "Negative Few / Little",
+      "structure": "Few + Plural Noun / Little + Uncountable -> POSITIVE AUXILIARY + Pronoun ?",
+      "tag": "Few/Little",
+      "example": "Few men are completely free from flaws, are they? He has little hope, has he?"
+    },
+    {
+      "label": "Positive \"A few / A little\"",
+      "structure": "A few + Plural Noun / A little + Mass -> NEGATIVE AUXILIARY (n't) + Pronoun ?",
+      "tag": "A few/A little",
+      "example": "A few friends helped him, didn't they? He has a little money, doesn't he?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Hardly / Seldom যুক্ত বাক্যের ট্যাগ সর্বদা হ্যাঁ-বোধক",
+      "nameEn": "Affirmative Tags for Inherent Semi-Negatives",
+      "formula": "Subject + HARDLY / SELDOM / SCARCELY + Verb -> AFFIRMATIVE TAG (NO N'T)",
+      "shortcutTrick": "বাক্যে Hardly, Seldom, Scarcely দেখা মাত্রই নিশ্চিত হয়ে নিন ট্যাগে কোনো \"n't\" বসবে না!",
+      "descriptionBn": "He seldom tells a lie, doesn't he? বলা মারাত্মক ভুল; Seldom থাকায় বাক্যটি নেগেটিভ, তাই \"does he?\" হবে।",
+      "examples": [
+        {
+          "en": "A barking dog seldom bites, does it? (or do they?)",
+          "bn": "ঘেউ ঘেউ করা কুকুর কদাচিৎ কামড়ায়, তাই কি?",
+          "note": "seldom থাকায় পজিটিভ ট্যাগ।"
+        },
+        {
+          "en": "He hardly ever watches television, does he?",
+          "bn": "সে টেলিভিশনের দিকে তাকায়ই না বললেই চলে, তাই কি?",
+          "note": "hardly থাকায় does he।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Few বনাম A few এবং Little বনাম A little-এর ট্যাগ পার্থক্য",
+      "nameEn": "Contrastive Tag Polarity: \"Few/Little\" vs \"A few/A little\"",
+      "formula": "Few / Little = Negative (Positive Tag) | A few / A little = Positive (Negative Tag)",
+      "shortcutTrick": "শুরুতে 'A' থাকলে ট্যাগে n't বসবে; আর 'A' না থাকলে ট্যাগে n't বসবে না!",
+      "descriptionBn": "He has little patience, has he? কিন্তু He has a little patience, hasn't he? / doesn't he?",
+      "examples": [
+        {
+          "en": "There is little hope of his miraculous recovery, is there?",
+          "bn": "তার অলৌকিক আরোগ্যের আশা নেই বললেই চলে, তাই কি?",
+          "note": "little hope -> is there?"
+        },
+        {
+          "en": "He gave me a little financial assistance, didn't he?",
+          "bn": "তিনি আমাকে সামান্য আর্থিক সহায়তা দিয়েছিলেন, তাই নয় কি?",
+          "note": "a little -> didn't he?"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "She scarcely speaks in public gatherings, does she?",
+      "bn": "সে জনসমাবেশে কথা বলে না বললেই চলে, তাই কি?",
+      "note": "scarcely -> does she?"
+    },
+    {
+      "en": "Few politicians are genuinely altruistic, are they?",
+      "bn": "খুব কম রাজনীতিবিদই প্রকৃত পরোপকারী, তাই কি?",
+      "note": "few politicians -> are they?"
+    },
+    {
+      "en": "A few passengers boarded the evening bus, didn't they?",
+      "bn": "কয়েকজন যাত্রী সান্ধ্য বাসে উঠেছিল, তাই নয় কি?",
+      "note": "a few -> didn't they?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Too ... to গঠন অর্থগতভাবে নেগেটিভ হলেও ব্যাকরণগত ট্যাগে ইতিবাচক প্রভাব",
+      "exceptionText": "He is too weak to walk বাক্যে \"to walk\" নেগেটিভ হলেও মূল ক্লজ \"He is too weak\" ব্যাকরণগতভাবে affirmative হওয়ায় সাধারণত negative tag (isn't he?) ব্যবহৃত হয়।",
+      "exampleEn": "He is too weak to run fast, isn't he?",
+      "exampleBn": "সে দ্রুত দৌড়ানোর পক্ষে বড্ড দুর্বল, তাই নয় কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He hardly knows me, doesn't he?",
+      "correct": "He hardly knows me, does he?",
+      "reasonBn": "Hardly একটি না-বোধক শব্দ, তাই ট্যাগটি হ্যাঁ-বোধক (does he) হবে।"
+    },
+    {
+      "mistake": "There is little milk, isn't there?",
+      "correct": "There is little milk, is there?",
+      "reasonBn": "Little না-বোধক অর্থ প্রকাশ করায় ট্যাগ হ্যাঁ-বোধক (is there) হবে।"
+    }
+  ],
+  "tags": [
+    "semi negative tag",
+    "hardly does he",
+    "seldom do they",
+    "few are they",
+    "little is there",
+    "a few vs few",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 180301,
+      "question": "The elderly gentleman seldom ventures outside during harsh winter, _____?",
+      "questionBn": "\"The elderly gentleman seldom ventures outside during harsh winter, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "doesn't he",
+        "does he",
+        "did he",
+        "didn't he"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"seldom\" থাকায় বাক্যটি অর্থগতভাবে না-বোধক, তাই ট্যাগটি হ্যাঁ-বোধক (does he?) হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 180302,
+      "question": "There is little point in deliberating over an irrevocable decision, _____?",
+      "questionBn": "\"There is little point in deliberating over an irrevocable decision, _____?\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "isn't there",
+        "is there",
+        "is it",
+        "isn't it"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"little\" থাকায় মূল বক্তব্যটি নেগেটিভ, তাই ট্যাগটি পজিটিভ (\"is there?\") হবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180301,
+      "type": "Semi-Negative Tag Drill",
+      "prompt": "Form tags for: (a) He has few genuine friends in the city, _____? (b) He has a few friends in the city, _____?",
+      "correctAnswer": "(a) has he? / does he? (b) hasn't he? / doesn't he?",
+      "explanationBn": "Few (নেগেটিভ) বনাম A few (পজিটিভ)-এর পার্থক্য প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Semi-negative tag formation in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Supply the tag: \"A barking dog seldom bites, _____.\"",
+          "answer": "does it? (or do they?)",
+          "explanationBn": "বার্কিং ডগ সেলডম বাইটস-এর প্রমিত বোর্ড ট্যাগ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি বোর্ড পরীক্ষায় এটি অন্যতম সবচেয়ে বেশি আসা ক্ল্যাসিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-special-indefinite-pronouns-they-it': {
+  "id": 1802,
+  "chapterId": 18,
+  "topicNo": "০২",
+  "titleEn": "Tag Questions: Indefinite Pronouns, Plural Shift (\"They\") & Inanimate Pronouns (\"It\")",
+  "titleBn": "অনির্দিষ্ট সর্বনামের ট্যাগ: ব্যক্তিবাচকে \"They\"-তে রূপান্তর ও বস্তুর ক্ষেত্রে \"It\"",
+  "slug": "tag-special-indefinite-pronouns-they-it",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "ব্যক্তিবাচক সর্বনাম (Everybody, Everyone, Somebody, Nobody, No one, None, Neither)-এর জন্য ট্যাগে Pronoun হিসেবে \"THEY\" বসা এবং সেই অনুযায়ী Verb-ও Plural হওয়া (Everybody loves him, don't they?)। বস্তুবাচক সর্বনাম (Everything, Nothing, Something)-এর জন্য \"IT\" বসার নিয়ম।",
+  "definitionEn": "When indefinite pronouns referring to persons act as subjects, they trigger plural pronominal shift (\"they\") in tag questions, demanding corresponding plural auxiliary concord. Inanimate pronouns consistently trigger neuter singular (\"it\").",
+  "definitionBn": "Everybody, Nobody ইত্যাদি ব্যক্তিবাচক শব্দ মূল বাক্যে Singular Verb নিলেও Tag Question-এ তাদের সর্বনাম হিসেবে \"They\" বসে এবং সেই অনুযায়ী সাহায্যকারী ক্রিয়াটিও Plural-এ রূপান্তরিত হয়। অন্যদিকে বস্তুর ক্ষেত্রে \"It\" বসে।",
+  "explanationBn": "২টি পরম গুরুত্বপূর্ণ বৈপরীত্য:\n১. ব্যক্তিবাচক অনির্দিষ্ট সর্বনাম (Everybody, Everyone, Somebody, Someone, Nobody, No one, None, Any, Neither):\n- এদের ট্যাগে Pronoun হিসেবে সর্বদা \"THEY\" বসে!\n- মারাত্মক সতর্কবার্তা: মূল বাক্যে ছিল \"Everybody HAS done\" (Singular), কিন্তু ট্যাগে They-এর কারণে Has না বসে \"HAVE\" বসবে (haven't they?)!\n- মূল বাক্যে ছিল \"Everybody WANTS\" (Singular), কিন্তু ট্যাগে They-এর কারণে Doesn't না বসে \"DON'T\" বসবে (don't they?)!\n- Nobody / No one / None নিজেই নেগেটিভ, তাই এদের ট্যাগ সর্বদা পজিটিভ হবে: Nobody phoned, DID THEY?\n\n২. বস্তুবাচক সর্বনাম (Everything, Something, Anything, Nothing):\n- এদের ট্যাগে Pronoun হিসেবে সর্বদা \"IT\" বসে!\n- Everything is clear, ISN'T IT?\n- Nothing was said, WAS IT? (Nothing না-বোধক হওয়ায় ট্যাগ পজিটিভ)।",
+  "teacherGoldenTips": "এভরিবডি ও নোবডির সুপার-ট্রিক:\n১. বডি/ওয়ান (body/one) দেখলেই ট্যাগে pronoun হবে \"THEY\"!\n২. আর They কখনো একা Singular Verb নেয় না — s/es থাকলে doesn't নয়, DON'T THEY হবে!\n৩. থিং (thing: Everything, Nothing) দেখলেই ট্যাগে pronoun হবে \"IT\"!",
+  "mainFormula": "Everybody/Nobody + Singular Verb -> [Aux Plural] + THEY ? | Everything/Nothing -> [Aux Sing] + IT ?",
+  "formulas": [
+    {
+      "label": "Everybody / Everyone (Positive)",
+      "structure": "Everybody / Everyone + V1-s -> DON'T THEY ? | + has -> HAVEN'T THEY ?",
+      "tag": "They Shift",
+      "example": "Everybody loves flowers, don't they? Everyone has arrived, haven't they?"
+    },
+    {
+      "label": "Nobody / No one (Negative)",
+      "structure": "Nobody / No one + V1-s -> DO THEY ? | + Past (V2) -> DID THEY ?",
+      "tag": "Nobody Positive",
+      "example": "Nobody phoned during my absence, did they?"
+    },
+    {
+      "label": "Inanimate Everything / Something",
+      "structure": "Everything / Something + is -> ISN'T IT ? | + V1-s -> DOESN'T IT ?",
+      "tag": "Inanimate It",
+      "example": "Everything looks splendid, doesn't it?"
+    },
+    {
+      "label": "Inanimate Nothing (Negative)",
+      "structure": "Nothing + is -> IS IT ? | + was -> WAS IT ? | + V2 -> DID IT ?",
+      "tag": "Nothing Positive",
+      "example": "Nothing can stop us now, can it?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ব্যক্তিবাচক সর্বনামে Auxiliary Verb-এর Plural রূপান্তর",
+      "nameEn": "Auxiliary Pluralization for \"They\" Concord",
+      "formula": "Main: Singular Verb (is / was / has / V1-s) -> TAG: PLURAL AUXILIARY (are / were / have / do) + THEY ?",
+      "shortcutTrick": "মূল বাক্যে is/has/does থাকলেও ট্যাগে They আসার কারণে are/have/do হয়ে যাবে!",
+      "descriptionBn": "\"Everybody is happy, isn't they?\" মারাত্মক ভুল; কারণ They-এর সাথে isn't বসে না, \"aren't they?\" বসবে।",
+      "examples": [
+        {
+          "en": "Everybody is eager to secure the first prize, aren't they?",
+          "bn": "সবাই প্রথম পুরস্কার অর্জনে উদগ্রীব, তাই নয় কি?",
+          "note": "is পরিবর্তিত হয়ে aren't they।"
+        },
+        {
+          "en": "Everyone has finished their assignment, haven't they?",
+          "bn": "প্রত্যেকে তাদের বাড়ির কাজ শেষ করেছে, তাই নয় কি?",
+          "note": "has পরিবর্তিত হয়ে haven't they।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Nobody / No one / None-এর পর পজিটিভ ট্যাগ",
+      "nameEn": "Positive Tag Requirement for Inherent Negatives (Nobody/No one)",
+      "formula": "Nobody / No one / None + Verb -> AFFIRMATIVE AUXILIARY + THEY ?",
+      "shortcutTrick": "Nobody নিজেই \"না\", তাই ট্যাগে ভুলেও আর n't দেওয়া যাবে না!",
+      "descriptionBn": "Nobody helped me, did they? (didn't they বলা ভুল)।",
+      "examples": [
+        {
+          "en": "Nobody believes a habitual liar, do they?",
+          "bn": "কেউ একজন স্বভাবজাত মিথ্যাবাদীকে বিশ্বাস করে না, তাই কি?",
+          "note": "believes থাকলেও They-এর জন্য do they।"
+        },
+        {
+          "en": "None of the students failed the test, did they?",
+          "bn": "শিক্ষার্থীদের কেউই পরীক্ষায় অকৃতকার্য হয়নি, তাই কি?",
+          "note": "failed (V2) -> did they।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Somebody knocked at the door late at night, didn't they?",
+      "bn": "মাঝরাতে কেউ দরজায় কড়া নেড়েছিল, তাই নয় কি?",
+      "note": "Somebody -> didn't they?"
+    },
+    {
+      "en": "Nothing is impossible for a determined mind, is it?",
+      "bn": "দৃঢ় সংকল্পবদ্ধ মনের কাছে কিছুই অসম্ভব নয়, তাই কি?",
+      "note": "Nothing -> is it?"
+    },
+    {
+      "en": "Everything has been arranged systematically, hasn't it?",
+      "bn": "সবকিছু সুশৃঙ্খলভাবে সাজানো হয়েছে, তাই নয় কি?",
+      "note": "Everything -> hasn't it?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Neither of them-এর ক্ষেত্রে They বসে",
+      "exceptionText": "Neither of them মূল বাক্যে একবচন হলেও ট্যাগে pronoun হিসেবে \"they\" বসবে এবং বাক্যটি না-বোধক হওয়ায় ট্যাগ হ্যাঁ-বোধক হবে।",
+      "exampleEn": "Neither of them is guilty, are they?",
+      "exampleBn": "তাদের কেউই দোষী নয়, তাই কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Everybody likes flowers, doesn't he?",
+      "correct": "Everybody likes flowers, don't they?",
+      "reasonBn": "Everybody-র জন্য ট্যাগে Pronoun \"they\" বসে এবং সেই অনুযায়ী Verb \"don't\" হবে।"
+    },
+    {
+      "mistake": "Nobody came, didn't they?",
+      "correct": "Nobody came, did they?",
+      "reasonBn": "Nobody নিজেই না-বোধক, তাই ট্যাগ হ্যাঁ-বোধক (did they) হবে।"
+    }
+  ],
+  "tags": [
+    "indefinite pronouns tag",
+    "everybody dont they",
+    "nobody did they",
+    "everything isnt it",
+    "nothing is it",
+    "they plural concord",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 180201,
+      "question": "Everybody respects an honest and dedicated scholar, _____?",
+      "questionBn": "\"Everybody respects an honest and dedicated scholar, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "doesn't he",
+        "don't they",
+        "doesn't they",
+        "didn't they"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Everybody-র জন্য ট্যাগে Pronoun \"they\" বসে এবং Present Simple-এ They-এর সাথে সঙ্গতি রেখে \"don't they?\" হবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 180202,
+      "question": "Nothing could dampen their indomitable spirit, _____?",
+      "questionBn": "\"Nothing could dampen their indomitable spirit, _____?\" সঠিক ট্যাগ নির্বাচন করো:",
+      "options": [
+        "couldn't it",
+        "could it",
+        "could they",
+        "couldn't they"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Nothing\" বস্তুবাচক ও না-বোধক হওয়ায় ট্যাগে সর্বনাম \"it\" এবং পজিটিভ Auxiliary \"could it?\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180201,
+      "type": "Indefinite Pronoun Tags",
+      "prompt": "Provide tags for: (a) None can avoid death, _____? (b) Everything has its own limit, _____?",
+      "correctAnswer": "(a) can they? (b) hasn't it?",
+      "explanationBn": "ব্যক্তিবাচক None -> can they এবং বস্তুবাচক Everything -> hasn't it।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Indefinite pronoun concord shifts in SSC Tag Questions:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the grammatical rationale behind \"Everybody has gone, haven't they?\" having \"haven't\" instead of \"hasn't\".",
+          "answer": "Although \"Everybody\" takes the singular verb \"has\" in the main clause, the tag question replaces \"Everybody\" with the plural pronoun \"they\". Syntactic agreement requires a plural auxiliary (\"have\"), yielding \"haven't they?\".",
+          "explanationBn": "ট্যাগে দে (they)-এর কারণে হ্যাভ বসার ব্যাকরণগত ব্যাখ্যা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৯ (Tag Questions)-এ এটি প্রতি বছর নিশ্চিত আসা আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'tag-fundamentals-auxiliary-polarity': {
+  "id": 1801,
+  "chapterId": 18,
+  "topicNo": "০১",
+  "titleEn": "Tag Question Fundamentals: Polarity, Contracted Negation & Auxiliary Extraction",
+  "titleBn": "ট্যাগ কোশ্চেনের মৌলিক নিয়ম: বিপরীত ধর্মিতা (Polarity), সংক্ষিপ্ত রূপ ও সাহায্যকারী ক্রিয়া নির্ধারণ",
+  "slug": "tag-fundamentals-auxiliary-polarity",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "বক্তব্যের সত্যতা যাচাইয়ের সংক্ষিপ্ত প্রশ্ন। হ্যাঁ-বোধক বাক্যে না-বোধক ট্যাগ (Positive statement -> Negative tag) এবং না-বোধক বাক্যে হ্যাঁ-বোধক ট্যাগ (Negative statement -> Positive tag)। Do/Does/Did নিষ্কাশন, Be/Have/Modal ক্রিয়া এবং I am-এর জন্য aren't I-এর নিয়ম।",
+  "definitionEn": "A Tag Question is a miniature interrogative clause appended to a declarative sentence, inviting the listener to confirm or refute the preceding statement through inverted polarity and contracted operator-pronoun concord.",
+  "definitionBn": "কথোপকথনের সময় কোনো বক্তব্যের পর শ্রোতার সম্মতি বা সত্যতা যাচাইয়ের জন্য বাক্যের শেষে যে ছোট্ট প্রশ্ন জুড়ে দেওয়া হয়, তাকে Tag Question বলে।",
+  "explanationBn": "মূল ৩টি মৌলিক ভিত্তি:\n১. বিপরীত ধর্মিতার সূত্র (Polarity Rule):\n- মূল বাক্য হ্যাঁ-বোধক (Affirmative) হলে Tag হবে না-বোধক (Negative Contracted): He is honest, ISN'T HE?\n- মূল বাক্য না-বোধক (Negative) হলে Tag হবে হ্যাঁ-বোধক (Positive): He is not honest, IS HE?\n\n২. সাহায্যকারী ক্রিয়া নিষ্কাশন (Operator Extraction):\n- বাক্যে Auxiliary Verb (is, are, was, were, have, has, had, will, can, must) থাকলে সেই Verb-ই ট্যাগে বসে।\n- বাক্যে কোনো Auxiliary Verb না থাকলে Tense অনুযায়ী Do / Does / Did বসে (V1 হলে do/don't, V1-s/es হলে does/doesn't, V2 হলে did/didn't)।\n\n৩. সর্বনাম ও সংক্ষিপ্ত রূপ:\n- ট্যাগে সর্বদা সংক্ষিপ্ত নেগেটিভ রূপ (n't) বসে (is not নয়, isn't)।\n- ট্যাগে কখনো আসল Noun বসে না, সর্বদা Subject-এর Personal Pronoun (he, she, it, they, we, you, I) বসে।\n- বিশেষ নিয়ম: \"I am\"-এর নেগেটিভ ট্যাগ সর্বদা \"AREN'T I?\" (বা ain't I); amn't I কখনোই হয় না!",
+  "teacherGoldenTips": "ট্যাগ কোশ্চেনের ৩টি সোনালী নিয়ম:\n১. বাক্য হ্যাঁ হলে ট্যাগ না, বাক্য না হলে ট্যাগ হ্যাঁ!\n২. ভার্ব না থাকলে V1 হলে don't, s/es থাকলে doesn't, অতীত হলে didn't!\n৩. I am থাকলে কখনোই amn't I লিখবেন না; সর্বদা AREN'T I লিখবেন (আর শেষে প্রশ্নবোধক চিহ্ন দিতে ভুলবেন না)!",
+  "mainFormula": "Positive Statement + , + Auxiliary + n't + Pronoun ? | Negative Statement + , + Auxiliary + Pronoun ?",
+  "formulas": [
+    {
+      "label": "Positive to Negative Tag",
+      "structure": "Affirmative Statement + , + Aux + n't + Subject Pronoun ?",
+      "tag": "Positive -> Negative",
+      "example": "She is reading a novel, isn't she?"
+    },
+    {
+      "label": "Negative to Positive Tag",
+      "structure": "Negative Statement (not/never) + , + Aux + Subject Pronoun ?",
+      "tag": "Negative -> Positive",
+      "example": "They have not completed the task, have they?"
+    },
+    {
+      "label": "Do/Does/Did Extraction",
+      "structure": "V1 -> don't | V1-s -> doesn't | V2 -> didn't + Subject Pronoun ?",
+      "tag": "Operator Extraction",
+      "example": "He plays cricket, doesn't he? They went home, didn't they?"
+    },
+    {
+      "label": "I am Exception",
+      "structure": "I am ... , AREN'T I? | I am not ... , AM I?",
+      "tag": "I am Rule",
+      "example": "I am right, aren't I? I am not late, am I?"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "অক্সিলিয়ারি বিহীন বাক্যে Do / Does / Did নির্ধারণ",
+      "nameEn": "Auxiliary Extraction (Do, Does, Did) for Lexical Verbs",
+      "formula": "Present Base (V1) -> DON'T | Present 3rd Sing (V1-s/es) -> DOESN'T | Past Simple (V2) -> DIDN'T",
+      "shortcutTrick": "মূল ভার্বটিকে লক্ষ্য করুন: s/es থাকলে Doesn't, অতীত রূপ হলে Didn't, বাকি সব প্রেজেন্টে Don't!",
+      "descriptionBn": "সরাসরি কোনো Auxiliary Verb না থাকলে বাক্যের মূল ভার্ব ব্যবচ্ছেদ করে Do, Does বা Did নিয়ে আসতে হয়।",
+      "examples": [
+        {
+          "en": "The boy reads attentively every evening, doesn't he?",
+          "bn": "বালকটি প্রতি সন্ধ্যায় মনোযোগ দিয়ে পড়ে, তাই নয় কি?",
+          "note": "reads (V1-s) -> doesn't he?"
+        },
+        {
+          "en": "The students broke the laboratory beaker, didn't they?",
+          "bn": "শিক্ষার্থীরা ল্যাবরেটরির বিকারটি ভেঙেছিল, তাই নয় কি?",
+          "note": "broke (V2) -> didn't they?"
+        }
+      ]
+    },
+    {
+      "nameBn": "\"I am\"-এর বিশেষ নেগেটিভ ট্যাগ \"Aren't I\"",
+      "nameEn": "The Irregular Tag for \"I am\" (\"Aren't I?\")",
+      "formula": "I am [Affirmative] , AREN'T I? | I am not [Negative] , AM I?",
+      "shortcutTrick": "\"amn't I\" বলে প্রমিত ইংরেজিতে কোনো শব্দ নেই; তাই I am-এর ট্যাগ হবে aren't I?",
+      "descriptionBn": "ঐতিহাসিক ধ্বনিতাত্ত্বিক কারণে I am-এর নেগেটিভ সংক্ষেপণে aren't I প্রমিত রূপ হিসেবে প্রতিষ্ঠিত।",
+      "examples": [
+        {
+          "en": "I am sincere to my professional duties, aren't I?",
+          "bn": "আমি আমার পেশাগত দায়িত্বের প্রতি আন্তরিক, তাই নয় কি?",
+          "note": "I am -> aren't I?"
+        },
+        {
+          "en": "I am not liable for this inadvertent omission, am I?",
+          "bn": "আমি এই অনিচ্ছাকৃত ত্রুটির জন্য দায়ী নই, তাই কি?",
+          "note": "I am not -> am I?"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "You can speak three international languages fluently, can't you?",
+      "bn": "তুমি সাবলীলভাবে তিনটি আন্তর্জাতিক ভাষা বলতে পারো, তাই নয় কি?",
+      "note": "can -> can't you?"
+    },
+    {
+      "en": "He will not betray our mutual trust, will he?",
+      "bn": "সে আমাদের পারস্পরিক বিশ্বাস ভঙ্গ করবে না, তাই কি?",
+      "note": "will not -> will he?"
+    },
+    {
+      "en": "The little girl sang a melodious folk song, didn't she?",
+      "bn": "ছোট মেয়েটি একটি সুরেলা লোকগান গেয়েছিল, তাই নয় কি?",
+      "note": "sang (V2) -> didn't she?"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Have जब মূল ভার্ব হিসেবে বসে",
+      "exceptionText": "Have/has যখন auxiliary না হয়ে মূল verb (মালিকানা অর্থে) হিসেবে বসে, আধুনিক ব্রিটিশ ও আমেরিকান ব্যাকরণে haven't ছাড়াও don't/doesn't উভয়ই অনুমোদিত (e.g. He has a car, hasn't he? / doesn't he?). তবে বোর্ড পরীক্ষায় haven't/hasn't বা doesn't উভয়ই গ্রহণযোগ্য হলেও doesn't অধিক নিখুঁত।",
+      "exampleEn": "He has a magnificent house, doesn't he? (or hasn't he?)",
+      "exampleBn": "তার একটি চমৎকার বাড়ি আছে, তাই নয় কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I am a good student, amn't I?",
+      "correct": "I am a good student, aren't I?",
+      "reasonBn": "I am-এর সঠিক নেগেটিভ ট্যাগ হলো \"aren't I\"।"
+    },
+    {
+      "mistake": "Karim plays football, doesn't Karim?",
+      "correct": "Karim plays football, doesn't he?",
+      "reasonBn": "ট্যাগে কখনো Noun বসে না, সর্বদা Pronoun (he) বসবে।"
+    }
+  ],
+  "tags": [
+    "tag question fundamentals",
+    "polarity rule",
+    "arent i",
+    "do does did extraction",
+    "contracted negation",
+    "ssc english 2nd paper"
+  ],
+  "mcqs": [
+    {
+      "id": 180101,
+      "question": "I am accountable for the outcome of this national initiative, _____?",
+      "questionBn": "\"I am accountable for the outcome of this national initiative, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "amn't I",
+        "aren't I",
+        "am not I",
+        "don't I"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"I am\"-এর জন্য ব্যাকরণগতভাবে প্রমিত নেগেটিভ ট্যাগ হলো \"aren't I\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 180102,
+      "question": "The workers accomplished their assigned task within the deadline, _____?",
+      "questionBn": "\"The workers accomplished their assigned task within the deadline, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "didn't they",
+        "haven't they",
+        "did they",
+        "weren't they"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "মূল বাক্যটি Past Simple (\"accomplished\", V2) হ্যাঁ-বোধক হওয়ায় ট্যাগ হবে \"didn't they?\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 180101,
+      "type": "Tag Question Formation",
+      "prompt": "Add appropriate tag questions: (a) He knows nothing about it, _____? (b) I am right in my judgment, _____?",
+      "correctAnswer": "(a) does he? (b) aren't I?",
+      "explanationBn": "ট্যাগ কোশ্চেনের মৌলিক নিয়ম প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 180101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Tag question polarity rules in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"She dances well, doesn't she?\" uses \"does\" instead of \"is\".",
+          "answer": "Because the main clause contains the lexical verb \"dances\" (Present Simple 3rd person singular) without any auxiliary. By operator extraction rules, the dummy auxiliary \"does\" must be inserted.",
+          "explanationBn": "অক্সিলিয়ারি বিহীন বাক্যে डাজ নিষ্কাশনের কারণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৯ (Tag Questions)-এর অত্যন্ত মৌলিক ভিত্তি।",
+      "isVerified": true
+    }
+  ]
+},
   'conditional-chapter-practice-set': {
   "id": 1706,
   "chapterId": 17,
