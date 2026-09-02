@@ -794,16 +794,21 @@ export const helpdeskAPI = {
 
 export const grammarAPI = {
   getChapters: () => request('/grammar/chapters'),
-  getChapterDetails: (slug) => request(`/grammar/chapters/${slug}`),
+  getChapterDetails: (slugOrId) => request(`/grammar/chapters/${slugOrId}`),
   getTopics: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/grammar/topics${q ? `?${q}` : ''}`);
   },
-  getTopicDetails: (id) => request(`/grammar/topics/${id}`),
+  getTopicDetails: (idOrSlug) => request(`/grammar/topics/${idOrSlug}`),
   searchGrammar: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/grammar/search?${q}`);
   },
+  getMCQs: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/mcqs?${q}`);
+  },
+  submitMCQ: (data) => request('/grammar/mcqs/submit', { method: 'POST', body: JSON.stringify(data) }),
   getBoardQuestions: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/grammar/board-questions?${q}`);
@@ -812,8 +817,12 @@ export const grammarAPI = {
   getModelTestDetails: (id) => request(`/grammar/model-tests/${id}`),
   submitModelTest: (id, data) => request(`/grammar/model-tests/${id}/submit`, { method: 'POST', body: JSON.stringify(data) }),
   getMyProgress: () => request('/grammar/my-progress'),
-  toggleComplete: (data) => request('/grammar/toggle-complete', { method: 'POST', body: JSON.stringify(data) }),
-  getMyBookmarks: () => request('/grammar/my-bookmarks'),
+  updateProgress: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
+  toggleComplete: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
+  getBookmarks: () => request('/grammar/bookmarks'),
+  addBookmark: (data) => request('/grammar/bookmarks', { method: 'POST', body: JSON.stringify(data) }),
+  deleteBookmark: (id) => request(`/grammar/bookmarks/${id}`, { method: 'DELETE' }),
+  getMyBookmarks: () => request('/grammar/bookmarks'),
   toggleBookmark: (data) => request('/grammar/toggle-bookmark', { method: 'POST', body: JSON.stringify(data) }),
   aiGenerate: (data) => request('/grammar/ai-generate', { method: 'POST', body: JSON.stringify(data) }),
   // Legacy / CMS aliases
