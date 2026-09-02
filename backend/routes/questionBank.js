@@ -246,7 +246,10 @@ router.get('/', optionalAuth, async (req, res, next) => {
       filtered = filtered.filter(q => q.board && q.board.toLowerCase().includes(board.toLowerCase()));
     }
     if (year) {
-      filtered = filtered.filter(q => String(q.year) === String(year));
+      const yStr = String(year);
+      const bnYear = yStr.replace(/0/g, '০').replace(/1/g, '১').replace(/2/g, '২').replace(/3/g, '৩').replace(/4/g, '৪').replace(/5/g, '৫').replace(/6/g, '৬').replace(/7/g, '৭').replace(/8/g, '৮').replace(/9/g, '৯');
+      const enYear = yStr.replace(/০/g, '0').replace(/১/g, '1').replace(/২/g, '2').replace(/৩/g, '3').replace(/৪/g, '4').replace(/৫/g, '5').replace(/৬/g, '6').replace(/৭/g, '7').replace(/৮/g, '8').replace(/৯/g, '9');
+      filtered = filtered.filter(q => String(q.year).includes(yStr) || String(q.year).includes(bnYear) || String(q.year).includes(enYear));
     }
     if (chapter) {
       filtered = filtered.filter(q => q.chapter && q.chapter.toLowerCase().includes(chapter.toLowerCase()));
