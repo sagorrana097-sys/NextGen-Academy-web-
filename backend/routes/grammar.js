@@ -1,5 +1,15 @@
 const express = require('express');
-const { GrammarLesson } = require('../models');
+const {
+  GrammarLesson,
+  GrammarChapter,
+  GrammarTopic,
+  GrammarRule,
+  GrammarQuestion,
+  GrammarBoardQuestion,
+  GrammarModelTest,
+  GrammarProgress,
+  GrammarBookmark
+} = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
 
@@ -458,6 +468,185 @@ router.post('/ai-generate', authenticate, requireRole('ADMIN', 'SUPER_ADMIN', 'T
       data: draft,
       message: `AI সফলভাবে ${cleanTopic} বিষয়ের ড্রাফট তৈরি করেছে!`
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ===========================================================================
+// SCALABLE INTERACTIVE GRAMMAR BOOK ENDPOINTS
+// ===========================================================================
+
+/**
+ * GET /api/grammar/chapters
+ * Get all 23 grammar chapters
+ */
+router.get('/chapters', async (req, res, next) => {
+  try {
+    const chapters = await GrammarChapter.findAll();
+    res.json({
+      success: true,
+      data: chapters || []
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/chapters/:slug
+ * Get single chapter with its topics
+ */
+router.get('/chapters/:slug', async (req, res, next) => {
+  try {
+    const slug = req.params.slug;
+    const chapters = await GrammarChapter.findAll();
+    const chapter = chapters.find(c => c.slug === slug || String(c.id) === String(slug));
+    if (!chapter) {
+      return res.status(404).json({ success: false, error: { message: 'অধ্যায়টি পাওয়া যায়নি।' } });
+    }
+    const topics = await GrammarTopic.findAll({ where: { chapterId: chapter.id } });
+    res.json({
+      success: true,
+      data: {
+        ...chapter,
+        topics: topics || []
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/board-questions
+ * Filter board questions by topic, board, year
+ */
+router.get('/board-questions', async (req, res, next) => {
+  try {
+    const { topicId, board, year } = req.query;
+    const where = {};
+    if (topicId) where.topicId = Number(topicId);
+    if (board) where.board = board;
+    if (year) where.year = Number(year);
+    const list = await GrammarBoardQuestion.findAll({ where });
+    res.json({
+      success: true,
+      data: list || []
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/model-tests
+ * List all model tests
+ */
+router.get('/model-tests', async (req, res, next) => {
+  try {
+    const tests = await GrammarModelTest.findAll();
+    res.json({
+      success: true,
+      data: tests || []
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/my-progress
+ * Get student's completed topics & progress
+ */
+router.get('/my-progress', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const progressList = await GrammarProgress.findAll({ where: { userId } });
+    res.json({
+      success: true,
+      data: progressList || []
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/toggle-complete
+ * Toggle topic completion status
+ */
+router.post('/toggle-complete', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { topicId, isCompleted } = req.body;
+    if (!topicId) {
+      return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক।' } });
+    }
+
+    const existing = await GrammarProgress.findOne({ where: { userId, topicId: Number(topicId) } });
+    if (existing) {
+      await existing.update({
+        isCompleted: isCompleted !== undefined ? Boolean(isCompleted) : !existing.isCompleted,
+        completedAt: new Date().toISOString()
+      });
+      return res.json({ success: true, data: existing });
+    }
+
+    const created = await GrammarProgress.create({
+      userId,
+      topicId: Number(topicId),
+      isCompleted: isCompleted !== undefined ? Boolean(isCompleted) : true,
+      completedAt: new Date().toISOString()
+    });
+    res.json({ success: true, data: created });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/my-bookmarks
+ * Get student's bookmarks
+ */
+router.get('/my-bookmarks', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const bookmarks = await GrammarBookmark.findAll({ where: { userId } });
+    res.json({
+      success: true,
+      data: bookmarks || []
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/toggle-bookmark
+ * Add or remove bookmark
+ */
+router.post('/toggle-bookmark', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { topicId, customNote } = req.body;
+    if (!topicId) {
+      return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক।' } });
+    }
+
+    const existing = await GrammarBookmark.findOne({ where: { userId, topicId: Number(topicId) } });
+    if (existing) {
+      await existing.destroy();
+      return res.json({ success: true, bookmarked: false, message: 'বুকমার্ক সরানো হয়েছে।' });
+    }
+
+    const created = await GrammarBookmark.create({
+      userId,
+      topicId: Number(topicId),
+      customNote: customNote || '',
+      createdAt: new Date().toISOString()
+    });
+    res.json({ success: true, bookmarked: true, data: created, message: 'টপিক বুকমার্ক করা হয়েছে!' });
   } catch (err) {
     next(err);
   }

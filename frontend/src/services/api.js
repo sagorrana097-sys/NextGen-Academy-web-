@@ -793,13 +793,37 @@ export const helpdeskAPI = {
 };
 
 export const grammarAPI = {
+  getChapters: () => request('/grammar/chapters'),
+  getChapterDetails: (slug) => request(`/grammar/chapters/${slug}`),
+  getTopics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/topics${q ? `?${q}` : ''}`);
+  },
+  getTopicDetails: (id) => request(`/grammar/topics/${id}`),
+  searchGrammar: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/search?${q}`);
+  },
+  getBoardQuestions: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/board-questions?${q}`);
+  },
+  getModelTests: () => request('/grammar/model-tests'),
+  getModelTestDetails: (id) => request(`/grammar/model-tests/${id}`),
+  submitModelTest: (id, data) => request(`/grammar/model-tests/${id}/submit`, { method: 'POST', body: JSON.stringify(data) }),
+  getMyProgress: () => request('/grammar/my-progress'),
+  toggleComplete: (data) => request('/grammar/toggle-complete', { method: 'POST', body: JSON.stringify(data) }),
+  getMyBookmarks: () => request('/grammar/my-bookmarks'),
+  toggleBookmark: (data) => request('/grammar/toggle-bookmark', { method: 'POST', body: JSON.stringify(data) }),
+  aiGenerate: (data) => request('/grammar/ai-generate', { method: 'POST', body: JSON.stringify(data) }),
+  // Legacy / CMS aliases
   getLessons: (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return request(`/grammar/lessons?${q}`);
+    return request(`/grammar/topics${q ? `?${q}` : ''}`);
   },
-  getLessonDetails: (id) => request(`/grammar/lessons/${id}`),
-  saveLesson: (data) => request('/grammar/lessons', { method: 'POST', body: JSON.stringify(data) }),
-  deleteLesson: (id) => request(`/grammar/lessons/${id}`, { method: 'DELETE' }),
+  getLessonDetails: (id) => request(`/grammar/topics/${id}`),
+  saveLesson: (data) => request('/grammar/topics', { method: 'POST', body: JSON.stringify(data) }),
+  deleteLesson: (id) => request(`/grammar/topics/${id}`, { method: 'DELETE' }),
   evaluateGrammarExercise: (data) => request('/grammar/evaluate', { method: 'POST', body: JSON.stringify(data) })
 };
 

@@ -34,8 +34,15 @@ const Achiever = new Model('achievers');
 const SystemError = new Model('system_errors');
 const SyllabusTracking = new Model('syllabus_tracking');
 const HelpdeskTicket = new Model('helpdesk_tickets');
-const MenuSetting = new Model('menu_settings');
 const GrammarLesson = new Model('grammar_lessons');
+const GrammarChapter = new Model('grammar_chapters');
+const GrammarTopic = new Model('grammar_topics');
+const GrammarRule = new Model('grammar_rules');
+const GrammarQuestion = new Model('grammar_questions');
+const GrammarBoardQuestion = new Model('grammar_board_questions');
+const GrammarModelTest = new Model('grammar_model_tests');
+const GrammarProgress = new Model('grammar_user_progress');
+const GrammarBookmark = new Model('grammar_user_bookmarks');
 const ReferralProfile = new Model('referral_profiles');
 const PromoSetting = new Model('promo_settings');
 const PageAnnouncement = new Model('page_announcements');
@@ -232,6 +239,8 @@ QuestionSuggestionFamily.hasMany(QuestionBank, { foreignKey: 'familyId', as: 'qu
 QuestionSuggestionFamily.belongsTo(Class, { foreignKey: 'classId', as: 'class' });
 QuestionSuggestionFamily.belongsTo(Subject, { foreignKey: 'subjectId', as: 'subject' });
 
+const MenuSetting = new Model('menu_settings');
+
 module.exports = {
   User,
   Student,
@@ -268,6 +277,14 @@ module.exports = {
   HelpdeskTicket,
   MenuSetting,
   GrammarLesson,
+  GrammarChapter,
+  GrammarTopic,
+  GrammarRule,
+  GrammarQuestion,
+  GrammarBoardQuestion,
+  GrammarModelTest,
+  GrammarProgress,
+  GrammarBookmark,
   ReferralProfile,
   PromoSetting,
   PageAnnouncement,

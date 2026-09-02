@@ -36,6 +36,7 @@ const PaymentGatewayCheckout = lazy(() => import('../components/student/PaymentG
 const NextGenRewardStore = lazy(() => import('../components/student/NextGenRewardStore'));
 const FeedbackHelpdeskModule = lazy(() => import('../components/common/FeedbackHelpdeskModule'));
 const EnglishGrammarHub = lazy(() => import('../components/student/EnglishGrammarHub'));
+const InteractiveGrammarBook = lazy(() => import('../components/grammar/InteractiveGrammarBook'));
 const StudentReferralHub = lazy(() => import('../components/student/StudentReferralHub'));
 const VirtualGeometryBoard = lazy(() => import('../components/student/VirtualGeometryBoard'));
 const MegaPhysicsLab = lazy(() => import('../components/student/MegaPhysicsLab'));
@@ -688,8 +689,8 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
             <ICTSmartQuizZone />
           ) : activeTab === 'helpdesk' || activeTab === 'feedback' ? (
             <FeedbackHelpdeskModule />
-          ) : activeTab === 'grammar-hub' || activeTab === 'grammar' ? (
-            <EnglishGrammarHub />
+          ) : activeTab === 'grammar-hub' || activeTab === 'grammar' || activeTab === 'grammar-book' ? (
+            <InteractiveGrammarBook />
           ) : activeTab === 'ai-routine' || activeTab === 'routine-ai' ? (
 
 
