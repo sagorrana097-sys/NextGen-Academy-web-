@@ -2233,10 +2233,11 @@ router.get('/my-bookmarks', authenticate, async (req, res, next) => {
 router.post('/toggle-bookmark', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { topicId, customNote } = req.body;
-    if (!topicId) return res.status(400).json({ success: false, error: { message: 'topicId আবশ্যক' } });
+    const rawId = req.body.topicId || req.body.itemId;
+    if (!rawId) return res.status(400).json({ success: false, error: { message: 'topicId বা itemId আবশ্যক' } });
+    const bookmarkItemId = isNaN(Number(rawId)) ? String(rawId) : Number(rawId);
 
-    const existing = await GrammarBookmark.findOne({ where: { userId, itemType: 'TOPIC', itemId: Number(topicId) } });
+    const existing = await GrammarBookmark.findOne({ where: { userId, itemType: 'TOPIC', itemId: bookmarkItemId } });
     if (existing) {
       await GrammarBookmark.destroy({ where: { id: existing.id } });
       return res.json({ success: true, bookmarked: false, message: 'বুকমার্ক সরানো হয়েছে' });
@@ -2244,13 +2245,14 @@ router.post('/toggle-bookmark', authenticate, async (req, res, next) => {
     const created = await GrammarBookmark.create({
       userId,
       itemType: 'TOPIC',
-      itemId: Number(topicId),
-      customNote: customNote || ''
+      itemId: bookmarkItemId,
+      customNote: req.body.customNote || ''
     });
     res.json({ success: true, bookmarked: true, data: created, message: 'বুকমার্ক যোগ করা হয়েছে' });
   } catch (err) {
     next(err);
   }
 });
+
 
 module.exports = router;
