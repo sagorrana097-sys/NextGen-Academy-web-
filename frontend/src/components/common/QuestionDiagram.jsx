@@ -352,6 +352,216 @@ export default function QuestionDiagram({ type, data = {}, className = '' }) {
         </div>
       );
 
+    // -------------------------------------------------------------
+    // CHEMISTRY DIAGRAMS & APPARATUS
+    // -------------------------------------------------------------
+
+    // 12. বোর পরমাণু মডেল ও শক্তিস্তর (Bohr Atom Model & Energy Levels)
+    case 'BOHR_ATOM_MODEL':
+    case 'BOHR_ENERGY_LEVELS':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 240 220" className="w-56 sm:w-64 h-auto">
+            {/* Concentric Energy Levels (K, L, M, N) */}
+            <circle cx="120" cy="110" r="16" fill="#f43f5e" stroke="#be123c" strokeWidth="2" />
+            <text x="120" y="114" fontSize="10" fontWeight="black" fill="#ffffff" textAnchor="middle">+Ze</text>
+            
+            <circle cx="120" cy="110" r="38" fill="none" stroke="#64748b" strokeWidth="1.5" strokeDasharray="3 2" />
+            <text x="120" y="70" fontSize="9" fontWeight="bold" fill="#64748b" textAnchor="middle">n=1 (K)</text>
+
+            <circle cx="120" cy="110" r="62" fill="none" stroke="#64748b" strokeWidth="1.5" strokeDasharray="3 2" />
+            <text x="120" y="46" fontSize="9" fontWeight="bold" fill="#64748b" textAnchor="middle">n=2 (L)</text>
+
+            <circle cx="120" cy="110" r="88" fill="none" stroke="#64748b" strokeWidth="1.5" strokeDasharray="3 2" />
+            <text x="120" y="20" fontSize="9" fontWeight="bold" fill="#64748b" textAnchor="middle">n=3 (M)</text>
+
+            {/* Electrons on orbits */}
+            <circle cx="120" cy="72" r="4" fill="#2563eb" />
+            <circle cx="120" cy="148" r="4" fill="#2563eb" />
+            
+            <circle cx="58" cy="110" r="4" fill="#2563eb" />
+            <circle cx="182" cy="110" r="4" fill="#2563eb" />
+            <circle cx="120" cy="48" r="4" fill="#2563eb" />
+            <circle cx="120" cy="172" r="4" fill="#2563eb" />
+
+            {/* Energy Absorption / Emission photon arrows */}
+            <path d="M 120,48 Q 140,35 155,25" fill="none" stroke="#16a34a" strokeWidth="2" markerEnd="url(#arrow)" />
+            <polygon points="150,22 160,24 154,30" fill="#16a34a" />
+            <text x="175" y="32" fontSize="9" fontWeight="bold" fill="#16a34a">শোষিত শক্তি (hν)</text>
+
+            <path d="M 120,198 Q 100,185 85,172" fill="none" stroke="#dc2626" strokeWidth="2" />
+            <polygon points="85,175 80,168 89,168" fill="#dc2626" />
+            <text x="50" y="195" fontSize="9" fontWeight="bold" fill="#dc2626">নির্গমিত শক্তি</text>
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: বোর পরমাণু মডেল ও শক্তিস্তরে ইলেকট্রন স্থানান্তর</span>
+        </div>
+      );
+
+    // 13. রাদারফোর্ড সৌর মডেল (Rutherford Planetary Model)
+    case 'RUTHERFORD_PLANETARY_MODEL':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 240 180" className="w-52 sm:w-60 h-auto">
+            {/* Nucleus */}
+            <circle cx="120" cy="90" r="14" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
+            <text x="120" y="94" fontSize="10" fontWeight="bold" fill="#ffffff" textAnchor="middle">+</text>
+
+            {/* Elliptical Orbits */}
+            <ellipse cx="120" cy="90" rx="90" ry="35" fill="none" stroke="#94a3b8" strokeWidth="1.5" transform="rotate(30 120 90)" />
+            <ellipse cx="120" cy="90" rx="90" ry="35" fill="none" stroke="#94a3b8" strokeWidth="1.5" transform="rotate(-30 120 90)" />
+            <ellipse cx="120" cy="90" rx="90" ry="35" fill="none" stroke="#94a3b8" strokeWidth="1.5" transform="rotate(90 120 90)" />
+
+            {/* Orbiting electrons */}
+            <circle cx="45" cy="55" r="4" fill="#3b82f6" />
+            <circle cx="195" cy="125" r="4" fill="#3b82f6" />
+            <circle cx="120" cy="175" r="4" fill="#3b82f6" />
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: পরমাণুর সৌর মডেল (রাদারফোর্ড মডেল)</span>
+        </div>
+      );
+
+    // 14. দুটি রাসায়নিক দ্রবণ বিকার (Two Chemical Beakers)
+    case 'CHEM_TWO_BEAKERS_CONCENTRATION':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-md mx-auto ${className}`}>
+          <div className="flex items-center justify-center gap-6">
+            {/* Beaker 1 (NaOH) */}
+            <div className="flex flex-col items-center">
+              <svg viewBox="0 0 110 130" className="w-28 sm:w-32 h-auto">
+                <path d="M 20,20 L 20,110 Q 20,120 30,120 L 80,120 Q 90,120 90,110 L 90,20" fill="#f8fafc" stroke="#334155" strokeWidth="2.5" />
+                <path d="M 22,60 L 22,110 Q 22,118 30,118 L 80,118 Q 88,118 88,110 L 88,60 Z" fill="#dbeafe" opacity="0.8" />
+                <text x="55" y="80" fontSize="11" fontWeight="bold" fill="#1e3a8a" textAnchor="middle">NaOH</text>
+                <text x="55" y="95" fontSize="10" fontWeight="bold" fill="#1e3a8a" textAnchor="middle">20 g (550 mL)</text>
+              </svg>
+              <span className="text-xs font-bold text-slate-700 mt-1">১ম বিকার</span>
+            </div>
+
+            {/* Beaker 2 (H2SO4) */}
+            <div className="flex flex-col items-center">
+              <svg viewBox="0 0 110 130" className="w-28 sm:w-32 h-auto">
+                <path d="M 20,20 L 20,110 Q 20,120 30,120 L 80,120 Q 90,120 90,110 L 90,20" fill="#f8fafc" stroke="#334155" strokeWidth="2.5" />
+                <path d="M 22,70 L 22,110 Q 22,118 30,118 L 80,118 Q 88,118 88,110 L 88,70 Z" fill="#fef3c7" opacity="0.8" />
+                <text x="55" y="85" fontSize="11" fontWeight="bold" fill="#92400e" textAnchor="middle">H₂SO₄</text>
+                <text x="55" y="100" fontSize="10" fontWeight="bold" fill="#92400e" textAnchor="middle">0.816 M (250 mL)</text>
+              </svg>
+              <span className="text-xs font-bold text-slate-700 mt-1">২য় বিকার</span>
+            </div>
+          </div>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: দুটি ভিন্ন দ্রবণের বিকার ব্যবস্থা</span>
+        </div>
+      );
+
+    // 15. গ্যালভানিক ভোল্টাইক কোষ (Galvanic Cell with Salt Bridge)
+    case 'GALVANIC_CELL_TWO_BEAKERS':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-md mx-auto ${className}`}>
+          <svg viewBox="0 0 300 190" className="w-64 sm:w-72 h-auto">
+            {/* Left Beaker (Zn in ZnSO4) */}
+            <path d="M 30,60 L 30,160 Q 30,170 40,170 L 100,170 Q 110,170 110,160 L 110,60" fill="#f8fafc" stroke="#475569" strokeWidth="2" />
+            <rect x="32" y="90" width="76" height="78" fill="#e0f2fe" opacity="0.7" />
+            <rect x="55" y="40" width="16" height="110" fill="#94a3b8" stroke="#475569" strokeWidth="1.5" />
+            <text x="63" y="32" fontSize="10" fontWeight="bold" fill="#0f172a" textAnchor="middle">Zn (-)</text>
+            <text x="70" y="145" fontSize="10" fontWeight="bold" fill="#0284c7" textAnchor="middle">ZnSO₄</text>
+
+            {/* Right Beaker (Cu in CuSO4) */}
+            <path d="M 190,60 L 190,160 Q 190,170 200,170 L 260,170 Q 270,170 270,160 L 270,60" fill="#f8fafc" stroke="#475569" strokeWidth="2" />
+            <rect x="192" y="90" width="76" height="78" fill="#dbeafe" opacity="0.7" />
+            <rect x="225" y="40" width="16" height="110" fill="#b45309" stroke="#78350f" strokeWidth="1.5" />
+            <text x="233" y="32" fontSize="10" fontWeight="bold" fill="#0f172a" textAnchor="middle">Cu (+)</text>
+            <text x="230" y="145" fontSize="10" fontWeight="bold" fill="#1d4ed8" textAnchor="middle">CuSO₄</text>
+
+            {/* Salt Bridge */}
+            <path d="M 85,110 L 85,50 Q 85,40 95,40 L 205,40 Q 215,40 215,50 L 215,110" fill="none" stroke="#10b981" strokeWidth="7" />
+            <text x="150" y="32" fontSize="10" fontWeight="bold" fill="#047857" textAnchor="middle">লবণ সেতু (KCl)</text>
+
+            {/* Voltmeter / Bulb Circuit */}
+            <line x1="63" y1="40" x2="63" y2="15" stroke="#ef4444" strokeWidth="2" />
+            <line x1="63" y1="15" x2="135" y2="15" stroke="#ef4444" strokeWidth="2" />
+            <circle cx="150" cy="15" r="12" fill="#ffffff" stroke="#0f172a" strokeWidth="2" />
+            <text x="150" y="19" fontSize="11" fontWeight="bold" fill="#0f172a" textAnchor="middle">V</text>
+            <line x1="165" y1="15" x2="233" y2="15" stroke="#ef4444" strokeWidth="2" />
+            <line x1="233" y1="15" x2="233" y2="40" stroke="#ef4444" strokeWidth="2" />
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: ড্যানিয়েল / গ্যালভানিক তড়িৎ রাসায়নিক কোষ</span>
+        </div>
+      );
+
+    // 16. তাপীয় বক্ররেখা লেখচিত্র (Phase Change Heating Curve)
+    case 'PHASE_CHANGE_HEATING_CURVE':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 260 170" className="w-56 sm:w-64 h-auto">
+            {/* Axes */}
+            <line x1="40" y1="140" x2="240" y2="140" stroke="#0f172a" strokeWidth="2" />
+            <line x1="40" y1="140" x2="40" y2="20" stroke="#0f172a" strokeWidth="2" />
+            <text x="240" y="155" fontSize="10" fontWeight="bold" fill="#0f172a">সময় (t)</text>
+            <text x="25" y="25" fontSize="10" fontWeight="bold" fill="#0f172a" transform="rotate(-90 25 25)">তাপমাত্রা (°C)</text>
+
+            {/* Heating Line with 2 Plateaus (Melting & Boiling) */}
+            <path d="M 40,140 L 70,105 L 110,105 L 150,55 L 190,55 L 225,25" fill="none" stroke="#e11d48" strokeWidth="2.5" />
+            
+            {/* Points & Labels */}
+            <text x="90" y="100" fontSize="9" fontWeight="bold" fill="#0284c7">গলনাঙ্ক (কঠিন+তরল)</text>
+            <text x="170" y="50" fontSize="9" fontWeight="bold" fill="#0284c7">স্ফুটনাঙ্ক (তরল+বাষ্প)</text>
+            <line x1="40" y1="105" x2="70" y2="105" stroke="#94a3b8" strokeDasharray="2 2" />
+            <line x1="40" y1="55" x2="150" y2="55" stroke="#94a3b8" strokeDasharray="2 2" />
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: পদার্থের তাপমাত্রা বনাম সময় তাপীয় বক্ররেখা</span>
+        </div>
+      );
+
+    // 17. রাসায়নিক সাম্যাবস্থা ও ঘনমাত্রা লেখচিত্র (Equilibrium Reaction Rate Graph)
+    case 'EQUILIBRIUM_REACTION_RATE_GRAPH':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-sm mx-auto ${className}`}>
+          <svg viewBox="0 0 240 160" className="w-52 sm:w-60 h-auto">
+            {/* Axes */}
+            <line x1="40" y1="130" x2="220" y2="130" stroke="#0f172a" strokeWidth="2" />
+            <line x1="40" y1="130" x2="40" y2="20" stroke="#0f172a" strokeWidth="2" />
+            <text x="215" y="145" fontSize="10" fontWeight="bold" fill="#0f172a">সময়</text>
+            <text x="25" y="30" fontSize="10" fontWeight="bold" fill="#0f172a" transform="rotate(-90 25 30)">ঘনমাত্রা</text>
+
+            {/* Reactant decay curve */}
+            <path d="M 40,35 Q 100,55 140,80 L 210,80" fill="none" stroke="#2563eb" strokeWidth="2.5" />
+            <text x="60" y="35" fontSize="11" fontWeight="bold" fill="#2563eb">P (বিক্রিয়ক)</text>
+
+            {/* Product growth curve */}
+            <path d="M 40,130 Q 100,105 140,80 L 210,80" fill="none" stroke="#16a34a" strokeWidth="2.5" />
+            <text x="60" y="125" fontSize="11" fontWeight="bold" fill="#16a34a">Q (উৎপাদ)</text>
+
+            {/* Equilibrium region */}
+            <line x1="140" y1="130" x2="140" y2="20" stroke="#94a3b8" strokeDasharray="3 2" />
+            <text x="175" y="70" fontSize="9" fontWeight="bold" fill="#dc2626">সাম্যাবস্থা</text>
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: রাসায়নিক বিক্রিয়ার সাম্যাবস্থা বনাম ঘনমাত্রা</span>
+        </div>
+      );
+
+    // 18. টাইট্রেশন ও গ্যাস উৎপাদন ব্যুরেট ফ্লাস্ক (Titration & Gas Generation Setup)
+    case 'TITRATION_BURETTE_CONICAL_FLASK':
+    case 'CARBONATE_LIMESTONE_APPARATUS':
+      return (
+        <div className={`flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs my-2 max-w-xs mx-auto ${className}`}>
+          <svg viewBox="0 0 180 230" className="w-44 sm:w-52 h-auto">
+            {/* Stand */}
+            <line x1="40" y1="20" x2="40" y2="210" stroke="#334155" strokeWidth="4" />
+            <line x1="20" y1="210" x2="160" y2="210" stroke="#334155" strokeWidth="5" />
+            <line x1="40" y1="70" x2="90" y2="70" stroke="#334155" strokeWidth="3" />
+
+            {/* Burette */}
+            <rect x="85" y="25" width="14" height="110" fill="#f8fafc" stroke="#475569" strokeWidth="1.5" />
+            <rect x="86" y="50" width="12" height="80" fill="#fee2e2" opacity="0.8" />
+            <text x="110" y="75" fontSize="9" fontWeight="bold" fill="#dc2626">HCl দ্রবণ</text>
+
+            {/* Conical Flask */}
+            <path d="M 85,150 L 99,150 L 125,200 L 59,200 Z" fill="#f8fafc" stroke="#475569" strokeWidth="1.5" />
+            <path d="M 67,185 L 117,185 L 123,198 L 61,198 Z" fill="#dbeafe" opacity="0.9" />
+            <text x="92" y="194" fontSize="8" fontWeight="bold" fill="#1e40af" textAnchor="middle">NaHCO₃</text>
+          </svg>
+          <span className="text-[11px] font-bold text-slate-500 mt-1">চিত্র: টাইট্রেশন ও অ্যাসিড-ক্ষারক প্রসমণ ব্যবস্থা</span>
+        </div>
+      );
+
     default:
       return null;
   }
