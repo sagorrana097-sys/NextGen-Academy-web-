@@ -306,6 +306,4134 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'conditional-chapter-practice-set': {
+  "id": 1706,
+  "chapterId": 17,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: Conditional Sentence Practice & Completion Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: শর্তমূলক বাক্য পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Conditional Sentence Practice)",
+  "slug": "conditional-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 17-এর সম্পূর্ণ কন্ডিশনাল সেন্টেন্সের সমন্বিত প্র্যাকটিস সেট। Zero, First, Second, Third, Inversion (Had/Were/Should), Unless, In case এবং I wish-এর পূর্ণাঙ্গ বোর্ড স্ট্যান্ডার্ড প্রশ্নব্যাংক।",
+  "definitionEn": "An exhaustive, multi-tier conditional practice assessment integrating all condition tiers, inversion mechanics, restrictive subordinators, and counterfactual subjunctive expressions.",
+  "definitionBn": "শর্তমূলক বাক্যের সমস্ত প্রকারভেদ (০, ১, ২ ও ৩য় শর্ত), ইনভারশন, আনলেস ও সাবজাংক্টিক বাক্যের সমন্বয়ে গঠিত চূড়ান্ত মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের কমপ্লিটিং সেন্টেন্সে ফুল মার্কস (৫/৫) পাওয়ার জন্য কন্ডিশনাল সেন্টেন্সের এই প্র্যাকটিস সেটটি অত্যন্ত সহায়ক।",
+  "teacherGoldenTips": "কন্ডিশনাল সেন্টেন্স ৫ মিনিটের রিভিশন ট্রিক:\n১. If + Present Simple -> will + V1 (বাচিরন্তন সত্যে V1)\n২. If + Past Simple / Were -> would + V1\n৩. If + Had + V3 -> would have + V3\n৪. Had I + V3 -> would have + V3\n৫. Unless থাকলে বাক্যের ভেতরে আর কোনো Not বসবে না!",
+  "mainFormula": "Master Conditional Progression: Zero (V1 -> V1) | First (V1 -> will+V1) | Second (V2/were -> would+V1) | Third (had+V3 -> would have+V3)",
+  "formulas": [
+    {
+      "label": "Universal Conditional Matrix",
+      "structure": "Zero: V1 -> V1 | First: V1 -> will+V1 | Second: V2 -> would+V1 | Third: Had+V3 -> would have+V3",
+      "tag": "Universal Ladder",
+      "example": "Master 4-tier conditional progression ladder."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষায় কন্ডিশনাল সেন্টেন্স পূর্ণ করার দ্রুততম টেকনিক",
+      "nameEn": "Rapid Completion Technique for Conditional Sentences",
+      "formula": "Check If-clause tense -> Identify conditional type -> Select matching main clause formula",
+      "shortcutTrick": "প্রথমে If-ক্লজের ভার্বটি দেখুন: V1 হলে will; V2 হলে would; Had+V3 হলে would have!",
+      "descriptionBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এ কন্ডিশনাল বাক্য অত্যন্ত সহজে ও নির্ভুলভাবে সম্পন্ন করার কৌশল।",
+      "examples": [
+        {
+          "en": "If you invite him, he will come (1st).",
+          "bn": "তুমি আমন্ত্রণ জানালে সে আসবে।",
+          "note": "V1 -> will + V1।"
+        },
+        {
+          "en": "If you invited him, he would come (2nd).",
+          "bn": "তুমি আমন্ত্রণ জানালে সে আসত।",
+          "note": "V2 -> would + V1।"
+        },
+        {
+          "en": "If you had invited him, he would have come (3rd).",
+          "bn": "তুমি আমন্ত্রণ জানালে সে আসত (অতীত আক্ষেপ)।",
+          "note": "had + V3 -> would have + V3।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Unless you preserve nature, the future generations will suffer immensely.",
+      "bn": "তোমরা প্রকৃতি সংরক্ষণ না করলে ভবিষ্যৎ প্রজন্ম প্রচণ্ড কষ্টে ভুগবে।",
+      "note": "Unless + will suffer।"
+    },
+    {
+      "en": "Had I known the answer in the exam hall, I would have secured full marks.",
+      "bn": "পরীক্ষার হলে উত্তরটি জানা থাকলে আমি পুরো নম্বর পেতাম।",
+      "note": "Inverted Third Conditional।"
+    },
+    {
+      "en": "I wish I had met the legendary scientist in person.",
+      "bn": "ইশ, আমি যদি কিংবদন্তি বিজ্ঞানীর সাথে সরাসরি দেখা করতে পারতাম!",
+      "note": "Past Regret।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "If it were not for / If it had not been for",
+      "exceptionText": "If it were not for (Second) বর্তমানের শর্ত নির্দেশ করে (would + V1), কিন্তু If it had not been for (Third) অতীতের শর্ত নির্দেশ করে (would have + V3).",
+      "exampleEn": "If it were not for your support, I would give up right now.",
+      "exampleBn": "তোমার সমর্থন না থাকলে আমি এখনই হাল ছেড়ে দিতাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If you study, you would pass.",
+      "correct": "If you study, you will pass. (or If you studied, you would pass)",
+      "reasonBn": "Present Simple (study)-এর সাথে will বসবে, would নয়।"
+    },
+    {
+      "mistake": "Unless you do not hurry, you will miss the train.",
+      "correct": "Unless you hurry, you will miss the train.",
+      "reasonBn": "Unless-এর পরে \"do not\" বর্জনীয়।"
+    }
+  ],
+  "tags": [
+    "conditional sentence practice",
+    "chapter practice set",
+    "completing sentence conditional drill",
+    "ssc board exam test",
+    "master conditional vault"
+  ],
+  "mcqs": [
+    {
+      "id": 170601,
+      "question": "Complete the sentence: \"If they had offered a reasonable price, we _____ the property.\"",
+      "questionBn": "\"If they had offered a reasonable price, we _____ the property\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "will purchase",
+        "would purchase",
+        "would have purchased",
+        "purchased"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "If ক্লজে Past Perfect \"had offered\" থাকায় Third Conditional অনুযায়ী \"would have purchased\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 170602,
+      "question": "_____ you encounter any technical difficulty during the test, notify the invigilator immediately.",
+      "questionBn": "\"_____ you encounter any technical difficulty during the test, notify the invigilator immediately\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Had",
+        "Should",
+        "Were",
+        "Unless"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "First Conditional Inversion-এ \"If you should encounter...\"-এর সংক্ষিপ্ত রূপ হিসেবে \"Should\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170601,
+      "type": "Conditional Progression Drill",
+      "prompt": "Convert \"If he works hard, he will succeed\" into (a) Second Conditional and (b) Third Conditional.",
+      "correctAnswer": "(a) Second: If he worked hard, he would succeed. (b) Third: If he had worked hard, he would have succeeded.",
+      "explanationBn": "একই শর্তের তিনটি ক্রমান্বয়িক রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 17 Comprehensive Conditional Sentence Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Had the storm continued for another hour, _____.\"",
+          "answer": "the coastal embankment would have been completely washed away.",
+          "explanationBn": "ইনভার্টেড থার্ড কন্ডিশনালের পূর্ণাঙ্গ আদর্শ বোর্ড সমাধান।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর সেরা মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'conditional-wish-if-only-subjunctive': {
+  "id": 1705,
+  "chapterId": 17,
+  "topicNo": "০৫",
+  "titleEn": "Wish, If Only & Subjunctive Conditionals (Would That, But For)",
+  "titleBn": "ইচ্ছা, আক্ষেপ ও সাবজাংক্টিক কন্ডিশনাল (I wish, If only, Would that ও But for)",
+  "slug": "conditional-wish-if-only-subjunctive",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "অবাস্তব ইচ্ছা ও তীব্র আকাঙ্ক্ষা প্রকাশের বিশেষ গঠন। I wish I were / I wish I had / I wish I could। If only-র আবেগপূর্ণ প্রয়োগ। Would that (যদি এমন হতো) এবং But for (না থাকলে)। Past Subjunctive এবং Past Perfect Subjunctive-এর রূপান্তর।",
+  "definitionEn": "Expressions of unfulfilled desire and counterfactual wishes using \"I wish\", \"If only\", \"Would that\", and \"But for\" enforce subjunctive past forms to convey non-reality in present or past time frames.",
+  "definitionBn": "অপূর্ণ ইচ্ছা, আক্ষেপ বা তীব্র আকাঙ্ক্ষা প্রকাশ করার জন্য \"I wish\", \"If only\", \"Would that\" ইত্যাদি কাঠামোর পর Past Subjunctive (were/had) বা Past Perfect (had been/had done) ব্যবহৃত হয়।",
+  "explanationBn": "প্রধান ৪টি বিশেষ গঠন:\n১. I wish + Subjunctive Were / Past Simple:\n- বর্তমানের অপূর্ণ ইচ্ছা: I wish I WERE a poet (ইশ, আমি যদি কবি হতাম)!\n- I wish I HAD the wings of a dove!\n- I wish I COULD speak fluent French!\n\n২. I wish + Past Perfect (অতীতের আক্ষেপ):\n- অতীতে কোনো কিছু করতে না পারার অনুশোচনা:\n- I wish I HAD STUDIED medicine (ইশ, অতীতে আমি যদি চিকিৎসাশাস্ত্র পড়তাম)!\n\n৩. If only:\n- অত্যন্ত তীব্র ও আবেগপূর্ণ ইচ্ছা নির্দেশ করে:\n- If only I WERE young again!\n- If only I HAD KNOWN the truth!\n\n৪. Would that এবং But for:\n- Would that I were a child again (= I wish I were a child again)!\n- But for your timely guidance, I would have failed (= If you had not guided me)।",
+  "teacherGoldenTips": "উইশ (WISH)-এর গোল্ডেন রুল:\n- I wish-এর পরে কখনো \"am\", \"is\", বা \"was\" বসে না! সর্বদা \"WERE\" বসবে (I wish I WERE a bird, I wish I WERE rich)!\n- অতীতে না পারার আক্ষেপ হলে \"HAD + V3\" বসবে (I wish I had met him)!",
+  "mainFormula": "I wish / If only + S + WERE / V2 (Present Wish) | I wish / If only + S + HAD + V3 (Past Regret) | But for + Noun -> would have + V3",
+  "formulas": [
+    {
+      "label": "Present Wish / Desire",
+      "structure": "I wish / If only + Subject + WERE / Past Simple (V2) / COULD + V1",
+      "tag": "Present Wish",
+      "example": "I wish I were a billionaire. If only I knew how to paint."
+    },
+    {
+      "label": "Past Regret",
+      "structure": "I wish / If only + Subject + HAD + V3 (Past Participle)",
+      "tag": "Past Regret",
+      "example": "I wish I had accepted that job offer."
+    },
+    {
+      "label": "Would that",
+      "structure": "WOULD THAT + Subject + WERE / V2 !",
+      "tag": "Would that",
+      "example": "Would that I were a philosopher!"
+    },
+    {
+      "label": "But for (Without)",
+      "structure": "BUT FOR + Noun Phrase , Subject + WOULD HAVE + V3",
+      "tag": "But for",
+      "example": "But for your assistance, I would have incurred heavy losses."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "I wish-এর পর \"Was\"-এর পরিবর্তে \"Were\" বসার নিয়ম",
+      "nameEn": "Mandatory Subjunctive \"Were\" with \"I wish\"",
+      "formula": "I WISH + Subject (I / He / She) + WERE (NO \"WAS\")",
+      "shortcutTrick": "I wish-এর পর চোখ বন্ধ করে \"were\" বসাবেন, কখনোই \"was\" বসানো যাবে না!",
+      "descriptionBn": "যেহেতু ইচ্ছাটি অবাস্তব এবং বর্তমান সত্যের বিপরীত, তাই ব্যাকরণে Subjunctive \"were\" ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "I wish I were an eloquent orator.",
+          "bn": "ইশ, আমি যদি একজন বাগ্মী বক্তা হতাম!",
+          "note": "I wish I were।"
+        },
+        {
+          "en": "He wishes he were as courageous as his grandfather.",
+          "bn": "সে ইচ্ছা করে সে যদি তার দাদার মতো সাহসী হতো!",
+          "note": "he were।"
+        }
+      ]
+    },
+    {
+      "nameBn": "But for দিয়ে শর্ত সংক্ষেপণের কৌশল",
+      "nameEn": "Conditional Ellipsis with \"But for\"",
+      "formula": "BUT FOR + Noun Phrase = IF IT HAD NOT BEEN FOR + Noun Phrase",
+      "shortcutTrick": "\"তোমার সাহায্য না থাকলে আমি ব্যর্থ হতাম\" -> But for your help, I would have failed!",
+      "descriptionBn": "But for একটি প্রিপজিশনাল ফ্রেজ যা নেতিবাচক শর্ত (If...not) হিসেবে কাজ করে।",
+      "examples": [
+        {
+          "en": "But for the doctor's timely arrival, the accident victim would have died.",
+          "bn": "ডাক্তারের সময়মতো আগমন না থাকলে দুর্ঘটনার শিকার ব্যক্তি মারা যেত।",
+          "note": "But for = If the doctor had not arrived।"
+        },
+        {
+          "en": "But for his financial support, the orphanage would have closed down.",
+          "bn": "তার আর্থিক সহায়তা না থাকলে এতিমখানাটি বন্ধ হয়ে যেত।",
+          "note": "would have closed down।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "If only I had listened to my mother's wise advice!",
+      "bn": "হায়, আমি যদি আমার মায়ের বিজ্ঞ উপদেশ শুনতাম!",
+      "note": "If only + had listened (অতীতের আক্ষেপ)।"
+    },
+    {
+      "en": "Would that I were granted one more opportunity to prove my worth!",
+      "bn": "যদি আমাকে আমার যোগ্যতা প্রমাণের জন্য আরেকটি সুযোগ দেওয়া হতো!",
+      "note": "Would that I were granted।"
+    },
+    {
+      "en": "I wish I had been present at that historic assembly.",
+      "bn": "ইশ, আমি যদি সেই ঐতিহাসিক সমাবেশে উপস্থিত থাকতে পারতাম!",
+      "note": "I wish I had been।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Wish + would অন্য কারো আচরণের পরিবর্তনে ব্যবহৃত হয়",
+      "exceptionText": "নিজের জন্য নয়, বরং অন্য কারো বিরক্তিকর অভ্যাস পরিবর্তন করার ইচ্ছা প্রকাশে Wish-এর পর \"would + V1\" বসে (e.g. I wish it would stop raining, I wish you would stop talking).",
+      "exampleEn": "I wish you would listen attentively to my instructions.",
+      "exampleBn": "আমার ইচ্ছা যে তুমি আমার নির্দেশাবলী মনোযোগ দিয়ে শোনো।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I wish I was a king.",
+      "correct": "I wish I were a king.",
+      "reasonBn": "I wish-এর পর Was নয়, Subjunctive \"were\" বসবে।"
+    },
+    {
+      "mistake": "If only I was there yesterday.",
+      "correct": "If only I had been there yesterday.",
+      "reasonBn": "গতকাল (অতীত)-এর আক্ষেপ নির্দেশ করায় Past Perfect \"had been\" হবে।"
+    }
+  ],
+  "tags": [
+    "i wish i were",
+    "if only",
+    "would that i were",
+    "but for your help",
+    "past subjunctive wish",
+    "ssc completing sentence"
+  ],
+  "mcqs": [
+    {
+      "id": 170501,
+      "question": "I wish I _____ the prestigious Nobel Prize in Literature.",
+      "questionBn": "\"I wish I _____ the prestigious Nobel Prize in Literature\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "win",
+        "won",
+        "have won",
+        "am winning"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "বর্তমান অবাস্তব ইচ্ছা প্রকাশে I wish-এর পরে Past Simple (won) বা would win ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 170502,
+      "question": "But for your timely intervention, the conflict _____ into a catastrophic brawl.",
+      "questionBn": "\"But for your timely intervention, the conflict _____ into a catastrophic brawl\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "would degenerate",
+        "will degenerate",
+        "would have degenerated",
+        "degenerates"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"But for + Noun\" অতীতের অসম্ভব শর্ত নির্দেশ করায় Main ক্লজে \"would have degenerated\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170501,
+      "type": "Wish Subjunctive Drill",
+      "prompt": "Complete the sentence: \"I feel utterly exhausted; I wish _____.\"",
+      "correctAnswer": "I were resting on a tranquil beach right now.",
+      "explanationBn": "I wish I were... দিয়ে বাক্য পূর্ণ করা।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Wish and counterfactual subjunctive conditionals in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Would that I _____.\"",
+          "answer": "were a little child again in my mother's arms.",
+          "explanationBn": "উড দ্যাট-এর সাথে সাবজাংক্টিক ওয়্যার দিয়ে বাক্য তৈরি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর অন্যতম নিয়মিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'conditional-inversion-mixed-conjunctions': {
+  "id": 1704,
+  "chapterId": 17,
+  "topicNo": "০৪",
+  "titleEn": "Conditional Inversion, Mixed Conditionals & Alternative Conjunctions",
+  "titleBn": "শর্তমূলক বাক্যের ইনভারশন, মিক্সড কন্ডিশনাল ও বিকল্প শর্তবাহী কনজাংশন",
+  "slug": "conditional-inversion-mixed-conjunctions",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "If বাদ দিয়ে Should, Were ও Had দ্বারা ইনভারশন। মিক্সড কন্ডিশনাল (অতীতের কাজের বর্তমান ফলাফল: If I had won the lottery, I would be rich today)। Unless (= if not), Provided / Provided that, As long as, In case-এর নিখুঁত ব্যবহার।",
+  "definitionEn": "Advanced conditional structures include stylistic subject-auxiliary inversion (omitting \"if\"), mixed conditionals bridging past causes with present states, and alternative subordinators such as \"unless\", \"provided that\", and \"in case\".",
+  "definitionBn": "উচ্চতর ব্যাকরণে If ছাড়া Should, Were ও Had দিয়ে শর্ত প্রকাশ, অতীত ও বর্তমানের মিশ্রণ (Mixed Conditional) এবং Unless, Provided that, As long as, In case দ্বারা শর্ত নির্দেশ করার নিয়মাবলী।",
+  "explanationBn": "১. তিনটি ক্লাসিক ইনভারশন:\n- First Conditional: SHOULD you see him, give him this letter (= If you should see him)।\n- Second Conditional: WERE I a bird, I would fly (= If I were a bird)।\n- Third Conditional: HAD I known, I would have told you (= If I had known)।\n\n২. মিক্সড কন্ডিশনাল (অতীত শর্ত -> বর্তমান ফলাফল):\n- অতীতে কোনো কাজ ভিন্নভাবে ঘটলে বর্তমানে তার কী প্রভাব পড়ত:\n- গঠন: If + Past Perfect, Subject + WOULD + V1 (TODAY / NOW)\n- উদাহরণ: If I had accepted that job last year, I WOULD BE living in London now.\n\n৩. বিকল্প শর্তবাহী কনজাংশন:\n- Unless = If not (Unless you work hard, you will fail; Unless-এর ক্লজে \"not\" বসে না)।\n- Provided that / Providing that = Only if (You can borrow the book provided that you return it on Monday)।\n- In case = সতর্কতামূলক ব্যবস্থা (Take an umbrella in case it rains)।",
+  "teacherGoldenTips": "আনলেস (UNLESS)-এর মারাত্মক ফাঁদ:\n- Unless শব্দের ভেতরেই \"NOT\" লুকিয়ে আছে (Unless = If ... not)! তাই Unless-এর ক্লজে ভুলেও আবার \"do not\" বা \"not\" বসাবেন না (Unless you do not study ভুল; সঠিক হলো Unless you study)!",
+  "mainFormula": "Inversion: Should/Were/Had + S ... | Mixed: If + Had + V3 -> WOULD + V1 (now) | Unless + Affirmative -> Negative Result",
+  "formulas": [
+    {
+      "label": "Conditional Inversion Triad",
+      "structure": "Should you (1st) | Were I (2nd) | Had I (3rd) + appropriate main clause",
+      "tag": "Inversion Triad",
+      "example": "Should you need help, call me. Were I rich, I would help. Had I known, I would have come."
+    },
+    {
+      "label": "Mixed Conditional (Past to Present)",
+      "structure": "IF + Subject + HAD + V3 , Subject + WOULD + Base Verb (V1) + NOW / TODAY",
+      "tag": "Mixed Cond",
+      "example": "If I had won that scholarship, I would be studying in Canada now."
+    },
+    {
+      "label": "Unless Rule",
+      "structure": "UNLESS + Subject + Affirmative Verb (No \"not\") , Subject + will/can + fail/lose",
+      "tag": "Unless",
+      "example": "Unless you hurry, you will miss the train."
+    },
+    {
+      "label": "Provided that / In case",
+      "structure": "Provided that = If | In case = Precautionary condition",
+      "tag": "Connectives",
+      "example": "Take this cash in case you need an emergency taxi."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Unless-এর সাথে কখনো \"Not\" না বসার নিয়ম",
+      "nameEn": "Prohibition of \"Not\" within \"Unless\" Clauses",
+      "formula": "UNLESS + Affirmative Verb (NO \"NOT\")",
+      "shortcutTrick": "Unless মানেই \"যদি না\", তাই এর সাথে আর Not দেওয়া ডাবল নেগেটিভের মারাত্মক ভুল!",
+      "descriptionBn": "Unless you do not run fast you will lose ভুল; সঠিক হলো \"Unless you run fast, you will lose the race\"।",
+      "examples": [
+        {
+          "en": "Unless you read attentively, you will fail in the examination.",
+          "bn": "যদি না তুমি মনোযোগ দিয়ে পড়ো, তবে তুমি পরীক্ষায় অকৃতকার্য হবে।",
+          "note": "Unless + read (Not বর্জিত)।"
+        },
+        {
+          "en": "Unless he apologizes sincerely, we will not admit him.",
+          "bn": "যদি না সে আন্তরিকভাবে ক্ষমা চায়, আমরা তাকে প্রবেশ করতে দেব না।",
+          "note": "Unless + apologizes।"
+        }
+      ]
+    },
+    {
+      "nameBn": "In case বনাম If-এর অর্থগত পার্থক্য",
+      "nameEn": "\"In case\" (Precaution) vs \"If\" (Contingency)",
+      "formula": "Action done beforehand IN CASE something happens",
+      "shortcutTrick": "ঘটনা ঘটার আগেই প্রস্তুতি নিলে In case; আর ঘটলে কাজ করলে If!",
+      "descriptionBn": "I will buy an umbrella if it rains (বৃষ্টি হলে কিনব)। I will take an umbrella in case it rains (বৃষ্টির আশঙ্কায় আগে থেকেই ছাতা সাথে নেব)।",
+      "examples": [
+        {
+          "en": "Keep the emergency helpline number in case you face any obstacle.",
+          "bn": "জরুরি হেল্পলাইন নম্বরটি সাথে রেখো যাতে কোনো বাধার সম্মুখীন হলে কাজে লাগে।",
+          "note": "in case (সতর্কতামূলক প্রস্তুতি)।"
+        },
+        {
+          "en": "I will open the window if it gets too stuffy.",
+          "bn": "যদি খুব গুমোট হয় তবে আমি জানালা খুলে দেব।",
+          "note": "if (শর্তসাপেক্ষ কাজ)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Should you require any further information, do not hesitate to contact our office.",
+      "bn": "আপনার যদি অতিরিক্ত তথ্যের প্রয়োজন হয়, তবে আমাদের কার্যালয়ে যোগাযোগ করতে দ্বিধা করবেন না।",
+      "note": "Should you require (Inverted First)।"
+    },
+    {
+      "en": "You may stay in my guest apartment as long as you maintain cleanliness.",
+      "bn": "তুমি পরিচ্ছন্নতা বজায় রাখা পর্যন্ত আমার গেস্ট অ্যাপার্টমেন্টে থাকতে পারো।",
+      "note": "as long as (শর্ত)।"
+    },
+    {
+      "en": "If he had followed medical advice, he would be completely healthy today.",
+      "bn": "সে যদি চিকিৎসকের পরামর্শ মেনে চলত, তবে আজ সে সম্পূর্ণ সুস্থ থাকত।",
+      "note": "Mixed Conditional (today)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "In case-এর পর সাধারণত Present Simple বসে, Will নয়",
+      "exceptionText": "ভবিষ্যতের সতর্কতামূলক কাজের ক্ষেত্রেও In case-এর ভেতরের ক্লজটি Present Simple হয় (In case it rains, NOT in case it will rain).",
+      "exampleEn": "Take a coat in case it gets chilly tonight.",
+      "exampleBn": "আজ রাতে শীত পড়ার আশঙ্কায় একটি কোট সাথে নাও।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Unless you do not practice, you cannot speak fluently.",
+      "correct": "Unless you practice, you cannot speak fluently.",
+      "reasonBn": "Unless-এর পরে \"do not\" বসানো যাবে না।"
+    },
+    {
+      "mistake": "I will take an umbrella in case it will rain.",
+      "correct": "I will take an umbrella in case it rains.",
+      "reasonBn": "In case-এর পরে will বসে না; Present Simple (rains) বসবে।"
+    }
+  ],
+  "tags": [
+    "conditional inversion",
+    "should you see him",
+    "mixed conditional",
+    "unless rule",
+    "in case precaution",
+    "as long as",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 170401,
+      "question": "_____ you work with relentless perseverance, you will never accomplish your cherished goals.",
+      "questionBn": "\"_____ you work with relentless perseverance, you will never accomplish your cherished goals\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "Provided",
+        "Unless",
+        "As long as",
+        "In case"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"যদি না তুমি অবিচল অধ্যবসায়ের সাথে কাজ করো...\" নেতিবাচক শর্ত প্রকাশে \"Unless\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 170402,
+      "question": "Which sentence represents an inverted First Conditional?",
+      "questionBn": "কোন বাক্যটিতে First Conditional-এর Inversion রূপ প্রদর্শিত হয়েছে?",
+      "options": [
+        "Had you arrived early, you would have met him.",
+        "Should you require any financial aid, please let us know.",
+        "Were I a bird, I would fly across continents.",
+        "If you had studied, you would have passed."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Should you require...\" হলো \"If you should require...\"-এর First Conditional Inversion রূপ।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170401,
+      "type": "Unless Transformation",
+      "prompt": "Rewrite using \"Unless\": \"If you do not start immediately, you will miss the morning train.\"",
+      "correctAnswer": "Unless you start immediately, you will miss the morning train.",
+      "explanationBn": "If...not তুলে দিয়ে Unless দ্বারা প্রতিস্থাপন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Conditional inversion and \"Unless\" rules in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the grammatical rule of \"Provided that\" with an example.",
+          "answer": "\"Provided that\" (or providing that) functions as an alternative conditional subordinator meaning \"only if\" or \"on condition that\". Example: \"You can drive my car provided that you have a valid driver's license.\"",
+          "explanationBn": "প্রোভাইডেড দ্যাট-এর ব্যাকরণিক নিয়ম ও উদাহরণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর অন্যতম নিয়মিত প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'conditional-third-past-regret': {
+  "id": 1703,
+  "chapterId": 17,
+  "topicNo": "০৩",
+  "titleEn": "Third Conditional: Impossible Past Conditions, Regret & \"Had + V3\" Structures",
+  "titleBn": "থার্ড কন্ডিশনাল: অতীতের অসম্ভব শর্ত, আক্ষেপ এবং \"Had + V3\"-এর সার্বিক রূপ",
+  "slug": "conditional-third-past-regret",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "অতীতের এমন শর্ত যা পূরণ হওয়া আর কোনোভাবেই সম্ভব নয়। If + Past Perfect (had + V3), Subject + WOULD HAVE / COULD HAVE / MIGHT HAVE + V3। ইনভারশন কাঠামো: Had I seen him, I would have told him the news।",
+  "definitionEn": "The Third Conditional hypothesizes past counterfactual situations—events that did not occur and are now irremediably closed—using the past perfect in the if-clause and perfect conditional (would have + V3) in the main clause.",
+  "definitionBn": "অতীতের কোনো ঘটনা যা ঘটেনি এবং বর্তমানে যার আর কোনো পরিবর্তন সম্ভব নয়, এমন অসম্ভব শর্ত বা আক্ষেপ প্রকাশ করতে Third Conditional ব্যবহৃত হয়।",
+  "explanationBn": "গঠন ও নিয়মাবলী:\n১. সাধারণ রূপ: If + Subject + HAD + V3 (Past Perfect), Subject + WOULD HAVE / COULD HAVE / MIGHT HAVE + V3\n- উদাহরণ: If I had studied diligently, I would have achieved GPA 5.\n\n২. Inversion (Had দিয়ে শুরু):\n- If শব্দটি তুলে দিয়ে Had-কে বাক্যের শুরুতে নিয়ে এসেও থার্ড কন্ডিশনাল লেখা যায়।\n- গঠন: HAD + Subject + V3, Subject + WOULD HAVE + V3\n- উদাহরণ: Had I known his treacherous intention, I would not have trusted him.\n\n৩. অর্থগত আক্ষেপ (Regret):\n- অতীতে কোনো কিছু না ঘটার অনুশোচনা প্রকাশে এটি সবচেয়ে শক্তিশালী কাঠামো।",
+  "teacherGoldenTips": "থার্ড কন্ডিশনালের সুপার-ট্রিক:\n- If-এর পাশে \"Had + V3\" দেখলে পরের অংশে চোখ বন্ধ করে \"would have + V3\" বসিয়ে দিন!\n- বাক্যের শুরুতে \"Had I + V3\" দেখলেও পরের অংশে \"would have + V3\" ছাড়া অন্য কিছু বসবে না!",
+  "mainFormula": "IF + Subject + HAD + V3 , Subject + WOULD HAVE / COULD HAVE / MIGHT HAVE + V3",
+  "formulas": [
+    {
+      "label": "Standard Third Conditional",
+      "structure": "IF + Subject + HAD + V3 , Subject + WOULD HAVE + V3 + Extension",
+      "tag": "Third Cond",
+      "example": "If he had trained harder, he would have won the gold medal."
+    },
+    {
+      "label": "Inverted Had Conditional",
+      "structure": "HAD + Subject + V3 , Subject + WOULD HAVE + V3 (If omitted)",
+      "tag": "Inverted Had",
+      "example": "Had I seen him, I would have delivered the important message."
+    },
+    {
+      "label": "Ability / Possibility Modals",
+      "structure": "IF + Had + V3 , Subject + COULD HAVE / MIGHT HAVE + V3",
+      "tag": "Could/Might have",
+      "example": "If you had warned me, I could have avoided the disaster."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Inversion-এ \"Had\" বাক্যের শুরুতে বসার নিয়ম",
+      "nameEn": "Conditional Inversion with Initial \"Had\"",
+      "formula": "HAD + Subject + V3 (Past Participle) , Subject + WOULD HAVE + V3",
+      "shortcutTrick": "Had দিয়ে শুরু হলে বাক্যের কোথাও আর \"If\" বসবে না, কমার পর would have + V3 বসবে!",
+      "descriptionBn": "\"If I had seen him\" এবং \"Had I seen him\" একই অর্থ প্রকাশ করে; উভয়ের পরেই would have + V3 বসে।",
+      "examples": [
+        {
+          "en": "Had the ambulance arrived five minutes earlier, the patient could have been saved.",
+          "bn": "অ্যাম্বুলেন্সটি পাঁচ মিনিট আগে এলে রোগীকে বাঁচানো যেত।",
+          "note": "could have been saved (Passive)।"
+        },
+        {
+          "en": "Had I known you were in hospital, I would have visited you immediately.",
+          "bn": "আমি যদি জানতাম তুমি হাসপাতালে ছিলে, তবে আমি অবিলম্বে তোমার সাথে দেখা করতে যেতাম।",
+          "note": "Had I known -> would have visited।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Had একা থাকলে Second Conditional, কিন্তু Had + V3 থাকলে Third Conditional",
+      "nameEn": "Distinguishing \"Had\" Alone (2nd) from \"Had + V3\" (3rd)",
+      "formula": "If I HAD money (Had = main V2) -> WOULD + V1 | If I HAD HAD / HAD SEEN (Had = aux + V3) -> WOULD HAVE + V3",
+      "shortcutTrick": "Had-এর পর আরেকটি V3 থাকলে would have; আর Had একা থাকলে শুধুই would!",
+      "descriptionBn": "If I had a car, I would drive (Second Cond)। If I had bought a car, I would have driven (Third Cond)।",
+      "examples": [
+        {
+          "en": "If I had enough time, I would attend the seminar (Second Conditional).",
+          "bn": "আমার পর্যাপ্ত সময় থাকলে আমি সেমিনারে অংশ নিতাম।",
+          "note": "had একা মূল ভার্ব, তাই would attend।"
+        },
+        {
+          "en": "If I had possessed sufficient time, I would have attended the seminar (Third Conditional).",
+          "bn": "আমার যদি পর্যাপ্ত সময় থাকত, তবে আমি সেমিনারে অংশ নিতাম।",
+          "note": "had possessed থাকায় would have attended।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "If the weather had been favorable, the crops would not have perished.",
+      "bn": "আবহাওয়া অনুকূল থাকলে ফসল বিনষ্ট হতো না।",
+      "note": "had been -> would not have perished।"
+    },
+    {
+      "en": "Had you warned him in advance, he might not have invested his life savings.",
+      "bn": "তুমি যদি তাকে আগে থেকেই সতর্ক করতে, তবে হয়তো সে তার জীবনের সঞ্চয় বিনিয়োগ করত না।",
+      "note": "might not have invested।"
+    },
+    {
+      "en": "If she had worked diligently, she could have passed the test.",
+      "bn": "সে নিষ্ঠার সাথে কাজ করলে পরীক্ষায় উত্তীর্ণ হতে পারত।",
+      "note": "could have passed।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "But for / Without + Noun-এর সাথে Third Conditional",
+      "exceptionText": "\"But for his timely assistance, I would have failed\" বাক্যে But for মূলত \"If he had not assisted me\"-এর সংক্ষিপ্ত রূপ হিসেবে কাজ করে।",
+      "exampleEn": "But for your valuable advice, I would have committed a disastrous error.",
+      "exampleBn": "তোমার মূল্যবান উপদেশ না থাকলে আমি একটি মারাত্মক ভুল করে বসতাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If I had studied, I would pass.",
+      "correct": "If I had studied, I would have passed.",
+      "reasonBn": "If-এ Past Perfect (had studied) থাকলে Main ক্লজে \"would have passed\" হবে।"
+    },
+    {
+      "mistake": "Had I seen him, I would tell him.",
+      "correct": "Had I seen him, I would have told him.",
+      "reasonBn": "Had + V3 দিয়ে শুরু হওয়া ইনভারশনে অবশ্যই would have + V3 বসবে।"
+    }
+  ],
+  "tags": [
+    "third conditional",
+    "had v3 would have v3",
+    "inversion had i known",
+    "past regret conditional",
+    "but for your help",
+    "ssc completing sentence"
+  ],
+  "mcqs": [
+    {
+      "id": 170301,
+      "question": "Had I known that you were in acute distress, I _____ you unconditionally.",
+      "questionBn": "\"Had I known that you were in acute distress, I _____ you unconditionally\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "will assist",
+        "would assist",
+        "would have assisted",
+        "assisted"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "বাক্যের শুরুতে \"Had I known\" (Third Conditional Inversion) থাকায় Main ক্লজে \"would have assisted\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 170302,
+      "question": "Complete the sentence: \"If the fire brigade had reached in time, the warehouse _____.\"",
+      "questionBn": "\"If the fire brigade had reached in time, the warehouse _____\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "could be saved",
+        "could have been saved",
+        "can be saved",
+        "would save"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Third Conditional Passive রূপ হিসেবে \"could have been saved\" (could have been + V3) সঠিক।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170301,
+      "type": "Third Conditional Completion",
+      "prompt": "Complete the sentence: \"If they had invited us formally, _____.\"",
+      "correctAnswer": "we would have attended the banquet with pleasure.",
+      "explanationBn": "Third Conditional-এ would have + V3 প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Third Conditional and Inverted Had structures in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Had I possessed the wings of a dove, _____.\"",
+          "answer": "I would have flown to the highest peaks of the mountains.",
+          "explanationBn": "ইনভার্টেড থার্ড কন্ডিশনালের আদর্শ বোর্ড সমাধান।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এ এটি প্রায় প্রতি বছর আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'conditional-second-hypothetical': {
+  "id": 1702,
+  "chapterId": 17,
+  "topicNo": "০২",
+  "titleEn": "Second Conditional: Hypothetical Scenarios, Unreal Present & Subjunctive \"Were\"",
+  "titleBn": "সেকেন্ড কন্ডিশনাল: কাল্পনিক পরিস্থিতি, অবাস্তব বর্তমান ও সাবজাংক্টিক \"Were\"-এর ব্যবহার",
+  "slug": "conditional-second-hypothetical",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "বর্তমানে যা বাস্তব নয় এমন অবাস্তব কল্পনা। If + Past Simple (V2), Subject + would / could / might + V1। সব Person-এর সাথে \"Was\"-এর পরিবর্তে \"Were\" বসার সাবজাংক্টিক নিয়ম (If I were a king, If I were you)।",
+  "definitionEn": "The Second Conditional addresses counterfactual or highly improbable present and future situations, using the past subjunctive (or past simple) in the if-clause and conditional modals (would/could/might + V1) in the result clause.",
+  "definitionBn": "বর্তমানে অসম্ভব বা কাল্পনিক কোনো শর্ত নির্দেশ করতে Second Conditional ব্যবহৃত হয়। এতে If ক্লজে Past Simple (V2) এবং Main ক্লজে would/could/might + Base Verb (V1) বসে।",
+  "explanationBn": "গঠন ও বিশেষ নিয়ম:\n১. সাধারণ গঠন: If + Subject + Past Simple (V2), Subject + WOULD / COULD / MIGHT + Base Verb (V1)\n- উদাহরণ: If I had enough money, I would establish a hospital.\n\n২. Subjunctive \"Were\"-এর সার্বজনীন রূপ:\n- অবাস্তব কল্পনায় Subject একবচন (I, he, she, it) হলেও \"was\" না বসে সর্বত্র \"WERE\" বসে!\n- উদাহরণ: If I WERE a bird, I would fly across the sky.\n- পরামর্শ দিতে: If I WERE you, I would accept this lucrative offer.",
+  "teacherGoldenTips": "সেকেন্ড কন্ডিশনালের সোনার কাঠি:\n- If-এর পর V2 (অতীত) দেখলেই পরের অংশে \"would + V1\" বসিয়ে দিন!\n- কল্পনায় \"Was\" কখনো বসাবেন না; সর্বদা \"WERE\" বসাবেন (If he WERE rich, If I WERE a king)!",
+  "mainFormula": "IF + Past Simple (V2 / WERE) , Subject + WOULD / COULD / MIGHT + Base Verb (V1)",
+  "formulas": [
+    {
+      "label": "Second Conditional Formula",
+      "structure": "IF + Subject + V2 (Past Simple) , Subject + WOULD + V1 + Extension",
+      "tag": "Second Cond",
+      "example": "If he studied regularly, he would pass the exam."
+    },
+    {
+      "label": "Subjunctive Were Formula",
+      "structure": "IF + Subject (I / He / She) + WERE + Noun , Subject + WOULD + V1",
+      "tag": "Subjunctive Were",
+      "example": "If I were a king, I would help the poor."
+    },
+    {
+      "label": "Inverted Were Formula",
+      "structure": "WERE I + Noun / Adj , Subject + WOULD + V1 (If omitted)",
+      "tag": "Inverted Were",
+      "example": "Were I in your position, I would not resign."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "অবাস্তব কল্পনায় সর্বদা \"Were\" বসার নিয়ম",
+      "nameEn": "The Universal Subjunctive \"Were\" in Counterfactuals",
+      "formula": "IF + Subject (I / He / She / It) + WERE (NO \"WAS\")",
+      "shortcutTrick": "কাল্পনিক বাক্যে \"was\" লেখা মারাত্মক ভুল; সবসময় \"were\" হবে!",
+      "descriptionBn": "যেহেতু ঘটনাটি অবাস্তব (আমি পাখি নই বা রাজা নই), তাই ব্যাকরণে বিশেষ Subjunctive Mood হিসেবে \"were\" ব্যবহৃত হয়।",
+      "examples": [
+        {
+          "en": "If I were you, I would consult a specialist doctor immediately.",
+          "bn": "আমি যদি তোমার জায়গায় হতাম, তবে আমি অবিলম্বে একজন বিশেষজ্ঞের পরামর্শ নিতাম।",
+          "note": "If I were you (পরামর্শ)।"
+        },
+        {
+          "en": "If she were an empress, she would build magnificent monuments.",
+          "bn": "সে যদি সম্রাজ্ঞী হতো, তবে সে সুরম্য স্মৃতিস্তম্ভ নির্মাণ করত।",
+          "note": "she were (অবাস্তব কল্পনা)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Would বনাম Could বনাম Might-এর অর্থগত পার্থক্য",
+      "nameEn": "Nuances of \"Would\", \"Could\", and \"Might\" in Second Conditionals",
+      "formula": "WOULD = Definite willingness | COULD = Hypothetical ability | MIGHT = Remote possibility",
+      "shortcutTrick": "ইচ্ছা প্রকাশে would, সামর্থ্যে could, আর ক্ষীণ সম্ভাবনায় might!",
+      "descriptionBn": "If I knew her number, I would call her (কল করতাম)। I could call her (কল করতে পারতাম)। I might call her (হয়তো কল করতাম)।",
+      "examples": [
+        {
+          "en": "If we had a boat, we could cross the roaring river.",
+          "bn": "আমাদের একটি নৌকা থাকলে আমরা উত্তাল নদীটি পার হতে পারতাম।",
+          "note": "could cross (সামর্থ্য)।"
+        },
+        {
+          "en": "If he tried harder, he might succeed.",
+          "bn": "সে আরও চেষ্টা করলে হয়তো সফল হতো।",
+          "note": "might succeed (ক্ষীণ সম্ভাবনা)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "If I possessed a magic carpet, I would explore ancient civilizations.",
+      "bn": "আমার যদি একটি জাদুর গালিচা থাকত, তবে আমি প্রাচীন সভ্যতাগুলো ঘুরে দেখতাম।",
+      "note": "possessed (V2) -> would explore।"
+    },
+    {
+      "en": "Were he my brother, I would forgive his grave mistake.",
+      "bn": "সে যদি আমার ভাই হতো, তবে আমি তার গুরুতর ভুল ক্ষমা করতাম।",
+      "note": "Were he (Inverted রূপ)।"
+    },
+    {
+      "en": "If he drove more carefully, he would avoid frequent accidents.",
+      "bn": "সে যদি সাবধানে গাড়ি চালাত, তবে সে ঘন ঘন দুর্ঘটনা এড়াতে পারত।",
+      "note": "drove (V2) -> would avoid।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Inverted Were-এ If উঠে যায়",
+      "exceptionText": "Were দিয়ে বাক্য শুরু করে শর্ত প্রকাশ করলে (Inversion) বাক্যে \"If\" বসানোর কোনো প্রয়োজন থাকে না।",
+      "exampleEn": "Were I a billionaire, I would donate millions to education.",
+      "exampleBn": "আমি যদি শতকোটিপতি হতাম, তবে শিক্ষায় কোটি কোটি টাকা দান করতাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If I was a bird, I would fly.",
+      "correct": "If I were a bird, I would fly.",
+      "reasonBn": "অবাস্তব শর্তমূলক কল্পনায় Was নয়, \"Were\" বসে।"
+    },
+    {
+      "mistake": "If he worked hard, he will pass.",
+      "correct": "If he worked hard, he would pass.",
+      "reasonBn": "If ক্লজটি Past Simple (worked) হওয়ায় Main ক্লজে will নয়, \"would\" বসবে।"
+    }
+  ],
+  "tags": [
+    "second conditional",
+    "if i were a bird",
+    "unreal present",
+    "subjunctive were",
+    "would v1",
+    "ssc completing sentence"
+  ],
+  "mcqs": [
+    {
+      "id": 170201,
+      "question": "If I _____ the president of this country, I would eradicate corruption.",
+      "questionBn": "\"If I _____ the president of this country, I would eradicate corruption\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "am",
+        "was",
+        "were",
+        "had been"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "অবাস্তব বা কাল্পনিক বর্তমান শর্তে (Second Conditional) \"I\"-এর সাথে Subjunctive \"were\" বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 170202,
+      "question": "Complete the sentence: \"If he knew your address, he _____ to see you.\"",
+      "questionBn": "\"If he knew your address, he _____ to see you\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "will come",
+        "would come",
+        "would have come",
+        "comes"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "If ক্লজে Past Simple \"knew\" থাকায় Second Conditional অনুযায়ী Main ক্লজে \"would come\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170201,
+      "type": "Second Conditional Completion",
+      "prompt": "Complete the sentence: \"Were I a great scientist, _____.\"",
+      "correctAnswer": "I would invent an affordable cure for fatal diseases.",
+      "explanationBn": "Were I... এর সাথে would + V1 যুক্ত করে বাক্য পূর্ণ করা।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Second Conditional and Subjunctive \"were\" in SSC examinations:",
+      "subQuestions": [
+        {
+          "questionText": "Why is \"If I was a bird\" considered non-standard in formal English examination?",
+          "answer": "Because \"was\" denotes an indicative past reality, whereas \"were\" represents the subjunctive mood expressing counterfactual hypothesis contrary to present fact.",
+          "explanationBn": "সাবজাংক্টিক Were বনাম ওয়াজ-এর ব্যাকরণগত ভিত্তি।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর অত্যন্ত নিশ্চিত কমন আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'conditional-zero-first-real': {
+  "id": 1701,
+  "chapterId": 17,
+  "topicNo": "০১",
+  "titleEn": "Zero & First Conditionals: Scientific Facts, Real Conditions & Imperatives",
+  "titleBn": "জিরো ও ফার্স্ট কন্ডিশনাল: বৈজ্ঞানিক সত্য, বাস্তব শর্ত এবং অনুজ্ঞামূলক বাক্য",
+  "slug": "conditional-zero-first-real",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "শর্ত ও ফলাফলের মেলবন্ধন। Zero Conditional (If + Present Simple -> Present Simple) বৈজ্ঞানিক ও চিরন্তন সত্য প্রকাশে। First Conditional (If + Present Simple -> Future Simple: will/can/may + V1) সম্ভাব্য ভবিষ্যৎ শর্তে। অনুজ্ঞামূলক কন্ডিশনাল (If you are tired, take rest)।",
+  "definitionEn": "Conditional sentences consist of an \"if clause\" (condition) and a \"main clause\" (result). Zero Conditional describes invariable natural laws, while First Conditional predicts realistic future contingencies based on present conditions.",
+  "definitionBn": "যে বাক্যে একটি শর্ত (If clause) এবং সেই শর্তের ওপর নির্ভরশীল একটি ফলাফল বা মূল বাক্য (Main clause) থাকে, তাকে Conditional Sentence বলে। জিরো কন্ডিশনাল চিরন্তন ও বৈজ্ঞানিক সত্য এবং ফার্স্ট কন্ডিশনাল বাস্তব ভবিষ্যৎ ফলাফল নির্দেশ করে।",
+  "explanationBn": "১. Zero Conditional (চিরন্তন/বৈজ্ঞানিক সত্য):\n- গঠন: If + Present Simple, + Present Simple\n- উদাহরণ: If you heat water to 100°C, it boils (NOT will boil).\n- এখানে কোনো ভবিষ্যৎ সম্ভাবনা নয়, বরং নিশ্চিত বৈজ্ঞানিক বাস্তবতা প্রকাশ পায়।\n\n২. First Conditional (বাস্তব ভবিষ্যৎ সম্ভাবনা):\n- গঠন: If + Present Simple, + Subject + will / can / may + V1\n- উদাহরণ: If you study attentively, you will pass with GPA 5.\n- অনুজ্ঞামূলক রূপ: If you feel exhausted, TAKE a break (will take-এর বদলে সরাসরি V1)।",
+  "teacherGoldenTips": "জিরো বনাম ফার্স্ট কন্ডিশনাল চেনার ট্রিক:\n- যদি বৈজ্ঞানিক সত্য বা চিরন্তন অভ্যাস বোঝায়: উভয় পাশেই V1 (Present Simple)!\n- যদি মানুষের ভবিষ্যৎ কাজের সম্ভাবনা বোঝায়: ১ম পাশে V1, ২য় পাশে will/can + V1!",
+  "mainFormula": "Zero: IF + Present Simple -> Present Simple | First: IF + Present Simple -> WILL / CAN / MAY + V1 (or Imperative)",
+  "formulas": [
+    {
+      "label": "Zero Conditional (Facts)",
+      "structure": "IF + Subject + V1 (Present Simple) , Subject + V1 (Present Simple)",
+      "tag": "Zero Cond",
+      "example": "If you freeze water, it turns into ice."
+    },
+    {
+      "label": "First Conditional (Future)",
+      "structure": "IF + Subject + V1 (Present Simple) , Subject + WILL / CAN / MAY + Base Verb (V1)",
+      "tag": "First Cond",
+      "example": "If it rains, we will postpone the football match."
+    },
+    {
+      "label": "Imperative First Conditional",
+      "structure": "IF + Subject + V1 (Present Simple) , Imperative Verb (Base Form) + Extension",
+      "tag": "Imperative Cond",
+      "example": "If you see him, tell him to contact me."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Zero Conditional-এ Will ব্যবহার না করার নিয়ম",
+      "nameEn": "Omission of \"Will\" in Universal Zero Conditionals",
+      "formula": "If + Present Simple , Present Simple (NO \"WILL\")",
+      "shortcutTrick": "পানি গরম করলে বাষ্প হবেই — এটি প্রকৃতির অমোঘ নিয়ম, তাই will বসবে না!",
+      "descriptionBn": "প্রকৃতির নিয়ম বা সার্বজনীন সত্যের ক্ষেত্রে If-এর মূল ক্লজে will বসে না, উভয় ক্লজেই Present Simple বসে।",
+      "examples": [
+        {
+          "en": "If ice melts, it becomes water (NOT will become).",
+          "bn": "বরফ গললে তা পানিতে পরিণত হয়।",
+          "note": "বৈজ্ঞানিক বাস্তবতা।"
+        },
+        {
+          "en": "If you heat iron, it expands.",
+          "bn": "লোহা উত্তপ্ত করলে তা প্রসারিত হয়।",
+          "note": "উভয় পাশেই Present Simple।"
+        }
+      ]
+    },
+    {
+      "nameBn": "First Conditional-এর মডাল বৈচিত্র্য (Can / May / Must)",
+      "nameEn": "Modal Auxiliaries in First Conditional Results",
+      "formula": "If + Present Simple , Subject + (WILL: certainty / CAN: ability / MAY: permission / MUST: duty) + V1",
+      "shortcutTrick": "শর্ত মিললে শুধু will নয়, সামর্থ্যে can এবং অনুমোদনে may-ও বসানো যায়!",
+      "descriptionBn": "If you work diligently, you CAN achieve your dream. If you want, you MAY leave early.",
+      "examples": [
+        {
+          "en": "If you have a valid passport, you can travel internationally.",
+          "bn": "তোমার বৈধ পাসপোর্ট থাকলে তুমি আন্তর্জাতিক ভ্রমণ করতে পারো।",
+          "note": "can travel (সামর্থ্য)।"
+        },
+        {
+          "en": "If the weather improves, we may go for a picnic.",
+          "bn": "আবহাওয়ার উন্নতি হলে আমরা বনভোজনে যেতে পারি।",
+          "note": "may go (সম্ভাবনা)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "If you sow good seeds, you will reap a bountiful harvest.",
+      "bn": "তুমি ভালো বীজ বপন করলে প্রচুর ফসল ঘরে তুলবে।",
+      "note": "First Conditional।"
+    },
+    {
+      "en": "If plants do not get sunlight, they die.",
+      "bn": "উদ্ভিদ সূর্যালোক না পেলে মারা যায়।",
+      "note": "Zero Conditional।"
+    },
+    {
+      "en": "If anyone calls, please take a message.",
+      "bn": "কেউ ফোন করলে দয়া করে একটি বার্তা লিখে রেখো।",
+      "note": "Imperative Conditional।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "If ক্লজের ভেতরে কখনো \"will\" বসে না",
+      "exceptionText": "শর্তযুক্ত ক্লজ (If clause)-এর মধ্যে কখনো Future Marker \"will\" বা \"shall\" বসে না (e.g. If it will rain we will cancel বলা ভুল; বলতে হবে If it rains).",
+      "exampleEn": "If he comes tomorrow, we will discuss the matter (NOT If he will come).",
+      "exampleBn": "সে আগামীকাল এলে আমরা বিষয়টি নিয়ে আলোচনা করব।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "If you will work hard, you will succeed.",
+      "correct": "If you work hard, you will succeed.",
+      "reasonBn": "If ক্লজের ভেতরে \"will\" বসে না; Present Simple (work) বসবে।"
+    },
+    {
+      "mistake": "If water boils, it will evaporate.",
+      "correct": "If water boils, it evaporates.",
+      "reasonBn": "বৈজ্ঞানিক চিরন্তন সত্যে Zero Conditional (evaporates) প্রযোজ্য।"
+    }
+  ],
+  "tags": [
+    "conditional sentence",
+    "zero conditional",
+    "first conditional",
+    "if present will",
+    "if clause rules",
+    "ssc completing sentence"
+  ],
+  "mcqs": [
+    {
+      "id": 170101,
+      "question": "If you heat ice, it _____ into liquid water.",
+      "questionBn": "\"If you heat ice, it _____ into liquid water\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "will melt",
+        "melts",
+        "melted",
+        "would melt"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "এটি একটি সার্বজনীন বৈজ্ঞানিক সত্য (Zero Conditional), তাই উভয় পাশেই Present Simple (melts) বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 170102,
+      "question": "Complete the conditional: \"If the train is delayed, we _____ our connecting flight.\"",
+      "questionBn": "\"If the train is delayed, we _____ our connecting flight\" বাক্যাংশটি সঠিকভাবে পূরণ করো:",
+      "options": [
+        "miss",
+        "will miss",
+        "would miss",
+        "would have missed"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "First Conditional-এর নিয়ম অনুযায়ী If + Present Simple-এর পর \"will + V1\" (will miss) বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 170101,
+      "type": "Completing Sentence Drill",
+      "prompt": "Complete the sentence: \"If you invite him cordially, _____.\"",
+      "correctAnswer": "he will attend the function with pleasure.",
+      "explanationBn": "First Conditional-এর শর্ত পূরণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 170101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "First Conditional structures in SSC Completing Sentences:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"If you will invite me, I will come\" is grammatically erroneous.",
+          "answer": "Because English grammar strictly prohibits future modals (will/shall) within conditional adverbial clauses. The condition must be expressed in the Present Simple: \"If you invite me, I will come.\"",
+          "explanationBn": "শর্তযুক্ত ক্লজে will বর্জনের ব্যাকরণিক কারণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর অত্যন্ত কমন প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'sva-chapter-practice-set': {
+  "id": 1605,
+  "chapterId": 16,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Subject-Verb Agreement Practice & Concord Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: কর্তা ও ক্রিয়ার সঙ্গতি পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Subject-Verb Agreement Practice)",
+  "slug": "sva-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 16-এর সম্পূর্ণ Subject-Verb Agreement নিয়মের সমন্বিত প্র্যাকটিস সেট। As well as, Either...or, One of the, Many a, A number of vs The number of, Distance/Money, এবং Antecedent নিয়মের চূড়ান্ত বোর্ড স্ট্যান্ডার্ড পরীক্ষা।",
+  "definitionEn": "A comprehensive chapter practice assessment consolidating subject-verb concord across distributive, alternative, collective, and relative syntactic constructions.",
+  "definitionBn": "কর্তা ও ক্রিয়ার সঙ্গতির যাবতীয় নিয়ম, সূত্র, বিভ্রান্তিকর প্রয়োগ ও বোর্ড পরীক্ষার মডেল প্রশ্নের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের রাইট ফর্ম অব ভার্বস ও ফিল ইন দ্য ব্ল্যাংকসে ফুল মার্কস নিশ্চিত করার জন্য এই প্র্যাকটিস সেটটি অত্যন্ত কার্যকর।",
+  "teacherGoldenTips": "সাবজেক্ট-ভার্ব এগ্রিমেন্টের ৫টি গোল্ডেন রুল রিভিশন:\n১. As well as / Along with থাকলে ১ম সাবজেক্ট অনুযায়ী ভার্ব!\n২. Either...or / Neither...nor থাকলে নিকটবর্তী সাবজেক্ট অনুযায়ী ভার্ব!\n৩. One of the + Plural Noun + Singular Verb!\n৪. It is I who AM / It is he who IS!\n৫. ৫০ মাইল বা ১০ হাজার ডলারের মতো সমষ্টি সর্বদা IS!",
+  "mainFormula": "Master Concord Matrix = Connective Analysis (First Subject vs Nearest Subject) + Indefinite Singulars + Quantifier Rules",
+  "formulas": [
+    {
+      "label": "Universal Concord Matrix",
+      "structure": "As well as (S1) | Or/Nor (S2) | One of (Singular) | A number of (Plural) | The number of (Singular)",
+      "tag": "Master Concord",
+      "example": "Review of all 41 subject-verb agreement rules."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষায় দ্রুত সঠিক ভার্ব নির্বাচনের কৌশল",
+      "nameEn": "Rapid Subject-Verb Resolution Strategy",
+      "formula": "Find the TRUE subject -> Ignore middle prepositional phrases -> Match number and person",
+      "shortcutTrick": "Subject এবং Verb-এর মাঝে যদি of, with, in থাকে, তবে মাঝের অংশটি বাদ দিয়ে আসল কর্তাকে চিহ্নিত করুন!",
+      "descriptionBn": "\"The quality of these mangoes (be) good\" — এখানে আসল কর্তা mangoes নয়, quality; তাই \"is good\" হবে।",
+      "examples": [
+        {
+          "en": "The quality of the selected mangoes is exceptional.",
+          "bn": "বাছাইকৃত আমগুলোর গুণগত মান অসাধারণ।",
+          "note": "quality (Singular) অনুযায়ী is।"
+        },
+        {
+          "en": "The cost of modern electronic gadgets has increased.",
+          "bn": "আধুনিক ইলেকট্রনিক ডিভাইসের খরচ বৃদ্ধি পেয়েছে।",
+          "note": "cost অনুযায়ী has increased।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Neither the teacher nor the students were aware of the revised schedule.",
+      "bn": "শিক্ষক বা শিক্ষার্থীরা কেউই সংশোধিত সময়সূচির ব্যাপারে অবগত ছিল না।",
+      "note": "students কাছে থাকায় were।"
+    },
+    {
+      "en": "More than one candidate has achieved the highest score.",
+      "bn": "একাধিক প্রার্থী সর্বোচ্চ নম্বর অর্জন করেছে।",
+      "note": "More than one + has achieved।"
+    },
+    {
+      "en": "The jury has reached a consensus on the verdict.",
+      "bn": "জুরি রায়ের ব্যাপারে ঐকমত্যে পৌঁছেছে।",
+      "note": "ঐক্যবদ্ধ থাকায় has reached।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "None-এর সাথে Singular ও Plural উভয়ের ব্যবহার",
+      "exceptionText": "প্রথাগত ব্যাকরণে None-কে \"No one\"-এর সমতুল্য বিবেচনা করে Singular ধরা হয় (None of them is here), তবে আধুনিক ইংরেজিতে Plural Countable-এর ক্ষেত্রে Plural-ও বহুল প্রচলিত (None of them are here). বোর্ড পরীক্ষায় Singular লেখা অধিক নিরাপদ।",
+      "exampleEn": "None of the witnesses was willing to testify in court.",
+      "exampleBn": "সাক্ষীদের কেউই আদালতে সাক্ষ্য দিতে রাজি ছিল না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The colors of the rainbow is captivating.",
+      "correct": "The colors of the rainbow are captivating.",
+      "reasonBn": "আসল Subject হলো \"The colors\" (Plural), তাই \"are\" বসবে।"
+    },
+    {
+      "mistake": "Either you or he are wrong.",
+      "correct": "Either you or he is wrong.",
+      "reasonBn": "নিকটবর্তী Subject \"he\" অনুযায়ী Singular Verb \"is\" হবে।"
+    }
+  ],
+  "tags": [
+    "subject verb agreement practice",
+    "chapter practice set",
+    "sva board revision",
+    "right form of verbs concord",
+    "master agreement challenge"
+  ],
+  "mcqs": [
+    {
+      "id": 160501,
+      "question": "The captain along with his dedicated teammates _____ celebrated with the championship trophy.",
+      "questionBn": "\"The captain along with his dedicated teammates _____ celebrated with the championship trophy\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "were",
+        "have",
+        "was",
+        "are"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"along with\" থাকায় ১ম কর্তা \"The captain\" (Singular) অনুযায়ী \"was\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 160502,
+      "question": "The quality of these newly imported cotton fabrics _____ thoroughly tested by the lab.",
+      "questionBn": "\"The quality of these newly imported cotton fabrics _____ thoroughly tested by the lab\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "have been",
+        "were",
+        "has been",
+        "are being"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "আসল Subject হলো \"The quality\" (Singular), তাই \"has been\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 160501,
+      "type": "Subject-Verb Concord Master Drill",
+      "prompt": "Fill in the blanks: (a) Bread and butter _____ (be) my daily meal. (b) Ten miles _____ (be) a long walk. (c) The number of students _____ (have) doubled.",
+      "correctAnswer": "(a) is, (b) is, (c) has",
+      "explanationBn": "কনকর্ড অধ্যায়ের তিনটি ক্লাসিক নিয়মের প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 160501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 16 Comprehensive Subject-Verb Agreement Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"Every teacher and every student of this academy are punctual.\"",
+          "answer": "Every teacher and every student of this academy is punctual.",
+          "explanationBn": "Every যুক্ত Noun and দ্বারা যুক্ত হলেও Verb একবচন (is) হয়।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত নিশ্চিত ১ নম্বরের প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'sva-relative-pronouns-inverted-structures': {
+  "id": 1604,
+  "chapterId": 16,
+  "topicNo": "০৪",
+  "titleEn": "Subject-Verb Agreement: Relative Pronouns, Inverted \"There\" & Deceptive Nouns",
+  "titleBn": "আপেক্ষিক সর্বনামের পূর্বপদ, Inverted \"There\" ও দেখতে বহুবচন কিন্তু একবচন বিশেষ্য",
+  "slug": "sva-relative-pronouns-inverted-structures",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "It is I who am to blame (Antecedent রুল)। There is বনাম There are (পরবর্তী আসল কর্তা অনুযায়ী)। দেখতে Plural কিন্তু অর্থে Singular বিশেষ্য: Physics, Mathematics, News, Politics, Economics, Gulliver's Travels।",
+  "definitionEn": "Relative pronouns (who, which, that) derive person and number from their immediate antecedents. In existential sentences introduced by \"There\", the verb agrees with the following postponed subject.",
+  "definitionBn": "Relative Pronoun-এর নিজস্ব কোনো Number বা Person নেই; এর ঠিক পূর্বে থাকা Noun বা Pronoun (Antecedent)-এর ওপর ভিত্তি করে পরবর্তী Verb নির্ধারিত হয়। আর \"There\" দিয়ে শুরু হওয়া বাক্যে পরবর্তী মূল কর্তার সাথে ক্রিয়া বসে।",
+  "explanationBn": "৩টি অত্যন্ত গুরুত্বপূর্ণ ফাঁদ:\n১. Antecedent রুল (It is I who AM):\n- \"It is I who AM to blame\" (I অনুযায়ী am; is বা are নয়)।\n- \"It is you who ARE responsible\" (You অনুযায়ী are)।\n- \"It is he who IS at fault\" (He অনুযায়ী is)।\n২. Inverted \"There\":\n- \"There IS a book on the table\" (a book একবচন)।\n- \"There ARE three books on the table\" (three books বহুবচন)।\n৩. দেখতে বহুবচন (শেষে 's' আছে) কিন্তু অর্থে একবচন:\n- বিষয়ের নাম: Physics, Mathematics, Economics, Civics, Ethics, Politics\n- রোগের নাম: Measles, Mumps, Rickets\n- সংবাদ/তথ্য: News, Information\n- বইয়ের নাম: Gulliver's Travels, Arabian Nights\nএরা দেখতে বহুবচনের মতো হলেও সর্বদা SINGULAR VERB গ্রহণ করে!",
+  "teacherGoldenTips": "হু (WHO)-এর জাদুকরী রুল: Who-র দিকে তাকাবেন না; Who-র ঠিক বাম পাশের মানুষটির দিকে তাকান! বামে \"I\" থাকলে am! বামে \"He\" থাকলে is! বামে \"We\" থাকলে are!",
+  "mainFormula": "It is [Antecedent] WHO + Verb (governed by Antecedent) | There + is/are + Real Subject | Physics / News -> SINGULAR VERB",
+  "formulas": [
+    {
+      "label": "Relative Antecedent Formula",
+      "structure": "It is + Pronoun + WHO + Verb (matches Pronoun)",
+      "tag": "Antecedent",
+      "example": "It is I who am your genuine well-wisher."
+    },
+    {
+      "label": "There Inversion Rule",
+      "structure": "There + IS/WAS + Singular Noun | There + ARE/WERE + Plural Noun",
+      "tag": "There Rule",
+      "example": "There is a river near the village. There are many trees in the orchard."
+    },
+    {
+      "label": "Deceptive Nouns in \"S\"",
+      "structure": "Physics, Mathematics, News, Politics, Gulliver's Travels + SINGULAR VERB",
+      "tag": "Deceptive Nouns",
+      "example": "Physics is an intriguing branch of science. No news is good news."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Relative Pronoun-এর পূর্বপদ (Antecedent) অনুযায়ী ক্রিয়া নির্ধারণ",
+      "nameEn": "Agreement with Antecedents of Relative Pronouns",
+      "formula": "Noun / Pronoun (Antecedent) + WHO / WHICH / THAT + VERB (governed by Antecedent)",
+      "shortcutTrick": "Who-এর বাম পাশের শব্দটি অনুযায়ী ডান পাশের ভার্ব বসবে!",
+      "descriptionBn": "It is I who is to blame বলা মারাত্মক ভুল; I-এর সাথে am বসে, তাই \"It is I who am to blame\"।",
+      "examples": [
+        {
+          "en": "It is I who am responsible for this inadvertent error.",
+          "bn": "আমিই এই অনিচ্ছাকৃত ভুলের জন্য দায়ী।",
+          "note": "I অনুযায়ী am।"
+        },
+        {
+          "en": "It is you who have rendered the greatest service to the nation.",
+          "bn": "আপনিই জাতির প্রতি সর্বশ্রেষ্ঠ সেবা প্রদান করেছেন।",
+          "note": "you অনুযায়ী have rendered।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শেষে \"s\" থাকা বিষয়ের নাম ও বইয়ের নামে একবচন ক্রিয়া",
+      "nameEn": "Singular Verbs with Nouns Plural in Form but Singular in Meaning",
+      "formula": "(Physics / Mathematics / Economics / Politics / News / Gulliver's Travels) + SINGULAR VERB (is/was/has)",
+      "shortcutTrick": "শেষে 's' থাকলেও এটি একটি একক বিষয় বা বইয়ের নাম, তাই একবচন!",
+      "descriptionBn": "Mathematics are my favorite subject ভুল; বলতে হবে \"Mathematics is my favorite subject\"।",
+      "examples": [
+        {
+          "en": "Economics is a vital subject in modern commerce.",
+          "bn": "অর্থনীতি আধুনিক বাণিজ্যে একটি অত্যন্ত গুরুত্বপূর্ণ বিষয়।",
+          "note": "Economics is (Singular)।"
+        },
+        {
+          "en": "Gulliver's Travels was authored by Jonathan Swift.",
+          "bn": "গালিভার্স ট্রাভেলস জোনাথন সুইফট রচনা করেছিলেন।",
+          "note": "একটি বইয়ের নাম হওয়ায় was।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "No news is good news.",
+      "bn": "কোনো দুঃসংবাদ না থাকাই সুসংবাদ।",
+      "note": "News সর্বদা Singular Verb (is) নেয়।"
+    },
+    {
+      "en": "There are five renowned hospitals in this metropolitan city.",
+      "bn": "এই মহানগরীতে পাঁচটি বিখ্যাত হাসপাতাল রয়েছে।",
+      "note": "five renowned hospitals অনুযায়ী are।"
+    },
+    {
+      "en": "Ethics deals with moral principles.",
+      "bn": "নীতিশাস্ত্র নৈতিক মূল্যবোধ নিয়ে আলোচনা করে।",
+      "note": "Ethics একবচন হওয়ায় deals (V1-s)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Mathematics / Politics যখন ব্যক্তিগত হিসাব বা বিশ্বাস বোঝায়",
+      "exceptionText": "Mathematics বা Statistics যখন শাস্ত্র না বুঝিয়ে কারো ব্যক্তিগত গণনা বা হিসাব বোঝায়, তখন তা Plural Verb গ্রহণ করতে পারে (e.g. His mathematics are weak = তার হিসাবনিকাশ কাঁচা).",
+      "exampleEn": "His calculations are accurate, but his mathematics are confusing.",
+      "exampleBn": "তার গণনা নির্ভুল, কিন্তু তার হিসাবনিকাশ বিভ্রান্তিকর।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "It is I who is your friend.",
+      "correct": "It is I who am your friend.",
+      "reasonBn": "Antecedent \"I\" অনুযায়ী am বসবে, is নয়।"
+    },
+    {
+      "mistake": "Physics are a difficult subject for him.",
+      "correct": "Physics is a difficult subject for him.",
+      "reasonBn": "Physics একটি বিষয়ের নাম হওয়ায় Singular Verb \"is\" হবে।"
+    }
+  ],
+  "tags": [
+    "it is i who am",
+    "antecedent concord",
+    "there is there are",
+    "physics is",
+    "news is",
+    "gullivers travels was",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 160401,
+      "question": "It is I who _____ to be blamed for this misunderstanding.",
+      "questionBn": "\"It is I who _____ to be blamed for this misunderstanding\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "is",
+        "am",
+        "are",
+        "were"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Relative pronoun \"who\"-এর Antecedent হলো \"I\", তাই এর সাথে সঙ্গতি রেখে \"am\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 160402,
+      "question": "The Arabian Nights _____ a world-renowned collection of folk tales.",
+      "questionBn": "\"The Arabian Nights _____ a world-renowned collection of folk tales\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "are",
+        "is",
+        "were",
+        "have been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The Arabian Nights\" একটি একক বিখ্যাত গ্রন্থের নাম হওয়ায় এর সাথে Singular Verb \"is\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 160401,
+      "type": "Antecedent Concord Drill",
+      "prompt": "Correct the error: \"It is he who have completed the assignment ahead of schedule.\"",
+      "correctAnswer": "It is he who has completed the assignment ahead of schedule.",
+      "explanationBn": "Antecedent \"he\" অনুযায়ী Singular Verb \"has completed\" বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 160401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Relative pronoun antecedent agreement in SSC Board examinations:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"The news broadcast on television were alarming.\"",
+          "answer": "The news broadcast on television was alarming.",
+          "explanationBn": "News একটি Uncountable Noun যা সর্বদা Singular Verb (was) গ্রহণ করে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৫-এর অত্যন্ত জনপ্রিয় একটি প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'sva-quantifiers-fractions-collectives': {
+  "id": 1603,
+  "chapterId": 16,
+  "topicNo": "০৩",
+  "titleEn": "Subject-Verb Agreement: Quantifiers, Fractions, Collectives & Units of Measure",
+  "titleBn": "পরিমাণ, ভগ্নাংশ, সমষ্টিবাচক বিশেষ্য এবং পরিমাপের এককে ক্রিয়ার সঙ্গতি",
+  "slug": "sva-quantifiers-fractions-collectives",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "A number of (Plural) বনাম The number of (Singular)। ভগ্নাংশ ও শতকরা (Fractions & Percentages)-র নিয়ম। Collective Noun-এর একক সিদ্ধান্ত (Singular) বনাম মতবিরোধ (Plural of Multitude)। দূরত্ব, সময় ও টাকার সমষ্টিতে Singular Verb।",
+  "definitionEn": "Collective nouns take singular verbs when acting as a unified entity, but plural verbs (noun of multitude) when members act individually. Quantifiers and fractions derive their number from the following mass or count noun.",
+  "definitionBn": "সমষ্টিবাচক বিশেষ্য যখন অবিভাজ্য একক হিসেবে কাজ করে তখন Singular Verb নেয়, কিন্তু তাদের মধ্যে মতভেদ দেখা দিলে Plural Verb নেয়। ভগ্নাংশ ও পরিমাণের ক্ষেত্রে পরবর্তী Noun অনুযায়ী Verb নির্ধারিত হয়।",
+  "explanationBn": "প্রধান ৪টি গুরুত্বপূর্ণ নিয়ম:\n১. A number of বনাম The number of:\n- \"A number of + Plural Noun + PLURAL VERB\" (A number of boys ARE present = বহুসংখ্যক ছেলে)।\n- \"THE number of + Plural Noun + SINGULAR VERB\" (The number of boys IS forty = ছেলেদের সংখ্যাটি ৪০)।\n২. পরিমাপের একক (Distance, Time, Money, Weight):\n- বহুবচন সংখ্যা হলেও সামগ্রিক একক হিসেবে Singular Verb নেয় (Fifty miles IS a long distance, Ten thousand dollars IS a huge sum)।\n৩. ভগ্নাংশ ও শতকরা (Fractions & Percentages):\n- পরবর্তী Noun Uncountable হলে Singular: Two-thirds of the work IS finished.\n- পরবর্তী Noun Plural Countable হলে Plural: Two-thirds of the students ARE present.\n৪. Collective Noun (Jury, Committee, Team):\n- ঐক্যবদ্ধ থাকলে: The committee HAS decided (Singular)।\n- মতবিরোধ থাকলে: The jury WERE divided in their opinions (Plural of Multitude)।",
+  "teacherGoldenTips": "এ নাম্বার বনাম দ্য নাম্বারের গোল্ডেন ট্রিক:\n- \"A number of\" থাকলে PLURAL (বহুসংখ্যক মানুষ কাজ করছে)!\n- \"THE number of\" থাকলে SINGULAR (কারণ আসল কর্তা হলো \"সংখ্যাটি\")!",
+  "mainFormula": "A number of + Plural -> PLURAL VERB | The number of + Plural -> SINGULAR VERB | Fifty miles / Ten years -> IS",
+  "formulas": [
+    {
+      "label": "A number of vs The number of",
+      "structure": "A number of + Plural Noun + PLURAL VERB | THE number of + Plural Noun + SINGULAR VERB",
+      "tag": "Number of",
+      "example": "A number of students were absent. The number of students was fifty."
+    },
+    {
+      "label": "Distance / Money / Time Units",
+      "structure": "Plural Unit of Distance/Money/Time + SINGULAR VERB (is/was)",
+      "tag": "Units",
+      "example": "Ten miles is not a great distance. Fifty dollars was paid."
+    },
+    {
+      "label": "Fractions & Percentages",
+      "structure": "Fraction/Percentage of + Uncountable -> SINGULAR | of + Plural Countable -> PLURAL",
+      "tag": "Fractions",
+      "example": "Half of the apple was eaten. Half of the apples were eaten."
+    },
+    {
+      "label": "Collective Noun Discord",
+      "structure": "United Collective -> SINGULAR VERB | Divided Collective (Multitude) -> PLURAL VERB",
+      "tag": "Multitude",
+      "example": "The jury has given its verdict. The jury were divided in their opinions."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "A number of বনাম The number of-এর নিয়ম",
+      "nameEn": "A number of (Plural) vs The number of (Singular)",
+      "formula": "A NUMBER OF + Plural Noun + PLURAL VERB | THE NUMBER OF + Plural Noun + SINGULAR VERB",
+      "shortcutTrick": "A দেখলে বহুবচন; The দেখলে একবচন!",
+      "descriptionBn": "A number of মানে \"অনেকগুলো\" (Plural)। The number of মানে \"সংখ্যাটি\" (Singular)।",
+      "examples": [
+        {
+          "en": "A number of brilliant students have won scholarships.",
+          "bn": "বহুসংখ্যক মেধাবী শিক্ষার্থী বৃত্তি পেয়েছে।",
+          "note": "have won (Plural)।"
+        },
+        {
+          "en": "The number of applicants for the post was astonishingly high.",
+          "bn": "পদটির জন্য আবেদনকারীর সংখ্যাটি বিস্ময়করভাবে বেশি ছিল।",
+          "note": "was high (Singular)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "দূরত্ব, সময় ও অর্থের পরিমাপে একবচন ক্রিয়া",
+      "nameEn": "Singular Concord for Distance, Time and Money",
+      "formula": "Number + (Miles / Hours / Dollars / Taka) = Single Unified Quantity -> SINGULAR VERB",
+      "shortcutTrick": "যত মাইল বা যত টাকাই হোক, তা একটি সামগ্রিক প্যাকেট বা একক; তাই সর্বদা Is/Was!",
+      "descriptionBn": "Fifty miles are a long distance বলা ভুল; বলতে হবে \"Fifty miles is a long distance\"।",
+      "examples": [
+        {
+          "en": "Twenty miles is a tedious distance to travel on foot.",
+          "bn": "পায়ে হেঁটে ভ্রমণের জন্য বিশ মাইল বেশ ক্লান্তিকর দূরত্ব।",
+          "note": "is (Singular)।"
+        },
+        {
+          "en": "Five thousand taka is sufficient for this project.",
+          "bn": "এই প্রকল্পের জন্য পাঁচ হাজার টাকা যথেষ্ট।",
+          "note": "is sufficient।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Two-thirds of the assignment has been finished.",
+      "bn": "এসাইনমেন্টের তিন ভাগের দুই ভাগ সম্পন্ন হয়েছে।",
+      "note": "assignment (Uncountable একক) থাকায় has been।"
+    },
+    {
+      "en": "Two-thirds of the participants were delighted with the workshop.",
+      "bn": "অংশগ্রহণকারীদের দুই-তৃতীয়াংশ কর্মশালায় সন্তুষ্ট হয়েছিল।",
+      "note": "participants (Plural) থাকায় were।"
+    },
+    {
+      "en": "The committee has submitted its final report unanimously.",
+      "bn": "কমিটি সর্বসম্মতিক্রমে তাদের চূড়ান্ত প্রতিবেদন জমা দিয়েছে।",
+      "note": "ঐক্যবদ্ধ থাকায় has submitted (Singular)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "The Jury were divided (Noun of Multitude)",
+      "exceptionText": "যদি Collective Noun-এর সদস্যরা নিজেদের মধ্যে মতবিরোধে লিপ্ত হয় বা আলাদা আলাদা আচরণ করে, তবে Verb এবং Pronoun উভয়েই Plural (were / their) হয়।",
+      "exampleEn": "The jury were divided in their opinions regarding the verdict.",
+      "exampleBn": "রায়ের ব্যাপারে বিচারকমণ্ডলী নিজেদের মতামতে বিভক্ত হয়ে পড়ল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The number of students are increasing.",
+      "correct": "The number of students is increasing.",
+      "reasonBn": "The number of-এর পর Verb একবচন (is) হবে।"
+    },
+    {
+      "mistake": "One hundred miles are not a short journey.",
+      "correct": "One hundred miles is not a short journey.",
+      "reasonBn": "দূরত্বের সামগ্রিক পরিমাপে Verb সর্বদা একবচন (is) হয়।"
+    }
+  ],
+  "tags": [
+    "a number of vs the number of",
+    "distance time money singular",
+    "collective noun concord",
+    "noun of multitude",
+    "fractions concord",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 160301,
+      "question": "The number of endangered species in this sanctuary _____ steadily over the last decade.",
+      "questionBn": "\"The number of endangered species in this sanctuary _____ steadily over the last decade\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "have declined",
+        "has declined",
+        "are declining",
+        "were declining"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The number of\"-এর পর Verb সর্বদা Singular হয়, তাই \"has declined\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 160302,
+      "question": "Fifty thousand dollars _____ a massive amount of money to lose in a single day.",
+      "questionBn": "\"Fifty thousand dollars _____ a massive amount of money to lose in a single day\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "are",
+        "is",
+        "were",
+        "have been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "অর্থের সামগ্রিক একক হিসেবে Fifty thousand dollars-এর সাথে Singular Verb \"is\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 160301,
+      "type": "Collective Noun Concord",
+      "prompt": "Correct the error: \"The jury was divided in their opinions about the innocence of the accused.\"",
+      "correctAnswer": "The jury were divided in their opinions about the innocence of the accused.",
+      "explanationBn": "মতবিরোধ থাকায় Noun of Multitude নিয়মে were বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 160301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Quantitative and measurement concord in SSC examinations:",
+      "subQuestions": [
+        {
+          "questionText": "State the difference in verb agreement between \"A number of boys\" and \"The number of boys\".",
+          "answer": "\"A number of boys\" means many boys and takes a PLURAL verb (\"A number of boys are playing\"). \"The number of boys\" refers to the specific count itself and takes a SINGULAR verb (\"The number of boys is fifty\").",
+          "explanationBn": "এ নাম্বার বনাম দ্য নাম্বারের তুলনামূলক বিশ্লেষণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৫-এর রাইট ফর্ম অব ভার্বসের নিয়মিত কমন প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'sva-either-neither-indefinite-pronouns': {
+  "id": 1602,
+  "chapterId": 16,
+  "topicNo": "০২",
+  "titleEn": "Subject-Verb Agreement: Proximity Rule & Indefinite Pronouns (Each, Every, One of)",
+  "titleBn": "নিকটবর্তী কর্তার নিয়ম (Proximity Rule) এবং অনির্দিষ্ট সর্বনামের একবচন রূপ",
+  "slug": "sva-either-neither-indefinite-pronouns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Either...or, Neither...nor, Not only...but also-তে নিকটবর্তী (২য়) Subject অনুযায়ী Verb নির্ধারণ (Proximity Rule)। Each, Every, Everyone, Someone, Nobody, One of the, Many a এবং More than one-এর সাথে সর্বদা Singular Verb বসার স্বর্ণালী নিয়ম।",
+  "definitionEn": "The Proximity Rule dictates that the verb agrees with the closer subject in alternative correlatives. Conversely, distributive and singular indefinite pronouns invariably enforce singular concord.",
+  "definitionBn": "বিকল্প সংযোগকারী (Either...or, Neither...nor)-এর ক্ষেত্রে ক্রিয়ার নিকটবর্তী কর্তার সাথে সঙ্গতি রক্ষা করা হয়। অন্যদিকে Each, Every, One of ইত্যাদির পরে Noun বহুবচন হলেও Verb সর্বদা একবচন হয়।",
+  "explanationBn": "২টি প্রধান নীতিমালা:\n১. প্রক্সিমিটি রুল (নিকটবর্তী কর্তা): Either...or / Neither...nor / Not only...but also দ্বারা দুটি কর্তা যুক্ত হলে Verb-এর সবচেয়ে কাছে যে কর্তা থাকবে সেই অনুযায়ী Verb হবে (Neither the teacher nor the STUDENTS WERE present / Neither the students nor the TEACHER WAS present)।\n২. অনির্দিষ্ট সর্বনাম ও বণ্টনকারী শব্দ: Each, Every, Everyone, Everybody, Someone, Somebody, Anyone, Nobody, No one, None, Many a, More than one, One of the-র পরে Verb সর্বদা SINGULAR (একবচন) হয়!",
+  "teacherGoldenTips": "ওয়ান অব দ্য (ONE OF THE)-র মহা-ফাঁদ:\n- \"One of the + PLURAL NOUN + SINGULAR VERB\" (যেমন: One of the BOYS IS present, NOT are)! Noun হবে বহুবচন (boys), কিন্তু Verb হবে একবচন (is)! কারণ অনেকগুলোর মধ্যে মাত্র \"একজন\" মূল কর্তা!",
+  "mainFormula": "Either S1 or S2 -> Verb matches S2 (Nearest) | Each / Every / One of the + Plural Noun -> SINGULAR VERB",
+  "formulas": [
+    {
+      "label": "Proximity Rule (Or / Nor)",
+      "structure": "Either S1 or S2 / Neither S1 nor S2 -> VERB GOVERNED BY S2 (Nearest)",
+      "tag": "Nearest",
+      "example": "Neither the manager nor the clerks were working."
+    },
+    {
+      "label": "One of the Formula",
+      "structure": "ONE OF THE + Plural Noun + SINGULAR VERB (is/was/has/V1-s)",
+      "tag": "One of the",
+      "example": "One of my best friends is a doctor."
+    },
+    {
+      "label": "Many a / More than one",
+      "structure": "Many a + Singular Noun + SINGULAR VERB | More than one + Sing Noun + SINGULAR VERB",
+      "tag": "Many a",
+      "example": "Many a student has failed. More than one person was injured."
+    },
+    {
+      "label": "Indefinite Pronouns",
+      "structure": "Everyone / Somebody / Nobody / Each of + SINGULAR VERB",
+      "tag": "Indefinite Sing",
+      "example": "Everyone wants to succeed in life."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "One of the-র পরে Plural Noun কিন্তু Singular Verb",
+      "nameEn": "The \"One of the\" Concord Rule",
+      "formula": "ONE OF THE + Plural Noun + SINGULAR VERB",
+      "shortcutTrick": "Noun হবে বহুবচন (s যুক্ত), কিন্তু Verb হবে একবচন (is/has/was)!",
+      "descriptionBn": "One of my friends are honest বলা মারাত্মক ভুল; বলতে হবে \"One of my friends is honest\"।",
+      "examples": [
+        {
+          "en": "One of the most famous monuments was renovated last year.",
+          "bn": "বিখ্যাত স্মৃতিস্তম্ভগুলোর একটি গত বছর সংস্কার করা হয়েছিল।",
+          "note": "monuments (Plural) কিন্তু was (Singular)।"
+        },
+        {
+          "en": "One of the boys has won the prestigious national debate championship.",
+          "bn": "ছেলেদের একজন সম্মানজনক জাতীয় বিতর্ক চ্যাম্পিয়নশিপ জিতেছে।",
+          "note": "has won (Singular)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Many a বনাম A great many-র পার্থক্য",
+      "nameEn": "Many a (Singular) vs A Great Many (Plural)",
+      "formula": "MANY A + Singular Noun + SINGULAR VERB | A GREAT MANY + Plural Noun + PLURAL VERB",
+      "shortcutTrick": "Many a-র পরে \"a\" আছে তাই সব একবচন; আর Great many-তে সব বহুবচন!",
+      "descriptionBn": "Many a student has passed the exam (Singular)। A great many students have passed the exam (Plural)।",
+      "examples": [
+        {
+          "en": "Many a flower is born to blush unseen.",
+          "bn": "অনেক ফুলই নীরবে ফোটার জন্য জন্ম নেয়।",
+          "note": "Many a flower is (Singular)।"
+        },
+        {
+          "en": "A great many tourists visit Cox's Bazar every winter.",
+          "bn": "বহু পর্যটক প্রতি শীতে কক্সবাজার ভ্রমণ করে।",
+          "note": "visit (Plural)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Neither the captain nor the players were discouraged by the defeat.",
+      "bn": "অধিনায়ক বা খেলোয়াড়দের কেউই পরাজয়ে হতাশ হয়নি।",
+      "note": "players (Plural) কাছে থাকায় were।"
+    },
+    {
+      "en": "Neither the players nor the captain was discouraged by the defeat.",
+      "bn": "খেলোয়াড়রা বা অধিনায়ক কেউই পরাজয়ে হতাশ হননি।",
+      "note": "captain (Singular) কাছে থাকায় was।"
+    },
+    {
+      "en": "Each of the girls has received an award for academic excellence.",
+      "bn": "বালিকাদের প্রত্যেকে প্রাতিষ্ঠানিক শ্রেষ্ঠত্বের জন্য পুরস্কার পেয়েছে।",
+      "note": "Each of + has received।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "One of the-র পর Relative Pronoun থাকলে Verb Plural হয়",
+      "exceptionText": "One of the-র পরে যদি Who, Which বা That থাকে, তবে সেই Relative Pronoun-এর ঠিক আগের Plural Noun অনুযায়ী Verb Plural হয়! যেমন: \"He is one of the BOYS WHO ARE brilliant.\"",
+      "exampleEn": "Mr. Rahim is one of the noble men who have sacrificed everything for society.",
+      "exampleBn": "জনাব রহিম সেই মহান ব্যক্তিদের একজন যারা সমাজের জন্য সবকিছু উৎসর্গ করেছেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "One of my friend are coming.",
+      "correct": "One of my friends is coming.",
+      "reasonBn": "One of-এর পর Noun Plural (friends) এবং Verb Singular (is) হবে।"
+    },
+    {
+      "mistake": "Everyone are doing their best.",
+      "correct": "Everyone is doing his or her best.",
+      "reasonBn": "Everyone একটি Singular Subject, এর সাথে \"is\" বসবে।"
+    }
+  ],
+  "tags": [
+    "proximity rule",
+    "one of the plural noun singular verb",
+    "either or neither nor",
+    "many a flower",
+    "each of the boys",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 160201,
+      "question": "One of the candidates _____ selected for the prestigious scholarship.",
+      "questionBn": "\"One of the candidates _____ selected for the prestigious scholarship\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "were",
+        "have been",
+        "was",
+        "are"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"One of the candidates\"-এ আসল কর্তা হলো \"One\", তাই Singular Verb \"was\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 160202,
+      "question": "Neither the teacher nor the students _____ present in the laboratory.",
+      "questionBn": "\"Neither the teacher nor the students _____ present in the laboratory\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "has been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Proximity Rule অনুযায়ী Verb-এর নিকটবর্তী Subject \"the students\" (Plural) হওয়ায় \"were\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 160201,
+      "type": "Error Correction in Concord",
+      "prompt": "Correct the sentence: \"Many a soldiers were killed in the historic battle.\"",
+      "correctAnswer": "Many a soldier was killed in the historic battle.",
+      "explanationBn": "Many a-র পরে Noun এবং Verb উভয়ই Singular (soldier was) হয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 160201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Indefinite pronoun and Proximity rule concord in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"He is one of the men who is honest\" is incorrect.",
+          "answer": "Because \"who\" is a relative pronoun referring to the plural antecedent \"men\". Therefore, the relative clause verb must agree with \"men\", making it \"who ARE honest\".",
+          "explanationBn": "রিলেটিভ প্রোনাউনের পূর্বপদ (Antecedent) অনুযায়ী ভার্ব নির্ধারণের নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার শীর্ষস্থানীয় ক্যাডেট কলেজ ও বোর্ড প্রশ্নের অন্যতম সেরা আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'sva-core-and-compound-connectors': {
+  "id": 1601,
+  "chapterId": 16,
+  "topicNo": "০১",
+  "titleEn": "Subject-Verb Agreement: Core Rules & Compound Subject Connectors",
+  "titleBn": "কর্তা ও ক্রিয়ার সঙ্গতি: মৌলিক নিয়ম ও যৌগিক কর্তার সংযোগকারী শব্দ",
+  "slug": "sva-core-and-compound-connectors",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "একবচন কর্তায় একবচন ক্রিয়া, বহুবচন কর্তায় বহুবচন ক্রিয়া। And দ্বারা দুটি ভিন্ন ধারণা বনাম একক ধারণা (Bread and butter, Slow and steady)। As well as, Along with, Together with, With যুক্ত থাকলে প্রথম Subject অনুযায়ী Verb বসার নিয়ম।",
+  "definitionEn": "Subject-Verb Agreement (concord) dictates that a finite verb must correspond in number (singular or plural) and grammatical person (first, second, third) with its syntactically dominant subject.",
+  "definitionBn": "বাক্যের Subject-এর Number ও Person অনুযায়ী সঠিক Verb নির্বাচন করার নিয়মকে Subject-Verb Agreement বা Concord বলে।",
+  "explanationBn": "মূল দুটি প্রধান নিয়মাবলী:\n১. And দিয়ে দুটি ভিন্ন ব্যক্তি বা বস্তু যুক্ত হলে Verb Plural হয় (Rahim and Karim ARE friends)। কিন্তু And দিয়ে যুক্ত হয়ে যদি দুটি শব্দ একটি একক বস্তু বা অখণ্ড ভাব প্রকাশ করে তবে Verb Singular হয় (Bread and butter IS his favorite breakfast, Slow and steady WINS the race, Time and tide WAIT for none)।\n২. As well as, along with, together with, with, accompanied by, in addition to দ্বারা দুটি Noun যুক্ত হলে মাঝের অতিরিক্ত অংশ বাদ দিয়ে শুধুমাত্র ১ম Subject অনুযায়ী Verb নির্ধারিত হয়!",
+  "teacherGoldenTips": "অ্যাজ ওয়েল অ্যাজ (As well as) ট্রিক: As well as, along with, together with-এর পরের অংশকে মনে মনে কমা দিয়ে কেটে দিন! শুধু শুরুর প্রথম কর্তাটি দেখুন — সে একা হলে Verb Singular (is/has/was), সে বহুজন হলে Verb Plural (are/have/were)!",
+  "mainFormula": "S1 + as well as / along with / together with / with + S2 -> VERB MATCHES S1 | Noun 1 + AND + Noun 2 (Single Idea) -> SINGULAR VERB",
+  "formulas": [
+    {
+      "label": "Core Plural AND",
+      "structure": "Noun 1 + AND + Noun 2 -> PLURAL VERB (are, were, have, V1)",
+      "tag": "And Plural",
+      "example": "Gold and silver are precious metals."
+    },
+    {
+      "label": "Single Idea AND",
+      "structure": "Noun 1 + AND + Noun 2 (Single Concept) -> SINGULAR VERB (is, was, has, V1-s)",
+      "tag": "Single Concept",
+      "example": "Bread and butter is his daily breakfast. Slow and steady wins the race."
+    },
+    {
+      "label": "Parenthetical Connectors",
+      "structure": "Subject 1 + (as well as / along with / with / together with) + Subject 2 + VERB (governed by S1)",
+      "tag": "First Subject",
+      "example": "The captain along with his soldiers was marching forward."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "As well as / Together with থাকলে ১ম সাবজেক্টের প্রাধান্য",
+      "nameEn": "First-Subject Precedence with Parenthetical Connectors",
+      "formula": "S1 + (as well as / together with / along with / with / in addition to) + S2 + VERB (matches S1)",
+      "shortcutTrick": "প্রথম কর্তার নাম্বার ও পারসন দেখেই ভার্ব বসবে, দ্বিতীয় কর্তার দিকে তাকানোর দরকার নেই!",
+      "descriptionBn": "The headmaster with the teachers was present (Headmaster একবচন হওয়ায় was)। The students as well as the teacher were present (Students বহুবচন হওয়ায় were)।",
+      "examples": [
+        {
+          "en": "The chairman accompanied by his personal secretary has visited the site.",
+          "bn": "চেয়ারম্যান তার ব্যক্তিগত সচিবসহ স্থানটি পরিদর্শন করেছেন।",
+          "note": "chairman (Singular) অনুযায়ী has।"
+        },
+        {
+          "en": "The players as well as the coach are celebrating the victory.",
+          "bn": "কোচের পাশাপাশি খেলোয়াড়েরাও বিজয় উদযাপন করছে।",
+          "note": "players (Plural) অনুযায়ী are।"
+        }
+      ]
+    },
+    {
+      "nameBn": "And যুক্ত একক ধারণা ও সমজাতীয় জোড়া",
+      "nameEn": "Single Concepts and Inseparable Pairs with \"And\"",
+      "formula": "Compound Subject expressing ONE single item/concept -> SINGULAR VERB",
+      "shortcutTrick": "যদি দুটি জিনিস একসাথে একটি খাবার, গুণ বা ভাব প্রকাশ করে তবে Verb একবচন হবে!",
+      "descriptionBn": "Bread and butter, rice and curry, horse and carriage, hammer and sickle — এরা একক সত্তা হিসেবে Singular Verb গ্রহণ করে।",
+      "examples": [
+        {
+          "en": "Rice and curry is the staple food of Bangladesh.",
+          "bn": "ভাত ও তরকারি বাংলাদেশের প্রধান খাদ্য।",
+          "note": "একক আহার্য হওয়ায় is।"
+        },
+        {
+          "en": "The horse and carriage is waiting at the door.",
+          "bn": "ঘোড়ার গাড়িটি দরজায় অপেক্ষা করছে।",
+          "note": "একক যান হওয়ায় is।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Rahim as well as his friends is innocent.",
+      "bn": "রহিম এবং তার বন্ধুরাও নির্দোষ।",
+      "note": "Rahim অনুযায়ী is (Singular)।"
+    },
+    {
+      "en": "Slow and steady wins the race.",
+      "bn": "ধীর ও অবিচল ব্যক্তিই জয়ী হয়।",
+      "note": "একক গুণ প্রকাশ করায় wins (V1-s)।"
+    },
+    {
+      "en": "Fire and water do not agree.",
+      "bn": "আগুন এবং পানি একসাথে মেলে না।",
+      "note": "ভিন্ন দুটি সত্তা হওয়ায় do not (Plural)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Time and tide wait for none (ঐতিহ্যবাহী ব্যতিক্রম)",
+      "exceptionText": "অনেক ঐতিহ্যবাহী ব্যাকরণে \"Time and tide wait for none\"-এ wait (Plural) ব্যবহৃত হয়, যদিও আধুনিক কোনো কোনো ব্যাকরণে waits-ও দেখা যায়। বোর্ড পরীক্ষায় \"wait\" লেখা অধিক নিরাপদ।",
+      "exampleEn": "Time and tide wait for none.",
+      "exampleBn": "সময় ও নদীর স্রোত কারো জন্য অপেক্ষা করে না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The teacher as well as the students are present.",
+      "correct": "The teacher as well as the students is present.",
+      "reasonBn": "As well as থাকলে ১ম কর্তা \"The teacher\" অনুযায়ী Singular Verb (is) হবে।"
+    },
+    {
+      "mistake": "Bread and butter are my breakfast.",
+      "correct": "Bread and butter is my breakfast.",
+      "reasonBn": "রুটি-মাখন একক সকালের নাস্তা হিসেবে Singular Verb (is) নেয়।"
+    }
+  ],
+  "tags": [
+    "subject verb agreement",
+    "as well as",
+    "along with",
+    "together with",
+    "bread and butter is",
+    "time and tide wait",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 160101,
+      "question": "The minister with all his senior secretaries _____ attending the international summit.",
+      "questionBn": "\"The minister with all his senior secretaries _____ attending the international summit\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "are",
+        "is",
+        "were",
+        "have been"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"with\" দ্বারা যুক্ত হওয়ায় ১ম কর্তা \"The minister\" (Singular) অনুযায়ী Verb হিসেবে \"is\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 160102,
+      "question": "Slow and steady _____ the race.",
+      "questionBn": "\"Slow and steady _____ the race\" প্রবাদে কোন Verb রূপটি সঠিক?",
+      "options": [
+        "win",
+        "wins",
+        "winning",
+        "have won"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Slow and steady\" একটি অবিভাজ্য একক গুণ প্রকাশ করায় Singular Verb \"wins\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 160101,
+      "type": "Subject-Verb Concord Drill",
+      "prompt": "Fill in the blank with correct verb: \"The mayor accompanied by several councilors _____ (have) arrived at the meeting.\"",
+      "correctAnswer": "has",
+      "explanationBn": "Accompanied by থাকায় ১ম কর্তা The mayor অনুযায়ী has বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 160101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Subject-Verb agreement with parenthetical connectors in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"The captain with all his brave crew members were drowned in the storm.\"",
+          "answer": "The captain with all his brave crew members was drowned in the storm.",
+          "explanationBn": "With-এর পূর্বে থাকা ১ম কর্তা The captain (Singular) অনুযায়ী was হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার রাইট ফর্ম অব ভার্বস ও সাবজেক্ট-ভার্ব এগ্রিমেন্টের প্রধান প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'nonfinite-chapter-practice-set': {
+  "id": 1505,
+  "chapterId": 15,
+  "topicNo": "০৫",
+  "titleEn": "Chapter Practice Set: Non-Finite Verb Practice & Mastery Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: অসমাপিকা ক্রিয়া পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Non-Finite Verb Practice)",
+  "slug": "nonfinite-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 15-এর সম্পূর্ণ অসমাপিকা ক্রিয়ার সমন্বিত প্র্যাকটিস সেট। ইনফিনিটিভ (Full ও Bare), জেরান্ড, প্রেজেন্ট/পাস্ট/পারফেক্ট পার্টিসিপল এবং ড্যাংলিং মডিফায়ার সংশোধনের চূড়ান্ত বোর্ড স্ট্যান্ডার্ড ড্রিল।",
+  "definitionEn": "An integrated chapter practice module evaluating proficiency across all non-finite verbal categories: full and bare infinitives, gerunds, participles, and dangling modifiers.",
+  "definitionBn": "ইনফিনিটিভ, জেরান্ড ও পার্টিসিপলের যাবতীয় নিয়ম, সূত্র, বিভ্রান্তিকর প্রয়োগ ও বোর্ড প্রশ্নের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার রাইট ফর্ম অব ভার্বস, কমপ্লিটিং সেন্টেন্স ও সিম্পল সেন্টেন্স রূপান্তরের জন্য নন-ফাইনাইট ভার্বের এই প্র্যাকটিস সেটটি অত্যন্ত অপরিহার্য।",
+  "teacherGoldenTips": "নন-ফাইনাইট ভার্ব ৫ মিনিটের রিভিশন:\n১. To + V1 = ইনফিনিটিভ\n২. Noun-এর মতো কাজ করলে = জেরান্ড (It টেস্ট)\n৩. Adjective-এর মতো কাজ করলে = পার্টিসিপল\n৪. Make/Let/See/Hear-এর পর Base Form (Bare Infinitive)\n৫. Having + V3 = পারফেক্ট পার্টিসিপল!",
+  "mainFormula": "Master Non-Finite Triangle: Infinitive (To + V1 / Base) | Gerund (V-ing = Noun) | Participle (V-ing / V3 = Adjective)",
+  "formulas": [
+    {
+      "label": "Non-Finite Master Matrix",
+      "structure": "Infinitive (Purpose/Duty) | Gerund (Activity/Naming) | Participle (Condition/Attribute)",
+      "tag": "Master Matrix",
+      "example": "To see is to believe. Swimming is good. A flying bird."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষায় নন-ফাইনাইট ভার্ব দ্রুত সমাধানের টেকনিক",
+      "nameEn": "Speed Strategy for Non-Finite Verbal Questions",
+      "formula": "Look at main verb / preposition -> Apply complement rule (Gerund or Infinitive)",
+      "shortcutTrick": "Preposition থাকলে V-ing; Hope/Decide থাকলে To+V1; Make/Let থাকলে শুধুই V1!",
+      "descriptionBn": "বাক্যের অন্য শব্দগুলোর দাবি অনুযায়ী সঠিক নন-ফাইনাইট রূপ নির্বাচন করা।",
+      "examples": [
+        {
+          "en": "He was punished for (break) the discipline -> breaking.",
+          "bn": "শৃঙ্খলা ভঙ্গের জন্য তাকে শাস্তি দেওয়া হলো।",
+          "note": "for + breaking (Gerund)।"
+        },
+        {
+          "en": "Mother made me (swallow) the bitter pill -> swallow.",
+          "bn": "মা আমাকে দিয়ে তেতো বড়িটি গিলিয়ে নিলেন।",
+          "note": "made + swallow (Bare Inf)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Having walked five miles, the travelers felt utterly exhausted.",
+      "bn": "পাঁচ মাইল হাঁটার পর পথিকরা অত্যন্ত ক্লান্ত বোধ করল।",
+      "note": "Perfect Participle।"
+    },
+    {
+      "en": "Reading is to the mind what food is to the body.",
+      "bn": "শরীরের জন্য খাদ্য যা, মনের জন্য পড়া তা-ই।",
+      "note": "Gerund (Subject)।"
+    },
+    {
+      "en": "The boy managed to solve the complicated puzzle.",
+      "bn": "বালকটি জটিল ধাঁধাটি সমাধান করতে সমর্থ হলো।",
+      "note": "managed + to solve (Infinitive)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Can't help vs Can't but রিভিশন",
+      "exceptionText": "Can't help-এর পর Gerund বসে (I can't help smiling), কিন্তু Can't but-এর পর Bare Infinitive বসে (I can't but smile).",
+      "exampleEn": "I couldn't help admiring her courage. = I couldn't but admire her courage.",
+      "exampleBn": "আমি তার সাহসের প্রশংসা না করে পারলাম না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I am looking forward to see you.",
+      "correct": "I am looking forward to seeing you.",
+      "reasonBn": "Look forward to-র পরে Gerund \"seeing\" বসবে।"
+    },
+    {
+      "mistake": "He made the audience to applaud.",
+      "correct": "He made the audience applaud.",
+      "reasonBn": "Make-এর পর Bare Infinitive (applaud) বসে।"
+    }
+  ],
+  "tags": [
+    "non-finite practice",
+    "chapter practice set",
+    "infinitive gerund participle drill",
+    "ssc board exam test",
+    "master verbal challenge"
+  ],
+  "mcqs": [
+    {
+      "id": 150501,
+      "question": "We heard the melodious sound of a flute _____ from the distant cottage.",
+      "questionBn": "\"We heard the melodious sound of a flute _____ from the distant cottage\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "floating",
+        "to float",
+        "floated",
+        "to floating"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "দূর থেকে ভেসে আসা বাঁশির সুরের চলমান অবস্থা প্রকাশে Present Participle \"floating\" বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 150502,
+      "question": "He was made _____ all the confidential files by the authority.",
+      "questionBn": "\"He was made _____ all the confidential files by the authority\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "surrender",
+        "to surrender",
+        "surrendering",
+        "surrendered"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Make সক্রিয় বাক্যে Bare Infinitive নিলেও Passive বাক্যে (was made) \"to surrender\" গ্রহণ করে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 150501,
+      "type": "Non-Finite Comprehensive Drill",
+      "prompt": "Supply the correct non-finite forms: (a) He went there with a view to (buy) a plot. (b) Let him (go). (c) (Have) eaten, he left.",
+      "correctAnswer": "(a) buying, (b) go, (c) Having",
+      "explanationBn": "নন-ফাইনাইট ভার্বের তিন প্রকার রূপের সঠিক নির্বাচন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 150501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 15 Comprehensive Non-Finite Verb Evaluation:",
+      "subQuestions": [
+        {
+          "questionText": "Differentiate with examples between a Full Infinitive and a Bare Infinitive.",
+          "answer": "A Full Infinitive retains the particle \"to\" (\"He wanted to study\"). A Bare Infinitive omits \"to\" after causative/perception verbs (\"Mother made him study\").",
+          "explanationBn": "ফুল ইনফিনিটিভ বনাম বেয়ার ইনফিনিটিভের পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ব্যাকরণের অত্যন্ত স্ট্যান্ডার্ড প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'nonfinite-gerund-vs-participle-infinitive': {
+  "id": 1504,
+  "chapterId": 15,
+  "topicNo": "০৪",
+  "titleEn": "Gerund vs Participle vs Infinitive: The Ultimate Comparison & Verb Complements",
+  "titleBn": "জেরান্ড বনাম পার্টিসিপল বনাম ইনফিনিটিভ: চূড়ান্ত তুলনামূলক বিশ্লেষণ ও ভার্ব কমপ্লিমেন্ট",
+  "slug": "nonfinite-gerund-vs-participle-infinitive",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "জেরান্ড (Noun) ও প্রেজেন্ট পার্টিসিপল (Adjective)-এর পার্থক্য করার ৩টি বৈজ্ঞানিক পরীক্ষা। যেসব Verbs-এর পর শুধু Gerund বসে (Enjoy, Avoid, Mind) বনাম শুধু Infinitive বসে (Decide, Hope, Plan)। Stop to smoke বনাম Stop smoking-এর অর্থগত তফাত।",
+  "definitionEn": "Distinguishing gerunds, participles, and infinitives requires analyzing syntactic function: nominal (gerund/infinitive) versus adjectival (participle), along with distinct semantic shifts in dual-complement verbs.",
+  "definitionBn": "একই Verb-ing দেখতে এক হলেও কাজের ভিত্তিতে Gerund (Noun) নাকি Participle (Adjective) তা নির্ধারণ করার নিখুঁত ব্যাকরণিক সূত্রাবলী।",
+  "explanationBn": "৩টি যুগান্তকারী পার্থক্যকরণ কৌশল:\n১. \"IT\" টেস্ট: Verb-ing-এর জায়গায় IT বসিয়ে অর্থ মিললে Gerund (I enjoy reading -> I enjoy IT), না মিললে Participle (A singing bird -> A \"it\" bird হয় না)।\n২. For + V-ing টেস্ট: \"A walking stick\" = A stick FOR WALKING (হাঁটার উদ্দেশ্যে লাঠি -> Gerund)। কিন্তু \"A rolling stone\" = A stone WHICH ROLLS (ঘূর্ণায়মান পাথর -> Participle)।\n৩. অর্থগত পরিবর্তনকারী ভার্ব:\n- Stop + V-ing: কোনো অভ্যাস বা কাজ চিরতরে ত্যাগ করা (Stop smoking = ধূমপান ছেড়ে দাও)।\n- Stop + to + V1: অন্য কিছু করার উদ্দেশ্যে ক্ষণিকের জন্য থামা (He stopped to smoke = ধূমপান করার জন্য থামল)।\n- Remember to do (কাজ মনে করে করা) বনাম Remember doing (অতীতের স্মৃতি মনে করা)।",
+  "teacherGoldenTips": "কম্পাউন্ড নাউনের জেরান্ড বনাম পার্টিসিপল ট্রিক:\n- যদি \"For + V-ing\" অর্থ দেয় তবে GERUND (Reading room = Room for reading, Sleeping pill = Pill for sleeping)!\n- যদি \"Which is + V-ing\" অর্থ দেয় তবে PARTICIPLE (Flying kite = Kite which is flying, Running bus = Bus which is running)!",
+  "mainFormula": "Function: Gerund = Noun | Participle = Adjective | Infinitive = Noun/Adv | Stop doing = Quit | Stop to do = Halt to perform",
+  "formulas": [
+    {
+      "label": "Gerund-only Verbs",
+      "structure": "Avoid, Enjoy, Finish, Mind, Postpone, Practice, Deny + V-ing",
+      "tag": "Gerund Only",
+      "example": "Would you mind closing the door?"
+    },
+    {
+      "label": "Infinitive-only Verbs",
+      "structure": "Decide, Hope, Plan, Promise, Refuse, Wish, Manage + TO + V1",
+      "tag": "Infinitive Only",
+      "example": "They decided to postpone the event."
+    },
+    {
+      "label": "Meaning Shifting Verbs",
+      "structure": "Stop, Remember, Forget, Regret + (V-ing vs To + V1)",
+      "tag": "Meaning Shift",
+      "example": "Remember to post the letter (Task) vs I remember posting it (Memory)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "The Compound Noun Test (For বনাম Which is)",
+      "nameEn": "The Purpose (Gerund) vs Action (Participle) Compound Test",
+      "formula": "Noun FOR + Verb-ing = GERUND | Noun WHICH IS + Verb-ing = PARTICIPLE",
+      "shortcutTrick": "উদ্দেশ্য বোঝালে Gerund; চলমান কাজ বোঝালে Participle!",
+      "descriptionBn": "Sleeping room মানে Room for sleeping (উদ্দেশ্য, তাই Sleeping হলো Gerund)। কিন্তু Sleeping baby মানে Baby who is sleeping (চলমান অবস্থা, তাই Sleeping হলো Participle)।",
+      "examples": [
+        {
+          "en": "This is my reading room (Room for reading).",
+          "bn": "এটি আমার পড়ার ঘর।",
+          "note": "reading হলো Gerund (উদ্দেশ্য)।"
+        },
+        {
+          "en": "Do not board a running train (Train which is running).",
+          "bn": "চলন্ত ট্রেনে উঠো না।",
+          "note": "running হলো Participle (অবস্থা)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Remember, Forget ও Stop-এর দ্বৈত রূপ",
+      "nameEn": "Dual Complements with \"Remember\", \"Forget\" and \"Stop\"",
+      "formula": "Verb + TO + V1 = Future duty / Intention | Verb + V-ing = Past memory / Continuous action",
+      "shortcutTrick": "ইনফিনিটিভ ভবিষ্যতে করার দায়িত্ব বোঝায়; জেরান্ড অতীতের স্মৃতি বা চিরতরে বন্ধ বোঝায়!",
+      "descriptionBn": "I forgot to lock the door (দরজা লক করার দায়িত্ব ভুলে গেলাম)। I will never forget meeting her (তার সাথে দেখা করার অতীতের স্মৃতি ভুলব না)।",
+      "examples": [
+        {
+          "en": "Please remember to bring your admit card.",
+          "bn": "দয়া করে তোমার প্রবেশপত্রটি আনতে মনে রেখো।",
+          "note": "remember + to bring (ভবিষ্যতের দায়িত্ব)।"
+        },
+        {
+          "en": "I vividly remember meeting the legendary scientist.",
+          "bn": "আমার কিংবদন্তি বিজ্ঞানীর সাথে সাক্ষাতের কথা স্পষ্ট মনে আছে।",
+          "note": "remember + meeting (অতীতের স্মৃতি)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He enjoys listening to classical melodies.",
+      "bn": "সে শাস্ত্রীয় সুর শুনতে উপভোগ করে।",
+      "note": "enjoys + listening (Gerund)।"
+    },
+    {
+      "en": "They planned to build a community clinic.",
+      "bn": "তারা একটি কমিউনিটি ক্লিনিক নির্মাণের পরিকল্পনা করল।",
+      "note": "planned + to build (Infinitive)।"
+    },
+    {
+      "en": "I saw him working in the agricultural field.",
+      "bn": "আমি তাকে কৃষিজমিতে কাজ করতে দেখলাম।",
+      "note": "working হলো Present Participle।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Can't stand / Can't bear-এর পর Gerund বসে",
+      "exceptionText": "Can't help-এর মতো Can't stand এবং Can't bear-এর পরেও Gerund বসে (e.g. I can't stand waiting in long queues).",
+      "exampleEn": "She cannot bear seeing animals in pain.",
+      "exampleBn": "সে প্রাণীদের কষ্টে থাকা সহ্য করতে পারে না।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He decided going abroad.",
+      "correct": "He decided to go abroad.",
+      "reasonBn": "Decide-এর পরে Infinitive (to go) বসে, Gerund নয়।"
+    },
+    {
+      "mistake": "Would you mind to lend me your pen?",
+      "correct": "Would you mind lending me your pen?",
+      "reasonBn": "Would you mind-এর পরে সর্বদা Verb-ing (Gerund) বসে।"
+    }
+  ],
+  "tags": [
+    "gerund vs participle",
+    "reading room test",
+    "sleeping baby",
+    "stop to smoke vs stop smoking",
+    "verbs taking gerund",
+    "verbs taking infinitive",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 150401,
+      "question": "In \"This is a sleeping room\", what is the word \"sleeping\"?",
+      "questionBn": "\"This is a sleeping room\" বাক্যে \"sleeping\" শব্দটি কী?",
+      "options": [
+        "Present Participle",
+        "Gerund",
+        "Verbal Adjective",
+        "Infinitive"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Sleeping room\" মানে \"A room for sleeping\" (উদ্দেশ্য প্রকাশ করায়) sleeping এখানে Gerund।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 150402,
+      "question": "He stopped _____ a newspaper on his way back home.",
+      "questionBn": "\"He stopped _____ a newspaper on his way back home\" শূন্যস্থানে কোনটি অর্থগতভাবে সঠিক?",
+      "options": [
+        "to buy",
+        "buying",
+        "buy",
+        "bought"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "বাড়ি ফেরার পথে খবরের কাগজ কেনার জন্য ক্ষণিকের জন্য থামা বোঝাতে \"stopped to buy\" প্রযোজ্য।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 150401,
+      "type": "Gerund or Participle Test",
+      "prompt": "Classify \"drinking\" in both sentences: (a) Give me some drinking water. (b) I saw a boy drinking water.",
+      "correctAnswer": "(a) Gerund (Water for drinking), (b) Present Participle (Boy who is drinking).",
+      "explanationBn": "উদ্দেশ্য বনাম চলমান অবস্থার পার্থক্য।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 150401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Gerund vs Participle distinction in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"A dancing girl\" has a Participle while \"A dancing hall\" has a Gerund.",
+          "answer": "In \"a dancing girl\", the girl herself is performing the action of dancing (a girl who dances = Verbal Adjective / Participle). In \"a dancing hall\", the hall does not dance; it is a hall FOR dancing (purpose = Verbal Noun / Gerund).",
+          "explanationBn": "ড্যান্সিং গার্ল বনাম ড্যান্সিং হল-এর চমৎকার ব্যাকরণিক ব্যাখ্যা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত বিখ্যাত একটি স্ট্যান্ডার্ড প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'nonfinite-participles-present-past-perfect': {
+  "id": 1503,
+  "chapterId": 15,
+  "topicNo": "০৩",
+  "titleEn": "Participles: Present, Past & Perfect Participles and Dangling Modifiers",
+  "titleBn": "পার্টিসিপল: বর্তমান, অতীত ও পুরাঘটিত কৃদন্ত পদ এবং ড্যাংলিং মডিফায়ার",
+  "slug": "nonfinite-participles-present-past-perfect",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Verb + Adjective-এর যুগল রূপ। Present Participle (V-ing: চলমান বা গুণ), Past Participle (V3: সম্পন্ন অবস্থা), Perfect Participle (Having + V3)। পারটিসিপল ক্লজ এবং মারাত্মক ব্যাকরণিক ভুল Dangling Modifier-এর নিখুঁত সমাধান।",
+  "definitionEn": "A Participle is a verbal adjective sharing characteristics of both a verb and an adjective, classified into Present (-ing), Past (-ed/-en), and Perfect (having + V3) forms.",
+  "definitionBn": "যে শব্দ একই সাথে Verb ও Adjective-এর কাজ সম্পন্ন করে তাকে Participle (কৃদন্ত পদ) বলে। এটি তিন প্রকার: Present Participle, Past Participle এবং Perfect Participle।",
+  "explanationBn": "৩টি রূপের বিশদ বিশ্লেষণ:\n১. Present Participle (V1 + ing): চলমান অবস্থা বা সক্রিয় বৈশিষ্ট্য বোঝায় (A rolling stone, A flying bird, I saw him running)।\n২. Past Participle (V3): সমাপ্ত কাজ বা পরোক্ষ অবস্থা বোঝায় (A broken glass, Stolen property, Wounded soldier)।\n৩. Perfect Participle (Having + V3): একটি কাজ পুরোপুরি শেষ করে আরেকটি কাজ শুরু করা বোঝায় (Having finished the work, he went to bed)।\n\nড্যাংলিং মডিফায়ার (Dangling Modifier): যখন কোনো Participle বাক্যের মূল Subject-এর সাথে অর্থগতভাবে মিলতে পারে না, তাকে Dangling Modifier বা ভ্রান্ত কৃদন্ত পদ বলে (যেমন: \"Walking on the road, a snake bit him\" ভুল! কারণ হাঁটার কাজ সাপটি করেনি, মানুষটি করেছিল; সঠিক: \"While he was walking on the road, a snake bit him\")!",
+  "teacherGoldenTips": "পার্টিসিপল চেনার টেকনিক: শব্দটি কি কোনো Noun-এর দোষ, গুণ বা অবস্থা প্রকাশ করছে? যদি উত্তর হ্যাঁ হয়, তবে সেটি নিশ্চিতভাবে PARTICIPLE! আর ড্যাংলিং মডিফায়ার থেকে বাঁচতে বাক্যের শুরুতে কর্তা স্পষ্ট রাখুন!",
+  "mainFormula": "Present Participle = V1-ing (Adjective) | Past Participle = V3 (Adjective) | Perfect Participle = HAVING + V3",
+  "formulas": [
+    {
+      "label": "Present Participle",
+      "structure": "Noun + V-ing / V-ing + Noun (Active/Ongoing)",
+      "tag": "Pres Part",
+      "example": "A barking dog seldom bites. Look at the rising sun."
+    },
+    {
+      "label": "Past Participle",
+      "structure": "V3 + Noun (Completed/Passive state)",
+      "tag": "Past Part",
+      "example": "The injured player was taken to hospital."
+    },
+    {
+      "label": "Perfect Participle",
+      "structure": "HAVING + V3 + , + Main Clause",
+      "tag": "Perf Part",
+      "example": "Having completed his graduation, he applied for a job."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Dangling Modifier (ভ্রান্ত কৃদন্ত পদ) সংশোধনের উপায়",
+      "nameEn": "Fixing Dangling and Misplaced Participles",
+      "formula": "Participle Phrase + , + LOGICAL DOER as Subject + Verb",
+      "shortcutTrick": "কমার পরের প্রথম শব্দটি যেন সেই ব্যক্তিই হয়, যে পার্টিসিপলের কাজটি করছে!",
+      "descriptionBn": "\"Walking in the morning, fresh air was enjoyed\" ভুল (বাতাস তো নিজে হাঁটে না); সঠিক হলো \"Walking in the morning, WE enjoyed fresh air\"।",
+      "examples": [
+        {
+          "en": "Incorrect: Opening the door, the rain fell heavily.",
+          "bn": "ভুল: বৃষ্টি নিজে দরজা খোলেনি।",
+          "note": "Dangling Participle ত্রুটি।"
+        },
+        {
+          "en": "Correct: Opening the door, I saw that the rain was falling heavily.",
+          "bn": "সঠিক: দরজা খুলে আমি দেখলাম প্রবল বৃষ্টি হচ্ছিল।",
+          "note": "I হলো আসল কর্তা।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Perfect Participle (Having + V3)-এর প্রয়োগ",
+      "nameEn": "The Sequential Perfect Participle (Having + V3)",
+      "formula": "HAVING + V3 (Past Participle) + , + Principal Clause",
+      "shortcutTrick": "একটি কাজ আগে শেষ করে আরেকটি কাজ করার ক্ষেত্রে Having + V3 বসে!",
+      "descriptionBn": "Having typed the letter, the secretary posted it (চিঠিটি টাইপ শেষ করার পর সেক্রেটারি তা পোস্ট করল)।",
+      "examples": [
+        {
+          "en": "Having finished the examination, the students rejoiced.",
+          "bn": "পরীক্ষা শেষ করে শিক্ষার্থীরা আনন্দ উল্লাস করল।",
+          "note": "having finished।"
+        },
+        {
+          "en": "Having seen the royal palace, the tourists returned home.",
+          "bn": "রাজপ্রাসাদ দেখার পর পর্যটকেরা বাড়ি ফিরল।",
+          "note": "having seen।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "A drowning man catches at a straw.",
+      "bn": "ডুবন্ত মানুষ খড়কুটো ধরেও বাঁচতে চায়।",
+      "note": "drowning হলো Present Participle (অবস্থা)।"
+    },
+    {
+      "en": "The police found the abandoned vehicle in the ditch.",
+      "bn": "পুলিশ খাদে পরিত্যক্ত গাড়িটি দেখতে পেল।",
+      "note": "abandoned হলো Past Participle।"
+    },
+    {
+      "en": "Hearing the loud alarm, everyone rushed outside.",
+      "bn": "উচ্চ অ্যালার্ম শুনে সবাই বাইরে ছুটে গেল।",
+      "note": "Hearing হলো Present Participle ক্লজ।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Participial Preposition-এ ড্যাংলিং প্রযোজ্য নয়",
+      "exceptionText": "Considering, regarding, barring, judging by ইত্যাদি যখন Preposition হিসেবে বসে তখন এদের সাথে কর্তার সরাসরি সংযোগের বাধ্যবাধকতা থাকে না।",
+      "exampleEn": "Considering the weather, the trip was successful.",
+      "exampleBn": "আবহাওয়ার কথা বিবেচনায় নিলে ভ্রমণটি সফল হয়েছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Walking on the railway track, a train ran over him.",
+      "correct": "While he was walking on the railway track, a train ran over him.",
+      "reasonBn": "ট্রেন নিজে হাঁটছিল না; এটি একটি Dangling Modifier ভুল।"
+    },
+    {
+      "mistake": "Having finish the work, he rested.",
+      "correct": "Having finished the work, he rested.",
+      "reasonBn": "Having-এর পরে সর্বদা Verb-এর Past Participle (finished) বসবে।"
+    }
+  ],
+  "tags": [
+    "participle",
+    "present participle",
+    "past participle",
+    "perfect participle",
+    "having v3",
+    "dangling modifier",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 150301,
+      "question": "In the sentence \"A rolling stone gathers no moss\", what is the word \"rolling\"?",
+      "questionBn": "\"A rolling stone gathers no moss\" প্রবাদে \"rolling\" শব্দটি কী?",
+      "options": [
+        "Gerund",
+        "Present Participle",
+        "Verbal Noun",
+        "Adverb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Stone\" (Noun)-এর গতিশীল অবস্থা প্রকাশ করে Adjective-এর ন্যায় কাজ করায় rolling হলো Present Participle।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 150302,
+      "question": "Which of the following sentences is free from a Dangling Modifier error?",
+      "questionBn": "নিচের কোন বাক্যটি Dangling Modifier ত্রুটিমুক্ত ও সম্পূর্ণ সঠিক?",
+      "options": [
+        "Walking in the park, a flower was picked by him.",
+        "Walking in the park, he picked a flower.",
+        "Walking in the park, the trees looked green.",
+        "Walking in the park, a snake bit him."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Walking in the park, he picked a flower\"-এ হাঁটার কাজটি Subject \"he\" করায় এটি সম্পূর্ণ ত্রুটিমুক্ত।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 150301,
+      "type": "Fix Dangling Modifier",
+      "prompt": "Correct the dangling error: \"Entering the room, the lights were switched on.\"",
+      "correctAnswer": "Entering the room, I switched on the lights. (or When I entered the room, the lights were switched on.)",
+      "explanationBn": "প্রকৃত কর্তা (I) উল্লেখ করে ড্যাংলিং সংশোধন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 150301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Participle syntax and Dangling Modifiers in SSC composition:",
+      "subQuestions": [
+        {
+          "questionText": "What is a Dangling Modifier? Give an example and its correction.",
+          "answer": "A Dangling Modifier occurs when a participial phrase modifies a subject that is absent or illogical in the main clause. Example of error: \"Walking on the road, a brick fell on my head.\" Correction: \"While I was walking on the road, a brick fell on my head.\"",
+          "explanationBn": "ড্যাংলিং মডিফায়ারের ব্যাকরণিক সংজ্ঞা ও সংশোধন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি কমপ্লিটিং সেন্টেন্স ও রাইট ফর্ম অব ভার্বসে অত্যন্ত জটিল বিষয়।",
+      "isVerified": true
+    }
+  ]
+},
+  'nonfinite-gerund-verbal-noun': {
+  "id": 1502,
+  "chapterId": 15,
+  "topicNo": "০২",
+  "titleEn": "Gerund & Verbal Noun: Subject, Object & Prepositional Complements",
+  "titleBn": "জেরান্ড ও ভার্বাল নাউন: কর্তা, কর্ম ও প্রেপজিশনের কর্ম হিসেবে প্রয়োগ",
+  "slug": "nonfinite-gerund-verbal-noun",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Verb + ing যখন একই সাথে Verb ও Noun-এর কাজ করে তখন তাকে Gerund বলে। বাক্যের Subject, Object ও Preposition-এর Object হিসেবে এর ব্যবহার। Verbal Noun (The + V-ing + of)-এর সাথে জেরান্ডের সুনির্দিষ্ট পার্থক্য।",
+  "definitionEn": "A Gerund is a non-finite verbal form ending in \"-ing\" that functions syntactically as a noun while retaining verbal characteristics such as taking objects or adverbial modifiers.",
+  "definitionBn": "Verb-এর সাথে ing যুক্ত হয়ে যখন কোনো শব্দ একই সাথে Verb ও Noun-এর কাজ সম্পন্ন করে তখন তাকে Gerund বলে। আর \"The + V-ing + of\" কাঠামোতে বসলে তাকে Verbal Noun বলে।",
+  "explanationBn": "জেরান্ডের প্রধান ৪টি ব্যাকরণিক অবস্থান:\n১. বাক্যের Subject হিসেবে: Swimming is good exercise. Reading books enriches the mind.\n২. Transitive Verb-এর Object হিসেবে: I enjoy reading novels. He avoided answering.\n৩. Preposition-এর Object হিসেবে: He is fond of reading. Without working hard, you cannot pass.\n৪. Subject Complement হিসেবে: My hobby is gardening.\n\nভার্বাল নাউন বনাম জেরান্ড:\n- Gerund: \"Reading books is good\" (সরাসরি অবজেক্ট books নেয়, এর আগে the বা পরে of থাকে না)।\n- Verbal Noun: \"THE reading OF books is good\" (আগে The এবং পরে of থাকে; এটি নিখাদ Noun)।",
+  "teacherGoldenTips": "জেরান্ড টেস্ট: Verb-ing শব্দটির জায়গায় \"IT\" বা \"SOMETHING\" বসিয়ে দেখুন। যদি বাক্যটি অর্থবহ থাকে তবে সেটি নিশ্চিতভাবে GERUND (I enjoy swimming -> I enjoy IT)! আর যদি \"The ... of\" থাকে তবে তা Verbal Noun!",
+  "mainFormula": "Gerund = Verb-ing (functions as NOUN) | Verbal Noun = THE + Verb-ing + OF + Noun",
+  "formulas": [
+    {
+      "label": "Gerund as Subject",
+      "structure": "Verb-ing + Singular Verb (is/was/enriches)",
+      "tag": "Subj Gerund",
+      "example": "Walking in the morning is healthy."
+    },
+    {
+      "label": "Gerund as Prepositional Object",
+      "structure": "Preposition (in/on/for/of/by/without) + VERB-ING",
+      "tag": "Prep Gerund",
+      "example": "He succeeded by working hard."
+    },
+    {
+      "label": "Verbal Noun Formula",
+      "structure": "THE + Verb-ing + OF + Noun Phrase",
+      "tag": "Verbal Noun",
+      "example": "The reading of history is fascinating."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Preposition-এর পর সর্বদা Gerund বসার নিয়ম",
+      "nameEn": "Mandatory Gerund after Prepositions",
+      "formula": "Preposition + VERB-ING (Gerund)",
+      "shortcutTrick": "সাধারণ Preposition-এর পর কোনো ভার্ব আসলেই চোখ বন্ধ করে ing হবে!",
+      "descriptionBn": "Preposition-এর পরে একটি Noun দরকার হয়, তাই যেকোনো Verb সেখানে আসলে Gerund (ing) রূপ ধারণ করে।",
+      "examples": [
+        {
+          "en": "He was punished for telling a lie.",
+          "bn": "মিথ্যা বলার জন্য তাকে শাস্তি দেওয়া হয়েছিল।",
+          "note": "for + telling।"
+        },
+        {
+          "en": "She is expert in drawing pictures.",
+          "bn": "সে ছবি আঁকায় দক্ষ।",
+          "note": "in + drawing।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Verbal Noun বনাম Gerund-এর গঠন পার্থক্য",
+      "nameEn": "Gerund vs Verbal Noun (The ... of construction)",
+      "formula": "Gerund = V-ing + Direct Object | Verbal Noun = THE + V-ing + OF + Object",
+      "shortcutTrick": "আগে The এবং পরে Of থাকলে Verbal Noun, আর তা না থাকলে সাধারণ Gerund!",
+      "descriptionBn": "I like reading poetry (Gerund)। I like the reading of poetry (Verbal Noun)।",
+      "examples": [
+        {
+          "en": "The hunting of tigers is strictly banned (Verbal Noun).",
+          "bn": "বাঘ শিকার সম্পূর্ণ নিষিদ্ধ।",
+          "note": "The hunting of।"
+        },
+        {
+          "en": "Hunting tigers is dangerous (Gerund).",
+          "bn": "বাঘ শিকার করা বিপজ্জনক।",
+          "note": "Hunting tigers (সরাসরি অবজেক্ট)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Seeing is believing.",
+      "bn": "দেখাই হলো বিশ্বাস করা।",
+      "note": "Seeing (Subject) এবং believing (Complement) উভয়ই Gerund।"
+    },
+    {
+      "en": "Stop writing and put down your pens.",
+      "bn": "লেখা বন্ধ করো এবং কলম নামিয়ে রাখো।",
+      "note": "writing হলো Stop-এর Object।"
+    },
+    {
+      "en": "He insisted on my going there immediately.",
+      "bn": "সে আমাকে সেখানে অবিলম্বে যাওয়ার জন্য জেদ করল।",
+      "note": "Possessive (my) + Gerund (going)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Gerund-এর পূর্বে Possessive Case বসে",
+      "exceptionText": "প্রমিত আনুষ্ঠানিক ব্যাকরণে Gerund-এর পূর্বে Noun বা Pronoun আসলে তার Possessive Case (my, his, their, Rahim's) ব্যবহার করা বাধ্যতামূলক।",
+      "exampleEn": "I do not mind his coming here (NOT him coming).",
+      "exampleBn": "তার এখানে আসাতে আমার কোনো আপত্তি নেই।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I do not like you coming late.",
+      "correct": "I do not like your coming late.",
+      "reasonBn": "Gerund (coming)-এর পূর্বে Possessive pronoun (your) বসবে।"
+    },
+    {
+      "mistake": "The reading books is a good habit.",
+      "correct": "The reading of books is a good habit. (or Reading books is...)",
+      "reasonBn": "The থাকলে পরে \"of\" বসাতে হবে (Verbal Noun)।"
+    }
+  ],
+  "tags": [
+    "gerund",
+    "verbal noun",
+    "the reading of",
+    "preposition + gerund",
+    "possessive before gerund",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 150201,
+      "question": "In \"The singing of the birds charmed everyone\", what is \"The singing of\"?",
+      "questionBn": "\"The singing of the birds charmed everyone\" বাক্যে \"The singing of\" কী?",
+      "options": [
+        "Present Participle",
+        "Verbal Noun",
+        "Gerund",
+        "Infinitive"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The + Verb-ing + of\" কাঠামোতে গঠিত শব্দগুচ্ছকে ব্যাকরণে Verbal Noun বলে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 150202,
+      "question": "Which of the following sentences uses a Gerund as the Subject of a verb?",
+      "questionBn": "নিচের কোন বাক্যে Gerund একটি Verb-এর Subject হিসেবে ব্যবহৃত হয়েছে?",
+      "options": [
+        "Swimming is a complete body exercise.",
+        "I saw a swimming duck.",
+        "He is fond of swimming.",
+        "The boy was swimming across the river."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Swimming is a complete body exercise\" বাক্যে \"is\" ভার্বের সাবজেক্ট হিসেবে Noun-এর কাজ করায় swimming হলো Gerund।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 150201,
+      "type": "Gerund Identification",
+      "prompt": "Identify the role of the Gerund in: \"He prevented me from <u>entering</u> the hall.\"",
+      "correctAnswer": "Object of the preposition \"from\"",
+      "explanationBn": "Preposition-এর অবজেক্ট হিসেবে জেরান্ডের কাজ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 150201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Gerund vs Verbal Noun syntactic discrimination in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "Transform the Gerund into a Verbal Noun: \"Reading newspapers enriches general knowledge.\"",
+          "answer": "The reading of newspapers enriches general knowledge.",
+          "explanationBn": "The + V-ing + of কাঠামো সংযোজন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও কলেজ ভর্তি পরীক্ষায় এটি অত্যন্ত মর্যাদাপূর্ণ প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'nonfinite-infinitive-bare-full-passive': {
+  "id": 1501,
+  "chapterId": 15,
+  "topicNo": "০১",
+  "titleEn": "Infinitives: Full, Bare, Split, Perfect & Passive Infinitives",
+  "titleBn": "ইনফিনিটিভ: পূর্ণাঙ্গ, বেয়ার (To-হীন), পারফেক্ট ও প্যাসিভ ইনফিনিটিভ",
+  "slug": "nonfinite-infinitive-bare-full-passive",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "To + V1 (Full Infinitive) বনাম To ছাড়া Base Form (Bare Infinitive)। Make, Let, See, Hear, Watch, Bid, Had better, Would rather-এর পরে To উহ্য থাকা এবং To be + V3 ও To have + V3-এর প্রয়োগ।",
+  "definitionEn": "An Infinitive is the base form of a verb, typically preceded by \"to\" (full infinitive), functioning as a noun, adjective, or adverb without being constrained by person or number.",
+  "definitionBn": "Verb-এর আদি বা Base রূপের পূর্বে \"to\" যুক্ত হয়ে যখন তা বাক্যে Noun, Adjective বা Adverb-এর ন্যায় কাজ করে তখন তাকে Infinitive বলে। কিছু ক্ষেত্রে \"to\" উহ্য থাকে, যাকে Bare Infinitive বলে।",
+  "explanationBn": "ইনফিনিটিভের প্রধান রূপভেদ:\n১. Full Infinitive: To + Base Verb (e.g. To err is human, I want to go)।\n২. Bare Infinitive (To-হীন): Make, Let, See, Hear, Watch, Notice, Feel, Bid এবং Had better, Would rather-এর পরে \"to\" বসে না (I made him LAUGH, NOT to laugh)।\n৩. Passive Infinitive: To be + V3 (He wants the letter TO BE SENT)।\n৪. Perfect Infinitive: To have + V3 (অতীতের সম্পন্ন হওয়া কাজ নির্দেশ করে: He claims TO HAVE MET the President)।\n৫. Split Infinitive: To এবং Verb-এর মাঝে Adverb ঢুকিয়ে দেওয়া (To boldly go)।",
+  "teacherGoldenTips": "বেয়ার ইনফিনিটিভের সোনালী সূত্র: Make, Let, See, Hear, Watch এবং Had better-এর পর চোখ বন্ধ করে Base Form (V1) বসাবেন, কখনোই \"to\" বসাবেন না (He made me cry, NOT to cry)! তবে Passive বাক্যে Make-এর পর \"to\" ফেরত আসে (He was made to cry)!",
+  "mainFormula": "Full: TO + V1 | Bare: (Make / Let / See / Hear / Had better) + V1 (No \"to\") | Passive: TO BE + V3 | Perfect: TO HAVE + V3",
+  "formulas": [
+    {
+      "label": "Full Infinitive",
+      "structure": "TO + Base Verb (V1)",
+      "tag": "Full Inf",
+      "example": "To learn English is essential."
+    },
+    {
+      "label": "Bare Infinitive",
+      "structure": "(Make, Let, See, Hear, Watch, Bid, Had better) + V1",
+      "tag": "Bare Inf",
+      "example": "Mother let him play outside."
+    },
+    {
+      "label": "Passive Infinitive",
+      "structure": "TO BE + V3 (Past Participle)",
+      "tag": "Passive Inf",
+      "example": "There is a lot of work to be completed."
+    },
+    {
+      "label": "Perfect Infinitive",
+      "structure": "TO HAVE + V3 (Past Participle)",
+      "tag": "Perfect Inf",
+      "example": "He seems to have lost his keys."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Bare Infinitive (To ছাড়া ইনফিনিটিভ) বসার ক্ষেত্রসমূহ",
+      "nameEn": "Mandatory Omission of \"To\" in Bare Infinitives",
+      "formula": "(Make / Let / Bid / See / Hear / Watch / Had better / Would rather) + BASE VERB (NO \"TO\")",
+      "shortcutTrick": "এই শব্দগুলোর পর \"to\" বসালে পরীক্ষায় নম্বর কাটা যাবে!",
+      "descriptionBn": "সক্রিয় বাক্যে এই ভার্বগুলোর পর দ্বিতীয় ভার্বের আগে \"to\" সম্পূর্ণ উহ্য থাকে।",
+      "examples": [
+        {
+          "en": "The teacher made the students solve the math (NOT to solve).",
+          "bn": "শিক্ষক শিক্ষার্থীদের দিয়ে অঙ্কটি করালেন।",
+          "note": "solve হলো Bare Infinitive।"
+        },
+        {
+          "en": "You had better consult an expert doctor immediately.",
+          "bn": "তোমার বরং অবিলম্বে একজন বিশেষজ্ঞ চিকিৎসকের পরামর্শ নেওয়া উচিত।",
+          "note": "had better + consult।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Passive-এ Make-এর পর \"To\" ফিরে আসার নিয়ম",
+      "nameEn": "Reinstatement of \"To\" in Passive Constructions",
+      "formula": "Active: made him + V1 -> Passive: was MADE + TO + V1",
+      "shortcutTrick": "Active-এ to থাকে না, কিন্তু Passive-এ to ফেরত আসে!",
+      "descriptionBn": "Active: The police made the thief confess. Passive: The thief was made TO confess his crime.",
+      "examples": [
+        {
+          "en": "They made him work day and night.",
+          "bn": "তারা তাকে দিনরাত কাজ করাত।",
+          "note": "Active (Bare Infinitive)।"
+        },
+        {
+          "en": "He was made to work day and night by them.",
+          "bn": "তাকে তাদের দ্বারা দিনরাত কাজ করানো হতো।",
+          "note": "Passive (To work ফেরত আসল)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "To tell a lie is a great sin.",
+      "bn": "মিথ্যা বলা মহাপাপ।",
+      "note": "To tell হলো Subject হিসেবে Full Infinitive।"
+    },
+    {
+      "en": "I heard her sing a sweet lullaby.",
+      "bn": "আমি তাকে একটি মিষ্টি ঘুমপাড়ানি গান গাইতে শুনলাম।",
+      "note": "sing হলো Bare Infinitive।"
+    },
+    {
+      "en": "The project is expected to be finished by December.",
+      "bn": "প্রকল্পটি ডিসেম্বরের মধ্যে সম্পন্ন হবে বলে আশা করা হচ্ছে।",
+      "note": "to be finished (Passive Infinitive)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Let-এর ক্ষেত্রে প্যাসিভেও \"to\" বসে না",
+      "exceptionText": "Make, see ইত্যাদির প্যাসিভে \"to\" বসলেও Let-এর প্যাসিভে কখনোই \"to\" বসে না (e.g. He was let go, NOT was let to go).",
+      "exampleEn": "The innocent boy was let go by the officer.",
+      "exampleBn": "নিরপরাধ বালকটিকে কর্মকর্তা ছেড়ে দিলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He made me to weep.",
+      "correct": "He made me weep.",
+      "reasonBn": "Make-এর পর সক্রিয় বাক্যে \"to\" বসে না।"
+    },
+    {
+      "mistake": "You had better to leave this place.",
+      "correct": "You had better leave this place.",
+      "reasonBn": "Had better-এর পর Bare Infinitive \"leave\" বসবে।"
+    }
+  ],
+  "tags": [
+    "infinitive",
+    "bare infinitive",
+    "full infinitive",
+    "had better leave",
+    "made to cry passive",
+    "passive infinitive",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 150101,
+      "question": "I saw the blind man _____ the busy avenue safely.",
+      "questionBn": "\"I saw the blind man _____ the busy avenue safely\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "cross",
+        "to cross",
+        "crossed",
+        "to crossing"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Perception verb \"saw\"-এর পর Bare Infinitive (cross) অথবা Participle (crossing) বসে; \"to cross\" বসে না।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 150102,
+      "question": "Which sentence contains a Bare Infinitive?",
+      "questionBn": "কোন বাক্যটিতে একটি Bare Infinitive রয়েছে?",
+      "options": [
+        "To err is human.",
+        "Let him speak freely.",
+        "I want to help the poor.",
+        "He came to see me."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Let him speak freely\" বাক্যে \"speak\" একটি To-হীন বা Bare Infinitive।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 150101,
+      "type": "Error Correction",
+      "prompt": "Correct the sentence: \"The cruel master made the servant to wash the floor twice.\"",
+      "correctAnswer": "The cruel master made the servant wash the floor twice.",
+      "explanationBn": "Make-এর পর Bare Infinitive \"wash\" বসবে, \"to\" বাদ যাবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 150101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Infinitive classifications and Bare Infinitive rules in SSC:",
+      "subQuestions": [
+        {
+          "questionText": "List 5 verbs that are followed by Bare Infinitives in active voice.",
+          "answer": "Make, Let, See, Hear, Watch (also Bid, Feel, Notice).",
+          "explanationBn": "বেয়ার ইনফিনিটিভ গ্রহণকারী প্রধান ক্রিয়াপদসমূহ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বস ও ভয়েস চেঞ্জে এটি নিয়মিত আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-chapter-practice-set': {
+  "id": 1407,
+  "chapterId": 14,
+  "topicNo": "০৭",
+  "titleEn": "Chapter Practice Set: Narration Practice & Full Dialogue Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: উক্তি পরিবর্তন পূর্ণাঙ্গ প্র্যাকটিস ও বোর্ড চ্যালেঞ্জ (Narration Practice)",
+  "slug": "narration-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 14-এর সকল নিয়মের সমন্বয়ে পূর্ণাঙ্গ প্র্যাকটিস সেট। Assertive, Interrogative, Imperative, Optative, Exclamatory ও Passage Narration-এর সমন্বিত বোর্ড স্ট্যান্ডার্ড প্রশ্নব্যাংক।",
+  "definitionEn": "An exhaustive, high-stakes narration practice set integrating all five sentence moods, pronoun concord, tense back-shifting, and multi-turn conversational passage transformations.",
+  "definitionBn": "উক্তি পরিবর্তন অধ্যায়ের সমস্ত নিয়ম, সূত্র, ব্যতিক্রম ও প্যাসেজ ন্যারেশনের সমন্বয়ে গঠিত পূর্ণাঙ্গ পরীক্ষা ও অনুশীলন সেট।",
+  "explanationBn": "এই সেটে বিগত ১০ বছরের বোর্ড পরীক্ষার সবচেয়ে গুরুত্বপূর্ণ ও প্যাঁচানো ন্যারেশনগুলো একত্রিত করা হয়েছে যাতে শিক্ষার্থীরা অধ্যায় শেষে স্বমূল্যায়ন সম্পন্ন করতে পারে।",
+  "teacherGoldenTips": "বোর্ড পরীক্ষার ন্যারেশন মাস্টার টিপস:\n১. ইনডাইরেক্টে রূপান্তর করার পর কোনো বাক্যেই আর প্রশ্নবোধক (?) বা আশ্চর্যবোধক (!) চিহ্ন থাকবে না — সব বাক্যের শেষে ফুলস্টপ (.) বসবে!\n২. Told-এর পর \"to\" বসানো যাবে না!\n৩. Asked-এর পর \"that\" বসানো নিষিদ্ধ!\n৪. Forbade-এর সাথে \"not\" বসানো যাবে না!\n৫. চিরন্তন সত্য হলে টেন্স অপরিবর্তিত থাকবে!",
+  "mainFormula": "Master Narration Review: Tense Shifts + 1-2-3 Pronoun Rules + 5 Sentence Moods + Passage Conversational Markers",
+  "formulas": [
+    {
+      "label": "Universal Mood Matrix",
+      "structure": "Assertive (told...that) | Interrogative (asked...if/wh) | Imperative (ordered...to) | Optative (prayed...might) | Exclamatory (exclaimed that)",
+      "tag": "All Moods",
+      "example": "Master conversion matrix across all functional moods."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "প্যাসেজ ন্যারেশনে ফুল মার্কস (৫/৫) পাওয়ার ফর্মুলা",
+      "nameEn": "Formula for Scoring 5/5 in Board Passage Narration",
+      "formula": "Read dialogue twice -> Identify speaker & listener -> Segment sentences -> Apply accurate reporting verbs -> Connect with and/also",
+      "shortcutTrick": "পুরো প্যাসেজটিকে একবারে রূপান্তর না করে বাক্য ধরে ধরে স্পিকার ও লিসেনার স্পষ্ট করে লিখুন!",
+      "descriptionBn": "পরীক্ষায় সর্বোচ্চ নম্বর নিশ্চিত করার নির্ভরযোগ্য কৌশল।",
+      "examples": [
+        {
+          "en": "\"What are you doing now?\" said father. \"I am preparing my lessons,\" said the son.",
+          "bn": "\"তুমি এখন কী করছ?\" বাবা বললেন। \"আমি আমার পড়া প্রস্তুত করছি,\" ছেলেটি বলল।",
+          "note": "সংলাপ।"
+        },
+        {
+          "en": "Father asked the son what he was doing then. The son replied that he was preparing his lessons.",
+          "bn": "বাবা ছেলেকে জিজ্ঞাসা করলেন সে তখন কী করছিল। ছেলেটি উত্তর দিল যে সে তার পড়া তৈরি করছিল।",
+          "note": "Passage রূপান্তর।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The poor beggar said, \"Can anyone give me a piece of bread?\"",
+      "bn": "হতভাগ্য ভিক্ষুকটি বলল, \"আমাকে কেউ কি এক টুকরো রুটি দিতে পারেন?\"",
+      "note": "Direct Question।"
+    },
+    {
+      "en": "The poor beggar asked if anyone could give him a piece of bread.",
+      "bn": "হতভাগ্য ভিক্ষুকটি জিজ্ঞাসা করল কেউ তাকে এক টুকরো রুটি দিতে পারে কিনা।",
+      "note": "Indirect Speech।"
+    },
+    {
+      "en": "Mother said to me, \"May your dreams come true.\"",
+      "bn": "মা আমাকে বললেন, \"তোমার স্বপ্ন সত্য হোক।\"",
+      "note": "Optative।"
+    },
+    {
+      "en": "Mother wished that my dreams might come true.",
+      "bn": "মা ইচ্ছা প্রকাশ করলেন যে আমার স্বপ্ন যেন সত্যি হয়।",
+      "note": "Indirect Optative।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Must যখন চিরকালীন বাধ্যবাধকতা বোঝায় তখন অপরিবর্তিত থাকে",
+      "exceptionText": "Must সাধারণত Had to হলেও যদি চিরকালীন নৈতিক বাধ্যবাধকতা বোঝায় তবে Must অপরিবর্তিত থাকে (e.g. He said, \"We must obey our parents\" -> He said that we must obey our parents).",
+      "exampleEn": "He said, \"Man must submit to destiny.\" -> He said that man must submit to destiny.",
+      "exampleBn": "সে বলল যে মানুষকে ভাগ্যের কাছে নতিস্বীকার করতেই হবে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The teacher asked that why I was talking.",
+      "correct": "The teacher asked why I was talking.",
+      "reasonBn": "Asked-এর পর \"that\" বসানো মারাত্মক ব্যাকরণগত ভুল।"
+    },
+    {
+      "mistake": "He said that he must go yesterday.",
+      "correct": "He said that he had to go that day.",
+      "reasonBn": "সাধারণ বাধ্যবাধকতায় must -> had to হয়।"
+    }
+  ],
+  "tags": [
+    "narration practice",
+    "chapter practice set",
+    "passage narration revision",
+    "ssc board exam test",
+    "narration master challenge"
+  ],
+  "mcqs": [
+    {
+      "id": 140701,
+      "question": "The teacher said to the students, \"Why are you making such a loud noise in the corridor?\" — Transform into Indirect:",
+      "questionBn": "The teacher said to the students, \"Why are you making such a loud noise in the corridor\" বাক্যটিকে Indirect-এ রূপান্তর করো:",
+      "options": [
+        "The teacher asked the students why were they making such a loud noise in the corridor.",
+        "The teacher asked the students why they were making such a loud noise in the corridor.",
+        "The teacher told the students why they were making such a loud noise in the corridor.",
+        "The teacher asked the students that why they were making such a loud noise in the corridor."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Interrogative ইনডাইরেক্টে WH-word-এর পর Subject (they) এবং তারপর Verb (were making) বসে এসারটিভ ক্রম বজায় রাখে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 140702,
+      "question": "He said, \"Let us not argue over trivial matters.\" — Choose the correct indirect speech:",
+      "questionBn": "He said, \"Let us not argue over trivial matters\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "He proposed that they should not argue over trivial matters.",
+        "He suggested that they might not argue over trivial matters.",
+        "He told that they should not argue over trivial matters.",
+        "He requested not to argue over trivial matters."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Let us\"-এর প্রস্তাবে \"proposed that they should not argue\" সঠিক।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140701,
+      "type": "Comprehensive Passage Narration Drill",
+      "prompt": "Change into Indirect: \"Have you learnt your lessons today?\" the father said to his son. \"No, father, I was ill,\" replied the son.",
+      "correctAnswer": "The father asked his son if he had learnt his lessons that day. Addressing him as father, the son replied in the negative and said that he had been ill.",
+      "explanationBn": "প্যাসেজ ন্যারেশন সংলাপ সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140701,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 14 Comprehensive Narration Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Change into Indirect Speech: The teacher said to the boy, \"Do not waste your valuable time in idle pursuits.\"",
+          "answer": "The teacher advised the boy not to waste his valuable time in idle pursuits. (or The teacher forbade the boy to waste his valuable time in idle pursuits.)",
+          "explanationBn": "উপদেশ ও নিষেধমূলক উক্তির নিখুঁত সমাধান।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৭-এর পূর্ণাঙ্গ মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-passage-board-mastery': {
+  "id": 1406,
+  "chapterId": 14,
+  "topicNo": "০৬",
+  "titleEn": "Passage Narration & SSC Board Exam Master Strategies",
+  "titleBn": "প্যাসেজ ন্যারেশন (Passage Narration) ও বোর্ড পরীক্ষার মাস্টার স্ট্র্যাটেজি",
+  "slug": "narration-passage-board-mastery",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের প্যাসেজ ন্যারেশন সমাধান কৌশল। স্পিকার ও লিসেনার চিহ্নিতকরণ, Yes থাকলে Replied in the affirmative, No থাকলে Replied in the negative, Sir থাকলে Respectfully, এবং একাধিক উক্তির সংযোগে Also said / Added / Further added-এর নিয়ম।",
+  "definitionEn": "Passage narration involves transforming an entire conversational dialogue discourse between interlocutors, resolving contextual ellipsis, discourse markers, conversational tags, and speech acts.",
+  "definitionBn": "কোনো বিচ্ছিন্ন একক বাক্য নয়, বরং দুজনের মধ্যকার একটি সম্পূর্ণ কথোপকথন বা অনুচ্ছেদকে (Passage) ডিরেক্ট থেকে ইনডাইরেক্টে রূপান্তর করার কৌশলকে Passage Narration বলে।",
+  "explanationBn": "বোর্ড প্যাসেজ সমাধানের ৫টি অব্যর্থ টেকনিক:\n১. সম্পূর্ণ প্যাসেজটি পড়ে বক্তা (Speaker) এবং শ্রোতা (Listener) কে তা প্রথমেই চিহ্নিত করতে হবে।\n২. \"Yes\" থাকলে: Replied in the affirmative and said that...\n৩. \"No\" থাকলে: Replied in the negative and said that...\n৪. \"Sir\" থাকলে: Addressing as sir অথবা Respectfully (He respectfully asked)...\n৫. একই বক্তার একাধিক উক্তি থাকলে:\n- ১ম উক্তি: S + said that...\n- ২য় উক্তি: S + also said that / added that...\n- ৩য় উক্তি: S + further added that...\n৬. বন্ধু বা আত্মীয় সম্বোধন: Addressing as brother / friend / uncle.",
+  "teacherGoldenTips": "প্যাসেজের স্বর্ণালী সূত্র:\n- Yes থাকলে: Replied in the affirmative (and said that)\n- No থাকলে: Replied in the negative (and said that)\n- Sir থাকলে: Respectfully (He respectfully replied)\n- By Allah / By God থাকলে: Swearing by Allah / Swearing by God!",
+  "mainFormula": "Passage Strategy: Identify Speaker & Listener -> Connect Consecutive Speeches (also said/added) -> Convert Conversational Markers (Sir/Yes/No)",
+  "formulas": [
+    {
+      "label": "Conversational Yes/No",
+      "structure": "Yes -> Replied in the affirmative (and said that) | No -> Replied in the negative (and said that)",
+      "tag": "Yes/No Markers",
+      "example": "\"Yes, I will go.\" -> He replied in the affirmative and said that he would go."
+    },
+    {
+      "label": "Honorific \"Sir\"",
+      "structure": "Sir -> Respectfully / Politely (placed before reporting verb) OR Addressing as sir",
+      "tag": "Sir",
+      "example": "\"Yes, sir.\" -> He respectfully replied in the affirmative."
+    },
+    {
+      "label": "Consecutive Speeches",
+      "structure": "Speech 1: Said that | Speech 2: Also said that / added that | Speech 3: Further added that",
+      "tag": "Consecutive",
+      "example": "He said that he was busy. He also added that he could not come."
+    },
+    {
+      "label": "Oaths / Swearing",
+      "structure": "By Allah / By God -> Swearing by Allah / God + that clause",
+      "tag": "Swearing",
+      "example": "\"By Allah, I am innocent.\" -> Swearing by Allah, he said that he was innocent."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Yes এবং No-এর পর বক্তব্য থাকলে সংযুক্তিকরণ",
+      "nameEn": "Reporting \"Yes\" and \"No\" Followed by Statements",
+      "formula": "YES + Statement -> Replied in the affirmative AND SAID THAT + clause | NO + Statement -> Replied in the negative AND SAID THAT + clause",
+      "shortcutTrick": "শুধু Yes থাকলে replied in the affirmative; কিন্তু Yes-এর পরে আরও কথা থাকলে and said that যোগ করতে হবে!",
+      "descriptionBn": "\"Yes, I have finished my task\" -> He replied in the affirmative and said that he had finished his task.",
+      "examples": [
+        {
+          "en": "\"Have you completed your homework?\" said the teacher. \"Yes, sir, I have done it,\" replied the boy.",
+          "bn": "শিক্ষক বললেন, \"তুমি কি বাড়ির কাজ শেষ করেছ?\" বালকটি বলল, \"হ্যাঁ, স্যার, আমি তা করেছি।\"",
+          "note": "বোর্ড প্যাসেজ ডায়ালগ।"
+        },
+        {
+          "en": "The teacher asked the boy if he had completed his homework. The boy respectfully replied in the affirmative and said that he had done it.",
+          "bn": "শিক্ষক বালকটিকে জিজ্ঞাসা করলেন সে বাড়ির কাজ করেছে কিনা। বালকটি শ্রদ্ধার সাথে হ্যাঁ-বোধক উত্তর দিল এবং বলল যে সে তা করেছে।",
+          "note": "Indirect রূপান্তর।"
+        }
+      ]
+    },
+    {
+      "nameBn": "একই ব্যক্তির পরপর একাধিক উক্তির সংযোগ কৌশল",
+      "nameEn": "Linking Multiple Statements by the Same Speaker",
+      "formula": "Statement 1 (said that) + Statement 2 (also said / added that) + Question (also asked if / why)",
+      "shortcutTrick": "পরপর উক্তি আসলে: also said that, added that, further added that, again asked!",
+      "descriptionBn": "একই ব্যক্তি পরপর কথা বললে বারবার Said না লিখে সংযোগকারী শব্দ ব্যবহার করতে হয়।",
+      "examples": [
+        {
+          "en": "He said, \"I am ill. I cannot attend the exam today.\"",
+          "bn": "সে বলল, \"আমি অসুস্থ। আমি আজ পরীক্ষায় অংশ নিতে পারব না।\"",
+          "note": "একই ব্যক্তির দুটি উক্তি।"
+        },
+        {
+          "en": "He said that he was ill and added that he could not attend the exam that day.",
+          "bn": "সে বলল যে সে অসুস্থ ছিল এবং আরও যোগ করল যে সে সেদিন পরীক্ষায় অংশ নিতে পারবে না।",
+          "note": "added that দিয়ে সংযোগ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "\"Where are you going?\" the old man said to the boy. \"I am going to school,\" the boy replied.",
+      "bn": "\"তুমি কোথায় যাচ্ছ?\" বৃদ্ধ লোকটি বালকটিকে বললেন। \"আমি স্কুলে যাচ্ছি,\" বালকটি উত্তর দিল।",
+      "note": "ডায়ালগ।"
+    },
+    {
+      "en": "The old man asked the boy where he was going. The boy replied that he was going to school.",
+      "bn": "বৃদ্ধ লোকটি বালকটিকে জিজ্ঞাসা করলেন সে কোথায় যাচ্ছিল। বালকটি উত্তর দিল যে সে স্কুলে যাচ্ছিল।",
+      "note": "Passage Indirect।"
+    },
+    {
+      "en": "\"By Allah, I will never tell a lie,\" said the merchant.",
+      "bn": "\"আল্লাহর শপথ, আমি কখনো মিথ্যা বলব না,\" বণিক বললেন।",
+      "note": "শপথ নেওয়া।"
+    },
+    {
+      "en": "Swearing by Allah, the merchant said that he would never tell a lie.",
+      "bn": "আল্লাহর নামে শপথ নিয়ে বণিক বললেন যে তিনি কখনো মিথ্যা বলবেন না।",
+      "note": "Swearing by Allah।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Thank you থাকলে thanked বসে",
+      "exceptionText": "সরাসরি বক্তব্যে \"Thank you\" থাকলে Reporting Verbটি সরাসরি \"thanked\" হয়ে যায় (e.g. He said to me, \"Thank you\" -> He thanked me).",
+      "exampleEn": "The stranger said, \"Thank you, sir.\" -> The stranger respectfully thanked him.",
+      "exampleBn": "অপরিচিত লোকটি শ্রদ্ধার সাথে তাকে ধন্যবাদ জানাল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The boy said yes.",
+      "correct": "The boy replied in the affirmative.",
+      "reasonBn": "Yes-এর পরোক্ষ রূপ \"replied in the affirmative\"।"
+    },
+    {
+      "mistake": "He said sir that he was ready.",
+      "correct": "He respectfully said that he was ready.",
+      "reasonBn": "Sir-এর জায়গায় \"respectfully\" রিপোর্টিং ভার্বের পূর্বে বসবে।"
+    }
+  ],
+  "tags": [
+    "passage narration",
+    "replied in the affirmative",
+    "replied in the negative",
+    "respectfully sir",
+    "also added that",
+    "ssc board exam"
+  ],
+  "mcqs": [
+    {
+      "id": 140601,
+      "question": "How should \"Yes, sir\" be correctly rendered in indirect speech?",
+      "questionBn": "\"Yes, sir\"-কে পরোক্ষ উক্তিতে কীভাবে প্রমিত রূপ দেওয়া হয়?",
+      "options": [
+        "He respectfully replied in the affirmative.",
+        "He replied in the affirmative with sir.",
+        "He told sir yes.",
+        "He said respectfully yes."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Sir-এর জন্য \"respectfully\" এবং Yes-এর জন্য \"replied in the affirmative\" মিলে \"respectfully replied in the affirmative\" হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 140602,
+      "question": "In passage narration, when the same speaker makes a second consecutive statement, which phrase is best to link them?",
+      "questionBn": "প্যাসেজ ন্যারেশনে একই বক্তা দ্বিতীয়বার বিবৃতি দিলে কোন শব্দগুচ্ছ দিয়ে সংযোগ করা সর্বোত্তম?",
+      "options": [
+        "and also said that (or added that)",
+        "and again said that",
+        "and he said that",
+        "then he told that"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "একই বক্তার দ্বিতীয় বক্তব্যের সংযোগে \"and also said that\" বা \"added that\" সবচেয়ে প্রমিত।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140601,
+      "type": "Passage Narration Mini-Drill",
+      "prompt": "Change into Indirect: \"Will you come to my house tomorrow?\" said Karim to Rahim. \"No, I have an examination,\" replied Rahim.",
+      "correctAnswer": "Karim asked Rahim if he would go to his house the next day. Rahim replied in the negative and said that he had an examination.",
+      "explanationBn": "প্যাসেজ ন্যারেশনের দ্বিমুখী সংলাপ সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Passage Narration discourse resolution in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Transform the conversation: \"Why did you miss the class yesterday?\" said the teacher. \"I was suffering from severe fever, sir,\" replied the student.",
+          "answer": "The teacher asked the student why he had missed the class the previous day. The student respectfully replied that he had been suffering from severe fever.",
+          "explanationBn": "শিক্ষক-শিক্ষার্থী কথোপকথনের সম্পূর্ণ প্রমিত বোর্ড সমাধান।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৭-এর হুবহু ৫ নম্বরের পূর্ণাঙ্গ বোর্ড প্যাসেজ মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-optative-exclamatory-sentences': {
+  "id": 1405,
+  "chapterId": 14,
+  "topicNo": "০৫",
+  "titleEn": "Narration of Optative & Exclamatory Sentences: Prayers, Wishes & Emotions",
+  "titleBn": "প্রার্থনামূলক ও বিস্ময়সূচক বাক্যের উক্তি পরিবর্তন (Prayed, Wished ও Exclaimed)",
+  "slug": "narration-optative-exclamatory-sentences",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "প্রার্থনায় Prayed/Wished, আল্লাহর কাছে প্রার্থনা হলে Prayed that Allah might। বিস্ময়সূচক বাক্যে Exclaimed with joy/sorrow/wonder, লিঙ্কার হিসেবে That, এবং বাক্যকে বর্ণনামূলক (Assertive)-এ রূপান্তর করে Very/Great যোগ করা।",
+  "definitionEn": "Optative narration conveys benedictions and petitions using \"prayed\" or \"wished\" followed by \"that + subject + might\". Exclamatory narration translates affective outbursts into \"exclaimed with joy/grief/wonder that\".",
+  "definitionBn": "ইচ্ছা বা প্রার্থনামূলক (Optative) এবং আবেগ ও বিস্ময়সূচক (Exclamatory) বাক্যের পরোক্ষ উক্তি রূপান্তরের নিয়ম।",
+  "explanationBn": "১. Optative Sentences:\n- স্রষ্টার কাছে প্রার্থনা হলে: Prayed that + Allah/God might + V1\n- সাধারণ ইচ্ছা বা আশীর্বাদ হলে: Wished that + Subject + might + V1\n- ইনভার্টেড কমা তুলে লিঙ্কার হিসেবে \"that\" বসে।\n\n২. Exclamatory Sentences:\n- আনন্দ প্রকাশ পেলে: Exclaimed with joy that\n- দুঃখ বা শোক প্রকাশ পেলে: Exclaimed with sorrow / grief that\n- বিস্ময় প্রকাশ পেলে: Exclaimed with wonder / surprise that\n- ইনভার্টেড কমা তুলে \"that\" বসে এবং বাক্যটি এসারটিভ হয়ে যায় (যেমন: What a / How পরিবর্তিত হয়ে a very বা great হয়)।",
+  "teacherGoldenTips": "এক্সক্ল্যামেটরি ন্যারেশনের জাদুকরী রুল:\n- Hurrah! দেখলে -> Exclaimed with joy that\n- Alas! দেখলে -> Exclaimed with sorrow that\n- How/What a দেখলে -> Exclaimed with wonder that + Subject + was very/great!",
+  "mainFormula": "Optative: S + prayed / wished (that) + S + MIGHT + V1 | Exclamatory: S + exclaimed with joy/sorrow that + S + was very + Adj",
+  "formulas": [
+    {
+      "label": "Optative (Prayer)",
+      "structure": "Subject + prayed that + Allah / God MIGHT + Base Verb + Extension",
+      "tag": "Prayed",
+      "example": "Mother said, \"May Allah bless you.\" -> Mother prayed that Allah might bless me."
+    },
+    {
+      "label": "Optative (Wish)",
+      "structure": "Subject + wished that + Subject + MIGHT + Base Verb + Extension",
+      "tag": "Wished",
+      "example": "They said, \"Long live the King.\" -> They wished that the King might live long."
+    },
+    {
+      "label": "Exclamatory (Joy)",
+      "structure": "Subject + exclaimed with joy THAT + Subject + Past Verb + Extension",
+      "tag": "Joy",
+      "example": "They said, \"Hurrah! We won.\" -> They exclaimed with joy that they had won."
+    },
+    {
+      "label": "Exclamatory (Sorrow)",
+      "structure": "Subject + exclaimed with sorrow / grief THAT + Subject + Past Verb",
+      "tag": "Sorrow",
+      "example": "He said, \"Alas! I am ruined.\" -> He exclaimed with sorrow that he was ruined."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Optative বাক্যে \"Might\" বসার নিয়ম",
+      "nameEn": "The Mandatory \"Might\" in Indirect Optatives",
+      "formula": "Subject + PRAYED / WISHED + THAT + Subject + MIGHT + V1",
+      "shortcutTrick": "Optative-এ May থাকুক বা উহ্য থাকুক, পরোক্ষ উক্তিতে সর্বদা MIGHT বসবে!",
+      "descriptionBn": "Teacher said to me, \"May you prosper in life\" -> The teacher wished that I might prosper in life.",
+      "examples": [
+        {
+          "en": "The saint said, \"May peace prevail on earth.\"",
+          "bn": "সাধক বললেন, \"পৃথিবীতে শান্তি বিরাজ করুক।\"",
+          "note": "প্রার্থনা।"
+        },
+        {
+          "en": "The saint prayed that peace might prevail on earth.",
+          "bn": "সাধক প্রার্থনা করলেন যে পৃথিবীতে শান্তি বিরাজ করুক।",
+          "note": "Indirect (might prevail)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "What a / How-এর জায়গায় Very বা Great বসার নিয়ম",
+      "nameEn": "Converting Emotional Modifiers into \"Very\" or \"Great\"",
+      "formula": "What a + Noun -> A GREAT + Noun | How + Adjective -> VERY + Adjective",
+      "shortcutTrick": "Noun থাকলে Great (a great fool); আর Adjective থাকলে Very (very beautiful)!",
+      "descriptionBn": "He said, \"What a fool I am!\" -> He exclaimed with sorrow that he was a great fool.",
+      "examples": [
+        {
+          "en": "The tourist said, \"How picturesque the valley is!\"",
+          "bn": "পর্যটক বললেন, \"উপত্যকাটি কী মনোরম!\"",
+          "note": "বিস্ময় প্রকাশ।"
+        },
+        {
+          "en": "The tourist exclaimed with wonder that the valley was very picturesque.",
+          "bn": "পর্যটক বিস্ময়ের সাথে বললেন যে উপত্যকাটি খুব মনোরম ছিল।",
+          "note": "very picturesque।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The captain said, \"Bravo! You have played magnificently.\"",
+      "bn": "অধিনায়ক বললেন, \"সাবাশ! তোমরা দারুণ খেলেছ।\"",
+      "note": "প্রশংসা (Applauded)।"
+    },
+    {
+      "en": "The captain applauded them, saying that they had played magnificently.",
+      "bn": "অধিনায়ক তাদের চমৎকার খেলার প্রশংসা করলেন।",
+      "note": "applauded ... saying that।"
+    },
+    {
+      "en": "He said, \"Good morning, my dear friend.\"",
+      "bn": "সে বলল, \"শুভ সকাল, আমার প্রিয় বন্ধু।\"",
+      "note": "অভিবাদন (Greetings)।"
+    },
+    {
+      "en": "He wished his dear friend good morning.",
+      "bn": "সে তার প্রিয় বন্ধুকে শুভ সকাল জানাল।",
+      "note": "wished good morning।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "বিদায় জানানোর ক্ষেত্রে \"Bade\" বসে",
+      "exceptionText": "Good bye বা Farewell থাকলে Wished না বসে \"Bade\" বসে (e.g. He bade his friends good bye).",
+      "exampleEn": "He said, \"Good bye, my companions.\" -> He bade his companions good bye.",
+      "exampleBn": "সে তার সঙ্গীদের বিদায় জানাল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He exclaimed with joy that what a nice bird it was.",
+      "correct": "He exclaimed with joy that it was a very nice bird.",
+      "reasonBn": "Indirect স্পিচে What a বা How বসে না; তার জায়গায় very বসে।"
+    },
+    {
+      "mistake": "Mother prayed that Allah may bless you.",
+      "correct": "Mother prayed that Allah might bless me.",
+      "reasonBn": "Reporting Verb অতীতে থাকায় may পরিবর্তিত হয়ে \"might\" হবে এবং you -> me হবে।"
+    }
+  ],
+  "tags": [
+    "optative narration",
+    "exclamatory narration",
+    "prayed that might",
+    "exclaimed with joy",
+    "bade good bye",
+    "what a great fool",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 140501,
+      "question": "Change into Indirect: The students said, \"Hurrah! Our school has won the championship.\"",
+      "questionBn": "The students said, \"Hurrah! Our school has won the championship\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "The students exclaimed with joy that their school had won the championship.",
+        "The students exclaimed with sorrow that their school had won the championship.",
+        "The students said that their school won the championship.",
+        "The students wished that their school might win the championship."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Hurrah!\" আনন্দ প্রকাশ করায় \"exclaimed with joy that their school had won\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 140502,
+      "question": "He said, \"Good bye, my friends.\" — What is the correct indirect speech?",
+      "questionBn": "He said, \"Good bye, my friends\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "He wished his friends good bye.",
+        "He bade his friends good bye.",
+        "He told his friends good bye.",
+        "He prayed for his friends good bye."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "বিদায় জানানোর ক্ষেত্রে Reporting Verb হিসেবে \"bade\" ব্যবহৃত হয়: \"He bade his friends good bye\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140501,
+      "type": "Optative to Indirect",
+      "prompt": "Change into Indirect: The grandmother said to the child, \"May you live long and be happy.\"",
+      "correctAnswer": "The grandmother wished/prayed that the child might live long and be happy.",
+      "explanationBn": "Optative বাক্যের প্যাটার্ন: wished/prayed that + subject + might + V1।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Optative and Exclamatory conversions in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "How is \"Good morning\" reported differently from \"Good night\" or \"Good bye\"?",
+          "answer": "\"Good morning\" represents a greeting of arrival and is reported with \"wished\" (\"He wished me good morning\"). \"Good night\" or \"Good bye\" represents a parting farewell and is reported with \"bade\" (\"He bade me good night\").",
+          "explanationBn": "উইশড বনাম বেইড-এর প্রয়োগ পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্যাসেজ ন্যারেশনে এটি অত্যন্ত জরুরি একটি ট্রিক।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-imperative-sentences': {
+  "id": 1404,
+  "chapterId": 14,
+  "topicNo": "০৪",
+  "titleEn": "Narration of Imperative Sentences & Master \"Let\" Constructions",
+  "titleBn": "অনুজ্ঞাবাচক বাক্যের উক্তি পরিবর্তন ও \"Let\"-এর দ্বিমুখী জাদুকরী নিয়ম",
+  "slug": "narration-imperative-sentences",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "আদেশে Ordered/Commanded, অনুরোধে Requested, উপদেশে Advised, নিষেধে Forbade। লিঙ্কার হিসেবে \"To\" বা \"Not to\" বসা। Let-এর ২ রূপ: Let us থাকলে Proposed/Suggested that we should, আর Let him/them থাকলে Told/Wished that he might।",
+  "definitionEn": "Imperative narration conveys directives (orders, requests, advice, prohibitions) using appropriate manipulative verbs followed by an infinitive clause (to + V1), with \"Let\" governing proposal or permissive modal shifts.",
+  "definitionBn": "আদেশ, নিষেধ, অনুরোধ ও উপদেশমূলক বাক্যের উক্তি পরিবর্তনের নিয়ম। এতে Reporting Verb অর্থের ওপর নির্ভর করে পরিবর্তিত হয় এবং ইনভার্টেড কমার জায়গায় Infinitive \"to\" (না-বোধকে \"not to\") বসে।",
+  "explanationBn": "১. অর্থের ওপর ভিত্তি করে Reporting Verb:\n- আদেশ: Ordered / Commanded\n- অনুরোধ: Requested\n- উপদেশ: Advised\n- নিষেধ: Forbade (বা Ordered/Told not to)\n- কিছু স্পষ্ট না হলে: Told\n\n২. লিঙ্কার:\n- হ্যাঁ-বোধক বাক্যে \"to + V1\"\n- না-বোধক বাক্যে \"not to + V1\"\n\n৩. Let-এর দুটি যুগান্তকারী নিয়ম:\n- Let US / Let's (প্রস্তাব): Proposed to / Suggested + that + we/they SHOULD + V1\n- Let HIM / HER / THEM (অনুমতি/ইচ্ছা): Told / Requested / Wished + that + he/they MIGHT + V1।",
+  "teacherGoldenTips": "লেট-এর মারাত্মক ট্রিক:\n- Let-এর পর \"US\" দেখলেই Reporting Verb হবে \"proposed/suggested\" এবং ক্লজে বসবে \"SHOULD\"!\n- Let-এর পর US ছাড়া অন্য কিছু (him/her/them) দেখলেই বসবে \"MIGHT\" (বা might be allowed to)!",
+  "mainFormula": "General: S + ordered/requested/advised + O + TO + V1 | Let us: S + proposed to + O + that + they/we SHOULD + V1 | Let him: S + told + that + he MIGHT + V1",
+  "formulas": [
+    {
+      "label": "Order / Advice",
+      "structure": "Subject + ordered / advised + Object + TO + Base Verb + Extension",
+      "tag": "To + V1",
+      "example": "The captain said, \"Fire.\" -> The captain ordered them to fire."
+    },
+    {
+      "label": "Negative (Not to / Forbade)",
+      "structure": "Subject + told/advised + Object + NOT TO + V1 (or forbade + TO + V1)",
+      "tag": "Not to",
+      "example": "Father said, \"Do not run.\" -> Father advised not to run / Father forbade to run."
+    },
+    {
+      "label": "Let us (Proposal)",
+      "structure": "Subject + proposed to / suggested + that + WE/THEY SHOULD + Base Verb",
+      "tag": "Should Proposal",
+      "example": "He said, \"Let us go out for a walk.\" -> He proposed that they should go out for a walk."
+    },
+    {
+      "label": "Let him/them (Permission)",
+      "structure": "Subject + told / said that + Subject + MIGHT (be allowed to) + Base Verb",
+      "tag": "Might Perm",
+      "example": "He said, \"Let me come in.\" -> He requested that he might be allowed to come in."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Let us থেকে Proposed that ... should রূপান্তর",
+      "nameEn": "Transforming \"Let us\" into Proposals with \"Should\"",
+      "formula": "LET US / LET'S -> PROPOSED TO / SUGGESTED + THAT + (we/they) SHOULD + V1",
+      "shortcutTrick": "Let us মানেই প্রস্তাব; তাই proposed এবং should ছাড়া অন্য কিছু বসানো নিষিদ্ধ!",
+      "descriptionBn": "Rahim said to me, \"Let us play cricket\" -> Rahim proposed to me that we should play cricket (উভয় পক্ষের জন্য we, তৃতীয় পক্ষের জন্য they)।",
+      "examples": [
+        {
+          "en": "The leader said to the workers, \"Let us start the rally.\"",
+          "bn": "নেতা কর্মীদের বললেন, \"চলো আমরা মিছিল শুরু করি।\"",
+          "note": "Let us (প্রস্তাব)।"
+        },
+        {
+          "en": "The leader proposed to the workers that they should start the rally.",
+          "bn": "নেতা কর্মীদের প্রস্তাব দিলেন যে তাদের মিছিল শুরু করা উচিত।",
+          "note": "Indirect (they should start)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Forbade ব্যবহার করলে \"Not\" বসে না",
+      "nameEn": "Double Negative Prohibition with \"Forbade\"",
+      "formula": "Subject + FORBADE + Object + TO + V1 (NO \"NOT\")",
+      "shortcutTrick": "Forbade নিজেই না-বোধক, তাই এর সাথে আবার Not বসালে ভুল হবে!",
+      "descriptionBn": "Mother said, \"Do not touch fire\" -> Mother forbade me to touch fire (Mother forbade not to touch বলা মারাত্মক ভুল)।",
+      "examples": [
+        {
+          "en": "The teacher said to the students, \"Do not make a noise.\"",
+          "bn": "শিক্ষক শিক্ষার্থীদের বললেন, \"গোলমাল করো না।\"",
+          "note": "Direct Prohibition।"
+        },
+        {
+          "en": "The teacher forbade the students to make a noise.",
+          "bn": "শিক্ষক শিক্ষার্থীদের গোলমাল করতে নিষেধ করলেন।",
+          "note": "Forbade + to make a noise।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The doctor said to the patient, \"Take this medicine twice daily.\"",
+      "bn": "ডাক্তার রোগীকে বললেন, \"প্রতিদিন দুবার এই ওষুধটি খাবেন।\"",
+      "note": "উপদেশ (Advice)।"
+    },
+    {
+      "en": "The doctor advised the patient to take that medicine twice daily.",
+      "bn": "ডাক্তার রোগীকে প্রতিদিন দুবার সেই ওষুধটি খাওয়ার পরামর্শ দিলেন।",
+      "note": "Indirect (advised ... to take)।"
+    },
+    {
+      "en": "The prisoner said, \"Let me see my mother once.\"",
+      "bn": "বন্দি বলল, \"আমাকে একবার আমার মাকে দেখতে দেওয়া হোক।\"",
+      "note": "Let me (অনুরোধ/অনুমতি)।"
+    },
+    {
+      "en": "The prisoner begged that he might be allowed to see his mother once.",
+      "bn": "বন্দি প্রার্থনা করল যে তাকে যেন একবার তার মাকে দেখতে দেওয়া হয়।",
+      "note": "Indirect (might be allowed to)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Please / Kindly থাকলে Requested বসে এবং Please উঠে যায়",
+      "exceptionText": "সরাসরি বক্তব্যে Please বা Kindly থাকলে পরোক্ষ উক্তিতে Reporting Verb \"requested\" হবে এবং Please/Kindly শব্দটি বিলুপ্ত হবে।",
+      "exampleEn": "He said to me, \"Please lend me your pen.\" -> He requested me to lend him my pen.",
+      "exampleBn": "সে আমাকে তার কলমটি ধার দেওয়ার অনুরোধ করল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Father forbade me not to smoke.",
+      "correct": "Father forbade me to smoke. (or Father advised me not to smoke.)",
+      "reasonBn": "Forbade নিজেই না-বোধক হওয়ায় এর সাথে \"not\" বসানো যাবে না।"
+    },
+    {
+      "mistake": "He suggested that we will go.",
+      "correct": "He suggested that we should go.",
+      "reasonBn": "Let us-এর প্রস্তাবে will নয়, সর্বদা \"should\" বসবে।"
+    }
+  ],
+  "tags": [
+    "imperative narration",
+    "let us proposal",
+    "should proposal",
+    "forbade to",
+    "let him might",
+    "requested to lend",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 140401,
+      "question": "He said to his friends, \"Let us arrange a cultural program.\" — Transform into Indirect:",
+      "questionBn": "He said to his friends, \"Let us arrange a cultural program\" বাক্যটির সঠিক Indirect রূপ কোনটি?",
+      "options": [
+        "He told his friends that they should arrange a cultural program.",
+        "He proposed to his friends that they should arrange a cultural program.",
+        "He requested his friends to arrange a cultural program.",
+        "He proposed his friends that they might arrange a cultural program."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Let us\" দ্বারা প্রস্তাব বোঝানোয় \"proposed to his friends that they should arrange\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 140402,
+      "question": "Mother said to her child, \"Never tell a lie.\" — Choose the best indirect speech:",
+      "questionBn": "Mother said to her child, \"Never tell a lie\" বাক্যটির শ্রেষ্ঠ পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "Mother advised her child never to tell a lie.",
+        "Mother ordered her child not to tell a lie never.",
+        "Mother told her child to never tell a lie.",
+        "Mother forbade her child never to tell a lie."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "উপদেশ হিসেবে \"advised her child never to tell a lie\" সবচেয়ে নির্ভুল ও প্রমিত রূপ।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140401,
+      "type": "Imperative Indirect Conversion",
+      "prompt": "Change into Indirect: The general said to the soldiers, \"March forward bravely.\"",
+      "correctAnswer": "The general commanded/ordered the soldiers to march forward bravely.",
+      "explanationBn": "সামরিক আদেশ হওয়ায় commanded/ordered + to march forward।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Imperative and proposal speech conventions in SSC Board exams:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference between \"Let us\" and \"Let him\" when changing speech.",
+          "answer": "\"Let us\" expresses a collective proposal and converts into \"proposed/suggested that + subject + SHOULD + V1\". \"Let him\" expresses permission or request and converts into \"requested/told that + subject + MIGHT (be allowed to) + V1\".",
+          "explanationBn": "লেট আস (প্রস্তাব) বনাম লেট হিম (অনুমতি)-এর ব্যাকরণিক তফাত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার কোশ্চেন ৭-এর প্যাসেজ ন্যারেশনে প্রতি বছর এটি আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-interrogative-sentences': {
+  "id": 1403,
+  "chapterId": 14,
+  "topicNo": "০৩",
+  "titleEn": "Narration of Interrogative Sentences: WH-Questions & Yes/No (If/Whether)",
+  "titleBn": "প্রশ্নবোধক বাক্যের উক্তি পরিবর্তন (Asked, If/Whether ও WH-Questions)",
+  "slug": "narration-interrogative-sentences",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "প্রশ্নবোধক বাক্যের ন্যারেশনে Said to-র পরিবর্তে Asked/Inquired of। Auxiliary Verb দিয়ে শুরু হলে If বা Whether, এবং WH-word দিয়ে শুরু হলে সেই WH-word-ই লিঙ্কার হিসেবে বসা। রূপান্তরিত বাক্যটি এসারটিভে পরিবর্তিত হয়ে শেষে ফুলস্টপ (.) বসা।",
+  "definitionEn": "Interrogative narration converts direct questions into reported indirect statements using reporting verbs such as \"asked\" or \"inquired of\", connecting via \"if/whether\" for polar questions or the WH-element for information questions.",
+  "definitionBn": "প্রশ্নবোধক বাক্যের উক্তি পরিবর্তনের নিয়ম। এতে Reporting Verb পরিবর্তিত হয়ে \"asked\" বা \"inquired of\" হয় এবং ইনভার্টেড কমা উঠে গিয়ে If/Whether বা WH-word বসে। সবচেয়ে গুরুত্বপূর্ণ বিষয়: ইনডাইরেক্ট বাক্যটি বর্ণনামূলক (Assertive) হয়ে যায় এবং শেষে ফুলস্টপ (.) বসে।",
+  "explanationBn": "২টি প্রধান প্যাটার্ন:\n১. Yes/No Question (Auxiliary দিয়ে শুরু: Am, Is, Are, Was, Were, Have, Do, Did, Can ইত্যাদি):\n- Said to পরিবর্তিত হয়ে \"asked\" হয়।\n- কমা তুলে \"if\" বা \"whether\" বসে।\n- Auxiliary Verb-টি Subject-এর পরে চলে যায় (Assertive ক্রম)।\n\n২. WH-Question (Who, Which, What, When, Where, Why, How):\n- কমা তুলে ঐ WH-শব্দটিই লিঙ্কার হিসেবে বসে।\n- এর ঠিক পরেই Subject বসে, তারপর টেন্স অনুযায়ী Verb বসে।",
+  "teacherGoldenTips": "সবচেয়ে বড় সতর্কবার্তা: Indirect বাক্যে কখনোই প্রশ্নবোধক চিহ্ন (?) দেওয়া যাবে না! কারণ বাক্যটি প্রশ্নে থাকে না, বর্ণনামূলক হয়ে যায়! Do/Does উহ্য থাকলে তা উঠে গিয়ে মূল Verb-টি V2 হয়ে যাবে (যেমন: \"Do you know me?\" -> if he KNEW him)!",
+  "mainFormula": "Yes/No: S + asked + O + IF/WHETHER + Subject + Verb . | WH-Question: S + asked + O + WH-WORD + Subject + Verb .",
+  "formulas": [
+    {
+      "label": "Yes/No Question",
+      "structure": "Subject + asked + Object + IF + Subject + Verb + Extension .",
+      "tag": "If/Whether",
+      "example": "He said to me, \"Are you ill?\" -> He asked me if I was ill."
+    },
+    {
+      "label": "WH-Question",
+      "structure": "Subject + asked + Object + WH-word + Subject + Verb + Extension .",
+      "tag": "WH-word",
+      "example": "She said, \"Where do you live?\" -> She asked me where I lived."
+    },
+    {
+      "label": "Did Inversion Elimination",
+      "structure": "Did + S + V1? -> S + asked + if + S + HAD + V3 .",
+      "tag": "Did to Had",
+      "example": "He said, \"Did you see him?\" -> He asked if I had seen him."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Do/Does/Did যুক্ত প্রশ্নের এসারটিভ রূপান্তর",
+      "nameEn": "Eliminating \"Do/Does/Did\" in Indirect Interrogatives",
+      "formula": "Do/Does + S + V1? -> IF + S + V2 . | Did + S + V1? -> IF + S + HAD + V3 .",
+      "shortcutTrick": "Do/Does কেটে দিয়ে মূল ভার্বকে V2 বানাবেন; Did কেটে দিয়ে Had + V3 বানাবেন!",
+      "descriptionBn": "He said to me, \"Do you like tea?\" -> He asked me if I liked tea. He said, \"Did you finish the work?\" -> He asked if I had finished the work.",
+      "examples": [
+        {
+          "en": "Father said to me, \"Do you understand the math?\"",
+          "bn": "বাবা আমাকে বললেন, \"তুমি কি অঙ্কটি বুঝতে পারছ?\"",
+          "note": "Direct Speech।"
+        },
+        {
+          "en": "Father asked me if I understood the math.",
+          "bn": "বাবা আমাকে জিজ্ঞাসা করলেন আমি অঙ্কটি বুঝতে পেরেছিলাম কিনা।",
+          "note": "Indirect (if + I understood)।"
+        },
+        {
+          "en": "The teacher said to the boy, \"Why did you come late?\"",
+          "bn": "শিক্ষক বালকটিকে বললেন, \"তুমি কেন দেরিতে এলে?\"",
+          "note": "WH + Did প্রশ্ন।"
+        },
+        {
+          "en": "The teacher asked the boy why he had come late.",
+          "bn": "শিক্ষক বালকটিকে জিজ্ঞাসা করলেন সে কেন দেরিতে এসেছিল।",
+          "note": "Indirect (why he had come)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Whether ... or-এর পছন্দমূলক ব্যবহার",
+      "nameEn": "Using \"Whether\" for Choices and Alternatives",
+      "formula": "Choice between two options (or not) -> Prefer WHETHER over IF",
+      "shortcutTrick": "বাক্যে \"or\" বা \"or not\" থাকলে If-এর চেয়ে \"Whether\" ব্যবহার করা অধিক মার্জিত!",
+      "descriptionBn": "He said, \"Will you go or stay?\" -> He asked whether I would go or stay.",
+      "examples": [
+        {
+          "en": "She said, \"Do you want tea or coffee?\"",
+          "bn": "সে বলল, \"তুমি কি চা নাকি কফি চাও?\"",
+          "note": "বিকল্প পছন্দ।"
+        },
+        {
+          "en": "She asked whether I wanted tea or coffee.",
+          "bn": "সে জিজ্ঞাসা করল আমি চা নাকি কফি চেয়েছিলাম।",
+          "note": "whether দিয়ে বিকল্প প্রকাশ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The stranger said to me, \"What is your name?\"",
+      "bn": "অপরিচিত লোকটি আমাকে বলল, \"তোমার নাম কী?\"",
+      "note": "Direct Question।"
+    },
+    {
+      "en": "The stranger asked me what my name was.",
+      "bn": "অপরিচিত লোকটি আমাকে জিজ্ঞাসা করল আমার নাম কী ছিল।",
+      "note": "Indirect (what my name was)।"
+    },
+    {
+      "en": "Mother said to me, \"Have you taken your breakfast?\"",
+      "bn": "মা আমাকে বললেন, \"তুমি কি তোমার সকালের নাস্তা খেয়েছ?\"",
+      "note": "Yes/No প্রশ্ন।"
+    },
+    {
+      "en": "Mother asked me if I had taken my breakfast.",
+      "bn": "মা আমাকে জিজ্ঞাসা করলেন আমি আমার সকালের নাস্তা খেয়েছিলাম কিনা।",
+      "note": "Indirect (if I had taken)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Inquire of-এর পর \"of\" বাধ্যতামূলক",
+      "exceptionText": "Reporting Verb হিসেবে Asked-এর বদলে Inquired ব্যবহার করলে এবং ব্যক্তিবাচক অবজেক্ট থাকলে \"of\" বসাতে হয় (He inquired OF me).",
+      "exampleEn": "He said to me, \"Where are you going?\" -> He inquired of me where I was going.",
+      "exampleBn": "সে আমার কাছে জানতে চাইল আমি কোথায় যাচ্ছিলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He asked me where did I live. (Keeping question word order)",
+      "correct": "He asked me where I lived.",
+      "reasonBn": "ইনডাইরেক্ট স্পিচে প্রশ্নবোধক রূপ থাকে না, এসারটিভ ক্রম (Subject + Verb) হয়।"
+    },
+    {
+      "mistake": "She asked me that if I was ready.",
+      "correct": "She asked me if I was ready.",
+      "reasonBn": "That এবং If কখনো একসাথে লিঙ্কার হিসেবে বসে না।"
+    }
+  ],
+  "tags": [
+    "interrogative narration",
+    "asked if whether",
+    "wh question narration",
+    "do does did elimination",
+    "assertive word order",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 140301,
+      "question": "Change into Indirect Speech: The teacher said to the girl, \"Why are you weeping?\"",
+      "questionBn": "The teacher said to the girl, \"Why are you weeping\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "The teacher asked the girl that why she was weeping.",
+        "The teacher asked the girl why she was weeping.",
+        "The teacher asked the girl why was she weeping.",
+        "The teacher told the girl why she was weeping."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "WH-word (why)-এর পর সরাসরি Subject (she) এবং তারপর Past Continuous Verb (was weeping) বসে এবং শেষে ফুলস্টপ হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 140302,
+      "question": "He said to me, \"Did you attend the meeting yesterday?\" — What is the correct indirect speech?",
+      "questionBn": "He said to me, \"Did you attend the meeting yesterday\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "He asked me if I attended the meeting the previous day.",
+        "He asked me if I had attended the meeting the previous day.",
+        "He asked me did I attend the meeting the previous day.",
+        "He inquired me if I had attended the meeting yesterday."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Did (Past Simple) পরিবর্তিত হয়ে Past Perfect (had attended) হবে এবং yesterday -> the previous day হবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140301,
+      "type": "Interrogative to Indirect",
+      "prompt": "Change into Indirect: The passenger said to the conductor, \"Can you tell me the train schedule?\"",
+      "correctAnswer": "The passenger asked the conductor if/whether he could tell him the train schedule.",
+      "explanationBn": "Can -> could, if লিঙ্কার সংযোজন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Interrogative reporting transformations in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Why is it incorrect to write \"He asked me that where I was going\"?",
+          "answer": "Because \"that\" is a declarative complementizer for statements, whereas \"where\" is an interrogative connective. Double complementizers are syntactically impermissible in indirect speech.",
+          "explanationBn": "একই সাথে That এবং Where ব্যবহারের ব্যাকরণগত অশুদ্ধতা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৭-এ এটি সর্বাধিক প্রচলিত ভুলগুলোর একটি।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-assertive-sentences': {
+  "id": 1402,
+  "chapterId": 14,
+  "topicNo": "০২",
+  "titleEn": "Narration: Assertive Sentences & Universal Truth Exceptions",
+  "titleBn": "বর্ণনামূলক বাক্যের উক্তি পরিবর্তন ও চিরন্তন সত্যের ব্যতিক্রমী নিয়ম",
+  "slug": "narration-assertive-sentences",
+  "difficulty": "EASY",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Assertive বাক্যে Said to থাকলে Told, Inverted comma তুলে That বসানো। চিরন্তন সত্য (Universal Truth), বৈজ্ঞানিক সত্য ও ঐতিহাসিক তথ্যে Reporting Verb অতীতে থাকলেও ভেতরের টেন্স কখনোই পরিবর্তিত না হওয়ার চূড়ান্ত নিয়ম।",
+  "definitionEn": "In statements (Assertive sentences), indirect speech connects the reporting clause to the reported clause via the conjunction \"that\", with \"said to\" transforming into \"told\".",
+  "definitionBn": "বিবৃতিমূলক (Assertive) বাক্যের Direct Speech-কে Indirect করার সময় ইনভার্টেড কমা তুলে লিঙ্কার \"that\" বসে এবং Said to-র পরিবর্তে Told বসে।",
+  "explanationBn": "মূল নিয়মাবলি:\n১. Said থাকলে Said-ই থাকে (He said that...)।\n২. Said to + Object থাকলে \"told + Object\" হয় (He told me that...)।\n৩. Inverted comma তুলে লিঙ্কার হিসেবে \"that\" বসে।\n৪. চিরন্তন সত্য বা ঐতিহাসিক সত্যের মহাগুরুত্বপূর্ণ ব্যতিক্রম: Reporting Verb অতীতে (said) থাকলেও Reported Speech যদি Universal Truth (চিরন্তন সত্য), Habitual Fact (অভ্যাসগত সত্য) বা Scientific Fact (বৈজ্ঞানিক তথ্য) হয়, তবে তার টেন্স কোনো অবস্থাতেই বদলাবে না!",
+  "teacherGoldenTips": "চিরন্তন সত্যের সোনার কাঠি: ভেতরে যদি দেখেন \"The earth moves round the sun\", \"Honesty is the best policy\", \"Man is mortal\" — তবে Reporting Verb যাই থাকুক, ভেতরের কোনো Verb বদলাবেন না! শুধু কমা তুলে \"that\" বসিয়ে বাক্য জুড়ে দিন!",
+  "mainFormula": "Said to + Object -> TOLD + Object + THAT + Subject + Verb | Universal Truth -> Verb Unchanged",
+  "formulas": [
+    {
+      "label": "Standard Assertive",
+      "structure": "Subject + told + Object + THAT + Subject + Past Verb + Extension",
+      "tag": "Assertive Told",
+      "example": "Mother said to me, \"I am cooking.\" -> Mother told me that she was cooking."
+    },
+    {
+      "label": "Universal Truth Exception",
+      "structure": "Subject + said (that) + Universal Truth Clause (PRESENT TENSE UNCHANGED)",
+      "tag": "Universal Truth",
+      "example": "The teacher said, \"The earth is round.\" -> The teacher said that the earth is round."
+    },
+    {
+      "label": "Historical Present Exception",
+      "structure": "Historical events remain in their established past forms unchanged",
+      "tag": "Historical",
+      "example": "He said, \"Akbar succeeded Humayun.\" -> He said that Akbar succeeded Humayun."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "চিরন্তন সত্য ও অভ্যাসগত সত্যের টেন্স অপরিবর্তনীয়তা",
+      "nameEn": "Invariable Tense in Universal Truths and Habitual Facts",
+      "formula": "Reporting Verb (Past) + THAT + Universal Truth / Habitual Fact (NO TENSE SHIFT)",
+      "shortcutTrick": "মহাজাগতিক সত্য, বৈজ্ঞানিক সত্য ও প্রবাদের টেন্স কখনোই পরিবর্তন করা যাবে না!",
+      "descriptionBn": "The teacher said that the earth was round বলা মারাত্মক ভুল; এটি চিরন্তন সত্য হওয়ায় সর্বদা \"is round\" থাকবে।",
+      "examples": [
+        {
+          "en": "Father said, \"Honesty is the best policy.\"",
+          "bn": "বাবা বললেন, \"সততাই সর্বোৎকৃষ্ট পন্থা।\"",
+          "note": "চিরন্তন নীতিবাক্য।"
+        },
+        {
+          "en": "Father said that honesty is the best policy.",
+          "bn": "বাবা বললেন যে সততাই সর্বোৎকৃষ্ট পন্থা।",
+          "note": "টেন্স অপরিবর্তিত (\"is\" বহাল)।"
+        },
+        {
+          "en": "He said, \"Water boils at 100 degrees Celsius.\"",
+          "bn": "সে বলল, \"পানি ১০০ ডিগ্রি সেলসিয়াসে ফোটে।\"",
+          "note": "বৈজ্ঞানিক সত্য।"
+        },
+        {
+          "en": "He said that water boils at 100 degrees Celsius.",
+          "bn": "সে বলল যে পানি ১০০ ডিগ্রি সেলসিয়াসে ফোটে।",
+          "note": "বৈজ্ঞানিক তথ্য অপরিবর্তিত।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Said বনাম Told-এর ব্যাকরণিক পার্থক্য",
+      "nameEn": "Syntactic Difference between \"Said\" and \"Told\"",
+      "formula": "Said + THAT (No personal object) | TOLD + Personal Object + THAT",
+      "shortcutTrick": "মানুষের নাম বা pronoun সরাসরি থাকলে Told, আর মানুষ না থাকলে Said!",
+      "descriptionBn": "He said me বলা ভুল, বলতে হবে He told me অথবা He said to me।",
+      "examples": [
+        {
+          "en": "He said that he would come.",
+          "bn": "সে বলল যে সে আসবে।",
+          "note": "object না থাকায় said।"
+        },
+        {
+          "en": "He told me that he would come.",
+          "bn": "সে আমাকে বলল যে সে আসবে।",
+          "note": "me থাকায় told।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The old man said, \"I walk for an hour every morning.\"",
+      "bn": "বৃদ্ধ লোকটি বললেন, \"আমি প্রতিদিন সকালে এক ঘণ্টা হাঁটি।\"",
+      "note": "অভ্যাসগত সত্য।"
+    },
+    {
+      "en": "The old man said that he walks for an hour every morning.",
+      "bn": "বৃদ্ধ লোকটি বললেন যে তিনি প্রতিদিন সকালে এক ঘণ্টা হাঁটেন।",
+      "note": "অভ্যাস থাকায় walks অপরিবর্তিত।"
+    },
+    {
+      "en": "She said to her sister, \"I cannot solve this riddle alone.\"",
+      "bn": "সে তার বোনকে বলল, \"আমি একা এই ধাঁধাটির সমাধান করতে পারছি না।\"",
+      "note": "Direct Speech।"
+    },
+    {
+      "en": "She told her sister that she could not solve that riddle alone.",
+      "bn": "সে তার বোনকে বলল যে সে একা সেই ধাঁধাটির সমাধান করতে পারছে না।",
+      "note": "Indirect Speech।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Past Habitual-এ used to অপরিবর্তিত থাকে",
+      "exceptionText": "Used to বা would দ্বারা অতীতের অভ্যাস নির্দেশ করলে ইনডাইরেক্ট স্পিচে এদের কোনো টেন্স রূপান্তর হয় না।",
+      "exampleEn": "He said, \"I used to swim in the pond.\" -> He said that he used to swim in the pond.",
+      "exampleBn": "সে বলল যে সে পুকুরে সাঁতার কাটত।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The teacher said that the sun rose in the east.",
+      "correct": "The teacher said that the sun rises in the east.",
+      "reasonBn": "চিরন্তন সত্যের টেন্স পরিবর্তন করে rose লেখা যাবে না; rises হবে।"
+    },
+    {
+      "mistake": "He told to his father.",
+      "correct": "He told his father. (or He said to his father.)",
+      "reasonBn": "Told একটি Transitive verb, এর পরে \"to\" বসে না।"
+    }
+  ],
+  "tags": [
+    "assertive narration",
+    "universal truth narration",
+    "said to told",
+    "habitual fact exception",
+    "honesty is the best policy",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 140201,
+      "question": "The teacher said, \"The earth moves round the sun.\" — Choose the correct indirect speech:",
+      "questionBn": "The teacher said, \"The earth moves round the sun\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "The teacher said that the earth moved round the sun.",
+        "The teacher said that the earth moves round the sun.",
+        "The teacher told that the earth has moved round the sun.",
+        "The teacher said that the earth had moved round the sun."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "মহাজাগতিক চিরন্তন সত্য হওয়ায় ইনডাইরেক্ট ন্যারেশনেও Present Simple \"moves\" অপরিবর্তিত থাকবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 140202,
+      "question": "He said to me, \"I am reading an informative book now.\" — Transform into Indirect:",
+      "questionBn": "He said to me, \"I am reading an informative book now\" বাক্যটিকে Indirect-এ রূপান্তর করো:",
+      "options": [
+        "He told me that he is reading an informative book then.",
+        "He told me that he was reading an informative book then.",
+        "He said me that he was reading an informative book now.",
+        "He told me that I was reading an informative book then."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Said to -> told me, am reading -> was reading, now -> then।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140201,
+      "type": "Assertive Indirect Conversion",
+      "prompt": "Change into Indirect: The grandfather said to the boys, \"Virtue has its own reward.\"",
+      "correctAnswer": "The grandfather told the boys that virtue has its own reward.",
+      "explanationBn": "চিরন্তন প্রবাদবাক্য হওয়ায় টেন্স অপরিবর্তিত থাকবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Universal truth exceptions in SSC Board Narration:",
+      "subQuestions": [
+        {
+          "questionText": "Why does the reported verb not change in: \"He said, 'Man is mortal'\"?",
+          "answer": "Because \"Man is mortal\" is a universal truth, and the grammatical convention dictates that universal truths and timeless maxims retain their present tense regardless of the reporting verb's tense.",
+          "explanationBn": "চিরন্তন সত্যের অপরিবর্তনশীলতার ব্যাকরণিক কারণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৭-এ এটি প্রায় প্রতি বছর প্যাসেজ ন্যারেশনে আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'narration-fundamentals-tense-pronoun': {
+  "id": 1401,
+  "chapterId": 14,
+  "topicNo": "০১",
+  "titleEn": "Narration Fundamentals: Direct/Indirect Speech, Tense Shifts & Pronoun Rules",
+  "titleBn": "উক্তি পরিবর্তনের মৌলিক নিয়ম: প্রত্যক্ষ ও পরোক্ষ উক্তি, টেন্স ও সর্বনাম পরিবর্তন",
+  "slug": "narration-fundamentals-tense-pronoun",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "বক্তার বক্তব্য হুবহু প্রকাশ (Direct Speech) বনাম নিজের ভাষায় প্রকাশ (Indirect Speech)। Reporting Verb, Reported Speech, ৮টি টেন্স পরিবর্তনের ছক, Person পরিবর্তনের ১-২-৩ ফর্মুলা এবং সময় ও স্থান নির্দেশক শব্দের রূপান্তর।",
+  "definitionEn": "Narration describes the reporting of the speech of oneself or of other people. Direct Speech reproduces the exact words between inverted commas, whereas Indirect Speech reports the substance without quoting verbatim.",
+  "definitionBn": "বক্তার বক্তব্য প্রকাশের পদ্ধতিকে Narration বা উক্তি বলে। বক্তার কথা হুবহু উদ্ধৃত করলে Direct Speech এবং তা অন্যের ভাষায় পরিবর্তন করে প্রকাশ করলে Indirect Speech হয়।",
+  "explanationBn": "মূল ৩টি উপাদান:\n১. Reporting Verb: যে ক্রিয়া দিয়ে উক্তি উদ্ধৃত করা হয় (যেমন: He SAID to me)।\n২. Reported Speech: ইনভার্টেড কমার (\"...\") ভেতরের মূল বক্তব্য।\n৩. ইনভার্টেড কমা তুলে দিয়ে লিঙ্কার (that/if/to) বসে।\n\nটেন্স পরিবর্তনের ৮টি ধারাবাহিক ধাপ (যদি Reporting Verbটি Past Tense হয়):\n- Present Simple → Past Simple (V1 → V2)\n- Present Continuous → Past Continuous (am/is/are → was/were)\n- Present Perfect → Past Perfect (have/has → had)\n- Present Perfect Continuous → Past Perfect Continuous\n- Past Simple → Past Perfect (V2 → had + V3)\n- Past Continuous → Past Perfect Continuous (was/were → had been)\n- Past Perfect → অপরিবর্তিত (had + V3)\n- Future: shall/will → would / can → could / may → might।",
+  "teacherGoldenTips": "পারসন পরিবর্তনের ১-২-৩ গোল্ডেন রুল:\n১. First Person (I, we, me, my, our) পরিবর্তিত হবে Reporting Verb-এর SUBJECT অনুযায়ী!\n২. Second Person (you, your) পরিবর্তিত হবে Reporting Verb-এর OBJECT অনুযায়ী!\n৩. Third Person (he, she, it, they, Rahim)-এর কোনো পরিবর্তন হবে না (NO CHANGE)!",
+  "mainFormula": "Direct: S + said to + O, \"[Speech]\" -> Indirect: S + told + O + that + Shifted Speech (Tense + Person + Time)",
+  "formulas": [
+    {
+      "label": "Person Shift Matrix",
+      "structure": "1st Person -> Subject | 2nd Person -> Object | 3rd Person -> No Change",
+      "tag": "1-2-3 Rule",
+      "example": "He said to me, \"I know you.\" -> He told me that he knew me."
+    },
+    {
+      "label": "Tense Progression",
+      "structure": "V1 -> V2 | V2 -> Had + V3 | am/is/are -> was/were | will -> would",
+      "tag": "Tense Shifts",
+      "example": "He said, \"I wrote a letter.\" -> He said that he had written a letter."
+    },
+    {
+      "label": "Temporal Shifts",
+      "structure": "Now->Then, Today->That day, Tomorrow->The next day, Yesterday->The previous day",
+      "tag": "Time Words",
+      "example": "Tomorrow -> The following day / The next day."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পারসন রূপান্তরের ১-২-৩ সূত্র",
+      "nameEn": "The 1-2-3 Person Shift Formula",
+      "formula": "1st Person = Subject of RV | 2nd Person = Object of RV | 3rd Person = No Change",
+      "shortcutTrick": "ফার্স্ট সাবজেক্ট দেখে বদলায়, সেকেন্ড অবজেক্ট দেখে বদলায়, থার্ড পারসন যেমন আছে তেমনই থাকে!",
+      "descriptionBn": "Direct উক্তির সর্বনামগুলোর কেস (Nominative, Objective, Possessive) ঠিক রেখে Person অনুযায়ী পরিবর্তন করতে হয়।",
+      "examples": [
+        {
+          "en": "He said to me, \"You are my best friend.\"",
+          "bn": "সে আমাকে বলল, \"তুমি আমার সবচেয়ে ভালো বন্ধু।\"",
+          "note": "Direct Speech।"
+        },
+        {
+          "en": "He told me that I was his best friend.",
+          "bn": "সে আমাকে বলল যে আমি তার সবচেয়ে ভালো বন্ধু ছিলাম।",
+          "note": "Indirect (You -> I, my -> his)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সময় ও দূরত্ব নির্দেশক শব্দের পরিবর্তন",
+      "nameEn": "Changes in Adverbs of Time and Place",
+      "formula": "Now -> Then | Here -> There | This -> That | These -> Those | Ago -> Before | Tonight -> That night",
+      "shortcutTrick": "নিকটবর্তী শব্দগুলো পরোক্ষ উক্তিতে দূরবর্তী রূপ ধারণ করে!",
+      "descriptionBn": "বক্তার সাময়িক অবস্থান পরোক্ষ বক্তব্যে পরিবর্তিত হয়ে অতীতের দূরত্ব প্রকাশ করে।",
+      "examples": [
+        {
+          "en": "She said, \"I am leaving now.\"",
+          "bn": "সে বলল, \"আমি এখন চলে যাচ্ছি।\"",
+          "note": "Direct Speech।"
+        },
+        {
+          "en": "She said that she was leaving then.",
+          "bn": "সে বলল যে সে তখন চলে যাচ্ছিল।",
+          "note": "now -> then।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "He said, \"I have completed my homework.\"",
+      "bn": "সে বলল, \"আমি আমার বাড়ির কাজ শেষ করেছি।\"",
+      "note": "Direct Speech।"
+    },
+    {
+      "en": "He said that he had completed his homework.",
+      "bn": "সে বলল যে সে তার বাড়ির কাজ শেষ করেছিল।",
+      "note": "have -> had (Present Perfect -> Past Perfect)।"
+    },
+    {
+      "en": "The boy said, \"I will visit the museum tomorrow.\"",
+      "bn": "বালকটি বলল, \"আমি আগামীকাল জাদুঘর পরিদর্শন করব।\"",
+      "note": "Direct Speech।"
+    },
+    {
+      "en": "The boy said that he would visit the museum the next day.",
+      "bn": "বালকটি বলল যে সে পরের দিন জাদুঘর পরিদর্শন করবে।",
+      "note": "will -> would, tomorrow -> the next day।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Reporting Verb যদি Present বা Future Tense হয় তবে Tense বদলায় না",
+      "exceptionText": "যদি Reporting Verb-টি Present (says / has said) বা Future (will say) হয়, তবে Reported Speech-এর টেন্সের কোনো পরিবর্তন হয় না (শুধুমাত্র Person বদলায়)।",
+      "exampleEn": "He says, \"I am ill.\" -> He says that he is ill (NOT was ill).",
+      "exampleBn": "সে বলে যে সে অসুস্থ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He told to me that he was busy.",
+      "correct": "He told me that he was busy. (or He said to me that...)",
+      "reasonBn": "Told-এর পরে কখনো \"to\" বসে না।"
+    },
+    {
+      "mistake": "She said that she will come tomorrow.",
+      "correct": "She said that she would come the next day.",
+      "reasonBn": "Reporting Verb অতীতে থাকায় will -> would এবং tomorrow -> the next day হবে।"
+    }
+  ],
+  "tags": [
+    "narration fundamentals",
+    "direct to indirect",
+    "tense shift rules",
+    "pronoun 1-2-3 rule",
+    "time adverb shifts",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 140101,
+      "question": "Change into Indirect Speech: Rahim said, \"I lost my pen yesterday.\"",
+      "questionBn": "Rahim said, \"I lost my pen yesterday\" বাক্যটির সঠিক Indirect রূপ কোনটি?",
+      "options": [
+        "Rahim said that he lost his pen the previous day.",
+        "Rahim said that he had lost his pen the previous day.",
+        "Rahim said that I had lost my pen yesterday.",
+        "Rahim said that he has lost his pen the next day."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Past Simple (lost) পরিবর্তিত হয়ে Past Perfect (had lost) হবে এবং yesterday পরিবর্তিত হয়ে \"the previous day\" হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 140102,
+      "question": "He says, \"I love flowers.\" — What is the correct indirect speech?",
+      "questionBn": "He says, \"I love flowers\" বাক্যটির সঠিক পরোক্ষ উক্তি কোনটি?",
+      "options": [
+        "He says that he loved flowers.",
+        "He says that he loves flowers.",
+        "He said that he loved flowers.",
+        "He told that he loves flowers."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Reporting Verb \"says\" (Present Tense) হওয়ায় Reported Speech-এর টেন্স অপরিবর্তিত থাকবে (\"loves\")।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 140101,
+      "type": "Direct to Indirect",
+      "prompt": "Change into Indirect: The teacher said to the student, \"You have performed very well in the examination.\"",
+      "correctAnswer": "The teacher told the student that he/she had performed very well in the examination.",
+      "explanationBn": "Said to -> told, that, you -> he/she, have performed -> had performed।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 140101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Direct and Indirect speech basic rules in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "State the rule regarding tense shift when the Reporting Verb is in the Present Tense.",
+          "answer": "When the Reporting Verb is in the Present or Future tense, the tense of the Reported Speech remains completely unchanged; only the pronouns change.",
+          "explanationBn": "প্রেজেন্ট বা ফিউচার রিপোর্টিং ভার্বের টেন্স অপরিবর্তনীয়তা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ন্যারেশন রূপান্তরের অত্যন্ত প্রাথমিক ও গুরুত্বপূর্ণ প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
   'voice-chapter-practice-set': {
   "id": 1306,
   "chapterId": 13,
