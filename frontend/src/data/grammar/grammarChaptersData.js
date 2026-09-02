@@ -306,6 +306,3998 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'double-comparatives-special-rules': {
+  "id": 505,
+  "chapterId": 5,
+  "topicNo": "০৫",
+  "titleEn": "Double Comparatives, Latin Adjectives & Common Errors",
+  "titleBn": "দ্বৈত তুলনা, ল্যাটিন বিশেষণ (Senior/Junior) ও বিশেষ নিয়ম",
+  "slug": "double-comparatives-special-rules",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "যত...তত প্রকাশের বিশেষ কাঠামো (The more... the more), ল্যাটিন ভাষার বিশেষণে \"than\"-এর বদলে \"to\"-এর ব্যবহার (Senior to, Junior to) এবং বহুল প্রচলিত এডজেক্টিভ ভুলসমূহ।",
+  "definitionEn": "Double comparatives use parallel comparative clauses to express proportional change (The... the...). Latin comparatives are adjectives ending in -ior that govern the preposition \"to\" instead of the conjunction \"than\".",
+  "definitionBn": "আনুপাতিক হারে কোনো কিছুর বৃদ্ধি বা হ্রাস (যত... তত) প্রকাশ করতে যে সমান্তরাল কাঠামো ব্যবহৃত হয় তাকে Double Comparative বলে। আর ল্যাটিন থেকে আগত বিশেষণে Than-এর পরিবর্তে To বসে।",
+  "explanationBn": "১. যত...তত কাঠামো: The + Comparative ... the + Comparative (যেমন: The more you read, the more you learn = যত পড়বে, তত শিখবে)। ২. ল্যাটিন বিশেষণের নিয়ম: Senior, Junior, Superior, Inferior, Prior, Anterior, Posterior — এই সাতটি বিশেষণের শেষে -ior থাকে এবং এদের পরে কখনো \"than\" বসে না, সর্বদা Preposition \"to\" বসে (যেমন: He is senior to me, NOT than me)!",
+  "teacherGoldenTips": "ল্যাটিন বিশেষণের গোল্ডেন রুল: Senior, Junior, Superior, Inferior, Preferable — এই শব্দগুলোর পরে ভুলেও \"than\" বা \"more\" বসাবেন না! এদের পরে সর্বদা \"to\" বসবে (He is junior to me)!",
+  "mainFormula": "THE + Comparative ... THE + Comparative (Proportional Shift) | Latin Adj + TO (NOT than)",
+  "formulas": [
+    {
+      "label": "Proportional Increase",
+      "structure": "The + Comparative ... the + Comparative",
+      "tag": "Double The",
+      "example": "The higher you climb, the colder it gets."
+    },
+    {
+      "label": "Latin Comparatives",
+      "structure": "Senior / Junior / Superior / Inferior + TO",
+      "tag": "Take TO",
+      "example": "He is senior to me by three years."
+    },
+    {
+      "label": "Preferable Rule",
+      "structure": "Subject + is + PREFERABLE + TO + Noun/Gerund",
+      "tag": "Preference",
+      "example": "Death is preferable to dishonor."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ল্যাটিন বিশেষণের পর \"To\" ব্যবহারের বাধ্যতামূলক নিয়ম",
+      "nameEn": "Latin Comparatives Taking \"To\" Instead of \"Than\"",
+      "formula": "Senior / Junior / Superior / Inferior / Prior + TO + Objective Pronoun",
+      "shortcutTrick": "-ior দিয়ে শেষ হওয়া বিশেষণে Than নিষিদ্ধ, To আবশ্যক!",
+      "descriptionBn": "ল্যাটিন ভাষায় তৈরি এই বিশেষণগুলোর নিজস্ব তুলনামূলক অর্থ আছে। তাই এদের পূর্বে more বা পরে than বসে না।",
+      "examples": [
+        {
+          "en": "He is senior to me in service (NOT senior than me).",
+          "bn": "সে চাকুরিতে আমার চেয়ে জ্যেষ্ঠ।",
+          "note": "senior-এর সাথে to বসেছে।"
+        },
+        {
+          "en": "This cloth is superior to that one.",
+          "bn": "এই কাপড়টি ঐটির চেয়ে উৎকৃষ্টমানের।",
+          "note": "superior-এর সাথে to বসেছে।"
+        },
+        {
+          "en": "This assignment was prior to that announcement.",
+          "bn": "এই দায়িত্বটি সেই ঘোষণার পূর্ববর্তী ছিল।",
+          "note": "prior-এর সাথে to।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Prefer এবং Preferable-এর সাথে \"To\" ব্যবহারের নিয়ম",
+      "nameEn": "Usage of \"Prefer\" and \"Preferable\"",
+      "formula": "Prefer + Noun/Gerund + TO + Noun/Gerund | Preferable + TO",
+      "shortcutTrick": "Prefer-এর সাথে কখনো \"than\" বা \"more\" বসে না; \"to\" বসে!",
+      "descriptionBn": "পছন্দনীয়তা প্রকাশে prefer ও preferable-এর পরে Preposition হিসেবে to বসে।",
+      "examples": [
+        {
+          "en": "I prefer tea to coffee (NOT than coffee).",
+          "bn": "আমি কফির চেয়ে চা বেশি পছন্দ করি।",
+          "note": "prefer + tea + to + coffee।"
+        },
+        {
+          "en": "Death is preferable to disgrace.",
+          "bn": "অপমানের চেয়ে মৃত্যু শ্রেয়।",
+          "note": "preferable + to।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The more you practice English, the better you speak.",
+      "bn": "তুমি যত ইংরেজি অনুশীলন করবে, তত ভালো বলতে পারবে।",
+      "note": "The more ... the better (Double comparative)।"
+    },
+    {
+      "en": "The sooner, the better.",
+      "bn": "যত দ্রুত হয়, তত মঙ্গল।",
+      "note": "কমন ইডিয়ামিক এক্সপ্রেশন।"
+    },
+    {
+      "en": "He prefers reading books to watching television.",
+      "bn": "সে টেলিভিশন দেখার চেয়ে বই পড়া বেশি পছন্দ করে।",
+      "note": "gerund reading + to + watching।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Prefer-এর পর Infinitive থাকলে \"Rather than\" বসে",
+      "exceptionText": "যদি Prefer-এর পরে সরাসরি Infinitive (to + verb) থাকে, তবে দ্বিতীয় ভার্বের আগে \"rather than\" বসে।",
+      "exampleEn": "He prefers to die rather than beg (NOT to beg).",
+      "exampleBn": "সে ভিক্ষা করার চেয়ে মৃত্যুবরণ করতে পছন্দ করে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is more senior than me.",
+      "correct": "He is senior to me.",
+      "reasonBn": "Senior-এর আগে more বসে না এবং পরে than নয় \"to\" বসে।"
+    },
+    {
+      "mistake": "I prefer milk than tea.",
+      "correct": "I prefer milk to tea.",
+      "reasonBn": "Prefer-এর পরে সর্বদা \"to\" বসে।"
+    }
+  ],
+  "tags": [
+    "double comparative",
+    "the more the more",
+    "latin adjectives",
+    "senior to",
+    "junior to",
+    "preferable to",
+    "prefer to",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 50501,
+      "question": "Choose the correct sentence:",
+      "questionBn": "সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "He is senior than me by two years.",
+        "He is more senior than me by two years.",
+        "He is senior to me by two years.",
+        "He is more senior to me by two years."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Senior একটি ল্যাটিন কম্পারেটিভ; এর পূর্বে more বসে না এবং পরে than-এর পরিবর্তে \"to\" বসে: \"senior to me\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 50502,
+      "question": "Complete the idiom: \"The _____ you earn, the _____ you spend.\"",
+      "questionBn": "\"The _____ you earn, the _____ you spend\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "more, more",
+        "most, most",
+        "much, much",
+        "many, many"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "আনুপাতিক বৃদ্ধি বোঝাতে Double Comparative কাঠামো \"The more ... the more\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 50501,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"Health is more preferable than wealth in every way.\"",
+      "correctAnswer": "Health is preferable to wealth in every way.",
+      "explanationBn": "Preferable-এর পূর্বে more বসে না এবং পরে than-এর বদলে to বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 50501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Latin Adjectives and Proportional Comparative constructions:",
+      "subQuestions": [
+        {
+          "questionText": "List 5 adjectives that take \"to\" instead of \"than\" in comparative structures.",
+          "answer": "Senior, Junior, Superior, Inferior, Preferable.",
+          "explanationBn": "ল্যাটিন মূলের বিশেষণের নিয়মাবলী।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বস ও কলেজ ভর্তি পরীক্ষায় এই নিয়মের প্রশ্ন প্রায় নিশ্চিত।",
+      "isVerified": true
+    }
+  ]
+},
+  'rules-of-comparison-transformation': {
+  "id": 504,
+  "chapterId": 5,
+  "topicNo": "০৪",
+  "titleEn": "Transformation of Degrees: Positive, Comparative & Superlative",
+  "titleBn": "ডিগ্রি রূপান্তরের স্বর্ণালী নিয়মাবলী (Transformation of Sentences)",
+  "slug": "rules-of-comparison-transformation",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এসএসসি পরীক্ষার নিশ্চিত ৩-৪ নম্বরের টপিক। অর্থের পরিবর্তন না করে Positive, Comparative এবং Superlative ডিগ্রির মধ্যে পারস্পরিক রূপান্তরের সুনির্দিষ্ট সূত্র।",
+  "definitionEn": "Transformation of degrees is the syntactic restructuring of comparative sentences without altering their original semantic meaning or truth value.",
+  "definitionBn": "অর্থের কোনো পরিবর্তন না ঘটিয়ে একটি Degree-কে অন্য Degree-তে রূপান্তরিত করার ব্যাকরণিক পদ্ধতিকে Transformation of Degrees বলে।",
+  "explanationBn": "ডিগ্রি রূপান্তরের দুটি প্রধান টাইপ: ১. Type 1 (The + Superlative -> Than any other / Than all other -> No other + as...as), ২. Type 2 (One of the + Superlative -> Than most other / Than few other -> Very few + as...as)।",
+  "teacherGoldenTips": "গোল্ডেন কনভার্সন ফর্মুলা: Superlative-এ শুধু \"The\" থাকলে Positive শুরু হবে \"No other\" দিয়ে এবং Comparative-এ বসবে \"than any other\"। কিন্তু Superlative-এ \"One of the\" থাকলে Positive শুরু হবে \"Very few\" দিয়ে এবং Comparative-এ বসবে \"than most other\"!",
+  "mainFormula": "Type 1 (The): No other <-> than any other <-> The + est | Type 2 (One of the): Very few <-> than most other <-> One of the + est",
+  "formulas": [
+    {
+      "label": "Type 1: Unique Best",
+      "structure": "Positive: No other + Noun + as/so [Adj] as | Comparative: S + V + [Adj-er] + than any other | Superlative: S + V + the + [Adj-est]",
+      "tag": "Singular Focus",
+      "example": "No other boy is as tall as Rahim <-> Rahim is taller than any other boy <-> Rahim is the tallest boy"
+    },
+    {
+      "label": "Type 2: One of the Group",
+      "structure": "Positive: Very few + Plural Noun + PLURAL VERB + as [Adj] as | Comparative: [Adj-er] + than most other + Plural Noun | Superlative: one of the + [Adj-est] + Plural Noun",
+      "tag": "Plural Group",
+      "example": "Very few cities are as big as Dhaka <-> Dhaka is bigger than most other cities <-> Dhaka is one of the biggest cities"
+    },
+    {
+      "label": "Two Entities Only",
+      "structure": "Positive: As [Adj] as (Affirmative) <-> Not [Adj-er] than (Negative)",
+      "tag": "Direct Comparison",
+      "example": "Rahim is as wise as Karim <-> Karim is not wiser than Rahim"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Type 1: \"The\" যুক্ত সুপারলেটিভ রূপান্তর",
+      "nameEn": "Type 1: Singular Best Transformation",
+      "formula": "Positive: No other + singular noun ... as/so + positive + as | Comparative: than any other + singular noun",
+      "shortcutTrick": "No other থাকলে Noun এবং Verb দুটোই Singular (is/was)!",
+      "descriptionBn": "যখন একজন ব্যক্তি বা বস্তুকে পুরো দলের মধ্যে এককভাবে শ্রেষ্ঠ বলা হয়।",
+      "examples": [
+        {
+          "en": "Superlative: Iron is the most useful metal.",
+          "bn": "লোহা সবচেয়ে উপকারী ধাতু।",
+          "note": "Superlative રૂપ।"
+        },
+        {
+          "en": "Comparative: Iron is more useful than any other metal.",
+          "bn": "লোহা অন্য যেকোনো ধাতুর চেয়ে বেশি উপকারী।",
+          "note": "than any other + metal (Singular)।"
+        },
+        {
+          "en": "Positive: No other metal is as useful as iron.",
+          "bn": "অন্য কোনো ধাতু লোহার মতো এত উপকারী নয়।",
+          "note": "No other + metal + is।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Type 2: \"One of the\" যুক্ত সুপারলেটিভ রূপান্তর",
+      "nameEn": "Type 2: \"One of the\" Plural Group Transformation",
+      "formula": "Positive: VERY FEW + Plural Noun + ARE/WERE + as [Adj] as | Comparative: than most other + Plural Noun",
+      "shortcutTrick": "Very few থাকলে Plural Noun এবং Plural Verb (are/were) বসবে!",
+      "descriptionBn": "যখন একজন ব্যক্তি বা বস্তু অনেকের মধ্যে অন্যতম একজন শ্রেষ্ঠ হিসেবে গণ্য হয়।",
+      "examples": [
+        {
+          "en": "Superlative: Nazrul is one of the greatest poets in Bangladesh.",
+          "bn": "নজরুল বাংলাদেশের অন্যতম শ্রেষ্ঠ কবি।",
+          "note": "one of the + poets (Plural)।"
+        },
+        {
+          "en": "Comparative: Nazrul is greater than most other poets in Bangladesh.",
+          "bn": "নজরুল বাংলাদেশের অধিকাংশ কবির চেয়ে মহৎ।",
+          "note": "than most other + poets।"
+        },
+        {
+          "en": "Positive: Very few poets in Bangladesh are as great as Nazrul.",
+          "bn": "বাংলাদেশের খুব কম কবিই নজরুলের মতো এত মহৎ।",
+          "note": "Very few + poets + are (Plural Verb)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The Padma is one of the biggest rivers in Bangladesh.",
+      "bn": "পদ্মা বাংলাদেশের অন্যতম বৃহত্তম নদী।",
+      "note": "Superlative (Type 2)।"
+    },
+    {
+      "en": "The Padma is bigger than most other rivers in Bangladesh.",
+      "bn": "পদ্মা বাংলাদেশের অধিকাংশ নদীর চেয়ে বড়।",
+      "note": "Comparative (Type 2)।"
+    },
+    {
+      "en": "Very few rivers in Bangladesh are as big as the Padma.",
+      "bn": "বাংলাদেশের খুব কম নদীই পদ্মার মতো এত বড়।",
+      "note": "Positive (Type 2)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "দুজনের মধ্যে তুলনা হলে Superlative হয় না",
+      "exceptionText": "যদি মাত্র দুইজন ব্যক্তি বা বস্তুর মধ্যে তুলনা করা হয়, তবে তার কখনো Superlative Degree গঠিত হতে পারে না; কেবল Positive এবং Comparative-এর মধ্যে অদলবদল হয়।",
+      "exampleEn": "He is as strong as a lion <-> A lion is not stronger than he.",
+      "exampleBn": "সে সিংহের মতো শক্তিশালী <-> একটি সিংহ তার চেয়ে বেশি শক্তিশালী নয়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Very few boys in the class is as good as Rahim.",
+      "correct": "Very few boys in the class are as good as Rahim.",
+      "reasonBn": "Very few-এর পর Plural Verb \"are\" বা \"were\" বসবে, is বা was নয়।"
+    },
+    {
+      "mistake": "No other boy is taller than Rahim.",
+      "correct": "No other boy is as tall as Rahim.",
+      "reasonBn": "No other-এর সাথে Positive Degree (as tall as) বসে, Comparative নয়।"
+    }
+  ],
+  "tags": [
+    "transformation of degrees",
+    "no other",
+    "very few",
+    "than any other",
+    "than most other",
+    "one of the",
+    "ssc board exam"
+  ],
+  "mcqs": [
+    {
+      "id": 50401,
+      "question": "Transform into Positive: \"Dhaka is bigger than all other cities in Bangladesh.\"",
+      "questionBn": "\"Dhaka is bigger than all other cities in Bangladesh\" বাক্যটিকে Positive-এ রূপান্তর করো:",
+      "options": [
+        "Very few cities in Bangladesh are as big as Dhaka.",
+        "No other city in Bangladesh is as big as Dhaka.",
+        "Dhaka is one of the biggest cities in Bangladesh.",
+        "No other cities in Bangladesh are as big as Dhaka."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"than all other\" বা \"than any other\" থাকলে Positive শুরু হয় \"No other + singular noun (city) + is as big as Dhaka\" দিয়ে।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 50402,
+      "question": "Transform into Comparative: \"Very few metals are as precious as gold.\"",
+      "questionBn": "\"Very few metals are as precious as gold\" বাক্যটিকে Comparative-এ রূপান্তর করো:",
+      "options": [
+        "Gold is more precious than any other metal.",
+        "Gold is more precious than most other metals.",
+        "Gold is the most precious metal.",
+        "Gold is not more precious than other metals."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Very few যুক্ত Positive বাক্যকে Comparative করতে \"more precious than most other metals\" বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 50401,
+      "type": "Degree Transformation",
+      "prompt": "Transform into Superlative: \"No other dramatist in English was as great as Shakespeare.\"",
+      "correctAnswer": "Shakespeare was the greatest dramatist in English.",
+      "explanationBn": "No other উঠে গিয়ে \"the greatest\" রূপ লাভ করে।"
+    },
+    {
+      "id": 50402,
+      "type": "Degree Transformation",
+      "prompt": "Transform into Positive: \"The cow is one of the most useful domestic animals.\"",
+      "correctAnswer": "Very few domestic animals are as useful as the cow.",
+      "explanationBn": "One of the উঠে গিয়ে \"Very few ... are as useful as\" বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 50401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "SSC Transformation of Sentences (Degree Conversion Passage Item):",
+      "subQuestions": [
+        {
+          "questionText": "Change into Comparative: \"The rose is the loveliest of all flowers.\"",
+          "answer": "The rose is lovelier than all other flowers (or than any other flower).",
+          "explanationBn": "The loveliest থেকে lovelier than all other flowers।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রের ট্রান্সফরমেশন প্রশ্নে ডিগ্রি রূপান্তর অন্যতম নিশ্চিত আইটেম।",
+      "isVerified": true
+    }
+  ]
+},
+  'degrees-of-comparison-basics': {
+  "id": 503,
+  "chapterId": 5,
+  "topicNo": "০৩",
+  "titleEn": "Degrees of Comparison: Positive, Comparative & Superlative",
+  "titleBn": "তুলনামূলক মাত্রা: পজিটিভ, কম্পারেটিভ ও সুপারলেটিভ রূপ",
+  "slug": "degrees-of-comparison-basics",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "ব্যক্তি বা বস্তুর দোষ-গুণের তুলনা করার মাত্রাকে Degree of Comparison বলে। Positive (সাধারণ), Comparative (দুজনের মধ্যে তুলনা) এবং Superlative (সবার মধ্যে সেরা)।",
+  "definitionEn": "Degrees of comparison are inflectional or periphrastic forms of adjectives and adverbs indicating the relative intensity or extent of a quality.",
+  "definitionBn": "এক বা একাধিক ব্যক্তি বা বস্তুর গুণ ও বৈশিষ্ট্যের তারতম্য বা তুলনা প্রকাশ করার ব্যাকরণিক রূপকে Degree of Comparison বলে। এটি তিন প্রকার: Positive, Comparative ও Superlative।",
+  "explanationBn": "১. Positive Degree: কোনো তুলনা না করে সাধারণ গুণ প্রকাশ (Tall, Good, Beautiful)। ২. Comparative Degree: দুই ব্যক্তি বা বস্তুর মধ্যে তুলনা (Taller, Better, More beautiful — এরপরে than বসে)। ৩. Superlative Degree: বহুজনের মধ্যে সর্বোচ্চ বা সর্বনিম্ন মাত্রা প্রকাশ (Tallest, Best, Most beautiful — এর পূর্বে the বসে)।",
+  "teacherGoldenTips": "সিলেবল ভিত্তিক ম্যাজিক রুল: ১ সিলেবলের শব্দে -er এবং -est যোগ হয় (Tall -> Taller -> Tallest)। ২ বা ততোধিক সিলেবলের শব্দে More এবং Most যোগ হয় (Beautiful -> More beautiful -> Most beautiful)!",
+  "mainFormula": "Positive (Base Adj) -> Comparative (+er / more) -> Superlative (+est / most)",
+  "formulas": [
+    {
+      "label": "Monosyllabic Words",
+      "structure": "Base + er (Comparative) | the + Base + est (Superlative)",
+      "tag": "1 Syllable",
+      "example": "Strong -> Stronger -> The strongest"
+    },
+    {
+      "label": "Polysyllabic Words",
+      "structure": "More + Base (Comparative) | the Most + Base (Superlative)",
+      "tag": "2+ Syllables",
+      "example": "Difficult -> More difficult -> The most difficult"
+    },
+    {
+      "label": "Ending in -Y",
+      "structure": "Drop -y, add -ier / -iest",
+      "tag": "Y Shift",
+      "example": "Happy -> Happier -> The happiest"
+    },
+    {
+      "label": "Irregular Forms",
+      "structure": "Completely different words",
+      "tag": "Irregular",
+      "example": "Good -> Better -> Best | Bad -> Worse -> Worst"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ব্যতিক্রমী অনিয়মিত ডিগ্রির তালিকা (Irregular Comparison)",
+      "nameEn": "Irregular Adjective Comparisons",
+      "formula": "Good -> Better -> Best | Bad -> Worse -> Worst | Far -> Farther/Further -> Farthest/Furthest",
+      "shortcutTrick": "এদের সাথে er বা more বসে না; রূপগুলো মুখস্থ রাখতে হয়!",
+      "descriptionBn": "ইংরেজি ব্যাকরণের সবচেয়ে গুরুত্বপূর্ণ কিছু অনিয়মিত তুলনা।",
+      "examples": [
+        {
+          "en": "Good / Well -> Better -> Best",
+          "bn": "ভালো -> অপেক্ষাকৃত ভালো -> সর্বশ্রেষ্ঠ",
+          "note": "অনুরূপ রূপ।"
+        },
+        {
+          "en": "Bad / Evil / Ill -> Worse -> Worst",
+          "bn": "খারাপ -> আরও খারাপ -> সবচেয়ে খারাপ",
+          "note": "Worse (Comp), Worst (Sup)।"
+        },
+        {
+          "en": "Much / Many -> More -> Most",
+          "bn": "অনেক -> অধিকতর -> সর্বাধিক",
+          "note": "পরিমাণ ও সংখ্যা।"
+        },
+        {
+          "en": "Little -> Less / Lesser -> Least",
+          "bn": "কম -> আরও কম -> সবচেয়ে কম",
+          "note": "পরিমাণবাচক।"
+        }
+      ]
+    },
+    {
+      "nameBn": "C-V-C শব্দের শেষ বর্ণ দ্বিত্ব হওয়ার নিয়ম (Doubling Final Consonant)",
+      "nameEn": "Doubling the Final Consonant in Degree Forms",
+      "formula": "Consonant + Single Vowel + Consonant = Double the final consonant before -er / -est",
+      "shortcutTrick": "এক অক্ষরের শব্দের শেষ তিনটি বর্ণ কনসোনেন্ট-ভাওয়েল-কনসোনেন্ট হলে শেষ বর্ণটি দুইবার বসে!",
+      "descriptionBn": "Big -> Bigger -> Biggest (gg দ্বিত্ব হয়েছে)। Hot -> Hotter -> Hottest। Thin -> Thinner -> Thinnest।",
+      "examples": [
+        {
+          "en": "Big -> Bigger -> Biggest",
+          "bn": "বড় -> অপেক্ষাকৃত বড় -> বৃহত্তম",
+          "note": "g দ্বিত্ব হয়েছে।"
+        },
+        {
+          "en": "Fat -> Fatter -> Fattest",
+          "bn": "মোটা -> অধিকতর মোটা -> সবচেয়ে মোটা",
+          "note": "t দ্বিত্ব হয়েছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Mount Everest is the highest peak in the world.",
+      "bn": "মাউন্ট এভারেস্ট পৃথিবীর সর্বোচ্চ পর্বতশৃঙ্গ।",
+      "note": "the highest = Superlative Degree।"
+    },
+    {
+      "en": "Health is more valuable than wealth.",
+      "bn": "স্বাস্থ্য সম্পদের চেয়েও অধিক মূল্যবান।",
+      "note": "more valuable = Comparative Degree।"
+    },
+    {
+      "en": "Iron is more useful than any other metal.",
+      "bn": "লোহা অন্য যেকোনো ধাতুর চেয়ে বেশি দরকারী।",
+      "note": "Comparative with than any other।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Elder বনাম Older-এর ব্যবহারবিধি",
+      "exceptionText": "\"Elder\" এবং \"Eldest\" শুধুমাত্র একই পরিবারের রক্তের সম্পর্কের ভাই-বোনদের বয়সের ক্ষেত্রে ব্যবহৃত হয় (এর পরে কখনো than বসে না)। আর \"Older\" এবং \"Oldest\" যে কোনো সাধারণ ব্যক্তি বা বস্তুর বয়সের ক্ষেত্রে ব্যবহৃত হয়।",
+      "exampleEn": "My elder brother is an engineer (Family member) vs He is older than me (General comparison with than).",
+      "exampleBn": "আমার বড় ভাই একজন প্রকৌশলী বনাম সে আমার চেয়ে বয়সে বড়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is more taller than his brother.",
+      "correct": "He is taller than his brother.",
+      "reasonBn": "Double Comparative (more taller) ইংরেজি ব্যাকরণে সম্পূর্ণ নিষিদ্ধ।"
+    },
+    {
+      "mistake": "She is the most prettiest girl in class.",
+      "correct": "She is the prettiest girl in class.",
+      "reasonBn": "Double Superlative (most prettiest) ব্যবহার করা যাবে না।"
+    }
+  ],
+  "tags": [
+    "degrees of comparison",
+    "positive",
+    "comparative",
+    "superlative",
+    "irregular comparison",
+    "elder older",
+    "double comparative",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 50301,
+      "question": "What is the comparative form of the adjective \"Bad\"?",
+      "questionBn": "\"Bad\" বিশেষণের Comparative রূপ কোনটি?",
+      "options": [
+        "Badder",
+        "Worse",
+        "Worst",
+        "More bad"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Bad-এর তুলনামূলক রূপ হলো Worse (আর Superlative রূপ হলো Worst)।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 50302,
+      "question": "Identify the grammatically correct sentence:",
+      "questionBn": "ব্যাকরণগতভাবে সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "He is more cleverer than his sister.",
+        "He is cleverer than his sister.",
+        "He is most cleverer than his sister.",
+        "He is more clever than his sister."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Cleverer-এর সাথে অতিরিক্ত \"more\" বসানো ডাবল কম্পারেটিভ দোষ তৈরি করে, তাই \"cleverer than\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 50301,
+      "type": "Fill in Degree Forms",
+      "prompt": "Fill in the blanks: Positive: Little | Comparative: _____ | Superlative: _____",
+      "correctAnswer": "Comparative: Less (or Lesser) | Superlative: Least",
+      "explanationBn": "Little-এর অনিয়মিত ডিগ্রির রূপ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 50301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Formation and morphological shifts in degrees of comparison:",
+      "subQuestions": [
+        {
+          "questionText": "Give the comparative and superlative forms of: Far, Late, Bad, Beautiful.",
+          "answer": "Farther/Further, Farthest/Furthest; Later/Latter, Latest/Last; Worse, Worst; More beautiful, Most beautiful.",
+          "explanationBn": "নানা নিয়মের আওতায় গঠিত ডিগ্রি রূপ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রূপান্তর (Transformation of Sentences) প্রশ্নের ভিত্তি।",
+      "isVerified": true
+    }
+  ]
+},
+  'order-and-position-of-adjectives': {
+  "id": 502,
+  "chapterId": 5,
+  "topicNo": "০২",
+  "titleEn": "Order of Multiple Adjectives & Syntactic Positions",
+  "titleBn": "একাধিক বিশেষণের সঠিক ক্রম (OSASCOMP সূত্র) ও অবস্থান",
+  "slug": "order-and-position-of-adjectives",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "একটি Noun-এর পূর্বে যখন একাধিক Adjective একসাথে বসে, তখন তাদের সাজানোর আন্তর্জাতিক মানদণ্ড হলো OSASCOMP ফর্মুলা। Attributive ও Predicative অবস্থান।",
+  "definitionEn": "Adjective order is the conventional sequence used when more than one adjective qualifies a single noun. Attributive adjectives precede the noun; predicative adjectives follow a linking verb.",
+  "definitionBn": "একটি বিশেষ্যের পূর্বে একাধিক বিশেষণ বসার সুনির্দিষ্ট ক্রম এবং অবস্থানকে Order of Adjectives বলে। নাউনের আগে বসলে Attributive এবং ভার্বের পরে বসলে Predicative বলে।",
+  "explanationBn": "বিশ্ববিখ্যাত OSASCOMP ফর্মুলা: ১. O = Opinion (মতামত: Beautiful, Lovely), ২. S = Size (আকার: Big, Small, Tall), ৩. A = Age (বয়স: Old, Young, Antique), ৪. S = Shape (আকৃতি: Round, Square), ৫. C = Color (রং: Red, Blue, Black), ৬. O = Origin (উৎস/দেশ: Bangladeshi, Italian), ৭. M = Material (উপাদান: Wooden, Silk, Leather), ৮. P = Purpose (উদ্দেশ্য: Sleeping bag, Swimming pool)।",
+  "teacherGoldenTips": "মুখস্থ রাখার সেরা কৌশল: O-S-A-S-C-O-M-P (ওসাসকম্প)! যেমন: \"A beautiful (Opinion) small (Size) old (Age) round (Shape) red (Color) Italian (Origin) leather (Material) dining (Purpose) table\"!",
+  "mainFormula": "Determiner + Opinion + Size + Age + Shape + Color + Origin + Material + Purpose + NOUN",
+  "formulas": [
+    {
+      "label": "OSASCOMP Order",
+      "structure": "O (Opinion) -> S (Size) -> A (Age) -> S (Shape) -> C (Color) -> O (Origin) -> M (Material) -> P (Purpose)",
+      "tag": "Universal Sequence",
+      "example": "A lovely little old circular brown wooden rocking chair"
+    },
+    {
+      "label": "Attributive Position",
+      "structure": "Adjective + Noun (Directly before noun)",
+      "tag": "Direct Modifier",
+      "example": "The brave soldier fought well."
+    },
+    {
+      "label": "Predicative Position",
+      "structure": "Subject + Linking Verb + Adjective (After verb)",
+      "tag": "After Verb",
+      "example": "The soldier is very brave."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "OSASCOMP নিয়মের ব্যবহারিক প্রয়োগ",
+      "nameEn": "Application of the OSASCOMP Rule",
+      "formula": "Opinion -> Size -> Age -> Shape -> Color -> Origin -> Material + Noun",
+      "shortcutTrick": "মতামত সবার আগে, সাইজ ও বয়স মাঝে, রং ও দেশ শেষে, উপাদান ঠিক নাউনের পূর্বে!",
+      "descriptionBn": "পরীক্ষায় সাধারণত ২ থেকে ৪টি Adjective দিয়ে সঠিক ক্রম সাজাতে বলা হয়।",
+      "examples": [
+        {
+          "en": "A handsome tall young man (Opinion -> Size -> Age).",
+          "bn": "একজন সুদর্শন লম্বা তরুণ যুবক।",
+          "note": "handsome (O) + tall (S) + young (A)।"
+        },
+        {
+          "en": "A small round black leather bag.",
+          "bn": "একটি ছোট গোলাকার কালো চামড়ার ব্যাগ।",
+          "note": "small (Size) + round (Shape) + black (Color) + leather (Material)।"
+        },
+        {
+          "en": "An expensive antique Japanese vase.",
+          "bn": "একটি দামি প্রাচীন জাপানি ফুলদানি।",
+          "note": "expensive (O) + antique (A) + Japanese (Origin)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শুধুমাত্র Predicative হিসেবে ব্যবহৃত Adjectives",
+      "nameEn": "Exclusively Predicative Adjectives (A-Adjectives)",
+      "formula": "Linking Verb + (Afraid, Alike, Alive, Alone, Asleep, Aware)",
+      "shortcutTrick": "\"A\" দিয়ে শুরু হওয়া বিশেষণগুলো সাধারণত Noun-এর আগে বসে না; Verb-এর পরে বসে!",
+      "descriptionBn": "The baby is asleep (সঠিক)। কিন্তু An asleep baby বলা ভুল (An asleep baby নয়, a sleeping baby বলতে হবে)।",
+      "examples": [
+        {
+          "en": "The boy is asleep (Predicative - Correct).",
+          "bn": "ছেলেটি ঘুমিয়ে আছে।",
+          "note": "is-এর পর asleep বসেছে।"
+        },
+        {
+          "en": "He was alone in the dark room.",
+          "bn": "সে অন্ধকার ঘরে একা ছিল।",
+          "note": "was-এর পর alone বসেছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "She bought a charming small Bangladeshi cotton saree.",
+      "bn": "তিনি একটি চমৎকার ছোট বাংলাদেশি সুতি শাড়ি কিনেছিলেন।",
+      "note": "charming (O) + small (S) + Bangladeshi (O) + cotton (M)।"
+    },
+    {
+      "en": "The sick man is still alive.",
+      "bn": "অসুস্থ লোকটি এখনো জীবিত আছেন।",
+      "note": "alive হলো Predicative adjective।"
+    },
+    {
+      "en": "We stayed in a quiet modern American hotel.",
+      "bn": "আমরা একটি শান্ত আধুনিক আমেরিকান হোটেলে ছিলাম।",
+      "note": "quiet (O) + modern (A) + American (Origin)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Noun-এর পরে বসা Attributive ব্যতিক্রম (Post-positive Adjectives)",
+      "exceptionText": "Something, someone, anything, nothing, somebody-র পর Adjective সর্বদা Noun/Pronoun-এর পরে বসে।",
+      "exampleEn": "I want something cold to drink (NOT cold something). / Give me something useful.",
+      "exampleBn": "আমি ঠান্ডা কিছু পান করতে চাই।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He lives in a wooden small house.",
+      "correct": "He lives in a small wooden house.",
+      "reasonBn": "OSASCOMP নিয়ম অনুযায়ী Size (small) আগে বসবে এবং Material (wooden) পরে বসবে।"
+    },
+    {
+      "mistake": "I saw an afraid man.",
+      "correct": "I saw a frightened man. (or The man was afraid)",
+      "reasonBn": "Afraid কখনো সরাসরি Noun-এর পূর্বে attributive হিসেবে বসে না।"
+    }
+  ],
+  "tags": [
+    "order of adjectives",
+    "osascomp",
+    "attributive",
+    "predicative",
+    "afraid alive asleep",
+    "adjective sequence",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 50201,
+      "question": "Which is the correct order of adjectives in the sentence?",
+      "questionBn": "কোন বাক্যটিতে বিশেষণের সঠিক ক্রম (OSASCOMP) বজায় রাখা হয়েছে?",
+      "options": [
+        "She bought a leather black small bag.",
+        "She bought a small black leather bag.",
+        "She bought a black small leather bag.",
+        "She bought a leather small black bag."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "OSASCOMP অনুযায়ী: Size (small) -> Color (black) -> Material (leather)। তাই \"small black leather bag\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 50202,
+      "question": "Which of the following adjectives can ONLY be used predicatively (after a verb)?",
+      "questionBn": "নিচের কোন বিশেষণটি কেবল Predicative হিসেবে (ভার্বের পরে) ব্যবহৃত হতে পারে?",
+      "options": [
+        "Clever",
+        "Asleep",
+        "Heavy",
+        "Ancient"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Asleep\" একটি Predicative Adjective; এটি সরাসরি Noun-এর পূর্বে বসে না (যেমন: The child is asleep)।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 50201,
+      "type": "Reorder Adjectives",
+      "prompt": "Reorder according to OSASCOMP: \"She wore a (silk / beautiful / red) dress.\"",
+      "correctAnswer": "She wore a beautiful red silk dress.",
+      "explanationBn": "Opinion (beautiful) -> Color (red) -> Material (silk)।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 50201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Syntactic sequence and positional rules of adjectives:",
+      "subQuestions": [
+        {
+          "questionText": "What does the acronym OSASCOMP stand for in grammar?",
+          "answer": "Opinion, Size, Age, Shape, Color, Origin, Material, Purpose.",
+          "explanationBn": "ইংরেজি ভাষায় একাধিক বিশেষণের ধারাবাহিক ক্রম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও ক্যাডেট কলেজ ভর্তি পরীক্ষায় Adjective Order থেকে নিয়মিত প্রশ্ন আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'adjective-classification': {
+  "id": 501,
+  "chapterId": 5,
+  "topicNo": "০১",
+  "titleEn": "Classification of Adjectives: Quality, Quantity & Number",
+  "titleBn": "বিশেষণের প্রকারভেদ: গুণ, পরিমাণ ও সংখ্যাবাচক বিশেষণ",
+  "slug": "adjective-classification",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "যে শব্দ কোনো Noun বা Pronoun-এর দোষ, গুণ, অবস্থা, পরিমাণ বা সংখ্যা নির্দেশ করে তাকে Adjective বলে। গুণবাচক, পরিমাণবাচক ও সংখ্যাবাচক বিশেষণের পূর্ণাঙ্গ রূপ।",
+  "definitionEn": "An adjective is a word that modifies, describes, or quantifies a noun or pronoun, attributing qualities, states, or numerical limits.",
+  "definitionBn": "যে পদ কোনো Noun বা Pronoun-এর দোষ, গুণ, অবস্থা, পরিমাণ বা সংখ্যা প্রকাশ করে তাকে Adjective (বিশেষণ) বলে।",
+  "explanationBn": "Adjective মূলত চার প্রকার: ১. Adjective of Quality (গুণবাচক: Honest, Brave, Beautiful), ২. Adjective of Quantity (পরিমাণবাচক: Much, Little, Some, Whole), ৩. Adjective of Number বা Numeral Adjective (সংখ্যাবাচক: Cardinal — One, Two; Ordinal — First, Second; Multiplicative — Single, Double), ৪. Pronominal Adjective (সর্বনামজাত বিশেষণ: This pen, Which book, My father)।",
+  "teacherGoldenTips": "সংখ্যার প্রকারভেদ মনে রাখুন: এক, দুই, তিন হলো Cardinal (One, Two, Three); প্রথম, দ্বিতীয়, তৃতীয় হলো Ordinal (First, Second, Third); আর একক, দ্বিগুণ হলো Multiplicative (Single, Double, Triple)! এদের ক্রম সর্বদা Ordinal -> Cardinal (The first two boys)!",
+  "mainFormula": "Adjective = Quality (What kind?) + Quantity (How much?) + Number (How many?) + Pronominal (Which?)",
+  "formulas": [
+    {
+      "label": "Quality",
+      "structure": "Answers \"What kind of?\"",
+      "tag": "Descriptive",
+      "example": "Wise king, Cold water, Brave soldier"
+    },
+    {
+      "label": "Quantity",
+      "structure": "Answers \"How much?\" (Uncountable)",
+      "tag": "Mass",
+      "example": "Little milk, Much wealth, Some sugar"
+    },
+    {
+      "label": "Number",
+      "structure": "Answers \"How many?\" (Countable)",
+      "tag": "Numerical",
+      "example": "Five pens, First rank, Double century"
+    },
+    {
+      "label": "Pronominal",
+      "structure": "Pronoun functioning as Adjective before Noun",
+      "tag": "Possessive/Dem",
+      "example": "My country, This school, Which road"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Ordinal বনাম Cardinal-এর বসার ক্রম",
+      "nameEn": "Order of Numerical Adjectives",
+      "formula": "The + ORDINAL (First/Second) + CARDINAL (Two/Three) + Plural Noun",
+      "shortcutTrick": "আগে ফার্স্ট-সেকেন্ড (Ordinal), পরে এক-দুই-তিন (Cardinal)। সংক্ষেপে O-C!",
+      "descriptionBn": "বাক্যে একই সাথে দুই ধরনের সংখ্যাবাচক বিশেষণ থাকলে প্রথমে ক্রমবাচক (First, Second, Next, Last) এবং পরে সংখ্যাবাচক (One, Two, Three) বসে।",
+      "examples": [
+        {
+          "en": "The first two chapters are very easy (NOT The two first chapters).",
+          "bn": "প্রথম দুটি অধ্যায় অত্যন্ত সহজ।",
+          "note": "First (Ordinal) + two (Cardinal)।"
+        },
+        {
+          "en": "The next three days will be crucial.",
+          "bn": "পরবর্তী তিনটি দিন অত্যন্ত সংকটপূর্ণ হবে।",
+          "note": "Next + three।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Proper Noun থেকে গঠিত Proper Adjective",
+      "nameEn": "Proper Adjectives from Geographic Names",
+      "formula": "Proper Noun (Country/Region) -> Capitalized Proper Adjective",
+      "shortcutTrick": "Proper Adjective-এর প্রথম বর্ণ সর্বদা Capital Letter হবে!",
+      "descriptionBn": "দেশ বা স্থানের নাম থেকে যে বিশেষণ তৈরি হয় তাকে Proper Adjective বলে। যেমন: Bangladesh -> Bangladeshi, England -> English, France -> French।",
+      "examples": [
+        {
+          "en": "He loves Bangladeshi culture.",
+          "bn": "সে বাংলাদেশি সংস্কৃতি ভালোবাসে।",
+          "note": "Bangladeshi হলো Proper Adjective।"
+        },
+        {
+          "en": "English literature is rich in poetry.",
+          "bn": "ইংরেজি সাহিত্য কাব্যে সমৃদ্ধ।",
+          "note": "English হলো Proper Adjective।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Akbar was a wise and just ruler.",
+      "bn": "আকবর একজন জ্ঞানী ও ন্যায়পরায়ণ শাসক ছিলেন।",
+      "note": "wise এবং just হলো Adjectives of Quality।"
+    },
+    {
+      "en": "He ate the whole loaf of bread.",
+      "bn": "সে রুটির পুরো টুকরোটি খেয়ে ফেলল।",
+      "note": "whole হলো Adjective of Quantity।"
+    },
+    {
+      "en": "There are forty students in our section.",
+      "bn": "আমাদের সেকশনে চল্লিশ জন শিক্ষার্থী রয়েছে।",
+      "note": "forty হলো Cardinal Numeral Adjective।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Some বনাম Any-এর ব্যবহারবিধি",
+      "exceptionText": "হ্যাঁ-বোধক (Affirmative) বাক্যে \"Some\" বসে, কিন্তু না-বোধক (Negative) ও সাধারণ প্রশ্নবোধক (Interrogative) বাক্যে \"Any\" বসে। তবে অনুরোধ বা প্রস্তাব বোঝাতে প্রশ্নেও \"Some\" বসে (Will you have some tea?)।",
+      "exampleEn": "I have some money (Affirmative) vs I do not have any money (Negative).",
+      "exampleBn": "আমার কিছু টাকা আছে বনাম আমার কোনো টাকা নেই।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The two first chapters are interesting.",
+      "correct": "The first two chapters are interesting.",
+      "reasonBn": "Ordinal (First) সর্বদা Cardinal (Two)-এর পূর্বে বসবে।"
+    },
+    {
+      "mistake": "I do not have some pens.",
+      "correct": "I do not have any pens.",
+      "reasonBn": "না-বোধক বাক্যে some নয়, \"any\" বসে।"
+    }
+  ],
+  "tags": [
+    "adjective",
+    "adjective of quality",
+    "quantity",
+    "number",
+    "ordinal",
+    "cardinal",
+    "proper adjective",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 50101,
+      "question": "Choose the correct sentence:",
+      "questionBn": "সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "Read the two first stanzas of the poem.",
+        "Read the first two stanzas of the poem.",
+        "Read the one and two stanzas of the poem.",
+        "Read first the two stanzas of the poem."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Ordinal Adjective (First) সর্বদা Cardinal Adjective (Two)-এর পূর্বে বসে: \"The first two stanzas\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 50102,
+      "question": "In \"He showed much patience during the crisis\", the word \"much\" is an Adjective of —",
+      "questionBn": "\"He showed much patience during the crisis\" বাক্যে \"much\" কোন ধরনের বিশেষণ?",
+      "options": [
+        "Quality",
+        "Quantity",
+        "Number",
+        "Demonstration"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Patience একটি Uncountable Noun এবং much এর পরিমাণ প্রকাশ করায় এটি Adjective of Quantity।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 50101,
+      "type": "Classify Adjectives",
+      "prompt": "Classify the underlined adjectives: (a) <u>French</u> perfume, (b) <u>Ten</u> soldiers, (c) <u>Little</u> knowledge.",
+      "correctAnswer": "(a) Proper Adjective, (b) Numeral Adjective (Cardinal), (c) Adjective of Quantity.",
+      "explanationBn": "বিশেষণের শ্রেণিবিভাগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 50101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Classification and usage of Adjectives in English sentences:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between Cardinal and Ordinal Numeral Adjectives with two examples of each.",
+          "answer": "Cardinals tell \"how many\" (One, two, three). Ordinals tell \"in what order\" (First, second, third). Example: The first three boys.",
+          "explanationBn": "সংখ্যাবাচক ও ক্রমবাচক বিশেষণের পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ফিল ইন দ্য ব্ল্যাংকস ও ডিগ্রি রূপান্তরের প্রধান ভিত্তি।",
+      "isVerified": true
+    }
+  ]
+},
+  'pronoun-antecedent-agreement-errors': {
+  "id": 406,
+  "chapterId": 4,
+  "topicNo": "০৬",
+  "titleEn": "Pronoun-Antecedent Agreement & SSC Reference Pitfalls",
+  "titleBn": "সর্বনাম ও পূর্বপদের সংগতি এবং সাধারণ ভুলত্রুটি",
+  "slug": "pronoun-antecedent-agreement-errors",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "এইচএসসি ও এসএসসি পরীক্ষার Pronoun Referencing প্রশ্নের ভিত্তি। পূর্বপদ (Antecedent) এবং সর্বনামের Number, Gender ও Person-এর মধ্যে নিখুঁত সংগতি রক্ষার নিয়ম।",
+  "definitionEn": "Pronoun-antecedent agreement is the grammatical rule that a pronoun must agree with its antecedent in number, person, and gender.",
+  "definitionBn": "একটি Pronoun যে Noun-এর পরিবর্তে বসে (Antecedent), সেই Noun-এর লিঙ্গ (Gender), বচন (Number) ও পুরুষ (Person) অনুযায়ী Pronoun নির্বাচনের নিয়মকে Pronoun Agreement বলে।",
+  "explanationBn": "অস্পষ্ট সর্বনাম (Vague Pronoun Reference) ইংরেজি লেখার মান নষ্ট করে। যেমন: \"Karim met Rahim, and he said...\" — এখানে \"he\" দ্বারা কাকে বোঝানো হয়েছে তা স্পষ্ট নয়! তাই এমন ক্ষেত্রে স্পষ্ট করে Noun পুনঃব্যবহার করতে হয় (Karim met Rahim, and the former/the latter said...)।",
+  "teacherGoldenTips": "Indefinite Pronoun-এর ক্ল্যাসিক ট্র্যাপ: Everyone, Everybody, Nobody, Anyone, Somebody হলো ব্যাকরণগতভাবে SINGULAR, তাই এদের রেফার করতে Singular Pronoun (his/her) ব্যবহৃত হয়, যদিও আধুনিক ইনফরমাল স্পোকেনে \"their\" প্রচলিত!",
+  "mainFormula": "Antecedent (Singular Masculine) -> He/Him/His | Antecedent (Singular Feminine) -> She/Her | Antecedent (Plural) -> They/Them/Their",
+  "formulas": [
+    {
+      "label": "Singular Indefinite",
+      "structure": "Everyone / Everybody + singular pronoun (his / his or her)",
+      "tag": "Singular Agreement",
+      "example": "Everyone must submit his assignment."
+    },
+    {
+      "label": "Compound Subjects with OR",
+      "structure": "Singular + OR + Plural -> Pronoun matches the NEARER Noun",
+      "tag": "Proximity",
+      "example": "Neither the manager nor the workers forgot their badges."
+    },
+    {
+      "label": "Collective Unit",
+      "structure": "Collective Noun as Unit -> IT / ITS | As Multitude -> THEY / THEIR",
+      "tag": "Collective Agreement",
+      "example": "The army lost its general. The army laid down their arms."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Everyone / Everybody-এর সাথে Pronoun Agreement",
+      "nameEn": "Agreement with Indefinite Compound Pronouns",
+      "formula": "Everyone / Somebody / Nobody + Singular Verb + HIS (Formal English)",
+      "shortcutTrick": "One বা Body যুক্ত শব্দগুলো একবচন, তাই এদের প্রোনাউনও একবচন হবে।",
+      "descriptionBn": "Everyone has done their duty বলা কথ্য ভাষায় প্রচলিত হলেও বোর্ড পরীক্ষার ব্যাকরণে \"Everyone has done his duty\" বা \"his or her duty\" হলো আদর্শ রূপ।",
+      "examples": [
+        {
+          "en": "Everybody should respect his parents.",
+          "bn": "প্রত্যেকেরই তার পিতা-মাতাকে শ্রদ্ধা করা উচিত।",
+          "note": "his হলো ফরমাল সিঙ্গুলার রূপ।"
+        },
+        {
+          "en": "Nobody can escape his destiny.",
+          "bn": "কেউ তার ভাগ্যকে এড়াতে পারে না।",
+          "note": "his destiny।"
+        }
+      ]
+    },
+    {
+      "nameBn": "অস্পষ্ট পূর্বপদ পরিহার করার নিয়ম (Unclear / Vague Pronoun Reference)",
+      "nameEn": "Elimination of Vague Pronoun Reference",
+      "formula": "Ambiguous Pronoun -> Replace with Specific Noun or Rephrase Clause",
+      "shortcutTrick": "যদি \"He\" বা \"It\" দিয়ে কোন ব্যক্তি বা বস্তুকে বোঝানো হয়েছে তা নিয়ে সন্দেহ তৈরি হয়, তবে সরাসরি Noun বসান!",
+      "descriptionBn": "এইচএসসি ও এসএসসিতে ৫ নম্বরের \"Pronoun Referencing\" প্রশ্নে এই ভুলগুলো চিহ্নিত করে সংশোধন করতে হয়।",
+      "examples": [
+        {
+          "en": "Faulty: The police officer warned the driver, and he was polite.",
+          "bn": "ভুল: পুলিশ চালককে সতর্ক করল এবং সে ভদ্র ছিল (কে ভদ্র ছিল?)",
+          "note": "অস্পষ্ট রেফারেন্স।"
+        },
+        {
+          "en": "Correct: The police officer warned the driver, and the officer was polite.",
+          "bn": "সঠিক: পুলিশ কর্মকর্তা চালককে সতর্ক করলেন এবং কর্মকর্তাটি ভদ্র ছিলেন।",
+          "note": "স্পষ্ট Noun প্রতিস্থাপন।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Neither the teacher nor the students could find their way.",
+      "bn": "শিক্ষক বা ছাত্রছাত্রীদের কেউই তাদের পথ খুঁজে পাচ্ছিল না।",
+      "note": "নিকটবর্তী Plural noun \"students\" অনুযায়ী their বসেছে।"
+    },
+    {
+      "en": "The committee published its annual report.",
+      "bn": "কমিটি তার বার্ষিক প্রতিবেদন প্রকাশ করেছে।",
+      "note": "কমিটি একক সত্তা হওয়ায় \"its\"।"
+    },
+    {
+      "en": "If anyone calls, tell him that I will be back soon.",
+      "bn": "যদি কেউ ফোন করে, তাকে বলো যে আমি শীঘ্রই ফিরব।",
+      "note": "anyone-এর সাথে him।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Question Tag-এ Everyone-এর জন্য \"They\" বসে",
+      "exceptionText": "বাক্যে Everyone-এর জন্য Singular pronoun (his) বসলেও Question Tag করার সময় সর্বদা Plural Pronoun \"they\" বসে! যেমন: \"Everybody loves flowers, don't they?\" (NOT doesn't he?).",
+      "exampleEn": "Everyone was present, weren't they?",
+      "exampleBn": "সবাই উপস্থিত ছিল, তাই না?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Everybody have done their homework.",
+      "correct": "Everybody has done his homework.",
+      "reasonBn": "Everybody singular subject, তাই has এবং his বসবে।"
+    },
+    {
+      "mistake": "Neither the captain nor the players did his duty.",
+      "correct": "Neither the captain nor the players did their duty.",
+      "reasonBn": "Nor-এর পরের নিকটবর্তী Noun \"players\" (Plural) অনুযায়ী their বসবে।"
+    }
+  ],
+  "tags": [
+    "pronoun reference",
+    "antecedent agreement",
+    "everyone his",
+    "vague reference",
+    "tag question exception",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40601,
+      "question": "Complete the sentence in standard formal English: \"Every student must submit _____ project by Friday.\"",
+      "questionBn": "\"Every student must submit _____ project by Friday\" আনুষ্ঠানিক ব্যাকরণে শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "their",
+        "his or her",
+        "ones",
+        "them"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Every student একটি Singular Noun, তাই ফর্মাল ইংরেজিতে \"his or her\" বা \"his\" বসে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 40602,
+      "question": "In the Question Tag for \"Nobody phoned\", what pronoun must be used?",
+      "questionBn": "\"Nobody phoned\" বাক্যের Question Tag-এ কোন সর্বনামটি ব্যবহৃত হবে?",
+      "options": [
+        "it",
+        "he",
+        "they",
+        "one"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Question Tag-এ Nobody, Everyone, Somebody-র পরিবর্তে সর্বদা \"they\" ব্যবহৃত হয় (যেমন: Did they?)।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40601,
+      "type": "Fix Unclear Pronoun Reference",
+      "prompt": "Clarify the ambiguous pronoun: \"Mother told her daughter that she had won the essay competition.\"",
+      "correctAnswer": "Mother told her daughter, \"You have won the essay competition.\" (or Mother told her daughter that the daughter had won...)",
+      "explanationBn": "কে জিতেছে (মা নাকি মেয়ে) তা সুস্পষ্ট করা।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Pronoun referencing and antecedent agreement in paragraph text:",
+      "subQuestions": [
+        {
+          "questionText": "Identify and correct the pronoun error: \"Books give us knowledge. It also broadens our outlook.\"",
+          "answer": "Books give us knowledge. They also broaden our outlook.",
+          "explanationBn": "Books বহুবচন হওয়ায় Pronoun \"They\" এবং ভার্ব \"broaden\" হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও এইচএসসি পরীক্ষায় ৫ নম্বরের অনুচ্ছেদভিত্তিক প্রোনাউন রেফারেন্সিংয়ের নমুনা।",
+      "isVerified": true
+    }
+  ]
+},
+  'distributive-and-reciprocal-pronouns': {
+  "id": 405,
+  "chapterId": 4,
+  "topicNo": "০৫",
+  "titleEn": "Distributive & Reciprocal Pronouns",
+  "titleBn": "বণ্টনসূচক ও পারস্পরিক সর্বনাম (Each, Either, Neither, Each other)",
+  "slug": "distributive-and-reciprocal-pronouns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "একদল ব্যক্তি বা বস্তুর প্রত্যেককে পৃথকভাবে নির্দেশ করতে Distributive (Each, Either, Neither) এবং পারস্পরিক দ্বিপাক্ষিক সম্পর্ক বোঝাতে Reciprocal (Each other, One another) ব্যবহৃত হয়।",
+  "definitionEn": "Distributive pronouns refer to persons or things one at a time and are always grammatically singular. Reciprocal pronouns indicate mutual actions or relationships between two or more parties.",
+  "definitionBn": "যে Pronoun একাধিক ব্যক্তি বা বস্তুর মধ্যে প্রত্যেককে পৃথক পৃথকভাবে নির্দেশ করে তাকে Distributive Pronoun বলে। আর যা দুই বা ততোধিক পক্ষের পারস্পরিক সম্পর্ক বোঝায় তাকে Reciprocal Pronoun বলে।",
+  "explanationBn": "Distributive Pronoun (Each, Either, Neither) সর্বদা ব্যাকরণগতভাবে Singular এবং এদের পরে Singular Verb বসে (যেমন: \"Each of the boys was rewarded\", NOT \"were\")। Reciprocal Pronoun দুটি: \"Each other\" বসে দুইজনের মধ্যে, আর \"One another\" বসে তিন বা ততোধিকের মাঝে।",
+  "teacherGoldenTips": "গোল্ডেন ফর্মুলা: Each of / Either of / Neither of + Plural Noun + SINGULAR VERB! অর্থাৎ নাউনটি বহুবচন হলেও ভার্বটি সর্বদা একবচন (Singular) হবে!",
+  "mainFormula": "Each / Either / Neither OF + Plural Noun + SINGULAR VERB | 2 Persons: Each other | 3+ Persons: One another",
+  "formulas": [
+    {
+      "label": "Distributive Concord",
+      "structure": "Each of + Plural Noun + Singular Verb",
+      "tag": "Singular Rule",
+      "example": "Each of the students has received a book."
+    },
+    {
+      "label": "Either of (Two)",
+      "structure": "Either of the two boys is eligible.",
+      "tag": "Choice of Two",
+      "example": "Either of the options is acceptable."
+    },
+    {
+      "label": "Neither of (None of Two)",
+      "structure": "Neither of the two plans was approved.",
+      "tag": "Negative of Two",
+      "example": "Neither of the accusations is true."
+    },
+    {
+      "label": "Reciprocal Pair",
+      "structure": "2 Parties: Each other | 3+ Parties: One another",
+      "tag": "Mutuality",
+      "example": "The two sisters love each other. The three brothers help one another."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Each of / Either of-এর সাথে Verb-এর সিঙ্গুলার রূপ",
+      "nameEn": "Singular Agreement with Distributives",
+      "formula": "Each of / Either of / Neither of + The + Plural Noun + IS / WAS / HAS",
+      "shortcutTrick": "Noun বহুবচন হলেও ক্রিয়া একবচন হবে।",
+      "descriptionBn": "বাংলায় আমরা বলি \"ছেলেদের প্রত্যেকেই এসেছে\", কিন্তু প্রত্যেকে একজনকে আলাদা করে বোঝানোয় Singular Verb বসে।",
+      "examples": [
+        {
+          "en": "Each of the girls was singing (NOT were).",
+          "bn": "বালিকাদের প্রত্যেকে গান গাইছিল।",
+          "note": "Singular verb \"was\"।"
+        },
+        {
+          "en": "Neither of the two answers is correct.",
+          "bn": "দুটি উত্তরের কোনটিই সঠিক নয়।",
+          "note": "Singular verb \"is\"।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Each other বনাম One another-এর ব্যবহারের নিয়ম",
+      "nameEn": "Reciprocal Pronoun Rules: Each other vs One another",
+      "formula": "Exactly 2 = EACH OTHER | 3 or More = ONE ANOTHER",
+      "shortcutTrick": "দুইজন হলে Each other, তিন বা তার বেশি হলে One another।",
+      "descriptionBn": "দুই বন্ধুর মধ্যে ভাব বিনিময় হলে each other, কিন্তু ক্লাসের সব সহপাঠীর মধ্যে হলে one another বসে।",
+      "examples": [
+        {
+          "en": "The husband and wife love each other.",
+          "bn": "স্বামী ও স্ত্রী একে অপরকে ভালোবাসে।",
+          "note": "দুইজন ব্যক্তি, তাই each other।"
+        },
+        {
+          "en": "The students of the class helped one another.",
+          "bn": "শ্রেণির শিক্ষার্থীরা একে অপরকে সাহায্য করেছিল।",
+          "note": "অনেকের মাঝে হওয়ায় one another।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Either of the two roads leads to the railway station.",
+      "bn": "দুটি সড়কের যেকোনো একটি রেলস্টেশনের দিকে যায়।",
+      "note": "leads (Singular verb) বসেছে।"
+    },
+    {
+      "en": "We should all love one another.",
+      "bn": "আমাদের সবার একে অপরকে ভালোবাসা উচিত।",
+      "note": "সকলের ক্ষেত্রে one another।"
+    },
+    {
+      "en": "Each of the players was awarded a medal.",
+      "bn": "খেলোয়াড়দের প্রত্যেককে পদক দেওয়া হয়েছিল।",
+      "note": "was awarded (Singular)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Plural Subject-এর পরে Each বসলে Plural Verb হয়",
+      "exceptionText": "যদি Plural Noun বা Pronoun-এর পরে \"each\" বসে, তবে Verb-টি Plural হয়! যেমন: \"We each have a duty\" (NOT has).",
+      "exampleEn": "The students each have their own textbooks.",
+      "exampleBn": "শিক্ষার্থীদের প্রত্যেকের নিজস্ব পাঠ্যবই আছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Each of the boys are talented.",
+      "correct": "Each of the boys is talented.",
+      "reasonBn": "Each of-এর পর verb সর্বদা Singular (is) হয়।"
+    },
+    {
+      "mistake": "The two brothers quarreled with one another.",
+      "correct": "The two brothers quarreled with each other.",
+      "reasonBn": "দুইজনের ক্ষেত্রে each other বসে, one another নয়।"
+    }
+  ],
+  "tags": [
+    "distributive pronoun",
+    "reciprocal pronoun",
+    "each of",
+    "either of",
+    "neither of",
+    "each other",
+    "one another",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40501,
+      "question": "\"Neither of the two candidates _____ qualified for the job.\"",
+      "questionBn": "\"Neither of the two candidates _____ qualified for the job\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "are",
+        "is",
+        "were",
+        "have"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Neither of-এর পর Plural Noun (candidates) থাকলেও Verb সর্বদা Singular \"is\" হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 40502,
+      "question": "The three sisters always help _____ in their household chores.",
+      "questionBn": "\"The three sisters always help _____ in their household chores\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "each other",
+        "one another",
+        "themselves",
+        "oneself"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "তিনজন বোনের পারস্পরিক সহযোগিতার কথা বলা হয়েছে, তাই \"one another\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40501,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"Each of the participants were given a certificate.\"",
+      "correctAnswer": "Each of the participants was given a certificate.",
+      "explanationBn": "Each of-এর পর Singular Verb \"was\" বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Concord of Distributive and Reciprocal Pronouns:",
+      "subQuestions": [
+        {
+          "questionText": "When is \"each other\" used and when is \"one another\" used?",
+          "answer": "\"Each other\" is used when speaking of two persons or things. \"One another\" is used when speaking of more than two.",
+          "explanationBn": "দুই বনাম দুইয়ের অধিকের পারস্পরিক রূপ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ফিল ইন দ্য ব্ল্যাংকস ও কমন এরর আইডেন্টিফিকেশনে অত্যন্ত প্রয়োজনীয়।",
+      "isVerified": true
+    }
+  ]
+},
+  'relative-and-interrogative-pronouns': {
+  "id": 404,
+  "chapterId": 4,
+  "topicNo": "০৪",
+  "titleEn": "Relative & Interrogative Pronouns (Who, Whom, Whose, Which, That)",
+  "titleBn": "সাপেক্ষ ও প্রশ্নবোধক সর্বনাম (পূর্বপদ ও সম্পর্কের নিয়ম)",
+  "slug": "relative-and-interrogative-pronouns",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Relative Pronoun তার পূর্বপদকে (Antecedent) নির্দেশ করে দুটি ক্লজকে যুক্ত করে। Who (Subject), Whom (Object), Whose (Possessive), Which (বস্তু) ও That-এর বিশেষ ব্যবহারবিধি।",
+  "definitionEn": "A Relative Pronoun introduces a relative clause and refers back to an antecedent noun or pronoun. An Interrogative Pronoun is used to ask direct questions.",
+  "definitionBn": "যে Pronoun পূর্ববর্তী কোনো Noun বা Pronoun-এর পরে বসে তাকে নির্দেশ করে এবং দুটি বাক্য বা ক্লজকে যুক্ত করে তাকে Relative Pronoun বলে। প্রশ্ন জিজ্ঞাসায় ব্যবহৃত হলে তা Interrogative Pronoun।",
+  "explanationBn": "Relative Pronoun-এর ঠিক পূর্বে যে Noun বা Pronoun থাকে তাকে Antecedent (পূর্বপদ) বলে। Relative Pronoun-এর পরের Verb-টি সর্বদা এই Antecedent-এর Number ও Person অনুযায়ী নির্ধারিত হয় (যেমন: \"It is I who am to blame\", NOT \"is to blame\")!",
+  "teacherGoldenTips": "পূর্বপদ অনুযায়ী ভার্ব নির্বাচনের জাদুকরী নিয়ম: Relative Pronoun-এর নিজের কোনো নাম্বার বা পারসন নেই; তার ঠিক আগের শব্দ (Antecedent) অনুযায়ী পরবর্তী Verb বসবে। I থাকলে am/have, He থাকলে is/has, They থাকলে are/have!",
+  "mainFormula": "Antecedent (Noun/Pronoun) + RELATIVE PRONOUN (Who/Which/That) + Verb (Governed by Antecedent)",
+  "formulas": [
+    {
+      "label": "Person as Subject",
+      "structure": "Person + WHO + Verb",
+      "tag": "Human Subject",
+      "example": "The man who came here yesterday is my uncle."
+    },
+    {
+      "label": "Person as Object",
+      "structure": "Person + WHOM + Subject + Verb",
+      "tag": "Human Object",
+      "example": "The girl whom you saw is my sister."
+    },
+    {
+      "label": "Possession",
+      "structure": "Person/Thing + WHOSE + Noun",
+      "tag": "Ownership",
+      "example": "The boy whose father is a teacher."
+    },
+    {
+      "label": "Inanimate / Animals",
+      "structure": "Thing/Animal + WHICH / THAT + Clause",
+      "tag": "Non-human",
+      "example": "The book which you gave me is interesting."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Antecedent অনুযায়ী Verb নির্বাচনের অপরিহার্য নিয়ম",
+      "nameEn": "Agreement between Antecedent and the Relative Clause Verb",
+      "formula": "It is + [Antecedent] + WHO + Verb matching the Antecedent",
+      "shortcutTrick": "Who-এর দিকে তাকাবেন না, Who-এর আগের শব্দটির দিকে তাকিয়ে Verb ঠিক করুন!",
+      "descriptionBn": "It is I who am... (I অনুযায়ী am)। It is he who is... (he অনুযায়ী is)। It is you who are... (you অনুযায়ী are)।",
+      "examples": [
+        {
+          "en": "It is I who am to blame (NOT is to blame).",
+          "bn": "আমিই সেই ব্যক্তি যে দোষী।",
+          "note": "Antecedent হলো \"I\", তাই am বসেছে।"
+        },
+        {
+          "en": "It is they who have supported us.",
+          "bn": "তারাই তারা যারা আমাদের সমর্থন করেছে।",
+          "note": "Antecedent হলো \"they\", তাই have বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "That ব্যবহারের বিশেষ বাধ্যবাধকতা (The Superlative & All Rule)",
+      "nameEn": "Mandatory Use of \"That\" over Who/Which",
+      "formula": "(All / Nothing / The only / Superlative Adjective) + THAT (NOT which/who)",
+      "shortcutTrick": "All, Only, Same, Nothing অথবা Superlative Degree থাকলে Which বা Who নয়, \"That\" বসবে!",
+      "descriptionBn": "All that glitters is not gold (All which নয়)। This is the best book that I have ever read (which নয়)।",
+      "examples": [
+        {
+          "en": "All that glitters is not gold.",
+          "bn": "চকচক করলেই সোনা হয় না।",
+          "note": "All-এর পর that বসেছে।"
+        },
+        {
+          "en": "He is the best boy that I have ever seen.",
+          "bn": "সে আমার দেখা সেরা ছেলে।",
+          "note": "Superlative degree \"best\"-এর পর that।"
+        },
+        {
+          "en": "This is the only pen that I want.",
+          "bn": "এটিই একমাত্র কলম যা আমি চাই।",
+          "note": "The only-র পর that বসেছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "I know the man who wrote this historic poem.",
+      "bn": "আমি সেই ব্যক্তিকে চিনি যিনি এই ঐতিহাসিক কবিতাটি লিখেছিলেন।",
+      "note": "who ব্যক্তিবাচক কর্তা হিসেবে যুক্ত করেছে।"
+    },
+    {
+      "en": "Whom do you want to talk to? (Interrogative)",
+      "bn": "তুমি কার সাথে কথা বলতে চাও? (প্রশ্নবোধক)",
+      "note": "Whom অবজেক্ট হিসেবে বসেছে।"
+    },
+    {
+      "en": "The house whose roof is red belongs to my grandfather.",
+      "bn": "যে বাড়িটির ছাদ লাল সেটি আমার দাদার।",
+      "note": "whose মালিকানা নির্দেশক।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Preposition-এর পর Who নয়, সর্বদা Whom বসে",
+      "exceptionText": "Preposition-এর ঠিক পরে কখনো \"who\" বসতে পারে না; অবশ্যই \"whom\" বসাতে হবে (যেমন: To whom it may concern)।",
+      "exampleEn": "The person to whom I spoke was very courteous.",
+      "exampleBn": "আমি যার সাথে কথা বলেছিলাম তিনি খুব ভদ্র ছিলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "It is I who is responsible.",
+      "correct": "It is I who am responsible.",
+      "reasonBn": "Antecedent \"I\", তাই Verb হিসেবে \"am\" বসবে।"
+    },
+    {
+      "mistake": "All which glitters is not gold.",
+      "correct": "All that glitters is not gold.",
+      "reasonBn": "All-এর পর relative pronoun হিসেবে \"that\" বসে।"
+    }
+  ],
+  "tags": [
+    "relative pronoun",
+    "antecedent",
+    "who",
+    "whom",
+    "whose",
+    "which",
+    "that",
+    "all that glitters",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40401,
+      "question": "Choose the correct sentence:",
+      "questionBn": "সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "It is I who is your friend.",
+        "It is I who am your friend.",
+        "It is I who are your friend.",
+        "It is me who is your friend."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Relative pronoun \"who\"-এর পূর্বপদ (Antecedent) হলো \"I\", তাই ভার্ব হবে \"am\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 40402,
+      "question": "Complete: \"This is the only mistake _____ you made in the test.\"",
+      "questionBn": "\"This is the only mistake _____ you made in the test\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "which",
+        "that",
+        "who",
+        "whom"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"The only\"-র পরে relative pronoun হিসেবে সর্বদা \"that\" ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40401,
+      "type": "Combine using Relative Pronoun",
+      "prompt": "Combine using \"who\": \"I saw a doctor. He treated the poor patients for free.\"",
+      "correctAnswer": "I saw a doctor who treated the poor patients for free.",
+      "explanationBn": "ব্যক্তিবাচক রিলেটিভ প্রোনাউন Who দ্বারা সংযোজন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Relative Pronoun and Antecedent concord in complex sentences:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"It is you who is to guide the committee.\"",
+          "answer": "It is you who are to guide the committee.",
+          "explanationBn": "পূর্বপদ \"you\" হওয়ায় ভার্ব \"are\" হবে।"
+        }
+      ],
+      "fullExplanationBn": "রাইট ফর্ম অব ভার্বস ও কমপ্লিটিং সেন্টেন্সের সর্বাধিক কমন প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'demonstrative-and-indefinite-pronouns': {
+  "id": 403,
+  "chapterId": 4,
+  "topicNo": "০৩",
+  "titleEn": "Demonstrative & Indefinite Pronouns",
+  "titleBn": "নির্দেশক ও অনির্দিষ্ট সর্বনাম (This, That, One, Anyone)",
+  "slug": "demonstrative-and-indefinite-pronouns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "কোনো কিছুকে সুস্পষ্টভাবে নির্দেশ করতে Demonstrative (This, That, These, Those) এবং অনির্দিষ্ট ব্যক্তি বা বস্তুকে বোঝাতে Indefinite (One, Someone, Anybody, None) ব্যবহৃত হয়।",
+  "definitionEn": "Demonstrative pronouns point out specific persons or things (This, That, These, Those). Indefinite pronouns refer to persons or things in a general, non-specific way (One, All, Some, None).",
+  "definitionBn": "যে সর্বনাম কোনো ব্যক্তি বা বস্তুকে সুনির্দিষ্টভাবে নির্দেশ করে তাকে Demonstrative Pronoun বলে। আর যা কোনো নির্দিষ্ট ব্যক্তি বা বস্তুকে না বুঝিয়ে সাধারণভাবে প্রকাশ করে তাকে Indefinite Pronoun বলে।",
+  "explanationBn": "Demonstrative-এর দূরত্বের নিয়ম: কাছের একবচনে This, কাছের বহুবচনে These। দূরের একবচনে That, দূরের বহুবচনে Those। তুলনামূলক বাক্যে পুনরাবৃত্তি এড়াতে That of (Singular) এবং Those of (Plural) ব্যবহৃত হয় (যেমন: The climate of Sylhet is better than that of Dhaka)।",
+  "teacherGoldenTips": "One-এর বিশেষ নিয়ম: বাক্যের Subject যদি \"One\" হয়, তবে তার পরবর্তী Possessive অবশ্যই \"One's\" হতে হবে (\"his\" বা \"her\" কখনো নয়)! যেমন: One must do one's duty (NOT his duty)!",
+  "mainFormula": "Near: This (Singular) / These (Plural) | Far: That (Singular) / Those (Plural) | Indefinite: One -> One's",
+  "formulas": [
+    {
+      "label": "Demonstrative Pronoun",
+      "structure": "This / That / These / Those + Verb (Stand-alone)",
+      "tag": "Pointing",
+      "example": "This is my pen. Those are birds."
+    },
+    {
+      "label": "Demonstrative Adjective",
+      "structure": "This / That / These / Those + Noun",
+      "tag": "With Noun",
+      "example": "This pen is mine. Those birds are flying."
+    },
+    {
+      "label": "Comparative Replacement",
+      "structure": "That of (Singular) | Those of (Plural)",
+      "tag": "Avoid Repetition",
+      "example": "The streets of Dhaka are wider than those of Comilla."
+    },
+    {
+      "label": "The \"One\" Agreement",
+      "structure": "One + Verb ... one's + Noun",
+      "tag": "Universal Duty",
+      "example": "One should respect one's teachers."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "That of এবং Those of দিয়ে তুলনা সম্পন্ন করার নিয়ম",
+      "nameEn": "Comparative Repetition Prevention (That of / Those of)",
+      "formula": "Singular Comparison = That of | Plural Comparison = Those of",
+      "shortcutTrick": "একবচনের তুলনায় that of, বহুবচনের তুলনায় those of।",
+      "descriptionBn": "তুলনামূলক বাক্যে Noun-এর পুনরাবৃত্তি ঠেকাতে that of বা those of ব্যবহার করা বাধ্যতামূলক।",
+      "examples": [
+        {
+          "en": "The climate of Cox's Bazar is better than that of Dhaka.",
+          "bn": "কক্সবাজারের আবহাওয়া ঢাকার আবহাওয়ার চেয়ে ভালো।",
+          "note": "climate একবচন হওয়ায় \"that of Dhaka\"।"
+        },
+        {
+          "en": "The mangoes of Rajshahi are sweeter than those of Dinajpur.",
+          "bn": "রাজশাহীর আম দিনাজপুরের আমের চেয়ে মিষ্টি।",
+          "note": "mangoes বহুবচন হওয়ায় \"those of Dinajpur\"।"
+        }
+      ]
+    },
+    {
+      "nameBn": "One-এর সাথে Pronoun Agreement",
+      "nameEn": "Pronoun Agreement with \"One\"",
+      "formula": "One + Verb + ONE'S (NOT his/her)",
+      "shortcutTrick": "Subject যদি One হয়, তবে অধিকার বোঝাতে one's বসবে, his নয়!",
+      "descriptionBn": "সাধারণ মানুষ অর্থে যখন \"One\" ব্যবহৃত হয়, তখন সম্পূর্ণ বাক্যে pronoun হিসেবে one, one's এবং oneself বজায় রাখতে হয়।",
+      "examples": [
+        {
+          "en": "One should keep one's promise (NOT his promise).",
+          "bn": "কারো নিজের প্রতিজ্ঞা রক্ষা করা উচিত।",
+          "note": "one-এর সাথে one's।"
+        },
+        {
+          "en": "One must be conscious of one's responsibilities.",
+          "bn": "কারো নিজের দায়িত্ব সম্পর্কে সচেতন হওয়া আবশ্যক।",
+          "note": "one's হলো সঠিক রূপ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "These are fresh apples, but those on the shelf are rotten.",
+      "bn": "এগুলো তাজা আপেল, কিন্তু তাকের ওপরের ওগুলো পচা।",
+      "note": "These (কাছের বহুবচন), Those (দূরের বহুবচন)।"
+    },
+    {
+      "en": "None of the students was/were absent.",
+      "bn": "শিক্ষার্থীদের কেউই অনুপস্থিত ছিল না।",
+      "note": "None হলো Indefinite Pronoun।"
+    },
+    {
+      "en": "Somebody has left their bag in the classroom.",
+      "bn": "কেউ একজন ক্লাসরুমে তার ব্যাগ রেখে গেছে।",
+      "note": "Somebody হলো Indefinite Pronoun।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "One of the + Plural Noun + Singular Verb",
+      "exceptionText": "\"One of the\"-র পর Noun-টি Plural হলেও Verb-টি সর্বদা Singular হয়।",
+      "exampleEn": "One of my friends is an engineer (NOT are).",
+      "exampleBn": "আমার বন্ধুদের মধ্যে একজন প্রকৌশলী।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "One must do his duty.",
+      "correct": "One must do one's duty.",
+      "reasonBn": "Subject \"One\" হলে Possessive হিসেবে \"one's\" বসবে, his নয়।"
+    },
+    {
+      "mistake": "The roads of Dhaka are wider than Sylhet.",
+      "correct": "The roads of Dhaka are wider than those of Sylhet.",
+      "reasonBn": "ঢাকার রাস্তার সাথে সিলেটের রাস্তার তুলনা হচ্ছে, সরাসরি সিলেট শহরের নয়; তাই \"those of\" বসবে।"
+    }
+  ],
+  "tags": [
+    "demonstrative pronoun",
+    "indefinite pronoun",
+    "this",
+    "that",
+    "that of",
+    "those of",
+    "one's duty",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40301,
+      "question": "Complete the sentence: \"The climate of Bangladesh is hotter than _____ of Canada.\"",
+      "questionBn": "\"The climate of Bangladesh is hotter than _____ of Canada\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "this",
+        "that",
+        "those",
+        "these"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Climate একটি Singular Noun, তাই এর পুনরাবৃত্তি এড়াতে \"that\" (that of Canada) বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 40302,
+      "question": "\"One should take care of _____ health.\"",
+      "questionBn": "\"One should take care of _____ health\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "his",
+        "her",
+        "one's",
+        "their"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Subject \"One\" থাকলে Possessive হিসেবে সর্বদা \"one's\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40301,
+      "type": "Error Correction",
+      "prompt": "Correct the comparison: \"The mangoes of Rajshahi are better than Dhaka.\"",
+      "correctAnswer": "The mangoes of Rajshahi are better than those of Dhaka.",
+      "explanationBn": "বহুবচন আমের তুলনা হওয়ায় \"those of\" যোগ করতে হবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Comparative Pronoun reference and Indefinite usage:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"One of the boy have lost his books.\"",
+          "answer": "One of the boys has lost his book.",
+          "explanationBn": "One of the-র পর plural noun (boys) এবং singular verb (has) বসে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইট ফর্ম অব ভার্বস ও সাবজেক্ট-ভার্ব এগ্রিমেন্টের প্রধান প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'reflexive-and-emphatic-pronouns': {
+  "id": 402,
+  "chapterId": 4,
+  "topicNo": "০২",
+  "titleEn": "Reflexive vs Emphatic Pronouns (-self Forms)",
+  "titleBn": "আত্মবাচক ও জোরপ্রকাশক সর্বনাম (Reflexive বনাম Emphatic)",
+  "slug": "reflexive-and-emphatic-pronouns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Personal Pronoun-এর সাথে -self বা -selves যুক্ত হয়ে Reflexive বা Emphatic Pronoun গঠিত হয়। ব্যাকরণে এদের ভূমিকা ও অপসারণের পরীক্ষা।",
+  "definitionEn": "A Reflexive Pronoun is used when the subject and the object of the verb are the same person or thing. An Emphatic (Intensive) Pronoun is used simply for emphasis, emphasizing the preceding noun or pronoun.",
+  "definitionBn": "যখন কর্তার কাজের ফল কর্তার নিজের ওপরেই ফিরে আসে (Subject = Object), তখন তাকে Reflexive Pronoun বলে। আর যখন কোনো Noun বা Pronoun-এর ওপর অতিরিক্ত জোর দেওয়ার জন্য -self রূপ বসে, তখন তাকে Emphatic Pronoun বলে।",
+  "explanationBn": "সহজ পরীক্ষা (Removal Test): Emphatic Pronoun-কে বাক্য থেকে মুছে ফেললেও বাক্যের মূল অর্থ অক্ষুণ্ণ থাকে (যেমন: \"I myself did the work\" -> myself বাদ দিলে \"I did the work\" সম্পূর্ণ অর্থপূর্ণ থাকে)। কিন্তু Reflexive Pronoun-কে বাদ দিলে বাক্য অর্থহীন ও ব্যাকরণগতভাবে অসম্পূর্ণ হয়ে যায় (যেমন: \"He killed himself\" -> himself বাদ দিলে \"He killed...\" বাক্য অসম্পূর্ণ)!",
+  "teacherGoldenTips": "বাধ্যতামূলক Reflexive Verbs: Avail, absent, enjoy, pride, exert, adapt — এই Verbs-গুলোর পর কোনো সরাসরি Object না থাকলে একটি Reflexive Pronoun বসানো বাধ্যতামূলক (যেমন: He absented himself from school)!",
+  "mainFormula": "Reflexive: Subject + Verb + SELF-PRONOUN (Object) | Emphatic: Subject + SELF-PRONOUN + Verb (For Emphasis)",
+  "formulas": [
+    {
+      "label": "Singular -self",
+      "structure": "Myself, Yourself, Himself, Herself, Itself",
+      "tag": "Singular",
+      "example": "He hurt himself. I did it myself."
+    },
+    {
+      "label": "Plural -selves",
+      "structure": "Ourselves, Yourselves, Themselves",
+      "tag": "Plural",
+      "example": "They helped themselves."
+    },
+    {
+      "label": "Mandatory Reflexive",
+      "structure": "Avail / Absent / Enjoy + Reflexive Pronoun + Preposition",
+      "tag": "Special Verbs",
+      "example": "You must avail yourself of this opportunity."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Reflexive Pronoun কখনো বাক্যের Subject হতে পারে না",
+      "nameEn": "Reflexive Pronouns Cannot Serve as Subjects",
+      "formula": "Myself / Himself as Subject = INCORRECT | I / He as Subject = CORRECT",
+      "shortcutTrick": "\"Myself Rahim\" বলা চরম ভুল ইংরেজি; সঠিক হলো \"I am Rahim\"!",
+      "descriptionBn": "কোনো Reflexive Pronoun বাক্যের প্রধান কর্তা বা Subject হিসেবে বসতে পারে না। তার পূর্বে অবশ্যই মূল Noun বা Pronoun থাকতে হবে।",
+      "examples": [
+        {
+          "en": "Rahim and I went there (NOT Rahim and myself).",
+          "bn": "রহিম এবং আমি সেখানে গিয়েছিলাম।",
+          "note": "Subjective case \"I\" হবে।"
+        },
+        {
+          "en": "I am Tanvir (NOT Myself Tanvir).",
+          "bn": "আমি তানভীর।",
+          "note": "নিজের পরিচয়ে কখনো myself বসে না।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Avail of, Absent from ইত্যাদির সাথে Reflexive Pronoun",
+      "nameEn": "Verbs Requiring Reflexive Pronouns",
+      "formula": "Subject + (absent / avail / pride) + Reflexive Pronoun + Preposition",
+      "shortcutTrick": "Absent ও Avail-এর পর সেলফ-প্রোনাউন ছাড়া বাক্য অসম্পূর্ণ!",
+      "descriptionBn": "He absented from class বললে ভুল হবে; বলতে হবে \"He absented himself from class\"।",
+      "examples": [
+        {
+          "en": "He absented himself from the meeting.",
+          "bn": "সে সভা থেকে নিজেকে অনুপস্থিত রাখল।",
+          "note": "himself বাধ্যতামূলক।"
+        },
+        {
+          "en": "She prided herself on her success.",
+          "bn": "সে তার সফলতায় গর্ববোধ করেছিল।",
+          "note": "prided + herself + on।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The president himself attended the opening ceremony.",
+      "bn": "রাষ্ট্রপতি নিজেই উদ্বোধনী অনুষ্ঠানে উপস্থিত হয়েছিলেন।",
+      "note": "himself হলো Emphatic Pronoun (জোর দেওয়ার জন্য)।"
+    },
+    {
+      "en": "She looked at herself in the mirror.",
+      "bn": "সে আয়নায় নিজেকে দেখল।",
+      "note": "herself হলো Reflexive Pronoun (Subject = Object)।"
+    },
+    {
+      "en": "They enjoyed themselves at the picnic.",
+      "bn": "তারা পিকনিকে দারুণ আনন্দ উপভোগ করেছিল।",
+      "note": "enjoyed + themselves।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Enjoy-এর পর সরাসরি Object থাকলে Reflexive লাগে না",
+      "exceptionText": "যদি Enjoy-এর পরে সরাসরি কোনো Noun Object থাকে, তবে Reflexive Pronoun দরকার নেই। কিন্তু কোনো Object না থাকলে Reflexive বসাতে হয়।",
+      "exampleEn": "He enjoyed the movie (Object present) vs He enjoyed himself at the party (No direct object).",
+      "exampleBn": "সে সিনেমাটি উপভোগ করল বনাম সে পার্টিতে নিজে আনন্দ করল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Myself did the work.",
+      "correct": "I did the work myself. (or I myself did the work)",
+      "reasonBn": "Myself কখনো একক Subject হতে পারে না।"
+    },
+    {
+      "mistake": "He absented from the examination yesterday.",
+      "correct": "He absented himself from the examination yesterday.",
+      "reasonBn": "Absent-এর পর reflexive pronoun \"himself\" বসানো বাধ্যতামূলক।"
+    }
+  ],
+  "tags": [
+    "reflexive pronoun",
+    "emphatic pronoun",
+    "myself",
+    "himself",
+    "avail of",
+    "absent himself",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40201,
+      "question": "In \"The queen herself gave the awards\", what kind of pronoun is \"herself\"?",
+      "questionBn": "\"The queen herself gave the awards\" বাক্যে \"herself\" কোন ধরনের সর্বনাম?",
+      "options": [
+        "Reflexive Pronoun",
+        "Emphatic Pronoun",
+        "Relative Pronoun",
+        "Demonstrative Pronoun"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "এখানে herself শব্দটি queen-এর ওপর অতিরিক্ত জোর দিতে বসেছে এবং এটি বাদ দিলেও বাক্য অর্থপূর্ণ থাকে, তাই এটি Emphatic Pronoun।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 40202,
+      "question": "Choose the correct sentence:",
+      "questionBn": "সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "Myself saw the incident.",
+        "He and myself went to the library.",
+        "He and I went to the library.",
+        "Him and me went to the library."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Subject হিসেবে শুধুমাত্র Nominative Pronoun \"I\" বসবে; myself কখনো সাবজেক্ট হতে পারে না।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40201,
+      "type": "Fill in with Reflexive Pronoun",
+      "prompt": "You must avail _____ of this golden opportunity.",
+      "correctAnswer": "yourself",
+      "explanationBn": "You-এর সাথে reflexive pronoun হিসেবে yourself বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Reflexive and Emphatic pronoun discrimination:",
+      "subQuestions": [
+        {
+          "questionText": "How do you distinguish a Reflexive Pronoun from an Emphatic Pronoun?",
+          "answer": "Remove the self-word: if the sentence collapses grammatically, it is Reflexive (He hurt himself). If the sentence remains complete and intact, it is Emphatic (He himself said so).",
+          "explanationBn": "রিমুভাল টেস্টের মাধ্যমে পার্থক্য নিরূপণ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি প্রোনাউন টেস্টে এটি একটি স্ট্যান্ডার্ড প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'personal-and-possessive-pronouns': {
+  "id": 401,
+  "chapterId": 4,
+  "topicNo": "০১",
+  "titleEn": "Personal & Possessive Pronouns: Forms and Cases",
+  "titleBn": "ব্যক্তিবাচক ও অধিকারবাচক সর্বনাম: বিভিন্ন রূপ ও কারক",
+  "slug": "personal-and-possessive-pronouns",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "Noun-এর পুনরাবৃত্তি রোধে নামের পরিবর্তে যে শব্দ বসে তাকে Pronoun বলে। Personal Pronoun-এর Subjective, Objective এবং Possessive Adjective বনাম Possessive Pronoun-এর পার্থক্য।",
+  "definitionEn": "A pronoun is a word used in place of a noun. A personal pronoun refers to a specific person or thing, inflecting for person, number, gender, and case.",
+  "definitionBn": "Noun-এর পুনরাবৃত্তি পরিহার করে তার পরিবর্তে যে পদ ব্যবহৃত হয় তাকে Pronoun (সর্বনাম) বলে। নির্দিষ্ট ব্যক্তি বা বস্তুকে নির্দেশ করতে Personal Pronoun ব্যবহৃত হয়।",
+  "explanationBn": "Personal Pronoun-এর তিনটি রূপ: ১. Subjective / Nominative (I, We, You, He, She, They), ২. Objective (Me, Us, You, Him, Her, Them), ৩. Possessive। Possessive আবার দুই রকম: Possessive Adjective (My, Our, Your, His, Her, Their — যার পরে Noun বসে) এবং Possessive Pronoun (Mine, Ours, Yours, His, Hers, Theirs — যার পরে কোনো Noun বসে না)।",
+  "teacherGoldenTips": "গোল্ডেন রুল: Noun সাথে থাকলে Possessive Adjective (This is my pen)। Noun একা থাকলে Possessive Pronoun (This pen is mine)! কখনো Mine pen বা Theirs house বলা যাবে না!",
+  "mainFormula": "Subject Form + Verb | Verb/Preposition + Object Form | Possessive Adj + Noun | Possessive Pronoun (No Noun)",
+  "formulas": [
+    {
+      "label": "Subjective (কর্তা)",
+      "structure": "I, We, You, He, She, They, It",
+      "tag": "Actor",
+      "example": "He is my best friend."
+    },
+    {
+      "label": "Objective (কর্ম)",
+      "structure": "Me, Us, You, Him, Her, Them, It",
+      "tag": "Receiver",
+      "example": "The teacher called him."
+    },
+    {
+      "label": "Possessive Adjective",
+      "structure": "My, Our, Your, His, Her, Its, Their + Noun",
+      "tag": "With Noun",
+      "example": "This is our school."
+    },
+    {
+      "label": "Possessive Pronoun",
+      "structure": "Mine, Ours, Yours, His, Hers, Theirs (Stand-alone)",
+      "tag": "Independent",
+      "example": "That car is theirs."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Preposition-এর পরে Objective Form-এর ব্যবহার",
+      "nameEn": "Objective Case after Prepositions",
+      "formula": "Preposition + Objective Pronoun (me, him, her, us, them)",
+      "shortcutTrick": "Preposition এবং Let-এর পরে কখনো I, He, She বসবে না; me, him, her বসবে!",
+      "descriptionBn": "Between, with, for, to, by ইত্যাদি Preposition-এর পরে Pronoun-এর অবজেক্টিভ কেস বসে।",
+      "examples": [
+        {
+          "en": "There is no secret between you and me (NOT you and I).",
+          "bn": "তোমার এবং আমার মাঝে কোনো গোপন কথা নেই।",
+          "note": "between preposition থাকায় me বসেছে।"
+        },
+        {
+          "en": "Let him and me do the work (NOT he and I).",
+          "bn": "তাকে এবং আমাকে কাজটি করতে দাও।",
+          "note": "Let-এর পরে objective case বসে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Than বা As-এর পরে Pronoun-এর Case",
+      "nameEn": "Case of Pronoun after \"Than\" and \"As\"",
+      "formula": "Subject 1 + Verb + than / as + Subjective Pronoun (I, he, she, they)",
+      "shortcutTrick": "তুলনা যদি দুটি Subject-এর মাঝে হয়, তবে than-এর পরেও Subjective pronoun বসবে!",
+      "descriptionBn": "He is taller than I (am) — এখানে মূলত \"am\" উহ্য থাকে, তাই Than-এর পর I বসে, me নয়। তবে ইনফরমাল স্পোকেনে me প্রচলিত হলেও আনুষ্ঠানিক ব্যাকরণে Subjective রূপ মানা হয়।",
+      "examples": [
+        {
+          "en": "He runs faster than I (am/do).",
+          "bn": "সে আমার চেয়ে দ্রুত দৌড়ায়।",
+          "note": "Subjective case (I)।"
+        },
+        {
+          "en": "She is as smart as he (is).",
+          "bn": "সে তার মতোই চতুর।",
+          "note": "Subjective case (he)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "This book is mine, but that one is yours.",
+      "bn": "এই বইটি আমার, কিন্তু ঐটি তোমার।",
+      "note": "mine এবং yours হলো Possessive Pronouns।"
+    },
+    {
+      "en": "Let us discuss the matter calmly.",
+      "bn": "আসুন আমরা বিষয়টি শান্তভাবে আলোচনা করি।",
+      "note": "Let-এর পর objective \"us\"।"
+    },
+    {
+      "en": "It was he who solved the problem.",
+      "bn": "তিনিই সেই ব্যক্তি যিনি সমস্যাটি সমাধান করেছিলেন।",
+      "note": "Be verb-এর পর Nominative pronoun (he)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Its বনাম It's-এর পার্থক্য",
+      "exceptionText": "\"Its\" হলো Possessive Adjective (এর), কিন্তু \"It's\" হলো \"It is\" বা \"It has\"-এর সংক্ষেপণ (Contraction)। Possessive-এ কখনো অ্যাপোস্ট্রফি বসবে না।",
+      "exampleEn": "The dog wagged its tail (NOT it's tail). / It's raining outside (It is raining).",
+      "exampleBn": "কুকুরটি তার লেজ নাড়ল / বাইরে বৃষ্টি হচ্ছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Between you and I, he is a fraud.",
+      "correct": "Between you and me, he is a fraud.",
+      "reasonBn": "Between একটি Preposition, এর পরে Objective Pronoun \"me\" বসবে।"
+    },
+    {
+      "mistake": "This bag is her's.",
+      "correct": "This bag is hers.",
+      "reasonBn": "Possessive pronoun-এ কোনো অ্যাপোস্ট্রফি (') বসে না (Hers, Ours, Theirs, Yours)।"
+    }
+  ],
+  "tags": [
+    "pronoun",
+    "personal pronoun",
+    "possessive pronoun",
+    "possessive adjective",
+    "between you and me",
+    "case",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 40101,
+      "question": "Complete the sentence: \"There are no differences between you and _____.\"",
+      "questionBn": "\"There are no differences between you and _____\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "I",
+        "me",
+        "myself",
+        "mine"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Preposition \"between\"-এর পরে Objective Pronoun হিসেবে \"me\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 40102,
+      "question": "In \"This laptop is mine\", the underlined word \"mine\" is a/an —",
+      "questionBn": "\"This laptop is mine\" বাক্যে \"mine\" কী ধরনের পদ?",
+      "options": [
+        "Possessive Adjective",
+        "Possessive Pronoun",
+        "Demonstrative Pronoun",
+        "Reflexive Pronoun"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Mine একা বসে অধিকার প্রকাশ করায় এটি Possessive Pronoun (যদি \"my laptop\" হতো তবে my হতো Possessive Adjective)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 40101,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"Let you and I finish the assignment today.\"",
+      "correctAnswer": "Let you and me finish the assignment today.",
+      "explanationBn": "Let-এর পরে Objective Case হিসেবে me বসবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 40101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Personal and Possessive Pronoun usage rules:",
+      "subQuestions": [
+        {
+          "questionText": "Distinguish between \"Possessive Adjective\" and \"Possessive Pronoun\" with two pairs of examples.",
+          "answer": "Possessive Adjectives modify nouns (This is my pen / our school). Possessive Pronouns stand alone (This pen is mine / That school is ours).",
+          "explanationBn": "নাউনের সহাবস্থান বনাম স্বয়ংসম্পূর্ণ অবস্থানের পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইটিং ও প্রোনাউন রেফারেন্সিংয়ের ক্ষেত্রে এটি অত্যন্ত গুরুত্বপূর্ণ।",
+      "isVerified": true
+    }
+  ]
+},
+  'noun-advanced-usage-errors': {
+  "id": 305,
+  "chapterId": 3,
+  "topicNo": "০৫",
+  "titleEn": "Noun Usages, Subject-Verb Concord & SSC Pitfalls",
+  "titleBn": "বিশেষ্যের অগ্রবর্তী ব্যবহারবিধি ও সাধারণ ভুলত্রুটি",
+  "slug": "noun-advanced-usage-errors",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "দেখতে বহুবচন কিন্তু অর্থে একবচন (Physics, News), দেখতে একবচন কিন্তু অর্থে বহুবচন (Cattle, People, Poultry) এবং পরীক্ষায় সবচেয়ে বেশি আসা বিশেষ্য সংক্রান্ত ফাঁদসমূহ।",
+  "definitionEn": "Advanced noun usage refers to idiomatic concord, collective numerical nouns, and deceptive morphological forms that govern singular or plural verb agreement.",
+  "definitionBn": "বিশেষ্যের বাহ্যিক রূপ এবং প্রকৃত অর্থ যখন ভিন্ন হয়, তখন ক্রিয়ার সাথে তাদের সমন্বয় করার উচ্চতর নিয়মাবলীকে Noun Concord ও ব্যবহারবিধি বলে।",
+  "explanationBn": "অনেক শব্দ দেখতে Plural (শেষে s আছে) কিন্তু অর্থে একবচন, যেমন: Mathematics, Politics, Ethics, News, Innings, Measles — এদের সাথে Singular Verb বসে। আবার অনেক শব্দ দেখতে Singular (শেষে s নেই) কিন্তু অর্থে বহুবচন, যেমন: Cattle, People, Clergy, Poultry, Folk, Gentry — এদের সাথে সর্বদা Plural Verb বসে।",
+  "teacherGoldenTips": "মনে রাখবেন: ডজন, শ, হাজার (Dozen, Hundred, Thousand)-এর পূর্বে নির্দিষ্ট সংখ্যা থাকলে এদের সাথে s বসে না (Two hundred boys, NOT Two hundreds boys)। কিন্তু অনির্দিষ্ট বোঝাতে s এবং of বসে (Hundreds of boys)!",
+  "mainFormula": "Form in -S but Singular in sense = Singular Verb | No -S but Plural in sense = Plural Verb",
+  "formulas": [
+    {
+      "label": "Singular Academic Subjects",
+      "structure": "Physics, Economics, Civics, Mathematics + Singular Verb",
+      "tag": "Subject Name",
+      "example": "Mathematics is my favorite subject."
+    },
+    {
+      "label": "Always Plural Groups",
+      "structure": "Cattle, Police, People, Poultry + Plural Verb",
+      "tag": "Plural Concord",
+      "example": "The cattle are grazing in the meadow."
+    },
+    {
+      "label": "Pair Nouns",
+      "structure": "Scissors, Spectacles, Trousers + Plural Verb | A pair of + Singular Verb",
+      "tag": "Pairs",
+      "example": "My trousers are dirty. A pair of trousers was bought."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Dozen, Hundred, Thousand-এর ব্যবহারের নিয়ম",
+      "nameEn": "Definite vs Indefinite Numerical Nouns",
+      "formula": "Number + (Dozen/Hundred/Thousand) + Plural Noun | (Dozens/Hundreds/Thousands) + OF + Plural Noun",
+      "shortcutTrick": "নির্দিষ্ট সংখ্যা (1, 2, 3) থাকলে s নেই; সংখ্যা না থাকলে s এবং of থাকবে!",
+      "descriptionBn": "Two dozen eggs (ডজন এর সাথে s হবে না)। কিন্তু Dozens of eggs (ডজন ডজন ডিম)।",
+      "examples": [
+        {
+          "en": "I bought five hundred bricks (NOT five hundreds).",
+          "bn": "আমি পাঁচশত ইট কিনেছিলাম।",
+          "note": "পাঁচ নির্দিষ্ট সংখ্যা থাকায় hundred।"
+        },
+        {
+          "en": "Thousands of people attended the public meeting.",
+          "bn": "হাজার হাজার মানুষ জনসভায় যোগ দিয়েছিল।",
+          "note": "অনির্দিষ্ট সংখ্যা থাকায় thousands of।"
+        }
+      ]
+    },
+    {
+      "nameBn": "A pair of থাকলে Verb-এর পরিবর্তন",
+      "nameEn": "Pair Nouns with \"A pair of\"",
+      "formula": "Scissors/Shoes/Trousers alone = Plural Verb | \"A pair of\" + Noun = Singular Verb",
+      "shortcutTrick": "\"A pair of\" থাকলে Subject হয়ে যায় \"pair\", যা Singular!",
+      "descriptionBn": "My shoes are new (প্লুরাল)। কিন্তু A pair of shoes was purchased yesterday (সিঙ্গুলার)।",
+      "examples": [
+        {
+          "en": "The scissors are very blunt.",
+          "bn": "কাঁচিটি বেশ ভোঁতা।",
+          "note": "শুধু scissors থাকায় are (Plural)।"
+        },
+        {
+          "en": "A pair of scissors was lying on the desk.",
+          "bn": "একটি কাঁচি ডেস্কের ওপর পড়ে ছিল।",
+          "note": "a pair of থাকায় was (Singular)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Politics is not meant for dishonest people.",
+      "bn": "রাজনীতি অসৎ লোকদের জন্য নয়।",
+      "note": "Politics দেখতে প্লুরাল হলেও Singular Verb (is) নেয়।"
+    },
+    {
+      "en": "The police have arrested the notorious criminal.",
+      "bn": "পুলিশ কুখ্যাত অপরাধীটিকে গ্রেপ্তার করেছে।",
+      "note": "Police সর্বদা Plural Verb (have) নেয়।"
+    },
+    {
+      "en": "Gulliver's Travels was written by Jonathan Swift.",
+      "bn": "গালিভার্স ট্রাভেলস জোনাথন সুইফটের লেখা।",
+      "note": "বইয়ের নাম শেষে s থাকলেও Singular।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Means, Pains, Wages-এর দ্বৈত আচরণ",
+      "exceptionText": "Wages অর্থ পাপের ফল হলে Singular (The wages of sin is death), কিন্তু পারিশ্রমিক হলে Plural (His wages are very low)।",
+      "exampleEn": "The wages of sin is death (Singular) vs Daily wages are paid every evening (Plural).",
+      "exampleBn": "পাপের ফল মৃত্যু বনাম দৈনিক মজুরি প্রতি সন্ধ্যায় দেওয়া হয়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Mathematics are a difficult subject.",
+      "correct": "Mathematics is a difficult subject.",
+      "reasonBn": "Mathematics বিষয়ের নাম হিসেবে একটি একক সত্তা, তাই Singular Verb হবে।"
+    },
+    {
+      "mistake": "He gave me two dozens bananas.",
+      "correct": "He gave me two dozen bananas.",
+      "reasonBn": "নির্দিষ্ট সংখ্যা (two)-র পরে dozen-এর সাথে s বসে না।"
+    }
+  ],
+  "tags": [
+    "noun concord",
+    "subject-verb agreement",
+    "dozen",
+    "hundred",
+    "police",
+    "cattle",
+    "mathematics",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 30501,
+      "question": "Which of the following sentences has the correct Subject-Verb Agreement?",
+      "questionBn": "কোন বাক্যটিতে সঠিক সাবজেক্ট-ভার্ব এগ্রিমেন্ট রয়েছে?",
+      "options": [
+        "The cattle is grazing peacefully.",
+        "The cattle are grazing peacefully.",
+        "The cattles are grazing peacefully.",
+        "The cattle has grazing peacefully."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Cattle নিজেই Plural Noun (এর সাথে s বসে না) এবং এটি সর্বদা Plural Verb \"are\" গ্রহণ করে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 30502,
+      "question": "He bought three _____ mangoes from the market.",
+      "questionBn": "\"He bought three _____ mangoes from the market\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "dozens of",
+        "dozens",
+        "dozen",
+        "dozen of"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "নির্দিষ্ট সংখ্যা Three-এর পরে শুধুমাত্র \"dozen\" বসবে, s বা of বসবে না।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 30501,
+      "type": "Error Correction",
+      "prompt": "Correct the error: \"Physics are my favorite science subject, but the informations are hard.\"",
+      "correctAnswer": "Physics is my favorite science subject, but the information is hard.",
+      "explanationBn": "Physics এবং Information উভয়ই Singular Verb গ্রহণ করে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 30501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Advanced Noun concordance and Subject-Verb Agreement:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the rule of agreement for nouns like \"Mathematics\", \"News\", \"Police\", and \"Cattle\".",
+          "answer": "Mathematics and News end in -s but take singular verbs. Police and Cattle have no -s but represent collective multitudes and take plural verbs.",
+          "explanationBn": "বাহ্যিক রূপ ও অর্থগত কার্যকারিতার স্বাতন্ত্র্য।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও এইচএসসি উভয় ক্লাসের কমন এরর কারেকশন ও রাইট ফর্ম অব ভার্বসে অত্যন্ত জরুরি।",
+      "isVerified": true
+    }
+  ]
+},
+  'noun-cases-possessives': {
+  "id": 304,
+  "chapterId": 3,
+  "topicNo": "০৪",
+  "titleEn": "Noun Cases & The Possessive Case (Apostrophe Rules)",
+  "titleBn": "কারক ও সম্বন্ধ পদ: অ্যাপোস্ট্রফির সঠিক ব্যবহারবিধি",
+  "slug": "noun-cases-possessives",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "বাক্যের ক্রিয়ার সাথে Noun-এর সম্পর্ককে Case বলে। Nominative (কর্তা), Objective (কর্ম) এবং বিশেষ করে Possessive ('s / of) ব্যবহারের সুনির্দিষ্ট নিয়মাবলি।",
+  "definitionEn": "Case denotes the grammatical function and relation of a noun or pronoun to other words in a sentence. The Possessive (Genitive) case expresses ownership, origin, or association.",
+  "definitionBn": "বাক্যের অন্য কোনো পদের (বিশেষ করে ক্রিয়ার) সাথে Noun বা Pronoun-এর সম্পর্ককে Case (কারক) বলে। মালিকানা বা সম্বন্ধ প্রকাশে Possessive Case ('s) ব্যবহৃত হয়।",
+  "explanationBn": "প্রধান Case চারটি: ১. Nominative Case (Subject হিসেবে), ২. Objective / Accusative Case (Object হিসেবে), ৩. Dative Case (Indirect Object হিসেবে), ৪. Possessive / Genitive Case (মালিকানা বা অধিকার বোঝাতে: Rahim's pen, Teacher's book)।",
+  "teacherGoldenTips": "সজীব বনাম নির্জীবের অ্যাপোস্ট্রফি নিয়ম: প্রাণিবাচক বা ব্যক্তির ক্ষেত্রে 's বসে (Rahim's cat, Boy's bag)। কিন্তু অচেতন জড়বস্তুর ক্ষেত্রে কখনো 's বসে না, \"of\" দিয়ে প্রকাশ করতে হয় (The leg of the table, NOT Table's leg)!",
+  "mainFormula": "Living Beings -> Noun + 's | Inanimate Objects -> The + [Noun] + OF + [Object]",
+  "formulas": [
+    {
+      "label": "Singular Living Noun",
+      "structure": "Noun + 's",
+      "tag": "Living Singular",
+      "example": "Boy's school, Girl's dress, Teacher's advice"
+    },
+    {
+      "label": "Plural Ending in -S",
+      "structure": "Plural Noun ending in s + only ' (Apostrophe)",
+      "tag": "Plural S",
+      "example": "Boys' school, Girls' hostel, Teachers' room"
+    },
+    {
+      "label": "Plural NOT Ending in -S",
+      "structure": "Irregular Plural + 's",
+      "tag": "Irregular Plural",
+      "example": "Children's park, Women's college, Men's club"
+    },
+    {
+      "label": "Inanimate Rule",
+      "structure": "The + [Part] + OF + The + [Object]",
+      "tag": "Non-living",
+      "example": "The roof of the house (NOT The house's roof)"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "বহুবচনের শেষে অ্যাপোস্ট্রফির সঠিক অবস্থান",
+      "nameEn": "Apostrophe Placement on Plurals Ending in S",
+      "formula": "Plural with S + ' (শুধু কমা, নতুন কোনো s বসবে না)",
+      "shortcutTrick": "শব্দের শেষে আগেই s থাকলে শুধু অ্যাপোস্ট্রফি (') কমাটি উপরে বসবে, আর কোনো s লাগবে না!",
+      "descriptionBn": "Boy-এর প্লুরাল Boys। এখন বালকদের স্কুল লিখতে হলে Boys-এর পর শুধু কমা বসবে: Boys' school। Boy's school লিখলে একজন বালকের স্কুল বোঝায়!",
+      "examples": [
+        {
+          "en": "This is a boys' high school (Plural).",
+          "bn": "এটি একটি বালক উচ্চ বিদ্যালয়।",
+          "note": "অনেক বালকের স্কুল বোঝাতে boys'।"
+        },
+        {
+          "en": "The students' hostel is newly painted.",
+          "bn": "শিক্ষার্থীদের ছাত্রাবাসটি নতুন রং করা হয়েছে।",
+          "note": "students-এর পর শুধু অ্যাপোস্ট্রফি।"
+        }
+      ]
+    },
+    {
+      "nameBn": "যৌথ মালিকানা বনাম পৃথক মালিকানা",
+      "nameEn": "Joint Possession vs Separate Possession",
+      "formula": "Joint (একত্রে মালিক): Name1 and Name2's + Singular/Plural Noun | Separate (আলাদা মালিক): Name1's and Name2's + Plural Noun",
+      "shortcutTrick": "সম্পত্তি একজনের হলে শুধু শেষের নামে 's। সম্পত্তি আলাদা হলে দুজনের নামেই 's!",
+      "descriptionBn": "Rahim and Karim's shop মানে রহিম ও করিমের যৌথ একটি দোকান। কিন্তু Rahim's and Karim's shops মানে রহিমের দোকান এবং করিমের দোকান দুটি আলাদা!",
+      "examples": [
+        {
+          "en": "Rahim and Karim's father is a doctor.",
+          "bn": "রহিম ও করিমের বাবা একজন ডাক্তার।",
+          "note": "তারা দুই ভাই, বাবা একজনই, তাই করিমের সাথে 's।"
+        },
+        {
+          "en": "Shakespeare's and Milton's poems are immortal.",
+          "bn": "শেক্সপিয়র এবং মিল্টনের কবিতাসমূহ অমর।",
+          "note": "দুজনের কবিতা আলাদা, তাই উভয়ের সাথেই 's।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The legs of the table are broken.",
+      "bn": "টেবিলের পায়াগুলো ভেঙে গেছে।",
+      "note": "জড়বস্তু হওয়ায় \"table's legs\" হবে না, \"legs of the table\" হবে।"
+    },
+    {
+      "en": "Children's literature should be inspiring.",
+      "bn": "শিশুসাহিত্য অনুপ্রেরণাদায়ক হওয়া উচিত।",
+      "note": "Children-এর শেষে s না থাকায় 's বসেছে।"
+    },
+    {
+      "en": "He took a day's leave from the office.",
+      "bn": "সে অফিস থেকে একদিনের ছুটি নিল।",
+      "note": "সময় পরিমাপে 's বসে (A day's leave, a stone's throw)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "জড়বস্তু হলেও সময়, দূরত্ব ও ওজনে 's গ্রাহ্য",
+      "exceptionText": "সময় (Time), দূরত্ব (Space/Distance) এবং ওজন (Weight) প্রকাশক অচেতন Noun-এর ক্ষেত্রে নির্দ্বিধায় 's ব্যবহার করা যায়।",
+      "exampleEn": "A day's journey / A week's holiday / At a stone's throw / A pound's weight.",
+      "exampleBn": "একদিনের যাত্রা / এক সপ্তাহের ছুটি / ঢিল ছোঁড়া দূরত্বে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The fan's blade is moving fast.",
+      "correct": "The blade of the fan is moving fast.",
+      "reasonBn": "পাখা একটি অচেতন জড়বস্তু, তাই fan's blade না লিখে the blade of the fan লিখতে হবে।"
+    },
+    {
+      "mistake": "He lives in a boy's hostel.",
+      "correct": "He lives in a boys' hostel.",
+      "reasonBn": "হোস্টেল অনেক বালকের জন্য, তাই boys' হবে।"
+    }
+  ],
+  "tags": [
+    "case",
+    "possessive case",
+    "apostrophe",
+    "genitive case",
+    "nominative",
+    "objective",
+    "joint possession",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 30401,
+      "question": "Which of the following possessive forms is grammatically INCORRECT?",
+      "questionBn": "নিচের কোন পজেসিভ রূপটি ব্যাকরণগতভাবে ভুল?",
+      "options": [
+        "The cat's tail",
+        "The table's leg",
+        "A week's holiday",
+        "Children's park"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "টেবিল একটি জড়বস্তু, তাই \"The table's leg\" ভুল; সঠিক রূপ \"The leg of the table\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 30402,
+      "question": "Which is the correct form to indicate a school for girls?",
+      "questionBn": "বালিকাদের জন্য একটি বিদ্যালয় বোঝাতে সঠিক রূপ কোনটি?",
+      "options": [
+        "Girl's school",
+        "Girls' school",
+        "Girls school",
+        "Girles school"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "অনেক বালিকার স্কুল বোঝাতে বহুবচন Girls-এর পর শুধু অ্যাপোস্ট্রফি (') বসে: Girls' school।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 30401,
+      "type": "Rewrite using Possessive Case",
+      "prompt": "Rewrite using an apostrophe where appropriate: \"The car belonging to the headmaster was parked outside.\"",
+      "correctAnswer": "The headmaster's car was parked outside.",
+      "explanationBn": "ব্যক্তিবাচক পজেসিভ রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 30401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Apostrophe and Genitive case correction exercises:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the sentence: \"The chair's handle is broken, so he went to a boys's shop.\"",
+          "answer": "The handle of the chair is broken, so he went to a boys' shop.",
+          "explanationBn": "জড়বস্তুর নিয়ম এবং প্লুরাল অ্যাপোস্ট্রফির সংশোধন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি রাইটিং ও পাংকচুয়েশনে অ্যাপোস্ট্রফি ভুল অন্যতম প্রধান মার্কস কাটার কারণ।",
+      "isVerified": true
+    }
+  ]
+},
+  'compound-nouns-formation': {
+  "id": 303,
+  "chapterId": 3,
+  "topicNo": "০৩",
+  "titleEn": "Compound Nouns & Rules of Pluralization",
+  "titleBn": "যৌগিক বিশেষ্য পদ ও বহুবচন করার নিয়ম (Compound Nouns)",
+  "slug": "compound-nouns-formation",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "দুই বা ততোধিক শব্দ যুক্ত হয়ে যখন একটি একক বিশেষ্য পদ হিসেবে কাজ করে তখন তাকে Compound Noun বলে। হাইফেনযুক্ত ও অ-হাইফেনযুক্ত কম্পাউন্ডের গঠন ও প্লুরাল রুলস।",
+  "definitionEn": "A compound noun is a noun formed by combining two or more words, functioning syntactically as a single lexical and semantic unit.",
+  "definitionBn": "দুই বা ততোধিক শব্দ একত্রে মিলিত হয়ে যখন একটি একক ব্যক্তি, বস্তু বা ধারণাকে প্রকাশ করে তখন তাকে Compound Noun (যৌগিক বিশেষ্য) বলে।",
+  "explanationBn": "কম্পাউন্ড নাউন ৩ রূপে দেখা যায়: ১. Open/Spaced (School bus, Ice cream), ২. Hyphenated (Brother-in-law, Mother-in-law, Passers-by), ৩. Closed/Solid (Classroom, Toothpaste, Sunflowe)। এদের বহুবচন করার সময় মূল শব্দটিতে (Head Word) -s যুক্ত করতে হয়।",
+  "teacherGoldenTips": "গোল্ডেন ট্রিক: হাইফেনযুক্ত কম্পাউন্ডের ক্ষেত্রে যে শব্দটি প্রধান ব্যক্তি বা বস্তুকে নির্দেশ করে (Head Noun), শুধুমাত্র সেটির সাথে -s যোগ করতে হয়। যেমন: Brother-in-law-এর প্রধান শব্দ Brother, তাই Brothers-in-law (Brother-in-laws কখনো নয়)!",
+  "mainFormula": "Head Word + Suffix/Preposition = Pluralize the HEAD WORD only",
+  "formulas": [
+    {
+      "label": "Noun + Noun",
+      "structure": "Noun 1 + Noun 2",
+      "tag": "Solid / Open",
+      "example": "Water bottle, Bedroom, Bus stop"
+    },
+    {
+      "label": "Noun + Prepositional Phrase",
+      "structure": "Head Noun + Preposition + Noun",
+      "tag": "Hyphenated",
+      "example": "Commander-in-chief, Father-in-law"
+    },
+    {
+      "label": "Noun + Preposition/Adverb",
+      "structure": "Noun + Adverbial particle",
+      "tag": "Particle Compound",
+      "example": "Passer-by, Looker-on, Runner-up"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "হাইফেনযুক্ত সম্পর্কের শব্দের বহুবচন",
+      "nameEn": "Pluralization of Relational Compound Nouns",
+      "formula": "Head Word + s/es + Hyphenated Phrase",
+      "shortcutTrick": "-in-law বা -in-chief-এর সাথে s নয়, মূল মানুষটির সাথে s বসবে!",
+      "descriptionBn": "Son-in-law, Daughter-in-law, Commander-in-chief ইত্যাদি পদে মূল ব্যক্তি হলো Son, Daughter, Commander। তাই বহুবচনে এদের সাথে s যোগ হয়।",
+      "examples": [
+        {
+          "en": "Son-in-law -> Sons-in-law (NOT Son-in-laws)",
+          "bn": "জামাতা -> জামাতাগণ",
+          "note": "Sons-এর সাথে s বসেছে।"
+        },
+        {
+          "en": "Commander-in-chief -> Commanders-in-chief",
+          "bn": "প্রধান সেনাপতি -> প্রধান সেনাপতিগণ",
+          "note": "Commanders-এর সাথে s বসেছে।"
+        },
+        {
+          "en": "Passer-by -> Passers-by",
+          "bn": "পথচারী -> পথচারীগণ",
+          "note": "Passers-এর সাথে s বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Man ও Woman দিয়ে গঠিত কম্পাউন্ডের দ্বৈত বহুবচন",
+      "nameEn": "Double Pluralization with Man / Woman Compounds",
+      "formula": "Man/Woman (Plural: Men/Women) + Job Noun (Plural: +s)",
+      "shortcutTrick": "যদি পদবিতে পুরুষ বা নারী নির্দেশ করে, তবে উভয় অংশকেই প্লুরাল করতে হয়!",
+      "descriptionBn": "Man-servant, Woman-doctor ইত্যাদি পদে উভয় অংশ বহুবচনে রূপান্তরিত হয়।",
+      "examples": [
+        {
+          "en": "Man-servant -> Men-servants",
+          "bn": "পুরুষ চাকর -> পুরুষ চাকরগণ",
+          "note": "Man->Men এবং servant->servants দুটোই প্লুরাল।"
+        },
+        {
+          "en": "Woman-doctor -> Women-doctors",
+          "bn": "নারী চিকিৎসক -> নারী চিকিৎসকগণ",
+          "note": "Women এবং doctors দুটোই প্লুরাল।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "All his brothers-in-law are established doctors.",
+      "bn": "তার সকল ভগ্নিপতি প্রতিষ্ঠিত চিকিৎসক।",
+      "note": "brothers-in-law হলো সঠিক বহুবচন।"
+    },
+    {
+      "en": "The passers-by helped the injured passenger.",
+      "bn": "পথচারীরা আহত যাত্রীকে সাহায্য করল।",
+      "note": "passers-by হলো সঠিক রূপ।"
+    },
+    {
+      "en": "I need two toothbrushes and a tube of toothpaste.",
+      "bn": "আমার দুটি টুথব্রাশ এবং এক টিউব টুথপেস্ট প্রয়োজন।",
+      "note": "Solid compound nouns।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Spoonful, Handful-এর ক্ষেত্রে ব্যতিক্রমী নিয়ম",
+      "exceptionText": "Ful দিয়ে শেষ হওয়া পরিমাপের ক্ষেত্রে শেষের ful-এর সাথে s যুক্ত হয়, কারণ তারা একটি সামগ্রিক পরিমাণ নির্দেশ করে।",
+      "exampleEn": "Spoonful -> Spoonfuls (NOT Spoonsful) / Handful -> Handfuls.",
+      "exampleBn": "চামচভর্তি / মুঠোভর্তি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He has three brother-in-laws.",
+      "correct": "He has three brothers-in-law.",
+      "reasonBn": "Head word হলো Brother, তাই s বসবে Brother-এর সাথে।"
+    },
+    {
+      "mistake": "Take two spoonsful of syrup.",
+      "correct": "Take two spoonfuls of syrup.",
+      "reasonBn": "Spoonful-এর প্লুরাল সর্বদা spoonfuls।"
+    }
+  ],
+  "tags": [
+    "compound noun",
+    "pluralization",
+    "hyphen",
+    "brothers-in-law",
+    "passers-by",
+    "head word",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 30301,
+      "question": "What is the correct plural form of \"Commander-in-chief\"?",
+      "questionBn": "\"Commander-in-chief\" শব্দের সঠিক বহুবচন রূপ কোনটি?",
+      "options": [
+        "Commander-in-chiefs",
+        "Commanders-in-chief",
+        "Commanders-in-chiefs",
+        "Commander-in-chiefees"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "মূল শব্দ Commander-এর সাথে s যোগ হয়ে \"Commanders-in-chief\" হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 30302,
+      "question": "What is the plural of \"Man-servant\"?",
+      "questionBn": "\"Man-servant\" শব্দের সঠিক বহুবচন রূপ কোনটি?",
+      "options": [
+        "Man-servants",
+        "Men-servants",
+        "Men-servant",
+        "Man-servantess"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Man ও Servant উভয় অংশই বহুবচন হয়ে \"Men-servants\" হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 30301,
+      "type": "Form Plurals",
+      "prompt": "Give the plural forms of: (a) Looker-on, (b) Step-daughter.",
+      "correctAnswer": "(a) Lookers-on, (b) Step-daughters.",
+      "explanationBn": "Head word অনুযায়ী s সংযোজন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 30301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Pluralization of Compound Nouns in standard English:",
+      "subQuestions": [
+        {
+          "questionText": "Give the plural forms of: Passer-by, Son-in-law, Maid-servant.",
+          "answer": "Passers-by, Sons-in-law, Maid-servants.",
+          "explanationBn": "যৌগিক শব্দের বহুবচন রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ও ক্যাডেট কলেজ ভর্তি পরীক্ষায় প্রায়ই এই জাতীয় কম্পাউন্ড প্লুরাল আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'countable-uncountable-nouns': {
+  "id": 302,
+  "chapterId": 3,
+  "topicNo": "০২",
+  "titleEn": "Countable vs Uncountable Nouns & Determiners",
+  "titleBn": "গণনাযোগ্য ও অগণনাযোগ্য বিশেষ্য এবং ডিটারমিনার",
+  "slug": "countable-uncountable-nouns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "যা গণনা করা যায় তা Countable (Pen, Book, Boy), আর যা পরিমাপ বা ওজন করতে হয় তা Uncountable (Water, Milk, Rice, Information, Furniture)। এদের সাথে ব্যবহৃত Determiners-এর সূক্ষ্ম নিয়মাবলি।",
+  "definitionEn": "Countable nouns refer to individual items that can be counted with numbers and have plural forms. Uncountable nouns refer to substances, concepts, or collective masses that cannot be counted as distinct units.",
+  "definitionBn": "যেসব Noun সংখ্যা দিয়ে গণনা করা যায় এবং যাদের বহুবচন রূপ আছে তাদের Countable Noun বলে। যেসব Noun গণনা করা যায় না কেবল পরিমাণ নির্দেশ করা যায় তাদের Uncountable Noun বলে।",
+  "explanationBn": "Uncountable Noun-এর আগে সরাসরি a, an বা সংখ্যা (one, two, three) বসানো সম্পূর্ণ নিষিদ্ধ এবং এদের কখনো বহুবচন (Plural) হয় না। এদের পরিমাপ প্রকাশ করতে \"a piece of\", \"a glass of\", \"a kilo of\" ইত্যাদি Measurement Units ব্যবহার করতে হয়।",
+  "teacherGoldenTips": "ডিটারমিনারের জাদুকরী ছক: Countable-এর সাথে Few / A few / Many / Number of বসে। Uncountable-এর সাথে Little / A little / Much / Amount of বসে!",
+  "mainFormula": "Countable -> Many / Few / A few / Several | Uncountable -> Much / Little / A little / Amount of",
+  "formulas": [
+    {
+      "label": "Countable Modifiers",
+      "structure": "Many + Plural Noun | Few (Almost None) vs A few (Some)",
+      "tag": "Discrete",
+      "example": "Many students. A few books."
+    },
+    {
+      "label": "Uncountable Modifiers",
+      "structure": "Much + Singular Noun | Little (Almost None) vs A little (Some)",
+      "tag": "Mass",
+      "example": "Much milk. A little water."
+    },
+    {
+      "label": "Both Types Accept",
+      "structure": "All, Some, Any, A lot of, Plenty of, More",
+      "tag": "Universal",
+      "example": "Some water / Some pens."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Few বনাম A few এবং Little বনাম A little-এর পার্থক্য",
+      "nameEn": "Negative (Few/Little) vs Positive (A few/A little)",
+      "formula": "Few / Little = Negative (নেই বললেই চলে) | A few / A little = Positive (কিছুটা আছে)",
+      "shortcutTrick": "\"A\" থাকা মানে কিছুটা পজিটিভ পরিমাণ আছে; \"A\" ছাড়া মানে শূন্যের কাছাকাছি নেগেটিভ!",
+      "descriptionBn": "I have few friends মানে আমার বন্ধু নেই বললেই চলে (হতাশাব্যঞ্জক)। কিন্তু I have a few friends মানে আমার কয়েকজন বন্ধু আছে (ইতিবাচক)। একইভাবে তরল বা অবস্তুগত ক্ষেত্রে Little ও A little কাজ করে।",
+      "examples": [
+        {
+          "en": "There is little milk in the glass (almost no milk).",
+          "bn": "গ্লাসে দুধ নেই বললেই চলে।",
+          "note": "নেগেটিভ অর্থ প্রকাশক।"
+        },
+        {
+          "en": "There is a little milk in the glass (some milk remains).",
+          "bn": "গ্লাসে কিছুটা দুধ আছে।",
+          "note": "ইতিবাচক পরিমাণ।"
+        },
+        {
+          "en": "Few people attended the seminar.",
+          "bn": "সেমিনারে লোকজনের উপস্থিতি ছিল না বললেই চলে।",
+          "note": "নগণ্য সংখ্যা।"
+        }
+      ]
+    },
+    {
+      "nameBn": "ইংরেজি ভাষার বিভ্রান্তিকর Uncountable Nouns তালিকা",
+      "nameEn": "Deceptive Uncountable Nouns in English",
+      "formula": "Furniture, Information, Advice, Luggage, Baggage, Scenery, Poetry, Bread, News = ALWAYS UNCOUNTABLE",
+      "shortcutTrick": "এদের শেষে কখনো s/es যোগ করবেন না এবং পূর্বে a/an বসাবেন না!",
+      "descriptionBn": "বাংলা ভাষায় আমরা \"একটি পরামর্শ\", \"অনেক তথ্য\", \"প্রাকৃতিক দৃশ্যগুলো\" বললেও ইংরেজিতে এগুলো সর্বদা Uncountable Singular Noun।",
+      "examples": [
+        {
+          "en": "He gave me some good advice (NOT an advice).",
+          "bn": "সে আমাকে কিছু ভালো উপদেশ দিল।",
+          "note": "advice সর্বদা uncountable।"
+        },
+        {
+          "en": "The scenery of Sylhet is charming (NOT sceneries).",
+          "bn": "সিলেটের প্রাকৃতিক দৃশ্য চমৎকার।",
+          "note": "scenery সর্বদা singular।"
+        },
+        {
+          "en": "I bought two pieces of luggage (NOT two luggages).",
+          "bn": "আমি দুটি লাগেজ কিনেছিলাম।",
+          "note": "pieces of দিয়ে গণনাযোগ্য করা হয়েছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "How many books do you have? / How much water do you drink?",
+      "bn": "তোমার কতগুলো বই আছে? / তুমি কতটা পানি পান করো?",
+      "note": "Books-এর সাথে Many, Water-এর সাথে Much।"
+    },
+    {
+      "en": "She gave me an important piece of information.",
+      "bn": "সে আমাকে একটি গুরুত্বপূর্ণ তথ্য দিল।",
+      "note": "a piece of information হলো সঠিক রূপ।"
+    },
+    {
+      "en": "Poverty is a curse.",
+      "bn": "দারিদ্র্য একটি অভিশাপ।",
+      "note": "Poverty হলো Uncountable Abstract Noun।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "অর্থভেদে একই শব্দের Countable ও Uncountable রূপ",
+      "exceptionText": "অনেক শব্দ অর্থভেদে উভয় রূপেই ব্যবহৃত হতে পারে। যেমন: \"Light\" আলো বোঝাতে Uncountable, কিন্তু বাতি বোঝাতে Countable (Two lights in the room)। \"Paper\" কাগজ বোঝাতে Uncountable, কিন্তু পত্রিকা বা নথিপত্র বোঝাতে Countable (News papers / Documents)।",
+      "exampleEn": "He has gray hair (Uncountable mass) vs I found two gray hairs on his coat (Countable individual strands).",
+      "exampleBn": "তার চুল ধূসর (সমগ্র চুল) বনাম তার কোটে দুটি পাকা চুল পেলাম (দুটি একক চুল)।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He gave me an advice.",
+      "correct": "He gave me a piece of advice.",
+      "reasonBn": "Advice uncountable হওয়ায় সরাসরি \"an\" বসে না; \"a piece of\" যোগ করতে হয়।"
+    },
+    {
+      "mistake": "The sceneries of Cox's Bazar are beautiful.",
+      "correct": "The scenery of Cox's Bazar is beautiful.",
+      "reasonBn": "Scenery শব্দের বহুবচন (sceneries) ইংরেজিতে ব্যাকরণসিদ্ধ নয়।"
+    }
+  ],
+  "tags": [
+    "countable",
+    "uncountable",
+    "few",
+    "a few",
+    "little",
+    "a little",
+    "determiners",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 30201,
+      "question": "Choose the grammatically correct sentence:",
+      "questionBn": "ব্যাকরণগতভাবে সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "He gave me many advices.",
+        "He gave me a good advice.",
+        "He gave me a piece of advice.",
+        "He gave me an advice."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Advice হলো Uncountable Noun, তাই একক পরামর্শ বোঝাতে \"a piece of advice\" ব্যবহার করতে হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 30202,
+      "question": "\"There is _____ hope of his recovery.\" (Expressing almost zero hope)",
+      "questionBn": "\"There is _____ hope of his recovery\" (তার বাঁচার আশা নেই বললেই চলে):",
+      "options": [
+        "a little",
+        "little",
+        "few",
+        "a few"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Hope একটি Uncountable Noun এবং আশা নেই বললেই চলে বোঝাতে নেগেটিভ \"little\" ব্যবহৃত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 30201,
+      "type": "Error Correction",
+      "prompt": "Correct the sentence: \"I bought three breads and some furnitures.\"",
+      "correctAnswer": "I bought three loaves of bread and some furniture.",
+      "explanationBn": "Bread-এর সাথে loaves of এবং Furniture অপরিবর্তিত থাকে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 30201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Determiners and Uncountable Noun rules:",
+      "subQuestions": [
+        {
+          "questionText": "Explain why \"A few\" is positive and \"Few\" is negative with suitable examples.",
+          "answer": "\"Few\" means almost none (negative): He has few friends (lonely). \"A few\" means some (positive): He has a few friends (not alone).",
+          "explanationBn": "পরিমাণ ও সংখ্যার সূক্ষ্ম ব্যাকরণিক পার্থক্য।"
+        }
+      ],
+      "fullExplanationBn": "রাইট ফর্ম অব ভার্বস ও ফিল ইন দ্য ব্ল্যাংকসে বহুল চর্চিত নিয়ম।",
+      "isVerified": true
+    }
+  ]
+},
+  'noun-classification-concrete-abstract': {
+  "id": 301,
+  "chapterId": 3,
+  "topicNo": "০১",
+  "titleEn": "Classification of Nouns: Proper, Common, Collective, Material & Abstract",
+  "titleBn": "বিশেষ্য পদের ৫টি প্রধান শ্রেণিবিভাগ ও মূর্ত-বিমূর্ত ধারণা",
+  "slug": "noun-classification-concrete-abstract",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "কোনো ব্যক্তি, বস্তু, স্থান, গুণ, অবস্থা বা সমষ্টির নামকে Noun বলে। অনুভূতিগ্রাহ্যতার ভিত্তিতে Concrete ও Abstract, এবং অর্থগত ভিত্তিতে ৫ প্রকার শ্রেণিবিভাগ।",
+  "definitionEn": "A noun is a word that functions as the name of a specific object or set of objects, such as person, place, thing, action, quality, state of existence, or idea.",
+  "definitionBn": "যে শব্দ দ্বারা কোনো ব্যক্তি, বস্তু, স্থান, জাতি, সমষ্টি, পদার্থ বা বিমূর্ত গুণের নাম বোঝায় তাকে Noun (বিশেষ্য) বলে।",
+  "explanationBn": "ইন্দ্রিয়গ্রাহ্যতার ভিত্তিতে Noun দুই প্রকার: ১. Concrete Noun (যা পঞ্চেন্দ্রিয় দিয়ে অনুভব করা যায় — দেখা, ছোঁয়া, শোনা, স্বাদ নেওয়া যায়) এবং ২. Abstract Noun (যা ছোঁয়া যায় না, শুধু উপলব্ধি করা যায়, যেমন: Honesty, Love, Freedom)। Concrete Noun আবার চার প্রকার: Proper, Common, Collective এবং Material। অর্থাৎ সর্বমোট ৫টি প্রধান শ্রেণি।",
+  "teacherGoldenTips": "ম্যাজিক কৌশল: Proper Noun নির্দিষ্ট একজনের নাম (Dhaka, Rahim); Common Noun একই জাতের সবার সাধারণ নাম (City, Boy); Collective Noun তাদের সমষ্টিগত দল (Team, Army); Material Noun যা গণনা নয় ওজন করা যায় (Gold, Water); আর Abstract Noun যা কেবল অনুভব করা যায় (Kindness, Courage)!",
+  "mainFormula": "Noun = Concrete (Proper + Common + Collective + Material) + Abstract (Qualities/States/Actions)",
+  "formulas": [
+    {
+      "label": "Proper Noun",
+      "structure": "Specific Unique Name (Capitalized)",
+      "tag": "Individual",
+      "example": "Nazrul, Padma, Bangladesh, Sunday"
+    },
+    {
+      "label": "Common Noun",
+      "structure": "General Shared Class Name",
+      "tag": "Species",
+      "example": "Poet, River, Country, Day"
+    },
+    {
+      "label": "Collective Noun",
+      "structure": "Name of a Group / Collection taken as One",
+      "tag": "Group Unit",
+      "example": "Army, Class, Fleet, Herd, Jury"
+    },
+    {
+      "label": "Material Noun",
+      "structure": "Substance / Matter before crafting into shapes",
+      "tag": "Matter",
+      "example": "Iron, Wood, Milk, Rice, Cotton"
+    },
+    {
+      "label": "Abstract Noun",
+      "structure": "Quality, State, Emotion, or Action (Intangible)",
+      "tag": "Idea/Mind",
+      "example": "Honesty, Youth, Freedom, Wisdom"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Collective Noun-এর সাথে Verb-এর সমন্বয় (Singular vs Plural of Multitude)",
+      "nameEn": "Collective Noun as a Single Unit vs Noun of Multitude",
+      "formula": "United Action = Singular Verb | Divided/Separate Action = Plural Verb (Noun of Multitude)",
+      "shortcutTrick": "দলটি একমত হলে Singular Verb, আর সদস্যদের মধ্যে মতভেদ বা পৃথক আচরণ হলে Plural Verb!",
+      "descriptionBn": "Jury, Committee, Team ইত্যাদি দল এক হয়ে কাজ করলে Singular, কিন্তু সদস্যদের মতামত বা আচরণে বিভাজন থাকলে Plural Verb বসে।",
+      "examples": [
+        {
+          "en": "The jury was unanimous in its verdict (United).",
+          "bn": "জুরি তাদের রায়ে একমত ছিল।",
+          "note": "একমত থাকায় was এবং its (Singular)।"
+        },
+        {
+          "en": "The jury were divided in their opinions (Divided).",
+          "bn": "জুরি সদস্যদের মতামত বিভক্ত ছিল।",
+          "note": "মতভেদ থাকায় were এবং their (Plural of Multitude)।"
+        },
+        {
+          "en": "The team has won the match.",
+          "bn": "দলটি খেলায় জয়লাভ করেছে।",
+          "note": "একক সত্তা হিসেবে জয়ী হওয়ায় has won।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Abstract ও Material Noun যখন Common Noun-এ রূপান্তরিত হয়",
+      "nameEn": "Transformation of Abstract and Material into Common Nouns",
+      "formula": "THE + Material/Abstract Noun + OF + Specific entity = COMMON NOUN",
+      "shortcutTrick": "আগে \"The\" এবং পরে \"of\" বসলেই তা আর Material বা Abstract থাকে না, সরাসরি Common Noun হয়ে যায়!",
+      "descriptionBn": "নির্দিষ্ট কোনো ব্যক্তি বা স্থানের গুণ অথবা নির্দিষ্ট অঞ্চলের পদার্থ বোঝালে Abstract বা Material Noun টি Common Noun হিসেবে গণ্য হয়।",
+      "examples": [
+        {
+          "en": "Water is essential for life (Material Noun).",
+          "bn": "পানি জীবনের জন্য অপরিহার্য।",
+          "note": "সাধারণ অর্থে Material Noun।"
+        },
+        {
+          "en": "The water of this river is pure (Common Noun).",
+          "bn": "এই নদীর পানি বিশুদ্ধ।",
+          "note": "The ... of থাকায় এটি Common Noun।"
+        },
+        {
+          "en": "Honesty is a great virtue (Abstract Noun).",
+          "bn": "সততা একটি মহৎ গুণ।",
+          "note": "সাধারণ অর্থে Abstract Noun।"
+        },
+        {
+          "en": "The honesty of the boy surprised us (Common Noun).",
+          "bn": "বালকটির সততা আমাদের অবাক করল।",
+          "note": "The honesty of... হওয়ায় এটি Common Noun।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "A herd of cattle is passing by.",
+      "bn": "একপাল গবাদিপশু পাশ দিয়ে যাচ্ছে।",
+      "note": "herd = Collective Noun।"
+    },
+    {
+      "en": "Nelson Mandela fought for freedom all his life.",
+      "bn": "নেলসন ম্যান্ডেলা সারাজীবন স্বাধীনতার জন্য লড়াই করেছিলেন।",
+      "note": "Nelson Mandela = Proper, freedom = Abstract।"
+    },
+    {
+      "en": "Ring is made of gold.",
+      "bn": "আংটি স্বর্ণ দ্বারা তৈরি।",
+      "note": "Ring = Common Noun, gold = Material Noun।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Proper Noun যখন Common Noun হয়",
+      "exceptionText": "যখন একজন বিখ্যাত ব্যক্তির নামের সাথে অন্য কারো তুলনা করা হয়, তখন সেই নামটি Proper না থেকে Common Noun হয়ে যায় এবং তার আগে \"the\" অথবা \"a\" বসে।",
+      "exampleEn": "Nazrul is the Byron of Bangladesh (Byron = Common Noun).",
+      "exampleBn": "নজরুল বাংলাদেশের বায়রন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The jury was divided in their opinions.",
+      "correct": "The jury were divided in their opinions.",
+      "reasonBn": "Divided থাকায় জুরির সদস্যরা আলাদা আলাদা মত দিয়েছেন, তাই Noun of Multitude হিসেবে Plural Verb (were) বসবে।"
+    },
+    {
+      "mistake": "He showed a great courage.",
+      "correct": "He showed great courage.",
+      "reasonBn": "Courage একটি Abstract Noun, এর পূর্বে \"a\" বসে না।"
+    }
+  ],
+  "tags": [
+    "noun",
+    "proper noun",
+    "common noun",
+    "collective noun",
+    "material noun",
+    "abstract noun",
+    "noun of multitude",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 30101,
+      "question": "In the sentence \"The kindness of Mohsin is known to all\", what type of noun is \"kindness\"?",
+      "questionBn": "\"The kindness of Mohsin is known to all\" বাক্যে \"kindness\" কোন প্রকার Noun?",
+      "options": [
+        "Abstract Noun",
+        "Common Noun",
+        "Collective Noun",
+        "Material Noun"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "সাধারণত kindness একটি Abstract Noun হলেও \"The ... of\" কাঠামো দ্বারা নির্দিষ্ট করায় এটি Common Noun-এ রূপান্তরিত হয়েছে।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 30102,
+      "question": "Which of the following words is a Collective Noun?",
+      "questionBn": "নিচের কোন শব্দটি একটি Collective Noun (সমষ্টিবাচক বিশেষ্য)?",
+      "options": [
+        "Soldier",
+        "Army",
+        "Bravery",
+        "Iron"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Soldier হলো Common Noun, কিন্তু তাদের সমষ্টি \"Army\" হলো Collective Noun।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 30103,
+      "question": "In \"Nazrul is the Shelley of Bangladesh\", the underlined word \"Shelley\" functions as —",
+      "questionBn": "\"Nazrul is the Shelley of Bangladesh\" বাক্যে \"Shelley\" কোন পদ হিসেবে কাজ করে?",
+      "options": [
+        "Proper Noun",
+        "Common Noun",
+        "Abstract Noun",
+        "Adjective"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "তুলনা বোঝাতে বিখ্যাত ব্যক্তির নামের পূর্বে \"the\" বসলে তা Common Noun-এ পরিণত হয়।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 30101,
+      "type": "Classify Nouns",
+      "prompt": "Classify the nouns: (a) Flock, (b) Silver, (c) Honesty, (d) London.",
+      "correctAnswer": "(a) Collective Noun, (b) Material Noun, (c) Abstract Noun, (d) Proper Noun.",
+      "explanationBn": "শ্রেণিবিভাগ নির্ণয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 30101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Classification and grammatical transformation of nouns:",
+      "subQuestions": [
+        {
+          "questionText": "When does a Material Noun or an Abstract Noun become a Common Noun?",
+          "answer": "When it is preceded by \"the\" and followed by \"of\" to indicate a specific quality or substance belonging to a particular person or place.",
+          "explanationBn": "The + Noun + of গঠনরীতি।"
+        }
+      ],
+      "fullExplanationBn": "বোর্ড পরীক্ষা ও কলেজ ভর্তি পরীক্ষায় এই রূপান্তরটি প্রায় প্রতি বছর আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'conjunction-interjection-overview': {
+  "id": 205,
+  "chapterId": 2,
+  "topicNo": "০৫",
+  "titleEn": "Conjunctions & Interjections",
+  "titleBn": "সংযোজক অব্যয় ও আবেগসূচক অব্যয়",
+  "slug": "conjunction-interjection-overview",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "শব্দ ও বাক্যাংশকে জোড়া লাগানোর মাধ্যম হলো Conjunction (Coordinating, Subordinating, Correlative)। আর মানব মনের আকস্মিক আবেগ প্রকাশের বাহন হলো Interjection।",
+  "definitionEn": "A conjunction connects words, phrases, or clauses. An interjection is an abrupt exclamation expressing sudden feeling or emotion.",
+  "definitionBn": "যে শব্দ দুই বা ততোধিক শব্দ, ফ্রেজ বা ক্লজকে যুক্ত করে তাকে Conjunction বলে। আর যে শব্দ মনের আকস্মিক আনন্দ, দুঃখ, বিস্ময় বা ভয় প্রকাশ করে তাকে Interjection বলে।",
+  "explanationBn": "কঞ্জাংশনের প্রধান ৩টি রূপ: ১. Coordinating Conjunction (FANBOYS: For, And, Nor, But, Or, Yet, So), ২. Subordinating Conjunction (Because, Although, If, When, Unless, Since), ৩. Correlative Conjunction (জোড়ায় জোড়ায় বসে: Either...or, Neither...nor, Not only...but also)।",
+  "teacherGoldenTips": "FANBOYS সূত্র মনে রাখুন: For, And, Nor, But, Or, Yet, So — এই ৭টি হলো ইংরেজি ভাষার একমাত্র Coordinating Conjunctions, যা Compound Sentence তৈরিতে অপরিহার্য!",
+  "mainFormula": "Coordinating: FANBOYS | Subordinating: Complex Clause Joiners | Correlative: Paired Connectors",
+  "formulas": [
+    {
+      "label": "FANBOYS",
+      "structure": "Clause 1, + (for/and/nor/but/or/yet/so) + Clause 2",
+      "tag": "Compound",
+      "example": "He worked hard, yet he failed."
+    },
+    {
+      "label": "Correlative Pair",
+      "structure": "Not only [X] ... but also [Y] (Parallel Structure)",
+      "tag": "Paired",
+      "example": "He is not only intelligent but also hardworking."
+    },
+    {
+      "label": "Interjection Formula",
+      "structure": "Interjection Word! + Complete Sentence",
+      "tag": "Exclamatory",
+      "example": "Alas! We lost our grandfather."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Correlative Conjunctions-এর প্যারালালিজম (Parallelism Rule)",
+      "nameEn": "Parallel Structure with Correlative Conjunctions",
+      "formula": "Not only + [Noun] + but also + [Noun] OR Not only + [Verb] + but also + [Verb]",
+      "shortcutTrick": "Not only-র পর যে পদ থাকবে, but also-র পরও হুবহু একই পদ থাকতে হবে!",
+      "descriptionBn": "উভয় অংশে ব্যাকরণিক সমতা (Parallelism) বজায় না রাখলে বাক্য ভুল হবে।",
+      "examples": [
+        {
+          "en": "He likes not only tea but also coffee (Noun with Noun).",
+          "bn": "সে কেবল চা-ই নয়, কফিও পছন্দ করে।",
+          "note": "সঠিক প্যারালাল কাঠামো।"
+        },
+        {
+          "en": "She not only sang but also danced (Verb with Verb).",
+          "bn": "সে কেবল গানই গায়নি, নাচও করেছে।",
+          "note": "উভয় পাশে Verb।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Lest-এর সাথে Should-এর বাধ্যতামূলক ব্যবহার",
+      "nameEn": "The \"Lest ... should\" Rule",
+      "formula": "Clause + LEST + Subject + SHOULD / MIGHT + Base Verb",
+      "shortcutTrick": "Lest থাকলে বাক্যে অবশ্যই Should বা Might বসবে; নো Negative শব্দ বসবে না!",
+      "descriptionBn": "Lest অর্থ \"পাছে ভয় হয় যে\" বা \"নচেৎ\"। এটি নিজেই একটি নেগেটিভ কনজাংশন, তাই এর ক্লজে not বা never বসানো সম্পূর্ণ নিষিদ্ধ।",
+      "examples": [
+        {
+          "en": "Walk fast lest you should miss the train.",
+          "bn": "দ্রুত হাঁটো পাছে তুমি ট্রেনটি মিস করো।",
+          "note": "Lest-এর পর should + miss বসেছে।"
+        },
+        {
+          "en": "Read attentively lest you should fail in the exam.",
+          "bn": "মনোযোগ দিয়ে পড়ো পাছে তুমি পরীক্ষায় ফেল করো।",
+          "note": "Lest-এর ক্লজে not নিষিদ্ধ।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Although he was ill, he attended the meeting.",
+      "bn": "যদিও সে অসুস্থ ছিল, তবুও সে সভায় উপস্থিত হয়েছিল।",
+      "note": "Although হলো Subordinating Conjunction।"
+    },
+    {
+      "en": "Neither Rifat nor his friends were present.",
+      "bn": "রিফাত বা তার বন্ধুদের কেউই উপস্থিত ছিল না।",
+      "note": "Correlative Conjunction (Neither...nor)।"
+    },
+    {
+      "en": "Hush! The baby is sleeping peacefully.",
+      "bn": "চুপ! শিশুটি শান্তিতে ঘুমাচ্ছে।",
+      "note": "Hush = Interjection।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Though / Although-এর সাথে But ব্যবহার করা যাবে না",
+      "exceptionText": "Though বা Although দিয়ে শুরু হওয়া বাক্যের দ্বিতীয় অংশে \"but\" বসানো ব্যাকরণগত মারাত্মক ভুল। কমা (,) দিয়ে ক্লজ আলাদা করতে হয়।",
+      "exampleEn": "Although he is poor, he is honest (NOT but he is honest).",
+      "exampleBn": "যদিও সে গরিব, তবুও সে সৎ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Walk fast lest you should not miss the train.",
+      "correct": "Walk fast lest you should miss the train.",
+      "reasonBn": "Lest নিজেই নেগেটিভ অর্থ বহন করে, তাই \"not\" বসানো বাহুল্য দোষ (Double Negative)।"
+    },
+    {
+      "mistake": "Though he is rich, but he is a miser.",
+      "correct": "Though he is rich, he is a miser.",
+      "reasonBn": "Though এবং but একই বাক্যে একসাথে বসে না।"
+    }
+  ],
+  "tags": [
+    "conjunction",
+    "fanboys",
+    "subordinating",
+    "correlative",
+    "lest",
+    "interjection",
+    "parallelism",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 20501,
+      "question": "Complete the sentence: \"Run fast lest you _____ miss the bus.\"",
+      "questionBn": "\"Run fast lest you _____ miss the bus\" শূন্যস্থানে কোন মোডালটি বসবে?",
+      "options": [
+        "will",
+        "should",
+        "can",
+        "would"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Lest-এর পর Subject-এর সাথে সর্বদা \"should\" বা \"might\" বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 20502,
+      "question": "Which of the following is NOT a Coordinating Conjunction in the FANBOYS acronym?",
+      "questionBn": "FANBOYS কাঠামোর মধ্যে নিচের কোনটি Coordinating Conjunction নয়?",
+      "options": [
+        "For",
+        "Because",
+        "Nor",
+        "Yet"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Because হলো একটি Subordinating Conjunction; FANBOYS-এর B হলো \"But\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 20501,
+      "type": "Combine using Correlative Conjunction",
+      "prompt": "Combine using \"Not only ... but also\": \"He is a good cricketer. He is a brilliant student.\"",
+      "correctAnswer": "He is not only a good cricketer but also a brilliant student.",
+      "explanationBn": "প্যারালালিজম বজায় রেখে কম্বিনেশন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 20501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Completing sentences with conditional and correlative conjunctions:",
+      "subQuestions": [
+        {
+          "questionText": "Complete: \"Scarcely had he reached the station _____\"",
+          "answer": "when the train left.",
+          "explanationBn": "Scarcely had ... when / Hard had ... when নিয়ম।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি কমপ্লিটিং সেন্টেন্সের ৫ নম্বরের একটি নিশ্চিত রুল।",
+      "isVerified": true
+    }
+  ]
+},
+  'preposition-classification-overview': {
+  "id": 204,
+  "chapterId": 2,
+  "topicNo": "০৪",
+  "titleEn": "Prepositions: Classification & Spatial Logic",
+  "titleBn": "পদান্বয়ী অব্যয় বা প্রেপজিশন: প্রকারভেদ ও অবস্থান",
+  "slug": "preposition-classification-overview",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "যে শব্দ Noun বা Pronoun-এর পূর্বে বসে বাক্যের অন্য পদের সাথে সম্পর্ক তৈরি করে তাকে Preposition বলে। গঠন ও অর্থগত শ্রেণিবিভাগ।",
+  "definitionEn": "A preposition is a word governing, and usually preceding, a noun or pronoun and expressing a relation to another word or element in the clause.",
+  "definitionBn": "যে শব্দ কোনো Noun বা Pronoun-এর পূর্বে অবস্থান করে বাক্যের অন্য কোনো শব্দের সাথে তার সম্পর্ক প্রকাশ করে তাকে Preposition বলে।",
+  "explanationBn": "গঠন অনুযায়ী Preposition মূলত ৬ প্রকার: ১. Simple (in, on, at, by), ২. Compound (across, behind, beside), ৩. Double (into, onto, within), ৪. Phrasal (in front of, on account of), ৫. Participial (considering, regarding), ৬. Disguised (o'clock = of clock, a-hunting = on hunting)।",
+  "teacherGoldenTips": "সময়ের ক্ষেত্রে AT-ON-IN পিরামিড মনে রাখুন: সুনির্দিষ্ট ঘণ্টার আগে AT (at 5 PM), নির্দিষ্ট দিন বা তারিখের আগে ON (on Friday, on 26 March), আর বড় সময় মাস/ঋতু/বছরের আগে IN (in May, in 2026)!",
+  "mainFormula": "Preposition + Noun/Pronoun/Gerund (Object of Preposition)",
+  "formulas": [
+    {
+      "label": "Time Pyramid",
+      "structure": "At (Exact Time) -> On (Day/Date) -> In (Month/Year/Century)",
+      "tag": "Temporal",
+      "example": "At 10 AM, On Sunday, In 2026"
+    },
+    {
+      "label": "Place Movement",
+      "structure": "In (Inside/Static) vs Into (Motion towards inside)",
+      "tag": "Spatial",
+      "example": "He is in the room. He walked into the room."
+    },
+    {
+      "label": "Surface Contact",
+      "structure": "On (Contact) vs Above/Over (Without contact/Higher up)",
+      "tag": "Vertical",
+      "example": "Book on table. Fan over head."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "In বনাম Into-এর গতিশীলতার নিয়ম (Static vs Dynamic)",
+      "nameEn": "In (State of Rest) vs Into (Motion)",
+      "formula": "State of Rest = IN | Movement from outside to inside = INTO",
+      "shortcutTrick": "স্থির অবস্থায় ভেতরে থাকলে In, গতি নিয়ে বাইরে থেকে ভেতরে ঢুকলে Into।",
+      "descriptionBn": "পানি পাত্রে শান্তভাবে থাকলে in, কিন্তু পানি গ্লাসে ঢালার সময় into বসে।",
+      "examples": [
+        {
+          "en": "The students are in the classroom.",
+          "bn": "শিক্ষার্থীরা ক্লাসরুমের ভেতরে আছে।",
+          "note": "স্থির অবস্থান, তাই In।"
+        },
+        {
+          "en": "The teacher entered into the classroom.",
+          "bn": "শিক্ষক ক্লাসরুমে প্রবেশ করলেন।",
+          "note": "বাইরে থেকে গতি নিয়ে ভেতরে ঢোকা (Enter-এর পর সাধারণ প্রবেশে into বসে না, তবে threw into বসে)।"
+        },
+        {
+          "en": "He jumped into the river.",
+          "bn": "সে নদীতে ঝাঁপ দিল।",
+          "note": "গতিশীল অনুপ্রবেশ, তাই Into।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Between বনাম Among-এর সংখ্যামূলক নিয়ম",
+      "nameEn": "Between (Two) vs Among (More than Two)",
+      "formula": "Between = Exactly 2 Persons/Things | Among = 3+ Persons/Things",
+      "shortcutTrick": "দুইয়ের মাঝে হলে Between, তিন বা ততোধিকের মাঝে হলে Among।",
+      "descriptionBn": "দুই পক্ষের মধ্যে কোনো কিছু বণ্টন বা সম্পর্ক বোঝালে between এবং অনেকের মাঝে হলে among বসে।",
+      "examples": [
+        {
+          "en": "Divide the mango between the two brothers.",
+          "bn": "আমটি দুই ভাইয়ের মধ্যে ভাগ করে দাও।",
+          "note": "দুইজন হওয়ায় Between।"
+        },
+        {
+          "en": "Distribute the relief goods among the flood victims.",
+          "bn": "বন্যার্তদের মাঝে ত্রাণসামগ্রী বণ্টন করো।",
+          "note": "অনেকের মাঝে হওয়ায় Among।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The plane flew over our house.",
+      "bn": "বিমানটি আমাদের বাড়ির ওপর দিয়ে উড়ে গেল।",
+      "note": "Over গতিশীলভাবে ওপর দিয়ে অতিক্রম বোঝায়।"
+    },
+    {
+      "en": "He was born on Monday at 7 AM in 2008.",
+      "bn": "সে ২০০৮ সালের এক সোমবারে সকাল ৭টায় জন্মগ্রহণ করেছিল।",
+      "note": "At (সময়) + On (দিন) + In (বছর)।"
+    },
+    {
+      "en": "He is confident of success.",
+      "bn": "সে সফলতার ব্যাপারে আত্মবিশ্বাসী।",
+      "note": "Appropriate Preposition: confident + of।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Enter-এর পর সাধারণ স্থানে Into বসে না",
+      "exceptionText": "কোনো ঘরে বা কক্ষে প্রবেশের ক্ষেত্রে \"enter\" ভার্বের পরে \"into\" বসে না (He entered the room)। তবে কোনো চুক্তি, আলোচনা বা সম্পর্কে যুক্ত হতে \"enter into\" বসে (He entered into an agreement)।",
+      "exampleEn": "He entered the classroom (NOT entered into).",
+      "exampleBn": "সে শ্রেণিকক্ষে প্রবেশ করল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He entered into the room quickly.",
+      "correct": "He entered the room quickly.",
+      "reasonBn": "Enter-এর ভেতর ইতিমধ্যে into-র অর্থ নিহিত আছে।"
+    },
+    {
+      "mistake": "Divide the sweets among Rahim and Karim.",
+      "correct": "Divide the sweets between Rahim and Karim.",
+      "reasonBn": "দুইজনের ক্ষেত্রে সর্বদা Between বসে।"
+    }
+  ],
+  "tags": [
+    "preposition",
+    "in",
+    "on",
+    "at",
+    "into",
+    "between",
+    "among",
+    "appropriate preposition",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 20401,
+      "question": "The frog jumped _____ the pond.",
+      "questionBn": "\"The frog jumped _____ the pond\" শূন্যস্থানে কোন Preposition বসবে?",
+      "options": [
+        "in",
+        "into",
+        "on",
+        "onto"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "বাইরে থেকে গতি নিয়ে ভেতরে ঝাঁপ দেওয়া বোঝাতে \"into\" ব্যবহৃত হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 20402,
+      "question": "Our final exam starts _____ 15th November _____ 10 AM.",
+      "questionBn": "\"Our final exam starts _____ 15th November _____ 10 AM\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "on, at",
+        "in, at",
+        "at, on",
+        "on, in"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "নির্দিষ্ট তারিখের আগে \"on\" (on 15th November) এবং নির্দিষ্ট ঘণ্টার আগে \"at\" (at 10 AM) বসে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 20401,
+      "type": "Fill in the blanks with Preposition",
+      "prompt": "The cat is sitting _____ the table, while the bird is flying _____ the roof.",
+      "correctAnswer": "under (or on), above (or over)",
+      "explanationBn": "অবস্থানমূলক প্রেপজিশন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 20401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Preposition of time and spatial movement exercises:",
+      "subQuestions": [
+        {
+          "questionText": "When is \"Between\" used instead of \"Among\" for more than two entities?",
+          "answer": "When distinct, individual relationships or treaties exist between clearly named countries or parties (e.g. A treaty between India, Bangladesh, and Nepal).",
+          "explanationBn": "সুনির্দিষ্ট চুক্তির ক্ষেত্রে তিন বা ততোধিক দেশের মাঝেও between ব্যবহৃত হতে পারে।"
+        }
+      ],
+      "fullExplanationBn": "উচ্চতর বোর্ড ও ভর্তি পরীক্ষায় এই ব্যতিক্রমী রুলটি অত্যন্ত গুরুত্বপূর্ণ।",
+      "isVerified": true
+    }
+  ]
+},
+  'adverb-classification-overview': {
+  "id": 203,
+  "chapterId": 2,
+  "topicNo": "০৩",
+  "titleEn": "Adverbs: Classification & Positions",
+  "titleBn": "ভাববিশেষণ বা অ্যাডভার্ব: প্রকারভেদ ও অবস্থান",
+  "slug": "adverb-classification-overview",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "যে শব্দ কোনো Verb, Adjective বা অন্য কোনো Adverb-কে বিশেষিত করে তাকে Adverb বলে। সময়, স্থান, ধরন ও মাত্রার ওপর ভিত্তি করে এর প্রকারভেদ।",
+  "definitionEn": "An adverb is a word or phrase that modifies or qualifies an adjective, verb, or other adverb, expressing a relation of place, time, circumstance, manner, cause, or degree.",
+  "definitionBn": "যে শব্দ Noun বা Pronoun ব্যতীত কোনো Verb, Adjective বা অপর কোনো Adverb-কে modify বা বিশেষিত করে তাকে Adverb (ভাববিশেষণ) বলে।",
+  "explanationBn": "Adverb চেনার মূল কৌশল: কোনো ক্রিয়াকে When (কখন), Where (কোথায়), How (কীভাবে), How often (কতবার), Why (কেন) দ্বারা প্রশ্ন করলে Adverb পাওয়া যায়।",
+  "teacherGoldenTips": "MPT ফর্মুলা: বাক্যে একাধিক Adverb একসাথে বসলে ক্রম হবে Manner (কীভাবে) -> Place (কোথায়) -> Time (কখন)। সংক্ষেপে M-P-T!",
+  "mainFormula": "Adverb modifies: Verb + Adjective + Another Adverb | Standard Order: M-P-T (Manner -> Place -> Time)",
+  "formulas": [
+    {
+      "label": "Adverb of Manner",
+      "structure": "Answers \"How?\" (Usually Adj + ly)",
+      "tag": "Way of Action",
+      "example": "Slowly, Bravely, Well"
+    },
+    {
+      "label": "Adverb of Place",
+      "structure": "Answers \"Where?\"",
+      "tag": "Location",
+      "example": "Here, There, Everywhere, Outside"
+    },
+    {
+      "label": "Adverb of Time",
+      "structure": "Answers \"When?\"",
+      "tag": "Timing",
+      "example": "Now, Yesterday, Tomorrow, Soon"
+    },
+    {
+      "label": "Adverb of Frequency",
+      "structure": "Answers \"How often?\"",
+      "tag": "Repetition",
+      "example": "Always, Never, Seldom, Often"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Adverb-এর ক্রম নির্ধারণ (The MPT Rule)",
+      "nameEn": "The Manner-Place-Time Order",
+      "formula": "Subject + Verb + (Object) + Adverb of Manner + Adverb of Place + Adverb of Time",
+      "shortcutTrick": "MPT: প্রথমে ধরন (M), তারপর জায়গা (P), শেষে সময় (T)।",
+      "descriptionBn": "একটি বাক্যে কাজের ধরন, স্থান ও সময় একসাথে উল্লেখ করতে হলে এই ক্রমানুসারে সাজাতে হয়।",
+      "examples": [
+        {
+          "en": "He sang beautifully (M) at the concert (P) last night (T).",
+          "bn": "সে গত রাতে কনসার্টে চমৎকারভাবে গান গেয়েছিল।",
+          "note": "Manner -> Place -> Time ক্রম বজায় আছে।"
+        },
+        {
+          "en": "She worked hard (M) in her office (P) yesterday (T).",
+          "bn": "সে গতকাল তার অফিসে কঠোর পরিশ্রম করেছিল।",
+          "note": "hard (M) + in office (P) + yesterday (T)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Adverb of Frequency-এর অবস্থান",
+      "nameEn": "Position of Frequency Adverbs",
+      "formula": "Subject + Frequency Adverb (always/never/often) + Main Verb | Auxiliary + Frequency Adverb + Main Verb",
+      "shortcutTrick": "মূল ভার্বের আগে, কিন্তু অক্সিলিয়ারি ভার্ব ও Be verb-এর পরে।",
+      "descriptionBn": "Always, never, seldom, usually, often ইত্যাদি Adverb মূল ভার্বের পূর্বে বসে। কিন্তু am, is, are, was, were-এর পরে বসে।",
+      "examples": [
+        {
+          "en": "He always speaks the truth (Before Main Verb).",
+          "bn": "সে সর্বদা সত্য কথা বলে।",
+          "note": "speaks-এর আগে always বসেছে।"
+        },
+        {
+          "en": "He is always punctual (After Be Verb).",
+          "bn": "সে সর্বদা সময়নিষ্ঠ।",
+          "note": "is-এর পরে always বসেছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The soldier fought extremely bravely.",
+      "bn": "সৈনিকটি অত্যন্ত সাহসিকতার সাথে লড়াই করেছিল।",
+      "note": "extremely (Adv) modify করেছে bravely (Adv)-কে, যা fought (Verb)-কে modify করেছে।"
+    },
+    {
+      "en": "She is too weak to walk.",
+      "bn": "সে এতটাই দুর্বল যে হাঁটতে পারে না।",
+      "note": "too (Adverb of Degree) modify করেছে weak (Adjective)-কে।"
+    },
+    {
+      "en": "Fortunately, nobody was hurt in the accident.",
+      "bn": "সৌভাগ্যবশত দুর্ঘটনায় কেউ আহত হয়নি।",
+      "note": "Sentence Adverb যা পুরো বাক্যকে মডিফাই করেছে।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Hard বনাম Hardly-এর অর্থগত পার্থক্য",
+      "exceptionText": "\"Hard\" মানে কঠোরভাবে (Adverb of Manner), কিন্তু \"Hardly\" মানে কদাচিৎ/প্রায় না বললেই চলে (Negative Adverb of Frequency)।",
+      "exampleEn": "He works hard (কঠোর পরিশ্রম করে) vs He hardly works (সে প্রায় কাজ করেই না)।",
+      "exampleBn": "উভয়ের অর্থ সম্পূর্ণ বিপরীতমুখী।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He ran fastly to catch the bus.",
+      "correct": "He ran fast to catch the bus.",
+      "reasonBn": "ইংরেজিতে \"fastly\" বলে কোনো শব্দ নেই; fast নিজেই Adjective ও Adverb।"
+    }
+  ],
+  "tags": [
+    "adverb",
+    "adverb of manner",
+    "adverb of place",
+    "adverb of time",
+    "mpt rule",
+    "frequency adverb",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 20301,
+      "question": "Arrange correctly according to the MPT rule: \"She danced (last night / gracefully / on the stage).\"",
+      "questionBn": "MPT নিয়ম অনুযায়ী সঠিক বাক্যটি কোনটি?",
+      "options": [
+        "She danced last night gracefully on the stage.",
+        "She danced gracefully on the stage last night.",
+        "She danced on the stage gracefully last night.",
+        "She danced gracefully last night on the stage."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Manner (gracefully) -> Place (on the stage) -> Time (last night)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 20302,
+      "question": "In the sentence \"He hardly ever visits us\", \"hardly\" expresses —",
+      "questionBn": "\"He hardly ever visits us\" বাক্যে \"hardly\" কী প্রকাশ করে?",
+      "options": [
+        "Great effort",
+        "Negative frequency / seldom",
+        "Place",
+        "Degree of completion"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Hardly একটি নেগেটিভ অ্যাডভার্ব যা \"কদাচিৎ\" বা \"প্রায় কখনোই না\" প্রকাশ করে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 20301,
+      "type": "Correct the Adverb Position",
+      "prompt": "Place \"always\" correctly: \"He is late for school.\"",
+      "correctAnswer": "He is always late for school.",
+      "explanationBn": "Be verb (is)-এর পরে Adverb of frequency বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 20301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Adverb placement and modifier rules:",
+      "subQuestions": [
+        {
+          "questionText": "Explain the difference between \"He worked hard\" and \"He hardly worked\".",
+          "answer": "\"He worked hard\" means he put in lots of effort. \"He hardly worked\" means he barely did any work (almost zero).",
+          "explanationBn": "অর্থের বিশাল পার্থক্য লক্ষ্যণীয়।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি ট্রান্সফরমেশন ও রাইট ফর্ম অব ভার্বসে এটি অত্যন্ত কমন ফাঁদ।",
+      "isVerified": true
+    }
+  ]
+},
+  'verb-classification-overview': {
+  "id": 202,
+  "chapterId": 2,
+  "topicNo": "০২",
+  "titleEn": "Classification of Verbs: Finite & Non-Finite",
+  "titleBn": "ক্রিয়াপদের শ্রেণিবিভাগ: সমাপিকা ও অসমাপিকা ক্রিয়া",
+  "slug": "verb-classification-overview",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Verb হলো বাক্যের হৃৎপিণ্ড। Finite Verb (সমাপিকা) ও Non-finite Verb (অসমাপিকা) এবং Transitive, Intransitive, Principal ও Auxiliary-এর পূর্ণাঙ্গ চিত্র।",
+  "definitionEn": "A verb is a word used to describe an action, state, or occurrence. It is fundamentally divided into Finite (changes with tense and person) and Non-Finite (does not change).",
+  "definitionBn": "যে শব্দ দ্বারা কোনো কাজ করা, হওয়া, থাকা বা ঘটা বোঝায় তাকে Verb (ক্রিয়াপদ) বলে। এটি প্রধানত Finite (সমাপিকা) ও Non-finite (অসমাপিকা) এই দুই ভাগে বিভক্ত।",
+  "explanationBn": "Finite Verb টেন্স, পারসন ও নাম্বার অনুযায়ী নিজের রূপ বদলায় (যেমন: He goes, They go, He went)। কিন্তু Non-finite Verb কখনোই টেন্স বা সাবজেক্টের কারণে বদলায় না (যেমন: to go, going, gone)। Non-finite মূলত তিন প্রকার: Gerund, Participle এবং Infinitive।",
+  "teacherGoldenTips": "মনে রাখবেন: বাক্যে Finite Verb না থাকলে বাক্য পূর্ণাঙ্গ অর্থ প্রকাশ করতে পারে না। একটি Simple Sentence-এ ঠিক একটিমাত্র Finite Verb থাকে!",
+  "mainFormula": "Verb -> Finite (Principal + Auxiliary) | Non-Finite (Infinitive + Gerund + Participle)",
+  "formulas": [
+    {
+      "label": "Finite Verb",
+      "structure": "Tense-bound & Person-responsive",
+      "tag": "Sentence Maker",
+      "example": "She writes a letter. They played well."
+    },
+    {
+      "label": "Infinitive",
+      "structure": "To + Base Verb (to + V1)",
+      "tag": "Non-Finite",
+      "example": "I want to learn English."
+    },
+    {
+      "label": "Gerund",
+      "structure": "Base Verb + ing = Noun",
+      "tag": "Verbal Noun",
+      "example": "Swimming is a healthy habit."
+    },
+    {
+      "label": "Participle",
+      "structure": "V-ing (Present) / V3 (Past) = Adjective",
+      "tag": "Verbal Adjective",
+      "example": "A rolling stone gathers no moss."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Finite বনাম Non-Finite চেনার সহজ উপায়",
+      "nameEn": "Distinguishing Finite from Non-Finite",
+      "formula": "Tense Change = Verb Form Changes -> Finite | Tense Change = Verb Form Remains Same -> Non-Finite",
+      "shortcutTrick": "টেন্স পরিবর্তন করে দেখুন; যে ক্রিয়াটি বদলে যাবে সেটি Finite, যেটি অপরিবর্তিত থাকবে সেটি Non-finite!",
+      "descriptionBn": "\"I like to swim\" বাক্যটিকে Past Tense করলে হবে \"I liked to swim\"। এখানে like পরিবর্তিত হয়ে liked হয়েছে (Finite), কিন্তু to swim একই রয়ে গেছে (Non-finite Infinitive)!",
+      "examples": [
+        {
+          "en": "He wants to go. -> They want to go. -> He wanted to go.",
+          "bn": "সে যেতে চায়। -> তারা যেতে চায়। -> সে যেতে চাইল।",
+          "note": "wants/want/wanted হলো Finite, আর \"to go\" হলো Non-finite।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Transitive বনাম Intransitive Verb",
+      "nameEn": "Transitive vs Intransitive Action",
+      "formula": "Verb + Whom / What? = Direct Object -> Transitive | No Object -> Intransitive",
+      "shortcutTrick": "ক্রিয়াকে \"কাকে\" বা \"কী\" দিয়ে প্রশ্ন করে উত্তর পেলে সকর্মক (Transitive), না পেলে অকর্মক (Intransitive)।",
+      "descriptionBn": "Transitive Verb-এর কার্যকারিতা শেষ করার জন্য কর্ম (Object) অপরিহার্য। Intransitive Verb কর্ম ছাড়াই ভাব প্রকাশ করে।",
+      "examples": [
+        {
+          "en": "He flies a kite (Transitive).",
+          "bn": "সে ঘুড়ি ওড়ায়।",
+          "note": "কী ওড়ায়? -> ঘুড়ি (Object আছে)।"
+        },
+        {
+          "en": "Birds fly in the sky (Intransitive).",
+          "bn": "পাখিরা আকাশে ওড়ে।",
+          "note": "আকাশে হলো স্থান (Adverbial), কোনো Object নেই।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Barking dogs seldom bite.",
+      "bn": "ঘেউ ঘেউ করা কুকুর কদাচিৎ কামড়ায়।",
+      "note": "Barking = Participle, bite = Finite Verb।"
+    },
+    {
+      "en": "We decided to start early in the morning.",
+      "bn": "আমরা খুব ভোরে যাত্রা শুরু করার সিদ্ধান্ত নিলাম।",
+      "note": "decided = Finite, to start = Non-finite Infinitive।"
+    },
+    {
+      "en": "The broken glass injured his foot.",
+      "bn": "ভাঙা কাচটি তার পায়ে আঘাত করল।",
+      "note": "broken = Past Participle (Adjective হিসেবে ব্যবহৃত)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Bare Infinitive (To ছাড়া ইনফিনিটিভ)",
+      "exceptionText": "Make, let, bid, see, hear, watch, feel ইত্যাদি Verbs-এর পরে \"to\" ছাড়াই Base Verb বসে।",
+      "exampleEn": "He made me cry (NOT to cry). / Let him go (NOT to go).",
+      "exampleBn": "সে আমাকে কাঁদাল। / তাকে যেতে দাও।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I saw him to enter the room.",
+      "correct": "I saw him enter the room. (or entering)",
+      "reasonBn": "See ভার্বের পর Bare Infinitive বসে, \"to\" বসে না।"
+    },
+    {
+      "mistake": "She enjoys to read novels.",
+      "correct": "She enjoys reading novels.",
+      "reasonBn": "Enjoy ভার্বের পরে Infinitive নয়, Gerund বসে।"
+    }
+  ],
+  "tags": [
+    "verb",
+    "finite verb",
+    "non-finite verb",
+    "transitive",
+    "intransitive",
+    "gerund",
+    "participle",
+    "infinitive",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 20201,
+      "question": "In \"Walking along the road, he saw a snake\", what kind of word is \"Walking\"?",
+      "questionBn": "\"Walking along the road, he saw a snake\" বাক্যে \"Walking\" কী?",
+      "options": [
+        "Gerund",
+        "Present Participle",
+        "Finite Verb",
+        "Infinitive"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "এখানে walking শব্দটি কাজ এবং একই সাথে অবস্থা প্রকাশ করে Adjective-এর মতো কাজ করায় এটি Present Participle।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 20202,
+      "question": "Which of the following sentences contains a Transitive Verb?",
+      "questionBn": "নিচের কোন বাক্যে Transitive Verb (সকর্মক ক্রিয়া) রয়েছে?",
+      "options": [
+        "The boy laughed loudly.",
+        "The sun shines brightly.",
+        "The driver stopped the car.",
+        "He slept peacefully."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"stopped the car\" বাক্যে \"the car\" হলো Direct Object (কী থামাল? গাড়ি), তাই stopped একটি Transitive Verb।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 20201,
+      "type": "Identify Verb Types",
+      "prompt": "Identify the Finite and Non-Finite verbs: \"She went to the market to buy fresh fruits.\"",
+      "correctAnswer": "Finite Verb: went | Non-Finite Verb: to buy (Infinitive)",
+      "explanationBn": "went টেন্স অনুযায়ী রূপ পরিবর্তন করেছে, to buy অপরিবর্তিত রয়েছে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 20201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Verb identification and syntax role analysis:",
+      "subQuestions": [
+        {
+          "questionText": "Differentiate between a Gerund and a Present Participle with one example of each.",
+          "answer": "Gerund functions as Verb + Noun (Swimming is good). Present Participle functions as Verb + Adjective (A swimming fish).",
+          "explanationBn": "জেরান্ড নাউনের কাজ করে, পার্টিসিপল অ্যাডজেক্টিভের কাজ করে।"
+        }
+      ],
+      "fullExplanationBn": "রাইট ফর্ম অব ভার্বস ও সিম্পল-কমপ্লেক্স রূপান্তরের প্রধান চাবিকাঠি।",
+      "isVerified": true
+    }
+  ]
+},
+  'parts-of-speech-overview': {
+  "id": 201,
+  "chapterId": 2,
+  "topicNo": "০১",
+  "titleEn": "Overview of the 8 Parts of Speech",
+  "titleBn": "আট প্রকার পদপ্রকরণের সার্বিক ধারণা ও ভূমিকা",
+  "slug": "parts-of-speech-overview",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "বাক্যে ব্যবহৃত প্রতিটি অর্থপূর্ণ শব্দ তার কাজ অনুযায়ী কোনো না কোনো পদ বা Part of Speech। আটটি পদের মৌলিক ভূমিকা ও পারস্পরিক সম্পর্ক।",
+  "definitionEn": "Parts of speech are the basic categories of words according to their grammatical functions and syntax within a given sentence.",
+  "definitionBn": "বাক্যের অন্তর্গত প্রত্যেকটি অর্থপূর্ণ শব্দকে তাদের কার্যকারিতা অনুযায়ী যে আটটি শ্রেণিতে বিভক্ত করা হয়, তাদের Parts of Speech (পদপ্রকরণ) বলে।",
+  "explanationBn": "একটি শব্দ একা একা অভিধানে কী আছে তার চেয়ে বড় কথা বাক্যে সে কী কাজ করছে। যেমন: \"Water\" শব্দটিকে আমরা Noun ভাবি (Water is life), কিন্তু \"I water the garden\" বাক্যে Water একটি Verb! তাই বাক্যে কার্যকারিতাই পদের মূল পরিচয়।",
+  "teacherGoldenTips": "গোল্ডেন টেস্ট: যেকোনো শব্দের পদ নির্ধারণ করার আগে দেখুন শব্দটি বাক্যে কী কাজ করছে — নাম বোঝালে Noun, নামের পরিবর্তে বসলে Pronoun, দোষ-গুণ-সংখ্যা বোঝালে Adjective, কাজ বোঝালে Verb, কাজের ধরন বোঝালে Adverb, অবস্থান-সম্পর্ক বোঝালে Preposition, যুক্ত করলে Conjunction, আর আবেগ বোঝালে Interjection!",
+  "mainFormula": "Sentence = Noun + Pronoun + Verb + Adjective + Adverb + Preposition + Conjunction + Interjection",
+  "formulas": [
+    {
+      "label": "Naming & Reference",
+      "structure": "Noun (Name) | Pronoun (Replacement)",
+      "tag": "Entities",
+      "example": "Rahim is a student. He reads well."
+    },
+    {
+      "label": "Action & Modification",
+      "structure": "Verb (Action/State) | Adverb (Modifies V/Adj/Adv)",
+      "tag": "Actions",
+      "example": "The horse runs quickly."
+    },
+    {
+      "label": "Connection & Emotion",
+      "structure": "Preposition (Relation) | Conjunction (Connector) | Interjection (Emotion)",
+      "tag": "Glue & Tone",
+      "example": "Alas! The man fell into the river and drowned."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "কার্যকারিতা অনুযায়ী পদ নির্ধারণ (Contextual Function Rule)",
+      "nameEn": "Context Determines the Part of Speech",
+      "formula": "Word in Isolation ≠ Fixed Part of Speech | Function in Sentence = Actual Part of Speech",
+      "shortcutTrick": "শব্দের মুখস্থ রূপ নয়, বাক্যের অবস্থান দেখে পদ নির্ণয় করুন।",
+      "descriptionBn": "একই শব্দ বাক্যে ভিন্ন ভিন্ন অবস্থানে বসে সম্পূর্ণ ভিন্ন পদ হিসেবে কাজ করতে পারে।",
+      "examples": [
+        {
+          "en": "This is a fast train (Adjective).",
+          "bn": "এটি একটি দ্রুতগামী ট্রেন।",
+          "note": "Train নাউনকে মডিফাই করায় fast হলো Adjective।"
+        },
+        {
+          "en": "The train runs fast (Adverb).",
+          "bn": "ট্রেনটি দ্রুত চলে।",
+          "note": "Runs ভার্বকে মডিফাই করায় fast হলো Adverb।"
+        },
+        {
+          "en": "Muslims fast in Ramadan (Verb).",
+          "bn": "মুসলিমরা রমজানে রোজা রাখে।",
+          "note": "এখানে fast কাজ বোঝানোয় Verb।"
+        },
+        {
+          "en": "He broke his long fast (Noun).",
+          "bn": "সে তার দীর্ঘ রোজা ভাঙল।",
+          "note": "এখানে fast হলো Noun।"
+        }
+      ]
+    },
+    {
+      "nameBn": "আট প্রকার পদের মৌলিক সমন্বয়",
+      "nameEn": "Syntactic Interdependence of the 8 Classes",
+      "formula": "Determiner + Adverb + Adjective + Noun = Standard Noun Phrase",
+      "shortcutTrick": "Noun-এর আগে Adjective বসে, Adjective-এর আগে Adverb বসে।",
+      "descriptionBn": "বাক্যের পদগুলো একে অপরের পরিপূরক হিসেবে একটি সুসংহত কাঠামো তৈরি করে।",
+      "examples": [
+        {
+          "en": "A very brilliant student passed.",
+          "bn": "একজন অত্যন্ত মেধাবী শিক্ষার্থী পাস করল।",
+          "note": "A (Determiner) + very (Adverb) + brilliant (Adjective) + student (Noun)।"
+        },
+        {
+          "en": "She sang quite sweetly.",
+          "bn": "সে বেশ মিষ্টি সুরে গান গাইল।",
+          "note": "sang (Verb) + quite (Adverb) + sweetly (Adverb)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Bravo! You have done a great job.",
+      "bn": "সাবাশ! তুমি একটি দারুণ কাজ করেছ।",
+      "note": "Bravo = Interjection, great = Adjective, job = Noun।"
+    },
+    {
+      "en": "Slow and steady wins the race.",
+      "bn": "ধীর কিন্তু অবিচল ব্যক্তিই দৌড়ে জেতে।",
+      "note": "and = Conjunction, wins = Verb, the = Determiner/Adjective।"
+    },
+    {
+      "en": "The book is on the table.",
+      "bn": "বইটি টেবিলের ওপরে রয়েছে।",
+      "note": "on = Preposition (সম্পর্ক স্থাপনকারী)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Participle ও Gerund-এর দ্বৈত ভূমিকা",
+      "exceptionText": "Verb-এর সাথে ing যুক্ত হয়ে কখনো Noun-এর কাজ করে (Gerund), আবার কখনো Adjective-এর কাজ করে (Participle)।",
+      "exampleEn": "Walking is good for health (Gerund/Noun) vs A walking stick (Participle/Adjective).",
+      "exampleBn": "হাঁটা স্বাস্থ্যের জন্য ভালো (নাউন) বনাম হাঁটার লাঠি (অ্যাডজেক্টিভ)।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "In \"I like reading\", reading is a verb.",
+      "correct": "\"Reading\" is a Gerund functioning as a Noun (Direct Object).",
+      "reasonBn": "Like ভার্বের অবজেক্ট হিসেবে বসেছে, তাই এটি Gerund বা Noun।"
+    }
+  ],
+  "tags": [
+    "parts of speech",
+    "grammar overview",
+    "noun",
+    "pronoun",
+    "verb",
+    "adverb",
+    "preposition",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 20101,
+      "question": "In the sentence \"He is a fast runner, but he runs fast\", what are the parts of speech of the two \"fast\" words respectively?",
+      "questionBn": "\"He is a fast runner, but he runs fast\" বাক্যে দুটি \"fast\" যথাক্রমে কোন পদ?",
+      "options": [
+        "Adjective and Adverb",
+        "Adverb and Adjective",
+        "Noun and Verb",
+        "Adjective and Noun"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "প্রথম fast শব্দটি runner (Noun)-কে বর্ণনা করায় Adjective, এবং দ্বিতীয়টি runs (Verb)-কে বর্ণনা করায় Adverb।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 20102,
+      "question": "Which part of speech connects words, phrases, or clauses together?",
+      "questionBn": "কোন পদটি শব্দ, শব্দগুচ্ছ বা বাক্যাংশকে পরস্পরের সাথে যুক্ত করে?",
+      "options": [
+        "Preposition",
+        "Conjunction",
+        "Interjection",
+        "Adverb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Conjunction (সংযোজক অব্যয়) দুটি শব্দ বা ক্লজকে সংযুক্ত করার কাজ করে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 20103,
+      "question": "In \"Still waters run deep\", what part of speech is \"Still\"?",
+      "questionBn": "\"Still waters run deep\" বাক্যে \"Still\" শব্দটি কোন পদ?",
+      "options": [
+        "Noun",
+        "Adjective",
+        "Adverb",
+        "Verb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"waters\" (Noun)-এর আগে বসে শান্ত অবস্থা বোঝানোয় Still এখানে Adjective।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 20101,
+      "type": "Identify Part of Speech",
+      "prompt": "Identify the part of speech of the underlined word: \"Look <u>above</u> to see the stars.\"",
+      "correctAnswer": "Adverb (Adverb of Place)",
+      "explanationBn": "Look ভার্বকে \"কোথায় তাকাবে?\" প্রশ্ন করে above পাওয়া যায়, তাই এটি Adverb।"
+    },
+    {
+      "id": 20102,
+      "type": "Use in Different Roles",
+      "prompt": "Use the word \"Better\" as (a) an Adjective and (b) a Verb.",
+      "correctAnswer": "(a) This pen is better than that (Adjective). (b) We must better our living conditions (Verb).",
+      "explanationBn": "একই শব্দের রূপান্তর ও প্রয়োগ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 20101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Identify parts of speech based on contextual syntactic functions:",
+      "subQuestions": [
+        {
+          "questionText": "Name the parts of speech of \"round\" in: (a) A round ball, (b) He walked round the field.",
+          "answer": "(a) Adjective, (b) Preposition.",
+          "explanationBn": "(a) বলের আকার বোঝানোয় Adjective, (b) মাঠের সাথে অবস্থান নির্দেশ করায় Preposition।"
+        }
+      ],
+      "fullExplanationBn": "পরীক্ষায় শব্দের অবস্থানভিত্তিক পদ নির্ধারণ অত্যন্ত জনপ্রিয় প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
   'prefix-suffix-basics': {
   "id": 110,
   "chapterId": 1,
