@@ -306,6 +306,2022 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'ssc-grammar-chapter-practice-set': {
+  "id": 2306,
+  "chapterId": 23,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: SSC Grammar Master Practice Sets (Sets 01–05: Basic to Final Revision)",
+  "titleBn": "অধ্যায় অনুশীলন সেট: এসএসসি ব্যাকরণ পূর্ণাঙ্গ প্র্যাকটিস সেটস (সেট ০১–০৫: বেসিক থেকে ফাইনাল রিভিশন)",
+  "slug": "ssc-grammar-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার সম্পূর্ণ সিলেবাসের ওপর ৫টি সমন্বিত প্র্যাকটিস সেট: Set 01 (Basic — মৌলিক বোর্ড স্ট্যান্ডার্ড), Set 02 (Intermediate — টার্গেট এ+ প্রস্তুতি), Set 03 (Advanced — সেরা ক্যাডেট ও মাইলস্টোন স্ট্যান্ডার্ড), Set 04 (Exam Style — হুবহু পরীক্ষার প্রশ্ন ১ থেকে ৯ সিমুলেশন), এবং Set 05 (Final Revision — পূর্ণাঙ্গ অল-ইন-ওয়ান বোর্ড মডেল টেস্ট)।",
+  "definitionEn": "The definitive SSC capstone assessment module featuring 5 stratified practice sets (Basic, Intermediate, Advanced, Exam Style, Final Revision) synthesizing gap filling, right forms, transformation, narration, connectors, tags, and punctuation.",
+  "definitionBn": "এসএসসি ইংরেজি ২য় পত্রের পূর্ণাঙ্গ সিলেবাস ও প্রশ্নের বিন্যাস অনুযায়ী শিক্ষার্থীদের চূড়ান্ত প্রস্তুতি যাচাইয়ের জন্য ৫টি বিশেষ স্তরে বিন্যস্ত মাস্টার প্র্যাকটিস সেট।",
+  "explanationBn": "৫টি প্র্যাকটিস সেটের কাঠামো ও বিভাজন:\n- Set 01 — Basic: মৌলিক রুলস ও সহজ প্রশ্নাবলির ওপর ভিত্তি করে বেসিক ফাউন্ডেশন তৈরি।\n- Set 02 — Intermediate: বিগত ৫ বছরের বোর্ড স্ট্যান্ডার্ড প্রশ্নাবলি নিয়ে এ+ পাওয়ার প্রস্তুতি।\n- Set 03 — Advanced: জটিল ও ব্যতিক্রমী রুলস (Dangling modifiers, Subjunctive, Complex inversion) সহ শীর্ষ ক্যাডেট কলেজ স্ট্যান্ডার্ড।\n- Set 04 — Exam Style: হুবহু পরীক্ষার হলে বসে দেওয়ার মতো সময়ভিত্তিক প্রশ্ন ১ থেকে ৯-এর পূর্ণাঙ্গ সিমুলেশন।\n- Set 05 — Final Revision: পরীক্ষার আগের রাতের জন্য যাবতীয় রিভিশন নোট ও শীর্ষ কনসেপ্টের সমন্বিত মূল্যায়ন।",
+  "teacherGoldenTips": "পরীক্ষার হলে ১০০ তে ১০০ পাওয়ার মাস্টার গাইড:\n১. খাতার মার্জিন সুন্দর রাখুন এবং প্রতিটি প্রশ্নের নম্বর বড় করে স্পষ্ট অক্ষরে লিখুন!\n২. প্রশ্ন ১ ও ২ (শূন্যস্থান)-এ পুরো প্যাসেজ তোলার দরকার নেই; শুধু ক, খ, গ দিয়ে উত্তর লিখুন!\n৩. প্রশ্ন ৩ (Right forms)-এ প্যাসেজ পড়ে পুরো বাক্য তুলে আন্ডারলাইন করুন!\n৪. প্রশ্ন ৪ (Completing), ৫ (Transformation), ৬ (Narration), ৭ (Connectors), ৮ (Tag) এবং ৯ (Punctuation)-এ সম্পূর্ণ বাক্য/প্যাসেজটি নির্ভুলভাবে তুলুন!\n৫. পরীক্ষা শেষ হওয়ার ১০ মিনিট আগে সম্পূর্ণ খাতাটি একবার রিভিশন দিয়ে বানানের ভুলগুলো শুধরে নিন!",
+  "mainFormula": "Master SSC Capstone: 5 Stratified Practice Sets (Basic -> Intermediate -> Advanced -> Exam Style -> Final Revision)",
+  "formulas": [
+    {
+      "label": "5 Stratified SSC Practice Sets",
+      "structure": "Set 01 (Basic) | Set 02 (Intermediate) | Set 03 (Advanced) | Set 04 (Exam Style) | Set 05 (Final Revision)",
+      "tag": "Capstone Sets",
+      "example": "Comprehensive simulation across all 11 SSC English 2nd Paper examination questions."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "এসএসসি পরীক্ষায় ৬০ এ ৬০ পাওয়ার চূড়ান্ত টাইম ম্যানেজমেন্ট স্ট্র্যাটেজি",
+      "nameEn": "The 3-Hour Time Management and Answer Sequencing Protocol",
+      "formula": "Part A Grammar (60 Marks): Allocate 75 minutes | Part B Composition (40 Marks): Allocate 90 minutes | Revision: 15 minutes",
+      "shortcutTrick": "গ্রামার অংশে সর্বোচ্চ ১ ঘণ্টা ১৫ মিনিটের বেশি ব্যয় করবেন না; তাহলে কম্পোজিশন অংশে পর্যাপ্ত সময় পাবেন!",
+      "descriptionBn": "পরীক্ষার হলের প্রতিটি মিনিট কার্যকরভাবে কাজে লাগানোর বৈজ্ঞানিক সময়বণ্টন।",
+      "examples": [
+        {
+          "en": "Grammar Section (60 Marks): Question 1 to 9 thoroughly answered in 75 mins.",
+          "bn": "গ্রামার অংশ: ৭৫ মিনিটে প্রশ্ন ১ থেকে ৯ সম্পন্ন।",
+          "note": "টাইম ম্যানেজমেন্ট।"
+        },
+        {
+          "en": "Composition Section (40 Marks): Writing CV, Formal Letter, Paragraph, and Composition in 90 mins.",
+          "bn": "কম্পোজিশন অংশ: ৯০ মিনিটে সম্পন্ন।",
+          "note": "কম্পোজিশন বণ্টন।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Set 01 (Basic): Water is essential for life (Article/Prep). It is high time we stopped wasting water (Completing).",
+      "bn": "বেসিক প্র্যাকটিস সেট উদাহরণ।",
+      "note": "মৌলিক বোর্ড মডেল।"
+    },
+    {
+      "en": "Set 03 (Advanced): Hardly had the bell rung when the examination commenced (Inversion).",
+      "bn": "উন্নত ক্যাডেট কলেজ স্ট্যান্ডার্ড উদাহরণ।",
+      "note": "উচ্চতর ইনভারশন।"
+    },
+    {
+      "en": "Set 04 (Exam Style): \"Where are you going?\" asked father. \"To the college library,\" replied the son.",
+      "bn": "পরীক্ষা ভিত্তিক প্যাসেজ মডেল।",
+      "note": "সিমুলেটেড ডায়ালগ।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "সিলেবাসের কোনো একটি অংশের ওপর মাত্রাতিরিক্ত সময় না দিয়ে সুষম প্রস্তুতি",
+      "exceptionText": "শুধু ন্যারেশন বা শুধু ট্রান্সফরমেশন প্র্যাকটিস না করে প্রতিদিন প্রতিটি আইটেম থেকে অন্তত ২টি করে প্রশ্ন সমাধান করা সর্বোচ্চ ফলাফলের চাবিকাঠি।",
+      "exampleEn": "Practice balanced multi-topic sets daily.",
+      "exampleBn": "প্রতিদিন সবকটি গ্রামার টপিকের সমন্বিত ড্রিল করুন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Leaving questions unanswered due to poor time management.",
+      "correct": "Complete all grammar questions within 75 minutes.",
+      "reasonBn": "সময়বণ্টন মেনে চললে কোনো প্রশ্ন ছেড়ে আসতে হয় না।"
+    },
+    {
+      "mistake": "Writing wrong question numbers on the answer script.",
+      "correct": "Double check question numbers: e.g., \"Answer to the question no. 5\".",
+      "reasonBn": "প্রশ্নের নম্বর ভুল লিখলে সম্পূর্ণ নম্বর বাতিল হওয়ার ঝুঁকি থাকে।"
+    }
+  ],
+  "tags": [
+    "ssc grammar practice sets",
+    "set 01 basic",
+    "set 02 intermediate",
+    "set 03 advanced",
+    "set 04 exam style",
+    "set 05 final revision",
+    "ssc capstone master test"
+  ],
+  "mcqs": [
+    {
+      "id": 230601,
+      "question": "[Set 04 Exam Style] Which of the following sentences exhibits completely flawless grammar across all syntactic tiers?",
+      "questionBn": "[Set 04 Exam Style] সকল ব্যাকরণিক নিয়মে শতভাগ নির্ভুল বাক্য কোনটি?",
+      "options": [
+        "No sooner had the bell rung than the students entered the classroom.",
+        "No sooner had the bell rung when the students entered the classroom.",
+        "No sooner did the bell ring than the students entered the classroom.",
+        "No sooner had the bell rung, the students entered the classroom."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"No sooner had + V3\" (had rung)-এর সাথে ২য় ক্লজের লিঙ্কার \"than\" এবং Past Simple (entered) থাকায় ১ম বাক্যটি সম্পূর্ণ নিখুঁত।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 230602,
+      "question": "[Set 05 Final Revision] What is the correct tag question for: \"There is little possibility of his failure, _____?\"",
+      "questionBn": "[Set 05 Final Revision] \"There is little possibility of his failure, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "isn't there",
+        "is there",
+        "isn't it",
+        "is it"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"little\" থাকায় বাক্যটি না-বোধক, তাই ট্যাগটি হ্যাঁ-বোধক হবে এবং Introductory There বহাল থেকে \"is there?\" হবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230601,
+      "type": "SSC Capstone 5-Set Board Model Test",
+      "prompt": "Answer the 5 mixed board challenge tasks: (1) Cloze: \"Trees give us shade _____ summer.\" (2) Right Form: \"He talk as if he (be) a scholar.\" (3) Completing: \"Walk swiftly lest _____.\" (4) Tag: \"Let's plant trees, _____?\" (5) Punctuate: \"mother said are you reading now\"",
+      "correctAnswer": "(1) in, (2) were, (3) you should miss the train, (4) shall we?, (5) Mother said, \"Are you reading now?\"",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ সিলেবাসের সমন্বিত ৫ নম্বরের ক্যাপস্টোন সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Capstone Practice Set",
+      "questionContext": "Chapter 23 Master Capstone Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Demonstrate with a full model sentence how \"Lest\" and \"It is high time\" enforce specific verb inflections.",
+          "answer": "\"Lest\" enforces the modal \"should\" followed by base verb V1 (\"Study hard lest you should fail\"). \"It is high time\" with a subject enforces the Past Simple V2 inflection (\"It is high time we reformed our habits\").",
+          "explanationBn": "লেস্ট এবং ইট ইজ হাই টাইমের ক্রিয়া রূপান্তরের সমন্বিত দৃষ্টান্ত।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ সিলেবাসের সর্বশেষ এবং চূড়ান্ত ক্যাপস্টোন প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'ssc-grammar-connectors-tag-punctuation': {
+  "id": 2305,
+  "chapterId": 23,
+  "topicNo": "০৫",
+  "titleEn": "SSC Questions 7, 8 & 9: Connectors, Tag Questions & Punctuation Simulation",
+  "titleBn": "এসএসসি প্রশ্ন ৭, ৮ ও ৯: কানেক্টরস, ট্যাগ কোশ্চেন ও বিরামচিহ্ন সিমুলেশন রিভিশন",
+  "slug": "ssc-grammar-connectors-tag-punctuation",
+  "difficulty": "HARD",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার শেষ ৩টি অত্যন্ত গুরুত্বপূর্ণ প্রশ্ন (১৫ নম্বর)। প্রশ্ন ৭: Sentence Connectors (Moreover, However, Therefore, As a result)। প্রশ্ন ৮: Tag Questions (Polarity, I am -> aren't I, Everybody -> don't they, Let's -> shall we, Hardly/Seldom -> positive tag)। প্রশ্ন ৯: Punctuation & Capitalization (সংলাপে কমা, ফুলস্টপ, ইনভার্টেড কমা ও ক্যাপিটালাইজেশন)।",
+  "definitionEn": "A high-impact tripartite synthesis covering discourse connectors (Question 7), syntactic confirmation tags (Question 8), and dialogue punctuation/capitalization mechanics (Question 9) for SSC examination triumph.",
+  "definitionBn": "এসএসসি পরীক্ষার বাক্য সংযোগকারী শব্দ, যাচাইমূলক ট্যাগ প্রশ্ন এবং সংলাপভিত্তিক বিরামচিহ্নের পূর্ণাঙ্গ ত্রিধারার সমন্বিত পরীক্ষা প্রস্তুতি।",
+  "explanationBn": "৩টি প্রশ্নের দ্রুততম রিভিশন সারসংক্ষেপ:\n১. Sentence Connectors (প্রশ্ন ৭ - ৫ নম্বর):\n- সংযোজনে: Moreover, Furthermore, Besides, In addition.\n- বৈপরীত্যে: However, Nevertheless, On the contrary, But.\n- কারণ ও ফলাফলে: Because, Therefore, As a result, Consequently.\n- অনুক্রমে: Firstly, Secondly, Next, Finally, In conclusion.\n\n২. Tag Questions (প্রশ্ন ৮ - ৫ নম্বর):\n- বাক্য হ্যাঁ হলে ট্যাগ না (-); বাক্য না হলে ট্যাগ হ্যাঁ (+)।\n- I am থাকলে: AREN'T I?\n- Let's থাকলে: SHALL WE?\n- Let him / Don't থাকলে: WILL YOU?\n- Everybody / Nobody থাকলে: THEY (Plural Verb: don't they? did they?)।\n- Hardly / Seldom / Few / Little থাকলে: POSITIVE TAG (does he? is there?)।\n- Used to থাকলে: DIDN'T HE?\n\n৩. Punctuation & Capitalization (প্রশ্ন ৯ - ৫ নম্বর):\n- প্রত্যক্ষ সংলাপে বক্তার কথা ইনভার্টেড কমার (\"...\") ভেতরে ঢুকিয়ে প্রথম অক্ষরটি Capital করতে হবে।\n- বিরামচিহ্ন (কমা, ফুলস্টপ, ?) ইনভার্টেড কমার ভেতরে অবস্থান করবে।\n- সম্বোধনে কমা (Rahim, come here).\n- দিন, মাস, স্থান, ধর্মগ্রন্থ এবং একক সর্বনাম \"I\" সর্বদা Capital Letter হবে।",
+  "teacherGoldenTips": "শেষ ৩টি প্রশ্নের ফুল মার্কস নিশ্চিত করার হ্যাক:\n১. কানেক্টরস লেখার আগে পুরো অনুচ্ছেদটি পড়ে অর্থের ধারাবাহিকতা দেখুন!\n২. ট্যাগ কোশ্চেনের উত্তর লেখার সময় সম্পূর্ণ বাক্যটি লিখে ট্যাগটির নিচে দাগ (Underline) দিন!\n৩. বিরামচিহ্নে গুনে দেখুন ঠিক ১০টি স্থানে পরিবর্তন এনেছেন কি না (১০টি কারেকশনে ৫ নম্বর)!",
+  "mainFormula": "Connectors: Paragraph Logic | Tag: Operator Inversion + Pronoun Concord | Punctuation: Dialogue Quotes + Capitalization",
+  "formulas": [
+    {
+      "label": "Tripartite Review Matrix",
+      "structure": "Discourse Connectors (Logic) + Tag Questions (Concord) + Punctuation (Dialogue Bounds)",
+      "tag": "Review Matrix",
+      "example": "Master review across SSC Questions 7, 8, and 9."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষার খাতায় পূর্ণ নম্বর নিশ্চিত করার খাতা উপস্থাপন কৌশল",
+      "nameEn": "Examination Script Layout Protocols for Maximum Marks",
+      "formula": "Distinct numbering -> Underline answers where applicable -> Check punctuation boundaries",
+      "shortcutTrick": "স্পষ্ট হাতের লেখায় সম্পূর্ণ বাক্য তুলে আন্ডারলাইন করলে পরীক্ষকের পূর্ণ নম্বর দিতে সুবিধা হয়!",
+      "descriptionBn": "এসএসসি পরীক্ষার নির্দেশনা অনুযায়ী উত্তর সুন্দর ও মার্জিতভাবে উপস্থাপন করা।",
+      "examples": [
+        {
+          "en": "Trees provide us with timber. Furthermore, they absorb carbon dioxide.",
+          "bn": "গাছ আমাদের কাঠ দেয়। অধিকন্তু, তারা কার্বন ডাই অক্সাইড শোষণ করে।",
+          "note": "Connectors উপস্থাপন।"
+        },
+        {
+          "en": "Let us protect our motherland, shall we?",
+          "bn": "চলো আমাদের মাতৃভূমিকে রক্ষা করি, করব কি?",
+          "note": "Tag question আন্ডারলাইন।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Nobody believed his fabricated excuse, did they?",
+      "bn": "কেউ তার মনগড়া অজুহাত বিশ্বাস করল না, করল কি?",
+      "note": "Nobody -> did they?"
+    },
+    {
+      "en": "The doctor said, \"Do not worry; the patient will recover soon.\"",
+      "bn": "ডাক্তার বললেন, \"চিন্তা করবেন না; রোগী শীঘ্রই সুস্থ হয়ে উঠবে।\"",
+      "note": "Punctuation Dialogue।"
+    },
+    {
+      "en": "He worked hard. As a result, he secured GPA-5 in the examination.",
+      "bn": "সে কঠোর পরিশ্রম করেছিল। ফলস্বরূপ, সে পরীক্ষায় জিপিএ-৫ অর্জন করল।",
+      "note": "As a result (কানেক্টর)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Tag Question-এ কখনো Noun বসানো যাবে না",
+      "exceptionText": "মূল বাক্যে যতো বড় বা জটিল Noun-ই থাকুক না কেন (The students of our school), ট্যাগে সর্বদা তার Pronoun (they) বসাতে হবে; কোনো অবস্থাতেই Noun পুনরাবৃত্তি করা যাবে না।",
+      "exampleEn": "The students of our school are brilliant, aren't they? (NOT aren't the students?)",
+      "exampleBn": "আমাদের বিদ্যালয়ের শিক্ষার্থীরা মেধাবী, তাই নয় কি?"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Let's go out, will you?",
+      "correct": "Let's go out, shall we?",
+      "reasonBn": "Let's-এর ট্যাগ সর্বদা \"shall we?\" হবে।"
+    },
+    {
+      "mistake": "\"where are you going\" asked father.",
+      "correct": "\"Where are you going?\" asked father.",
+      "reasonBn": "ইনভার্টেড কমার ভেতরের প্রথম অক্ষর Capital হবে এবং প্রশ্নবোধক চিহ্ন ভেতরে ঢুকবে।"
+    }
+  ],
+  "tags": [
+    "ssc connectors",
+    "ssc tag questions",
+    "ssc punctuation",
+    "ssc questions 7 8 9",
+    "board exam preparation",
+    "grammar master review"
+  ],
+  "mcqs": [
+    {
+      "id": 230501,
+      "question": "Few people are completely immune to flattery, _____?",
+      "questionBn": "\"Few people are completely immune to flattery, _____?\" সঠিক ট্যাগ কোনটি?",
+      "options": [
+        "aren't they",
+        "are they",
+        "don't they",
+        "do they"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Few\" থাকায় বাক্যটি অর্থগতভাবে না-বোধক, তাই ট্যাগটি হ্যাঁ-বোধক (\"are they?\") হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 230502,
+      "question": "Choose the sentence with completely flawless punctuation and capitalization:",
+      "questionBn": "কোন বাক্যটিতে শতভাগ নির্ভুল বিরামচিহ্ন ও ক্যাপিটালাইজেশন রয়েছে?",
+      "options": [
+        "The teacher said \"Have you completed your assignment, Tanvir\"?",
+        "The teacher said, \"Have you completed your assignment, Tanvir?\"",
+        "The teacher said, \"have you completed your assignment, Tanvir?\"",
+        "The teacher said, \"Have you completed your assignment Tanvir\"?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Reporting verb-এর পর কমা, কোটেশনের ভেতর Capital \"Have\", সম্বোধনে কমা \"Tanvir\", এবং প্রশ্নবোধক চিহ্নটি কোটেশনের ভেতরে থাকায় ২য় বাক্যটি সম্পূর্ণ সঠিক।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230501,
+      "type": "SSC Questions 7, 8 & 9 Tripartite Drill",
+      "prompt": "Answer the 3 tasks: (a) Insert Connector: \"He was sick. _____, he attended the meeting.\" (b) Tag: \"I am late, _____?\" (c) Punctuate: \"father said why are you wasting time\"",
+      "correctAnswer": "(a) However / Nevertheless / Yet. (b) aren't I? (c) Father said, \"Why are you wasting time?\"",
+      "explanationBn": "প্রশ্ন ৭, ৮ ও ৯-এর সমন্বিত মডেল সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Questions 7-9",
+      "questionContext": "Tripartite Grammar Review in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Add tag question: \"There is no point in arguing further, _____?\"",
+          "answer": "is there?",
+          "explanationBn": "Introductory There এবং no point-এর জন্য পজিটিভ ট্যাগ is there।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার নিশ্চিত ৫ নম্বরের আদর্শ মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'ssc-grammar-narration-passage-mastery': {
+  "id": 2304,
+  "chapterId": 23,
+  "topicNo": "০৪",
+  "titleEn": "SSC Question 6: Passage Narration 5-Mark Examination Protocols",
+  "titleBn": "এসএসসি প্রশ্ন ৬: প্যাসেজ ন্যারেশন ৫ নম্বরের পূর্ণাঙ্গ সমাধান প্রটোকল",
+  "slug": "ssc-grammar-narration-passage-mastery",
+  "difficulty": "HARD",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার অত্যন্ত সংবেদনশীল ৫ নম্বর (Passage Narration)। বিচ্ছিন্ন বাক্য নয়, বরং পূর্ণাঙ্গ একটি কথোপকথনের রূপান্তর। বক্তা ও শ্রোতা সনাক্তকরণ, স্যারের সম্বোধনে Respectfully, Yes/No রূপান্তর, শপথ (Swearing by Allah), একাধিক বক্তব্যের ধারাবাহিকতায় also said / added that, এবং এসারটিভ কাঠামোর পূর্ণাঙ্গ রূপান্তরের ৫টি স্বর্ণালী ধাপ।",
+  "definitionEn": "Passage Narration evaluates comprehensive discourse reporting competence across dynamic multiparty dialogues, executing systematic shifts in tense registers, deictic markers, conversational address forms, and sequential affirmative/negative assertions.",
+  "definitionBn": "একটি সম্পূর্ণ অনুচ্ছেদে দুজন বা ততোধিক ব্যক্তির কথোপকথনকে প্রত্যক্ষ উক্তি (Direct Speech) থেকে পরোক্ষ উক্তিতে (Indirect Speech) রূপান্তর করার সামগ্রিক প্রক্রিয়াকে Passage Narration বলে।",
+  "explanationBn": "প্যাসেজ ন্যারেশনে ৫/৫ পাওয়ার ৫টি নিশ্চিত ধাপ:\n১. সমগ্র প্যাসেজ পাঠ ও বক্তা-শ্রোতা সনাক্তকরণ:\n- পুরো অনুচ্ছেদটি আগে পড়ে কে কথা বলছে (Speaker) এবং কার সাথে কথা বলছে (Listener) তা নিশ্চিত করতে হবে।\n\n২. স্যার (Sir) ও সম্বোধন পদের রূপান্তর:\n- \"Sir\" থাকলে Reporting Verb-এর পূর্বে বা পরে \"RESPECTFULLY\" বা \"addressing as sir\" লিখতে হয়: The student respectfully replied that...\n- কাউকে কোনো নামে সম্বোধন করলে: Addressing him as friend / brother, he said that...\n\n৩. Yes এবং No-এর প্রমিত রূপান্তর:\n- \"Yes\" থাকলে: \"REPLIED IN THE AFFIRMATIVE\" (এবং অতিরিক্ত কথা থাকলে: and said that...)।\n- \"No\" থাকলে: \"REPLIED IN THE NEGATIVE\" (এবং অতিরিক্ত কথা থাকলে: and said that...)।\n\n৪. একই বক্তার একাধিক উক্তি সংযোগ:\n- ১ম বাক্য: He said that...\n- ২য় বাক্য (Assertive): He also said that... / He added that...\n- ৩য় বাক্য: He further added that...\n- প্রশ্নবোধক হলে: He also asked if/why...\n\n৫. শপথ ও অন্যান্য বিশেষ অভিব্যক্তি:\n- \"By Allah / By God\" থাকলে: \"SWEARING BY ALLAH / GOD, he said that...\"\n- \"Thank you\" থাকলে: \"He THANKED me/him.\"\n- \"Good morning\" থাকলে: \"He WISHED me good morning.\"\n- \"Good bye / Farewell\" থাকলে: \"He BADE me good bye.\"",
+  "teacherGoldenTips": "প্যাসেজ ন্যারেশনের গোপন ৫টি টিপস:\n১. বক্তার নাম প্যাসেজে কোথাও উল্লেখ না থাকলে \"The speaker said to the listener\" ধরে শুরু করবেন!\n২. Yes দেখলে চোখ বন্ধ করে লিখবেন \"replied in the affirmative and said that\"!\n৩. Sir দেখলে সর্বদা লিখবেন \"respectfully\"!\n৪. ইনডাইরেক্টে রূপান্তরের পর কোনো ইনভার্টেড কমা বা প্রশ্নবোধক চিহ্ন থাকবে না; প্রতিটি বাক্যের শেষে কেবল FULL STOP (.) বসবে!\n৫. টেন্স এবং Person পরিবর্তন যেন কোনো অবস্থাতেই ভুল না হয়!",
+  "mainFormula": "Speaker + reported verb + listener + that/if/to + Tense Back-shift + Person Shift + Adverb of Time Shift",
+  "formulas": [
+    {
+      "label": "Passage Discourse Dialogue Protocol",
+      "structure": "Speaker + RESPECTFULLY / ALSO / ADDED + Reporting Verb + Reported Clause (Assertive syntax with period)",
+      "tag": "Passage Protocol",
+      "example": "\"Yes, sir, I have finished it,\" said he => He respectfully replied in the affirmative and said that he had finished it."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Yes এবং No-এর পর অতিরিক্ত বক্তব্য সংযোগের নিয়ম",
+      "nameEn": "Sequential Coordination following \"Yes\" and \"No\" in Discourse",
+      "formula": "YES => replied in the affirmative and said that + Clause | NO => replied in the negative and said that + Clause",
+      "shortcutTrick": "Yes-এর পর কমা দিয়ে আরও কথা থাকলে \"and said that\" যোগ করে সেই কথাটি জুড়ে দিন!",
+      "descriptionBn": "\"Yes, I will attend the seminar\" => He replied in the affirmative and said that he would attend the seminar.",
+      "examples": [
+        {
+          "en": "\"No, I cannot compromise with injustice,\" said the magistrate.",
+          "bn": "\"না, আমি অন্যায়ের সাথে আপস করতে পারি না,\" ম্যাজিস্ট্রেট বললেন।",
+          "note": "No + অতিরিক্ত বক্তব্য।"
+        },
+        {
+          "en": "The magistrate replied in the negative and said that he could not compromise with injustice.",
+          "bn": "ম্যাজিস্ট্রেট না-সূচক উত্তর দিলেন এবং বললেন যে তিনি অন্যায়ের সাথে আপস করতে পারেন না।",
+          "note": "Indirect রূপ।"
+        }
+      ]
+    },
+    {
+      "nameBn": "একই বক্তার পরপর একাধিক প্রশ্নের সংযোগ",
+      "nameEn": "Consecutive Interrogative Utterances by the Same Speaker",
+      "formula": "Question 1: Speaker + ASKED + Listener + Wh/if ... | Question 2: He ALSO ASKED / FURTHER INQUIRED + Wh/if ...",
+      "shortcutTrick": "একই ব্যক্তি পর পর দুটো প্রশ্ন করলে দ্বিতীয়টিতে \"also asked\" বা \"again asked\" বসাবেন!",
+      "descriptionBn": "Father said to me, \"Where are you going? When will you return?\" => Father asked me where I was going and also asked when I would return.",
+      "examples": [
+        {
+          "en": "\"What is your native district? Why did you relocate to Dhaka?\" asked the interviewer.",
+          "bn": "\"তোমার পৈতৃক জেলা কোনটি? তুমি কেন ঢাকায় স্থানান্তরিত হয়েছিলে?\" সাক্ষাৎকার গ্রহণকারী জিজ্ঞেস করলেন।",
+          "note": "পরপর দুটি প্রশ্ন।"
+        },
+        {
+          "en": "The interviewer asked the candidate what his native district was and also inquired why he had relocated to Dhaka.",
+          "bn": "সাক্ষাৎকার গ্রহণকারী প্রার্থীর কাছে জানতে চাইলেন তার পৈতৃক জেলা কোনটি এবং আরও জানতে চাইলেন কেন সে ঢাকায় স্থানান্তরিত হয়েছিল।",
+          "note": "also inquired।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Direct: \"Have you prepared your lesson today?\" said the teacher. \"No, sir, I was suffering from fever,\" replied the student.",
+      "bn": "প্রত্যক্ষ উক্তি।",
+      "note": "বোর্ড স্ট্যান্ডার্ড প্যাসেজ সংলাপ।"
+    },
+    {
+      "en": "Indirect: The teacher asked the student if he had prepared his lesson that day. The student respectfully replied in the negative and said that he had been suffering from fever.",
+      "bn": "পরোক্ষ উক্তি।",
+      "note": "respectfully replied in the negative and said that..."
+    },
+    {
+      "en": "\"By Allah, I will never desert you in adversity,\" pledged the companion.",
+      "bn": "শপথ সংক্রান্ত উক্তি।",
+      "note": "Swearing by Allah, the companion pledged that he would never desert him in adversity."
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Passage Narration-এ চিরন্তন সত্যের কোনো টেন্স পরিবর্তন হয় না",
+      "exceptionText": "প্যাসেজের ভেতরে কোনো চিরন্তন সত্য, বৈজ্ঞানিক তথ্য বা ঐতিহাসিক ঘটনা থাকলে Reporting Verb অতীতে থাকলেও তার টেন্স অপরিবর্তিত থাকে।",
+      "exampleEn": "The philosopher remarked that virtue is its own reward (NOT virtue was).",
+      "exampleBn": "দার্শনিক মন্তব্য করলেন যে পুণ্য নিজেই তার নিজস্ব পুরস্কার।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He asked me that where I lived.",
+      "correct": "He asked me where I lived.",
+      "reasonBn": "Interrogative বাক্যের ইনডাইরেক্টে WH-word-এর আগে কখনো \"that\" বসানো মারাত্মক ভুল।"
+    },
+    {
+      "mistake": "He told to me that he was ill.",
+      "correct": "He told me that he was ill. (or He said to me that...)",
+      "reasonBn": "Told-এর পরে কখনো \"to\" বসে না।"
+    }
+  ],
+  "tags": [
+    "ssc passage narration",
+    "direct to indirect speech",
+    "replied in the affirmative",
+    "respectfully said that",
+    "swearing by allah",
+    "ssc question 6"
+  ],
+  "mcqs": [
+    {
+      "id": 230401,
+      "question": "How should the utterance '\"Yes, sir, I have accomplished my homework,\" said the boy' be reported indirectly?",
+      "questionBn": "'\"Yes, sir, I have accomplished my homework,\" said the boy'-এর সঠিক পরোক্ষ রূপ কোনটি?",
+      "options": [
+        "The boy said sir that he accomplished his homework.",
+        "The boy respectfully replied in the affirmative and said that he had accomplished his homework.",
+        "The boy replied in the affirmative that he accomplished his homework.",
+        "The boy told respectfully he had accomplished his homework."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Sir\"-এর জন্য respectfully, \"Yes\"-এর জন্য replied in the affirmative, এবং have accomplished পরিবর্তিত হয়ে had accomplished বসবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 230402,
+      "question": "Identify the indirect reporting of: \"By God, I will protect the motherland,\" declared the warrior.",
+      "questionBn": "\"By God, I will protect the motherland,\" declared the warrior-এর সঠিক পরোক্ষ রূপ কোনটি?",
+      "options": [
+        "Swearing by God, the warrior declared that he would protect the motherland.",
+        "The warrior declared by God he will protect the motherland.",
+        "Swearing by God, the warrior said he will protect the motherland.",
+        "The warrior swore by God to protect motherland."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"By God\" শপথ প্রকাশ করায় প্রমিত নিয়ম অনুযায়ী \"Swearing by God, the warrior declared that he would protect...\" বসবে।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230401,
+      "type": "SSC Passage Narration Model Drill",
+      "prompt": "Change into Indirect Speech: '\"Where did you go yesterday?\" said father to Karim. \"I went to my friend's house to borrow a book,\" replied Karim. \"Did you finish your studies?\" said father.'",
+      "correctAnswer": "Father asked Karim where he had gone the previous day. Karim replied that he had gone to his friend's house to borrow a book. Father also asked if he had finished his studies.",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের আদর্শ প্যাসেজ ন্যারেশন সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Question 6",
+      "questionContext": "Passage Narration in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Transform the sentence into Indirect Speech: '\"Good morning, Rupa,\" said Kamal. \"Why were you absent yesterday?\"'",
+          "answer": "Kamal wished Rupa good morning and asked why she had been absent the previous day.",
+          "explanationBn": "অভিবাদন ও প্রশ্নবোধক বাক্যের সমন্বিত রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৬ (Passage Narration)-এর অত্যন্ত ক্লাসিক মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'ssc-grammar-transformation-and-voice': {
+  "id": 2303,
+  "chapterId": 23,
+  "topicNo": "০৩",
+  "titleEn": "SSC Question 5: Master Transformation of Sentences (Voice, Degree, Affirmative/Negative & Structure)",
+  "titleBn": "এসএসসি প্রশ্ন ৫: বাক্যের রূপান্তর ও বাচ্য পরিবর্তন মাস্টার রিভিশন (Transformation of Sentences)",
+  "slug": "ssc-grammar-transformation-and-voice",
+  "difficulty": "HARD",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার অত্যন্ত গুরুত্বপূর্ণ ৫ নম্বর। কোনো অর্থের পরিবর্তন না ঘটিয়ে বাক্যের কাঠামোগত রূপান্তর: Voice (Active <-> Passive), Degrees of Comparison (Positive <-> Comparative <-> Superlative), Affirmative <-> Negative (Only/Alone -> None but, Must -> Cannot but), এবং Simple <-> Complex <-> Compound-এর চূড়ান্ত ম্যাট্রিক্স।",
+  "definitionEn": "Transformation of Sentences involves re-engineering grammatical syntax without modifying intrinsic propositional semantic value, spanning voice alternation, comparative gradience, affirmative-negative conversion, and structural clausal synthesis.",
+  "definitionBn": "বাক্যের মূল অর্থ সম্পূর্ণ অপরিবর্তিত রেখে তার ব্যাকরণগত রূপ পরিবর্তন করাকে Transformation of Sentences বলে। বাচ্য, মাত্রা ও বাক্য কাঠামোর পরিবর্তনের ক্ষেত্রে এটি কঠোর নিয়ম অনুসরণ করে।",
+  "explanationBn": "এসএসসি পরীক্ষার ৪টি প্রধান রূপান্তর এরিয়া:\n১. Affirmative to Negative (অর্থ অপরিবর্তিত রেখে):\n- Only / Alone (ব্যক্তি) -> NONE BUT: Only Allah can save us -> None but Allah can save us.\n- Only (বস্তু) -> NOTHING BUT: He wants only a toy -> He wants nothing but a toy.\n- Only (বয়স/সংখ্যা) -> NOT MORE THAN / NOT LESS THAN: He is only ten -> He is not more than ten.\n- Must -> CANNOT BUT + V1 (বা cannot help + V-ing): We must yield to destiny -> We cannot but yield to destiny.\n- Every ... -> THERE IS NO ... BUT: Every mother loves her child -> There is no mother but loves her child.\n- As soon as -> NO SOONER HAD ... THAN.\n\n২. Degrees of Comparison:\n- Superlative: Dhaka is the largest city in Bangladesh.\n- Comparative: Dhaka is larger than ANY OTHER city in Bangladesh.\n- Positive: NO OTHER city in Bangladesh is as large as Dhaka.\n- One of the থাকলে: Very few cities are as large as Dhaka.\n\n৩. Voice Change (Active <-> Passive):\n- Subject <-> Object রূপান্তর + Tense অনুযায়ী Be Verb + V3 + by/to/with/at + Object.\n- Imperative: Do it -> LET IT BE DONE. Never tell a lie -> LET NEVER A LIE BE TOLD.\n- Quasi-passive: Honey tastes sweet -> Honey is sweet when it is tasted.\n\n৪. Simple <-> Complex <-> Compound:\n- Simple: In spite of his poverty, he is honest.\n- Complex: Though he is poor, he is honest.\n- Compound: He is poor, but he is honest.",
+  "teacherGoldenTips": "ট্রান্সফরমেশনের দ্রুত ট্রিক:\n১. Only ব্যক্তির সাথে থাকলে \"None but\", বস্তুর সাথে \"Nothing but\", সংখ্যার সাথে \"Not more than\"!\n২. Superlative-এ the + est থাকলে Positive হবে \"No other\"; আর \"one of the\" থাকলে শুরু হবে \"Very few\" দিয়ে!\n৩. Simple-এ In spite of -> Complex-এ Though/Although -> Compound-এ But!",
+  "mainFormula": "Only (Person) -> None but | Must -> Cannot but + V1 | The best -> No other ... as good as | In spite of -> Though -> But",
+  "formulas": [
+    {
+      "label": "Only Substitution Matrix",
+      "structure": "Only (Person) => None but | Only (Object) => Nothing but | Only (Number) => Not more than",
+      "tag": "Only Matrix",
+      "example": "Only he can do it => None but he can do it."
+    },
+    {
+      "label": "Degree Conversion Triad",
+      "structure": "Superlative (the -est) <=> Comp (-er than any other) <=> Positive (No other ... as - as)",
+      "tag": "Degree Triad",
+      "example": "Iron is the most useful metal <=> Iron is more useful than any other metal <=> No other metal is as useful as iron."
+    },
+    {
+      "label": "Structural Synthesis (Though/In spite of)",
+      "structure": "Simple (In spite of + Noun) <=> Complex (Though + S + V) <=> Compound (Clause 1 , BUT Clause 2)",
+      "tag": "Though Triad",
+      "example": "In spite of being poor, he is honest <=> Though he is poor, he is honest <=> He is poor, but he is honest."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "One of the যুক্ত Superlative-কে Positive-এ রূপান্তরের নিয়ম",
+      "nameEn": "Transformation of \"One of the\" Superlatives via \"Very Few\"",
+      "formula": "Superlative: One of the + Sup Adj + Plural Noun => POSITIVE: VERY FEW + Plural Noun + PLURAL VERB + as + Pos Adj + as + S",
+      "shortcutTrick": "\"One of the\" দেখলেই শুরু করবেন \"Very few\" দিয়ে এবং Verb-টি অবশ্যই Plural (are/were) করবেন!",
+      "descriptionBn": "Nazrul is one of the greatest poets -> Very few poets are as great as Nazrul.",
+      "examples": [
+        {
+          "en": "The Padma is one of the biggest rivers in Bangladesh.",
+          "bn": "পদ্মা বাংলাদেশের অন্যতম বৃহত্তম নদী।",
+          "note": "Superlative with one of the।"
+        },
+        {
+          "en": "Very few rivers in Bangladesh are as big as the Padma.",
+          "bn": "বাংলাদেশে খুব কম নদীই পদ্মার মতো এত বড়।",
+          "note": "Positive with Very few + are।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Must-কে Negative করার দুটি চমৎকার উপায়",
+      "nameEn": "Negative Alternation of Modal \"Must\" (Cannot but vs Cannot help)",
+      "formula": "Subject + MUST + V1 => Subject + CANNOT BUT + V1 | Subject + CANNOT HELP + V-ING",
+      "shortcutTrick": "cannot but-এর পর সরাসরি V1; আর cannot help-এর পর Verb-এর সাথে -ing!",
+      "descriptionBn": "You must obey your parents => You cannot but obey your parents (or You cannot help obeying your parents).",
+      "examples": [
+        {
+          "en": "We must acknowledge the supreme sacrifice of the freedom fighters.",
+          "bn": "আমাদের অবশ্যই মুক্তিযোদ্ধাদের সর্বোচ্চ আত্মত্যাগকে স্বীকার করতে হবে।",
+          "note": "Affirmative।"
+        },
+        {
+          "en": "We cannot but acknowledge the supreme sacrifice of the freedom fighters.",
+          "bn": "আমরা মুক্তিযোদ্ধাদের সর্বোচ্চ আত্মত্যাগকে স্বীকার না করে পারি না।",
+          "note": "Negative with cannot but + V1।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Only the brave deserve the fair (Affirmative) -> None but the brave deserve the fair (Negative).",
+      "bn": "কেবলমাত্র সাহসীরাই সুন্দরীদের পাওয়ার যোগ্য -> সাহসীরা ছাড়া কেউ সুন্দরীদের পাওয়ার যোগ্য নয়।",
+      "note": "Only -> None but।"
+    },
+    {
+      "en": "A lion was caught in a trap by the hunter (Passive) -> The hunter caught a lion in a trap (Active).",
+      "bn": "শিকারি দ্বারা ফাঁদে একটি সিংহ ধরা পড়েছিল -> শিকারি ফাঁদে একটি সিংহ ধরেছিল।",
+      "note": "Voice Transformation।"
+    },
+    {
+      "en": "By working hard, you will prosper (Simple) -> If you work hard, you will prosper (Complex).",
+      "bn": "কঠোর পরিশ্রমের মাধ্যমে তুমি উন্নতি করবে -> যদি তুমি কঠোর পরিশ্রম করো, তুমি উন্নতি করবে।",
+      "note": "Simple to Complex।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Quasi-Passive বাক্যে সরাসরি By + Object বসে না",
+      "exceptionText": "\"Rice sells cheap\" বা \"The bed feels soft\"-এর মতো Quasi-passive বাক্যে প্যাসিভ রূপান্তরের নিয়ম: Rice is cheap when it is sold, বা The bed is soft when it is felt.",
+      "exampleEn": "Honey tastes sweet -> Honey is sweet when it is tasted.",
+      "exampleBn": "মধু খেতে মিষ্টি -> মধু যখন আস্বাদন করা হয় তখন মিষ্টি লাগে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Very few poets in Bengal is as great as Nazrul.",
+      "correct": "Very few poets in Bengal are as great as Nazrul.",
+      "reasonBn": "Very few-এর পরে Verb সর্বদা Plural (are/were) হতে হবে।"
+    },
+    {
+      "mistake": "He is more wiser than his brother.",
+      "correct": "He is wiser than his brother.",
+      "reasonBn": "Wiser নিজেই Comparative; এর আগে আবার \"more\" বসানো ডাবল কম্পারেটিভ ভুল।"
+    }
+  ],
+  "tags": [
+    "ssc transformation",
+    "voice change active passive",
+    "degrees of comparison",
+    "affirmative to negative",
+    "simple complex compound",
+    "ssc question 5"
+  ],
+  "mcqs": [
+    {
+      "id": 230301,
+      "question": "Transform into Negative: \"Only an extraordinary genius can solve this advanced problem.\"",
+      "questionBn": "\"Only an extraordinary genius can solve this advanced problem\"-এর সঠিক Negative রূপ কোনটি?",
+      "options": [
+        "Nothing but an extraordinary genius can solve this advanced problem.",
+        "None but an extraordinary genius can solve this advanced problem.",
+        "Not more than an extraordinary genius can solve this advanced problem.",
+        "No genius can solve this advanced problem."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Only\" এখানে ব্যক্তি (\"an extraordinary genius\") নির্দেশ করায় এর নেগেটিভ রূপ হবে \"None but\"।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 230302,
+      "question": "What is the correct Positive Degree of: \"Iron is more useful than any other metal\"?",
+      "questionBn": "\"Iron is more useful than any other metal\"-এর সঠিক Positive Degree কোনটি?",
+      "options": [
+        "Very few metals are as useful as iron.",
+        "No other metal is as useful as iron.",
+        "Iron is as useful as any other metal.",
+        "No other metal is more useful than iron."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"than any other\" যুক্ত Comparative-কে Positive করতে \"No other metal is as useful as iron\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230301,
+      "type": "SSC Transformation Drill",
+      "prompt": "Transform the sentences as directed: (a) Every mother loves her child. (Make it Negative) (b) People call him a patriot. (Make it Passive)",
+      "correctAnswer": "(a) There is no mother but loves her child. (b) He is called a patriot (by people).",
+      "explanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৫-এর হুবহু মডেল রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Question 5",
+      "questionContext": "Transformation of Sentences in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Transform into Complex: \"Closing the door, the traveler walked into the dark forest.\"",
+          "answer": "When he had closed the door (or When he closed the door), the traveler walked into the dark forest.",
+          "explanationBn": "পার্টিসিপিয়াল ফ্রেজ থেকে When যুক্ত অ্যাডভার্বিয়াল ক্লজে রূপান্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৫-এর অত্যন্ত ক্লাসিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'ssc-grammar-right-form-of-verbs-completing': {
+  "id": 2302,
+  "chapterId": 23,
+  "topicNo": "০২",
+  "titleEn": "SSC Questions 3 & 4: Right Form of Verbs & Completing Sentences Rapid Revision",
+  "titleBn": "এসএসসি প্রশ্ন ৩ ও ৪: রাইট ফর্ম অব ভার্বস ও কমপ্লিটিং সেন্টেন্সেস চূড়ান্ত রিভিশন",
+  "slug": "ssc-grammar-right-form-of-verbs-completing",
+  "difficulty": "HARD",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার দুটি সর্বাধিক নম্বর বহনকারী অধ্যায় (১০ নম্বর)। রাইট ফর্ম অব ভার্বসের মূল সূত্র: Subject-Verb Agreement, Passive voice, Had better, Would rather, As if, It is high time, Lest, No sooner had, Conditionals, So that, এবং Since-এর টেন্স রুলস।",
+  "definitionEn": "Right Form of Verbs validates morphological and inflectional predicate congruence across voices, moods, and tenses. Completing Sentences evaluates syntactic competence in projecting subordinate dependent clauses according to rigorous structural constraints.",
+  "definitionBn": "বাক্যের অর্থ, কাল (Tense), কণ্ঠ (Voice) ও কর্তার সংখ্যা অনুযায়ী ক্রিয়ার সঠিক রূপ নির্ধারণ হলো Right Form of Verbs। আর শর্ত, উদ্দেশ্য ও সময়ের নিয়ম মেনে অপূর্ণ বাক্য সম্পূর্ণ করা হলো Completing Sentences।",
+  "explanationBn": "এসএসসি পরীক্ষার ৭টি সর্বাধিক গুরুত্বপূর্ণ গোল্ডেন রুলস:\n১. Lest (পাছে কিছু ঘটে এই ভয়ে):\n- Lest-এর পরের ক্লজে সর্বদা \"SHOULD\" বা \"MIGHT\" + V1 বসে (Lest-এর ক্লজে কখনো not বসে না):\n  Walk swiftly lest you SHOULD MISS the last commuter train.\n\n২. It is high time / It is time (উপযুক্ত সময় পার হয়ে গেছে):\n- এরপর Subject আসলে Verb সর্বদা Past Simple (V2) হয়:\n  It is high time we ABANDONED our corrupt practices.\n- এরপর Subject না আসলে সরাসরি \"To + V1\" বসে: It is time to start the journey.\n\n৩. As if / As though (এমন ভাব করে যেন):\n- ১ম অংশ Present হলে পরের অংশে Past Simple (V2) হয়; এবং Be Verb থাকলে সব Person-এ \"WERE\" বসে:\n  He speaks as if he KNEW everything. He behaves as if he WERE a monarch.\n- ১ম অংশ Past হলে পরের অংশে Past Perfect (had + V3) হয়: He spoke as if he HAD KNOWN everything.\n\n৪. No sooner had ... than / Scarcely had ... when:\n- ১ম অংশে Had + V3 এবং ২য় অংশে Past Simple (V2) বসে:\n  No sooner HAD the teacher ENTERED the classroom THAN the students STOOD up.\n\n৫. Since-এর টেন্স রুলস:\n- Present Tense + SINCE + Past Simple (V2): It is five years since I LAST SAW you.\n- Past Simple + SINCE + Past Perfect (had + V3): It was five years since I HAD LAST SEEN you.\n\n৬. So that / In order that:\n- ১ম অংশ Present হলে can/may; ১ম অংশ Past হলে could/might + V1.\n\n৭. Had better / Would rather:\n- এদের পর সর্বদা Bare Infinitive (To ছাড়া সরাসরি V1) বসে: You had better CONSULT a physician.",
+  "teacherGoldenTips": "কমপ্লিটিং সেন্টেন্সের ৩টি অব্যর্থ ট্রিক:\n১. Lest দেখলেই সাবজেক্টের পর চোখ বন্ধ করে \"SHOULD + V1\" বসিয়ে দিন!\n২. It is high time-এর পর সাবজেক্ট দেখলেই মূল ভার্বের PAST FORM (V2) বসাবেন!\n৩. As if-এর পর Be Verb আসলে I/He যাই থাকুক না কেন, সর্বদা \"WERE\" বসাবেন!",
+  "mainFormula": "Lest + S + SHOULD + V1 | It is high time + S + V2 | As if + S + WERE / had + V3 | No sooner had + V3 ... THAN + V2",
+  "formulas": [
+    {
+      "label": "Lest Formula",
+      "structure": "Imperative / Clause + LEST + Subject + SHOULD + Base Verb (V1)",
+      "tag": "Lest",
+      "example": "Read attentively lest you should fail in the examination."
+    },
+    {
+      "label": "It is high time Formula",
+      "structure": "IT IS HIGH TIME + Subject + Past Simple (V2) + Extension",
+      "tag": "It is high time",
+      "example": "It is high time we changed our detrimental eating habits."
+    },
+    {
+      "label": "As if Unreal Subjunctive",
+      "structure": "Present Simple + AS IF + Subject + WERE / Past Simple (V2)",
+      "tag": "As if",
+      "example": "He struts proudly as if he were an emperor."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Lest-এর ক্লজে Should বসার বাধ্যবাধকতা ও Not বর্জন",
+      "nameEn": "Mandatory Modal \"Should\" and Negative Exclusion after \"Lest\"",
+      "formula": "Action Clause + LEST + Subject + SHOULD / MIGHT + Base Verb (NO NOT)",
+      "shortcutTrick": "Lest নিজেই নেগেটিভ (ভয়ে যেন না ঘটে), তাই এর ক্লজে ভুলেও Not দেওয়া যাবে না; শুধু Should + V1!",
+      "descriptionBn": "Walk fast lest you should not miss the train ভুল; শুদ্ধ হলো \"lest you should miss the train\"।",
+      "examples": [
+        {
+          "en": "The thief fled through the alley lest the police should apprehend him.",
+          "bn": "চোরটি গলির মধ্য দিয়ে পালাল পাছে পুলিশ তাকে গ্রেপ্তার করে এই ভয়ে।",
+          "note": "lest + should apprehend।"
+        },
+        {
+          "en": "Take an umbrella with you lest you should catch a cold in the rain.",
+          "bn": "তোমার সাথে একটি ছাতা নাও পাছে তুমি বৃষ্টিতে ঠান্ডা বাঁধাও।",
+          "note": "lest + should catch।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Since-এর উভয় পাশের টেন্স সঙ্গতি নিয়ম",
+      "nameEn": "Bilateral Tense Harmony Governed by Temporal \"Since\"",
+      "formula": "Present Tense + SINCE + Past Simple (V2) | Past Simple + SINCE + Past Perfect (had + V3)",
+      "shortcutTrick": "শুরুতে is/has থাকলে পরে V2; শুরুতে was/had থাকলে পরে had + V3!",
+      "descriptionBn": "It is many years since we met. It was many years since we had met.",
+      "examples": [
+        {
+          "en": "Many years have elapsed since I visited my ancestral home.",
+          "bn": "অনেক বছর কেটে গেছে যখন আমি শেষ আমার পৈতৃক বাড়িতে গিয়েছিলাম।",
+          "note": "have elapsed (Present) -> visited (Past Simple)।"
+        },
+        {
+          "en": "It was a long time since the two old friends had met each other.",
+          "bn": "অনেক দীর্ঘ সময় পার হয়েছিল যখন দুই বৃদ্ধ বন্ধু একে অপরের সাথে সাক্ষাৎ করেছিলেন।",
+          "note": "was (Past) -> had met (Past Perfect)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "No sooner had the bell rung than the students entered the examination hall.",
+      "bn": "ঘণ্টা পড়তে না পড়তেই শিক্ষার্থীরা পরীক্ষার হলে প্রবেশ করল।",
+      "note": "No sooner had ... than।"
+    },
+    {
+      "en": "He talks as if he knew the solution to every complex conundrum.",
+      "bn": "সে এমনভাবে কথা বলে যেন সে প্রতিটি জটিল ধাঁধার সমাধান জানে।",
+      "note": "talks -> as if he knew।"
+    },
+    {
+      "en": "You had better leave now before the impending tempest strikes.",
+      "bn": "আসন্ন ঝড় আঘাত হানার আগেই তোমার বরং এখন প্রস্থান করা উচিত।",
+      "note": "had better + leave (V1)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Hardly had-এর সাথে When বসে, Than নয়",
+      "exceptionText": "No sooner had-এর সাথে Than বসে, কিন্তু Hardly had বা Scarcely had-এর সাথে সর্বদা \"When\" বা \"Before\" বসে; Than বসা সম্পূর্ণ ভুল।",
+      "exampleEn": "Hardly had he arrived when the telephone rang (NOT than the telephone rang).",
+      "exampleBn": "সে পৌঁছাতে না পৌঁছাতেই টেলিফোনটি বেজে উঠল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "It is high time we change our food habits.",
+      "correct": "It is high time we changed our food habits.",
+      "reasonBn": "It is high time-এর পর Subject আসলে Verb অবশ্যই Past form (changed) হতে হবে।"
+    },
+    {
+      "mistake": "No sooner had I reached the station, the train left.",
+      "correct": "No sooner had I reached the station than the train left.",
+      "reasonBn": "No sooner had-এর দ্বিতীয় ক্লজের শুরুতে লিঙ্কার হিসেবে \"than\" দেওয়া বাধ্যতামূলক।"
+    }
+  ],
+  "tags": [
+    "ssc right form of verbs",
+    "completing sentences",
+    "lest should",
+    "it is high time v2",
+    "as if were",
+    "no sooner had than",
+    "ssc question 3 and 4"
+  ],
+  "mcqs": [
+    {
+      "id": 230201,
+      "question": "It is high time the administration _____ stern measures against economic extortion.",
+      "questionBn": "\"It is high time the administration _____ stern measures against economic extortion\" শূন্যস্থানে কোন রূপটি বসবে?",
+      "options": [
+        "takes",
+        "took",
+        "will take",
+        "is taking"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"It is high time\"-এর পর Subject (\"the administration\") থাকায় Verb-এর Past Simple রূপ \"took\" বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 230202,
+      "question": "The fugitive ran with desperate speed lest he _____ by the border patrol.",
+      "questionBn": "\"The fugitive ran with desperate speed lest he _____ by the border patrol\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "should be caught",
+        "is caught",
+        "would be caught",
+        "must be caught"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Lest\"-এর পর Modal হিসেবে \"should\" এবং প্যাসিভ কাঠামো থাকায় \"should be caught\" সঠিক।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230201,
+      "type": "Completing Sentence Revision Drill",
+      "prompt": "Complete the sentences: (a) He behaves as though he _____. (b) No sooner had we stepped out of the hall _____ .",
+      "correctAnswer": "(a) were an omniscient scholar (or knew everything). (b) than the downpour commenced.",
+      "explanationBn": "As though-এর পর Subjunctive were এবং No sooner had-এর সাথে than-এর ব্যবহার।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Question 4",
+      "questionContext": "Completing Sentences in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Five years have passed since _____.\"",
+          "answer": "we last met (or I saw you last).",
+          "explanationBn": "Since-এর ১ম অংশ Present থাকায় ২য় অংশে Past Simple (met/saw) বসবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৪ (Completing Sentences)-এর নিশ্চিত কমন মডেল।",
+      "isVerified": true
+    }
+  ]
+},
+  'ssc-grammar-gap-filling-articles-prepositions': {
+  "id": 2301,
+  "chapterId": 23,
+  "topicNo": "০১",
+  "titleEn": "SSC Questions 1 & 2: Cloze Test with & without Clues (Articles, Prepositions & Parts of Speech)",
+  "titleBn": "এসএসসি প্রশ্ন ১ ও ২: ক্লজ টেস্ট উইথ ও উইদাউট ক্লুজ (আর্টিকেল, প্রিপজিশন ও পার্টস অব স্পিচ শূন্যস্থান)",
+  "slug": "ssc-grammar-gap-filling-articles-prepositions",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "SSC Examination Spec",
+  "summaryBn": "এসএসসি পরীক্ষার প্রথম দুটি প্রশ্ন (১০ নম্বর)। বক্স থেকে উপযুক্ত শব্দ বাছাই এবং কোনো ক্লু ছাড়া প্রাসঙ্গিক শব্দ বসানো। আর্টিকেল (A, An, The বা x), Appropriate Preposition এবং বাক্যের পার্টস অব স্পিচের অবস্থান অনুযায়ী পদ পরিবর্তন করে শূন্যস্থান পূরণের চূড়ান্ত কৌশল।",
+  "definitionEn": "Cloze test evaluation assesses lexical competence, syntactic cohesion, appropriate prepositions, article determinants, and morphological adaptation required to restore coherent semantic continuity in uncompleted prose paragraphs.",
+  "definitionBn": "একটি অনুচ্ছেদে নির্দিষ্ট শব্দ অনুপস্থিত রেখে শিক্ষার্থীদের সামগ্রিক ব্যাকরণ জ্ঞান, উপযুক্ত প্রিপজিশন, আর্টিকেল এবং শব্দভাণ্ডারের দক্ষতা যাচাই করার পরীক্ষামূলক পদ্ধতিকে Cloze Test বলে।",
+  "explanationBn": "ক্লজ টেস্টে ৫/৫ পাওয়ার ৪টি মূল সূত্র:\n১. আর্টিকেলের অবস্থান (Article Position):\n- Noun-এর পূর্বে শূন্যস্থান থাকলে এবং অর্থ নির্দিষ্ট হলে \"the\", অনির্দিষ্ট হলে \"a/an\" বসে। Noun-এর পূর্বে ইতোমধ্যে কোনো Possessive (my, his) বা Determiner থাকলে ক্রস (x) বসে।\n\n২. Appropriate Preposition-এর অবস্থান:\n- শূন্যস্থানের আগের Verb, Adjective বা Noun-এর সাথে নির্দিষ্ট প্রিপজিশন মিলিয়ে নিতে হয়:\n  Addicted to, Fond of, Deprived of, Keen on, Abide by, Depend on, Suffer from.\n\n৩. পার্টস অব স্পিচের অবস্থানগত নিয়ম (Syntactic Position):\n- Preposition-এর পরে Verb আসলে সর্বদা V-ing হয়: By WORKING hard, without STOPPING.\n- To-এর পরে সর্বদা Verb-এর Base form (V1) বসে (ব্যতিক্রম: With a view to, Look forward to + V-ing)।\n- Subject ও Verb-এর মাঝে শূন্যস্থান থাকলে তা সাধারণত Adverb হয়: He PATIENTLY waited.\n- Determiner এবং Noun-এর মাঝে শূন্যস্থান থাকলে তা Adjective হয়: A BRILLIANT scholar.\n\n৪. বক্সে প্রদত্ত শব্দের রূপ পরিবর্তন (Morphological Shifts in Clues):\n- বক্সে verb \"pollute\" দেওয়া থাকতে পারে; শূন্যস্থানে Noun দরকার হলে \"pollution\" এবং Adjective দরকার হলে \"polluted\" লিখতে হবে।",
+  "teacherGoldenTips": "ক্লজ টেস্টের গোপন কৌশল:\n১. Preposition-এর পর শূন্যস্থান দেখলেই চোখ বন্ধ করে Verb-এর সাথে ING যোগ করে দিন!\n২. বক্সে প্রদত্ত শব্দটিকে যেমন আছে তেমনই বসিয়ে দেবেন না; আগে দেখুন ওই শূন্যস্থানে Noun, Adjective নাকি Verb দরকার!\n৩. প্রশ্নে নির্দেশনা ভালো করে পড়ুন — কোনো আর্টিকেলের প্রয়োজন না হলে সেখানে (x) চিহ্ন দিতে হবে!",
+  "mainFormula": "Determiner + [ADJECTIVE] + Head Noun | Preposition + [V-ING / NOUN] | To + [V1] | Subject + [ADVERB] + Verb",
+  "formulas": [
+    {
+      "label": "Prepositional Gerund Formula",
+      "structure": "Preposition (except 'to') + VERB-ING + Object",
+      "tag": "Prep + V-ing",
+      "example": "By taking balanced diet, we can maintain sound health."
+    },
+    {
+      "label": "Article / Determiner Matrix",
+      "structure": "Specific Noun -> THE | Consonant -> A | Vowel Sound -> AN | Existing Determiner -> (x)",
+      "tag": "Article Matrix",
+      "example": "The Himalayas, an honest man, my (x) country."
+    },
+    {
+      "label": "Adjectival Slot Formula",
+      "structure": "A / An / The + [ADJECTIVE DERIVATIVE] + Singular/Plural Noun",
+      "tag": "Adj Slot",
+      "example": "He played an indispensable (Adj) role (Noun) in the tournament."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "With a view to / Look forward to-র পর V-ing বসার নিয়ম",
+      "nameEn": "Exceptional Invariable V-ing after Complex Prepositions",
+      "formula": "With a view to / Look forward to / Accustomed to + VERB-ING (NOT V1)",
+      "shortcutTrick": "To থাকলেও এই ৩টি ফ্রেজে কোনোদিন V1 হবে না; সর্বদা V-ing বসবে!",
+      "descriptionBn": "He went to the library with a view to reading books (read নয়)।",
+      "examples": [
+        {
+          "en": "We visited the memorial with a view to paying solemn homage to the martyrs.",
+          "bn": "আমরা শহীদদের প্রতি বিনম্র শ্রদ্ধা নিবেদনের উদ্দেশ্যে স্মৃতিসৌধ পরিদর্শন করলাম।",
+          "note": "with a view to + paying।"
+        },
+        {
+          "en": "I am eagerly looking forward to hearing from you soon.",
+          "bn": "আমি শীঘ্রই আপনার কাছ থেকে খবর শোনার জন্য উদগ্রীব হয়ে অপেক্ষা করছি।",
+          "note": "looking forward to + hearing।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শূন্যস্থানে সঠিক Part of Speech নির্ধারণ করার উপায়",
+      "nameEn": "Positional Syntax Parsing for Gap Selection",
+      "formula": "Check preceding token + Check following token -> Determine missing syntactic function",
+      "shortcutTrick": "সামনে কি আর্টিকেল? পেছনে কি Noun? তাহলে মাঝে ১০০% একটি Adjective বসবে!",
+      "descriptionBn": "A [diligent] student secures [academic] distinction.",
+      "examples": [
+        {
+          "en": "Honesty is an _____ (admire) quality that elevates human character.",
+          "bn": "সততা একটি প্রশংসনীয় গুণ যা মানুষের চরিত্রকে উন্নত করে।",
+          "note": "quality Noun-এর পূর্বে Adjective রূপ \"admirable\" বসবে।"
+        },
+        {
+          "en": "He completed the hazardous journey _____ (success).",
+          "bn": "সে সফলভাবে বিপজ্জনক যাত্রাটি সম্পন্ন করল।",
+          "note": "completed Verb-এর পর Adverb রূপ \"successfully\" বসবে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Cleanliness is considered next to godliness.",
+      "bn": "পরিচ্ছন্নতাকে পবিত্রতার পরের স্থান দেওয়া হয়।",
+      "note": "Appropriate Preposition: next to।"
+    },
+    {
+      "en": "Illiteracy is a curse to our national progress.",
+      "bn": "নিরক্ষরতা আমাদের জাতীয় অগ্রগতির জন্য একটি অভিশাপ।",
+      "note": "a curse to (অভিশাপ)।"
+    },
+    {
+      "en": "Without acquiring practical knowledge, one cannot succeed.",
+      "bn": "ব্যবহারিক জ্ঞান অর্জন ছাড়া কেউ সফল হতে পারে না।",
+      "note": "Without + acquiring (V-ing)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "In order to-র পর Verb-এর Base Form বসে",
+      "exceptionText": "With a view to-র পর V-ing বসলেও In order to-র পর কিন্তু স্বাভাবিক ইনফিনিটিভ হিসেবে Verb-এর Base Form (V1) বসে (e.g. He worked hard in order to pass).",
+      "exampleEn": "He ran fast in order to catch the train (NOT in order to catching).",
+      "exampleBn": "ট্রেনটি ধরার উদ্দেশ্যে সে দ্রুত দৌড়াল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He went to market with a view to buy a shirt.",
+      "correct": "He went to market with a view to buying a shirt.",
+      "reasonBn": "With a view to-র পর Verb-এর সাথে অবশ্যই -ing যুক্ত হবে।"
+    },
+    {
+      "mistake": "He is addicted with drugs.",
+      "correct": "He is addicted to drugs.",
+      "reasonBn": "Addicted-এর সাথে প্রমিত Appropriate Preposition হলো \"to\"।"
+    }
+  ],
+  "tags": [
+    "ssc gap filling",
+    "cloze test with clues",
+    "cloze test without clues",
+    "appropriate prepositions",
+    "articles gap",
+    "ssc question 1 and 2"
+  ],
+  "mcqs": [
+    {
+      "id": 230101,
+      "question": "The ambitious youth joined the research laboratory with a view to _____ scientific discovery.",
+      "questionBn": "\"The ambitious youth joined the research laboratory with a view to _____ scientific discovery\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "pursue",
+        "pursuing",
+        "pursued",
+        "pursuit"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"with a view to\"-র পর Verb-এর সাথে সর্বদা -ing যুক্ত হয়, তাই \"pursuing\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 230102,
+      "question": "Identify the grammatically appropriate word for: \"His _____ (courage) decision saved hundreds of lives.\"",
+      "questionBn": "\"His _____ (courage) decision saved hundreds of lives\" শূন্যস্থানে শব্দটির কোন রূপ বসবে?",
+      "options": [
+        "courageous",
+        "courageously",
+        "encouragement",
+        "courage"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Noun \"decision\"-এর পূর্বে শূন্যস্থান থাকায় Adjective রূপ \"courageous\" (সাহসী) বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 230101,
+      "type": "SSC Cloze Test Model Drill",
+      "prompt": "Fill in the blanks with suitable prepositions and articles: \"Education is (a) _____ light of the mind. It dispels the darkness (b) _____ ignorance. We should be devoted (c) _____ our studies.\"",
+      "correctAnswer": "(a) the, (b) of, (c) to",
+      "explanationBn": "এসএসসি পরীক্ষার প্রশ্ন ১ ও ২-এর আদর্শ শূন্যস্থান পূরণ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 230101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Question 1 & 2",
+      "questionContext": "Cloze test with clues in SSC English 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence with an appropriate preposition: \"A patriotic citizen never deviates _____ the path of truth.\"",
+          "answer": "from",
+          "explanationBn": "Deviate-এর পর Appropriate Preposition \"from\" বসে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি বোর্ড পরীক্ষায় বারবার আসা অত্যন্ত গুরুত্বপূর্ণ একটি শূন্যস্থান।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-chapter-practice-set': {
+  "id": 2206,
+  "chapterId": 22,
+  "topicNo": "০৬",
+  "titleEn": "Chapter Practice Set: Vocabulary Mastery & SSC Examination Lexicon Vault",
+  "titleBn": "অধ্যায় অনুশীলন সেট: শব্দভাণ্ডার পূর্ণাঙ্গ প্র্যাকটিস ও এসএসসি বোর্ড চ্যালেঞ্জ (Vocabulary Practice)",
+  "slug": "vocabulary-chapter-practice-set",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "Chapter 22-এর সম্পূর্ণ সমন্বিত শব্দভাণ্ডার প্র্যাকটিস সেট। Word Formation (Prefix/Suffix), Synonyms & Antonyms, Confusing Pairs (Affect/Effect, Principal/Principle), Idioms (Put up with, Call off), One Word Substitution (Philanthropist) এবং Spelling (Accommodate, Committee)-এর পূর্ণাঙ্গ সমন্বিত মূল্যায়ন।",
+  "definitionEn": "A high-stakes comprehensive vocabulary evaluation testing morphological affixation, lexical semantic precision, phraseological idioms, homophone disambiguation, and orthographic accuracy.",
+  "definitionBn": "শব্দভাণ্ডার অধ্যায়ের যাবতীয় নিয়ম, রূপমূলতত্ত্ব, সমার্থক-বিপরীতার্থক শব্দ, বাগধারা ও বিগত ১০ বছরের বোর্ড পরীক্ষার মডেলের সমন্বয়ে গঠিত পূর্ণাঙ্গ মূল্যায়ন সেট।",
+  "explanationBn": "এসএসসি পরীক্ষার ইংরেজি ১ম ও ২য় পত্র উভয় অংশেই শব্দভাণ্ডারের দক্ষতা নিশ্চিত করতে এই প্র্যাকটিস সেটটি প্রতিটি শিক্ষার্থীর প্রস্তুতিকে চূড়ান্ত উচ্চতায় নিয়ে যায়।",
+  "teacherGoldenTips": "পরীক্ষার আগের ৫ মিনিটের ভোকাবুলারি রিভিশন টিপস:\n১. Noun + ly = Adjective (Friendly); Adj + ly = Adverb (Quickly)!\n২. Accommodate (২টা c, ২টা m); Committee (২টা m, ২টা t, ২টা e)!\n৩. Affect = Verb (ক্রিয়া); Effect = Noun (ফলাফল)!\n৪. Put up with = Tolerate (সহ্য করা)!\n৫. Philanthropist = মানবদরদী; Inevitable = অনিবার্য!",
+  "mainFormula": "Master Lexicon Matrix: Morphological Derivation + Semantic Nuance + Contextual Collocation + Orthographic Precision",
+  "formulas": [
+    {
+      "label": "Universal Lexicon Matrix",
+      "structure": "Affixation (Prefix/Suffix) | Semantics (Synonym/Antonym) | Context (Homophone) | Idiom (Figurative)",
+      "tag": "Master Lexicon",
+      "example": "Master execution across all vocabulary domains."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "পরীক্ষায় শব্দার্থ ও বানান সমাধানের অ্যালগরিদম",
+      "nameEn": "The Systematic 4-Step Vocabulary Resolution Protocol",
+      "formula": "Analyze sentence context -> Identify Part of Speech -> Eliminate mismatched forms -> Verify exact spelling",
+      "shortcutTrick": "প্রথমে বাক্যটির অর্থ বুঝে কোন পার্টস অব স্পিচ বসবে তা ঠিক করুন, তারপর অপশন থেকে বানান ও অর্থের নিখুঁত রূপটি নির্বাচন করুন!",
+      "descriptionBn": "বাক্যের ব্যাকরণিক কাঠামো এবং অর্থের গভীরতা বিবেচনা করে সঠিক শব্দটি নির্বাচন করা।",
+      "examples": [
+        {
+          "en": "His relentless perseverance yielded spectacular success.",
+          "bn": "তার অবিচল অধ্যবসায় চমৎকার সাফল্য বয়ে আনল।",
+          "note": "Perseverance (অধ্যবসায়)।"
+        },
+        {
+          "en": "The committee unanimously approved the proposed budget.",
+          "bn": "কমিটি সর্বসম্মতিক্রমে প্রস্তাবিত বাজেট অনুমোদন করল।",
+          "note": "Unanimously (সর্বসম্মতিক্রমে)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The philanthropist built a sanctuary for homeless orphans.",
+      "bn": "দানবীর ব্যক্তি গৃহহীন এতিমদের জন্য একটি আশ্রয়স্থল তৈরি করলেন।",
+      "note": "Philanthropist।"
+    },
+    {
+      "en": "We must not put up with environmental degradation.",
+      "bn": "পরিবেশের অবক্ষয় আমাদের সহ্য করা উচিত নয়।",
+      "note": "Put up with (সহ্য করা)।"
+    },
+    {
+      "en": "An optimist sees the opportunity in every difficulty.",
+      "bn": "একজন আশাবাদী প্রতিটি সমস্যার ভেতরে সুযোগ দেখতে পান।",
+      "note": "Optimist।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Antonym নির্বাচনে শব্দের তীব্রতার মাত্রা (Degree of Intensity)",
+      "exceptionText": "\"Cold\"-এর স্বাভাবিক বিপরীত \"Hot\"; কিন্তু \"Freezing\"-এর বিপরীত \"Scorching\"। বিপরীত শব্দ নির্বাচনের সময় তীব্রতার মাত্রা সমান রাখা বাঞ্ছনীয়।",
+      "exampleEn": "Freezing weather <=> Scorching heat.",
+      "exampleBn": "হিমাঙ্কের ঠান্ডা <=> প্রচণ্ড তাপদাহ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He is an well-known author.",
+      "correct": "He is a well-known author.",
+      "reasonBn": "Well ব্যঞ্জনধ্বনি দিয়ে শুরু হওয়ায় \"an\" নয়, \"a\" বসবে।"
+    },
+    {
+      "mistake": "The rain effected our journey.",
+      "correct": "The rain affected our journey.",
+      "reasonBn": "প্রভাবিত করা অর্থে Verb হিসেবে \"affected\" বসবে।"
+    }
+  ],
+  "tags": [
+    "vocabulary practice",
+    "chapter practice set",
+    "ssc vocabulary vault",
+    "spelling test",
+    "synonym antonym challenge"
+  ],
+  "mcqs": [
+    {
+      "id": 220601,
+      "question": "Which of the following pairs represents a correct SYNONYM pair?",
+      "questionBn": "নিচের কোন জোড়াটি সঠিক সমার্থক শব্দের জোড়া নির্দেশ করে?",
+      "options": [
+        "Assiduous — Diligent",
+        "Frugal — Extravagant",
+        "Optimist — Pessimist",
+        "Genuine — Counterfeit"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Assiduous\" এবং \"Diligent\" উভয়ের অর্থই 'পরিশ্রমী'; অন্য তিনটি জোড়া হলো বিপরীত শব্দ (Antonyms)।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 220602,
+      "question": "Select the sentence free from all spelling and lexical errors:",
+      "questionBn": "বানান ও শব্দগত ত্রুটিমুক্ত শতভাগ নির্ভুল বাক্যটি চিহ্নিত করো:",
+      "options": [
+        "The hotel can accomodate all the comittee members.",
+        "The hotel can accommodate all the committee members.",
+        "The hotel can accommodate all the comittee members.",
+        "The hotel can accomodate all the committee members."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Accommodate\" (cc, mm) এবং \"Committee\" (mm, tt, ee) উভয় শব্দের বানানই ২য় বাক্যে সম্পূর্ণ নির্ভুল।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220601,
+      "type": "Comprehensive SSC Vocabulary Challenge",
+      "prompt": "Answer the 5 vocabulary tasks: (a) Noun form of \"Pure\", (b) Antonym of \"Candid\", (c) One word for \"That which cannot be conquered\", (d) Correct spelling of \"milenium\", (e) Meaning of \"Call off\".",
+      "correctAnswer": "(a) Purity, (b) Deceitful / Secretive, (c) Invincible, (d) Millennium, (e) To cancel.",
+      "explanationBn": "এসএসসি পরীক্ষার সম্পূর্ণ ৫ নম্বরের আদর্শ শব্দভাণ্ডার সমাধান।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Chapter Practice Set",
+      "questionContext": "Chapter 22 Comprehensive Vocabulary Examination Model:",
+      "subQuestions": [
+        {
+          "questionText": "Fill in the blank with the appropriate form: \"Patience is a great virtue, but his _____ (patient) behavior provoked anger.\"",
+          "answer": "impatient",
+          "explanationBn": "প্ররোচিত করার প্রেক্ষাপটে ধৈর্যহীন (impatient) সঠিক উত্তর।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৮ ও শব্দভাণ্ডারের পূর্ণাঙ্গ মডেল প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-one-word-substitution-spelling': {
+  "id": 2205,
+  "chapterId": 22,
+  "topicNo": "০৫",
+  "titleEn": "One Word Substitution & Commonly Misspelled Words Master Guide",
+  "titleBn": "এককথায় প্রকাশ ও সর্বাধিক বানান ভুল হওয়া শব্দের পূর্ণাঙ্গ তালিকা (Substitution & Spelling)",
+  "slug": "vocabulary-one-word-substitution-spelling",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "দীর্ঘ বক্তব্যকে একটি শব্দে প্রকাশ করার জাদু (One Word Substitution) এবং পরীক্ষায় সবচেয়ে বেশি বানান ভুল হওয়া ৫০টি শব্দ। যেমন: Omnipresent, Philanthropist, Inevitable, Polyglot, Optimist, Pessimist। বানান সতর্কতা: Accommodate, Occurrence, Embarrass, Committee, Millennium, Privilege, Conscientious।",
+  "definitionEn": "One Word Substitution compresses clausal propositions into singular high-density academic nominals. Spelling mastery rectifies orthographic vulnerability surrounding geminate consonants, silent graphemes, and vowel clusters.",
+  "definitionBn": "একটি সম্পূর্ণ বাক্যাংশ বা ধারণাকে একটি মাত্র সংক্ষিপ্ত শব্দ দিয়ে প্রকাশ করাকে One Word Substitution বলে। আর ইংরেজি ভাষার জটিল ডাবল বর্ণ ও নীরব বর্ণযুক্ত শব্দের সঠিক বানান আয়ত্ত করা বোর্ড পরীক্ষায় নম্বর অর্জনের পূর্বশর্ত।",
+  "explanationBn": "২টি অতি গুরুত্বপূর্ণ অংশ:\n১. শীর্ষ পরীক্ষাভিত্তিক One Word Substitution:\n- One who is present everywhere -> Omnipresent (সর্বব্যাপী)।\n- One who knows everything -> Omniscient (সর্বজ্ঞ)।\n- One who is all-powerful -> Omnipotent (সর্বশক্তিমান)।\n- A lover of mankind who donates for human welfare -> Philanthropist (মানবদরদী / দানবীর)।\n- One who looks on the bright side of things -> Optimist (আশাবাদী)।\n- One who looks on the dark side of things -> Pessimist (হতাশাবাদী)।\n- That which cannot be avoided -> Inevitable (অনিবার্য)।\n- A person who speaks many languages -> Polyglot / Multilingual (বহুভাষাবিদ)।\n- A handwritten document or book -> Manuscript (পাণ্ডুলিপি)।\n- An animal that feeds exclusively on plants -> Herbivore (তৃণভোজী)।\n\n২. পরীক্ষায় বারবার আসা বিভ্রান্তিকর সঠিক বানান (Spelling Master):\n- Accommodate (ডাবল 'c', ডাবল 'm'): A-C-C-O-M-M-O-D-A-T-E.\n- Committee (ডাবল 'm', ডাবল 't', ডাবল 'e'): C-O-M-M-I-T-T-E-E.\n- Occurrence (ডাবল 'c', ডাবল 'r'): O-C-C-U-R-R-E-N-C-E.\n- Embarrass (ডাবল 'r', ডাবল 's'): E-M-B-A-R-R-A-S-S.\n- Millennium (ডাবল 'l', ডাবল 'n'): M-I-L-L-E-N-N-I-U-M.\n- Privilege (কোনো 'd' নেই): P-R-I-V-I-L-E-G-E (NOT Priviledge).\n- Separate ('par' আছে, 'per' নয়): S-E-P-A-R-A-T-E.\n- Lieutenant (উচ্চারণ লেফটেনেন্ট, বানান 'মিথ্যা-তুমি-দশ-পিঁপড়া'): L-I-E-U-T-E-N-A-N-T (Lie-u-ten-ant).",
+  "teacherGoldenTips": "বানান মনে রাখার মজার নেমোনিক ট্রিক:\n১. Lieutenant = Lie (মিথ্যা) + U (তুমি) + Ten (দশ) + Ant (পিঁপড়া) = Lieutenant!\n২. Committee = ২টা m, ২টা t, ২টা e (সব জোড়ায় জোড়ায়)!\n৩. Separate = মাঝে 'a rat' আছে (sep-A-RAT-e) — কখনো 'e' দিয়ে per লিখবেন না!",
+  "mainFormula": "Description => Single Elegant Academic Word | Spelling Mnemonic: Break down into syllables and geminate clusters",
+  "formulas": [
+    {
+      "label": "One Word Substitution",
+      "structure": "Descriptive Phrase => Singular Academic Lexeme",
+      "tag": "One Word Sub",
+      "example": "A person who believes in fate => Fatalist"
+    },
+    {
+      "label": "Spelling Syllable Breakdown",
+      "structure": "Geminate Consonant Check: cc + mm (accommodate) | mm + tt + ee (committee)",
+      "tag": "Spelling Breakdown",
+      "example": "Ac-com-mo-date | Com-mit-tee | Em-bar-rass"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Accommodate ও Committee-র ডাবল বর্ণের নিয়ম",
+      "nameEn": "Orthographic Gemination in \"Accommodate\" and \"Committee\"",
+      "formula": "ACCOMMODATE = 2 c's + 2 m's | COMMITTEE = 2 m's + 2 t's + 2 e's",
+      "shortcutTrick": "Accommodate-এ ২টা সি ও ২টা এম; Committee-তে এম, টি, ই সবই জোড়ায় জোড়ায়!",
+      "descriptionBn": "বোর্ড ও ভর্তি পরীক্ষায় এই দুটি শব্দই সবচেয়ে বেশি বানান ভুলের ফাঁদ হিসেবে আসে।",
+      "examples": [
+        {
+          "en": "The luxury hotel can accommodate over five hundred delegates.",
+          "bn": "বিলাসবহুল হোটেলটি পাঁচ শতাধিক প্রতিনিধির থাকার ব্যবস্থা করতে পারে।",
+          "note": "accommodate বানান।"
+        },
+        {
+          "en": "The parliamentary committee submitted its comprehensive report.",
+          "bn": "সংসদীয় কমিটি তার পূর্ণাঙ্গ প্রতিবেদন দাখিল করল।",
+          "note": "committee বানান।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Omni- উপসর্গ দিয়ে গঠিত এককথায় প্রকাশের রূপ",
+      "nameEn": "The Latin \"Omni-\" (All / Everywhere) Lexical Series",
+      "formula": "Omni (All) + Potent (Power) / Present (Location) / Scient (Knowledge)",
+      "shortcutTrick": "Omni মানে সব: Omnipotent (সব ক্ষমতা), Omnipresent (সব জায়গায় উপস্থিত), Omniscient (সব জানে)!",
+      "descriptionBn": "লাতিন Omni উপসর্গ দিয়ে সৃষ্টিকর্তার তিন প্রধান গুণাবলি প্রকাশ করা হয়।",
+      "examples": [
+        {
+          "en": "Believers hold that the Creator is omnipotent, omniscient, and omnipresent.",
+          "bn": "বিশ্বাসীরা মনে করেন স্রষ্টা সর্বশক্তিমান, সর্বজ্ঞ এবং সর্বব্যাপী।",
+          "note": "Omni- সিরিজ।"
+        },
+        {
+          "en": "Death is the only inevitable reality awaiting every mortal organism.",
+          "bn": "মৃত্যুই একমাত্র অনিবার্য বাস্তবতা যা প্রতিটি মরণশীল জীবের জন্য অপেক্ষা করছে।",
+          "note": "Inevitable (অনিবার্য)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "A generous philanthropist donated ten million dollars to build a cancer hospital.",
+      "bn": "একজন মহান মানবদরদী একটি ক্যান্সার হাসপাতাল নির্মাণের জন্য দশ মিলিয়ন ডলার দান করলেন।",
+      "note": "Philanthropist (মানবপ্রেমিক)।"
+    },
+    {
+      "en": "An incorrigible habit is one that cannot be corrected or reformed.",
+      "bn": "সংশোধনাতীত অভ্যাস হলো এমন অভ্যাস যা সংশোধন করা যায় না।",
+      "note": "Incorrigible।"
+    },
+    {
+      "en": "The young lieutenant demonstrated extraordinary valor in defending the frontier.",
+      "bn": "তরুণ লেফটেন্যান্ট সীমান্ত রক্ষায় অসাধারণ বীরত্ব প্রদর্শন করলেন।",
+      "note": "Lieutenant সঠিক বানান।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Privilege বানানে \"d\" নেই",
+      "exceptionText": "Judge বা Knowledge বানানে 'd' থাকলেও Privilege বানানে কোনো অবস্থাতেই 'd' বসানো যাবে না (P-r-i-v-i-l-e-g-e).",
+      "exampleEn": "Education is a fundamental human right, not an exclusive privilege.",
+      "exampleBn": "শিক্ষা একটি মৌলিক মানবাধিকার, কোনো একক বিশেষ সুবিধা নয়।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Accomodate the guests properly. (Single m error)",
+      "correct": "Accommodate the guests properly.",
+      "reasonBn": "Accommodate বানানে অবশ্যই দুটি 'm' (mm) বসবে।"
+    },
+    {
+      "mistake": "He is a priviledged child.",
+      "correct": "He is a privileged child.",
+      "reasonBn": "Privilege বানানে কোনো 'd' নেই।"
+    }
+  ],
+  "tags": [
+    "one word substitution",
+    "spelling rules",
+    "commonly misspelled words",
+    "accommodate committee",
+    "lieutenant spelling",
+    "ssc vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 220501,
+      "question": "Identify the word spelled with flawless orthographic accuracy:",
+      "questionBn": "কোন শব্দটির বানান শতভাগ নির্ভুল?",
+      "options": [
+        "Acommodate",
+        "Accommodate",
+        "Accomodate",
+        "Acomodate"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "সঠিক বানান হলো \"Accommodate\" (দুইটি 'c' এবং দুইটি 'm')।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 220502,
+      "question": "What is the one-word substitution for \"A person who donates generously to promote human welfare\"?",
+      "questionBn": "\"A person who donates generously to promote human welfare\" (মানবকল্যাণে উদারভাবে দানকারী ব্যক্তি)-কে এককথায় কী বলে?",
+      "options": [
+        "Misanthrope",
+        "Philanthropist",
+        "Polyglot",
+        "Hermit"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "মানবকল্যাণে দানকারী পরোপকারী ব্যক্তিকে \"Philanthropist\" (মানবদরদী / দানবীর) বলে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220501,
+      "type": "Spelling Correction & Substitution Drill",
+      "prompt": "Correct the spelling and give one-word substitution: (a) Correct: \"comitee\", (b) One word: \"That which cannot be avoided.\"",
+      "correctAnswer": "(a) Committee, (b) Inevitable.",
+      "explanationBn": "Committee সঠিক বানান এবং Inevitable এককথায় প্রকাশ।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "One-word substitution in SSC English Vocabulary Bank:",
+      "subQuestions": [
+        {
+          "questionText": "Give the single word for: \"A person who looks at the brighter side of everything\" and state its opposite.",
+          "answer": "Single word: Optimist. Opposite/Antonym: Pessimist.",
+          "explanationBn": "অপটিমিস্ট (আশাবাদী) এবং পেসিমিস্ট (হতাশাবাদী)।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার অত্যন্ত জনপ্রিয় ও মৌলিক শব্দভাণ্ডার প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-idioms-phrases-collocations': {
+  "id": 2204,
+  "chapterId": 22,
+  "topicNo": "০৪",
+  "titleEn": "SSC Idioms, Phrasal Verbs & Essential Academic Collocations",
+  "titleBn": "এসএসসি বাগধারা, গ্রুপ ভার্ব ও প্রাতিষ্ঠানিক অনুষঙ্গ শব্দ (Idioms, Phrasal Verbs & Collocations)",
+  "slug": "vocabulary-idioms-phrases-collocations",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "আক্ষরিক অর্থ ছাপিয়ে আলঙ্কারিক ভাব প্রকাশ করা Idioms ও Phrasal Verbs। পরীক্ষায় সর্বাধিক আসা বাগধারা: A piece of cake, Call it a day, At sixes and sevens, In the nick of time, Apple of one's eye, Burning question। গুরুত্বপূর্ণ Phrasal Verbs: Break down, Look into, Put up with, Call off, Carry out। Collocations: Make a decision, Do a favor, Pay attention, Heavy rain।",
+  "definitionEn": "Idioms and phrasal verbs represent non-compositional phraseological units whose idiomatic semantics transcend literal lexical sums. Collocations embody natural, predictable lexical co-occurrences established through long-standing native usage.",
+  "definitionBn": "যে শব্দগুচ্ছের অর্থ প্রতিটি শব্দের আক্ষরিক অর্থ থেকে সম্পূর্ণ আলাদা এবং যা একটি একক আলঙ্কারিক ভাব প্রকাশ করে তাকে Idiom বলে। ক্রিয়ার সাথে Preposition মিলে Phrasal Verb তৈরি হয়। আর স্বাভাবিকভাবে যেসব শব্দ একসাথে বসে তাকে Collocation বলে।",
+  "explanationBn": "৩টি অত্যন্ত গুরুত্বপূর্ণ শাখা:\n১. শীর্ষ পরীক্ষাভিত্তিক Idioms:\n- A piece of cake = অত্যন্ত সহজ কাজ (Solving this math problem is a piece of cake).\n- At sixes and sevens = বিশৃঙ্খল অবস্থায় (His books were at sixes and sevens on the desk).\n- In the nick of time = ঠিক শেষ মুহূর্তে (The paramedic arrived in the nick of time).\n- Apple of one's eye = নয়নমণি বা অতি আদরের (The little grandchild is the apple of his eye).\n- Burning question = অত্যন্ত জরুরি বা আলোচিত বিষয় (Food adulteration is a burning question of the day).\n- Break the ice = নীরবতা বা জড়তা ভাঙা (He cracked a joke to break the ice).\n\n২. শীর্ষ Phrasal Verbs (Group Verbs):\n- Call off = বাতিল করা (The match was called off due to rain).\n- Break down = বিকল হয়ে পড়া বা ভেঙে পড়া (The engine broke down on the highway).\n- Look into = তদন্ত করা (The police are looking into the burglary).\n- Put up with = সহ্য করা / Tolerate (I cannot put up with such insolence).\n- Carry out = বাস্তবায়ন করা বা আদেশ পালন করা (He carried out his superior's directives).\n\n৩. ইংরেজি Collocations (প্রাকৃতিক শব্দযুগল):\n- DO vs MAKE:\n  Make a decision / mistake / promise / noise.\n  Do homework / research / business / a favor.\n- Heavy rain (NOT Strong rain); Strong wind (NOT Heavy wind).\n- Pay attention; Bear in mind; Take advantage of.",
+  "teacherGoldenTips": "ইডিয়ম ও গ্রুপ ভার্বের শর্টকাট:\n১. Put up with মানে সহ্য করা (Tolerate) — পরীক্ষায় প্রতি বছর কোনো না কোনো বোর্ডে এটি আসেই!\n২. Call off মানে বাতিল করা (Cancel); আর Call on মানে দেখা করা (Visit)!\n৩. বৃষ্টির সাথে Heavy rain, বাতাসের সাথে Strong wind — এটাই কলোকেশন!",
+  "mainFormula": "Verb + Preposition = New Idiomatic Meaning | Adjective + Noun = Natural Collocation",
+  "formulas": [
+    {
+      "label": "Idiom Semantic Equivalence",
+      "structure": "Idiom => Non-compositional Figurative Meaning => Model Sentence",
+      "tag": "Idiom Equivalence",
+      "example": "Once in a blue moon => Very rarely => He visits his native village once in a blue moon."
+    },
+    {
+      "label": "Phrasal Verb Mapping",
+      "structure": "Base Verb + Particle (off / down / into / up with) => New Transitive Verb",
+      "tag": "Phrasal Verb",
+      "example": "Put up with => Tolerate | Look into => Investigate | Call off => Cancel"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Make বনাম Do-এর সঠিক Collocation নিয়ম",
+      "nameEn": "Collocational Discrimination: \"Make\" (Creation) vs \"Do\" (Performance/Task)",
+      "formula": "MAKE = create / construct / plan (make a mistake, make money, make an effort) | DO = action / work / duty (do homework, do a favor, do justice)",
+      "shortcutTrick": "নতুন কিছু তৈরি করলে Make; দায়িত্ব বা কাজ সম্পন্ন করলে Do!",
+      "descriptionBn": "He made homework ভুল; শুদ্ধ হলো \"He did his homework।\" He did a mistake ভুল; শুদ্ধ হলো \"He made a mistake।\" ",
+      "examples": [
+        {
+          "en": "He made a grave blunder during the debate.",
+          "bn": "বিতর্কের সময় তিনি একটি মারাত্মক ভুল করলেন।",
+          "note": "made a blunder (Collocation)।"
+        },
+        {
+          "en": "Could you please do me a momentous favor?",
+          "bn": "আপনি কি দয়া করে আমার একটি বিশেষ উপকার করবেন?",
+          "note": "do a favor (Collocation)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Put up with (সহ্য করা)-এর অনন্য ব্যবহার",
+      "nameEn": "Triadic Phrasal Verb: \"Put up with\" (Tolerate)",
+      "formula": "Subject + CANNOT / REFUSE TO + PUT UP WITH + Injustice / Insolence",
+      "shortcutTrick": "Put up with যেখানেই দেখবেন, বুঝে নেবেন এর সমার্থক হলো \"TOLERATE\" বা \"ENDURE\"!",
+      "descriptionBn": "এসএসসি ও ভর্তি পরীক্ষায় \"put up with\"-এর সমার্থক জানতে চেয়ে বারবার প্রশ্ন আসে।",
+      "examples": [
+        {
+          "en": "The principal refused to put up with indiscipline in the academy.",
+          "bn": "অধ্যক্ষ একাডেমিতে কোনো ধরনের বিশৃঙ্খলা সহ্য করতে অস্বীকার করলেন।",
+          "note": "put up with = tolerate।"
+        },
+        {
+          "en": "No honorable citizen should put up with corruption.",
+          "bn": "কোনো সম্মানিত নাগরিকেরই দুর্নীতি সহ্য করা উচিত নয়।",
+          "note": "put up with = endure।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The committee decided to call off the scheduled seminar.",
+      "bn": "কমিটি নির্ধারিত সেমিনারটি বাতিল করার সিদ্ধান্ত নিল।",
+      "note": "call off = cancel।"
+    },
+    {
+      "en": "The detective was assigned to look into the mysterious disappearance.",
+      "bn": "রহস্যজনক অন্তর্ধানের তদন্ত করতে গোয়েন্দাকে দায়িত্ব দেওয়া হলো।",
+      "note": "look into = investigate।"
+    },
+    {
+      "en": "Failing to plan is planning to fail; bear that in mind.",
+      "bn": "পরিকল্পনা করতে ব্যর্থ হওয়া মানে ব্যর্থতার পরিকল্পনা করা; এটি মনে রেখো।",
+      "note": "bear in mind = remember।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "ইডিয়মের অভ্যন্তরীণ শব্দ বা ব্যাকরণ কখনোই বদলানো যায় না",
+      "exceptionText": "ইডিয়ম হলো একটি স্থির শব্দগুচ্ছ (Frozen expression)। \"A piece of cake\"-কে \"pieces of cakes\" বা \"A bread of cake\" বানিয়ে রূপান্তর করা সম্পূর্ণ অবৈধ।",
+      "exampleEn": "The test was a piece of cake (NOT pieces of cakes).",
+      "exampleBn": "পরীক্ষাটি অত্যন্ত সহজ ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He did a mistake.",
+      "correct": "He made a mistake.",
+      "reasonBn": "Mistake-এর সাথে সঠিক Collocation হলো \"make\", do নয়।"
+    },
+    {
+      "mistake": "I cannot put with this noise.",
+      "correct": "I cannot put up with this noise.",
+      "reasonBn": "সহ্য করা অর্থে সম্পূর্ণ Phrasal Verb হলো \"put up with\"।"
+    }
+  ],
+  "tags": [
+    "idioms and phrases",
+    "phrasal verbs",
+    "collocations",
+    "make a mistake",
+    "put up with tolerate",
+    "call off cancel",
+    "ssc vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 220401,
+      "question": "What is the precise meaning of the phrasal verb \"PUT UP WITH\"?",
+      "questionBn": "\"PUT UP WITH\" ফ্রেজাল ভার্বটির সঠিক অর্থ কী?",
+      "options": [
+        "To investigate",
+        "To tolerate",
+        "To postpone",
+        "To extinguish"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Put up with\"-এর প্রমিত আভিধানিক অর্থ হলো \"To tolerate\" বা সহ্য করা।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 220402,
+      "question": "Choose the natural and grammatically immaculate collocation:",
+      "questionBn": "প্রাকৃতিক ও ব্যাকরণগতভাবে নিখুঁত Collocation কোনটি?",
+      "options": [
+        "He made his homework diligently.",
+        "He did his homework diligently.",
+        "He created his homework diligently.",
+        "He performed his homework diligently."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "গৃহকাজের ক্ষেত্রে প্রাকৃতিক ইংরেজি Collocation হলো \"do homework\", তাই \"He did his homework\" সঠিক।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220401,
+      "type": "Idiom Sentence Construction",
+      "prompt": "Construct meaningful sentences using: (a) In the nick of time, (b) Look into.",
+      "correctAnswer": "(a) The ambulance arrived in the nick of time to save the critically injured patient. (b) The magistrate promised to look into the allegations of administrative malpractice.",
+      "explanationBn": "বাগধারা ও ফ্রেজাল ভার্ব দিয়ে বাক্য গঠন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Idioms and Phrasal Verbs in SSC English examinations:",
+      "subQuestions": [
+        {
+          "questionText": "What is the meaning of \"At sixes and sevens\"? Use it in a sentence.",
+          "answer": "Meaning: In a state of complete confusion or disorder. Sentence: \"After the sudden relocation, all the office documents were at sixes and sevens.\"",
+          "explanationBn": "অ্যাট সিক্সস অ্যান্ড সেভেন্স-এর অর্থ ও বাক্য রচনা।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি বোর্ড পরীক্ষায় বারবার আসা অত্যন্ত জনপ্রিয় একটি বাগধারা।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-commonly-confused-words-homophones': {
+  "id": 2203,
+  "chapterId": 22,
+  "topicNo": "০৩",
+  "titleEn": "Commonly Confused Words, Homophones & Examination Pitfalls",
+  "titleBn": "মারাত্মক বিভ্রান্তিকর শব্দজোড়া ও সমোচ্চারিত ভিন্নার্থক শব্দ (Confused Words & Homophones)",
+  "slug": "vocabulary-commonly-confused-words-homophones",
+  "difficulty": "HARD",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "উচ্চারণ এক কিন্তু বানান ও অর্থে সম্পূর্ণ ভিন্ন শব্দজোড়া। পরীক্ষায় সর্বোচ্চ ভুল হওয়া ১০টি প্রধান বিভ্রান্তিকর জোড়া: Accept vs Except, Affect vs Effect, Advice vs Advise, Principal vs Principle, Stationary vs Stationery, Lose vs Loose, Then vs Than, Their/There/They're, Your/You're, Its/It's।",
+  "definitionEn": "Homophones and pseudo-homographs possess deceptive phonetic parity but diverge radically in orthography, etymology, and syntactic function. Precise mastery prevents chronic stylistic blunders.",
+  "definitionBn": "যেসব শব্দের উচ্চারণ একই বা কাছাকাছি হলেও বানান এবং অর্থ সম্পূর্ণ ভিন্ন, সেগুলোকে Homophones বা Commonly Confused Words বলে। এদের অসতর্ক ব্যবহারে বাক্যের অর্থ পুরোপুরি বিকৃত হয়ে যায়।",
+  "explanationBn": "১০টি শীর্ষ বিভ্রান্তিকর শব্দজোড়ার নিখুঁত ব্যবচ্ছেদ:\n১. Accept বনাম Except:\n- Accept (Verb) = গ্রহণ করা (I accepted the proposal).\n- Except (Preposition) = ব্যতীত / ছাড়া (Everyone came except Rahim).\n\n২. Affect বনাম Effect:\n- Affect (Verb) = প্রভাবিত করা (Severe climate affects health).\n- Effect (Noun) = ফলাফল / প্রভাব (The greenhouse effect is alarming).\n\n৩. Advice বনাম Advise:\n- Advice (Noun - 'c' সহ) = উপদেশ (He gave me sound advice).\n- Advise (Verb - 's' সহ) = উপদেশ দেওয়া (He advised me to stay calm).\n\n৪. Principal বনাম Principle:\n- Principal (Noun/Adj - 'al') = অধ্যক্ষ / মূলধন / প্রধান (Our college Principal; Principal amount).\n- Principle (Noun - 'le') = আদর্শ / নীতি (He is a man of high principles).\n\n৫. Stationary বনাম Stationery:\n- Stationary (Adj - 'ary') = স্থির / গতিহীন (The car collided with a stationary truck).\n- Stationery (Noun - 'ery') = লেখার সামগ্রী: কাগজ, কলম (I bought notebooks from the stationery shop).\n\n৬. Lose বনাম Loose:\n- Lose (Verb - এক 'o') = হারানো / পরাজিত হওয়া (Do not lose hope).\n- Loose (Adj - দুই 'o') = ঢিলেঢালা (He wore a loose shirt).\n\n৭. Then বনাম Than:\n- Than = তুলনামূলক কনজাংশন (He is wiser THAN me).\n- Then = সময় বা অনুক্রম (I finished dinner; THEN I slept).\n\n৮. Their বনাম There বনাম They're:\n- Their = তাদের (Possessive: Their house).\n- There = সেখানে বা প্রারম্ভিক (Go there; There is a school).\n- They're = They are (They're playing).\n\n৯. Your বনাম You're:\n- Your = তোমার (Your book).\n- You're = You are (You're welcome).\n\n১০. Its বনাম It's:\n- Its = ইহার (The cat licked its tail).\n- It's = It is (It's a sunny day).",
+  "teacherGoldenTips": "কনফিউজড ওয়ার্ডের লাইফ-সেভার শর্টকাট:\n১. Stationary (ary = car is motionless / স্থির); Stationery (ery = eraser, pen, paper / খাতা-কলম)!\n২. Principal (al = headmaster / pal / বন্ধু-অধ্যক্ষ); Principle (le = rule / নিয়ম-নীতি)!\n৩. Advice (c = Noun); Advise (s = Verb) — Practice/Practise-এর মতোই!",
+  "mainFormula": "Target Pair: Phonetic Parity <=> Distinct Orthography + Contrastive Syntactic Positions",
+  "formulas": [
+    {
+      "label": "Advice vs Advise",
+      "structure": "ADVICE (Noun with \"c\") | ADVISE (Verb with \"s\")",
+      "tag": "Advice/Advise",
+      "example": "A doctor advised (V) him to take medical advice (N)."
+    },
+    {
+      "label": "Affect vs Effect",
+      "structure": "AFFECT (Action Verb) | EFFECT (End Result Noun)",
+      "tag": "Affect/Effect",
+      "example": "The cyclone affected (V) the village, and the effect (N) was devastation."
+    },
+    {
+      "label": "Stationary vs Stationery",
+      "structure": "STATIONARY (at rest - ary) | STATIONERY (paper/pens - ery)",
+      "tag": "Stationary/ery",
+      "example": "The stationery shop is in a stationary vehicle."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Affect (ক্রিয়া) বনাম Effect (বিশেষ্য)-এর প্রয়োগ",
+      "nameEn": "Syntactic Segregation: \"Affect\" (Verb) vs \"Effect\" (Noun)",
+      "formula": "Cause AFFECTS (Verb) Object | The EFFECT (Noun) of Cause is Consequence",
+      "shortcutTrick": "A for Action = Affect (Verb); E for End-result = Effect (Noun)!",
+      "descriptionBn": "Smoking affects health (ক্রিয়া)। The effect of smoking is lethal (বিশেষ্য)।",
+      "examples": [
+        {
+          "en": "Pollution severely affects ecological balance.",
+          "bn": "দূষণ পরিবেশগত ভারসাম্যকে মারাত্মকভাবে ক্ষতিগ্রস্ত করে।",
+          "note": "affects হলো Verb।"
+        },
+        {
+          "en": "Scientists are analyzing the harmful effects of artificial pesticides.",
+          "bn": "বিজ্ঞানীরা কৃত্রিম কীটনাশকের ক্ষতিকর প্রভাব বিশ্লেষণ করছেন।",
+          "note": "effects হলো Noun।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Principal (অধ্যক্ষ/প্রধান) বনাম Principle (নীতি)-এর পার্থক্য",
+      "nameEn": "Homophone Discrimination: \"Principal\" (Person/Chief) vs \"Principle\" (Moral Rule)",
+      "formula": "PRINCIPAL = Head of Institution / Primary | PRINCIPLE = Fundamental Truth / Moral Doctrine",
+      "shortcutTrick": "কলেজের প্রধান হলেন প্রিন্সিপাল (Principal - al); আর জীবনের আদর্শ হলো প্রিন্সিপল (Principle - le)!",
+      "descriptionBn": "The Principal gave a speech. Newton's principles of motion.",
+      "examples": [
+        {
+          "en": "The college Principal addressed the assembly on ethical integrity.",
+          "bn": "কলেজ অধ্যক্ষ নৈতিক সততার ওপর সমাবেশে বক্তব্য দিলেন।",
+          "note": "Principal (অধ্যক্ষ)।"
+        },
+        {
+          "en": "He never compromises his moral principles for material gains.",
+          "bn": "পার্থিব লাভের জন্য তিনি কখনোই তার নৈতিক আদর্শের সাথে আপস করেন না।",
+          "note": "principles (আদর্শ/নীতি)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Everyone passed the examination except the indolent student.",
+      "bn": "অলস শিক্ষার্থী ছাড়া প্রত্যেকে পরীক্ষায় উত্তীর্ণ হলো।",
+      "note": "except (ব্যতীত)।"
+    },
+    {
+      "en": "Make sure your shoelaces are not loose, or you may trip and lose the race.",
+      "bn": "নিশ্চিত করো তোমার জুতার ফিতা ঢিলে নয়, নতুবা তুমি হোঁচট খেয়ে দৌড়ে হেরে যেতে পারো।",
+      "note": "loose (ঢিলে) বনাম lose (হারানো)।"
+    },
+    {
+      "en": "I purchased notebooks from the stationery shop.",
+      "bn": "আমি খাতা-কলমের দোকান থেকে খাতা কিনলাম।",
+      "note": "stationery (কাগজ-কলম)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Effect বিরল ক্ষেত্রে Verb হিসেবে বসতে পারে",
+      "exceptionText": "উচ্চাঙ্গের আনুষ্ঠানিক ইংরেজিতে \"Effect\" Verb হিসেবে বসলে তার অর্থ দাঁড়ায় \"কোনো পরিবর্তন সফলভাবে সম্পন্ন বা বাস্তবায়ন করা\" (e.g. to effect drastic policy changes).",
+      "exampleEn": "The diplomat sought to effect a diplomatic compromise.",
+      "exampleBn": "কূটনীতিক একটি সমঝোতা বাস্তবায়ন করার চেষ্টা করলেন।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He gave me a good advise.",
+      "correct": "He gave me sound advice. (or He advised me well.)",
+      "reasonBn": "Advise একটি Verb; Noun হিসেবে \"advice\" বসবে, এবং advice আনকাউন্টেবল হওয়ায় \"a\" বসে না।"
+    },
+    {
+      "mistake": "The principal reason is unknown. (Confusing with principle)",
+      "correct": "The principal reason is unknown.",
+      "reasonBn": "এখানে প্রধান অর্থ নির্দেশ করায় \"principal\" সঠিক।"
+    }
+  ],
+  "tags": [
+    "commonly confused words",
+    "homophones",
+    "affect vs effect",
+    "advice vs advise",
+    "principal vs principle",
+    "stationary vs stationery",
+    "ssc vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 220301,
+      "question": "The unprecedented drought had a catastrophic _____ on the agricultural harvest.",
+      "questionBn": "\"The unprecedented drought had a catastrophic _____ on the agricultural harvest\" শূন্যস্থানে কোনটি বসবে?",
+      "options": [
+        "affect",
+        "effect",
+        "affects",
+        "effected"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "বাক্যে \"catastrophic\" Adjective-এর পর Noun হিসেবে \"effect\" (প্রভাব/ফলাফল) বসবে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 220302,
+      "question": "The vehicle collided with a _____ freight container parked along the highway.",
+      "questionBn": "\"The vehicle collided with a _____ freight container parked along the highway\" শূন্যস্থান পূরণ করো:",
+      "options": [
+        "stationery",
+        "stationary",
+        "stationer",
+        "stationing"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "গতিহীন বা স্থির বোঝাতে সঠিক Adjective হলো \"stationary\" (-ary)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220301,
+      "type": "Confused Pairs Selection Drill",
+      "prompt": "Choose the correct word: (a) He is a man of strict (principals / principles). (b) Do not (loose / lose) your composure during crisis.",
+      "correctAnswer": "(a) principles, (b) lose",
+      "explanationBn": "principles (নীতি) এবং lose (হারানো)-এর সঠিক চয়ন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Confused homophones in SSC Right Form of Words:",
+      "subQuestions": [
+        {
+          "questionText": "Correct the error: \"The doctor gave me an effective advise to recover quickly.\"",
+          "answer": "\"The doctor gave me effective advice to recover quickly.\" (Change \"an effective advise\" to \"effective advice\" because advice is an uncountable noun and spelled with 'c').",
+          "explanationBn": "অ্যাডভাইস বানানের Noun ও আনকাউন্টেবল ত্রুটি সংশোধন।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার বাক্য সংশোধন ও ইংরেজি ২য় পত্রের ক্লাসিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-synonyms-antonyms-academic-lexicon': {
+  "id": 2202,
+  "chapterId": 22,
+  "topicNo": "০২",
+  "titleEn": "High-Frequency SSC Synonyms & Antonyms: Academic & Examination Lexicon",
+  "titleBn": "এসএসসি পরীক্ষার সর্বাধিক গুরুত্বপূর্ণ সমার্থক ও বিপরীত শব্দ (Synonyms & Antonyms)",
+  "slug": "vocabulary-synonyms-antonyms-academic-lexicon",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 9-10 / SSC",
+  "summaryBn": "এসএসসি ও ক্যাডেট কলেজ পরীক্ষায় বারবার আসা ৫০টি উচ্চ-প্রভাবশালী শব্দ। প্রতিটি শব্দের ইংরেজি ও বাংলা অর্থ, প্রমিত সমার্থক শব্দ (Synonyms), বিপরীত শব্দ (Antonyms) এবং বাক্যে প্রয়োগ।",
+  "definitionEn": "Synonyms are lexemes sharing approximate semantic denotations, while antonyms represent polar oppositions. Contextual competence requires selecting the precise nuance matching stylistic register.",
+  "definitionBn": "সমার্থক শব্দ (Synonym) একই বা কাছাকাছি অর্থ প্রকাশ করে এবং বিপরীত শব্দ (Antonym) সম্পূর্ণ বিপরীত ভাব প্রকাশ করে। সঠিক শব্দ চয়ন লেখার মান বহুগুণ বাড়িয়ে দেয়।",
+  "explanationBn": "শীর্ষ পরীক্ষাভিত্তিক শব্দের সমৃদ্ধ তালিকা:\n১. Diligent (পরিশ্রমী):\n- Synonyms: Industrious, Assiduous, Hardworking, Conscientious.\n- Antonyms: Lazy, Indolent, Slothful, Idle.\n\n২. Obsolete (বিলুপ্ত / অপ্রচলিত):\n- Synonyms: Outdated, Antiquated, Archaic, Defunct.\n- Antonyms: Modern, Contemporary, Current, Up-to-date.\n\n৩. Candid (অকপট / স্পষ্টভাষী):\n- Synonyms: Frank, Outspoken, Forthright, Honest.\n- Antonyms: Deceitful, Evasive, Hypocritical, Guarded.\n\n৪. Frugal (মিতব্যয়ী):\n- Synonyms: Thrifty, Economical, Parsimonious, Prudent.\n- Antonyms: Extravagant, Wasteful, Prodigal, Lavish.\n\n৫. Eminent (বিশিষ্ট / বিখ্যাত):\n- Synonyms: Renowned, Prominent, Illustrious, Distinguished.\n- Antonyms: Obscure, Unknown, Ignoble, Ordinary.\n\n৬. Perilous (বিপজ্জনক):\n- Synonyms: Hazardous, Risky, Treacherous, Precarious.\n- Antonyms: Safe, Secure, Shielded, Harmless.",
+  "teacherGoldenTips": "সিনোনিম-অ্যান্টোনিম মনে রাখার সুপার টেকনিক:\n১. কখনোই শুধু একটি শব্দ একা মুখস্থ করবেন না; সবসময় তার সাথে অন্তত ২টি বন্ধু শব্দ (Synonyms) এবং ২টি শত্রু শব্দ (Antonyms) এক ছকে মুখস্থ করবেন!\n২. পার্টস অব স্পিচ খেয়াল রাখবেন: প্রশ্নে Adjective থাকলে উত্তরেও Adjective রূপটিই সঠিক হবে (Diligent-এর বিপরীত Laziness নয়, Lazy)!",
+  "mainFormula": "Target Word + Part of Speech -> [2 Top Synonyms] + [2 Top Antonyms] + Contextual Sentence",
+  "formulas": [
+    {
+      "label": "Lexical Pair Formula",
+      "structure": "Word (POS) = Synonym 1, Synonym 2 <=> Antonym 1, Antonym 2",
+      "tag": "Synonym/Antonym",
+      "example": "Authentic (Adj) = Genuine, Legitimate <=> Fake, Counterfeit"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "সমার্থক ও বিপরীত শব্দে Part of Speech-এর সমতা রক্ষা",
+      "nameEn": "Grammatical Category Congruence in Synonymy and Antonymy",
+      "formula": "Noun target -> Noun answers | Adjective target -> Adjective answers | Verb target -> Verb answers",
+      "shortcutTrick": "প্রশ্নে শব্দটির শেষে যদি -tion (Noun) থাকে তবে অপশনের Noun-টিই সঠিক হবে, Adjective বা Verb নয়!",
+      "descriptionBn": "\"Prosperity\" (Noun)-এর বিপরীত \"Poverty\" (Noun); \"Poor\" (Adjective) নয়।",
+      "examples": [
+        {
+          "en": "Prosperity (N) <=> Adversity / Poverty (N) [NOT Poor].",
+          "bn": "সমৃদ্ধি <=> দারিদ্র্য / প্রতিকূলতা।",
+          "note": "Noun-এর সাথে Noun।"
+        },
+        {
+          "en": "Prosperous (Adj) <=> Impoverished / Destitute (Adj).",
+          "bn": "সমৃদ্ধশালী <=> নিঃস্ব / দরিদ্র।",
+          "note": "Adjective-এর সাথে Adjective।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The authentic manuscript was authenticated by archivist scholars.",
+      "bn": "খাঁটি পাণ্ডুলিপিটি মহাফেজখানার পণ্ডিতদের দ্বারা প্রত্যয়িত হয়েছিল।",
+      "note": "Authentic (খাঁটি) = Genuine; Antonym = Counterfeit (নকল)।"
+    },
+    {
+      "en": "A frugal lifestyle shields a family from unforeseen economic catastrophe.",
+      "bn": "মিতব্যয়ী জীবনযাপন একটি পরিবারকে অপ্রত্যাশিত অর্থনৈতিক বিপর্যয় থেকে রক্ষা করে।",
+      "note": "Frugal (মিতব্যয়ী) = Thrifty; Antonym = Extravagant (অপব্যয়ী)।"
+    },
+    {
+      "en": "His benevolence toward the underprivileged earned him universal adulation.",
+      "bn": "সুবিধাবঞ্চিতদের প্রতি তার বদান্যতা তাকে সর্বজনীন শ্রদ্ধা এনে দিল।",
+      "note": "Benevolence = Generosity; Antonym = Malevolence।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "প্রেক্ষাপটভেদে সমার্থক শব্দের পরিবর্তন (Contextual Synonymy)",
+      "exceptionText": "একই শব্দের সমার্থক প্রেক্ষাপটের ওপর নির্ভর করে। যেমন: \"Light bag\" (হালকা ব্যাগ; বিপরীত Heavy), কিন্তু \"Light room\" (আলোকিত কক্ষ; বিপরীত Dark).",
+      "exampleEn": "A light workload (minimal) vs a light chamber (bright).",
+      "exampleBn": "হালকা কাজের চাপ বনাম আলোকিত কক্ষ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The antonym of \"Generous\" is \"Stinginess\".",
+      "correct": "The antonym of \"Generous\" is \"Stingy\".",
+      "reasonBn": "Generous একটি Adjective, তাই তার বিপরীত শব্দও Adjective (Stingy) হতে হবে; Noun (Stinginess) নয়।"
+    }
+  ],
+  "tags": [
+    "synonyms antonyms",
+    "academic vocabulary",
+    "frugal thrifty",
+    "diligent assiduous",
+    "ssc english 1st and 2nd paper vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 220201,
+      "question": "What is the most accurate synonym for the word \"ASSIDUOUS\"?",
+      "questionBn": "\"ASSIDUOUS\" (অধ্যবসায়ী / পরিশ্রমী) শব্দটির সবচেয়ে নির্ভুল সমার্থক শব্দ কোনটি?",
+      "options": [
+        "Diligent",
+        "Indolent",
+        "Ambiguous",
+        "Treacherous"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"Assiduous\" মানে অত্যন্ত পরিশ্রমী ও একনিষ্ঠ; এর প্রমিত সমার্থক হলো \"Diligent\" (বা Industrious)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 220202,
+      "question": "Choose the appropriate antonym for \"FRUGAL\":",
+      "questionBn": "\"FRUGAL\" (মিতব্যয়ী) শব্দটির সঠিক বিপরীত শব্দ কোনটি?",
+      "options": [
+        "Economical",
+        "Parsimonious",
+        "Extravagant",
+        "Prudent"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Frugal\" মানে হিসেবী বা মিতব্যয়ী; এর প্রত্যক্ষ বিপরীত শব্দ হলো \"Extravagant\" (অপব্যয়ী / অমিতব্যয়ী)।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220201,
+      "type": "Synonym-Antonym Matrix Drill",
+      "prompt": "Provide one Synonym and one Antonym for: (a) Obsolete, (b) Benevolent.",
+      "correctAnswer": "(a) Synonym: Outdated / Antiquated; Antonym: Modern / Contemporary. (b) Synonym: Generous / Kind; Antonym: Malevolent / Cruel.",
+      "explanationBn": "উচ্চ-প্রভাবশালী শব্দের সমার্থক ও বিপরীত শব্দ লিখন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Contextual synonymy in SSC English 1st & 2nd Paper:",
+      "subQuestions": [
+        {
+          "questionText": "What does the word \"Indispensable\" mean in the sentence: \"Water is indispensable for survival\"? Give its antonym.",
+          "answer": "Meaning/Synonym: Absolutely essential or unavoidable. Antonym: Dispensable, unnecessary, or optional.",
+          "explanationBn": "ইনডিসপেনসিবল শব্দের অর্থ ও বিপরীত রূপ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার সিনোনিম ও রিডিং কম্প্রিহেনশনের ক্লাসিক প্রশ্ন।",
+      "isVerified": true
+    }
+  ]
+},
+  'vocabulary-word-formation-roots-affixes': {
+  "id": 2201,
+  "chapterId": 22,
+  "topicNo": "০১",
+  "titleEn": "Word Formation: Greek & Latin Roots, Prefixes, Suffixes & Part-of-Speech Conversions",
+  "titleBn": "শব্দ গঠন বিদ্যা: গ্রিক ও লাতিন মূলশব্দ, উপসর্গ, প্রত্যয় ও পদ পরিবর্তন কৌশল",
+  "slug": "vocabulary-word-formation-roots-affixes",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "ইংরেজি শব্দভাণ্ডার সমৃদ্ধ করার মূল ভিত্তি হলো রূপমূলতত্ত্ব (Morphology)। গ্রিক ও লাতিন রুট ওয়ার্ড (Bio, Chron, Bene, Mal, Dict), Prefix (Un-, Dis-, In-, Mis-, Pre-), Suffix (-ment, -tion, -ful, -able, -ify, -en) এবং চারটি প্রধান পদের পারস্পরিক রূপান্তর (Noun -> Adjective -> Adverb, Verb -> Noun, Noun -> Verb)।",
+  "definitionEn": "Word Formation encompasses morphological processes of derivation, affixation, compounding, and functional category shifts, enabling the exponential expansion of academic and examination lexicon.",
+  "definitionBn": "উপসর্গ (Prefix) ও প্রত্যয় (Suffix) যোগ করে কিংবা মূলশব্দের (Root Word) অভ্যন্তরীণ পরিবর্তনের মাধ্যমে নতুন শব্দ তৈরি করার পদ্ধতিকে Word Formation বলে।",
+  "explanationBn": "৩টি প্রধান শব্দগঠন স্তম্ভ:\n১. Root Words (মূলশব্দ):\n- Bene (Good / Well) -> Benevolent (হিতৈষী), Benefactor (দানবীর), Beneficial (উপকারী)।\n- Mal (Bad / Evil) -> Malevolent (কুচক্রী), Malice (বিদ্বেষ), Malnutrition (অপুষ্টি)।\n- Chron (Time) -> Chronological (কালানুক্রমিক), Chronic (দীর্ঘস্থায়ী), Synchronize (একই সময়ে ঘটা)।\n- Dict (To speak) -> Dictate (হুকুম দেওয়া), Predict (ভবিষ্যদ্বাণী করা), Contradict (অস্বীকার করা)।\n\n২. Prefixes (উপসর্গ - শব্দের পূর্বে যুক্ত হয়ে অর্থ বদলায়):\n- Un- (Not): Unhappy, Unbelievable.\n- Dis- (Opposite): Dishonest, Disagree, Disappear.\n- Mis- (Wrong): Misunderstand, Mislead, Misbehave.\n- Pre- (Before): Pre-test, Predict, Prehistoric.\n\n৩. Suffixes ও পদ পরিবর্তন (Part-of-Speech Conversions):\n- Noun Formation (-tion, -ment, -ness, -ity, -hood, -ship):\n  Educate (V) -> Education (N), Achieve (V) -> Achievement (N), Kind (Adj) -> Kindness (N).\n- Adjective Formation (-ful, -less, -able, -ous, -al):\n  Beauty (N) -> Beautiful (Adj), Care (N) -> Careless (Adj), Reason (N) -> Reasonable (Adj).\n- Verb Formation (-ify, -en, -ize):\n  Beauty (N) -> Beautify (V), Dark (Adj) -> Darken (V), Real (Adj) -> Realize (V).\n- Adverb Formation (-ly):\n  Quick (Adj) -> Quickly (Adv), Sincere (Adj) -> Sincerely (Adv).",
+  "teacherGoldenTips": "শব্দ গঠনের জাদু ট্রিক:\n১. শব্দের শেষে -tion, -ment, -ness, -ity দেখলেই তা NOUN!\n২. শব্দের শেষে -ful, -less, -able, -ous, -ive দেখলেই তা ADJECTIVE!\n৩. Adjective-এর শেষে -ly যোগ করলে তা ADVERB হয় (Quick + ly = Quickly); কিন্তু Noun-এর শেষে -ly যোগ করলে তা ADJECTIVE হয় (Friend + ly = Friendly)!",
+  "mainFormula": "Root + Suffix = New POS | Prefix + Root = Antonym / New Meaning | Noun + ly = Adj | Adj + ly = Adv",
+  "formulas": [
+    {
+      "label": "Noun to Adjective Derivation",
+      "structure": "Noun + (-ful / -less / -al / -ic) -> ADJECTIVE",
+      "tag": "Noun -> Adj",
+      "example": "Courage -> Courageous | Nation -> National | Hope -> Hopeful/Hopeless"
+    },
+    {
+      "label": "Adjective to Adverb Derivation",
+      "structure": "Adjective + (-ly) -> ADVERB",
+      "tag": "Adj -> Adv",
+      "example": "Graceful -> Gracefully | Prudent -> Prudently | Rapid -> Rapidly"
+    },
+    {
+      "label": "Verb to Noun Derivation",
+      "structure": "Verb + (-tion / -ment / -ance / -er) -> NOUN",
+      "tag": "Verb -> Noun",
+      "example": "Perform -> Performance | Develop -> Development | Pollute -> Pollution"
+    },
+    {
+      "label": "Noun/Adj to Verb Derivation",
+      "structure": "Noun/Adj + (-en / -ify / -ize) -> VERB",
+      "tag": "Noun/Adj -> Verb",
+      "example": "Courage -> Encourage | Simple -> Simplify | Deep -> Deepen"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Noun + ly = Adjective বনাম Adjective + ly = Adverb-এর নিয়ম",
+      "nameEn": "The Crucial \"-ly\" Discrimination: Nominal vs Adjectival Bases",
+      "formula": "NOUN + -ly = ADJECTIVE | ADJECTIVE + -ly = ADVERB",
+      "shortcutTrick": "Noun-এর সাথে ly থাকলে Adjective (Friendly, Brotherly, Costly); Adjective-এর সাথে ly থাকলে Adverb (Politely, Swiftly)!",
+      "descriptionBn": "Friendly কোনো Adverb নয়, এটি Adjective (He is a friendly man)। Adverb বানাতে বলতে হবে \"in a friendly manner\"।",
+      "examples": [
+        {
+          "en": "He received us with a friendly smile.",
+          "bn": "তিনি বন্ধুত্বপূর্ণ হাসিমুখে আমাদের গ্রহণ করলেন।",
+          "note": "Friendly হলো Adjective।"
+        },
+        {
+          "en": "He spoke politely to the respected chairperson.",
+          "bn": "তিনি শ্রদ্ধেয় সভাপতির সাথে বিনীতভাবে কথা বললেন।",
+          "note": "Politely হলো Adverb।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Prefix যুক্ত করে বিপরীত শব্দ গঠনের নিয়ম",
+      "nameEn": "Antonym Generation via Negative Prefixes (Un-, Dis-, In-, Im-, Ir-, Il-)",
+      "formula": "Root Word + Prefix (Un / Dis / In / Im / Ir / Il) -> OPPOSITE MEANING",
+      "shortcutTrick": "'m' বা 'p' দিয়ে শব্দ শুরু হলে সাধারণত \"Im-\" বসে (Patient -> Impatient, Moral -> Immoral); 'r' হলে \"Ir-\" (Rational -> Irrational); 'l' হলে \"Il-\" (Legal -> Illegal)!",
+      "descriptionBn": "ধ্বনিগত সঙ্গতি বজায় রাখতে লাতিন উপসর্গের রূপভেদ পরিবর্তিত হয়।",
+      "examples": [
+        {
+          "en": "His explanation seemed completely illogical and irrational.",
+          "bn": "তার ব্যাখ্যাটি সম্পূর্ণ অযৌক্তিক ও বুদ্ধিহীন মনে হয়েছিল।",
+          "note": "il- + logical, ir- + rational।"
+        },
+        {
+          "en": "The dictator committed impossible and immoral atrocities.",
+          "bn": "স্বৈরশাসক অসম্ভব ও অনৈতিক নৃশংসতা চালিয়েছিল।",
+          "note": "im- + possible, im- + moral।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Diligence (N) -> Diligent (Adj) -> Diligently (Adv).",
+      "bn": "পরিশ্রম (Noun) -> পরিশ্রমী (Adj) -> পরিশ্রমের সাথে (Adv)।",
+      "note": "ধারাবাহিক পদ পরিবর্তন।"
+    },
+    {
+      "en": "Wide (Adj) -> Widen (V) -> Width (N).",
+      "bn": "প্রশস্ত (Adj) -> প্রশস্ত করা (Verb) -> প্রস্থ (Noun)।",
+      "note": "অভ্যন্তরীণ পরিবর্তনের রূপান্তর।"
+    },
+    {
+      "en": "The government took initiatives to beautify the metropolis.",
+      "bn": "মহানগরীকে সুন্দর করার জন্য সরকার উদ্যোগ গ্রহণ করল।",
+      "note": "Beauty -> Beautify (Verb)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Invaluable মানে অমূল্য, মূল্যহীন নয়!",
+      "exceptionText": "\"Valuable\" মানে মূল্যবান; কিন্তু \"Invaluable\" মানে 'মূল্যহীন' নয়, বরং এর অর্থ 'যার কোনো মূল্য নির্ধারণ করা যায় না এতই দামি/অমূল্য' (Priceless).",
+      "exampleEn": "Her sagacious advice was invaluable during the crisis.",
+      "exampleBn": "সংকটের সময় তার বিজ্ঞ পরামর্শ অমূল্য ছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He behaved friendly with everyone.",
+      "correct": "He behaved in a friendly manner with everyone. (or He was friendly to everyone.)",
+      "reasonBn": "Friendly একটি Adjective, তাই সরাসরি Verb-এর Adverb হিসেবে বসতে পারে না।"
+    },
+    {
+      "mistake": "His courage behavior inspired all.",
+      "correct": "His courageous behavior inspired all.",
+      "reasonBn": "Behavior (Noun)-এর পূর্বে Adjective রূপ \"courageous\" বসবে।"
+    }
+  ],
+  "tags": [
+    "word formation",
+    "prefix suffix",
+    "root words",
+    "noun to adjective",
+    "adjective to adverb",
+    "verb to noun",
+    "ssc vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 220101,
+      "question": "What is the noun form of the verb \"Glorify\"?",
+      "questionBn": "\"Glorify\" (মহিমান্বিত করা) ভার্বটির Noun রূপ কোনটি?",
+      "options": [
+        "Glorious",
+        "Glory",
+        "Glorification",
+        "Gloriously"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Glorify\" থেকে কাজ বা প্রক্রিয়া বোঝাতে Noun রূপ হলো \"Glorification\" (মহিমান্বিতকরণ), এবং মূল ভাববাচক বিশেষ্য হলো \"Glory\"। এখানে প্রক্রিয়াগত Noun হিসেবে Glorification নিখুঁত।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 220102,
+      "question": "Which of the following words is grammatically an Adjective, not an Adverb?",
+      "questionBn": "নিচের কোন শব্দটি Adverb নয়, বরং একটি Adjective?",
+      "options": [
+        "Swiftly",
+        "Friendly",
+        "Politely",
+        "Carefully"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Noun \"Friend\"-এর সাথে \"-ly\" যুক্ত হয়ে গঠিত \"Friendly\" একটি Adjective (Noun + ly = Adjective)।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 220101,
+      "type": "Word Formation Matrix Drill",
+      "prompt": "Convert the base word \"DECIDE\" into: (a) Noun, (b) Adjective, (c) Adverb, (d) Antonym Adjective with prefix.",
+      "correctAnswer": "(a) Decision, (b) Decisive, (c) Decisively, (d) Indecisive.",
+      "explanationBn": "Decide শব্দের পূর্ণাঙ্গ শব্দ পরিবার রূপান্তর।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 220101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Suffix and Prefix affixation in SSC English 2nd Paper (Question 8):",
+      "subQuestions": [
+        {
+          "questionText": "Supply the correct derivative of \"PATIENT\" in: \"Due to unprecedented traffic gridlock, the commuters grew _____ (patient).\"",
+          "answer": "impatient",
+          "explanationBn": "নেতিবাচক উপসর্গ im- যুক্ত হয়ে impatient হবে।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার প্রশ্ন ৮ (Suffix & Prefix)-এর অত্যন্ত নির্ভরযোগ্য মডেল।",
+      "isVerified": true
+    }
+  ]
+},
   'punctuation-chapter-practice-set': {
   "id": 2105,
   "chapterId": 21,
