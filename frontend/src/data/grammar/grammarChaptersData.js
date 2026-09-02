@@ -306,6 +306,2338 @@ export const GRAMMAR_CHAPTERS = [
 ];
 
 export const GRAMMAR_TOPICS_DATABASE = {
+  'prefix-suffix-basics': {
+  "id": 110,
+  "chapterId": 1,
+  "topicNo": "১০",
+  "titleEn": "Word Formation: Prefix & Suffix Basics",
+  "titleBn": "শব্দ গঠন: উপসর্গ ও প্রত্যয়ের প্রাথমিক ধারণা (Prefix & Suffix)",
+  "slug": "prefix-suffix-basics",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 8-10 / SSC",
+  "summaryBn": "মূল শব্দের (Root Word) পূর্বে বা পরে বর্ণ বা বর্ণসমষ্টি যোগ করে নতুন শব্দ তৈরি করার পদ্ধতি হলো Prefix ও Suffix। এসএসসি পরীক্ষার ৫ নম্বরের নির্ধারিত টপিক।",
+  "definitionEn": "A Prefix is an affix placed before the root of a word to alter its meaning. A Suffix is an affix placed after the root of a word to change its grammatical form or part of speech.",
+  "definitionBn": "মূল শব্দের শুরুতে যুক্ত হওয়া বর্ণসমষ্টিকে Prefix (উপসর্গ) এবং শব্দের শেষে যুক্ত হওয়া বর্ণসমষ্টিকে Suffix (প্রত্যয়) বলে।",
+  "explanationBn": "Prefix সাধারণত শব্দের অর্থ বিপরীত বা ভিন্ন করে (যেমন: Happy -> Unhappy, Possible -> Impossible)। অন্যদিকে Suffix সাধারণত শব্দটির Part of Speech পরিবর্তন করে (যেমন: Dark [Adjective] + ness = Darkness [Noun], Quick [Adjective] + ly = Quickly [Adverb])।",
+  "teacherGoldenTips": "গোল্ডেন রুল: Prefix অর্থ বদলায় (Positive to Negative/Opposite), আর Suffix ব্যাকরণিক পদবী বা Part of Speech বদলায়!",
+  "mainFormula": "New Word = Prefix + Root Word + Suffix",
+  "formulas": [
+    {
+      "label": "Prefix (আগে বসে)",
+      "structure": "un-, in-, dis-, mis-, re-, pre- + Root",
+      "tag": "Meaning Shift",
+      "example": "Dis + honest = Dishonest"
+    },
+    {
+      "label": "Suffix (পরে বসে)",
+      "structure": "Root + -tion, -ment, -ness, -ly, -ful, -able",
+      "tag": "Class Shift",
+      "example": "Kind + ness = Kindness"
+    },
+    {
+      "label": "Both Affixes",
+      "structure": "Prefix + Root + Suffix",
+      "tag": "Compound Shift",
+      "example": "Un + comfort + able = Uncomfortable"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "বিপরীতার্থক শব্দ তৈরিতে প্রচলিত Prefixes",
+      "nameEn": "Negative & Reversal Prefixes",
+      "formula": "Un- / Dis- / In- / Im- / Il- / Ir- + Root Word = Antonym",
+      "shortcutTrick": "M বা P-এর আগে Im (Impossible, Immoral), L-এর আগে Il (Illegal), R-এর আগে Ir (Irregular)।",
+      "descriptionBn": "উপসর্গগুলো মূল শব্দের সামনে বসে সরাসরি বিপরীত অর্থ তৈরি করে।",
+      "examples": [
+        {
+          "en": "Possible -> Impossible, Patient -> Impatient",
+          "bn": "সম্ভব -> অসম্ভব, ধৈর্যশীল -> অধৈর্য",
+          "note": "P-এর পূর্বে Im- বসেছে।"
+        },
+        {
+          "en": "Legal -> Illegal, Logical -> Illogical",
+          "bn": "বৈধ -> অবৈধ, যৌক্তিক -> অযৌক্তিক",
+          "note": "L-এর পূর্বে Il- বসেছে।"
+        },
+        {
+          "en": "Regular -> Irregular, Responsible -> Irresponsible",
+          "bn": "নিয়মিত -> অনিয়মিত, দায়িত্বশীল -> দায়িত্বজ্ঞানহীন",
+          "note": "R-এর পূর্বে Ir- বসেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Noun গঠনকারী প্রধান Suffixes",
+      "nameEn": "Noun-Forming Suffixes",
+      "formula": "Verb / Adjective + (-tion, -ment, -ness, -ity, -hood, -dom) = Noun",
+      "shortcutTrick": "শব্দের শেষে ness, ment, tion থাকলে তা নিশ্চিতভাবে Noun।",
+      "descriptionBn": "বিভিন্ন পদ থেকে বিশেষ্য পদ তৈরি করার কৌশল।",
+      "examples": [
+        {
+          "en": "Develop (Verb) + ment = Development (Noun)",
+          "bn": "উন্নয়ন করা -> উন্নয়ন",
+          "note": "-ment যোগে Noun।"
+        },
+        {
+          "en": "Happy (Adjective) + ness = Happiness (Noun)",
+          "bn": "সুখী -> সুখ",
+          "note": "y উঠে i হয়ে -ness যোগ হয়েছে।"
+        },
+        {
+          "en": "Educate (Verb) + tion = Education (Noun)",
+          "bn": "শিক্ষা দেওয়া -> শিক্ষা",
+          "note": "-tion যোগে Noun।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Adjective ও Adverb গঠনকারী Suffixes",
+      "nameEn": "Adjective & Adverb Forming Suffixes",
+      "formula": "Noun + -ful / -less / -al = Adjective | Adjective + -ly = Adverb",
+      "shortcutTrick": "Adjective-এর শেষে ly যোগ করলে তা Adverb হয় (Quick + ly = Quickly)।",
+      "descriptionBn": "বিশেষণ ও ভাববিশেষণ গঠনের সার্বজনীন নিয়ম।",
+      "examples": [
+        {
+          "en": "Care (Noun) + ful = Careful (Adjective)",
+          "bn": "যত্ন -> যত্নবান",
+          "note": "Adjective গঠন।"
+        },
+        {
+          "en": "Careful (Adjective) + ly = Carefully (Adverb)",
+          "bn": "যত্নবান -> সতর্কতার সাথে",
+          "note": "Adverb গঠন।"
+        },
+        {
+          "en": "Beauty (Noun) + ful = Beautiful (Adjective)",
+          "bn": "সৌন্দর্য -> সুন্দর",
+          "note": "y উঠে i হয়ে ful যোগ হয়েছে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Honesty is essential for achieving true happiness.",
+      "bn": "প্রকৃত সুখ অর্জনের জন্য সততা অপরিহার্য।",
+      "note": "Honest + y = Honesty (Noun), Happy + ness = Happiness (Noun)।"
+    },
+    {
+      "en": "He completed the assignment successfully.",
+      "bn": "সে সফলতার সাথে অ্যাসাইনমেন্টটি সম্পন্ন করল।",
+      "note": "Success + ful + ly = Successfully (Adverb)।"
+    },
+    {
+      "en": "Smoking is harmful to health.",
+      "bn": "ধূমপান স্বাস্থ্যের জন্য ক্ষতিকর।",
+      "note": "Harm + ful = Harmful (Adjective)।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Noun-এর সাথে -ly যোগ করলে তা Adjective হয়",
+      "exceptionText": "সাধারণত Adjective-এর সাথে -ly যোগে Adverb গঠিত হলেও Noun-এর সাথে -ly যোগ করলে তা Adjective হয়!",
+      "exampleEn": "Friend (Noun) + ly = Friendly (Adjective, NOT Adverb). / Love (Noun) + ly = Lovely.",
+      "exampleBn": "বন্ধুত্বপূর্ণ / চমৎকার।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He behaved very friendly.",
+      "correct": "He behaved in a very friendly manner.",
+      "reasonBn": "\"Friendly\" একটি Adjective, তাই এটি সরাসরি verb-কে modify করতে পারে না (in a friendly manner বলতে হবে)।"
+    },
+    {
+      "mistake": "His unpossible decision shocked us.",
+      "correct": "His impossible decision shocked us.",
+      "reasonBn": "Possible-এর সাথে \"un-\" নয়, \"im-\" প্রিফিক্স যুক্ত হয়ে \"impossible\" হয়।"
+    }
+  ],
+  "tags": [
+    "prefix",
+    "suffix",
+    "affix",
+    "root word",
+    "word formation",
+    "ssc board exam",
+    "vocabulary"
+  ],
+  "mcqs": [
+    {
+      "id": 11001,
+      "question": "Which prefix should be added to the word \"Pure\" to form its antonym?",
+      "questionBn": "\"Pure\" শব্দের সাথে কোন প্রিফিক্স যোগ করে বিপরীত শব্দ গঠিত হয়?",
+      "options": [
+        "Un-",
+        "Dis-",
+        "Im-",
+        "In-"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "P দিয়ে শুরু হওয়া শব্দের পূর্বে সাধারণত \"Im-\" বসে: Im + pure = Impure (ভেজাল/অবিশুদ্ধ)।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 11002,
+      "question": "The word \"Friendly\" belongs to which Part of Speech?",
+      "questionBn": "\"Friendly\" শব্দটি কোন পদ (Part of Speech)?",
+      "options": [
+        "Adverb",
+        "Adjective",
+        "Noun",
+        "Verb"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Noun (Friend) + ly = Adjective (Friendly)। এটি ব্যতিক্রমী নিয়ম।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 11003,
+      "question": "Which suffix converts the verb \"Manage\" into a noun?",
+      "questionBn": "কোন সাফিক্সটি যোগ করলে \"Manage\" ভার্বটি নাউন-এ রূপান্তরিত হয়?",
+      "options": [
+        "-ly",
+        "-ment",
+        "-ful",
+        "-ous"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Manage (পরিচালনা করা) + ment = Management (ব্যবস্থাপনা / Noun)।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 11001,
+      "type": "Fill in with Affix",
+      "prompt": "Fill in the blank using the root word in brackets: \"He is known for his _____ (kind).\"",
+      "correctAnswer": "kindness",
+      "explanationBn": "His possessive adjective-এর পরে Noun হিসেবে \"kindness\" বসবে।"
+    },
+    {
+      "id": 11002,
+      "type": "Form Antonym using Prefix",
+      "prompt": "Form antonyms using prefixes: (a) Regular, (b) Legible, (c) Accurate.",
+      "correctAnswer": "(a) Irregular, (b) Illegible, (c) Inaccurate.",
+      "explanationBn": "সঠিক প্রিফিক্স সংযোজন।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 11001,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "SSC Standard Affix Transformation (Prefix and Suffix Passage):",
+      "subQuestions": [
+        {
+          "questionText": "Complete the sentence: \"Early rising is (a) _____ (benefit) to health. An early riser can enjoy the (b) _____ (fresh) of morning air.\"",
+          "answer": "(a) beneficial, (b) freshness.",
+          "explanationBn": "Benefit -> Beneficial (Adjective), Fresh -> Freshness (Noun)।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ৭ নম্বর প্রশ্নে প্রিফিক্স ও সাফিক্স সম্পর্কিত পূর্ণাঙ্গ অনুচ্ছেদ এসে থাকে।",
+      "isVerified": true
+    }
+  ]
+},
+  'capitalization-basic-punctuation': {
+  "id": 109,
+  "chapterId": 1,
+  "topicNo": "০৯",
+  "titleEn": "Capitalization & Basic Punctuation",
+  "titleBn": "বড় হাতের অক্ষরের ব্যবহার ও প্রাথমিক যতিচিহ্ন",
+  "slug": "capitalization-basic-punctuation",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "ইংরেজি বাক্য শুরু, Proper Noun, দিন, মাস ও সংক্ষিপ্ত শব্দের ক্ষেত্রে Capital Letter ব্যবহার এবং Full Stop, Comma, Question Mark ইত্যাদি প্রাথমিক বিরামচিহ্নের নিয়মাবলী।",
+  "definitionEn": "Capitalization is the practice of writing the first letter of a word in uppercase and the remaining letters in lowercase. Punctuation marks are standardized symbols used to clarify meaning and separate structural units in text.",
+  "definitionBn": "বাক্যের নির্দিষ্ট স্থানে বর্ণকে বড় হাতের (Uppercase/Capital) অক্ষরে লেখার নিয়মকে Capitalization বলে। বাক্যের ভাব স্পষ্টভাবে প্রকাশের জন্য ব্যবহৃত সংকেতগুলোকে Punctuation (বিরামচিহ্ন) বলে।",
+  "explanationBn": "SSC পরীক্ষায় Punctuation & Capitalization থেকে সরাসরি ৫ নম্বরের প্রশ্ন আসে। তাই এর নিয়মগুলো নিখুঁতভাবে জানা থাকা জরুরি।",
+  "teacherGoldenTips": "MINTS ফর্মুলা মনে রাখুন: M = Months/Days, I = Pronoun \"I\", N = Names (Proper Nouns), T = Titles of books/movies, S = Starting of a sentence — এই পাঁচটি ক্ষেত্রে সর্বদা Capital Letter হবে!",
+  "mainFormula": "Sentence Start -> Capital | Proper Noun -> Capital | End -> Full Stop (.) / Question (?) / Exclamation (!)",
+  "formulas": [
+    {
+      "label": "Start & Proper Noun",
+      "structure": "Capitalize First Letter",
+      "tag": "Uppercase",
+      "example": "Dhaka is the capital of Bangladesh."
+    },
+    {
+      "label": "Full Stop (.)",
+      "structure": "Assertive, Imperative, Optative Endings",
+      "tag": "Full Pause",
+      "example": "He is a student. Please help me."
+    },
+    {
+      "label": "Question Mark (?)",
+      "structure": "Interrogative Direct Questions",
+      "tag": "Inquiry",
+      "example": "What is your name?"
+    },
+    {
+      "label": "Exclamation Mark (!)",
+      "structure": "Exclamatory Sentences & Sudden Emotions",
+      "tag": "Emotion",
+      "example": "How beautiful the scenery is!"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Capital Letter ব্যবহারের প্রধান ক্ষেত্রসমূহ (The MINTS Rule)",
+      "nameEn": "Core Rules of Capitalization",
+      "formula": "Months/Days (M) + Pronoun \"I\" (I) + Names (N) + Titles (T) + Sentence Start (S)",
+      "shortcutTrick": "MINTS নিয়মটি মনে রাখলে ক্যাপিটালাইজেশন ভুল হবে না।",
+      "descriptionBn": "প্রতিটি বাক্যের প্রথম অক্ষর, সর্বনাম \"I\", দিন ও মাসের নাম, ব্যক্তি ও স্থানের নাম, এবং বই/চলচ্চিত্রের শিরোনাম বড় হাতের অক্ষরে লিখতে হয়।",
+      "examples": [
+        {
+          "en": "Sunday, Monday, January, February",
+          "bn": "রবিবার, সোমবার, জানুয়ারি, ফেব্রুয়ারি",
+          "note": "দিন ও মাসের নাম সর্বদা Capital।"
+        },
+        {
+          "en": "Shakespeare wrote \"Hamlet\".",
+          "bn": "শেক্সপিয়র \"হ্যামলেট\" লিখেছিলেন।",
+          "note": "লেখকের নাম ও বইয়ের নাম Capital।"
+        },
+        {
+          "en": "Wherever you go, I will follow you.",
+          "bn": "তুমি যেখানেই যাও, আমি তোমায় অনুসরণ করব।",
+          "note": "\"I\" সর্বদা Capital হবে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Direct Quotation-এর মধ্যে Capitalization",
+      "nameEn": "Capitalization in Quotations",
+      "formula": "Reporting Verb, \"Capital letter ...\"",
+      "shortcutTrick": "উদ্ধৃতি চিহ্নের (Inverted Comma) ভেতরের প্রথম অক্ষর সর্বদা Capital হয়।",
+      "descriptionBn": "কারো হুবহু উক্তি যখন ইনভার্টেড কমার ভেতরে থাকে, তখন তার প্রথম বর্ণটি বড় হাতের অক্ষরে শুরু করতে হয়।",
+      "examples": [
+        {
+          "en": "The teacher said, \"Honesty is the best policy.\"",
+          "bn": "শিক্ষক বললেন, \"সততাই সর্বোৎকৃষ্ট পন্থা।\"",
+          "note": "ইনভার্টেড কমার ভেতর H ক্যাপিটাল।"
+        },
+        {
+          "en": "He asked, \"Where are you going?\"",
+          "bn": "সে জিজ্ঞেস করল, \"তুমি কোথায় যাচ্ছ?\"",
+          "note": "W ক্যাপিটাল হয়েছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সংক্ষিপ্ত রূপ বা Acronym-এর নিয়ম",
+      "nameEn": "Capitalization of Abbreviations and Acronyms",
+      "formula": "All Letters Capitalized",
+      "shortcutTrick": "সংক্ষিপ্ত নামের প্রতিটি বর্ণ বড় হাতের হয়।",
+      "descriptionBn": "বিভিন্ন সংস্থা বা ডিগ্রির সংক্ষিপ্ত রূপ বড় হাতের অক্ষরে লেখা হয়।",
+      "examples": [
+        {
+          "en": "UNESCO, WHO, SSC, HSC, NASA",
+          "bn": "ইউনেস্কো, বিশ্ব স্বাস্থ্য সংস্থা, এসএসসি, এইচএসসি",
+          "note": "প্রতিটি বর্ণ ক্যাপিটাল।"
+        },
+        {
+          "en": "B.A., M.B.B.S., Ph.D.",
+          "bn": "স্নাতক, ডাক্তার, ডক্টরেট",
+          "note": "ডিগ্রির নাম।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "My friend Tanvir lives in Sylhet.",
+      "bn": "আমার বন্ধু তানভীর সিলেটে বাস করে।",
+      "note": "Tanvir এবং Sylhet দুটিই Proper Noun।"
+    },
+    {
+      "en": "Hurrah! We have won the cricket match.",
+      "bn": "কী আনন্দ! আমরা ক্রিকেট ম্যাচটিতে জিতেছি।",
+      "note": "Hurrah!-এর পর Exclamation Mark এবং We বড় হাতের।"
+    },
+    {
+      "en": "Could you please lend me your pen?",
+      "bn": "আপনি কি অনুগ্রহ করে আমাকে আপনার কলমটি ধার দেবেন?",
+      "note": "Polite Request হলেও বাক্যটি Interrogative, তাই ? বসেছে।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "ঋতুর নাম সাধারণত Small Letter হয়",
+      "exceptionText": "দিন ও মাসের নাম ক্যাপিটাল হলেও ঋতুর নাম (summer, winter, spring, autumn) সাধারণ বাক্যে ছোট হাতের অক্ষরে লেখা হয় (যদি না তা দিয়ে কোনো নির্দিষ্ট উৎসব বা কবিতা বোঝায়)।",
+      "exampleEn": "We love the flowers of spring (NOT Spring).",
+      "exampleBn": "আমরা বসন্তের ফুল ভালোবাসি।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He said that, i am fine.",
+      "correct": "He said that, I am fine.",
+      "reasonBn": "Pronoun \"I\" বাক্যের যেখানেই বসুক না কেন, তা সর্বদা Capital Letter হবে।"
+    },
+    {
+      "mistake": "i met him on monday in december.",
+      "correct": "I met him on Monday in December.",
+      "reasonBn": "I, সোমবার (Monday) এবং ডিসেম্বর (December) সবগুলোই Capital হবে।"
+    }
+  ],
+  "tags": [
+    "capitalization",
+    "punctuation",
+    "full stop",
+    "comma",
+    "quotation",
+    "proper noun",
+    "ssc question"
+  ],
+  "mcqs": [
+    {
+      "id": 10901,
+      "question": "Which of the following sentences is correctly capitalized?",
+      "questionBn": "নিচের কোন বাক্যটির ক্যাপিটালাইজেশন সম্পূর্ণ সঠিক?",
+      "options": [
+        "last Friday, he visited the national museum.",
+        "Last friday, he visited the National Museum.",
+        "Last Friday, he visited the National Museum.",
+        "last friday, he visited the national Museum."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "বাক্যের শুরুতে \"Last\", বারের নাম \"Friday\" এবং নির্দিষ্ট প্রতিষ্ঠানের নাম \"National Museum\" সবগুলো Capital হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10902,
+      "question": "Which mark of punctuation is used after an interjection expressing sudden joy?",
+      "questionBn": "আকস্মিক আনন্দ প্রকাশক Interjection-এর পরে কোন যতিচিহ্ন ব্যবহৃত হয়?",
+      "options": [
+        "Comma (,)",
+        "Full Stop (.)",
+        "Exclamation Mark (!)",
+        "Semicolon (;)"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "তীব্র আবেগ বা অনুভূতির ক্ষেত্রে Exclamation Mark (!) ব্যবহৃত হয় (যেমন: Hurrah!)।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10903,
+      "question": "Choose the sentence with correct punctuation and capitalization:",
+      "questionBn": "সঠিক বিরামচিহ্ন ও ক্যাপিটালাইজেশনযুক্ত বাক্যটি নির্বাচন করো:",
+      "options": [
+        "The teacher said, \"be attentive to your studies.\"",
+        "The teacher said \"Be attentive to your studies.\"",
+        "The teacher said, \"Be attentive to your studies.\"",
+        "The teacher said, \"Be attentive to your studies\"?"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Reporting verb-এর পরে কমা (,), ইনভার্টেড কমার ভেতরে \"Be\"-এর B ক্যাপিটাল এবং শেষে ফুল স্টপ ও ইনভার্টেড কমা ক্লোজ হবে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10901,
+      "type": "Punctuate and Capitalize",
+      "prompt": "Punctuate and capitalize: \"may allah bless you my dear child said the old woman\"",
+      "correctAnswer": "\"May Allah bless you, my dear child,\" said the old woman.",
+      "explanationBn": "ইনভার্টেড কমা, আল্লাহর নাম ক্যাপিটাল এবং রিপোর্টিং ক্লজের সঠিক বিরামচিহ্ন।"
+    },
+    {
+      "id": 10902,
+      "type": "Error Correction",
+      "prompt": "Correct the capitalization: \"i enjoy reading english literature during summer.\"",
+      "correctAnswer": "I enjoy reading English literature during summer.",
+      "explanationBn": "\"I\" এবং ভাষার নাম \"English\" ক্যাপিটাল হবে; তবে ঋতু \"summer\" ছোট হাতের থাকবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10901,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "SSC Standard Punctuation & Capitalization passage drill:",
+      "subQuestions": [
+        {
+          "questionText": "Punctuate: \"why are you putting up the food in your pocket sir why dont you eat asked the noble man\"",
+          "answer": "\"Why are you putting up the food in your pocket, Sir? Why don't you eat?\" asked the nobleman.",
+          "explanationBn": "শেখ সাদীর গল্পের সুপরিচিত বোর্ড স্ট্যান্ডার্ড ডায়ালগ প্যাসেজ।"
+        }
+      ],
+      "fullExplanationBn": "এসএসসি পরীক্ষার ইংরেজি ২য় পত্রে এই জাতীয় ডায়ালগ পাংকচুয়েশন প্রতি বছর এসে থাকে।",
+      "isVerified": true
+    }
+  ]
+},
+  'gender-classification-conversion': {
+  "id": 108,
+  "chapterId": 1,
+  "topicNo": "০৮",
+  "titleEn": "Gender: Classification & Conversion",
+  "titleBn": "লিঙ্গ: প্রকারভেদ ও রূপান্তরের নিয়ম (Gender)",
+  "slug": "gender-classification-conversion",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "কোনো Noun বা Pronoun পুরুষ, স্ত্রী, উভয় নাকি জড়বস্তু তা প্রকাশকারী ব্যাকরণিক সংকেত হলো Gender। এর ৪টি প্রকারভেদ এবং লিঙ্গ পরিবর্তনের পূর্ণাঙ্গ গাইড।",
+  "definitionEn": "Gender is a grammatical classification which distinguishes nouns and pronouns according to sex (Masculine, Feminine), common to both sexes (Common), or neither sex (Neuter).",
+  "definitionBn": "যে চিহ্ন বা লক্ষণ দ্বারা কোনো Noun বা Pronoun পুরুষ জাতি, স্ত্রী জাতি, উভয় জাতি কিংবা অচেতন কোনো পদার্থকে নির্দেশ করে তাকে Gender (লিঙ্গ) বলে।",
+  "explanationBn": "ইংরেজি ব্যাকরণে Gender চার প্রকার: ১. Masculine (পুংলিঙ্গ: Boy, Father, King), ২. Feminine (স্ত্রীলিঙ্গ: Girl, Mother, Queen), ৩. Common (উভয়লিঙ্গ: Child, Student, Doctor, Teacher), ৪. Neuter (ক্লীবলিঙ্গ: Book, Pen, Chair, Water)।",
+  "teacherGoldenTips": "কমন জেন্ডার চেনার সহজ উপায়: যদি শব্দটি দ্বারা ছেলে ও মেয়ে উভয়কেই বোঝানো সম্ভব হয় (যেমন: Friend, Baby, Player), তবে সেটি নির্দ্বিধায় Common Gender!",
+  "mainFormula": "Masculine (Male) | Feminine (Female) | Common (Either Male/Female) | Neuter (Inanimate/Lifeless)",
+  "formulas": [
+    {
+      "label": "Masculine",
+      "structure": "Refers exclusively to Male entities",
+      "tag": "He/Him",
+      "example": "Brother, Bull, Cock, Hero"
+    },
+    {
+      "label": "Feminine",
+      "structure": "Refers exclusively to Female entities",
+      "tag": "She/Her",
+      "example": "Sister, Cow, Hen, Heroine"
+    },
+    {
+      "label": "Common",
+      "structure": "Applicable to either Male or Female",
+      "tag": "Both",
+      "example": "Baby, Cousin, Singer, Pilot"
+    },
+    {
+      "label": "Neuter",
+      "structure": "Lifeless objects or plants/insects in general",
+      "tag": "It/Thing",
+      "example": "Gold, Wood, Computer, Stone"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "ভিন্ন শব্দ ব্যবহারের মাধ্যমে লিঙ্গ পরিবর্তন",
+      "nameEn": "Gender Change by Using Completely Different Words",
+      "formula": "Masculine Word != Feminine Word",
+      "shortcutTrick": "উভয় পদের জন্য আলাদা শব্দ মুখস্থ রাখতে হয়।",
+      "descriptionBn": "অনেক ক্ষেত্রে কোনো প্রত্যয় যোগ না করে সম্পূর্ণ নতুন শব্দের মাধ্যমে স্ত্রীলিঙ্গ রূপান্তর ঘটে।",
+      "examples": [
+        {
+          "en": "Boy -> Girl, Brother -> Sister",
+          "bn": "বালক -> বালিকা, ভাই -> বোন",
+          "note": "সম্পূর্ণ ভিন্ন শব্দ।"
+        },
+        {
+          "en": "King -> Queen, Monk -> Nun",
+          "bn": "রাজা -> রানি, সন্ন্যাসী -> সন্ন্যাসিনী",
+          "note": "ঐতিহাসিক পদবি।"
+        },
+        {
+          "en": "Drake -> Duck, Gander -> Goose",
+          "bn": "পাতিহাঁস (পুরুষ) -> পাতিহাঁস (স্ত্রী), রাজহাঁস -> রাজহাঁসী",
+          "note": "প্রাণিজগতের নাম।"
+        }
+      ]
+    },
+    {
+      "nameBn": "-ess যুক্ত করে স্ত্রীলিঙ্গ গঠনের নিয়ম",
+      "nameEn": "Gender Change by Adding -ess Suffix",
+      "formula": "Masculine + ess OR Drop internal vowel + ess",
+      "shortcutTrick": "শেষে ess যুক্ত করার সময় অনেক সময় পূর্ববর্তী ভাওয়েল উঠে যায়।",
+      "descriptionBn": "পুংলিঙ্গ শব্দের শেষে -ess যোগ করে ফেমিনিন করা হয়। কখনো কখনো শেষ অক্ষরের আগের ভাওয়েল লোপ পায়।",
+      "examples": [
+        {
+          "en": "Lion -> Lioness, Author -> Authoress",
+          "bn": "সিংহ -> সিংহী, লেখক -> লেখিকা",
+          "note": "সরাসরি -ess যোগ।"
+        },
+        {
+          "en": "Actor -> Actress, Tiger -> Tigress",
+          "bn": "অভিনেতা -> অভিনেত্রী, বাঘ -> বাঘিনী",
+          "note": "vowel লোপ পেয়ে Actress, Tigress হয়েছে।"
+        },
+        {
+          "en": "Waiter -> Waitress, Master -> Mistress",
+          "bn": "পরিবেশক -> পরিবেশিকা",
+          "note": "বানান রূপান্তর লক্ষ্যণীয়।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শক্তি, পরাক্রম ও কোমলতার রূপক লিঙ্গ (Personification)",
+      "nameEn": "Gender of Personified Objects",
+      "formula": "Power/Fierceness = Masculine | Beauty/Gentleness = Feminine",
+      "shortcutTrick": "সূর্য, মৃত্যু, বাতাস হলো পুরুষ; আর চাঁদ, পৃথিবী, বসন্ত, আশা হলো নারী!",
+      "descriptionBn": "অচেতন বস্তুকে যখন মানুষের রূপ দেওয়া হয় (Personified), তখন শক্তি ও রুক্ষতা প্রকাশ পেলে Masculine (Sun, Death, Winter), আর সৌন্দর্য ও স্নেহ প্রকাশ পেলে Feminine (Moon, Earth, Spring, Nature) হিসেবে গণ্য হয়।",
+      "examples": [
+        {
+          "en": "The sun sheds his beams upon the earth.",
+          "bn": "সূর্য তার কিরণ পৃথিবীর ওপর বর্ষণ করে।",
+          "note": "The sun-এর জন্য \"his\" ব্যবহৃত হয়েছে।"
+        },
+        {
+          "en": "The moon hides her face behind the clouds.",
+          "bn": "চাঁদ তার মুখ মেঘের আড়ালে লুকায়।",
+          "note": "The moon-এর জন্য \"her\" ব্যবহৃত হয়েছে।"
+        },
+        {
+          "en": "The ship lost all her crew in the storm.",
+          "bn": "জাহাজটি ঝড়ে তার সকল নাবিক হারাল।",
+          "note": "জাহাজ ও দেশকে সর্বদা Feminine ধরা হয়।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Bangladesh is our motherland; we love her dearly.",
+      "bn": "বাংলাদেশ আমাদের মাতৃভূমি; আমরা তাকে গভীর ভালোবাসি।",
+      "note": "মাতৃভূমিকে Feminine ধরে \"her\" ব্যবহার করা হয়।"
+    },
+    {
+      "en": "Death lays his icy hand on kings.",
+      "bn": "মৃত্যু রাজার ওপরও তার শীতল হাত রাখে।",
+      "note": "Death হলো Masculine personification।"
+    },
+    {
+      "en": "A doctor must treat every patient with care.",
+      "bn": "একজন ডাক্তারের উচিত প্রতিটি রোগীকে সতর্কতার সাথে চিকিৎসা দেওয়া।",
+      "note": "Doctor এবং Patient উভয়ই Common Gender।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Baby, Child, Infant-এর ক্ষেত্রে Neuter Pronoun",
+      "exceptionText": "খুব ছোট শিশু বা শিশুর লিঙ্গ জানা না থাকলে Pronoun হিসেবে he/she-এর পরিবর্তে \"it\" বা \"its\" ব্যবহার ব্যাকরণগতভাবে গ্রাহ্য।",
+      "exampleEn": "The baby is crying for its mother.",
+      "exampleBn": "শিশুটির তার মায়ের জন্য কাঁদছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The moon sheds his light.",
+      "correct": "The moon sheds her light.",
+      "reasonBn": "Moon সৌন্দর্য ও কোমলতার প্রতীক, তাই এটি Personification-এ Feminine Gender।"
+    },
+    {
+      "mistake": "Authorness is a great profession.",
+      "correct": "Authoress (or female author) is the correct term.",
+      "reasonBn": "সঠিক বানান Authoress, Authorness নয়।"
+    }
+  ],
+  "tags": [
+    "gender",
+    "masculine",
+    "feminine",
+    "common gender",
+    "neuter gender",
+    "personification",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10801,
+      "question": "What is the feminine form of the word \"Drake\"?",
+      "questionBn": "\"Drake\" (পুরুষ পাতিহাঁস) শব্দের স্ত্রীলিঙ্গ রূপ কোনটি?",
+      "options": [
+        "Duck",
+        "Goose",
+        "Bee",
+        "Mare"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Drake-এর Feminine রূপ হলো Duck (আর Gander-এর স্ত্রীলিঙ্গ হলো Goose)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10802,
+      "question": "Which of the following is a Common Gender noun?",
+      "questionBn": "নিচের কোনটি Common Gender (উভয়লিঙ্গ) বিশেষ্য?",
+      "options": [
+        "Bachelor",
+        "Spinster",
+        "Orphan",
+        "Bull"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Orphan\" (এতিম শিশু) ছেলে বা মেয়ে উভয়ের ক্ষেত্রেই ব্যবহৃত হয়, তাই এটি Common Gender।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10803,
+      "question": "In literature, the noun \"Death\" is personified as which gender?",
+      "questionBn": "সাহিত্যে \"Death\" (মৃত্যু)-কে কোন লিঙ্গ হিসেবে রূপায়িত করা হয়?",
+      "options": [
+        "Feminine",
+        "Masculine",
+        "Neuter",
+        "Common"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "শক্তি, প্রতাপ ও কঠোরতার প্রতীক হওয়ায় \"Death\" Masculine হিসেবে গণ্য হয় (যেমন: Death lays his icy hand)।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10801,
+      "type": "Gender Conversion",
+      "prompt": "Give the feminine forms of: Wizard, Bachelor, Monk, Hero.",
+      "correctAnswer": "Witch, Spinster, Nun, Heroine.",
+      "explanationBn": "Wizard -> Witch, Bachelor -> Spinster, Monk -> Nun, Hero -> Heroine।"
+    },
+    {
+      "id": 10802,
+      "type": "Identify Gender",
+      "prompt": "Identify the gender of: (a) Cousin, (b) Knife, (c) Empress.",
+      "correctAnswer": "(a) Common Gender, (b) Neuter Gender, (c) Feminine Gender.",
+      "explanationBn": "কৌলিক প্রকারভেদ নির্ণয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10801,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Gender classification and conversion in formal English:",
+      "subQuestions": [
+        {
+          "questionText": "(a) What is Common Gender? Give three examples.",
+          "answer": "A noun that denotes either a male or a female is of the Common Gender. Examples: Student, Parent, Teacher.",
+          "explanationBn": "উভয়লিঙ্গের সংজ্ঞা ও উদাহরণ।"
+        }
+      ],
+      "fullExplanationBn": "Pronoun Agreement ও Descriptive Writing-এ জেন্ডারের ভূমিকা অপরিসীম।",
+      "isVerified": true
+    }
+  ]
+},
+  'number-singular-plural': {
+  "id": 107,
+  "chapterId": 1,
+  "topicNo": "০৭",
+  "titleEn": "Number: Singular & Plural Forms",
+  "titleBn": "বচন: একবচন ও বহুবচন (Singular & Plural)",
+  "slug": "number-singular-plural",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "কোনো Noun বা Pronoun-এর সংখ্যা (এক বা একাধিক) নির্দেশ করার ব্যাকরণিক রূপ হলো Number। একবচন থেকে বহুবচন রূপান্তরের মৌলিক ও ব্যতিক্রমী নিয়মাবলি।",
+  "definitionEn": "Number is the grammatical form of a word showing whether one person or thing is referred to (Singular), or more than one (Plural).",
+  "definitionBn": "যা দ্বারা কোনো Noun বা Pronoun-এর সংখ্যা (একজন বা একের অধিক) বোঝায় তাকে Number (বচন) বলে। এটি দুই প্রকার: Singular (একবচন) ও Plural (বহুবচন)।",
+  "explanationBn": "একবচন থেকে বহুবচন করার প্রচলিত নিয়ম হলো শব্দের শেষে -s বা -es যুক্ত করা। তবে s, ss, sh, ch, x, z দিয়ে শেষ হলে -es যোগ হয়। এছাড়া irregular plural (যেমন: Child -> Children, Man -> Men) এবং বিদেশি শব্দের প্লুরাল নিয়ম বিশেষভাবে মনে রাখতে হয়।",
+  "teacherGoldenTips": "O দিয়ে শেষ হওয়া শব্দের নিয়ম: O-এর আগে Vowel থাকলে শুধু s (Radio -> Radios, Bamboo -> Bamboos)। O-এর আগে Consonant থাকলে es (Mango -> Mangoes, Potato -> Potatoes)!",
+  "mainFormula": "Singular (One entity) -> Plural (+s / +es / Vowel change / Suffix change)",
+  "formulas": [
+    {
+      "label": "General Rule",
+      "structure": "Singular + s",
+      "tag": "Standard",
+      "example": "Book -> Books, Pen -> Pens"
+    },
+    {
+      "label": "Sibilant Sounds",
+      "structure": "Ending in -s, -sh, -ch, -x, -z + es",
+      "tag": "ES rule",
+      "example": "Bus -> Buses, Box -> Boxes, Watch -> Watches"
+    },
+    {
+      "label": "Consonant + Y",
+      "structure": "Drop -y, add -ies",
+      "tag": "Y transformation",
+      "example": "Baby -> Babies, City -> Cities, Country -> Countries"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Y-এর রূপান্তরের নিয়ম",
+      "nameEn": "Pluralization of Nouns Ending in Y",
+      "formula": "Consonant + Y = -ies | Vowel + Y = -s",
+      "shortcutTrick": "Y-এর আগের অক্ষর কনসোনেন্ট হলে ies, ভাওয়েল হলে শুধু s।",
+      "descriptionBn": "শব্দের শেষে Y থাকলে এবং তার আগে ব্যঞ্জনবর্ণ থাকলে Y উঠে ies হয়। কিন্তু ভাওয়েল থাকলে সরাসরি s বসে।",
+      "examples": [
+        {
+          "en": "Story -> Stories, Fly -> Flies",
+          "bn": "গল্প -> গল্পসমূহ, মাছি -> মাছিরা",
+          "note": "R ও L কনসোনেন্ট, তাই ies।"
+        },
+        {
+          "en": "Boy -> Boys, Key -> Keys, Day -> Days",
+          "bn": "ছেলে -> ছেলেরা, চাবি -> চাবিগুলো",
+          "note": "O, E, A ভাওয়েল, তাই শুধু s।"
+        }
+      ]
+    },
+    {
+      "nameBn": "F বা FE দিয়ে শেষ হওয়া শব্দের প্লুরাল",
+      "nameEn": "Nouns Ending in -f or -fe",
+      "formula": "Drop -f / -fe, add -ves",
+      "shortcutTrick": "F উঠে গিয়ে ves বসে।",
+      "descriptionBn": "বেশিরভাগ ক্ষেত্রে F বা FE উঠে গিয়ে -ves যুক্ত হয়।",
+      "examples": [
+        {
+          "en": "Leaf -> Leaves, Knife -> Knives, Life -> Lives",
+          "bn": "পাতা -> পাতাসমূহ, ছুরি -> ছুরিগুলো, জীবন -> জীবনগুলো",
+          "note": "-ves যোগ হয়েছে।"
+        },
+        {
+          "en": "Roof -> Roofs, Chief -> Chiefs, Gulf -> Gulfs",
+          "bn": "ছাদ -> ছাদগুলো, প্রধান -> প্রধানগণ",
+          "note": "ব্যতিক্রম: এদের সাথে শুধু s বসে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "ভিতরের Vowel পরিবর্তনের মাধ্যমে প্লুরাল (Mutated Plurals)",
+      "nameEn": "Irregular Mutation Plurals",
+      "formula": "Internal Vowel Shift",
+      "shortcutTrick": "কোনো s/es নেই, সরাসরি ভেতরের স্বরবর্ণ বদলে যায়।",
+      "descriptionBn": "কিছু ঐতিহ্যবাহী ইংরেজি শব্দে কোনো প্রত্যয় যোগ না করে ভিতরের ভাওয়েল পরিবর্তন করে বহুবচন করা হয়।",
+      "examples": [
+        {
+          "en": "Man -> Men, Woman -> Women",
+          "bn": "পুরুষ -> পুরুষগণ, নারী -> নারীগণ",
+          "note": "a পরিবর্তিত হয়ে e হয়েছে।"
+        },
+        {
+          "en": "Foot -> Feet, Tooth -> Teeth, Goose -> Geese",
+          "bn": "পা -> পাগুলো, দাঁত -> দাঁতগুলো, রাজহাঁস -> রাজহাঁসগুলো",
+          "note": "oo পরিবর্তিত হয়ে ee হয়েছে।"
+        },
+        {
+          "en": "Mouse -> Mice, Louse -> Lice",
+          "bn": "ইঁদুর -> ইঁদুরগুলো",
+          "note": "ou পরিবর্তিত হয়ে i হয়েছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "সর্বদা একবচন বা সর্বদা বহুবচন শব্দ",
+      "nameEn": "Always Singular or Always Plural Nouns",
+      "formula": "Uncountable = Always Singular | Paired Items = Always Plural",
+      "shortcutTrick": "দুই অংশ বিশিষ্ট পরিধেয় ও যন্ত্রপাতি সর্বদা বহুবচন (Trousers, Scissors)।",
+      "descriptionBn": "Furniture, Information, Advice, News সর্বদা Singular। অন্যদিকে Scissors, Trousers, Glasses, Spectacles সর্বদা Plural।",
+      "examples": [
+        {
+          "en": "The news is good (NOT are).",
+          "bn": "সংবাদটি ভালো।",
+          "note": "News দেখতে প্লুরাল হলেও অর্থে Singular।"
+        },
+        {
+          "en": "My scissors are sharp (NOT is).",
+          "bn": "আমার কাঁচিটি ধারালো।",
+          "note": "Scissors সর্বদা Plural Verb গ্রহণ করে।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The police are investigating the case.",
+      "bn": "পুলিশ মামলাটি তদন্ত করছে।",
+      "note": "\"Police\" কালেক্টিভ হলেও সর্বদা Plural Verb নেয়।"
+    },
+    {
+      "en": "Physics is an interesting subject.",
+      "bn": "পদার্থবিজ্ঞান একটি চিত্তাকর্ষক বিষয়।",
+      "note": "বিষয়ের নাম শেষে s থাকলেও Singular।"
+    },
+    {
+      "en": "He gave me some valuable information.",
+      "bn": "সে আমাকে কিছু মূল্যবান তথ্য দিল।",
+      "note": "Information-এর সাথে s যুক্ত হয় না।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "বিদেশি (Greek/Latin) শব্দের বহুবচন",
+      "exceptionText": "ল্যাটিন ও গ্রিক উৎসজাত শব্দগুলো তাদের আদি ভাষার নিয়ম বজায় রাখে।",
+      "exampleEn": "Datum -> Data, Crisis -> Crises, Phenomenon -> Phenomena, Oasis -> Oases, Radius -> Radii.",
+      "exampleBn": "উপাত্ত -> উপাত্তসমূহ, সংকট -> সংকটসমূহ, বিস্ময়কর ঘটনা -> ঘটনাসমূহ।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "He gave me many advices.",
+      "correct": "He gave me much advice. (or many pieces of advice)",
+      "reasonBn": "Advice একটি Uncountable Noun, তাই এর সাথে s যুক্ত হয় না।"
+    },
+    {
+      "mistake": "The cattle is grazing in the field.",
+      "correct": "The cattle are grazing in the field.",
+      "reasonBn": "Cattle দেখতে সিঙ্গুলার কিন্তু ব্যাকরণগতভাবে সর্বদা Plural।"
+    }
+  ],
+  "tags": [
+    "number",
+    "singular",
+    "plural",
+    "countable",
+    "uncountable",
+    "irregular plurals",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10701,
+      "question": "What is the plural form of the word \"Criterion\"?",
+      "questionBn": "\"Criterion\" শব্দটির সঠিক বহুবচন (Plural) রূপ কোনটি?",
+      "options": [
+        "Criterions",
+        "Criteria",
+        "Criterias",
+        "Criterium"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "গ্রিক নিয়মানুযায়ী -on দিয়ে শেষ হওয়া শব্দের বহুবচনে -a বসে: Criterion -> Criteria।",
+      "difficulty": "HARD",
+      "marks": 1
+    },
+    {
+      "id": 10702,
+      "question": "Which of the following words is ALWAYS used as singular?",
+      "questionBn": "নিচের কোন শব্দটি সর্বদা একবচন (Singular) হিসেবে ব্যবহৃত হয়?",
+      "options": [
+        "Cattle",
+        "People",
+        "Furniture",
+        "Scissors"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Furniture একটি Uncountable Noun, এটি সর্বদা Singular থাকে এবং এর সাথে s যুক্ত হয় না।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10703,
+      "question": "What is the plural form of \"Ox\"?",
+      "questionBn": "\"Ox\" শব্দের বহুবচন রূপ কোনটি?",
+      "options": [
+        "Oxes",
+        "Oxen",
+        "Oxens",
+        "Oxies"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Ox-এর প্রাচীন ইংরেজি প্লুরাল রূপ হলো \"Oxen\" (অনুরূপভাবে Child -> Children)।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10701,
+      "type": "Convert to Plural",
+      "prompt": "Change to plural: \"The thief stole my knife and watch.\"",
+      "correctAnswer": "The thieves stole my knives and watches.",
+      "explanationBn": "Thief -> Thieves, Knife -> Knives, Watch -> Watches।"
+    },
+    {
+      "id": 10702,
+      "type": "Error Correction",
+      "prompt": "Correct the sentence: \"All his furnitures were sold out.\"",
+      "correctAnswer": "All his furniture was sold out.",
+      "explanationBn": "Furniture সর্বদা Singular Noun ও Singular Verb গ্রহণ করে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10701,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Number transformation in standard grammatical usage:",
+      "subQuestions": [
+        {
+          "questionText": "(a) Give the plural forms of: Oasis, Focus, Thief, Goose.",
+          "answer": "Oases, Foci (or Focuses), Thieves, Geese.",
+          "explanationBn": "নানা নিয়মের আওতায় গঠিত বহুবচন।"
+        }
+      ],
+      "fullExplanationBn": "নাম্বার বা বচনের রূপান্তর সঠিক সাবজেক্ট-ভার্ব এগ্রিমেন্টের প্রধান শর্ত।",
+      "isVerified": true
+    }
+  ]
+},
+  'person-and-pronoun-reference': {
+  "id": 106,
+  "chapterId": 1,
+  "topicNo": "০৬",
+  "titleEn": "Person: First, Second & Third Person",
+  "titleBn": "পুরুষ বা পারসন (First, Second ও Third Person)",
+  "slug": "person-and-pronoun-reference",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC",
+  "summaryBn": "কথোপকথনে বক্তা, শ্রোতা এবং যার সম্পর্কে বলা হয় তাদের অবস্থান বোঝাতে Person ব্যবহৃত হয়। ইংরেজি ব্যাকরণে Person তিন প্রকার: First Person, Second Person এবং Third Person।",
+  "definitionEn": "Person is a grammatical category that indicates the relationship between the speaker, the person addressed, and other entities mentioned in discourse.",
+  "definitionBn": "বাক্যে কোনো কিছু বলার সময় যে বলে, যাকে বলা হয় এবং যার সম্বন্ধে বলা হয় — এদের পার্থক্য বোঝাতে Person (পুরুষ) ব্যবহৃত হয়।",
+  "explanationBn": "১. First Person (উত্তম পুরুষ): যে বা যারা কথা বলে (I, We)। ২. Second Person (মধ্যম পুরুষ): যাকে উদ্দেশ্য করে কথা বলা হয় (You)। ৩. Third Person (নাম পুরুষ): যার বা যাদের সম্পর্কে আলোচনা করা হয় (He, She, It, They, Rahim ইত্যাদি)।",
+  "teacherGoldenTips": "গোল্ডেন ট্রিক: \"আমি-আমরা First Person, তুমি-তোমরা Second Person, বাকি দুনিয়ার যা কিছু আছে সবই Third Person!\"",
+  "mainFormula": "1st Person: I/We | 2nd Person: You | 3rd Person: He/She/It/They/Any Name",
+  "formulas": [
+    {
+      "label": "First Person",
+      "structure": "I, We, Me, Us, My, Our",
+      "tag": "Speaker",
+      "example": "I am reading. We are students."
+    },
+    {
+      "label": "Second Person",
+      "structure": "You, Your, Yours",
+      "tag": "Addressee",
+      "example": "You are an honest person."
+    },
+    {
+      "label": "Third Person",
+      "structure": "He, She, It, They, All Nouns",
+      "tag": "Spoken About",
+      "example": "He plays. Karim sings. The dog barks."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Third Person Singular Number এবং Verb-এর সাথে s/es",
+      "nameEn": "Third Person Singular Subject-Verb Agreement",
+      "formula": "Subject (3rd Person Singular) + Verb (Base form + s/es) in Present Indefinite",
+      "shortcutTrick": "Subject যদি একজন এবং থার্ড পারসন হয়, তবে ভার্বের সাথে s/es যোগ হবেই!",
+      "descriptionBn": "Present Indefinite Tense-এ Subject যদি Third Person Singular হয়, তবে Verb-এর শেষে s বা es যুক্ত হয়।",
+      "examples": [
+        {
+          "en": "He goes to school every day.",
+          "bn": "সে প্রতিদিন স্কুলে যায়।",
+          "note": "He হলো 3rd Person Singular, তাই go + es = goes।"
+        },
+        {
+          "en": "The boy plays cricket.",
+          "bn": "ছেলেটি ক্রিকেট খেলে।",
+          "note": "The boy = 3rd Person Singular।"
+        }
+      ]
+    },
+    {
+      "nameBn": "একাধিক Person একসাথে বসার নিয়ম (The 231 Rule)",
+      "nameEn": "The 231 Etiquette Rule",
+      "formula": "Good/Normal Context: 2nd Person + 3rd Person + 1st Person (2-3-1)",
+      "shortcutTrick": "ভদ্রতা প্রদর্শনে প্রথমে আপনি (2), তারপর তিনি (3), শেষে আমি (1)।",
+      "descriptionBn": "স্বাভাবিক বা ভালো কোনো কাজে একাধিক Person একসাথে বসলে প্রথমে Second Person, তারপর Third Person এবং সবশেষে First Person বসে।",
+      "examples": [
+        {
+          "en": "You, he and I will go there.",
+          "bn": "তুমি, সে এবং আমি সেখানে যাব।",
+          "note": "231 ক্রম রক্ষিত হয়েছে।"
+        },
+        {
+          "en": "You and Karim are brilliant.",
+          "bn": "তুমি এবং করিম মেধাবী।",
+          "note": "2nd + 3rd Person।"
+        }
+      ]
+    },
+    {
+      "nameBn": "দোষ বা অপরাধ স্বীকারে নিয়ম (The 123 Rule)",
+      "nameEn": "The 123 Confession Rule",
+      "formula": "Guilt/Blame Context: 1st Person + 2nd Person + 3rd Person (1-2-3)",
+      "shortcutTrick": "দোষ স্বীকারে আগে নিজে দায় নিন: আমি (1), তুমি (2), সে (3)।",
+      "descriptionBn": "ভুল, অপরাধ বা দোষ স্বীকার করার ক্ষেত্রে প্রথমে First Person, তারপর Second Person এবং শেষে Third Person বসে।",
+      "examples": [
+        {
+          "en": "I, you and he are guilty.",
+          "bn": "আমি, তুমি এবং সে অপরাধী।",
+          "note": "অপরাধ স্বীকারে 123 ক্রম প্রযোজ্য।"
+        },
+        {
+          "en": "I and you made this terrible mistake.",
+          "bn": "আমি এবং তুমি এই মারাত্মক ভুলটি করেছি।",
+          "note": "1st + 2nd Person।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "You, he and I are close friends.",
+      "bn": "তুমি, সে এবং আমি ঘনিষ্ঠ বন্ধু।",
+      "note": "231 রুল মেনে সাজানো।"
+    },
+    {
+      "en": "I, you and Rahim broke the mirror.",
+      "bn": "আমি, তুমি এবং রহিম আয়নাটি ভেঙেছি।",
+      "note": "দোষ স্বীকারের কারণে 123 ক্রম।"
+    },
+    {
+      "en": "Neither you nor he is responsible for this.",
+      "bn": "তুমি বা সে কেউই এর জন্য দায়ী নও।",
+      "note": "নৈকট্য অনুযায়ী Verb হয়েছে।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "বহুবচনে 123 ক্রম",
+      "exceptionText": "যদি সবগুলো Person-ই Plural (বহুবচন) হয়, তবে সাধারণ ক্ষেত্রেও 123 ক্রম অনুসরণ করা যায়: We, you and they.",
+      "exampleEn": "We, you and they must work together.",
+      "exampleBn": "আমরা, তোমরা এবং তারা অবশ্যই একসাথে কাজ করব।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "I, you and he will attend the party.",
+      "correct": "You, he and I will attend the party.",
+      "reasonBn": "সাধারণ অনুষ্ঠানে যোগ দেওয়া ইতিবাচক বিষয়, তাই 231 ক্রম ব্যবহার করতে হবে।"
+    },
+    {
+      "mistake": "He go to college.",
+      "correct": "He goes to college.",
+      "reasonBn": "He হলো Third Person Singular, তাই Verb-এ es যুক্ত হবে।"
+    }
+  ],
+  "tags": [
+    "person",
+    "first person",
+    "second person",
+    "third person",
+    "231 rule",
+    "123 rule",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10601,
+      "question": "Which is the grammatically correct order in a normal situation?",
+      "questionBn": "স্বাভাবিক পরিস্থিতিতে ব্যাকরণগতভাবে সঠিক ক্রম কোনটি?",
+      "options": [
+        "I, you and he passed the exam.",
+        "You, he and I passed the exam.",
+        "He, you and I passed the exam.",
+        "You, I and he passed the exam."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ভালো বা সাধারণ পরিস্থিতিতে 231 নীতি (Second -> Third -> First) প্রযোজ্য।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10602,
+      "question": "When confessing a crime or fault, which order of persons should be used?",
+      "questionBn": "অপরাধ বা দোষ স্বীকার করার ক্ষেত্রে পারসনের কোন ক্রমটি ব্যবহৃত হয়?",
+      "options": [
+        "2-3-1",
+        "3-2-1",
+        "1-2-3",
+        "1-3-2"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "দোষ বা অন্যায় স্বীকারে 123 নিয়ম (First -> Second -> Third) মানা হয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10603,
+      "question": "Which of the following pronouns is in the Third Person Plural form?",
+      "questionBn": "নিচের কোন সর্বনামটি Third Person Plural?",
+      "options": [
+        "We",
+        "You",
+        "They",
+        "Us"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"They\" হলো Third Person Plural সর্বনাম।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10601,
+      "type": "Sentence Ordering",
+      "prompt": "Arrange the pronouns correctly: \"___, ___ and ___ won the scholarship. (he / I / you)\"",
+      "correctAnswer": "You, he and I won the scholarship.",
+      "explanationBn": "ভালো অর্জনে 231 ক্রম (You, he and I) বসে।"
+    },
+    {
+      "id": 10602,
+      "type": "Error Correction",
+      "prompt": "Correct the sentence: \"You, I and he are to be blamed for the loss.\"",
+      "correctAnswer": "I, you and he are to be blamed for the loss.",
+      "explanationBn": "দোষ বা তিরস্কারে 123 ক্রম বসে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10601,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Subject-Verb agreement and Pronoun arrangement rules:",
+      "subQuestions": [
+        {
+          "questionText": "(a) State the difference between 231 rule and 123 rule with examples.",
+          "answer": "231 rule applies in general/polite contexts (You, he and I). 123 rule applies when confessing guilt or blame (I, you and he).",
+          "explanationBn": "ভদ্রতা প্রদর্শনে ২-৩-১ এবং দোষ স্বীকারে ১-২-৩ প্রযোজ্য।"
+        }
+      ],
+      "fullExplanationBn": "বোর্ড পরীক্ষায় Pronoun Agreement অংশে প্রায়ই এই প্রশ্নটি আসে।",
+      "isVerified": true
+    }
+  ]
+},
+  'basic-sentence-patterns': {
+  "id": 105,
+  "chapterId": 1,
+  "topicNo": "০৫",
+  "titleEn": "Basic Sentence Patterns & Structures",
+  "titleBn": "মৌলিক বাক্য কাঠামোর ৫টি প্রধান প্যাটার্ন",
+  "slug": "basic-sentence-patterns",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "ইংরেজি ভাষার প্রতিটি বাক্য মাত্র ৫টি মৌলিক কাঠামোর (Sentence Patterns) ওপর ভিত্তি করে তৈরি হয়। এই প্যাটার্নগুলো আয়ত্ত করলে যে কোনো জটিল বাক্য নির্ভুলভাবে লেখা যায়।",
+  "definitionEn": "Sentence patterns are the fundamental syntactic templates of English clause structures formed by arranging Subjects, Verbs, Objects, Complements, and Adverbials.",
+  "definitionBn": "ইংরেজি ভাষায় বাক্য গঠনের অপরিহার্য উপাদানগুলোর (S, V, O, C, A) সুশৃঙ্খল বিন্যাসকেই Sentence Pattern বা বাক্য কাঠামো বলে।",
+  "explanationBn": "প্রধান ৫টি প্যাটার্ন হলো: ১. S + V (Subject + Intransitive Verb), ২. S + V + O (Subject + Transitive Verb + Object), ৩. S + V + C (Subject + Linking Verb + Complement), ৪. S + V + IO + DO (Subject + Verb + Indirect Object + Direct Object), ৫. S + V + O + C (Subject + Verb + Object + Objective Complement)।",
+  "teacherGoldenTips": "মনে রাখবেন: বাক্যে কোনো কর্ম (Object) না থাকলে প্যাটার্ন ১ (S+V), একটি কর্ম থাকলে প্যাটার্ন ২ (S+V+O), দুটি কর্ম থাকলে প্যাটার্ন ৪ (S+V+IO+DO), আর সমান সম্পর্ক হলে প্যাটার্ন ৩ বা ৫!",
+  "mainFormula": "Pattern 1: S+V | Pattern 2: S+V+O | Pattern 3: S+V+C | Pattern 4: S+V+IO+DO | Pattern 5: S+V+O+C",
+  "formulas": [
+    {
+      "label": "Pattern 1: S + V",
+      "structure": "Subject + Intransitive Verb",
+      "tag": "Intransitive",
+      "example": "Birds fly. The baby sleeps."
+    },
+    {
+      "label": "Pattern 2: S + V + O",
+      "structure": "Subject + Transitive Verb + Object",
+      "tag": "Monotransitive",
+      "example": "He plays cricket. We love Bangladesh."
+    },
+    {
+      "label": "Pattern 3: S + V + C",
+      "structure": "Subject + Linking Verb + Complement",
+      "tag": "Copular",
+      "example": "She is happy. The milk turned sour."
+    },
+    {
+      "label": "Pattern 4: S + V + IO + DO",
+      "structure": "Subject + Verb + Indirect Object + Direct Object",
+      "tag": "Ditransitive",
+      "example": "He gave me a book."
+    },
+    {
+      "label": "Pattern 5: S + V + O + C",
+      "structure": "Subject + Verb + Object + Complement",
+      "tag": "Complex Transitive",
+      "example": "They elected him chairman."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "প্যাটার্ন ১: Subject + Intransitive Verb (S + V)",
+      "nameEn": "Pattern 1: Intransitive Action",
+      "formula": "S + V (+ Adverbial Modifier)",
+      "shortcutTrick": "এখানে কোনো Object বা কর্মের প্রয়োজন হয় না।",
+      "descriptionBn": "ক্রিয়া একাই সম্পূর্ণ অর্থ প্রকাশ করে। এর সাথে অতিরিক্ত তথ্য হিসেবে Adverbial বসতে পারে।",
+      "examples": [
+        {
+          "en": "The bell rang loudly.",
+          "bn": "ঘণ্টাটি জোরে বেজে উঠল।",
+          "note": "The bell = S, rang = V, loudly = Adverbial।"
+        },
+        {
+          "en": "Stars shine at night.",
+          "bn": "রাতে তারকারা আলো দেয়।",
+          "note": "Stars = S, shine = V।"
+        }
+      ]
+    },
+    {
+      "nameBn": "প্যাটার্ন ২: Subject + Verb + Object (S + V + O)",
+      "nameEn": "Pattern 2: Monotransitive Action",
+      "formula": "S + Transitive Verb + Object",
+      "shortcutTrick": "ক্রিয়ার প্রভাব সরাসরি অবজেক্টের ওপর পড়ে।",
+      "descriptionBn": "ইংরেজি ভাষায় সবচেয়ে বহুল ব্যবহৃত প্যাটার্ন। এটি প্যাসিভ ভয়েসে রূপান্তরযোগ্য।",
+      "examples": [
+        {
+          "en": "Farmers grow crops.",
+          "bn": "কৃষকরা ফসল ফলায়।",
+          "note": "Farmers (S) + grow (V) + crops (O)।"
+        },
+        {
+          "en": "She solved the math problem.",
+          "bn": "সে গণিতের সমস্যাটি সমাধান করল।",
+          "note": "She (S) + solved (V) + the problem (O)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "প্যাটার্ন ৪ ও ৫ এর তুলনামূলক পার্থক্য",
+      "nameEn": "Pattern 4 (S+V+IO+DO) vs Pattern 5 (S+V+O+C)",
+      "formula": "Pattern 4: IO ≠ DO | Pattern 5: O = C",
+      "shortcutTrick": "যদি শেষের দুটি শব্দ আলাদা ব্যক্তি ও বস্তু হয় তবে IO+DO। আর যদি একই ব্যক্তি হয় তবে O+C!",
+      "descriptionBn": "\"He gave me (ব্যক্তি) a pen (বস্তু)\" -> প্যাটার্ন ৪। কিন্তু \"They called him (ব্যক্তি) a hero (একই ব্যক্তি)\" -> প্যাটার্ন ৫।",
+      "examples": [
+        {
+          "en": "Father sent me money.",
+          "bn": "বাবা আমাকে টাকা পাঠালেন।",
+          "note": "me ≠ money -> S+V+IO+DO (Pattern 4)।"
+        },
+        {
+          "en": "They proved him innocent.",
+          "bn": "তারা তাকে নির্দোষ প্রমাণ করল।",
+          "note": "him = innocent -> S+V+O+C (Pattern 5)।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Water boils at 100 degrees Celsius.",
+      "bn": "পানি ১০০ ডিগ্রি সেলসিয়াসে ফোটে।",
+      "note": "Pattern 1: S + V + Adverbial Modifier।"
+    },
+    {
+      "en": "The headmaster awarded the student a certificate.",
+      "bn": "প্রধান শিক্ষক ছাত্রটিকে একটি সনদপত্র দিলেন।",
+      "note": "Pattern 4: S + V + IO + DO।"
+    },
+    {
+      "en": "The news made everyone happy.",
+      "bn": "সংবাদটি সবাইকে আনন্দিত করল।",
+      "note": "Pattern 5: S + V + O + C।"
+    },
+    {
+      "en": "Honesty is the best policy.",
+      "bn": "সততাই সর্বোৎকৃষ্ট পন্থা।",
+      "note": "Pattern 3: S + V + C।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "There is / There are দিয়ে বাক্য সূচনা (Existential Pattern)",
+      "exceptionText": "\"There\" দিয়ে শুরু হওয়া বাক্যে Subject ভার্বের পরে বসে।",
+      "exampleEn": "There are forty students in our class (Subject = forty students).",
+      "exampleBn": "আমাদের শ্রেণিতে ৪০ জন শিক্ষার্থী রয়েছে।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "In \"He plays well\", \"well\" is an object.",
+      "correct": "\"Well\" is an adverbial modifier of manner, not an object.",
+      "reasonBn": "Well ক্রিয়াকে \"কেমন করে\" প্রশ্ন করে পাওয়া যায়, তাই এটি Adverb।"
+    }
+  ],
+  "tags": [
+    "sentence patterns",
+    "svo",
+    "sv",
+    "svc",
+    "sviodo",
+    "svoc",
+    "sentence structure",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10501,
+      "question": "What is the pattern of the sentence: \"The committee elected him president\"?",
+      "questionBn": "\"The committee elected him president\" বাক্যটির প্যাটার্ন কোনটি?",
+      "options": [
+        "S + V + O",
+        "S + V + IO + DO",
+        "S + V + O + C",
+        "S + V + C"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "The committee (S) + elected (V) + him (O) + president (C). এখানে him এবং president একই ব্যক্তি হওয়ায় এটি S + V + O + C।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10502,
+      "question": "Which of the following follows the S + V + C pattern?",
+      "questionBn": "নিচের কোনটি S + V + C প্যাটার্ন অনুসরণ করে?",
+      "options": [
+        "The sky turned dark.",
+        "He wrote a letter.",
+        "Mother cooked rice.",
+        "Birds fly away."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"The sky turned dark\" বাক্যে turned একটি Linking Verb এবং dark হলো Complement (Sky = Dark)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10503,
+      "question": "In the sentence \"She gave him a warm smile\", \"a warm smile\" is —",
+      "questionBn": "\"She gave him a warm smile\" বাক্যে \"a warm smile\" কী?",
+      "options": [
+        "Indirect Object",
+        "Direct Object",
+        "Subjective Complement",
+        "Objective Complement"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ক্রিয়াকে \"কী দিল?\" প্রশ্ন করলে পাওয়া যায় \"a warm smile\", যা Direct Object।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10501,
+      "type": "Identify Pattern",
+      "prompt": "Identify the pattern: \"The teacher made the lesson interesting.\"",
+      "correctAnswer": "S + V + O + C (Subject: The teacher, Verb: made, Object: the lesson, Complement: interesting)",
+      "explanationBn": "এখানে the lesson এবং interesting পরস্পরের পরিপূরক।"
+    },
+    {
+      "id": 10502,
+      "type": "Make Sentence",
+      "prompt": "Construct a sentence following the S + V + IO + DO pattern.",
+      "correctAnswer": "Example: \"My uncle sent me a laptop.\"",
+      "explanationBn": "Me হলো IO এবং a laptop হলো DO।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10501,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Structure analysis in English syntax:",
+      "subQuestions": [
+        {
+          "questionText": "(a) Write down the 5 fundamental clause patterns in English.",
+          "answer": "1. S+V, 2. S+V+O, 3. S+V+C, 4. S+V+IO+DO, 5. S+V+O+C.",
+          "explanationBn": "ইংরেজি ভাষার সকল সাধারণ ক্লজ এই পাঁচটি কাঠামোর অধীন।"
+        }
+      ],
+      "fullExplanationBn": "বাক্য রূপান্তর ও ফ্রিহ্যান্ড রাইটিং-এর ক্ষেত্রে এই প্যাটার্নগুলো অত্যন্ত সহায়ক।",
+      "isVerified": true
+    }
+  ]
+},
+  'objects-and-complements': {
+  "id": 104,
+  "chapterId": 1,
+  "topicNo": "০৪",
+  "titleEn": "Objects & Complements",
+  "titleBn": "কর্ম ও পরিপূরক (Direct/Indirect Object & Complement)",
+  "slug": "objects-and-complements",
+  "difficulty": "INTERMEDIATE",
+  "classLevel": "Class 7-10 / SSC",
+  "summaryBn": "Object এবং Complement দেখতে প্রায় একই রকম লাগলেও এদের মধ্যে সূক্ষ্ম ব্যাকরণিক পার্থক্য রয়েছে। এই টপিকে Direct Object, Indirect Object এবং Subjective/Objective Complement বিশদভাবে ব্যাখ্যা করা হয়েছে।",
+  "definitionEn": "An Object is a noun or pronoun governed by a transitive verb or preposition. A Complement is a word or phrase that completes the meaning of a subject or object through a linking or factitive verb.",
+  "definitionBn": "ক্রিয়াকে \"কাকে\" বা \"কী\" দ্বারা প্রশ্ন করলে যে উত্তর পাওয়া যায় তাকে Object বলে। আর যা Subject বা Object-এর ভিন্ন কোনো পরিচয় না দিয়ে তাদেরকেই পূর্ণাঙ্গ করে তাকে Complement বলে।",
+  "explanationBn": "গুরুত্বপূর্ণ পার্থক্য: Subject ≠ Object (যেমন: \"He plays cricket\" -> He এবং Cricket এক ব্যক্তি বা বস্তু নয়)। কিন্তু Subject = Complement (যেমন: \"He is a doctor\" -> He এবং Doctor একই ব্যক্তি!)।",
+  "teacherGoldenTips": "ম্যাজিক টেস্ট: Subject এবং Verb-এর পরের শব্দের মাঝে সমান চিহ্ন (=) বসান। যদি অর্থ সঠিক থাকে তবে তা Complement (He = Doctor)। যদি অর্থ না মিলে তবে তা Object (He ≠ Football)!",
+  "mainFormula": "Transitive Verb + Object (S ≠ O) | Linking Verb + Subject Complement (S = C)",
+  "formulas": [
+    {
+      "label": "Direct Object (DO)",
+      "structure": "Verb + What? (Usually Thing)",
+      "tag": "Direct",
+      "example": "She wrote a letter."
+    },
+    {
+      "label": "Indirect Object (IO)",
+      "structure": "Verb + Whom? (Usually Person)",
+      "tag": "Indirect",
+      "example": "He gave me a gift."
+    },
+    {
+      "label": "Complement (C)",
+      "structure": "Subject = Noun / Adjective",
+      "tag": "Identity",
+      "example": "Honey tastes sweet (Honey = Sweet)."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Direct Object বনাম Indirect Object",
+      "nameEn": "Direct vs Indirect Object Rule",
+      "formula": "S + V + IO (ব্যক্তি) + DO (বস্তু) OR S + V + DO + to/for + IO",
+      "shortcutTrick": "ব্যক্তিবাচক কর্ম হলো Indirect, আর বস্তুবাচক কর্ম হলো Direct।",
+      "descriptionBn": "বাক্যে দুটি কর্ম থাকলে সাধারণত ব্যক্তিবাচক কর্মটি আগে বসে (IO) এবং বস্তুবাচক কর্মটি পরে বসে (DO)। তবে Preposition দিয়ে ক্রম উল্টে দেওয়া যায়।",
+      "examples": [
+        {
+          "en": "Teacher taught us English.",
+          "bn": "শিক্ষক আমাদের ইংরেজি পড়ালেন।",
+          "note": "us = Indirect Object, English = Direct Object।"
+        },
+        {
+          "en": "Teacher taught English to us.",
+          "bn": "শিক্ষক আমাদের কাছে ইংরেজি পড়ালেন।",
+          "note": "DO আগে আনলে \"to\" বসাতে হয়।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Subjective Complement-এর নিয়ম",
+      "nameEn": "Subjective Complement with Linking Verbs",
+      "formula": "Subject + Linking Verb (be, feel, taste, become, look) + Complement",
+      "shortcutTrick": "Linking Verb-এর পর Adverb নয়, Adjective বা Noun Complement বসে।",
+      "descriptionBn": "Be verb (am, is, are, was, were), taste, smell, look, seem ইত্যাদি Linking Verb-এর পরে Complement বসে।",
+      "examples": [
+        {
+          "en": "The flower smells sweet (NOT sweetly).",
+          "bn": "ফুলটির ঘ্রাণ মিষ্টি।",
+          "note": "Sweet হলো Subjective Complement।"
+        },
+        {
+          "en": "Mr. Karim is an engineer.",
+          "bn": "জনাব করিম একজন প্রকৌশলী।",
+          "note": "Engineer হলো Karim-এর Complement।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Objective Complement-এর নিয়ম",
+      "nameEn": "Objective Complement with Factitive Verbs",
+      "formula": "Subject + Verb + Object + Objective Complement",
+      "shortcutTrick": "Object = Complement (উভয়ে একই ব্যক্তি বা বস্তু)।",
+      "descriptionBn": "Make, call, elect, select, appoint ইত্যাদি Verbs-এর পরে Object-কে পূর্ণাঙ্গ করতে Objective Complement বসে।",
+      "examples": [
+        {
+          "en": "We elected him captain.",
+          "bn": "আমরা তাকে ক্যাপ্টেন নির্বাচিত করলাম।",
+          "note": "him = captain (Objective Complement)।"
+        },
+        {
+          "en": "They named the baby Joy.",
+          "bn": "তারা শিশুটির নাম রাখল জয়।",
+          "note": "baby = Joy।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Mother gave me a beautiful watch.",
+      "bn": "মা আমাকে একটি সুন্দর ঘড়ি দিলেন।",
+      "note": "me = Indirect Object, a beautiful watch = Direct Object।"
+    },
+    {
+      "en": "The soup tastes delicious.",
+      "bn": "স্যুপটি খেতে সুস্বাদু লাগছে।",
+      "note": "delicious = Subjective Complement।"
+    },
+    {
+      "en": "The committee appointed him chairman.",
+      "bn": "কমিটি তাকে চেয়ারম্যান নিয়োগ দিল।",
+      "note": "chairman = Objective Complement।"
+    },
+    {
+      "en": "He painted the house green.",
+      "bn": "সে বাড়িটি সবুজ রঙ করল।",
+      "note": "green = Objective Complement।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Cognate Object (সমজাতীয় কর্ম)",
+      "exceptionText": "কখনো কখনো Intransitive Verb তার সমার্থক কোনো Noun-কে Object হিসেবে গ্রহণ করে। একে Cognate Object বলে।",
+      "exampleEn": "He ran a race. / She slept a sound sleep.",
+      "exampleBn": "সে একটি দৌড়ে অংশ নিল। / সে গভীর ঘুমে ঘুমাল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The rose smells sweetly.",
+      "correct": "The rose smells sweet.",
+      "reasonBn": "Smell একটি Linking Verb, এরপরে Adverb (sweetly) নয়, Adjective Complement (sweet) বসবে।"
+    },
+    {
+      "mistake": "We selected him as captain.",
+      "correct": "We selected him captain.",
+      "reasonBn": "Elect, select, make ইত্যাদির পর Objective Complement-এর পূর্বে \"as\" ব্যবহার পরিহার করা শ্রেয়।"
+    }
+  ],
+  "tags": [
+    "object",
+    "direct object",
+    "indirect object",
+    "complement",
+    "linking verb",
+    "transitive verb",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10401,
+      "question": "In the sentence \"Father bought me a pen\", what kind of object is \"pen\"?",
+      "questionBn": "\"Father bought me a pen\" বাক্যে \"pen\" কোন ধরনের Object?",
+      "options": [
+        "Indirect Object",
+        "Direct Object",
+        "Subjective Complement",
+        "Cognate Object"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ক্রিয়াকে \"কী কিনলেন?\" প্রশ্ন করলে পাওয়া যায় \"a pen\", যা বস্তুবাচক Direct Object। আর \"কাকে?\" প্রশ্ন করলে পাওয়া যায় \"me\" (Indirect Object)।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10402,
+      "question": "In \"He became a doctor\", the word \"doctor\" is a/an —",
+      "questionBn": "\"He became a doctor\" বাক্যে \"doctor\" শব্দটি কী?",
+      "options": [
+        "Object",
+        "Complement",
+        "Adverb",
+        "Preposition"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "এখানে He এবং Doctor একই ব্যক্তি। Became একটি Linking Verb হওয়ায় Doctor হলো Subjective Complement।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10403,
+      "question": "Which of the following contains an Objective Complement?",
+      "questionBn": "নিচের কোন বাক্যে Objective Complement রয়েছে?",
+      "options": [
+        "They made him captain.",
+        "He gave me a book.",
+        "The sky is blue.",
+        "She sings a song."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "\"They made him captain\" বাক্যে \"him\"-এর পরিচয় সম্পন্ন করতে \"captain\" বসেছে (him = captain), তাই এটি Objective Complement।",
+      "difficulty": "HARD",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10401,
+      "type": "Rewrite with Preposition",
+      "prompt": "Rewrite using \"to\": \"He handed me the document.\"",
+      "correctAnswer": "He handed the document to me.",
+      "explanationBn": "Direct Object আগে এনে Indirect Object পরে দিলে \"to\" যোগ করতে হয়।"
+    },
+    {
+      "id": 10402,
+      "type": "Identify Complement Type",
+      "prompt": "Identify the complement: \"The players felt exhausted after the match.\"",
+      "correctAnswer": "exhausted (Subjective Complement)",
+      "explanationBn": "Felt একটি Linking Verb এবং exhausted হলো Subject-এর অবস্থা প্রকাশক Complement।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10401,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Differentiate grammatical objects from complements:",
+      "subQuestions": [
+        {
+          "questionText": "(a) Explain the difference between an Object and a Complement with examples.",
+          "answer": "In S+V+O, Subject ≠ Object (He reads a book). In S+V+C, Subject = Complement (He is a teacher).",
+          "explanationBn": "অবজেক্টে ব্যক্তি ও বস্তু ভিন্ন হয়, কিন্তু কমপ্লিমেন্টে ব্যক্তি ও পদবী একই সত্তা।"
+        }
+      ],
+      "fullExplanationBn": "ভয়েস চেঞ্জ এবং রাইট ফর্ম অব ভার্বস বোঝার জন্য এই পার্থক্যটি ভিত্তিপ্রস্তরস্বরূপ।",
+      "isVerified": true
+    }
+  ]
+},
+  'sentence-subject-predicate': {
+  "id": 103,
+  "chapterId": 1,
+  "topicNo": "০৩",
+  "titleEn": "Sentence: Subject & Predicate",
+  "titleBn": "বাক্য: উদ্দেশ্য ও বিধেয় (Subject & Predicate)",
+  "slug": "sentence-subject-predicate",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC Foundation",
+  "summaryBn": "কতগুলো শব্দ পাশাপাশি বসে যখন মনের ভাব সম্পূর্ণরূপে প্রকাশ করে তখন তাকে Sentence বলে। প্রতিটি বাক্যের দুটি প্রধান অংশ থাকে: Subject এবং Predicate।",
+  "definitionEn": "A sentence is a group of words giving a complete sense. It consists of two essential parts: the Subject (the person or thing being talked about) and the Predicate (what is said about the subject).",
+  "definitionBn": "যে শব্দ বা শব্দসমষ্টি বক্তার মনের ভাব সম্পূর্ণরূপে প্রকাশ করে তাকে Sentence (বাক্য) বলে। বাক্যের মূল অংশ দুটি: Subject (উদ্দেশ্য) ও Predicate (বিধেয়)।",
+  "explanationBn": "বাক্যে যার সম্পর্কে কিছু বলা হয় সে হলো Subject। আর Subject সম্পর্কে যা কিছু বলা হয় তা হলো Predicate। Predicate অংশে অবশ্যই একটি সমাপিকা ক্রিয়া (Finite Verb) থাকতে হয়।",
+  "teacherGoldenTips": "Subject চেনার জাদুকরী নিয়ম: বাক্যের মূল Verb-কে \"কে (Who)\" বা \"কী (What)\" দ্বারা প্রশ্ন করলে যে উত্তর পাওয়া যায়, তাই হলো Subject!",
+  "mainFormula": "Sentence = Subject + Predicate (Verb + Object / Complement / Modifier)",
+  "formulas": [
+    {
+      "label": "Subject",
+      "structure": "Who / What performs or relates to the action",
+      "tag": "Actor/Topic",
+      "example": "The sun, Rahim, Honesty"
+    },
+    {
+      "label": "Predicate",
+      "structure": "Finite Verb + Remaining components",
+      "tag": "Action/Detail",
+      "example": "rises in the east, plays football"
+    },
+    {
+      "label": "Combined",
+      "structure": "Subject + Verb + Extension",
+      "tag": "Complete Thought",
+      "example": "The brave soldier fought valiantly."
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "Subject নির্ণয়ের কৌশল",
+      "nameEn": "Identifying the Subject",
+      "formula": "Who / What + Verb = Subject",
+      "shortcutTrick": "Verb-এর আগে Who বা What দিয়ে প্রশ্ন করুন।",
+      "descriptionBn": "Subject সাধারণত Noun বা Pronoun হয়। এটি একক শব্দ বা একাধিক শব্দের Noun Phrase হতে পারে।",
+      "examples": [
+        {
+          "en": "Birds fly in the sky.",
+          "bn": "পাখিরা আকাশে ওড়ে।",
+          "note": "Who fly? -> Birds (Subject)।"
+        },
+        {
+          "en": "The boy with a blue cap is my cousin.",
+          "bn": "নীল টুপি পরা ছেলেটি আমার খালাতো ভাই।",
+          "note": "\"The boy with a blue cap\" পুরোটা Complete Subject।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Imperative বাক্যে উহ্য Subject (Hidden Subject)",
+      "nameEn": "Understood Subject in Imperative Sentences",
+      "formula": "(You) + Base Verb + Object/Extension",
+      "shortcutTrick": "আদেশ, উপদেশ বা অনুরোধে You সর্বদা উহ্য থাকে।",
+      "descriptionBn": "Imperative বাক্যে Subject \"You\" উল্লেখ না থাকলেও ব্যাকরণগতভাবে তা বিদ্যমান থাকে।",
+      "examples": [
+        {
+          "en": "Open the door. = (You) open the door.",
+          "bn": "দরজাটি খোলো।",
+          "note": "Subject হলো উহ্য \"You\"।"
+        },
+        {
+          "en": "Respect your elders. = (You) respect your elders.",
+          "bn": "গুরুজনদের সম্মান করো।",
+          "note": "Subject = You।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Predicate-এর অপরিহার্য উপাদান",
+      "nameEn": "The Essential Core of a Predicate",
+      "formula": "Predicate = Verb + (Object / Complement / Adverbial)",
+      "shortcutTrick": "Verb ছাড়া Predicate গঠিত হতে পারে না।",
+      "descriptionBn": "Predicate অংশের প্রাণ হলো Verb। একটিমাত্র Verb দিয়েও Predicate হতে পারে (যেমন: Birds fly)।",
+      "examples": [
+        {
+          "en": "Fire burns.",
+          "bn": "আগুন পোড়ায়।",
+          "note": "Fire = Subject, burns = Predicate।"
+        },
+        {
+          "en": "Mother cooked delicious food for us.",
+          "bn": "মা আমাদের জন্য সুস্বাদু খাবার রান্না করলেন।",
+          "note": "\"cooked delicious food for us\" হলো Predicate।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "Knowledge is power.",
+      "bn": "জ্ঞানই শক্তি।",
+      "note": "Knowledge = Subject, is power = Predicate।"
+    },
+    {
+      "en": "A barking dog seldom bites.",
+      "bn": "যে কুকুর ডাকে সে কদাচিৎ কামড়ায়।",
+      "note": "A barking dog = Complete Subject।"
+    },
+    {
+      "en": "Stand up immediately.",
+      "bn": "অবিলম্বে দাঁড়াও।",
+      "note": "Imperative বাক্য, Subject = (You)।"
+    },
+    {
+      "en": "Swimming is a very good exercise.",
+      "bn": "সাঁতার একটি খুব ভালো ব্যায়াম।",
+      "note": "Swimming (Gerund) এখানে Subject হিসেবে বসেছে।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Inverted Sentences (বিপরীত বিন্যাস)",
+      "exceptionText": "কবিতায় বা জোর দেওয়ার জন্য কখনো কখনো Predicate বাক্যের শুরুতে এবং Subject শেষে বসে।",
+      "exampleEn": "Down went the Royal George (Subject = the Royal George).",
+      "exampleBn": "রয়েল জর্জ জাহাজটি নিচে তলিয়ে গেল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "In \"Close the window\", there is no subject.",
+      "correct": "The subject is the implied pronoun \"You\".",
+      "reasonBn": "অনুজ্ঞাসূচক বাক্যে Subject সর্বদা দ্বিতীয় পুরুষ \"You\" উহ্য থাকে।"
+    }
+  ],
+  "tags": [
+    "sentence",
+    "subject",
+    "predicate",
+    "verb",
+    "grammar basics",
+    "ssc foundation"
+  ],
+  "mcqs": [
+    {
+      "id": 10301,
+      "question": "Identify the subject in: \"The old man with a walking stick crossed the road.\"",
+      "questionBn": "\"The old man with a walking stick crossed the road\" বাক্যে Subject কোনটি?",
+      "options": [
+        "The old man",
+        "A walking stick",
+        "The old man with a walking stick",
+        "The road"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "ক্রিয়া \"crossed\"-এর আগে থাকা সম্পূর্ণ Noun Phrase \"The old man with a walking stick\" হলো Complete Subject।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10302,
+      "question": "What is the subject in the imperative sentence: \"Never tell a lie\"?",
+      "questionBn": "\"Never tell a lie\" অনুজ্ঞাসূচক বাক্যে Subject কোনটি?",
+      "options": [
+        "Never",
+        "Lie",
+        "You (Implied)",
+        "No subject"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "সকল Imperative বাক্যে Subject হিসেবে \"You\" উহ্য (understood) থাকে।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10303,
+      "question": "Which part of the sentence \"Time and tide wait for none\" is the Predicate?",
+      "questionBn": "\"Time and tide wait for none\" বাক্যে Predicate অংশ কোনটি?",
+      "options": [
+        "Time and tide",
+        "wait for none",
+        "for none",
+        "wait"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Subject \"Time and tide\"-এর পর থেকে শেষ পর্যন্ত \"wait for none\" হলো Predicate।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10301,
+      "type": "Divide Subject & Predicate",
+      "prompt": "Separate Subject and Predicate: \"All the students of our school passed the exam.\"",
+      "correctAnswer": "Subject: \"All the students of our school\" | Predicate: \"passed the exam.\"",
+      "explanationBn": "ক্রিয়ার পূর্ববর্তী সম্পূ্র্ণ Noun Phrase হলো Subject।"
+    },
+    {
+      "id": 10302,
+      "type": "Identify Missing Element",
+      "prompt": "Why is \"In the garden every morning\" not a complete sentence?",
+      "correctAnswer": "Because it lacks both a Subject and a Finite Verb (It is only a prepositional phrase).",
+      "explanationBn": "বাক্য হতে হলে অবশ্যই একটি সমাপিকা ক্রিয়া (Finite Verb) ও মনের পূর্ণ ভাব থাকতে হবে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10301,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Examine sentence formation elements in standard English:",
+      "subQuestions": [
+        {
+          "questionText": "(a) What are the two essential parts of any meaningful English sentence?",
+          "answer": "Subject and Predicate.",
+          "explanationBn": "যেকোনো বাক্যের মূল দুটি ভিত্তি উদ্দেশ্য ও বিধেয়।"
+        }
+      ],
+      "fullExplanationBn": "Subject ও Predicate চিহ্নিতকরণ বাক্য গঠনের প্রাথমিক শর্ত।",
+      "isVerified": true
+    }
+  ]
+},
+  'word-and-syllable': {
+  "id": 102,
+  "chapterId": 1,
+  "topicNo": "০২",
+  "titleEn": "Word & Syllable Structure",
+  "titleBn": "শব্দ ও শব্দাংশ (সিলেবল)",
+  "slug": "word-and-syllable",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC Foundation",
+  "summaryBn": "এক বা একাধিক বর্ণ মিলে যখন অর্থ প্রকাশ করে তখন তাকে Word বলে। একটি শব্দকে একবারে যতটুকু উচ্চারণ করা যায় তাকে Syllable বলে।",
+  "definitionEn": "A word is a single distinct meaningful element of speech or writing. A syllable is a unit of pronunciation having one vowel sound, with or without surrounding consonants.",
+  "definitionBn": "অর্থপূর্ণ ধ্বনি বা ধ্বনিসমষ্টিকে Word (শব্দ) বলে। একটি শব্দের যে অংশটুকু এক শ্বাসে একবারে উচ্চারিত হয় তাকে Syllable (শব্দাংশ) বলে।",
+  "explanationBn": "সিলেবল মূলত চার প্রকার: ১. Monosyllable (এক শব্দাংশ), ২. Disyllable (দ্বি-শব্দাংশ), ৩. Trisyllable (ত্রি-শব্দাংশ), ৪. Polysyllable (বহু-শব্দাংশ)। সঠিক ইংরেজি উচ্চারণ ও বানানের জন্য সিলেবল বিশ্লেষণ অত্যন্ত গুরুত্বপূর্ণ।",
+  "teacherGoldenTips": "সিলেবল চেনার সেরা কৌশল: কথা বলার সময় চিবুকের (Chin) নিচে হাত রাখুন। একটি শব্দ বলতে গিয়ে আপনার চিবুক যতবার নিচে নামবে, সেই শব্দে ঠিক ততটি Syllable আছে!",
+  "mainFormula": "Word = Meaningful Letter Combination | Syllable = Single Vowel Sound Peak",
+  "formulas": [
+    {
+      "label": "Monosyllable",
+      "structure": "1 Breath / 1 Vowel Sound",
+      "tag": "Single",
+      "example": "Pen, Book, Boy, Go, Cat"
+    },
+    {
+      "label": "Disyllable",
+      "structure": "2 Breath Units",
+      "tag": "Double",
+      "example": "Fa-ther, Wa-ter, Tea-cher"
+    },
+    {
+      "label": "Polysyllable",
+      "structure": "4+ Breath Units",
+      "tag": "Multi",
+      "example": "Con-gra-tu-la-tion, Ex-a-mi-na-tion"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "সিলেবলের প্রকারভেদ ও বৈশিষ্ট্য",
+      "nameEn": "Classification of Syllables",
+      "formula": "Mono (1) | Di (2) | Tri (3) | Poly (4+)",
+      "shortcutTrick": "প্রতিটি সিলেবলে অবশ্যই অন্তত একটি স্বরধ্বনি থাকবে।",
+      "descriptionBn": "উচ্চারণের শ্বাসঘাত অনুযায়ী সিলেবল চার ভাগে বিভক্ত।",
+      "examples": [
+        {
+          "en": "Sun, Man, Day (Monosyllable)",
+          "bn": "সূর্য, মানুষ, দিন",
+          "note": "এক ঝোঁকে উচ্চারিত।"
+        },
+        {
+          "en": "Doc-tor, Sis-ter (Disyllable)",
+          "bn": "ডাক্তার, বোন",
+          "note": "দুইটি সিলেবল।"
+        },
+        {
+          "en": "Beau-ti-ful, Im-por-tant (Trisyllable)",
+          "bn": "সুন্দর, গুরুত্বপূর্ণ",
+          "note": "তিনটি সিলেবল।"
+        },
+        {
+          "en": "Uni-ver-si-ty (Polysyllable)",
+          "bn": "বিশ্ববিদ্যালয়",
+          "note": "পাঁচটি সিলেবল (U-ni-ver-si-ty)।"
+        }
+      ]
+    },
+    {
+      "nameBn": "শব্দ গঠনের শর্ত (Conditions of a Word)",
+      "nameEn": "Word Formation Criteria",
+      "formula": "Letters + Meaning = Word (Letters without meaning ≠ Word)",
+      "shortcutTrick": "অর্থহীন অক্ষরের সমষ্টি কখনো শব্দ হতে পারে না।",
+      "descriptionBn": "অক্ষর সাজালেই শব্দ হয় না, তার একটি নির্দিষ্ট অভিধানসিদ্ধ অর্থ থাকতে হবে। যেমন: \"OGD\" কোনো শব্দ নয়, কিন্তু \"DOG\" একটি শব্দ।",
+      "examples": [
+        {
+          "en": "B-O-O-K = Book (Word)",
+          "bn": "বই (অর্থপূর্ণ শব্দ)",
+          "note": "অর্থ প্রকাশ করেছে।"
+        },
+        {
+          "en": "O-O-B-K = Oobk (Not a word)",
+          "bn": "অর্থহীন বর্ণসমষ্টি",
+          "note": "কোনো অর্থ নেই।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "The word \"Education\" is a polysyllabic word (Ed-u-ca-tion).",
+      "bn": "\"Education\" একটি বহু-শব্দাংশবিশিষ্ট শব্দ।",
+      "note": "৪টি সিলেবল বিদ্যমান।"
+    },
+    {
+      "en": "A monosyllabic word cannot be divided further in pronunciation.",
+      "bn": "এক-সিলেবলবিশিষ্ট শব্দকে উচ্চারণে আর ভাঙা যায় না।",
+      "note": "যেমন: Pen, Red।"
+    },
+    {
+      "en": "Breaking words into syllables helps avoid spelling mistakes.",
+      "bn": "শব্দকে সিলেবলে ভাগ করে পড়লে বানান ভুল এড়ানো যায়।",
+      "note": "বানান শেখার মূল চাবিকাঠি।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Single Letter Word (এক বর্ণের শব্দ)",
+      "exceptionText": "সাধারণত একাধিক বর্ণ মিলে শব্দ হলেও ইংরেজিতে \"A\" (একটি) এবং \"I\" (আমি) — এই দুটি একক বর্ণ নিজেই পূর্ণাঙ্গ অর্থপূর্ণ Word হিসেবে ব্যবহৃত হয়।",
+      "exampleEn": "I saw a bird in the sky.",
+      "exampleBn": "আমি আকাশে একটি পাখি দেখলাম।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "The word \"Beautiful\" is a disyllabic word.",
+      "correct": "The word \"Beautiful\" is a trisyllabic word (Beau-ti-ful).",
+      "reasonBn": "Beautiful শব্দে তিনটি স্পষ্ট ভাওয়েল সাউন্ড পিক রয়েছে।"
+    }
+  ],
+  "tags": [
+    "word",
+    "syllable",
+    "monosyllable",
+    "disyllable",
+    "polysyllable",
+    "spelling",
+    "pronunciation"
+  ],
+  "mcqs": [
+    {
+      "id": 10201,
+      "question": "How many syllables are there in the word \"Examination\"?",
+      "questionBn": "\"Examination\" শব্দটিতে মোট কতটি সিলেবল রয়েছে?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Ex-am-i-na-tion — এখানে ৫টি স্বতন্ত্র সিলেবল রয়েছে, তাই এটি Polysyllable।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10202,
+      "question": "Which of the following is a monosyllabic word?",
+      "questionBn": "নিচের কোনটি মনোসিলেবিক (Monosyllabic) শব্দ?",
+      "options": [
+        "Water",
+        "Teacher",
+        "Strong",
+        "Father"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "\"Strong\" শব্দটি এক শ্বাসে একবারে উচ্চারিত হয়, তাই এটি Monosyllable।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10203,
+      "question": "Which single letter functions as a complete English word?",
+      "questionBn": "নিচের কোন একক বর্ণটি একটি পূর্ণাঙ্গ ইংরেজি শব্দ হিসেবে ব্যবহৃত হয়?",
+      "options": [
+        "B",
+        "I",
+        "T",
+        "O"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ইংরেজিতে \"I\" (আমি) এবং \"A\" (একটি) একক বর্ণ হয়েও পূর্ণাঙ্গ Word।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10201,
+      "type": "Divide into Syllables",
+      "prompt": "Divide the word into syllables: \"International\"",
+      "correctAnswer": "In-ter-na-tion-al (5 syllables)",
+      "explanationBn": "International শব্দটিতে ৫টি শ্বাসঘাত বা সিলেবল রয়েছে।"
+    },
+    {
+      "id": 10202,
+      "type": "Identify Syllable Type",
+      "prompt": "What type of syllable is the word \"Window\"?",
+      "correctAnswer": "Disyllable (Win-dow)",
+      "explanationBn": "Window শব্দে দুটি সিলেবল রয়েছে।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10201,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Analyze the syllabic structures of the following words:",
+      "subQuestions": [
+        {
+          "questionText": "(a) Break down \"Communication\" into syllables.",
+          "answer": "Com-mu-ni-ca-tion (5 syllables / Polysyllabic)",
+          "explanationBn": "পাঁচটি সিলেবল বিশিষ্ট শব্দ।"
+        }
+      ],
+      "fullExplanationBn": "সিলেবল বিভাজন ইংরেজি বানান ও উচ্চারণের মানোন্নয়নে অপরিহার্য।",
+      "isVerified": true
+    }
+  ]
+},
+  'alphabet-letters-vowels-consonants': {
+  "id": 101,
+  "chapterId": 1,
+  "topicNo": "০১",
+  "titleEn": "Alphabet, Letters & Sounds",
+  "titleBn": "ইংরেজি বর্ণমালা, বর্ণ ও ধ্বনি",
+  "slug": "alphabet-letters-vowels-consonants",
+  "difficulty": "BEGINNER",
+  "classLevel": "Class 6-10 / SSC Foundation",
+  "summaryBn": "ইংরেজি ভাষার ভিত্তি হলো ২৬টি বর্ণ বা Alphabet। এদের উচ্চারণ, শ্রেণিবিভাগ (Vowel, Consonant, Semi-vowel) ও ধ্বনিতত্ত্বের সম্পূর্ণ গাইড।",
+  "definitionEn": "An alphabet is a standardized set of basic written graphemes or letters that represent the phonemes of a spoken language.",
+  "definitionBn": "ইংরেজি ভাষায় ব্যবহৃত ২৬টি লিখিত প্রতীক বা বর্ণকে সমষ্টিগতভাবে Alphabet (বর্ণমালা) বলা হয়।",
+  "explanationBn": "ইংরেজি বর্ণমালায় মোট ২৬টি Letter আছে। এর মধ্যে ৫টি Vowel (A, E, I, O, U), ২টি Semi-vowel (W, Y) এবং ১৯টি Consonant। Vowel ছাড়া কোনো পূর্ণাঙ্গ ইংরেজি শব্দ গঠন করা অসম্ভব (ব্যতিক্রমী ক্ষেত্রে W বা Y ভাওয়েলের ভূমিকা পালন করে)।",
+  "teacherGoldenTips": "মনে রাখবেন: W এবং Y যখন শব্দের শুরুতে বসে তখন Consonant (যেমন: Water, Year), কিন্তু শব্দের মাঝে বা শেষে বসলে Vowel ধ্বনি দেয় (যেমন: Fly, Cow, Sky)। এদের Semi-vowel বলে।",
+  "mainFormula": "Alphabet = 26 Letters (5 Vowels + 19 Consonants + 2 Semi-vowels)",
+  "formulas": [
+    {
+      "label": "Vowel",
+      "structure": "A, E, I, O, U",
+      "tag": "Core Sound",
+      "example": "Apple, Elephant, Ink, Ox, Umbrella"
+    },
+    {
+      "label": "Semi-vowel",
+      "structure": "W, Y (Position-based sound)",
+      "tag": "Dual Role",
+      "example": "Cry, By, Day, How, Slow"
+    },
+    {
+      "label": "Consonant",
+      "structure": "Other 19 Letters",
+      "tag": "Supported Sound",
+      "example": "Book, Pen, School, Mother"
+    }
+  ],
+  "rules": [
+    {
+      "nameBn": "স্বরধ্বনি বা Vowel-এর অপরিহার্যতা",
+      "nameEn": "Essentiality of Vowels in Word Construction",
+      "formula": "Word = Consonant(s) + Vowel/Semi-vowel",
+      "shortcutTrick": "কোনো ইংরেজি শব্দেই স্বরধ্বনি ছাড়া অর্থ তৈরি হতে পারে না।",
+      "descriptionBn": "প্রতিটি সিলেবল বা শব্দে অন্তত একটি ভাওয়েল বা সেমি-ভাওয়েল ধ্বনি উপস্থিত থাকতে হবে।",
+      "examples": [
+        {
+          "en": "Cat, Dog, Sun, Pen",
+          "bn": "বিড়াল, কুকুর, সূর্য, কলম",
+          "note": "এখানে A, O, U, E সরাসরি Vowel।"
+        },
+        {
+          "en": "Sky, Dry, Cry, My, Gym",
+          "bn": "আকাশ, শুকনো, কাঁদা, আমার, ব্যায়ামাগার",
+          "note": "এখানে Y ভাওয়েল হিসেবে \"আই\" ধ্বনি তৈরি করেছে।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Semi-vowel এর দ্বিমুখী ব্যবহার",
+      "nameEn": "Dual Nature of W and Y",
+      "formula": "Beginning = Consonant sound | Middle/End = Vowel sound",
+      "shortcutTrick": "শুরুতে থাকলে কনসোনেন্ট, শেষ বা মাঝে থাকলে ভাওয়েল।",
+      "descriptionBn": "W ও Y যখন শব্দের প্রথমে থাকে তখন ব্যঞ্জনধ্বনি দেয় (Consonant), কিন্তু মাঝে বা শেষে থাকলে স্বরধ্বনি দেয় (Vowel)।",
+      "examples": [
+        {
+          "en": "Yellow (Consonant) vs Boy (Vowel sound)",
+          "bn": "হলুদ (ব্যঞ্জনধ্বনি) বনাম বালক (স্বরধ্বনি)",
+          "note": "Yellow-এর Y কনসোনেন্ট, Boy-এর Y ভাওয়েল।"
+        },
+        {
+          "en": "Wind (Consonant) vs Cow (Vowel sound)",
+          "bn": "বাতাস (ব্যঞ্জনধ্বনি) বনাম গরু (স্বরধ্বনি)",
+          "note": "Wind-এর W কনসোনেন্ট, Cow-এর W ভাওয়েল ধ্বনি দেয়।"
+        }
+      ]
+    },
+    {
+      "nameBn": "Silent Letters (উচ্চারণহীন বর্ণ)",
+      "nameEn": "Silent Letters Rule",
+      "formula": "K + N = N sound (K silent) | W + R = R sound (W silent)",
+      "shortcutTrick": "K-এর পরে N থাকলে K অনুচ্চারিত থাকে।",
+      "descriptionBn": "অনেক ইংরেজি শব্দে নির্দিষ্ট অবস্থান অনুযায়ী বর্ণ উচ্চারিত হয় না।",
+      "examples": [
+        {
+          "en": "Know, Knife, Knee, Knot",
+          "bn": "জানা, ছুরি, হাঁটু, গিট",
+          "note": "K সম্পূর্ণ অনুচ্চারিত।"
+        },
+        {
+          "en": "Write, Wrong, Wrist",
+          "bn": "লেখা, ভুল, কবজি",
+          "note": "W অনুচ্চারিত।"
+        },
+        {
+          "en": "Doubt, Debt, Subtle",
+          "bn": "সন্দেহ, ঋণ, সূক্ষ্ম",
+          "note": "B অনুচ্চারিত।"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "en": "There are 26 letters in the English alphabet.",
+      "bn": "ইংরেজি বর্ণমালায় ২৬টি বর্ণ রয়েছে।",
+      "note": "Alphabet শব্দটি সর্বদা Singular।"
+    },
+    {
+      "en": "The letter Y acts as a vowel in the word \"Rhythm\".",
+      "bn": "\"Rhythm\" শব্দটিতে Y বর্ণটি ভাওয়েল হিসেবে কাজ করে।",
+      "note": "কোনো সাধারণ ভাওয়েল নেই, শুধু Y আছে।"
+    },
+    {
+      "en": "He has injured his knee.",
+      "bn": "সে তার হাঁটুতে আঘাত পেয়েছে।",
+      "note": "Knee শব্দে K অনুচ্চারিত।"
+    },
+    {
+      "en": "A vowel produces sound without any oral obstruction.",
+      "bn": "ভাওয়েল মুখমণ্ডলে কোনো বাধা ছাড়াই উচ্চারিত হয়।",
+      "note": "উচ্চারণগত সংজ্ঞা।"
+    }
+  ],
+  "exceptions": [
+    {
+      "ruleName": "Alphabets নয়, সর্বদা Alphabet",
+      "exceptionText": "একটি ভাষার সব বর্ণ মিলে \"Alphabet\" তৈরি হয়। তাই ইংরেজি বর্ণমালার ক্ষেত্রে কখনো \"Alphabets\" বলা যাবে না। Alphabets বললে একাধিক ভাষার বর্ণমালা বোঝায়।",
+      "exampleEn": "He learned the English alphabet at age four (NOT alphabets).",
+      "exampleBn": "সে চার বছর বয়সে ইংরেজি বর্ণমালা শিখেছিল।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "English has 26 alphabets.",
+      "correct": "English has 26 letters in its alphabet.",
+      "reasonBn": "ইংরেজি ভাষায় ২৬টি alphabet নয়, বরং ১টি alphabet-এ ২৬টি letter থাকে।"
+    },
+    {
+      "mistake": "Knife is pronounced as K-nife.",
+      "correct": "Knife is pronounced as Nife (K is silent).",
+      "reasonBn": "K-এর পরে N আসলে K সর্বদা সাইলেন্ট থাকে।"
+    }
+  ],
+  "tags": [
+    "alphabet",
+    "letters",
+    "vowel",
+    "consonant",
+    "semi-vowel",
+    "silent letters",
+    "basic english",
+    "ssc grammar"
+  ],
+  "mcqs": [
+    {
+      "id": 10101,
+      "question": "Which of the following letters acts as a semi-vowel in English?",
+      "questionBn": "নিচের কোন বর্ণটি ইংরেজিতে সেমি-ভাওয়েল হিসেবে কাজ করে?",
+      "options": [
+        "H",
+        "Y",
+        "M",
+        "P"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "ইংরেজি বর্ণমালায় W এবং Y হলো দুটি Semi-vowel, যা অবস্থানভেদে ভাওয়েল বা কনসোনেন্ট ধ্বনি দেয়।",
+      "difficulty": "EASY",
+      "marks": 1
+    },
+    {
+      "id": 10102,
+      "question": "In which of the following words is the letter \"K\" silent?",
+      "questionBn": "নিচের কোন শব্দটিতে \"K\" বর্ণটি অনুচ্চারিত (Silent)?",
+      "options": [
+        "Kite",
+        "King",
+        "Knight",
+        "Kick"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Knight শব্দে K-এর পরে N থাকায় K অনুচ্চারিত থাকে। সঠিক উচ্চারণ \"নাইট\"।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10103,
+      "question": "Choose the correct sentence:",
+      "questionBn": "সঠিক বাক্যটি নির্বাচন করো:",
+      "options": [
+        "There are 26 alphabets in English.",
+        "There are 26 letters in the English alphabet.",
+        "He learned all alphabets of Arabic.",
+        "English alphabet have 26 letters."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "একটি ভাষার বর্ণমালা বোঝাতে সর্বদা singular \"alphabet\" ব্যবহৃত হয় এবং তাতে ২৬টি letters থাকে।",
+      "difficulty": "MEDIUM",
+      "marks": 1
+    },
+    {
+      "id": 10104,
+      "question": "In the word \"Sky\", the letter \"Y\" functions as a —",
+      "questionBn": "\"Sky\" শব্দটিতে \"Y\" বর্ণটি কী হিসেবে কাজ করে?",
+      "options": [
+        "Consonant",
+        "Vowel",
+        "Diphthong",
+        "Silent letter"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "\"Sky\" শব্দে অন্য কোনো ভাওয়েল না থাকায় Y এখানে স্বরধ্বনি (Vowel) হিসেবে কাজ করেছে।",
+      "difficulty": "EASY",
+      "marks": 1
+    }
+  ],
+  "writtenPractice": [
+    {
+      "id": 10101,
+      "type": "Fill in the blanks",
+      "prompt": "The English alphabet consists of _____ letters and _____ vowels.",
+      "correctAnswer": "26, 5",
+      "explanationBn": "ইংরেজি বর্ণমালায় মোট ২৬টি বর্ণ এবং তার মধ্যে ৫টি মৌলিক স্বরবর্ণ রয়েছে।"
+    },
+    {
+      "id": 10102,
+      "type": "Identify Silent Letter",
+      "prompt": "Identify the silent letter in the word: \"Honest\"",
+      "correctAnswer": "H",
+      "explanationBn": "\"Honest\" শব্দে H অনুচ্চারিত থাকে এবং উচ্চারণ \"অনেস্ট\" হয়।"
+    },
+    {
+      "id": 10103,
+      "type": "Sentence Correction",
+      "prompt": "Correct the error: \"A child learns the alphabets first.\"",
+      "correctAnswer": "A child learns the alphabet first. (or letters of the alphabet)",
+      "explanationBn": "একটি ভাষার বর্ণমালার ক্ষেত্রে \"alphabet\" ব্যবহৃত হবে, \"alphabets\" নয়।"
+    }
+  ],
+  "boardQuestions": [
+    {
+      "id": 10101,
+      "board": "মডেল ও প্র্যাকটিস প্রশ্নব্যাংক",
+      "year": 2025,
+      "examType": "SSC Foundation",
+      "questionContext": "Identify the phonetic and structural properties of letters in English:",
+      "subQuestions": [
+        {
+          "questionText": "(a) Why is \"W\" called a semi-vowel in the word \"Cow\"?",
+          "answer": "Because at the end of the word, W produces a vocalic sound (au) without full oral friction.",
+          "explanationBn": "শব্দের শেষে W স্বরধ্বনির সৃষ্টি করে বলে এটি সেমি-ভাওয়েল।"
+        },
+        {
+          "questionText": "(b) Give two examples where \"B\" is silent.",
+          "answer": "Doubt, Debt (or Comb, Tomb).",
+          "explanationBn": "T-এর পূর্বে অথবা M-এর পরে B থাকলে B অনুচ্চারিত থাকে।"
+        }
+      ],
+      "fullExplanationBn": "ইংরেজি বর্ণ ও উচ্চারণের মৌলিক নিয়মাবলী বোর্ড পরীক্ষার ভিত্তি মজবুত করে।",
+      "isVerified": true
+    }
+  ]
+},
   // -------------------------------------------------------------------------
   // CHAPTER 7: TENSE & TIME
   // -------------------------------------------------------------------------
