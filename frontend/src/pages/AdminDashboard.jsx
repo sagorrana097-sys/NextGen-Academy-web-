@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { adminAPI, analyticsAPI, noticeAPI, curriculumAPI, textbookAPI, teacherAttendanceAPI, examAPI } from '../services/api';
 import { useSWRCache, getCacheItem, setCacheItem } from '../utils/swrCache';
 import LoadingFallback from '../components/common/LoadingFallback';
@@ -101,6 +102,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboard({ activeTab = 'dashboard' }) {
+  const { user, logout } = useAuth();
   const { t, lang } = useLanguage();
   const [stats, setStats] = useState(null);
   const [students, setStudents] = useState([]);
@@ -1287,52 +1289,204 @@ export default function AdminDashboard({ activeTab = 'dashboard' }) {
       {/* Dynamic Contextual Audio & Text Announcement Banner */}
       <PageAnnouncementBanner targetPage="DASHBOARD" />
 
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold mb-2 border border-emerald-500/30">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>{t('adminTitle')}</span>
+      {/* ================================================================ */}
+      {/* 1. TOP HEADER BAR (Reference Match: Navy Pill Container with Brand, User Name, Avatar, Role & Logout) */}
+      {/* ================================================================ */}
+      <div className="bg-[#0b1b3d] dark:bg-slate-900 rounded-2xl sm:rounded-3xl p-4 sm:p-5 text-white shadow-xl flex flex-wrap items-center justify-between gap-4 border border-blue-900/50">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          {/* Brand Icon & Name */}
+          <div className="flex items-center space-x-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-rose-500/30">
+              <GraduationCap className="w-5 h-5" />
+            </div>
+            <span className="text-lg sm:text-xl font-black text-white tracking-tight">
+              NextGen Academy
+            </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold">একাডেমি কন্ট্রোল সেন্টার (Academy Control Center)</h2>
-          <p className="text-xs text-slate-300 mt-1">জাতীয় শিক্ষাক্রম ও প্রতিষ্ঠানিক ব্যবস্থাপনা প্যানেল</p>
+
+          {/* User Name & Red Avatar */}
+          <div className="flex items-center space-x-2 border-l border-blue-900/70 pl-3">
+            <span className="text-xs sm:text-sm font-bold text-slate-200">
+              {user?.name || 'MD Alomgir Hossen (Sagor)'}
+            </span>
+            <div className="w-7 h-7 rounded-full bg-rose-600 text-white font-black flex items-center justify-center text-xs shadow-sm">
+              {(user?.name || 'M').charAt(0).toUpperCase()}
+            </div>
+          </div>
+
+          {/* Role Badge */}
+          <div className="px-3 py-1 rounded-full bg-[#050e24] border border-blue-800/80 text-blue-300 text-xs font-black flex items-center space-x-1.5 shadow-inner">
+            <ShieldCheck className="w-3.5 h-3.5 text-rose-500" />
+            <span>অ্যাডমিন</span>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setShowStudentModal(true)}
-            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/30 flex items-center space-x-2 transition-all"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span>+ নতুন শিক্ষার্থী যোগ করুন</span>
-          </button>
+        {/* Logout Button */}
+        <button
+          type="button"
+          onClick={logout}
+          className="px-3.5 py-1.5 rounded-xl border border-slate-700 hover:border-rose-500 bg-slate-900/80 hover:bg-rose-950/40 text-slate-200 hover:text-white text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm active:scale-95"
+        >
+          <span>➔] লগআউট</span>
+        </button>
+      </div>
 
-          <button
-            onClick={handleOpenAddTeacher}
-            className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-500/30 flex items-center space-x-2 transition-all"
-          >
-            <Users className="w-4 h-4" />
-            <span>+ নতুন শিক্ষক যুক্ত করুন</span>
-          </button>
+      {/* ================================================================ */}
+      {/* 2. TOP QUICK NAVIGATION PILLS BAR (Reference Match: Floating Pill Bar) */}
+      {/* ================================================================ */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl p-2.5 shadow-sm border border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <button
+          type="button"
+          className="px-4 py-2 rounded-xl sm:rounded-2xl bg-rose-600 text-white text-xs font-black flex items-center space-x-1.5 shadow-md shadow-rose-600/30 transition-all cursor-pointer"
+        >
+          <span>🏠 ড্যাশ</span>
+        </button>
 
-          <button
-            onClick={handleOpenAddTextbook}
-            className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-500/30 flex items-center space-x-2 transition-all"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>+ নতুন পাঠ্যপুস্তক যুক্ত করুন</span>
-          </button>
+        <button
+          type="button"
+          onClick={handleOpenAddTextbook}
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>📁 ফাইল</span>
+        </button>
 
-          <button
-            onClick={() => setShowNoticeModal(true)}
-            className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs rounded-xl backdrop-blur-sm border border-white/20 flex items-center space-x-2 transition-all"
-          >
-            <PlusCircle className="w-4 h-4" />
-            <span>{t('publishNotice')}</span>
-          </button>
+        <button
+          type="button"
+          onClick={() => {
+            const el = document.querySelector('[data-tab="question-bank"]');
+            if (el) el.click();
+          }}
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>🗄️ প্রশ্ন</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setShowNoticeModal(true)}
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>✏️ পরীক্ষা</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setShowStudentModal(true)}
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>👥 শিক্ষার্থী</span>
+        </button>
+
+        <a
+          href="https://drive.google.com/drive/u/0/home"
+          target="_blank"
+          rel="noreferrer"
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>🔺 ড্রাইভ</span>
+        </a>
+
+        <button
+          type="button"
+          onClick={() => setShowExecutiveModal(true)}
+          className="px-3.5 py-2 rounded-xl sm:rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer"
+        >
+          <span>📊 পরিসংখ্যান</span>
+        </button>
+      </div>
+
+      {/* ================================================================ */}
+      {/* 3. MAIN DASHBOARD CONTENT (Title, 4 Stat Cards & Welcome Banner) */}
+      {/* ================================================================ */}
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
+        {/* Title Header */}
+        <div className="flex items-center space-x-2 text-slate-900 dark:text-white">
+          <span className="text-xl text-rose-600">🏠</span>
+          <h2 className="text-xl sm:text-2xl font-black">ড্যাশবোর্ড</h2>
+        </div>
+
+        {/* Quick 4 Stat KPI Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
+            <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
+              {students.length || 1}
+            </span>
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
+              শিক্ষার্থী
+            </span>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
+            <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
+              {textbooks.length || 2}
+            </span>
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
+              ফাইল
+            </span>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
+            <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
+              ৩১৪৭
+            </span>
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
+              প্রশ্ন
+            </span>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-center shadow-xs hover:shadow-md transition-all">
+            <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white block font-mono">
+              ১
+            </span>
+            <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 block">
+              পরীক্ষা
+            </span>
+          </div>
+        </div>
+
+        {/* Welcome Logged In Message */}
+        <div className="pt-2 text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+          <span>👏</span>
+          <span>
+            আপনি লগইন করেছেন <strong className="text-slate-900 dark:text-white font-black">{user?.name || 'MD Alomgir Hossen (Sagor)'}</strong> হিসেবে।
+          </span>
         </div>
       </div>
 
+      {/* Quick Action Buttons Row */}
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          onClick={() => setShowStudentModal(true)}
+          className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/30 flex items-center space-x-2 transition-all cursor-pointer"
+        >
+          <UserPlus className="w-4 h-4" />
+          <span>+ নতুন শিক্ষার্থী যোগ করুন</span>
+        </button>
+
+        <button
+          onClick={handleOpenAddTeacher}
+          className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-500/30 flex items-center space-x-2 transition-all cursor-pointer"
+        >
+          <Users className="w-4 h-4" />
+          <span>+ নতুন শিক্ষক যুক্ত করুন</span>
+        </button>
+
+        <button
+          onClick={handleOpenAddTextbook}
+          className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-500/30 flex items-center space-x-2 transition-all cursor-pointer"
+        >
+          <BookOpen className="w-4 h-4" />
+          <span>+ নতুন পাঠ্যপুস্তক যুক্ত করুন</span>
+        </button>
+
+        <button
+          onClick={() => setShowNoticeModal(true)}
+          className="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-rose-500/30 flex items-center space-x-2 transition-all cursor-pointer"
+        >
+          <PlusCircle className="w-4 h-4" />
+          <span>{t('publishNotice')}</span>
+        </button>
+      </div>
       {noticeSuccess && (
         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
           <div className="flex items-center space-x-2">
