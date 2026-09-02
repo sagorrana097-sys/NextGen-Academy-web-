@@ -530,24 +530,74 @@ router.get('/search', async (req, res, next) => {
 
 /**
  * GET /api/grammar/mcqs
- * Filter MCQs
+ * Advanced filter, search, and pagination for Central Grammar Question Bank
  */
 router.get('/mcqs', async (req, res, next) => {
   try {
-    const { topicId, chapterId, difficulty, board, year } = req.query;
-    let list = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
+    const { topicId, chapterId, subTopicId, difficulty, board, year, sourceType, status, search, page, limit } = req.query;
+    let list = await GrammarQuestion.findAll();
 
-    if (topicId) list = list.filter(q => String(q.topicId) === String(topicId));
-    if (chapterId) list = list.filter(q => String(q.chapterId) === String(chapterId));
-    if (difficulty) list = list.filter(q => q.difficulty === difficulty);
-    if (board) list = list.filter(q => q.board === board);
-    if (year) list = list.filter(q => String(q.year) === String(year));
+    // Default status: if not specified, return ACTIVE/PUBLISHED for students; if teacher/admin, allow any
+    if (status && status !== 'ALL') {
+      list = list.filter(q => q.status === status);
+    } else if (!status) {
+      list = list.filter(q => q.status === 'ACTIVE' || q.status === 'PUBLISHED' || !q.status);
+    }
+
+    if (chapterId && chapterId !== 'ALL') list = list.filter(q => String(q.chapterId) === String(chapterId));
+    if (topicId && topicId !== 'ALL') list = list.filter(q => String(q.topicId) === String(topicId));
+    if (subTopicId) list = list.filter(q => String(q.subTopicId) === String(subTopicId));
+    if (difficulty && difficulty !== 'ALL') list = list.filter(q => q.difficulty === difficulty);
+    if (board && board !== 'ALL') list = list.filter(q => q.board === board);
+    if (year && year !== 'ALL') list = list.filter(q => String(q.year) === String(year));
+    if (sourceType && sourceType !== 'ALL') list = list.filter(q => q.sourceType === sourceType || q.examType === sourceType);
+
+    if (search && search.trim()) {
+      const qLower = search.trim().toLowerCase();
+      list = list.filter(q => {
+        const textEn = (q.questionEn || '').toLowerCase();
+        const textBn = (q.questionBn || '').toLowerCase();
+        const opts = Array.isArray(q.options) ? q.options.join(' ').toLowerCase() : '';
+        const tags = Array.isArray(q.tags) ? q.tags.join(' ').toLowerCase() : '';
+        return textEn.includes(qLower) || textBn.includes(qLower) || opts.includes(qLower) || tags.includes(qLower);
+      });
+    }
+
+    const total = list.length;
+    const pageNum = Number(page) || 1;
+    const limitNum = limit === 'all' || limit === 'ALL' ? total : (Number(limit) || 20);
+    const totalPages = Math.ceil(total / (limitNum || 1)) || 1;
+    const startIndex = (pageNum - 1) * limitNum;
+    const paginatedData = list.slice(startIndex, startIndex + limitNum);
 
     res.json({
       success: true,
-      total: list.length,
-      data: list
+      total,
+      page: pageNum,
+      limit: limitNum,
+      totalPages,
+      data: paginatedData
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/mcqs/:id
+ * Get single MCQ details
+ */
+router.get('/mcqs/:id', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const q = await GrammarQuestion.findByPk(id);
+    if (!q) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'প্রশ্নটি খুঁজে পাওয়া যায়নি / Question not found' }
+      });
+    }
+    res.json({ success: true, data: q });
   } catch (err) {
     next(err);
   }
@@ -572,6 +622,197 @@ router.get('/mcqs/topic/:topicId', async (req, res, next) => {
 });
 
 /**
+ * POST /api/grammar/quiz/random
+ * Server-side Random Quiz Generator (hides correct answers for security)
+ */
+router.post('/quiz/random', async (req, res, next) => {
+  try {
+    const { chapterId, topicId, difficulty, count = 10 } = req.body;
+    let pool = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
+
+    if (chapterId && chapterId !== 'ALL') {
+      pool = pool.filter(q => String(q.chapterId) === String(chapterId));
+    }
+    if (topicId && topicId !== 'ALL') {
+      pool = pool.filter(q => String(q.topicId) === String(topicId));
+    }
+    if (difficulty && difficulty !== 'ALL') {
+      pool = pool.filter(q => q.difficulty === difficulty);
+    }
+
+    if (pool.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'EMPTY_POOL', message: 'নির্বাচিত ফিল্টারে কোনো প্রশ্ন পাওয়া যায়নি / No questions found for chosen filters' }
+      });
+    }
+
+    // Shuffle pool safely
+    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    const selectedCount = Math.min(shuffled.length, Number(count) || 10);
+    const selected = shuffled.slice(0, selectedCount);
+
+    // Sanitize: hide correct answer and explanations from student
+    const sanitizedQuestions = selected.map((q, idx) => ({
+      index: idx + 1,
+      id: q.id,
+      chapterId: q.chapterId,
+      topicId: q.topicId,
+      questionEn: q.questionEn,
+      questionBn: q.questionBn,
+      options: q.options,
+      difficulty: q.difficulty,
+      marks: q.marks || 1
+    }));
+
+    const quizSessionId = `quiz_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+
+    res.json({
+      success: true,
+      quizSessionId,
+      totalQuestions: sanitizedQuestions.length,
+      questions: sanitizedQuestions
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/quiz/submit
+ * Server-side Quiz Evaluation & Scoring with Bengali explanations
+ */
+router.post('/quiz/submit', async (req, res, next) => {
+  try {
+    const userId = req.user?.id || 1;
+    const { answers = {}, timeTakenSeconds = 0, questionIds = [] } = req.body;
+
+    const ids = Array.isArray(questionIds) && questionIds.length > 0
+      ? questionIds.map(Number)
+      : Object.keys(answers).map(Number);
+
+    if (ids.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'NO_QUESTIONS', message: 'কোনো প্রশ্ন নির্বাচন করা হয়নি' }
+      });
+    }
+
+    const questions = await GrammarQuestion.findAll({
+      where: { id: { $in: ids } }
+    });
+
+    let correctCount = 0;
+    let wrongCount = 0;
+    let totalMarksObtained = 0;
+    const breakdown = [];
+    const chapterStats = {};
+    const topicStats = {};
+
+    for (const q of questions) {
+      const userAns = answers[q.id];
+      const isAttempted = userAns !== undefined && userAns !== null;
+      const isCorrect = isAttempted && Number(userAns) === q.correctOptionIndex;
+      const marks = q.marks || 1;
+
+      if (isCorrect) {
+        correctCount++;
+        totalMarksObtained += marks;
+      } else if (isAttempted) {
+        wrongCount++;
+      }
+
+      // Track chapter metrics
+      const cId = q.chapterId || 1;
+      if (!chapterStats[cId]) chapterStats[cId] = { total: 0, correct: 0, attempted: 0 };
+      chapterStats[cId].total++;
+      if (isAttempted) chapterStats[cId].attempted++;
+      if (isCorrect) chapterStats[cId].correct++;
+
+      // Track topic metrics
+      const tId = q.topicId || 1;
+      if (!topicStats[tId]) topicStats[tId] = { total: 0, correct: 0, attempted: 0 };
+      topicStats[tId].total++;
+      if (isAttempted) topicStats[tId].attempted++;
+      if (isCorrect) topicStats[tId].correct++;
+
+      breakdown.push({
+        questionId: q.id,
+        chapterId: q.chapterId,
+        topicId: q.topicId,
+        question: q.questionEn,
+        questionBn: q.questionBn,
+        options: q.options,
+        selectedOptionIndex: isAttempted ? Number(userAns) : null,
+        correctOptionIndex: q.correctOptionIndex,
+        isCorrect,
+        isAttempted,
+        explanationEn: q.explanationEn,
+        explanationBn: q.explanationBn || q.explanationEn,
+        marksAwarded: isCorrect ? marks : 0
+      });
+    }
+
+    const totalQuestions = questions.length;
+    const attemptedCount = Object.keys(answers).filter(k => answers[k] !== null && answers[k] !== undefined).length;
+    const unansweredCount = totalQuestions - attemptedCount;
+    const percentage = Math.round((correctCount / (totalQuestions || 1)) * 100);
+    const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
+
+    let grade = 'F';
+    if (percentage >= 80) grade = 'A+';
+    else if (percentage >= 70) grade = 'A';
+    else if (percentage >= 60) grade = 'A-';
+    else if (percentage >= 50) grade = 'B';
+    else if (percentage >= 40) grade = 'C';
+    else if (percentage >= 33) grade = 'D';
+
+    const passed = percentage >= 40;
+
+    // Persist quiz submission into test submissions
+    await GrammarTestSubmission.create({
+      userId,
+      testType: 'RANDOM_QUIZ',
+      totalQuestions,
+      attemptedQuestions: attemptedCount,
+      correctAnswers: correctCount,
+      wrongAnswers: wrongCount,
+      score: totalMarksObtained,
+      percentage,
+      accuracy,
+      grade,
+      passed,
+      timeTakenSeconds: Number(timeTakenSeconds),
+      answers,
+      chapterBreakdown: chapterStats,
+      submittedAt: new Date().toISOString()
+    });
+
+    res.json({
+      success: true,
+      data: {
+        score: totalMarksObtained,
+        totalQuestions,
+        attemptedCount,
+        correctCount,
+        wrongCount,
+        unansweredCount,
+        percentage,
+        accuracy,
+        grade,
+        passed,
+        timeTakenSeconds: Number(timeTakenSeconds),
+        chapterStats,
+        topicStats,
+        breakdown
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /api/grammar/mcqs/submit
  * Submit single or bulk MCQ answers and track student performance
  */
@@ -580,9 +821,7 @@ router.post('/mcqs/submit', authenticate, async (req, res, next) => {
     const userId = req.user.id;
     const { questionId, selectedOptionIndex, submissions } = req.body;
 
-    // Support single or batch submissions
     const items = submissions && Array.isArray(submissions) ? submissions : [{ questionId, selectedOptionIndex }];
-
     let totalAttempted = 0;
     let totalCorrect = 0;
     const results = [];
@@ -606,7 +845,6 @@ router.post('/mcqs/submit', authenticate, async (req, res, next) => {
         marksAwarded: isCorrect ? (q.marks || 1) : 0
       });
 
-      // Update student progress for this topic
       if (q.topicId) {
         const prog = await GrammarProgress.findOne({ where: { userId, topicId: q.topicId } });
         if (prog) {
@@ -647,13 +885,14 @@ router.post('/mcqs/submit', authenticate, async (req, res, next) => {
 
 /**
  * POST /api/grammar/mcqs
- * Create MCQ (Admin / Teacher)
+ * Create MCQ with validation & duplicate detection (Admin / Teacher)
  */
 router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
     const {
       chapterId,
       topicId,
+      subTopicId,
       questionEn,
       questionBn,
       options,
@@ -662,10 +901,13 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       explanationBn,
       difficulty,
       marks,
-      isBoardQuestion,
+      negativeMarks,
+      sourceType,
       board,
       year,
-      tags
+      sourceReference,
+      tags,
+      status
     } = req.body;
 
     if (!questionEn || !Array.isArray(options) || options.length < 2 || correctOptionIndex === undefined) {
@@ -675,31 +917,55 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       });
     }
 
-    if (correctOptionIndex < 0 || correctOptionIndex >= options.length) {
+    const parsedIndex = Number(correctOptionIndex);
+    if (parsedIndex < 0 || parsedIndex >= options.length) {
       return res.status(400).json({
         success: false,
         error: { code: 'INVALID_OPTION_INDEX', message: 'সঠিক উত্তরের ইনডেক্স অপশনের সীমার মধ্যে হতে হবে' }
       });
     }
 
+    // Duplicate detection: check if same question text exists in this chapter
+    const normalizedEn = questionEn.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const existingQuestions = await GrammarQuestion.findAll({
+      where: { chapterId: Number(chapterId) }
+    });
+
+    const isDuplicate = existingQuestions.some(q => {
+      const existingNorm = (q.questionEn || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      return existingNorm === normalizedEn;
+    });
+
+    if (isDuplicate && !req.body.forceCreate) {
+      return res.status(409).json({
+        success: false,
+        error: { code: 'DUPLICATE_QUESTION', message: 'এই অধ্যায়ে ইতিমধ্যে হুবহু বা অত্যন্ত সদৃশ একটি প্রশ্ন বিদ্যমান রয়েছে / Duplicate question detected' }
+      });
+    }
+
     const newMCQ = await GrammarQuestion.create({
       chapterId: chapterId ? Number(chapterId) : null,
       topicId: topicId ? Number(topicId) : null,
+      subTopicId: subTopicId ? Number(subTopicId) : null,
       questionType: 'MCQ',
       questionEn: questionEn.trim(),
       questionBn: questionBn ? questionBn.trim() : '',
       options,
-      correctOptionIndex: Number(correctOptionIndex),
-      correctAnswerText: options[correctOptionIndex],
+      correctOptionIndex: parsedIndex,
+      correctAnswerText: options[parsedIndex],
       explanationEn: explanationEn || '',
       explanationBn: explanationBn || '',
       difficulty: difficulty || 'MEDIUM',
       marks: marks ? Number(marks) : 1,
-      isBoardQuestion: Boolean(isBoardQuestion),
+      negativeMarks: negativeMarks !== undefined ? Number(negativeMarks) : 0,
+      sourceType: sourceType || (board ? 'BOARD_QUESTION' : 'PRACTICE'),
+      isBoardQuestion: Boolean(board && year),
       board: board || null,
       year: year ? Number(year) : null,
+      sourceReference: sourceReference || null,
       tags: Array.isArray(tags) ? tags : [],
-      status: 'ACTIVE'
+      status: status || 'ACTIVE',
+      createdBy: req.user.id
     });
 
     res.status(201).json({
@@ -707,6 +973,159 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       data: newMCQ,
       message: 'MCQ প্রশ্ন সফলভাবে যুক্ত হয়েছে / MCQ created successfully'
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/mcqs/bulk-import
+ * Bulk Import with Validation & Duplicate Detection (Admin / Teacher)
+ */
+router.post('/mcqs/bulk-import', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const { questions = [], defaultChapterId, defaultTopicId, dryRun = false } = req.body;
+
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'EMPTY_PAYLOAD', message: 'আমদানি করার জন্য কোনো প্রশ্ন পাওয়া যায়নি' }
+      });
+    }
+
+    const existing = await GrammarQuestion.findAll();
+    const existingMap = new Set(existing.map(q => `${q.chapterId}_${(q.questionEn || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '')}`));
+
+    const validQuestions = [];
+    const duplicateQuestions = [];
+    const invalidQuestions = [];
+
+    questions.forEach((item, idx) => {
+      const qEn = item.questionEn || item.question || item.questionText;
+      const opts = item.options;
+      let cIdx = item.correctOptionIndex !== undefined ? Number(item.correctOptionIndex) : item.correctAnswerIndex;
+
+      // Handle letter answer A/B/C/D if supplied as string
+      if (typeof item.correctAnswer === 'string') {
+        const letter = item.correctAnswer.trim().toUpperCase();
+        if (letter === 'A') cIdx = 0;
+        else if (letter === 'B') cIdx = 1;
+        else if (letter === 'C') cIdx = 2;
+        else if (letter === 'D') cIdx = 3;
+      }
+
+      if (!qEn || !Array.isArray(opts) || opts.length < 2 || cIdx === undefined || isNaN(cIdx) || cIdx < 0 || cIdx >= opts.length) {
+        invalidQuestions.push({ index: idx + 1, reason: 'Invalid format or missing correct answer', item });
+        return;
+      }
+
+      const chapId = Number(item.chapterId || defaultChapterId || 1);
+      const normKey = `${chapId}_${qEn.trim().toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+
+      if (existingMap.has(normKey)) {
+        duplicateQuestions.push({ index: idx + 1, questionEn: qEn, chapterId: chapId });
+      } else {
+        existingMap.add(normKey);
+        validQuestions.push({
+          chapterId: chapId,
+          topicId: item.topicId ? Number(item.topicId) : (defaultTopicId ? Number(defaultTopicId) : null),
+          questionType: 'MCQ',
+          questionEn: qEn.trim(),
+          questionBn: item.questionBn ? item.questionBn.trim() : '',
+          options: opts,
+          correctOptionIndex: cIdx,
+          correctAnswerText: opts[cIdx],
+          explanationEn: item.explanationEn || item.explanation || '',
+          explanationBn: item.explanationBn || item.bengaliExplanation || item.explanationEn || '',
+          difficulty: item.difficulty || 'MEDIUM',
+          marks: item.marks ? Number(item.marks) : 1,
+          negativeMarks: item.negativeMarks ? Number(item.negativeMarks) : 0,
+          sourceType: item.sourceType || 'IMPORTED',
+          board: item.board || null,
+          year: item.year ? Number(item.year) : null,
+          tags: Array.isArray(item.tags) ? item.tags : [],
+          status: item.status || 'ACTIVE',
+          createdBy: req.user.id
+        });
+      }
+    });
+
+    if (dryRun) {
+      return res.json({
+        success: true,
+        dryRun: true,
+        summary: {
+          totalProvided: questions.length,
+          validCount: validQuestions.length,
+          duplicateCount: duplicateQuestions.length,
+          invalidCount: invalidQuestions.length
+        },
+        duplicates: duplicateQuestions,
+        invalids: invalidQuestions,
+        preview: validQuestions.slice(0, 5)
+      });
+    }
+
+    // Insert valid questions
+    const created = [];
+    for (const v of validQuestions) {
+      const q = await GrammarQuestion.create(v);
+      created.push(q);
+    }
+
+    res.json({
+      success: true,
+      dryRun: false,
+      message: `${created.length}টি প্রশ্ন সফলভাবে ডাটাবেজে যুক্ত হয়েছে`,
+      insertedCount: created.length,
+      duplicateSkippedCount: duplicateQuestions.length,
+      invalidSkippedCount: invalidQuestions.length
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/mcqs/bulk-action
+ * Bulk status update or delete (Admin / Teacher)
+ */
+router.post('/mcqs/bulk-action', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const { ids = [], action, value } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, error: { message: 'কোনো প্রশ্ন নির্বাচন করা হয়নি' } });
+    }
+
+    if (action === 'DELETE') {
+      for (const id of ids) {
+        await GrammarQuestion.destroy({ where: { id: Number(id) } });
+      }
+      return res.json({ success: true, message: `${ids.length}টি প্রশ্ন মুছে ফেলা হয়েছে` });
+    }
+
+    if (action === 'PUBLISH') {
+      for (const id of ids) {
+        await GrammarQuestion.update({ status: 'ACTIVE' }, { where: { id: Number(id) } });
+      }
+      return res.json({ success: true, message: `${ids.length}টি প্রশ্ন প্রকাশ করা হয়েছে` });
+    }
+
+    if (action === 'UNPUBLISH') {
+      for (const id of ids) {
+        await GrammarQuestion.update({ status: 'DRAFT' }, { where: { id: Number(id) } });
+      }
+      return res.json({ success: true, message: `${ids.length}টি প্রশ্ন ড্রাফটে নেওয়া হয়েছে` });
+    }
+
+    if (action === 'SET_DIFFICULTY') {
+      for (const id of ids) {
+        await GrammarQuestion.update({ difficulty: value || 'MEDIUM' }, { where: { id: Number(id) } });
+      }
+      return res.json({ success: true, message: `${ids.length}টি প্রশ্নের কাঠিন্য পরিবর্তন করা হয়েছে` });
+    }
+
+    res.status(400).json({ success: false, error: { message: 'অজানা অ্যাকশন' } });
   } catch (err) {
     next(err);
   }
@@ -728,7 +1147,14 @@ router.put('/mcqs/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEAC
       });
     }
 
-    await GrammarQuestion.update(req.body, { where: { id } });
+    const payload = { ...req.body };
+    if (payload.options && payload.correctOptionIndex !== undefined) {
+      payload.correctAnswerText = payload.options[payload.correctOptionIndex];
+    }
+    payload.updatedBy = req.user.id;
+    payload.updatedAt = new Date().toISOString();
+
+    await GrammarQuestion.update(payload, { where: { id } });
     const updated = await GrammarQuestion.findByPk(id);
 
     res.json({
@@ -767,6 +1193,7 @@ router.delete('/mcqs/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'T
     next(err);
   }
 });
+
 
 // ===========================================================================
 // 5. BOARD QUESTION VAULT API
@@ -915,16 +1342,27 @@ router.delete('/board-questions/:id', authenticate, requireRole(['ADMIN', 'SUPER
 });
 
 // ===========================================================================
-// 6. MODEL TEST SYSTEM API
+// 6. MODEL TEST SYSTEM & TIMED EXAMINATION API
 // ===========================================================================
 
 /**
  * GET /api/grammar/model-tests
- * List all model tests
+ * List all model tests (with optional status filter)
  */
 router.get('/model-tests', async (req, res, next) => {
   try {
-    const list = await GrammarModelTest.findAll({ where: { status: 'PUBLISHED' } });
+    const { status, difficulty, chapterId } = req.query;
+    let list = await GrammarModelTest.findAll();
+
+    if (status && status !== 'ALL') {
+      list = list.filter(t => t.status === status);
+    } else if (!status) {
+      list = list.filter(t => t.status === 'PUBLISHED' || !t.status);
+    }
+
+    if (difficulty && difficulty !== 'ALL') list = list.filter(t => t.difficulty === difficulty);
+    if (chapterId && chapterId !== 'ALL') list = list.filter(t => String(t.chapterId) === String(chapterId));
+
     res.json({
       success: true,
       total: list.length,
@@ -937,7 +1375,7 @@ router.get('/model-tests', async (req, res, next) => {
 
 /**
  * GET /api/grammar/model-tests/:id
- * Get single test. If user is taking the test, optionally hides correct answers.
+ * Get single test details with sanitized question list
  */
 router.get('/model-tests/:id', async (req, res, next) => {
   try {
@@ -951,23 +1389,27 @@ router.get('/model-tests/:id', async (req, res, next) => {
       });
     }
 
-    // Populate questions
     let questions = [];
     if (Array.isArray(test.questionIds) && test.questionIds.length > 0) {
       questions = await GrammarQuestion.findAll({
         where: { id: { $in: test.questionIds }, status: 'ACTIVE' }
       });
     } else {
-      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: 20 });
+      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: test.totalMarks || 20 });
     }
 
+    // Return sanitized questions (no correct answers during test)
     res.json({
       success: true,
       data: {
         ...test,
-        questions: questions.map(q => ({
+        totalQuestions: questions.length,
+        questions: questions.map((q, idx) => ({
+          index: idx + 1,
           id: q.id,
-          question: q.questionEn,
+          chapterId: q.chapterId,
+          topicId: q.topicId,
+          questionEn: q.questionEn,
           questionBn: q.questionBn,
           options: q.options,
           difficulty: q.difficulty,
@@ -981,16 +1423,15 @@ router.get('/model-tests/:id', async (req, res, next) => {
 });
 
 /**
- * POST /api/grammar/model-tests/:id/submit
- * Evaluate model test, calculate marks & store submission
+ * POST /api/grammar/model-tests/:id/start
+ * Start or Resume an Exam Attempt (creates server-aware timer session)
  */
-router.post('/model-tests/:id/submit', authenticate, async (req, res, next) => {
+router.post('/model-tests/:id/start', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
     const testId = Number(req.params.id);
-    const { answers = {}, timeTakenSeconds = 0 } = req.body;
-
     const test = await GrammarModelTest.findByPk(testId);
+
     if (!test) {
       return res.status(404).json({
         success: false,
@@ -998,67 +1439,272 @@ router.post('/model-tests/:id/submit', authenticate, async (req, res, next) => {
       });
     }
 
+    // Check if student already has an unfinished IN_PROGRESS attempt
+    const existingAttempt = await GrammarTestSubmission.findOne({
+      where: { userId, modelTestId: testId, status: 'IN_PROGRESS' }
+    });
+
+    let questions = [];
+    if (Array.isArray(test.questionIds) && test.questionIds.length > 0) {
+      questions = await GrammarQuestion.findAll({
+        where: { id: { $in: test.questionIds }, status: 'ACTIVE' }
+      });
+    } else {
+      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: test.totalMarks || 20 });
+    }
+
+    const sanitizedQuestions = questions.map((q, idx) => ({
+      index: idx + 1,
+      id: q.id,
+      chapterId: q.chapterId,
+      topicId: q.topicId,
+      questionEn: q.questionEn,
+      questionBn: q.questionBn,
+      options: q.options,
+      difficulty: q.difficulty,
+      marks: q.marks || 1
+    }));
+
+    if (existingAttempt) {
+      // Calculate remaining time
+      const startTime = new Date(existingAttempt.startedAt).getTime();
+      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+      const totalAllowedSeconds = (test.durationMinutes || 20) * 60;
+      const remainingSeconds = Math.max(0, totalAllowedSeconds - elapsedSeconds);
+
+      return res.json({
+        success: true,
+        isResumed: true,
+        attemptId: existingAttempt.id,
+        testId: test.id,
+        testTitleEn: test.titleEn,
+        testTitleBn: test.titleBn,
+        durationMinutes: test.durationMinutes,
+        totalAllowedSeconds,
+        remainingSeconds,
+        savedAnswers: existingAttempt.answers || {},
+        savedMarked: existingAttempt.markedQuestions || [],
+        savedCurrentIndex: existingAttempt.currentQuestionIndex || 0,
+        totalQuestions: sanitizedQuestions.length,
+        questions: sanitizedQuestions
+      });
+    }
+
+    // Create new attempt
+    const newAttempt = await GrammarTestSubmission.create({
+      userId,
+      modelTestId: test.id,
+      status: 'IN_PROGRESS',
+      startedAt: new Date().toISOString(),
+      durationMinutes: test.durationMinutes || 20,
+      totalQuestions: sanitizedQuestions.length,
+      answers: {},
+      markedQuestions: [],
+      currentQuestionIndex: 0
+    });
+
+    res.json({
+      success: true,
+      isResumed: false,
+      attemptId: newAttempt.id,
+      testId: test.id,
+      testTitleEn: test.titleEn,
+      testTitleBn: test.titleBn,
+      durationMinutes: test.durationMinutes,
+      totalAllowedSeconds: (test.durationMinutes || 20) * 60,
+      remainingSeconds: (test.durationMinutes || 20) * 60,
+      savedAnswers: {},
+      savedMarked: [],
+      savedCurrentIndex: 0,
+      totalQuestions: sanitizedQuestions.length,
+      questions: sanitizedQuestions
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/model-tests/attempts/:attemptId/save
+ * Save In-Progress Exam State (Auto-save & resume support)
+ */
+router.post('/model-tests/attempts/:attemptId/save', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const attemptId = Number(req.params.attemptId);
+    const { answers = {}, markedQuestions = [], currentQuestionIndex = 0 } = req.body;
+
+    const attempt = await GrammarTestSubmission.findByPk(attemptId);
+    if (!attempt || attempt.userId !== userId) {
+      return res.status(404).json({ success: false, error: { message: 'পরীক্ষার সেশন খুঁজে পাওয়া যায়নি' } });
+    }
+
+    if (attempt.status === 'SUBMITTED') {
+      return res.status(400).json({ success: false, error: { message: 'পরীক্ষা ইতিমধ্যে জমা দেওয়া হয়েছে' } });
+    }
+
+    await GrammarTestSubmission.update({
+      answers,
+      markedQuestions,
+      currentQuestionIndex: Number(currentQuestionIndex),
+      lastSavedAt: new Date().toISOString()
+    }, { where: { id: attemptId } });
+
+    res.json({ success: true, message: 'প্রোগ্রেস সফলভাবে সংরক্ষিত হয়েছে' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/grammar/model-tests/attempts/:attemptId/submit
+ * Final Server-Side Evaluation & Scoring with Negative Marking & Grade
+ */
+router.post('/model-tests/attempts/:attemptId/submit', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const attemptId = Number(req.params.attemptId);
+    const { answers = {}, timeTakenSeconds = 0 } = req.body;
+
+    const attempt = await GrammarTestSubmission.findByPk(attemptId);
+    if (!attempt || attempt.userId !== userId) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'NOT_FOUND', message: 'পরীক্ষার সেশন খুঁজে পাওয়া যায়নি' }
+      });
+    }
+
+    // Avoid double evaluation
+    if (attempt.status === 'SUBMITTED') {
+      return res.json({
+        success: true,
+        alreadySubmitted: true,
+        data: attempt
+      });
+    }
+
+    const test = await GrammarModelTest.findByPk(attempt.modelTestId);
+    if (!test) {
+      return res.status(404).json({ success: false, error: { message: 'মডেল টেস্ট পাওয়া যায়নি' } });
+    }
+
     let questions = [];
     if (Array.isArray(test.questionIds) && test.questionIds.length > 0) {
       questions = await GrammarQuestion.findAll({ where: { id: { $in: test.questionIds } } });
     } else {
-      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: 20 });
+      questions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' }, limit: test.totalMarks || 20 });
     }
 
     let correctCount = 0;
     let wrongCount = 0;
+    let rawScore = 0;
     const breakdown = [];
+    const chapterStats = {};
+    const topicStats = {};
+
+    const negPerQuestion = test.negativeMarkingEnabled ? (test.negativeMarkPerQuestion || 0.25) : 0;
 
     for (const q of questions) {
       const userAns = answers[q.id];
       const isAttempted = userAns !== undefined && userAns !== null;
       const isCorrect = isAttempted && Number(userAns) === q.correctOptionIndex;
+      const marks = q.marks || 1;
 
-      if (isCorrect) correctCount++;
-      else if (isAttempted) wrongCount++;
+      if (isCorrect) {
+        correctCount++;
+        rawScore += marks;
+      } else if (isAttempted) {
+        wrongCount++;
+        rawScore -= negPerQuestion;
+      }
+
+      // Track chapter metrics
+      const cId = q.chapterId || 1;
+      if (!chapterStats[cId]) chapterStats[cId] = { total: 0, correct: 0, attempted: 0 };
+      chapterStats[cId].total++;
+      if (isAttempted) chapterStats[cId].attempted++;
+      if (isCorrect) chapterStats[cId].correct++;
+
+      // Track topic metrics
+      const tId = q.topicId || 1;
+      if (!topicStats[tId]) topicStats[tId] = { total: 0, correct: 0, attempted: 0 };
+      topicStats[tId].total++;
+      if (isAttempted) topicStats[tId].attempted++;
+      if (isCorrect) topicStats[tId].correct++;
 
       breakdown.push({
         questionId: q.id,
+        chapterId: q.chapterId,
+        topicId: q.topicId,
         question: q.questionEn,
-        selectedOptionIndex: userAns !== undefined ? userAns : null,
+        questionBn: q.questionBn,
+        options: q.options,
+        selectedOptionIndex: isAttempted ? Number(userAns) : null,
         correctOptionIndex: q.correctOptionIndex,
         isCorrect,
-        explanation: q.explanationBn || q.explanationEn
+        isAttempted,
+        explanationEn: q.explanationEn,
+        explanationBn: q.explanationBn || q.explanationEn,
+        marksAwarded: isCorrect ? marks : (isAttempted ? -negPerQuestion : 0)
       });
     }
 
     const totalQuestions = questions.length;
-    const score = correctCount;
-    const percentage = Math.round((score / (totalQuestions || 1)) * 100);
-    const passed = score >= (test.passingMarks || Math.round(totalQuestions * 0.4));
+    const attemptedCount = Object.keys(answers).filter(k => answers[k] !== null && answers[k] !== undefined).length;
+    const unansweredCount = totalQuestions - attemptedCount;
+    const finalScore = Math.max(0, Number(rawScore.toFixed(2)));
+    const percentage = Math.round((finalScore / (test.totalMarks || totalQuestions || 1)) * 100);
+    const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
+    const passed = finalScore >= (test.passingMarks || Math.round(totalQuestions * 0.4));
 
-    // Store test submission record
-    const submission = await GrammarTestSubmission.create({
-      userId,
-      modelTestId: test.id,
+    let grade = 'F';
+    if (percentage >= 80) grade = 'A+';
+    else if (percentage >= 70) grade = 'A';
+    else if (percentage >= 60) grade = 'A-';
+    else if (percentage >= 50) grade = 'B';
+    else if (percentage >= 40) grade = 'C';
+    else if (percentage >= 33) grade = 'D';
+
+    await GrammarTestSubmission.update({
+      status: 'SUBMITTED',
       totalQuestions,
-      attemptedQuestions: Object.keys(answers).length,
+      attemptedQuestions: attemptedCount,
       correctAnswers: correctCount,
       wrongAnswers: wrongCount,
-      score,
+      score: finalScore,
       percentage,
+      accuracy,
+      grade,
       passed,
       timeTakenSeconds: Number(timeTakenSeconds),
       answers,
+      chapterBreakdown: chapterStats,
+      topicBreakdown: topicStats,
+      breakdown,
       submittedAt: new Date().toISOString()
-    });
+    }, { where: { id: attemptId } });
 
     res.json({
       success: true,
       data: {
-        submissionId: submission.id,
-        testTitle: test.titleBn,
-        score,
+        attemptId,
+        testId: test.id,
+        testTitleEn: test.titleEn,
+        testTitleBn: test.titleBn,
+        score: finalScore,
+        totalMarks: test.totalMarks || totalQuestions,
         totalQuestions,
-        percentage,
-        passed,
+        attemptedCount,
         correctCount,
         wrongCount,
+        unansweredCount,
+        percentage,
+        accuracy,
+        grade,
+        passed,
+        timeTakenSeconds: Number(timeTakenSeconds),
+        chapterStats,
+        topicStats,
         breakdown
       }
     });
@@ -1068,12 +1714,70 @@ router.post('/model-tests/:id/submit', authenticate, async (req, res, next) => {
 });
 
 /**
+ * GET /api/grammar/model-tests/attempts/:attemptId/result
+ * Get Detailed Result and Wrong-Answer Review
+ */
+router.get('/model-tests/attempts/:attemptId/result', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const attemptId = Number(req.params.attemptId);
+    const attempt = await GrammarTestSubmission.findByPk(attemptId);
+
+    if (!attempt || (attempt.userId !== userId && req.user.role === 'STUDENT')) {
+      return res.status(404).json({ success: false, error: { message: 'ফলাফল খুঁজে পাওয়া যায়নি' } });
+    }
+
+    const test = attempt.modelTestId ? await GrammarModelTest.findByPk(attempt.modelTestId) : null;
+
+    res.json({
+      success: true,
+      data: {
+        attemptId: attempt.id,
+        testId: test?.id || attempt.modelTestId,
+        testTitleEn: test?.titleEn || 'Grammar Quiz',
+        testTitleBn: test?.titleBn || 'গ্রামার কুইজ',
+        score: attempt.score,
+        totalMarks: test?.totalMarks || attempt.totalQuestions,
+        totalQuestions: attempt.totalQuestions,
+        attemptedCount: attempt.attemptedQuestions,
+        correctCount: attempt.correctAnswers,
+        wrongCount: attempt.wrongAnswers,
+        unansweredCount: (attempt.totalQuestions || 0) - (attempt.attemptedQuestions || 0),
+        percentage: attempt.percentage,
+        accuracy: attempt.accuracy || Math.round(((attempt.correctAnswers || 0) / (attempt.attemptedQuestions || 1)) * 100),
+        grade: attempt.grade,
+        passed: attempt.passed,
+        timeTakenSeconds: attempt.timeTakenSeconds,
+        chapterStats: attempt.chapterBreakdown || {},
+        topicStats: attempt.topicBreakdown || {},
+        breakdown: attempt.breakdown || [],
+        submittedAt: attempt.submittedAt
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /api/grammar/model-tests
- * Create Model Test (Admin / Teacher)
+ * Create Model Test with Question Pool Validation (Admin / Teacher)
  */
 router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const { titleEn, titleBn, durationMinutes, totalMarks, passingMarks, questionIds } = req.body;
+    const {
+      titleEn,
+      titleBn,
+      durationMinutes,
+      totalMarks,
+      passingMarks,
+      negativeMarkingEnabled,
+      negativeMarkPerQuestion,
+      difficulty,
+      targetClass,
+      questionIds,
+      distribution
+    } = req.body;
 
     if (!titleEn || !titleBn) {
       return res.status(400).json({
@@ -1082,32 +1786,223 @@ router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', '
       });
     }
 
+    let finalQuestionIds = Array.isArray(questionIds) ? questionIds.map(Number) : [];
+
+    // If distribution rules provided, auto-select from pool
+    if (distribution && typeof distribution === 'object') {
+      const allActiveQuestions = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
+      finalQuestionIds = [];
+
+      for (const [chapId, reqCount] of Object.entries(distribution)) {
+        const countNeeded = Number(reqCount);
+        if (countNeeded <= 0) continue;
+        const matching = allActiveQuestions.filter(q => q.chapterId === Number(chapId));
+        if (matching.length < countNeeded) {
+          return res.status(400).json({
+            success: false,
+            error: {
+              code: 'INSUFFICIENT_POOL',
+              message: `অধ্যায় ${chapId}-তে পর্যাপ্ত প্রশ্ন নেই (প্রয়োজন ${countNeeded}, আছে ${matching.length})`
+            }
+          });
+        }
+        const shuffled = [...matching].sort(() => 0.5 - Math.random());
+        finalQuestionIds.push(...shuffled.slice(0, countNeeded).map(q => q.id));
+      }
+    }
+
     const count = await GrammarModelTest.count();
     const newTest = await GrammarModelTest.create({
       titleEn: titleEn.trim(),
       titleBn: titleBn.trim(),
       descriptionBn: req.body.descriptionBn || '',
       durationMinutes: durationMinutes ? Number(durationMinutes) : 20,
-      totalMarks: totalMarks ? Number(totalMarks) : (questionIds?.length || 20),
-      passingMarks: passingMarks ? Number(passingMarks) : 12,
-      difficulty: req.body.difficulty || 'BOARD_STANDARD',
+      totalMarks: totalMarks ? Number(totalMarks) : (finalQuestionIds.length || 20),
+      passingMarks: passingMarks ? Number(passingMarks) : Math.round((finalQuestionIds.length || 20) * 0.5),
+      negativeMarkingEnabled: Boolean(negativeMarkingEnabled),
+      negativeMarkPerQuestion: negativeMarkPerQuestion !== undefined ? Number(negativeMarkPerQuestion) : 0.25,
+      difficulty: difficulty || 'BOARD_STANDARD',
       chapterId: req.body.chapterId ? Number(req.body.chapterId) : null,
       topicId: req.body.topicId ? Number(req.body.topicId) : null,
-      questionIds: Array.isArray(questionIds) ? questionIds.map(Number) : [],
-      targetClass: req.body.targetClass || 'Class 9-10 (SSC 2026)',
+      questionIds: finalQuestionIds,
+      targetClass: targetClass || 'Class 9-10 (SSC 2026)',
       orderIndex: count + 1,
-      status: 'PUBLISHED'
+      status: req.body.status || 'PUBLISHED',
+      createdBy: req.user.id
     });
 
     res.status(201).json({
       success: true,
       data: newTest,
-      message: 'মডেল টেস্ট তৈরি সফল হয়েছে / Model test created'
+      message: 'মডেল টেস্ট সফলভাবে তৈরি হয়েছে / Model test created'
     });
   } catch (err) {
     next(err);
   }
 });
+
+/**
+ * PUT /api/grammar/model-tests/:id
+ * Update Model Test (Admin / Teacher)
+ */
+router.put('/model-tests/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const test = await GrammarModelTest.findByPk(id);
+    if (!test) {
+      return res.status(404).json({ success: false, error: { message: 'মডেল টেস্ট পাওয়া যায়নি' } });
+    }
+
+    await GrammarModelTest.update({
+      ...req.body,
+      updatedBy: req.user.id,
+      updatedAt: new Date().toISOString()
+    }, { where: { id } });
+
+    const updated = await GrammarModelTest.findByPk(id);
+    res.json({ success: true, data: updated, message: 'মডেল টেস্ট সফলভাবে আপডেট হয়েছে' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/grammar/model-tests/:id
+ * Delete Model Test (Admin / Teacher)
+ */
+router.delete('/model-tests/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const test = await GrammarModelTest.findByPk(id);
+    if (!test) {
+      return res.status(404).json({ success: false, error: { message: 'মডেল টেস্ট পাওয়া যায়নি' } });
+    }
+
+    await GrammarModelTest.destroy({ where: { id } });
+    res.json({ success: true, message: 'মডেল টেস্ট মুছে ফেলা হয়েছে' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/analytics/my-performance
+ * Student Performance Analytics (Strengths, Weaknesses, Historical Accuracy)
+ */
+router.get('/analytics/my-performance', authenticate, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const submissions = await GrammarTestSubmission.findAll({ where: { userId, status: 'SUBMITTED' } });
+
+    const totalAttempted = submissions.length;
+    let totalScore = 0;
+    let totalMaxMarks = 0;
+    let highestPercentage = 0;
+    const chapterAggregate = {};
+
+    submissions.forEach(sub => {
+      totalScore += (sub.score || 0);
+      totalMaxMarks += (sub.totalQuestions || 0);
+      if (sub.percentage > highestPercentage) highestPercentage = sub.percentage;
+
+      if (sub.chapterBreakdown && typeof sub.chapterBreakdown === 'object') {
+        Object.entries(sub.chapterBreakdown).forEach(([cId, stats]) => {
+          if (!chapterAggregate[cId]) chapterAggregate[cId] = { total: 0, correct: 0, attempted: 0 };
+          chapterAggregate[cId].total += (stats.total || 0);
+          chapterAggregate[cId].attempted += (stats.attempted || 0);
+          chapterAggregate[cId].correct += (stats.correct || 0);
+        });
+      }
+    });
+
+    const averageAccuracy = totalMaxMarks > 0 ? Math.round((totalScore / totalMaxMarks) * 100) : 0;
+
+    // Build chapter strengths & weaknesses ranking
+    const chapters = await GrammarChapter.findAll();
+    const chapterPerformanceList = Object.entries(chapterAggregate).map(([cId, data]) => {
+      const chap = chapters.find(c => String(c.id) === String(cId));
+      const accuracy = data.attempted > 0 ? Math.round((data.correct / data.attempted) * 100) : 0;
+      return {
+        chapterId: Number(cId),
+        titleEn: chap?.titleEn || `Chapter ${cId}`,
+        titleBn: chap?.titleBn || '',
+        attempted: data.attempted,
+        correct: data.correct,
+        accuracy,
+        status: accuracy >= 70 ? 'STRENGTH' : (accuracy >= 50 ? 'AVERAGE' : 'WEAKNESS')
+      };
+    }).sort((a, b) => b.accuracy - a.accuracy);
+
+    res.json({
+      success: true,
+      data: {
+        totalAttempted,
+        averageAccuracy,
+        highestPercentage,
+        chapterStrengths: chapterPerformanceList.filter(c => c.status === 'STRENGTH'),
+        chapterWeaknesses: chapterPerformanceList.filter(c => c.status === 'WEAKNESS'),
+        allChapterPerformance: chapterPerformanceList,
+        recentSubmissions: submissions.slice(-10).reverse().map(s => ({
+          id: s.id,
+          modelTestId: s.modelTestId,
+          score: s.score,
+          totalQuestions: s.totalQuestions,
+          percentage: s.percentage,
+          grade: s.grade,
+          passed: s.passed,
+          submittedAt: s.submittedAt
+        }))
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /api/grammar/analytics/admin-overview
+ * Admin/Teacher overview of Question Bank & Exam Activity
+ */
+router.get('/analytics/admin-overview', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
+  try {
+    const [allQuestions, allTests, allSubmissions, allChapters] = await Promise.all([
+      GrammarQuestion.findAll(),
+      GrammarModelTest.findAll(),
+      GrammarTestSubmission.findAll({ where: { status: 'SUBMITTED' } }),
+      GrammarChapter.findAll()
+    ]);
+
+    const chapterQuestionCounts = {};
+    allChapters.forEach(c => { chapterQuestionCounts[c.id] = { chapterNo: c.chapterNo, titleEn: c.titleEn, count: 0 }; });
+    allQuestions.forEach(q => {
+      if (chapterQuestionCounts[q.chapterId]) {
+        chapterQuestionCounts[q.chapterId].count++;
+      }
+    });
+
+    const difficultyCounts = { EASY: 0, MEDIUM: 0, HARD: 0 };
+    allQuestions.forEach(q => {
+      if (difficultyCounts[q.difficulty] !== undefined) difficultyCounts[q.difficulty]++;
+      else difficultyCounts.MEDIUM++;
+    });
+
+    res.json({
+      success: true,
+      data: {
+        totalQuestions: allQuestions.length,
+        activeQuestions: allQuestions.filter(q => q.status === 'ACTIVE').length,
+        totalModelTests: allTests.length,
+        publishedModelTests: allTests.filter(t => t.status === 'PUBLISHED').length,
+        totalStudentAttempts: allSubmissions.length,
+        difficultyCounts,
+        chapterQuestionCounts
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 // ===========================================================================
 // 7. STUDENT PROGRESS API

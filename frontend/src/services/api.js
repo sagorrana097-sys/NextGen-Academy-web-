@@ -813,9 +813,33 @@ export const grammarAPI = {
     const q = new URLSearchParams(params).toString();
     return request(`/grammar/board-questions?${q}`);
   },
-  getModelTests: () => request('/grammar/model-tests'),
+  getModelTests: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/model-tests${q ? `?${q}` : ''}`);
+  },
   getModelTestDetails: (id) => request(`/grammar/model-tests/${id}`),
+  createModelTest: (data) => request('/grammar/model-tests', { method: 'POST', body: JSON.stringify(data) }),
+  updateModelTest: (id, data) => request(`/grammar/model-tests/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteModelTest: (id) => request(`/grammar/model-tests/${id}`, { method: 'DELETE' }),
+  startModelTest: (id) => request(`/grammar/model-tests/${id}/start`, { method: 'POST' }),
+  saveModelTestAttempt: (attemptId, data) => request(`/grammar/model-tests/attempts/${attemptId}/save`, { method: 'POST', body: JSON.stringify(data) }),
+  submitModelTestAttempt: (attemptId, data) => request(`/grammar/model-tests/attempts/${attemptId}/submit`, { method: 'POST', body: JSON.stringify(data) }),
+  getModelTestResult: (attemptId) => request(`/grammar/model-tests/attempts/${attemptId}/result`),
   submitModelTest: (id, data) => request(`/grammar/model-tests/${id}/submit`, { method: 'POST', body: JSON.stringify(data) }),
+
+  // Question Bank & Random Quiz
+  getMCQ: (id) => request(`/grammar/mcqs/${id}`),
+  createMCQ: (data) => request('/grammar/mcqs', { method: 'POST', body: JSON.stringify(data) }),
+  updateMCQ: (id, data) => request(`/grammar/mcqs/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteMCQ: (id) => request(`/grammar/mcqs/${id}`, { method: 'DELETE' }),
+  bulkImportMCQs: (data) => request('/grammar/mcqs/bulk-import', { method: 'POST', body: JSON.stringify(data) }),
+  bulkActionMCQs: (data) => request('/grammar/mcqs/bulk-action', { method: 'POST', body: JSON.stringify(data) }),
+  getRandomQuiz: (params) => request('/grammar/quiz/random', { method: 'POST', body: JSON.stringify(params) }),
+  submitQuiz: (data) => request('/grammar/quiz/submit', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Analytics
+  getMyPerformanceAnalytics: () => request('/grammar/analytics/my-performance'),
+  getAdminOverviewAnalytics: () => request('/grammar/analytics/admin-overview'),
   getMyProgress: () => request('/grammar/my-progress'),
   updateProgress: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
   toggleComplete: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
