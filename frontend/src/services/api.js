@@ -793,7 +793,10 @@ export const helpdeskAPI = {
 };
 
 export const grammarAPI = {
-  getChapters: () => request('/grammar/chapters'),
+  getChapters: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/chapters${q ? `?${q}` : ''}`);
+  },
   getChapterDetails: (slugOrId) => request(`/grammar/chapters/${slugOrId}`),
   getTopics: (params = {}) => {
     const q = new URLSearchParams(params).toString();
@@ -838,9 +841,19 @@ export const grammarAPI = {
   submitQuiz: (data) => request('/grammar/quiz/submit', { method: 'POST', body: JSON.stringify(data) }),
 
   // Analytics
-  getMyPerformanceAnalytics: () => request('/grammar/analytics/my-performance'),
-  getAdminOverviewAnalytics: () => request('/grammar/analytics/admin-overview'),
-  getMyProgress: () => request('/grammar/my-progress'),
+  getMyPerformanceAnalytics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/analytics/my-performance${q ? `?${q}` : ''}`);
+  },
+  getAdminOverviewAnalytics: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/analytics/admin-overview${q ? `?${q}` : ''}`);
+  },
+  getMyProgress: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/grammar/my-progress${q ? `?${q}` : ''}`);
+  },
+
   updateProgress: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
   toggleComplete: (data) => request('/grammar/progress', { method: 'POST', body: JSON.stringify(data) }),
   getBookmarks: () => request('/grammar/bookmarks'),

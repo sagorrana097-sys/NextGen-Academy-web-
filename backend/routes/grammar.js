@@ -27,7 +27,20 @@ const router = express.Router();
  */
 router.get('/chapters', async (req, res, next) => {
   try {
-    const chapters = await GrammarChapter.findAll({ order: [['orderIndex', 'ASC']] });
+    const subject = (req.query.subject || req.query.grammarType || '').toUpperCase();
+    let chapters = await GrammarChapter.findAll({ order: [['orderIndex', 'ASC']] });
+    
+    if (subject === 'BANGLA') {
+      chapters = chapters.filter(c => c.subject === 'BANGLA');
+    } else if (subject === 'ENGLISH') {
+      chapters = chapters.filter(c => !c.subject || c.subject === 'ENGLISH');
+    } else if (subject && subject !== 'ALL') {
+      chapters = chapters.filter(c => c.subject === subject);
+    } else if (!subject) {
+      // Default to ENGLISH for backward compatibility with existing English Grammar Book
+      chapters = chapters.filter(c => !c.subject || c.subject === 'ENGLISH');
+    }
+
     const topics = await GrammarTopic.findAll();
     
     // Attach dynamic topic counts
@@ -89,43 +102,53 @@ router.get('/chapters/:idOrSlug', async (req, res, next) => {
 router.post('/chapters', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
     const { titleEn, titleBn, chapterNo, descriptionBn, category, icon, colorGradient, status } = req.body;
+    const subject = (req.body.subject || 'ENGLISH').toUpperCase();
 
-    if (!titleEn || !titleBn) {
+    if (!titleBn && !titleEn) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'ইংরেজি ও বাংলা শিরোনাম আবশ্যক / TitleEn and TitleBn are required' }
+        error: { code: 'VALIDATION_ERROR', message: 'শিরোনাম আবশ্যক / Title is required' }
       });
     }
 
-    const slug = req.body.slug || titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    
-    // Prevent duplicate slug
-    const existing = await GrammarChapter.findOne({ where: { slug } });
-    if (existing) {
+    const effectiveTitleEn = titleEn || titleBn;
+    const effectiveTitleBn = titleBn || titleEn;
+    const slug = req.body.slug || (subject === 'BANGLA' ? `b${String(chapterNo || 'ch').padStart(2, '0')}-${effectiveTitleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}` : effectiveTitleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
+
+    const existingChapters = await GrammarChapter.findAll();
+    const isDuplicate = existingChapters.some(c =>
+      (c.subject === subject && c.chapterNo === Number(chapterNo)) ||
+      (c.slug === slug)
+    );
+
+    if (isDuplicate) {
       return res.status(409).json({
         success: false,
-        error: { code: 'DUPLICATE_SLUG', message: 'এই স্লাগ দিয়ে ইতিমধ্যে একটি অধ্যায় রয়েছে / Chapter slug already exists' }
+        error: { code: 'DUPLICATE_CHAPTER', message: 'একই বিষয়ের অধীনে এই অধ্যায় নম্বর বা স্লাগ ইতোমধ্যে বিদ্যমান' }
       });
     }
 
-    const count = await GrammarChapter.count();
+    const nextId = existingChapters.length > 0 ? Math.max(...existingChapters.map(c => Number(c.id) || 0)) + 1 : 1;
+
     const newChapter = await GrammarChapter.create({
-      chapterNo: chapterNo || count + 1,
-      titleEn: titleEn.trim(),
-      titleBn: titleBn.trim(),
+      id: nextId,
+      chapterNo: Number(chapterNo) || nextId,
+      subject,
+      titleEn: effectiveTitleEn,
+      titleBn: effectiveTitleBn,
       slug,
       icon: icon || 'BookOpen',
-      colorGradient: colorGradient || 'from-blue-600 to-indigo-600',
+      colorGradient: colorGradient || 'from-indigo-600 to-purple-600',
       descriptionBn: descriptionBn || '',
-      category: category || 'CORE_GRAMMAR',
-      orderIndex: req.body.orderIndex !== undefined ? req.body.orderIndex : count + 1,
+      category: category || 'GENERAL',
+      orderIndex: Number(chapterNo) || nextId,
       status: status || 'PUBLISHED'
     });
 
     AuditService.log({
       userId: req.user.id,
       action: 'CREATE_GRAMMAR_CHAPTER',
-      details: `Created chapter: ${newChapter.titleEn} (ID: ${newChapter.id})`,
+      details: `Created grammar chapter: ${effectiveTitleEn} (${subject})`,
       ip: req.ip
     });
 
@@ -221,8 +244,19 @@ router.delete('/chapters/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN'
  */
 router.get('/topics', async (req, res, next) => {
   try {
-    const { chapterId, difficulty, status, search } = req.query;
+    const { chapterId, difficulty, status, search, subject } = req.query;
     let list = await GrammarTopic.findAll({ order: [['orderIndex', 'ASC']] });
+
+    if (subject && subject !== 'ALL') {
+      const s = subject.toUpperCase();
+      if (s === 'BANGLA') {
+        list = list.filter(t => t.subject === 'BANGLA');
+      } else if (s === 'ENGLISH') {
+        list = list.filter(t => !t.subject || t.subject === 'ENGLISH');
+      } else {
+        list = list.filter(t => t.subject === s);
+      }
+    }
 
     if (chapterId) {
       list = list.filter(t => String(t.chapterId) === String(chapterId));
@@ -317,10 +351,10 @@ router.post('/topics', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACH
       status
     } = req.body;
 
-    if (!chapterId || !titleEn || !titleBn) {
+    if (!chapterId || (!titleBn && !titleEn)) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'chapterId, titleEn এবং titleBn আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'chapterId এবং শিরোনাম আবশ্যক' }
       });
     }
 
@@ -332,7 +366,11 @@ router.post('/topics', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACH
       });
     }
 
-    const slug = req.body.slug || titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const effectiveTitleEn = titleEn || titleBn;
+    const effectiveTitleBn = titleBn || titleEn;
+    const subject = req.body.subject ? req.body.subject.toUpperCase() : (chapter.subject || 'ENGLISH');
+    const slug = req.body.slug || (subject === 'BANGLA' ? `b${chapter.chapterNo || chapter.id}-${effectiveTitleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}` : effectiveTitleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
+
     const existing = await GrammarTopic.findOne({ where: { slug } });
     if (existing) {
       return res.status(409).json({
@@ -342,12 +380,17 @@ router.post('/topics', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACH
     }
 
     const count = await GrammarTopic.count({ where: { chapterId: Number(chapterId) } });
+    const allTopics = await GrammarTopic.findAll();
+    const nextId = allTopics.length > 0 ? Math.max(...allTopics.map(t => Number(t.id) || 0)) + 1 : 1;
+
     const newTopic = await GrammarTopic.create({
+      id: nextId,
       chapterId: Number(chapterId),
       parentTopicId: parentTopicId ? Number(parentTopicId) : null,
+      subject,
       topicNo: topicNo || `${chapter.chapterNo}.${count + 1}`,
-      titleEn: titleEn.trim(),
-      titleBn: titleBn.trim(),
+      titleEn: effectiveTitleEn.trim(),
+      titleBn: effectiveTitleBn.trim(),
       slug,
       difficulty: difficulty || 'BEGINNER',
       classLevel: classLevel || 'Class 6 - 12 (SSC & HSC)',
@@ -369,7 +412,7 @@ router.post('/topics', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACH
     AuditService.log({
       userId: req.user.id,
       action: 'CREATE_GRAMMAR_TOPIC',
-      details: `Created topic: ${newTopic.titleEn} (ID: ${newTopic.id})`,
+      details: `Created topic: ${effectiveTitleEn} (${subject})`,
       ip: req.ip
     });
 
@@ -469,6 +512,7 @@ router.delete('/topics/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN'])
 router.get('/search', async (req, res, next) => {
   try {
     const q = (req.query.q || '').trim().toLowerCase();
+    const subject = (req.query.subject || '').toUpperCase();
     if (!q || q.length < 2) {
       return res.status(400).json({
         success: false,
@@ -476,18 +520,33 @@ router.get('/search', async (req, res, next) => {
       });
     }
 
-    const [chapters, topics, questions, boardQuestions] = await Promise.all([
+    let [chapters, topics, questions, boardQuestions] = await Promise.all([
       GrammarChapter.findAll(),
       GrammarTopic.findAll(),
       GrammarQuestion.findAll({ where: { status: 'ACTIVE' } }),
       GrammarBoardQuestion.findAll({ where: { status: 'ACTIVE' } })
     ]);
 
+    if (subject && subject !== 'ALL') {
+      if (subject === 'BANGLA') {
+        chapters = chapters.filter(c => c.subject === 'BANGLA');
+        topics = topics.filter(t => t.subject === 'BANGLA');
+        questions = questions.filter(qu => qu.subject === 'BANGLA');
+        boardQuestions = boardQuestions.filter(bq => bq.subject === 'BANGLA');
+      } else if (subject === 'ENGLISH') {
+        chapters = chapters.filter(c => !c.subject || c.subject === 'ENGLISH');
+        topics = topics.filter(t => !t.subject || t.subject === 'ENGLISH');
+        questions = questions.filter(qu => !qu.subject || qu.subject === 'ENGLISH');
+        boardQuestions = boardQuestions.filter(bq => !bq.subject || bq.subject === 'ENGLISH');
+      }
+    }
+
     const matchedChapters = chapters.filter(c =>
       (c.titleEn && c.titleEn.toLowerCase().includes(q)) ||
       (c.titleBn && c.titleBn.toLowerCase().includes(q)) ||
       (c.descriptionBn && c.descriptionBn.toLowerCase().includes(q))
     ).map(c => ({ type: 'CHAPTER', id: c.id, slug: c.slug, titleEn: c.titleEn, titleBn: c.titleBn }));
+
 
     const matchedTopics = topics.filter(t =>
       (t.titleEn && t.titleEn.toLowerCase().includes(q)) ||
@@ -534,8 +593,19 @@ router.get('/search', async (req, res, next) => {
  */
 router.get('/mcqs', async (req, res, next) => {
   try {
-    const { topicId, chapterId, subTopicId, difficulty, board, year, sourceType, status, search, page, limit } = req.query;
+    const { topicId, chapterId, subTopicId, difficulty, board, year, sourceType, status, search, page, limit, subject } = req.query;
     let list = await GrammarQuestion.findAll();
+
+    if (subject && subject !== 'ALL') {
+      const s = subject.toUpperCase();
+      if (s === 'BANGLA') {
+        list = list.filter(q => q.subject === 'BANGLA');
+      } else if (s === 'ENGLISH') {
+        list = list.filter(q => !q.subject || q.subject === 'ENGLISH');
+      } else {
+        list = list.filter(q => q.subject === s);
+      }
+    }
 
     // Default status: if not specified, return ACTIVE/PUBLISHED for students; if teacher/admin, allow any
     if (status && status !== 'ALL') {
@@ -545,6 +615,7 @@ router.get('/mcqs', async (req, res, next) => {
     }
 
     if (chapterId && chapterId !== 'ALL') list = list.filter(q => String(q.chapterId) === String(chapterId));
+
     if (topicId && topicId !== 'ALL') list = list.filter(q => String(q.topicId) === String(topicId));
     if (subTopicId) list = list.filter(q => String(q.subTopicId) === String(subTopicId));
     if (difficulty && difficulty !== 'ALL') list = list.filter(q => q.difficulty === difficulty);
@@ -627,8 +698,24 @@ router.get('/mcqs/topic/:topicId', async (req, res, next) => {
  */
 router.post('/quiz/random', async (req, res, next) => {
   try {
-    const { chapterId, topicId, difficulty, count = 10 } = req.body;
+    const { chapterId, topicId, difficulty, count = 10, subject } = req.body;
     let pool = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
+
+    if (subject && subject !== 'ALL') {
+      const s = subject.toUpperCase();
+      if (s === 'BANGLA') {
+        pool = pool.filter(q => q.subject === 'BANGLA');
+      } else if (s === 'ENGLISH') {
+        pool = pool.filter(q => !q.subject || q.subject === 'ENGLISH');
+      } else {
+        pool = pool.filter(q => q.subject === s);
+      }
+    } else if (!subject && chapterId) {
+      const chap = await GrammarChapter.findByPk(Number(chapterId));
+      if (chap && chap.subject) {
+        pool = pool.filter(q => q.subject === chap.subject);
+      }
+    }
 
     if (chapterId && chapterId !== 'ALL') {
       pool = pool.filter(q => String(q.chapterId) === String(chapterId));
@@ -639,6 +726,7 @@ router.post('/quiz/random', async (req, res, next) => {
     if (difficulty && difficulty !== 'ALL') {
       pool = pool.filter(q => q.difficulty === difficulty);
     }
+
 
     if (pool.length === 0) {
       return res.status(404).json({
@@ -910,7 +998,7 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       status
     } = req.body;
 
-    if (!questionEn || !Array.isArray(options) || options.length < 2 || correctOptionIndex === undefined) {
+    if ((!questionEn && !questionBn) || !Array.isArray(options) || options.length < 2 || correctOptionIndex === undefined) {
       return res.status(400).json({
         success: false,
         error: { code: 'VALIDATION_ERROR', message: 'প্রশ্ন, কমপক্ষে ২টি অপশন এবং সঠিক উত্তরের ইনডেক্স আবশ্যক' }
@@ -925,15 +1013,26 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       });
     }
 
+    let subject = req.body.subject ? req.body.subject.toUpperCase() : null;
+    if (!subject && chapterId) {
+      const parentChapter = await GrammarChapter.findByPk(Number(chapterId));
+      if (parentChapter) subject = parentChapter.subject;
+    }
+    subject = subject || 'ENGLISH';
+
     // Duplicate detection: check if same question text exists in this chapter
-    const normalizedEn = questionEn.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normalizedEn = (questionEn || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normalizedBn = (questionBn || '').trim().replace(/[\s।,\?!-]/g, '');
     const existingQuestions = await GrammarQuestion.findAll({
-      where: { chapterId: Number(chapterId) }
+      where: chapterId ? { chapterId: Number(chapterId) } : {}
     });
 
     const isDuplicate = existingQuestions.some(q => {
-      const existingNorm = (q.questionEn || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-      return existingNorm === normalizedEn;
+      const existingEn = (q.questionEn || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      const existingBn = (q.questionBn || '').trim().replace(/[\s।,\?!-]/g, '');
+      if (normalizedEn && existingEn && existingEn === normalizedEn) return true;
+      if (normalizedBn && existingBn && existingBn === normalizedBn) return true;
+      return false;
     });
 
     if (isDuplicate && !req.body.forceCreate) {
@@ -947,9 +1046,10 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       chapterId: chapterId ? Number(chapterId) : null,
       topicId: topicId ? Number(topicId) : null,
       subTopicId: subTopicId ? Number(subTopicId) : null,
+      subject,
       questionType: 'MCQ',
-      questionEn: questionEn.trim(),
-      questionBn: questionBn ? questionBn.trim() : '',
+      questionEn: (questionEn || questionBn || '').trim(),
+      questionBn: questionBn ? questionBn.trim() : (questionEn ? questionEn.trim() : ''),
       options,
       correctOptionIndex: parsedIndex,
       correctAnswerText: options[parsedIndex],
@@ -967,6 +1067,7 @@ router.post('/mcqs', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER
       status: status || 'ACTIVE',
       createdBy: req.user.id
     });
+
 
     res.status(201).json({
       success: true,
@@ -1351,8 +1452,22 @@ router.delete('/board-questions/:id', authenticate, requireRole(['ADMIN', 'SUPER
  */
 router.get('/model-tests', async (req, res, next) => {
   try {
-    const { status, difficulty, chapterId } = req.query;
+    const { status, difficulty, chapterId, subject } = req.query;
     let list = await GrammarModelTest.findAll();
+
+    if (subject && subject !== 'ALL') {
+      const s = subject.toUpperCase();
+      if (s === 'BANGLA') {
+        list = list.filter(t => t.subject === 'BANGLA');
+      } else if (s === 'ENGLISH') {
+        list = list.filter(t => !t.subject || t.subject === 'ENGLISH');
+      } else {
+        list = list.filter(t => t.subject === s);
+      }
+    } else if (!subject) {
+      // default to ENGLISH for backward compatibility
+      list = list.filter(t => !t.subject || t.subject === 'ENGLISH');
+    }
 
     if (status && status !== 'ALL') {
       list = list.filter(t => t.status === status);
@@ -1372,6 +1487,7 @@ router.get('/model-tests', async (req, res, next) => {
     next(err);
   }
 });
+
 
 /**
  * GET /api/grammar/model-tests/:id
@@ -1779,10 +1895,14 @@ router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', '
       distribution
     } = req.body;
 
-    if (!titleEn || !titleBn) {
+    const effectiveTitleEn = titleEn || titleBn;
+    const effectiveTitleBn = titleBn || titleEn;
+    const subject = (req.body.subject || 'ENGLISH').toUpperCase();
+
+    if (!effectiveTitleEn && !effectiveTitleBn) {
       return res.status(400).json({
         success: false,
-        error: { code: 'VALIDATION_ERROR', message: 'titleEn এবং titleBn আবশ্যক' }
+        error: { code: 'VALIDATION_ERROR', message: 'মডেল টেস্টের শিরোনাম আবশ্যক' }
       });
     }
 
@@ -1813,8 +1933,9 @@ router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', '
 
     const count = await GrammarModelTest.count();
     const newTest = await GrammarModelTest.create({
-      titleEn: titleEn.trim(),
-      titleBn: titleBn.trim(),
+      subject,
+      titleEn: effectiveTitleEn.trim(),
+      titleBn: effectiveTitleBn.trim(),
       descriptionBn: req.body.descriptionBn || '',
       durationMinutes: durationMinutes ? Number(durationMinutes) : 20,
       totalMarks: totalMarks ? Number(totalMarks) : (finalQuestionIds.length || 20),
@@ -1830,6 +1951,7 @@ router.post('/model-tests', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', '
       status: req.body.status || 'PUBLISHED',
       createdBy: req.user.id
     });
+
 
     res.status(201).json({
       success: true,
@@ -1892,6 +2014,7 @@ router.delete('/model-tests/:id', authenticate, requireRole(['ADMIN', 'SUPER_ADM
 router.get('/analytics/my-performance', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
+    const subject = (req.query.subject || '').toUpperCase();
     const submissions = await GrammarTestSubmission.findAll({ where: { userId, status: 'SUBMITTED' } });
 
     const totalAttempted = submissions.length;
@@ -1918,9 +2041,14 @@ router.get('/analytics/my-performance', authenticate, async (req, res, next) => 
     const averageAccuracy = totalMaxMarks > 0 ? Math.round((totalScore / totalMaxMarks) * 100) : 0;
 
     // Build chapter strengths & weaknesses ranking
-    const chapters = await GrammarChapter.findAll();
+    let chapters = await GrammarChapter.findAll();
+    if (subject && subject !== 'ALL') {
+      if (subject === 'BANGLA') chapters = chapters.filter(c => c.subject === 'BANGLA');
+      else if (subject === 'ENGLISH') chapters = chapters.filter(c => !c.subject || c.subject === 'ENGLISH');
+    }
     const chapterPerformanceList = Object.entries(chapterAggregate).map(([cId, data]) => {
       const chap = chapters.find(c => String(c.id) === String(cId));
+      if (subject && subject !== 'ALL' && !chap) return null;
       const accuracy = data.attempted > 0 ? Math.round((data.correct / data.attempted) * 100) : 0;
       return {
         chapterId: Number(cId),
@@ -1931,7 +2059,7 @@ router.get('/analytics/my-performance', authenticate, async (req, res, next) => 
         accuracy,
         status: accuracy >= 70 ? 'STRENGTH' : (accuracy >= 50 ? 'AVERAGE' : 'WEAKNESS')
       };
-    }).sort((a, b) => b.accuracy - a.accuracy);
+    }).filter(Boolean).sort((a, b) => b.accuracy - a.accuracy);
 
     res.json({
       success: true,
@@ -1965,12 +2093,25 @@ router.get('/analytics/my-performance', authenticate, async (req, res, next) => 
  */
 router.get('/analytics/admin-overview', authenticate, requireRole(['ADMIN', 'SUPER_ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
-    const [allQuestions, allTests, allSubmissions, allChapters] = await Promise.all([
+    const subject = (req.query.subject || '').toUpperCase();
+    let [allQuestions, allTests, allSubmissions, allChapters] = await Promise.all([
       GrammarQuestion.findAll(),
       GrammarModelTest.findAll(),
       GrammarTestSubmission.findAll({ where: { status: 'SUBMITTED' } }),
       GrammarChapter.findAll()
     ]);
+
+    if (subject && subject !== 'ALL') {
+      if (subject === 'BANGLA') {
+        allQuestions = allQuestions.filter(q => q.subject === 'BANGLA');
+        allTests = allTests.filter(t => t.subject === 'BANGLA');
+        allChapters = allChapters.filter(c => c.subject === 'BANGLA');
+      } else if (subject === 'ENGLISH') {
+        allQuestions = allQuestions.filter(q => !q.subject || q.subject === 'ENGLISH');
+        allTests = allTests.filter(t => !t.subject || t.subject === 'ENGLISH');
+        allChapters = allChapters.filter(c => !c.subject || c.subject === 'ENGLISH');
+      }
+    }
 
     const chapterQuestionCounts = {};
     allChapters.forEach(c => { chapterQuestionCounts[c.id] = { chapterNo: c.chapterNo, titleEn: c.titleEn, count: 0 }; });
@@ -2015,18 +2156,30 @@ router.get('/analytics/admin-overview', authenticate, requireRole(['ADMIN', 'SUP
 router.get('/my-progress', authenticate, async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const [progressList, totalTopicsCount, testSubmissions] = await Promise.all([
+    const subject = (req.query.subject || '').toUpperCase();
+    const [progressList, allTopics, testSubmissions] = await Promise.all([
       GrammarProgress.findAll({ where: { userId } }),
-      GrammarTopic.count(),
+      GrammarTopic.findAll(),
       GrammarTestSubmission.findAll({ where: { userId } })
     ]);
 
-    const completedTopics = progressList.filter(p => p.isCompleted);
-    const totalAttemptedMCQs = progressList.reduce((sum, p) => sum + (p.mcqAttempted || 0), 0);
-    const totalCorrectMCQs = progressList.reduce((sum, p) => sum + (p.mcqCorrect || 0), 0);
-    const totalWrongMCQs = progressList.reduce((sum, p) => sum + (p.mcqWrong || 0), 0);
+    let filteredTopics = allTopics;
+    if (subject && subject !== 'ALL') {
+      if (subject === 'BANGLA') filteredTopics = allTopics.filter(t => t.subject === 'BANGLA');
+      else if (subject === 'ENGLISH') filteredTopics = allTopics.filter(t => !t.subject || t.subject === 'ENGLISH');
+    }
+    const topicIdSet = new Set(filteredTopics.map(t => t.id));
+    const filteredProgress = subject && subject !== 'ALL'
+      ? progressList.filter(p => topicIdSet.has(p.topicId))
+      : progressList;
 
-    const completionPercentage = Math.min(100, Math.round((completedTopics.length / (totalTopicsCount || 23)) * 100));
+    const completedTopics = filteredProgress.filter(p => p.isCompleted);
+    const totalAttemptedMCQs = filteredProgress.reduce((sum, p) => sum + (p.mcqAttempted || 0), 0);
+    const totalCorrectMCQs = filteredProgress.reduce((sum, p) => sum + (p.mcqCorrect || 0), 0);
+    const totalWrongMCQs = filteredProgress.reduce((sum, p) => sum + (p.mcqWrong || 0), 0);
+
+    const totalCount = filteredTopics.length || (subject === 'BANGLA' ? 40 : 23);
+    const completionPercentage = Math.min(100, Math.round((completedTopics.length / totalCount) * 100));
 
     res.json({
       success: true,
@@ -2034,14 +2187,14 @@ router.get('/my-progress', authenticate, async (req, res, next) => {
         summary: {
           completionPercentage,
           completedTopicsCount: completedTopics.length,
-          totalTopicsCount: totalTopicsCount || 23,
+          totalTopicsCount: totalCount,
           totalAttemptedMCQs,
           totalCorrectMCQs,
           totalWrongMCQs,
           accuracyPercentage: totalAttemptedMCQs > 0 ? Math.round((totalCorrectMCQs / totalAttemptedMCQs) * 100) : 0,
           testsTakenCount: testSubmissions.length
         },
-        topicProgress: progressList,
+        topicProgress: filteredProgress,
         recentTests: testSubmissions.slice(-5)
       }
     });
@@ -2049,6 +2202,7 @@ router.get('/my-progress', authenticate, async (req, res, next) => {
     next(err);
   }
 });
+
 
 /**
  * POST /api/grammar/progress

@@ -735,6 +735,15 @@ async function seedGrammar() {
       console.log(`Grammar Chapters table already has ${chapterCount} records. Skipping.`);
     }
 
+    // Ensure Bangla Grammar 40 chapters are present
+    try {
+      const { seedBanglaGrammarChapters } = require('./seedBanglaGrammarChapters');
+      await seedBanglaGrammarChapters();
+    } catch (bgErr) {
+      console.warn('Bangla grammar chapter seeder notice:', bgErr.message);
+    }
+
+
     // 2. Topics
     const topicCount = await GrammarTopic.count();
     if (topicCount === 0) {
