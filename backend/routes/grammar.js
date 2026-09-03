@@ -43,12 +43,14 @@ router.get('/chapters', async (req, res, next) => {
 
     const topics = await GrammarTopic.findAll();
     
+    const includeTopics = req.query.includeTopics === 'true' || req.query.includeTopics === true;
     // Attach dynamic topic counts
     const enriched = chapters.map(c => {
-      const topicCount = topics.filter(t => t.chapterId === c.id).length;
+      const chTopics = topics.filter(t => t.chapterId === c.id);
       return {
         ...c,
-        topicCount: topicCount || c.estimatedTopicsCount || 0
+        topicCount: chTopics.length || c.estimatedTopicsCount || 0,
+        ...(includeTopics ? { topics: chTopics } : {})
       };
     });
 
@@ -622,6 +624,13 @@ router.get('/mcqs', async (req, res, next) => {
     if (board && board !== 'ALL') list = list.filter(q => q.board === board);
     if (year && year !== 'ALL') list = list.filter(q => String(q.year) === String(year));
     if (sourceType && sourceType !== 'ALL') list = list.filter(q => q.sourceType === sourceType || q.examType === sourceType);
+    if (req.query.isBoardQuestion !== undefined && req.query.isBoardQuestion !== 'ALL') {
+      const isB = req.query.isBoardQuestion === 'true' || req.query.isBoardQuestion === true;
+      list = list.filter(q => Boolean(q.isBoardQuestion) === isB);
+    }
+    if (req.query.mode === 'REVISION') {
+      list = list.filter(q => q.chapterId === 140 || q.isBoardQuestion || (Array.isArray(q.tags) && q.tags.includes('REVISION')));
+    }
 
     if (search && search.trim()) {
       const qLower = search.trim().toLowerCase();
@@ -698,7 +707,7 @@ router.get('/mcqs/topic/:topicId', async (req, res, next) => {
  */
 router.post('/quiz/random', async (req, res, next) => {
   try {
-    const { chapterId, topicId, difficulty, count = 10, subject } = req.body;
+    const { chapterId, topicId, difficulty, count = 10, subject, mode, isBoardQuestion, sourceType } = req.body;
     let pool = await GrammarQuestion.findAll({ where: { status: 'ACTIVE' } });
 
     if (subject && subject !== 'ALL') {
@@ -715,6 +724,17 @@ router.post('/quiz/random', async (req, res, next) => {
       if (chap && chap.subject) {
         pool = pool.filter(q => q.subject === chap.subject);
       }
+    }
+
+    if (mode === 'REVISION') {
+      pool = pool.filter(q => q.chapterId === 140 || q.isBoardQuestion || (Array.isArray(q.tags) && q.tags.includes('REVISION')));
+    }
+    if (isBoardQuestion !== undefined && isBoardQuestion !== 'ALL') {
+      const isB = isBoardQuestion === 'true' || isBoardQuestion === true;
+      pool = pool.filter(q => Boolean(q.isBoardQuestion) === isB);
+    }
+    if (sourceType && sourceType !== 'ALL') {
+      pool = pool.filter(q => q.sourceType === sourceType || q.examType === sourceType);
     }
 
     if (chapterId && chapterId !== 'ALL') {
@@ -1102,7 +1122,8 @@ router.post('/mcqs/bulk-import', authenticate, requireRole(['ADMIN', 'SUPER_ADMI
     const invalidQuestions = [];
 
     questions.forEach((item, idx) => {
-      const qEn = item.questionEn || item.question || item.questionText;
+      const qEn = item.questionEn || item.question || item.questionText || '';
+      const qBn = item.questionBn || item.question || item.questionText || '';
       const opts = item.options;
       let cIdx = item.correctOptionIndex !== undefined ? Number(item.correctOptionIndex) : item.correctAnswerIndex;
 
@@ -1115,24 +1136,26 @@ router.post('/mcqs/bulk-import', authenticate, requireRole(['ADMIN', 'SUPER_ADMI
         else if (letter === 'D') cIdx = 3;
       }
 
-      if (!qEn || !Array.isArray(opts) || opts.length < 2 || cIdx === undefined || isNaN(cIdx) || cIdx < 0 || cIdx >= opts.length) {
+      if ((!qEn && !qBn) || !Array.isArray(opts) || opts.length < 2 || cIdx === undefined || isNaN(cIdx) || cIdx < 0 || cIdx >= opts.length) {
         invalidQuestions.push({ index: idx + 1, reason: 'Invalid format or missing correct answer', item });
         return;
       }
 
       const chapId = Number(item.chapterId || defaultChapterId || 1);
-      const normKey = `${chapId}_${qEn.trim().toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+      const textForNorm = (qBn || qEn).trim().toLowerCase().replace(/[\s।,\?!-]/g, '');
+      const normKey = `${chapId}_${textForNorm}`;
 
       if (existingMap.has(normKey)) {
-        duplicateQuestions.push({ index: idx + 1, questionEn: qEn, chapterId: chapId });
+        duplicateQuestions.push({ index: idx + 1, questionEn: qEn, questionBn: qBn, chapterId: chapId });
       } else {
         existingMap.add(normKey);
         validQuestions.push({
           chapterId: chapId,
           topicId: item.topicId ? Number(item.topicId) : (defaultTopicId ? Number(defaultTopicId) : null),
+          subject: item.subject ? item.subject.toUpperCase() : (chapId >= 101 && chapId <= 140 ? 'BANGLA' : 'ENGLISH'),
           questionType: 'MCQ',
           questionEn: qEn.trim(),
-          questionBn: item.questionBn ? item.questionBn.trim() : '',
+          questionBn: qBn.trim(),
           options: opts,
           correctOptionIndex: cIdx,
           correctAnswerText: opts[cIdx],
@@ -1144,6 +1167,7 @@ router.post('/mcqs/bulk-import', authenticate, requireRole(['ADMIN', 'SUPER_ADMI
           sourceType: item.sourceType || 'IMPORTED',
           board: item.board || null,
           year: item.year ? Number(item.year) : null,
+          isBoardQuestion: Boolean(item.board && item.year),
           tags: Array.isArray(item.tags) ? item.tags : [],
           status: item.status || 'ACTIVE',
           createdBy: req.user.id

@@ -739,6 +739,31 @@ async function seedGrammar() {
     try {
       const { seedBanglaGrammarChapters } = require('./seedBanglaGrammarChapters');
       await seedBanglaGrammarChapters();
+
+      const seedBanglaGrammarChapters01to20 = require('./seedBanglaGrammarChapters01to20');
+      if (typeof seedBanglaGrammarChapters01to20 === 'function') {
+        await seedBanglaGrammarChapters01to20();
+      }
+
+      const seedBanglaGrammarChapters21to25 = require('./seedBanglaGrammarChapters21to25');
+      if (typeof seedBanglaGrammarChapters21to25 === 'function') {
+        await seedBanglaGrammarChapters21to25();
+      }
+
+      const seedBanglaGrammarChapters26to30 = require('./seedBanglaGrammarChapters26to30');
+      if (typeof seedBanglaGrammarChapters26to30 === 'function') {
+        await seedBanglaGrammarChapters26to30();
+      }
+
+      const seedBanglaGrammarChapters31to35 = require('./seedBanglaGrammarChapters31to35');
+      if (typeof seedBanglaGrammarChapters31to35 === 'function') {
+        await seedBanglaGrammarChapters31to35();
+      }
+
+      const seedBanglaGrammarChapters36to40 = require('./seedBanglaGrammarChapters36to40');
+      if (typeof seedBanglaGrammarChapters36to40 === 'function') {
+        await seedBanglaGrammarChapters36to40();
+      }
     } catch (bgErr) {
       console.warn('Bangla grammar chapter seeder notice:', bgErr.message);
     }

@@ -2,13 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   BookOpen, Sparkles, Layers, ListChecks, Award, Bookmark,
   TrendingUp, Search, RefreshCw, Menu, ChevronRight, X,
-  CheckCircle2, Compass, Shuffle, BarChart3, Database
+  CheckCircle2, Compass, Shuffle, BarChart3, Database, Home
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { grammarAPI } from '../../services/api';
 import { GRAMMAR_CHAPTERS, GRAMMAR_TOPICS_DATABASE } from '../../data/grammar/grammarChaptersData';
 import GrammarSidebar from './GrammarSidebar';
 import GrammarTopicPage from './GrammarTopicPage';
+import GrammarChapterView from './GrammarChapterView';
+import GrammarLandingHome from './GrammarLandingHome';
 import GrammarBoardQuestionVault from './GrammarBoardQuestionVault';
 import GrammarModelTestCenter from './GrammarModelTestCenter';
 import GrammarProgressTracker from './GrammarProgressTracker';
@@ -20,16 +22,21 @@ import GrammarRandomQuizView from './GrammarRandomQuizView';
 import GrammarPerformanceAnalytics from './GrammarPerformanceAnalytics';
 import GrammarQuestionBankAdmin from './GrammarQuestionBankAdmin';
 
-export default function InteractiveGrammarBook() {
+export default function InteractiveGrammarBook({ initialSubject = 'ENGLISH' }) {
   const { user } = useAuth();
   const isTeacherOrAdmin = ['ADMIN', 'SUPER_ADMIN', 'TEACHER'].includes(String(user?.role || '').toUpperCase());
 
-  const [chapters, setChapters] = useState(GRAMMAR_CHAPTERS);
-  const [activeChapter, setActiveChapter] = useState(GRAMMAR_CHAPTERS[6] || GRAMMAR_CHAPTERS[0]); // Tense by default
-  const [currentTopic, setCurrentTopic] = useState(GRAMMAR_TOPICS_DATABASE['present-tense-simple-continuous'] || Object.values(GRAMMAR_TOPICS_DATABASE)[0]);
-  
-  // 'TOPIC' | 'PRACTICE' | 'RANDOM_QUIZ' | 'MODEL_TEST' | 'EXAM' | 'RESULT' | 'BOARD_VAULT' | 'PROGRESS' | 'QUESTION_BANK'
-  const [activeView, setActiveView] = useState('TOPIC');
+  const [subject, setSubject] = useState(initialSubject || 'ENGLISH');
+  const isBangla = subject === 'BANGLA';
+
+  const [chapters, setChapters] = useState([]);
+  const [activeChapter, setActiveChapter] = useState(null);
+  const [currentTopic, setCurrentTopic] = useState(null);
+  const [chapterTopics, setChapterTopics] = useState([]);
+  const [loadingTopics, setLoadingTopics] = useState(false);
+
+  // 'LANDING' | 'CHAPTER' | 'TOPIC' | 'PRACTICE' | 'RANDOM_QUIZ' | 'MODEL_TEST' | 'EXAM' | 'RESULT' | 'BOARD_VAULT' | 'PROGRESS' | 'QUESTION_BANK'
+  const [activeView, setActiveView] = useState('LANDING');
   const [isSidebarOpenMobile, setIsSidebarOpenMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(null);
@@ -40,50 +47,66 @@ export default function InteractiveGrammarBook() {
   const [examResult, setExamResult] = useState(null);
   const [isSubmittingExam, setIsSubmittingExam] = useState(false);
 
-
-  // User state
+  // User progress & metrics state
   const [completedTopicIds, setCompletedTopicIds] = useState([]);
   const [bookmarkedTopicIds, setBookmarkedTopicIds] = useState([]);
   const [overallMetrics, setOverallMetrics] = useState({
-    percentage: 15,
-    completedCount: 2,
-    totalCount: 23
+    percentage: 0,
+    completedCount: 0,
+    totalCount: isBangla ? 40 : 23
   });
 
-  // Fetch real data on mount
+  // Overview stats for Landing Page
+  const [landingStats, setLandingStats] = useState({
+    totalChapters: isBangla ? 40 : 23,
+    totalTopics: 0,
+    totalQuestions: 0,
+    totalModelTests: 0,
+    progressPercentage: 0,
+    completedTopicsCount: 0,
+    totalBookmarks: 0
+  });
+
+  // Fetch chapters and initial data whenever subject changes
   useEffect(() => {
     let isMounted = true;
 
-    // 1. Fetch chapters from API
-    grammarAPI.getChapters().then(res => {
-      if (isMounted && res?.success && Array.isArray(res.data) && res.data.length > 0) {
-        // Merge topics from static data into API chapters if not yet populated
-        const merged = res.data.map(c => {
-          const staticMatch = GRAMMAR_CHAPTERS.find(sc => sc.id === c.id || sc.slug === c.slug);
-          return {
-            ...c,
-            topics: c.topics?.length ? c.topics : (staticMatch?.topics || [])
-          };
-        });
-        setChapters(merged);
-        if (merged.length > 0 && !activeChapter) {
-          setActiveChapter(merged[6] || merged[0]);
+    // 1. Fetch chapters from API for active subject
+    grammarAPI.getChapters({ subject, includeTopics: true }).then(res => {
+      if (isMounted && res?.success && Array.isArray(res.data)) {
+        let loadedChapters = res.data;
+        if (subject === 'ENGLISH') {
+          // Merge static topics fallback for English
+          loadedChapters = res.data.map(c => {
+            const staticMatch = GRAMMAR_CHAPTERS.find(sc => sc.id === c.id || sc.slug === c.slug);
+            return {
+              ...c,
+              topics: c.topics?.length ? c.topics : (staticMatch?.topics || [])
+            };
+          });
+        }
+        setChapters(loadedChapters);
+        if (loadedChapters.length > 0) {
+          const defaultChap = subject === 'BANGLA' ? loadedChapters[0] : (loadedChapters[6] || loadedChapters[0]);
+          setActiveChapter(defaultChap);
         }
       }
     }).catch(() => {
-      // Fallback to static data
-      setChapters(GRAMMAR_CHAPTERS);
+      if (subject === 'ENGLISH') {
+        setChapters(GRAMMAR_CHAPTERS);
+        setActiveChapter(GRAMMAR_CHAPTERS[6] || GRAMMAR_CHAPTERS[0]);
+      }
     });
 
-    // 2. Fetch student progress
-    grammarAPI.getMyProgress().then(res => {
+    // 2. Fetch student progress for active subject
+    grammarAPI.getMyProgress({ subject }).then(res => {
       if (isMounted && res?.success && res.data) {
         const summary = res.data.summary;
         if (summary) {
           setOverallMetrics({
             percentage: summary.completionPercentage || 0,
             completedCount: summary.completedTopicsCount || 0,
-            totalCount: summary.totalTopicsCount || 23
+            totalCount: summary.totalTopicsCount || (subject === 'BANGLA' ? 40 : 23)
           });
         }
         if (Array.isArray(res.data.topicProgress)) {
@@ -99,15 +122,69 @@ export default function InteractiveGrammarBook() {
       }
     }).catch(() => {});
 
-    return () => { isMounted = false; };
-  }, []);
+    // 4. Fetch questions and tests count for landing statistics
+    Promise.allSettled([
+      grammarAPI.getMCQs({ subject, limit: 1 }),
+      grammarAPI.getModelTests({ subject }),
+      grammarAPI.getTopics({ subject })
+    ]).then(([mcqRes, testRes, topicRes]) => {
+      if (isMounted) {
+        setLandingStats(prev => ({
+          ...prev,
+          totalChapters: subject === 'BANGLA' ? 40 : 23,
+          totalTopics: topicRes.status === 'fulfilled' && topicRes.value?.success ? (topicRes.value.data?.length || 0) : 0,
+          totalQuestions: mcqRes.status === 'fulfilled' && mcqRes.value?.success ? (mcqRes.value.total || 0) : 0,
+          totalModelTests: testRes.status === 'fulfilled' && testRes.value?.success ? (testRes.value.data?.length || 0) : 0
+        }));
+      }
+    }).catch(() => {});
 
-  // Fetch single topic details when slug changes
+    return () => { isMounted = false; };
+  }, [subject]);
+
+  // Synchronize landing stats with metrics
+  useEffect(() => {
+    setLandingStats(prev => ({
+      ...prev,
+      progressPercentage: overallMetrics.percentage,
+      completedTopicsCount: overallMetrics.completedCount,
+      totalBookmarks: bookmarkedTopicIds.length
+    }));
+  }, [overallMetrics, bookmarkedTopicIds]);
+
+  // Load topics under active chapter
+  useEffect(() => {
+    if (!activeChapter?.id) return;
+    let isMounted = true;
+    setLoadingTopics(true);
+
+    grammarAPI.getTopics({ chapterId: activeChapter.id, subject }).then(res => {
+      if (isMounted && res?.success && Array.isArray(res.data)) {
+        if (res.data.length > 0) {
+          setChapterTopics(res.data);
+        } else {
+          // If English, fallback to static topics
+          const staticMatch = GRAMMAR_CHAPTERS.find(c => c.id === activeChapter.id || c.slug === activeChapter.slug);
+          setChapterTopics(staticMatch?.topics || []);
+        }
+      }
+    }).catch(() => {
+      if (isMounted) {
+        const staticMatch = GRAMMAR_CHAPTERS.find(c => c.id === activeChapter.id || c.slug === activeChapter.slug);
+        setChapterTopics(staticMatch?.topics || []);
+      }
+    }).finally(() => {
+      if (isMounted) setLoadingTopics(false);
+    });
+
+    return () => { isMounted = false; };
+  }, [activeChapter?.id, subject]);
+
+  // Fetch single topic details when slug or ID changes
   const loadTopicDetails = useCallback(async (slugOrId) => {
     try {
       const res = await grammarAPI.getTopicDetails(slugOrId);
       if (res?.success && res.data) {
-        // Blend API rich data with local fallback
         const local = GRAMMAR_TOPICS_DATABASE[slugOrId] || {};
         setCurrentTopic({
           ...local,
@@ -133,11 +210,7 @@ export default function InteractiveGrammarBook() {
   // Select Chapter
   const handleSelectChapter = (chap) => {
     setActiveChapter(chap);
-    setActiveView('TOPIC');
-    const firstTopic = chap.topics?.[0];
-    if (firstTopic) {
-      loadTopicDetails(firstTopic.slug || firstTopic.id);
-    }
+    setActiveView('CHAPTER');
   };
 
   // Select Topic
@@ -156,11 +229,10 @@ export default function InteractiveGrammarBook() {
       : [...completedTopicIds, currentTopic.id];
     setCompletedTopicIds(updated);
 
-    // Update overall metrics visually
     setOverallMetrics(prev => ({
       ...prev,
       completedCount: updated.length,
-      percentage: Math.min(100, Math.round((updated.length / (prev.totalCount || 23)) * 100))
+      percentage: Math.min(100, Math.round((updated.length / (prev.totalCount || (isBangla ? 40 : 23))) * 100))
     }));
 
     try {
@@ -182,7 +254,6 @@ export default function InteractiveGrammarBook() {
 
     try {
       if (isBook) {
-        // Delete bookmark
         const existing = await grammarAPI.getBookmarks();
         const found = existing?.data?.find(b => b.itemId === currentTopic.id);
         if (found?.id) await grammarAPI.deleteBookmark(found.id);
@@ -196,37 +267,36 @@ export default function InteractiveGrammarBook() {
     } catch (e) {}
   };
 
-  // Previous & Next navigation
-  const allTopicKeys = Object.keys(GRAMMAR_TOPICS_DATABASE);
-  const currentKeyIndex = allTopicKeys.findIndex(k => GRAMMAR_TOPICS_DATABASE[k].id === currentTopic?.id);
-  const hasPrevious = currentKeyIndex > 0;
-  const hasNext = currentKeyIndex !== -1 && currentKeyIndex < allTopicKeys.length - 1;
+  // Previous & Next navigation strictly within active chapter topics
+  const currentTopicIndex = chapterTopics.findIndex(t => String(t.id) === String(currentTopic?.id) || t.slug === currentTopic?.slug);
+  const hasPrevious = currentTopicIndex > 0;
+  const hasNext = currentTopicIndex !== -1 && currentTopicIndex < chapterTopics.length - 1;
 
   const handlePreviousTopic = () => {
     if (hasPrevious) {
-      const prevKey = allTopicKeys[currentKeyIndex - 1];
-      setCurrentTopic(GRAMMAR_TOPICS_DATABASE[prevKey]);
+      const prevTopic = chapterTopics[currentTopicIndex - 1];
+      handleSelectTopic(prevTopic, activeChapter);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handleNextTopic = () => {
     if (hasNext) {
-      const nextKey = allTopicKeys[currentKeyIndex + 1];
-      setCurrentTopic(GRAMMAR_TOPICS_DATABASE[nextKey]);
+      const nextTopic = chapterTopics[currentTopicIndex + 1];
+      handleSelectTopic(nextTopic, activeChapter);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  // 1. Launch Random Quiz
+  // Launch Random Quiz
   const handleLaunchRandomQuiz = async (config) => {
     try {
-      const res = await grammarAPI.getRandomQuiz(config);
+      const res = await grammarAPI.getRandomQuiz({ ...config, subject });
       if (res?.success && Array.isArray(res.questions)) {
         setExamSession({
           type: 'RANDOM_QUIZ',
-          examTitleBn: 'র‍্যান্ডম কুইজ সেশন',
-          examTitleEn: 'Random Quiz Session',
+          examTitleBn: isBangla ? 'বাংলা ব্যাকরণ র‍্যান্ডম কুইজ' : 'English Grammar Random Quiz',
+          examTitleEn: isBangla ? 'Bangla Grammar Random Quiz' : 'English Grammar Random Quiz',
           totalAllowedSeconds: (config.count || 10) * 60,
           initialRemainingSeconds: (config.count || 10) * 60,
           questions: res.questions,
@@ -242,7 +312,7 @@ export default function InteractiveGrammarBook() {
     }
   };
 
-  // 2. Launch Model Test
+  // Launch Model Test
   const handleLaunchModelTest = async (testId) => {
     try {
       const res = await grammarAPI.startModelTest(testId);
@@ -267,7 +337,7 @@ export default function InteractiveGrammarBook() {
     }
   };
 
-  // 3. Save In-Progress State
+  // Save In-Progress State
   const handleSaveExamProgress = async (state) => {
     if (examSession?.type === 'MODEL_TEST' && examSession?.attemptId) {
       try {
@@ -276,7 +346,7 @@ export default function InteractiveGrammarBook() {
     }
   };
 
-  // 4. Submit Exam
+  // Submit Exam
   const handleSubmitExam = async (submissionData) => {
     try {
       setIsSubmittingExam(true);
@@ -309,7 +379,7 @@ export default function InteractiveGrammarBook() {
     }
   };
 
-  // 5. Review Past Submission
+  // Review Past Submission
   const handleReviewPastSubmission = async (submissionId) => {
     try {
       const res = await grammarAPI.getModelTestResult(submissionId);
@@ -323,9 +393,9 @@ export default function InteractiveGrammarBook() {
     }
   };
 
-  // Debounced search handler
+  // Debounced search handler supporting Bangla and English
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    if (!searchQuery.trim() || searchQuery.trim().length < 2) {
       setSearchResults(null);
       return;
     }
@@ -333,7 +403,7 @@ export default function InteractiveGrammarBook() {
     const timer = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const res = await grammarAPI.searchGrammar({ q: searchQuery.trim() });
+        const res = await grammarAPI.searchGrammar({ q: searchQuery.trim(), subject });
         if (res?.success) {
           setSearchResults(res.data);
         }
@@ -343,8 +413,7 @@ export default function InteractiveGrammarBook() {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
-
+  }, [searchQuery, subject]);
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
@@ -352,7 +421,11 @@ export default function InteractiveGrammarBook() {
         {/* ================================================================ */}
         {/* 1. TOP HEADER & HERO BANNER */}
         {/* ================================================================ */}
-        <header className="rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 p-5 sm:p-7 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <header className={`rounded-3xl p-5 sm:p-7 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border ${
+          isBangla
+            ? 'bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 border-emerald-500/30'
+            : 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-indigo-500/30'
+        }`}>
           <div className="flex items-center gap-3.5">
             {/* Mobile Hamburger to trigger Chapter Drawer */}
             <button
@@ -364,21 +437,50 @@ export default function InteractiveGrammarBook() {
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="p-3 rounded-2xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex-shrink-0">
+            <div className={`p-3 rounded-2xl border flex-shrink-0 ${
+              isBangla
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 font-serif'
+                : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+            }`}>
               <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
 
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
-                  English Grammar Book
+                  {isBangla ? 'বাংলা ব্যাকরণ' : 'English Grammar Book'}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] sm:text-xs font-mono font-bold">
-                  Complete Course
+                  {isBangla ? '৪০টি অধ্যায়' : '২৩টি অধ্যায়'}
                 </span>
+
+                {/* Subject Switch Pill */}
+                <div className="inline-flex rounded-xl bg-black/40 p-0.5 border border-white/15 ml-2 text-xs font-bold">
+                  <button
+                    type="button"
+                    onClick={() => { setSubject('ENGLISH'); setActiveView('LANDING'); }}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                      !isBangla ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    English
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setSubject('BANGLA'); setActiveView('LANDING'); }}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                      isBangla ? 'bg-emerald-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    বাংলা
+                  </button>
+                </div>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
-                Complete English Grammar Course • ২৩টি অধ্যায়, ১০০+ টপিক, রুলস, MCQ ও বোর্ড প্রশ্নব্যাংক
+
+              <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                {isBangla
+                  ? 'সহজ ভাষায় সম্পূর্ণ বাংলা ব্যাকরণ • ধ্বনি, শব্দ, পদ, কারক, সন্ধি, সমাস, বাক্য ও রিভিশন'
+                  : 'Complete English Grammar Course • ২৩টি অধ্যায়, ১০০+ টপিক, রুলস, MCQ ও বোর্ড প্রশ্নব্যাংক'}
               </p>
             </div>
           </div>
@@ -387,12 +489,31 @@ export default function InteractiveGrammarBook() {
           <div className="flex items-center gap-2 flex-wrap">
             <button
               type="button"
+              onClick={() => setActiveView('LANDING')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                activeView === 'LANDING' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>হোম</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveView('CHAPTER')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeView === 'CHAPTER' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              📑 অধ্যায়
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveView('TOPIC')}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeView === 'TOPIC' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
               }`}
             >
-              📖 অধ্যায় পাঠ
+              📖 টপিক
             </button>
             <button
               type="button"
@@ -401,7 +522,7 @@ export default function InteractiveGrammarBook() {
                 activeView === 'PRACTICE' ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
               }`}
             >
-              ⚡ প্র্যাকটিস এরিনা
+              ⚡ প্র্যাকটিস
             </button>
             <button
               type="button"
@@ -410,7 +531,7 @@ export default function InteractiveGrammarBook() {
                 activeView === 'RANDOM_QUIZ' ? 'bg-violet-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
               }`}
             >
-              🎲 র‍্যান্ডম কুইজ
+              🎲 কুইজ
             </button>
             <button
               type="button"
@@ -420,15 +541,6 @@ export default function InteractiveGrammarBook() {
               }`}
             >
               ⏱️ মডেল টেস্ট
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveView('BOARD_VAULT')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeView === 'BOARD_VAULT' ? 'bg-amber-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
-              }`}
-            >
-              🏛️ বোর্ড প্রশ্ন
             </button>
             <button
               type="button"
@@ -447,7 +559,7 @@ export default function InteractiveGrammarBook() {
                   activeView === 'QUESTION_BANK' ? 'bg-rose-600 text-white shadow-xs' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
                 }`}
               >
-                📝 প্রশ্নব্যাংক CMS
+                📝 CMS
               </button>
             )}
           </div>
@@ -468,7 +580,7 @@ export default function InteractiveGrammarBook() {
             initialIndex={examSession.initialIndex}
             onSaveProgress={handleSaveExamProgress}
             onSubmitExam={handleSubmitExam}
-            onCancelExam={() => setActiveView('TOPIC')}
+            onCancelExam={() => setActiveView('LANDING')}
             isSubmitting={isSubmittingExam}
           />
         )}
@@ -486,7 +598,7 @@ export default function InteractiveGrammarBook() {
                 setActiveView('RANDOM_QUIZ');
               }
             }}
-            onBackToBook={() => setActiveView('TOPIC')}
+            onBackToBook={() => setActiveView('LANDING')}
             onGoToAnalytics={() => setActiveView('PROGRESS')}
           />
         )}
@@ -509,52 +621,126 @@ export default function InteractiveGrammarBook() {
               onCloseMobile={() => setIsSidebarOpenMobile(false)}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
+              subject={subject}
+              onSelectSubject={setSubject}
+              totalTopicsCount={landingStats.totalTopics}
             />
 
             {/* CENTER: MAIN CONTENT AREA */}
             <main className="flex-1 min-w-0 space-y-5">
               {/* Search Results Dropdown Overlay (If searching) */}
-              {searchQuery && searchResults && (
+              {searchQuery && (
                 <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800/60 shadow-xl space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-                    <span className="text-xs font-bold text-slate-500">
-                      সার্চ ফলাফল: "{searchQuery}"
+                    <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
+                      <Search className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>সার্চ ফলাফল: "{searchQuery}"</span>
+                      {isSearching && <RefreshCw className="w-3.5 h-3.5 text-indigo-500 animate-spin ml-2" />}
                     </span>
                     <button
                       type="button"
                       onClick={() => setSearchQuery('')}
-                      className="text-xs text-indigo-600 font-bold hover:underline cursor-pointer"
+                      className="text-xs text-indigo-600 dark:text-indigo-400 font-bold hover:underline cursor-pointer"
                     >
                       বন্ধ করুন ✕
                     </button>
                   </div>
 
-                  <div className="space-y-1.5 max-h-60 overflow-y-auto">
-                    {searchResults.topics?.map(t => (
-                      <div
-                        key={t.id}
-                        onClick={() => {
-                          handleSelectTopic(t);
-                          setSearchQuery('');
-                        }}
-                        className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer flex items-center justify-between text-xs"
-                      >
-                        <span className="font-bold text-slate-900 dark:text-white">
-                          {t.titleBn} ({t.titleEn})
-                        </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-mono">
-                          Topic
-                        </span>
-                      </div>
-                    ))}
-                    {!searchResults.topics?.length && (
-                      <p className="text-xs text-slate-400 p-2">কোনো ম্যাচিং ফলাফল পাওয়া যায়নি।</p>
-                    )}
-                  </div>
+                  {searchResults ? (
+                    <div className="space-y-3 max-h-80 overflow-y-auto">
+                      {/* Matched Chapters */}
+                      {searchResults.chapters?.length > 0 && (
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                            অধ্যায়সমূহ ({searchResults.chapters.length})
+                          </span>
+                          {searchResults.chapters.map(c => (
+                            <div
+                              key={`c-${c.id}`}
+                              onClick={() => {
+                                handleSelectChapter(c);
+                                setSearchQuery('');
+                              }}
+                              className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer flex items-center justify-between text-xs"
+                            >
+                              <span className="font-bold text-slate-900 dark:text-white">
+                                {c.titleBn} ({c.titleEn || ''})
+                              </span>
+                              <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-mono">
+                                Chapter
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Matched Topics */}
+                      {searchResults.topics?.length > 0 && (
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                            টপিকসমূহ ({searchResults.topics.length})
+                          </span>
+                          {searchResults.topics.map(t => (
+                            <div
+                              key={`t-${t.id}`}
+                              onClick={() => {
+                                handleSelectTopic(t);
+                                setSearchQuery('');
+                              }}
+                              className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 cursor-pointer flex items-center justify-between text-xs"
+                            >
+                              <span className="font-bold text-slate-900 dark:text-white">
+                                {t.titleBn} ({t.titleEn || ''})
+                              </span>
+                              <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 font-mono">
+                                Topic
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* No Results */}
+                      {!searchResults.chapters?.length && !searchResults.topics?.length && (
+                        <p className="text-xs text-slate-400 p-3 text-center">কোনো ম্যাচিং ফলাফল পাওয়া যায়নি।</p>
+                      )}
+                    </div>
+                  ) : isSearching ? (
+                    <p className="text-xs text-slate-400 p-3 text-center">অনুসন্ধান করা হচ্ছে...</p>
+                  ) : null}
                 </div>
               )}
 
               {/* View Switcher */}
+              {activeView === 'LANDING' && (
+                <GrammarLandingHome
+                  activeSubject={subject}
+                  onSelectSubject={(s) => setSubject(s)}
+                  stats={landingStats}
+                  onStartBrowseChapters={() => setActiveView('CHAPTER')}
+                  onStartPractice={() => setActiveView('PRACTICE')}
+                  onStartRandomQuiz={() => setActiveView('RANDOM_QUIZ')}
+                  onStartModelTest={() => setActiveView('MODEL_TEST')}
+                  onOpenBoardQuestions={() => setActiveView('BOARD_VAULT')}
+                  onViewProgress={() => setActiveView('PROGRESS')}
+                  chapters={chapters}
+                  onSelectChapter={handleSelectChapter}
+                />
+              )}
+
+              {activeView === 'CHAPTER' && (
+                <GrammarChapterView
+                  chapter={activeChapter}
+                  topics={chapterTopics}
+                  completedTopicIds={completedTopicIds}
+                  bookmarkedTopicIds={bookmarkedTopicIds}
+                  onSelectTopic={handleSelectTopic}
+                  onStartChapterQuiz={() => handleLaunchRandomQuiz({ chapterId: activeChapter?.id, count: 10 })}
+                  onStartChapterPractice={() => setActiveView('PRACTICE')}
+                  subject={subject}
+                />
+              )}
+
               {activeView === 'TOPIC' && (
                 <GrammarTopicPage
                   topic={currentTopic}
@@ -573,20 +759,25 @@ export default function InteractiveGrammarBook() {
 
               {activeView === 'PRACTICE' && (
                 <GrammarPracticeArena
-                  defaultChapterId={activeChapter?.id || 7}
+                  defaultChapterId={activeChapter?.id}
                   onTakeModelTest={() => setActiveView('MODEL_TEST')}
+                  chapters={chapters}
+                  subject={subject}
                 />
               )}
 
               {activeView === 'RANDOM_QUIZ' && (
                 <GrammarRandomQuizView
                   onStartQuiz={handleLaunchRandomQuiz}
+                  chapters={chapters}
+                  subject={subject}
                 />
               )}
 
               {activeView === 'MODEL_TEST' && (
                 <GrammarModelTestCenter
                   onStartTest={handleLaunchModelTest}
+                  subject={subject}
                 />
               )}
 
@@ -601,6 +792,7 @@ export default function InteractiveGrammarBook() {
                 <GrammarPerformanceAnalytics
                   onReviewSubmission={handleReviewPastSubmission}
                   onStartQuiz={() => setActiveView('RANDOM_QUIZ')}
+                  subject={subject}
                 />
               )}
 

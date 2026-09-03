@@ -16,9 +16,12 @@ export default function GrammarQuestionBankAdmin() {
 
   // Filters
   const [search, setSearch] = useState('');
+  const [subjectFilter, setSubjectFilter] = useState('ALL');
   const [chapterId, setChapterId] = useState('ALL');
   const [difficulty, setDifficulty] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [isBoardFilter, setIsBoardFilter] = useState('ALL');
+  const [chaptersList, setChaptersList] = useState(GRAMMAR_CHAPTERS);
 
   // Modals
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -48,20 +51,28 @@ export default function GrammarQuestionBankAdmin() {
 
   // Bulk Import State
   const [importJsonText, setImportJsonText] = useState('');
-  const [importReport, setImportReport] = useState(null);
   const [importing, setImporting] = useState(false);
-
-  // Status message
+  const [importResult, setImportResult] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
+
+  useEffect(() => {
+    grammarAPI.getChapters({ subject: subjectFilter }).then(res => {
+      if (res?.success && Array.isArray(res.data)) {
+        setChaptersList(res.data);
+      }
+    }).catch(() => {});
+  }, [subjectFilter]);
 
   const fetchQuestions = async () => {
     setLoading(true);
     try {
       const params = { page, limit: 15 };
       if (search.trim()) params.search = search.trim();
+      if (subjectFilter !== 'ALL') params.subject = subjectFilter;
       if (chapterId !== 'ALL') params.chapterId = chapterId;
       if (difficulty !== 'ALL') params.difficulty = difficulty;
       if (statusFilter !== 'ALL') params.status = statusFilter;
+      if (isBoardFilter !== 'ALL') params.isBoardQuestion = isBoardFilter;
 
       const res = await grammarAPI.getMCQs(params);
       if (res?.success) {
@@ -78,7 +89,7 @@ export default function GrammarQuestionBankAdmin() {
 
   useEffect(() => {
     fetchQuestions();
-  }, [page, chapterId, difficulty, statusFilter]);
+  }, [page, subjectFilter, chapterId, difficulty, statusFilter, isBoardFilter]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -221,7 +232,7 @@ export default function GrammarQuestionBankAdmin() {
             সেন্ট্রাল গ্রামার প্রশ্নব্যাংক ব্যবস্থাপনা (Question Bank CMS)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            অধ্যায় ০১–২৩ এর সকল MCQ প্রশ্ন তৈরি, সম্পাদনা, ফিল্টারিং ও বাল্ক ইমপোর্ট করুন।
+            বাংলা ব্যাকরণ (অধ্যায় ০১–৪০) ও ইংরেজি ব্যাকরণের সকল MCQ প্রশ্ন তৈরি, সম্পাদনা, ফিল্টারিং ও বাল্ক ইমপোর্ট করুন।
           </p>
         </div>
 
@@ -255,7 +266,25 @@ export default function GrammarQuestionBankAdmin() {
 
       {/* Filter Bar */}
       <div className="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3">
+          {/* Subject */}
+          <div>
+            <label className="text-[11px] font-bold text-slate-500 block mb-1">বিষয় (Subject):</label>
+            <select
+              value={subjectFilter}
+              onChange={(e) => {
+                setSubjectFilter(e.target.value);
+                setChapterId('ALL');
+                setPage(1);
+              }}
+              className="w-full p-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800"
+            >
+              <option value="ALL">সকল বিষয় (All Subjects)</option>
+              <option value="ENGLISH">English Grammar</option>
+              <option value="BANGLA">বাংলা ব্যাকরণ</option>
+            </select>
+          </div>
+
           {/* Search */}
           <div>
             <label className="text-[11px] font-bold text-slate-500 block mb-1">অনুসন্ধান:</label>
@@ -283,7 +312,7 @@ export default function GrammarQuestionBankAdmin() {
               className="w-full p-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800"
             >
               <option value="ALL">সকল অধ্যায় (All Chapters)</option>
-              {GRAMMAR_CHAPTERS.map(c => (
+              {chaptersList.map(c => (
                 <option key={c.id} value={c.id}>
                   Ch {c.chapterNo || c.id} — {c.titleBn}
                 </option>
@@ -306,6 +335,23 @@ export default function GrammarQuestionBankAdmin() {
               <option value="EASY">EASY</option>
               <option value="MEDIUM">MEDIUM</option>
               <option value="HARD">HARD</option>
+            </select>
+          </div>
+
+          {/* Source / Board Question Filter */}
+          <div>
+            <label className="text-[11px] font-bold text-slate-500 block mb-1">উৎস / বোর্ড:</label>
+            <select
+              value={isBoardFilter}
+              onChange={(e) => {
+                setIsBoardFilter(e.target.value);
+                setPage(1);
+              }}
+              className="w-full p-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800"
+            >
+              <option value="ALL">সকল উৎস</option>
+              <option value="true">যাচাইকৃত বোর্ড প্রশ্ন (Board)</option>
+              <option value="false">অনুশীলনী প্রশ্ন (Practice)</option>
             </select>
           </div>
 

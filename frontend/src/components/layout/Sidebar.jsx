@@ -195,7 +195,9 @@ export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }) {
         { id: 'physics-lab', label: lang === 'bn' ? 'পদার্থ: মেগা ফিজিক্স ল্যাব' : 'Physics: Mega Physics Lab', icon: Zap },
         { id: 'biology-lab', label: lang === 'bn' ? 'জীববিজ্ঞান: মাস্টার বায়োলজি ল্যাব' : 'Biology: Master Biology Lab', icon: Heart },
         { id: 'grammar-hub', label: lang === 'bn' ? 'ইংরেজি: স্মার্ট ইংলিশ গ্রামার হাব' : 'English: Grammar Hub', icon: BookA },
+        { id: 'bangla-grammar', label: lang === 'bn' ? 'বাংলা: সম্পূর্ণ বাংলা ব্যাকরণ' : 'Bangla: Complete Grammar', icon: BookOpen },
         { id: 'ict-quiz', label: lang === 'bn' ? 'আইসিটি: আইসিটি ও স্মার্ট কুইজ জোন' : 'ICT: Smart Quiz Zone', icon: Laptop },
+
         {
           id: 'toggle-dictionary',
           label: lang === 'bn' ? 'টুলস: ভাসমান ডিকশনারি' : 'Tools: Bilingual Dictionary',

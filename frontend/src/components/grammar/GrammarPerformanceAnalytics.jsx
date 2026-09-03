@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { grammarAPI } from '../../services/api';
 
-export default function GrammarPerformanceAnalytics({ onReviewSubmission, onStartQuiz }) {
+export default function GrammarPerformanceAnalytics({ onReviewSubmission, onStartQuiz, subject = 'ENGLISH' }) {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ export default function GrammarPerformanceAnalytics({ onReviewSubmission, onStar
     let isMounted = true;
     setLoading(true);
 
-    grammarAPI.getMyPerformanceAnalytics().then(res => {
+    grammarAPI.getMyPerformanceAnalytics({ subject }).then(res => {
       if (isMounted && res?.success && res.data) {
         setAnalytics(res.data);
       }
@@ -22,7 +22,8 @@ export default function GrammarPerformanceAnalytics({ onReviewSubmission, onStar
     });
 
     return () => { isMounted = false; };
-  }, []);
+  }, [subject]);
+
 
   if (loading) {
     return <div className="p-12 text-center text-slate-400 text-xs">পারফরম্যান্স ডাটা লোড হচ্ছে...</div>;

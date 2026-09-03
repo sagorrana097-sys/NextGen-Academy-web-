@@ -4,6 +4,12 @@ import {
   Bookmark, Sparkles, Layers, Award, Clock, X, Menu
 } from 'lucide-react';
 
+function toBengaliNum(n) {
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  const padded = String(n).padStart(2, '0');
+  return padded.replace(/[0-9]/g, d => bnDigits[Number(d)]);
+}
+
 export default function GrammarSidebar({
   chapters = [],
   activeChapterId,
@@ -15,9 +21,13 @@ export default function GrammarSidebar({
   isOpenMobile,
   onCloseMobile,
   searchQuery,
-  onSearchChange
+  onSearchChange,
+  subject = 'ENGLISH',
+  onSelectSubject,
+  totalTopicsCount
 }) {
-  const [expandedChapterIds, setExpandedChapterIds] = useState({ [activeChapterId || 1]: true });
+  const isBangla = subject === 'BANGLA';
+  const [expandedChapterIds, setExpandedChapterIds] = useState({ [activeChapterId || (isBangla ? 101 : 1)]: true });
 
   const toggleChapterExpand = (chapterId, e) => {
     e?.stopPropagation();
@@ -54,29 +64,58 @@ export default function GrammarSidebar({
         } lg:rounded-3xl lg:border lg:shadow-xs`}
       >
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              <BookOpen className="w-4 h-4" />
+        <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-col gap-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className={`w-8 h-8 rounded-xl text-white flex items-center justify-center font-bold text-sm shadow-xs ${
+                isBangla ? 'bg-emerald-600' : 'bg-indigo-600'
+              }`}>
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                  {isBangla ? 'বাংলা অধ্যায়সমূহ' : 'English Chapters'}
+                </h3>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                  {isBangla ? `${toBengaliNum(chapters.length)}টি অধ্যায়` : `${chapters.length} Chapters`}
+                  {totalTopicsCount ? ` • ${isBangla ? toBengaliNum(totalTopicsCount) : totalTopicsCount} Topics` : ''}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
-                অধ্যায়সমূহ (Chapters)
-              </h3>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                ২৩টি চ্যাপ্টার • ১০০+ টপিক
-              </p>
-            </div>
+
+            <button
+              type="button"
+              onClick={onCloseMobile}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white lg:hidden cursor-pointer"
+              aria-label="Close sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={onCloseMobile}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white lg:hidden cursor-pointer"
-            aria-label="Close sidebar"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          {/* Quick Subject Toggle Buttons */}
+          {onSelectSubject && (
+            <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-[11px] font-bold">
+              <button
+                type="button"
+                onClick={() => onSelectSubject('ENGLISH')}
+                className={`py-1 rounded-lg text-center transition-all cursor-pointer ${
+                  !isBangla ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                English (২৩)
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectSubject('BANGLA')}
+                className={`py-1 rounded-lg text-center transition-all cursor-pointer ${
+                  isBangla ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                বাংলা (৪০)
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Search Box in Sidebar */}
@@ -87,7 +126,7 @@ export default function GrammarSidebar({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="অধ্যায় বা টপিক খুঁজুন..."
+              placeholder={isBangla ? 'বাংলা ব্যাকরণ খুঁজুন...' : 'অধ্যায় বা টপিক খুঁজুন...'}
               className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
             />
           </div>
@@ -99,13 +138,18 @@ export default function GrammarSidebar({
             const isChapterActive = activeChapterId === chapter.id;
             const isExpanded = expandedChapterIds[chapter.id];
             const topics = chapter.topics || [];
+            const displayChapterNum = isBangla
+              ? toBengaliNum(chapter.chapterNo || chapter.id)
+              : String(chapter.chapterNo || chapter.id).padStart(2, '0');
 
             return (
               <div
                 key={chapter.id}
                 className={`rounded-2xl transition-all overflow-hidden border ${
                   isChapterActive
-                    ? 'bg-indigo-50/50 dark:bg-indigo-950/20 border-indigo-300 dark:border-indigo-800/60'
+                    ? isBangla
+                      ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/60'
+                      : 'bg-indigo-50/50 dark:bg-indigo-950/20 border-indigo-300 dark:border-indigo-800/60'
                     : 'border-transparent hover:border-slate-200 dark:hover:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/40'
                 }`}
               >
@@ -118,27 +162,34 @@ export default function GrammarSidebar({
                     <span
                       className={`w-6 h-6 rounded-lg text-xs font-mono font-bold flex items-center justify-center flex-shrink-0 ${
                         isChapterActive
-                          ? 'bg-indigo-600 text-white shadow-xs'
+                          ? isBangla
+                            ? 'bg-emerald-600 text-white shadow-xs'
+                            : 'bg-indigo-600 text-white shadow-xs'
                           : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                       }`}
                     >
-                      {chapter.chapterNo}
+                      {displayChapterNum}
                     </span>
                     <div className="min-w-0">
                       <p
                         className={`text-xs font-black truncate ${
                           isChapterActive
-                            ? 'text-indigo-700 dark:text-indigo-300'
+                            ? isBangla
+                              ? 'text-emerald-700 dark:text-emerald-300'
+                              : 'text-indigo-700 dark:text-indigo-300'
                             : 'text-slate-900 dark:text-white'
                         }`}
                       >
                         {chapter.titleBn}
                       </p>
-                      <p className="text-[10px] text-slate-400 font-english truncate">
-                        {chapter.titleEn}
-                      </p>
+                      {chapter.titleEn && (
+                        <p className="text-[10px] text-slate-400 font-english truncate">
+                          {chapter.titleEn}
+                        </p>
+                      )}
                     </div>
                   </div>
+
 
                   <button
                     type="button"

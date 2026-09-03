@@ -6,8 +6,10 @@ import {
 import { grammarAPI } from '../../services/api';
 import { GRAMMAR_CHAPTERS } from '../../data/grammar/grammarChaptersData';
 
-export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest }) {
-  const [selectedChapterId, setSelectedChapterId] = useState(defaultChapterId || 7);
+export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest, chapters = [], subject = 'ENGLISH' }) {
+  const chapterList = chapters.length > 0 ? chapters : GRAMMAR_CHAPTERS;
+  const initialChapterId = defaultChapterId || chapterList[0]?.id || 1;
+  const [selectedChapterId, setSelectedChapterId] = useState(initialChapterId);
   const [selectedTopicId, setSelectedTopicId] = useState('ALL');
   const [selectedDifficulty, setSelectedDifficulty] = useState('ALL');
   const [questions, setQuestions] = useState([]);
@@ -15,7 +17,7 @@ export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest
   const [userAnswers, setUserAnswers] = useState({});
   const [revealedExplanations, setRevealedExplanations] = useState(new Set());
 
-  const selectedChapter = GRAMMAR_CHAPTERS.find(c => String(c.id) === String(selectedChapterId));
+  const selectedChapter = chapterList.find(c => String(c.id) === String(selectedChapterId)) || chapterList[0];
   const availableTopics = selectedChapter?.topics || [];
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest
     setUserAnswers({});
     setRevealedExplanations(new Set());
 
-    const params = {};
+    const params = { subject };
     if (selectedChapterId && selectedChapterId !== 'ALL') params.chapterId = selectedChapterId;
     if (selectedTopicId && selectedTopicId !== 'ALL') params.topicId = selectedTopicId;
     if (selectedDifficulty && selectedDifficulty !== 'ALL') params.difficulty = selectedDifficulty;
@@ -38,7 +40,8 @@ export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest
     });
 
     return () => { isMounted = false; };
-  }, [selectedChapterId, selectedTopicId, selectedDifficulty]);
+  }, [selectedChapterId, selectedTopicId, selectedDifficulty, subject]);
+
 
   const handleSelectAnswer = (qId, optIdx) => {
     setUserAnswers(prev => ({
@@ -96,13 +99,14 @@ export default function GrammarPracticeArena({ defaultChapterId, onTakeModelTest
               }}
               className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-900 dark:text-slate-100"
             >
-              {GRAMMAR_CHAPTERS.map(c => (
+              {chapterList.map(c => (
                 <option key={c.id} value={c.id}>
                   Ch {c.chapterNo || c.id} — {c.titleBn}
                 </option>
               ))}
             </select>
           </div>
+
 
           {/* Topic */}
           <div>

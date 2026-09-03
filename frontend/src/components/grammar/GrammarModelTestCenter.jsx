@@ -6,7 +6,8 @@ import {
 } from 'lucide-react';
 import { grammarAPI } from '../../services/api';
 
-export default function GrammarModelTestCenter({ onStartTest }) {
+export default function GrammarModelTestCenter({ onStartTest, subject = 'ENGLISH' }) {
+  const isBangla = subject === 'BANGLA';
   const [modelTests, setModelTests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterDifficulty, setFilterDifficulty] = useState('ALL');
@@ -15,7 +16,7 @@ export default function GrammarModelTestCenter({ onStartTest }) {
     let isMounted = true;
     setLoading(true);
 
-    grammarAPI.getModelTests().then(res => {
+    grammarAPI.getModelTests({ subject }).then(res => {
       if (isMounted && res?.success && Array.isArray(res.data)) {
         setModelTests(res.data);
       }
@@ -24,7 +25,7 @@ export default function GrammarModelTestCenter({ onStartTest }) {
     });
 
     return () => { isMounted = false; };
-  }, []);
+  }, [subject]);
 
   const filteredTests = modelTests.filter(t => {
     if (filterDifficulty !== 'ALL' && t.difficulty !== filterDifficulty) return false;
@@ -34,14 +35,18 @@ export default function GrammarModelTestCenter({ onStartTest }) {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Hero Header */}
-      <div className="rounded-3xl bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 p-6 sm:p-8 text-white border border-indigo-800/60 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className={`rounded-3xl p-6 sm:p-8 text-white border shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 ${
+        isBangla
+          ? 'bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 border-emerald-800/60'
+          : 'bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 border-indigo-800/60'
+      }`}>
         <div className="space-y-2 text-center md:text-left">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
             <Award className="w-3.5 h-3.5" />
             <span>Official SSC & Board Model Tests</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
-            ইংলিশ গ্রামার পূর্ণাঙ্গ মডেল টেস্ট কেন্দ্র
+            {isBangla ? 'বাংলা ব্যাকরণ পূর্ণাঙ্গ মডেল টেস্ট কেন্দ্র' : 'ইংলিশ গ্রামার পূর্ণাঙ্গ মডেল টেস্ট কেন্দ্র'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
             সময়সীমা ও নেগেটিভ মার্কিং সহ রিয়েল বোর্ড পরীক্ষার পরিবেশে প্র্যাকটিস করুন এবং তাৎক্ষণিক রেজাল্ট ও ব্যাখ্যা পান।
@@ -53,6 +58,7 @@ export default function GrammarModelTestCenter({ onStartTest }) {
             <span className="block text-2xl sm:text-3xl font-black font-mono text-cyan-300">
               {modelTests.length}টি
             </span>
+
             <span className="text-[11px] font-bold text-slate-300">প্রকাশিত টেস্ট</span>
           </div>
           <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">

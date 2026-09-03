@@ -690,7 +690,10 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           ) : activeTab === 'helpdesk' || activeTab === 'feedback' ? (
             <FeedbackHelpdeskModule />
           ) : activeTab === 'grammar-hub' || activeTab === 'grammar' || activeTab === 'grammar-book' ? (
-            <InteractiveGrammarBook />
+            <InteractiveGrammarBook initialSubject="ENGLISH" />
+          ) : activeTab === 'bangla-grammar' || activeTab === 'bangla-grammar-hub' ? (
+            <InteractiveGrammarBook initialSubject="BANGLA" />
+
           ) : activeTab === 'ai-routine' || activeTab === 'routine-ai' ? (
 
 
