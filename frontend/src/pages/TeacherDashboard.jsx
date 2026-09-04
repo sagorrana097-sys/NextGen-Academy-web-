@@ -17,6 +17,7 @@ import AdminAnnouncementManager from '../components/admin/AdminAnnouncementManag
 import QuestionGeneratorSuite from '../components/admin/QuestionGeneratorSuite';
 const QuestionBankManager = lazy(() => import('../components/admin/QuestionBankManager'));
 import PageAnnouncementBanner from '../components/common/PageAnnouncementBanner';
+import InteractiveGrammarBook from '../components/grammar/InteractiveGrammarBook';
 import {
   BookOpen,
   CalendarCheck,
@@ -3439,6 +3440,57 @@ export default function TeacherDashboard({ activeTab = 'attendance' }) {
             setShowCQGeneratorModal(false);
           }}
         />
+      )}
+
+      {/* Online Digital Textbook & Grammar Book Reader Modal */}
+      {readingTextbook && (
+        <div className="fixed inset-0 z-[99999] bg-slate-950/90 backdrop-blur-md flex flex-col p-2 sm:p-4 animate-in fade-in">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex-1 flex flex-col">
+            <div className="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    {readingTextbook.titleBn || readingTextbook.titleEn || 'ডিজিটাল পাঠ্যবই'}
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    {readingTextbook.edition || 'জাতীয় শিক্ষাক্রম (NCTB) ২০২৬ প্রমিত সংস্করণ'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setReadingTextbook(null)}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-rose-600 text-white font-bold text-xs transition-colors flex items-center space-x-1.5"
+              >
+                <X className="w-4 h-4" />
+                <span>বন্ধ করুন (Close)</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto bg-slate-950 p-2 sm:p-4">
+              {readingTextbook.isInteractiveGrammar || readingTextbook.titleBn?.includes('ব্যাকরণ') || readingTextbook.titleBn?.includes('Grammar') ? (
+                <InteractiveGrammarBook initialSubject={readingTextbook.subjectKey || (readingTextbook.titleBn?.includes('বাংলা') ? 'BANGLA' : 'ENGLISH')} />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-4 text-white">
+                  <BookOpen className="w-16 h-16 text-indigo-400" />
+                  <h2 className="text-xl font-bold">{readingTextbook.titleBn}</h2>
+                  <p className="text-xs text-slate-400 max-w-md">{readingTextbook.description || 'বইটি প্রস্তুত রয়েছে।'}</p>
+                  {readingTextbook.fileUrl && (
+                    <a
+                      href={readingTextbook.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold"
+                    >
+                      পিডিএফ ডাউনলোড / খুলুন
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

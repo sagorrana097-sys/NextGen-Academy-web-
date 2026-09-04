@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { studentAPI } from '../../services/api';
+import InteractiveGrammarBook from '../grammar/InteractiveGrammarBook';
 
 
 const BRAND = {
@@ -12,6 +13,40 @@ const BRAND = {
 };
 
 const CATALOG = [
+  {
+    id: 'bs-bangla-grammar',
+    title: 'বাংলা ব্যাকরণ ও নির্মিতি (৪০টি অধ্যায় সম্পূর্ণ ডিজিটাল পাঠ্যবই)',
+    category: 'PARALLEL_TEXTBOOK',
+    subject: 'বাংলা ব্যাকরণ',
+    grade: 'SSC/HSC',
+    price: 0,
+    coinPrice: 0,
+    pages: 480,
+    rating: 5.0,
+    previewPages: 40,
+    coverColor: '#059669',
+    badge: 'ডিজিটাল পাঠ্যবই',
+    isInteractiveGrammar: true,
+    grammarSubject: 'BANGLA',
+    summary: '১ম থেকে ৪০তম অধ্যায়ের সম্পূর্ণ নিয়ম, ব্যাকরণিক সূত্র, ৮৫টি টপিক, ২২৫টি বোর্ড MCQ ও ৪০টি মডেল টেস্ট সহ সম্পূর্ণ ইন্টারেক্টিভ ডিজিটাল পাঠ্যবই।'
+  },
+  {
+    id: 'bs-english-grammar',
+    title: 'Complete English Grammar & Composition (23 Chapters Digital Textbook)',
+    category: 'PARALLEL_TEXTBOOK',
+    subject: 'English Grammar',
+    grade: 'SSC/HSC',
+    price: 0,
+    coinPrice: 0,
+    pages: 350,
+    rating: 5.0,
+    previewPages: 23,
+    coverColor: '#4f46e5',
+    badge: 'ডিজিটাল পাঠ্যবই',
+    isInteractiveGrammar: true,
+    grammarSubject: 'ENGLISH',
+    summary: '23 Chapters, 133 topics, grammar rules, formulas, 283 MCQs, drills and model tests for Class 6-12 & SSC/HSC.'
+  },
   { id: 'bs-1', title: 'SSC পদার্থবিজ্ঞান সম্পূর্ণ গাইড ২০২৬', category: 'PARALLEL_TEXTBOOK', subject: 'পদার্থবিজ্ঞান', grade: 'SSC', price: 150, coinPrice: 300, pages: 312, rating: 4.8, previewPages: 4, coverColor: '#3b82f6', badge: 'বেস্টসেলার' },
   { id: 'bs-2', title: 'HSC উচ্চতর গণিত লেকচার শিট (সম্পূর্ণ)', category: 'LECTURE_SHEET', subject: 'উচ্চতর গণিত', grade: 'HSC', price: 80, coinPrice: 150, pages: 120, rating: 4.9, previewPages: 3, coverColor: '#8b5cf6', badge: 'টপ রেটেড' },
   { id: 'bs-3', title: 'বৃত্তি পরীক্ষা প্রস্তুতি — সম্পূর্ণ প্যাকেজ', category: 'SCHOLARSHIP_PREP', subject: 'সকল বিষয়', grade: 'JSC/SSC', price: 200, coinPrice: 400, pages: 450, rating: 4.7, previewPages: 5, coverColor: '#f59e0b', badge: 'জনপ্রিয়' },
@@ -81,9 +116,105 @@ function BookCover({ book, coverRef }) {
   );
 }
 
-function PreviewModal({ book, onClose }) {
+function PreviewModal({ book, onClose, onOpenGrammar }) {
   const [page, setPage] = useState(0);
-  const total = Math.min(book.previewPages, 5);
+  const total = Math.min(book.previewPages || 5, 5);
+
+  if (book.isInteractiveGrammar) {
+    const isBangla = book.grammarSubject === 'BANGLA';
+    return (
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(0,0,0,.9)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }} onClick={onClose}>
+        <div style={{
+          background: '#0f172a', borderRadius: 20, maxWidth: 640, width: '95%',
+          overflow: 'hidden', boxShadow: '0 0 60px rgba(99,102,241,0.4)',
+          border: `1px solid ${book.coverColor}88`
+        }} onClick={e => e.stopPropagation()}>
+          {/* Modal header */}
+          <div style={{ background: '#1e293b', padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #334155' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 24 }}>{isBangla ? '🇧🇩' : '🇬🇧'}</span>
+              <div>
+                <div style={{ color: '#f1f5f9', fontWeight: 800, fontSize: 15 }}>{book.title}</div>
+                <div style={{ color: '#94a3b8', fontSize: 12 }}>{isBangla ? 'জাতীয় শিক্ষাক্রম (NCTB) ২০২৬ প্রমিত ডিজিটাল পাঠ্যবই' : 'NCTB 2026 Curriculum Standard Interactive E-Book'}</div>
+              </div>
+            </div>
+            <button onClick={onClose} style={{ background: '#374151', color: '#94a3b8', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 13, fontWeight: 'bold' }}>✕</button>
+          </div>
+
+          {/* Book Details */}
+          <div style={{ padding: '24px', background: '#0b0f19' }}>
+            <div style={{ background: 'linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9))', border: '1px solid #334155', borderRadius: 16, padding: '18px', marginBottom: 20 }}>
+              <div style={{ color: '#38bdf8', fontWeight: 700, fontSize: 13, marginBottom: 6 }}>
+                📌 {isBangla ? 'ডিজিটাল পাঠ্যবইয়ের বৈশিষ্ট্যসমূহ:' : 'Digital Textbook Key Highlights:'}
+              </div>
+              <p style={{ color: '#cbd5e1', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+                {book.summary}
+              </p>
+            </div>
+
+            {/* Badges Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 20 }}>
+              <div style={{ background: '#1e293b', padding: '10px 14px', borderRadius: 12, textAlign: 'center', border: '1px solid #334155' }}>
+                <div style={{ color: '#a5b4fc', fontSize: 11, fontWeight: 600 }}>অধ্যায় সংখ্যা</div>
+                <div style={{ color: '#fff', fontSize: 16, fontWeight: 800, marginTop: 2 }}>{isBangla ? '৪০টি অধ্যায়' : '23 Chapters'}</div>
+              </div>
+              <div style={{ background: '#1e293b', padding: '10px 14px', borderRadius: 12, textAlign: 'center', border: '1px solid #334155' }}>
+                <div style={{ color: '#6ee7b7', fontSize: 11, fontWeight: 600 }}>টপিক ও নিয়ম</div>
+                <div style={{ color: '#fff', fontSize: 16, fontWeight: 800, marginTop: 2 }}>{isBangla ? '৮৫টি টপিক' : '133 Topics'}</div>
+              </div>
+              <div style={{ background: '#1e293b', padding: '10px 14px', borderRadius: 12, textAlign: 'center', border: '1px solid #334155' }}>
+                <div style={{ color: '#fde047', fontSize: 11, fontWeight: 600 }}>বোর্ড প্রশ্ন MCQ</div>
+                <div style={{ color: '#fff', fontSize: 16, fontWeight: 800, marginTop: 2 }}>{isBangla ? '২২৫টি প্রশ্ন' : '283 Questions'}</div>
+              </div>
+              <div style={{ background: '#1e293b', padding: '10px 14px', borderRadius: 12, textAlign: 'center', border: '1px solid #334155' }}>
+                <div style={{ color: '#f472b6', fontSize: 11, fontWeight: 600 }}>মডেল টেস্ট</div>
+                <div style={{ color: '#fff', fontSize: 16, fontWeight: 800, marginTop: 2 }}>{isBangla ? '৪০টি টেস্ট' : '8 Model Tests'}</div>
+              </div>
+            </div>
+
+            {/* Checklist */}
+            <div style={{ color: '#94a3b8', fontSize: 12, display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
+              <div>✅ {isBangla ? 'প্রমিত ব্যাকরণ সূত্র, সংজ্ঞা ও বাস্তব জীবনের প্রয়োগ' : 'Formulas, standard grammar rules, and contextual examples'}</div>
+              <div>✅ {isBangla ? 'অধ্যায়ভিত্তিক ও রেন্ডম কুইজ প্র্যাকটিস সিস্টেম' : 'Chapter-wise MCQ, timed quiz and interactive exams'}</div>
+              <div>✅ {isBangla ? 'বুকমার্ক, টপিক প্রগ্রেস ট্র্যাকিং ও পারফরম্যান্স অ্যানালিটিক্স' : 'Live topic tracking, personal bookmarks and performance review'}</div>
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button
+                onClick={() => {
+                  onClose();
+                  if (onOpenGrammar) onOpenGrammar(book.grammarSubject);
+                }}
+                style={{
+                  flex: 1,
+                  background: isBangla ? 'linear-gradient(135deg, #059669, #10b981)' : 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 12,
+                  padding: '12px 18px',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  boxShadow: '0 4px 15px rgba(16,185,129,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8
+                }}
+              >
+                <span>📖 সম্পূর্ণ ডিজিটাল পাঠ্যবই খুলুন</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{
@@ -143,12 +274,11 @@ function PreviewModal({ book, onClose }) {
   );
 }
 
-function BookCard({ book, coins, onUnlock, unlocked }) {
+function BookCard({ book, coins, onUnlock, unlocked, onReadGrammar }) {
   const coverRef = useRef(null);
   const [toast, setToast] = useState('');
 
   const downloadCover = async () => {
-
     if (!coverRef.current) return;
     try {
       const { exportBrandedGraphic } = await import('../../utils/exportBrandedGraphic');
@@ -161,7 +291,6 @@ function BookCard({ book, coins, onUnlock, unlocked }) {
       console.error('Failed to export book cover:', err);
     }
   };
-
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3000); };
 
@@ -198,7 +327,25 @@ function BookCard({ book, coins, onUnlock, unlocked }) {
             style={{ flex: 1, background: '#1e293b', color: '#94a3b8', border: '1px solid #334155', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontWeight: 600, fontSize: 12 }}>
             👁️ প্রিভিউ
           </button>
-          {book.coinPrice === 0 ? (
+          {book.isInteractiveGrammar ? (
+            <button
+              onClick={() => onReadGrammar(book.grammarSubject)}
+              style={{
+                flex: 1.2,
+                background: book.grammarSubject === 'BANGLA' ? 'linear-gradient(135deg, #059669, #10b981)' : 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '8px 12px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: 12,
+                boxShadow: '0 0 12px rgba(99,102,241,0.3)'
+              }}
+            >
+              📖 অনলাইনে পড়ুন
+            </button>
+          ) : book.coinPrice === 0 ? (
             <button style={{ flex: 1, background: '#14532d', color: '#86efac', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontWeight: 700, fontSize: 12 }}>
               ⬇️ ফ্রি ডাউনলোড
             </button>
@@ -219,9 +366,10 @@ function BookCard({ book, coins, onUnlock, unlocked }) {
   );
 }
 
-export default function DigitalBookStore() {
+export default function DigitalBookStore({ onOpenGrammar }) {
   const [filter, setFilter] = useState('ALL');
   const [previewBook, setPreviewBook] = useState(null);
+  const [readingGrammarSubject, setReadingGrammarSubject] = useState(null);
   const [coins, setCoins] = useState(0);
   const [unlocked, setUnlocked] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem('nextgen_unlocked_books') || '[]')); } catch { return new Set(); }
@@ -231,7 +379,23 @@ export default function DigitalBookStore() {
     studentAPI.getCoins().then(res => { if (res.success) setCoins(res.data?.balance || 0); }).catch(() => {});
   }, []);
 
+  const handleReadGrammar = (grammarSubject) => {
+    if (onOpenGrammar) {
+      onOpenGrammar(grammarSubject);
+    } else {
+      setReadingGrammarSubject(grammarSubject);
+    }
+  };
+
   const handleUnlock = async (book, previewOnly = false) => {
+    if (book.isInteractiveGrammar) {
+      if (previewOnly) {
+        setPreviewBook(book);
+      } else {
+        handleReadGrammar(book.grammarSubject);
+      }
+      return;
+    }
     if (previewOnly) { setPreviewBook(book); return; }
     if (book.coinPrice === 0 || unlocked.has(book.id)) { setPreviewBook(book); return; }
     try {
@@ -253,7 +417,76 @@ export default function DigitalBookStore() {
 
   return (
     <div style={{ fontFamily: "'Hind Siliguri', sans-serif", color: '#e2e8f0' }}>
-      {previewBook && <PreviewModal book={previewBook} onClose={() => setPreviewBook(null)} />}
+      {previewBook && (
+        <PreviewModal
+          book={previewBook}
+          onClose={() => setPreviewBook(null)}
+          onOpenGrammar={handleReadGrammar}
+        />
+      )}
+
+      {/* Full-Screen Interactive Grammar E-Book Modal */}
+      {readingGrammarSubject && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 99999,
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex', flexDirection: 'column',
+          padding: '12px'
+        }}>
+          <div style={{
+            background: '#0f172a',
+            border: '1px solid #334155',
+            borderRadius: 20,
+            overflow: 'hidden',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+          }}>
+            <div style={{
+              padding: '12px 20px',
+              background: '#1e293b',
+              borderBottom: '1px solid #334155',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 22 }}>📖</span>
+                <div>
+                  <h3 style={{ margin: 0, color: '#f8fafc', fontWeight: 800, fontSize: 15 }}>
+                    {readingGrammarSubject === 'BANGLA'
+                      ? 'বাংলা ব্যাকরণ ও নির্মিতি — সম্পূর্ণ ডিজিটাল পাঠ্যবই (৪০টি অধ্যায়)'
+                      : 'Complete English Grammar & Composition — Digital Textbook (23 Chapters)'}
+                  </h3>
+                  <span style={{ color: '#94a3b8', fontSize: 11 }}>
+                    জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB) প্রমিত কারিকুলাম সংস্করণ ২০২৬
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setReadingGrammarSubject(null)}
+                style={{
+                  background: '#ef4444',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 10,
+                  padding: '8px 16px',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: 'pointer'
+                }}
+              >
+                ✕ বন্ধ করুন (Close)
+              </button>
+            </div>
+            <div style={{ flex: 1, overflowY: 'auto', background: '#020617', padding: '12px' }}>
+              <InteractiveGrammarBook initialSubject={readingGrammarSubject} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <div style={{ background: 'linear-gradient(135deg,#1e1b4b,#0f172a)', borderRadius: 16, padding: '22px 28px', marginBottom: 24, border: '1px solid #312e81', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
@@ -287,7 +520,14 @@ export default function DigitalBookStore() {
       {/* Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 20 }}>
         {filtered.map(book => (
-          <BookCard key={book.id} book={book} coins={coins} onUnlock={handleUnlock} unlocked={unlocked.has(book.id)} />
+          <BookCard
+            key={book.id}
+            book={book}
+            coins={coins}
+            onUnlock={handleUnlock}
+            unlocked={unlocked.has(book.id)}
+            onReadGrammar={handleReadGrammar}
+          />
         ))}
       </div>
 

@@ -704,7 +704,7 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
           ) : activeTab === 'syllabus-map' || activeTab === 'rpg-syllabus' ? (
             <RPGSyllabusMap />
           ) : activeTab === 'book-store' || activeTab === 'bookstore' ? (
-            <DigitalBookStore />
+            <DigitalBookStore onOpenGrammar={(subj) => setActiveTab(subj === 'BANGLA' ? 'bangla-grammar' : 'grammar-hub')} />
           ) : activeTab === '3d-lab' ? (
 
         <Virtual3DScienceLab />
@@ -1058,6 +1058,7 @@ export default function StudentDashboard({ activeTab = 'dashboard' }) {
               studentId={profile?.id}
               role="STUDENT"
               classIdFilter={profile?.classId}
+              onOpenGrammar={(subj) => setActiveTab(subj === 'BANGLA' ? 'bangla-grammar' : 'grammar-hub')}
             />
           )}
         </div>

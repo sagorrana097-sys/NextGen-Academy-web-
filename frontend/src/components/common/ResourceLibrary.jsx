@@ -5,6 +5,7 @@ import { resourceAPI, curriculumAPI } from '../../services/api';
 import OnlineAdmissionForm from '../public/OnlineAdmissionForm';
 import UniversalFileUploader from './UniversalFileUploader';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
+import InteractiveGrammarBook from '../grammar/InteractiveGrammarBook';
 import {
   BookOpen,
   Download,
@@ -39,9 +40,10 @@ import {
   Award
 } from 'lucide-react';
 
-export default function ResourceLibrary({ studentId = null, role = 'STUDENT', classIdFilter = null, showAdminControls = false }) {
+export default function ResourceLibrary({ studentId = null, role = 'STUDENT', classIdFilter = null, showAdminControls = false, onOpenGrammar = null }) {
   const { lang, t } = useLanguage();
   const { user } = useAuth();
+  const [readingGrammarSubject, setReadingGrammarSubject] = useState(null);
 
   const isPrivileged = role === 'ADMIN' || role === 'TEACHER' || user?.role === 'ADMIN' || user?.role === 'TEACHER' || showAdminControls;
   const isPaidOrEnrolled = isPrivileged || (user && user.role === 'STUDENT' && user.paymentStatus !== 'UNPAID' && user.isEnrolled !== false);
@@ -195,9 +197,22 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
     }
   };
 
+  const handleOpenGrammarDirectly = (subj) => {
+    if (onOpenGrammar) {
+      onOpenGrammar(subj);
+    } else {
+      setReadingGrammarSubject(subj);
+    }
+  };
+
   const handleOpenReader = (item) => {
     const isFree = Boolean(item.isFree);
     if (isFree || isPaidOrEnrolled) {
+      if (item.isInteractiveGrammar || item.subjectKey === 'BANGLA' || item.subjectKey === 'ENGLISH' || item.titleBn?.includes('ব্যাকরণ') || item.titleBn?.includes('Grammar') || item.title?.includes('Grammar')) {
+        const subj = item.subjectKey || (item.titleBn?.includes('বাংলা') ? 'BANGLA' : 'ENGLISH');
+        handleOpenGrammarDirectly(subj);
+        return;
+      }
       setReadingResource(item);
     } else {
       setShowLockCtaModal(item);
@@ -523,6 +538,105 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
         </div>
       </div>
 
+      {/* ========================================================================= */}
+      {/* 🌟 FEATURED INTERACTIVE DIGITAL TEXTBOOKS (NCTB 2026 STANDARD) */}
+      {/* ========================================================================= */}
+      <div className="bg-gradient-to-br from-indigo-950/70 via-slate-900 to-emerald-950/50 p-5 sm:p-6 rounded-3xl border border-indigo-500/30 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-indigo-500/20">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                NCTB ২০২৬ প্রমিত কারিকুলাম
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                ডিজিটাল পাঠ্যবই
+              </span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-white mt-1.5 flex items-center space-x-2">
+              <BookOpen className="w-5 h-5 text-emerald-400" />
+              <span>ইন্টারেক্টিভ ডিজিটাল ব্যাকরণ পাঠ্যবই (Interactive Grammar Textbooks)</span>
+            </h3>
+            <p className="text-xs text-slate-300">
+              বাংলা ও ইংলিশ ব্যাকরণের সম্পূর্ণ সিলেবাস, বিস্তারিত নিয়মাবলী, বোর্ড প্রশ্ন ও মডেল টেস্ট সম্বলিত আধুনিক ই-বুক
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Bangla Grammar Card */}
+          <div className="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 hover:border-emerald-400/60 transition-all shadow-lg flex flex-col justify-between space-y-4">
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  🇧🇩 বাংলা ব্যাকরণ
+                </span>
+                <span className="text-[11px] font-bold text-slate-400">
+                  ৪০টি পূর্ণাঙ্গ অধ্যায়
+                </span>
+              </div>
+              <h4 className="text-base font-black text-white">
+                বাংলা ব্যাকরণ ও নির্মিতি (৪০টি অধ্যায় সম্পূর্ণ ডিজিটাল পাঠ্যবই)
+              </h4>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                ভাষা, ধ্বনি, পদ, কারক, বিভক্তি, সন্ধি, সমাস, উপসর্গ, প্রত্যয়, বাচ্য, বাগধারা সহ ১–৪০ অধ্যায়ের প্রমিত নিয়ম, ৮৫টি টপিক, ২২৫টি বোর্ড MCQ এবং ৪০টি মডেল টেস্ট।
+              </p>
+              <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-emerald-200/90 pt-1">
+                <span className="bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/40">৮৫টি টপিক</span>
+                <span className="bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/40">২২৫টি বোর্ড MCQ</span>
+                <span className="bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/40">৪০টি মডেল টেস্ট</span>
+                <span className="bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/40">১০০% ফ্রি</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800 flex items-center gap-2">
+              <button
+                onClick={() => handleOpenGrammarDirectly('BANGLA')}
+                className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs flex items-center justify-center space-x-1.5 shadow-md shadow-emerald-900/40 active:scale-95 transition-all"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>সম্পূর্ণ পাঠ্যবই পড়ুন (Read E-Book)</span>
+              </button>
+            </div>
+          </div>
+
+          {/* English Grammar Card */}
+          <div className="bg-slate-900/90 border border-indigo-500/30 rounded-2xl p-5 hover:border-indigo-400/60 transition-all shadow-lg flex flex-col justify-between space-y-4">
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                  🇬🇧 English Grammar
+                </span>
+                <span className="text-[11px] font-bold text-slate-400">
+                  23 Complete Chapters
+                </span>
+              </div>
+              <h4 className="text-base font-black text-white">
+                Complete English Grammar & Composition (23 Chapters Digital Textbook)
+              </h4>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Nouns, Pronouns, Verbs, Tenses, Modals, Voice, Narration, Prepositions, Connectors, 133 topics, grammar formulas, 283 MCQs and SSC/HSC exam drills.
+              </p>
+              <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-indigo-200/90 pt-1">
+                <span className="bg-indigo-950/80 px-2 py-0.5 rounded-md border border-indigo-800/40">133 Topics</span>
+                <span className="bg-indigo-950/80 px-2 py-0.5 rounded-md border border-indigo-800/40">283 Board MCQs</span>
+                <span className="bg-indigo-950/80 px-2 py-0.5 rounded-md border border-indigo-800/40">8 Model Tests</span>
+                <span className="bg-indigo-950/80 px-2 py-0.5 rounded-md border border-indigo-800/40">100% Free</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800 flex items-center gap-2">
+              <button
+                onClick={() => handleOpenGrammarDirectly('ENGLISH')}
+                className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs flex items-center justify-center space-x-1.5 shadow-md shadow-indigo-900/40 active:scale-95 transition-all"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Read Interactive Textbook</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Grid of Resources */}
       {loading ? (
         <div className="p-12 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
@@ -654,6 +768,43 @@ export default function ResourceLibrary({ studentId = null, role = 'STUDENT', cl
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 🌟 INTERACTIVE GRAMMAR E-BOOK FULL MODAL */}
+      {/* ========================================================================= */}
+      {readingGrammarSubject && (
+        <div className="fixed inset-0 z-[99999] bg-slate-950/90 backdrop-blur-md flex flex-col p-2 sm:p-4 animate-in fade-in">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex-1 flex flex-col">
+            <div className="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    {readingGrammarSubject === 'BANGLA'
+                      ? 'বাংলা ব্যাকরণ ও নির্মিতি — সম্পূর্ণ ডিজিটাল পাঠ্যবই (৪০টি অধ্যায়)'
+                      : 'Complete English Grammar & Composition — Digital Textbook (23 Chapters)'}
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB) প্রমিত কারিকুলাম সংস্করণ ২০২৬
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setReadingGrammarSubject(null)}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-rose-600 text-white font-bold text-xs transition-colors flex items-center space-x-1.5"
+              >
+                <X className="w-4 h-4" />
+                <span>বন্ধ করুন (Close)</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto bg-slate-950 p-2 sm:p-4">
+              <InteractiveGrammarBook initialSubject={readingGrammarSubject} />
+            </div>
+          </div>
         </div>
       )}
 
