@@ -10,10 +10,12 @@ export function resolveApiBase(env = import.meta.env, loc = (typeof window !== '
   }
 
   const isProd = env?.PROD || env?.MODE === 'production';
-  if (isProd && env?.VITE_SAME_ORIGIN_BACKEND !== 'true') {
-    const err = new Error('CRITICAL_CONFIG_ERROR: VITE_API_URL is missing in production environment.');
-    err.code = 'MISSING_API_URL';
-    throw err;
+  if (isProd) {
+    if (env?.VITE_SAME_ORIGIN_BACKEND === 'true') {
+      return '/api';
+    }
+    // Safe production fallback to primary Render backend URL
+    return 'https://nextgen-academy-web.onrender.com/api';
   }
 
   return '/api';

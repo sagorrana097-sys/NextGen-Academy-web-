@@ -116,7 +116,8 @@ async function runProductionHardeningTests() {
       return '/api';
     }
 
-    throw new Error('CRITICAL_CONFIG_ERROR: VITE_API_URL is missing in production environment. Refusing to fallback to /api to prevent SPA index.html JSON corruption.');
+    // Safe production fallback to primary Render backend URL
+    return 'https://nextgen-academy-web.onrender.com/api';
   }
 
   // 2.1 DEV + no VITE_API_URL -> returns convenient '/api'
@@ -129,16 +130,10 @@ async function runProductionHardeningTests() {
   assert.strictEqual(prodValid, 'https://api.nextgen-academy.com', 'Prod mode must return configured VITE_API_URL');
   console.log('✓ PASS 2.2: PROD + valid VITE_API_URL returns https://api.nextgen-academy.com');
 
-  // 2.3 PROD + missing VITE_API_URL -> throws CRITICAL_CONFIG_ERROR
-  let prodMissingThrew = false;
-  try {
-    resolveApiBase({ DEV: false, MODE: 'production' });
-  } catch (err) {
-    prodMissingThrew = true;
-    assert(err.message.includes('CRITICAL_CONFIG_ERROR'), 'Must throw critical config error');
-  }
-  assert(prodMissingThrew, 'PROD without VITE_API_URL must throw and refuse silent fallback');
-  console.log('✓ PASS 2.3: PROD + missing VITE_API_URL throws CRITICAL_CONFIG_ERROR');
+  // 2.3 PROD + missing VITE_API_URL -> falls back safely to Render backend URL
+  const prodFallback = resolveApiBase({ DEV: false, MODE: 'production' });
+  assert.strictEqual(prodFallback, 'https://nextgen-academy-web.onrender.com/api', 'PROD must fall back to production Render backend URL');
+  console.log('✓ PASS 2.3: PROD + missing VITE_API_URL safely resolves https://nextgen-academy-web.onrender.com/api');
 
   // 2.4 HTML Response Guard Simulation (returns 502 instead of crashing JSON parser)
   function guardApiResponse(contentType, text) {
