@@ -13,7 +13,8 @@ const fs = require('fs');
 const path = require('path');
 const PostgresAdapter = require('./postgresAdapter');
 
-let activeDriver = (process.env.DB_DRIVER || (process.env.DATABASE_URL ? 'postgres' : 'json')).toLowerCase();
+const isPostgresUrl = process.env.DATABASE_URL && (process.env.DATABASE_URL.startsWith('postgres://') || process.env.DATABASE_URL.startsWith('postgresql://'));
+let activeDriver = (process.env.DB_DRIVER || (isPostgresUrl ? 'postgres' : 'json')).toLowerCase();
 function getDriver() {
   return activeDriver;
 }
