@@ -1,86 +1,35 @@
-const API_BASE = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000/api' : '/api');
+export function resolveApiBase(env = import.meta.env, loc = (typeof window !== 'undefined' ? window.location : null)) {
+  const envUrl = env?.VITE_API_URL;
+  if (envUrl && envUrl.trim()) {
+    return envUrl.replace(/\/+$/, '');
+  }
 
-// Client-side Mock Fallbacks for Instant Offline & Zero-Error Experience
-const STUDENT_MOCKS = {
-  '/dashboard-aggregate': {
-    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, attendanceRateToday: 0, financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 }, totalAuditLogs: 0 },
-    notices: [],
-    counts: { students: 0, teachers: 0, classes: 0, pendingInvoices: 0 }
-  },
-  '/student/dashboard-aggregate': {
-    profile: null,
-    dashboard: { attendanceRate: 0, gpa: 0, totalPoints: 0, completedAssignments: 0 },
-    attendance: { present: 0, absent: 0, leave: 0, rate: 0, records: [] },
-    results: { gpa: 0, marks: [] },
-    routine: { todayClasses: [], weeklySchedule: [] },
-    invoices: [],
-    notices: [],
-    gamification: { xp: 0, level: 1, streak: 0, rank: 0 },
-    coins: 0
-  },
-  '/admin/dashboard-aggregate': {
-    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 },
-    students: [],
-    teachers: [],
-    invoices: [],
-    auditLogs: [],
-    classes: []
-  },
-  '/student/profile': null,
-  '/student/dashboard': { attendanceRate: 0, gpa: 0, totalPoints: 0, completedAssignments: 0 },
-  '/student/attendance': { present: 0, absent: 0, leave: 0, rate: 0, records: [] },
-  '/student/results': { gpa: 0, marks: [] },
-  '/student/routine': { todayClasses: [], weeklySchedule: [] },
-  '/student/invoices': [],
-  '/analytics/overview': {
-    totalStudents: 0,
-    totalTeachers: 0,
-    totalClasses: 0,
-    attendanceRateToday: 0,
-    studentAttendanceRate: 0,
-    teacherAttendanceRate: 0,
-    financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 },
-    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 }
-  },
-  '/analytics/summary': {
-    totalStudents: 0,
-    totalTeachers: 0,
-    totalClasses: 0,
-    attendanceRateToday: 0,
-    studentAttendanceRate: 0,
-    teacherAttendanceRate: 0,
-    financials: { totalBilled: 0, totalCollected: 0, totalPending: 0, collectionPercentage: 0 },
-    stats: { totalStudents: 0, totalTeachers: 0, totalClasses: 0, totalBilled: 0, totalCollected: 0, totalPending: 0, attendanceRateToday: 0 }
-  },
-  '/settings/student-portal-control': {
-    allowOnlineAdmission: true,
-    allowExamResultView: true,
-    allowFeePayment: true,
-    allowGamification: true,
-    allowLiveClass: true,
-    allowHomeworkSubmit: true,
-    allowDigitalBookstore: true
-  },
-  '/settings/student-portal': {
-    allowOnlineAdmission: true,
-    allowExamResultView: true,
-    allowFeePayment: true,
-    allowGamification: true,
-    allowLiveClass: true,
-    allowHomeworkSubmit: true,
-    allowDigitalBookstore: true
-  },
-  '/settings': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01792818005', email: 'admin@nextgen.edu.bd' },
-  '/settings/public': { siteName: 'NextGen Academy', academicYear: '2026', phone: '01792818005', email: 'admin@nextgen.edu.bd' },
-  '/settings/student-menus': [],
-  '/notices': [],
-  '/admin/students': [],
-  '/students': [],
-  '/classes': [],
-  '/subjects': [],
-  '/teachers': [],
-  '/batches': []
-};
+  const isLocal = loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1');
+  if (isLocal) {
+    return 'http://localhost:5000/api';
+  }
+
+  const isProd = env?.PROD || env?.MODE === 'production';
+  if (isProd && env?.VITE_SAME_ORIGIN_BACKEND !== 'true') {
+    const err = new Error('CRITICAL_CONFIG_ERROR: VITE_API_URL is missing in production environment.');
+    err.code = 'MISSING_API_URL';
+    throw err;
+  }
+
+  return '/api';
+}
+
+let API_BASE = '/api';
+let API_CONFIG_ERROR = null;
+try {
+  API_BASE = resolveApiBase();
+} catch (err) {
+  API_CONFIG_ERROR = err.message;
+  console.error('[NextGen Production Architecture Error]:', err.message);
+}
+
+export { API_BASE, API_CONFIG_ERROR };
+
 
 // In-Memory SWR Cache & In-Flight Request Deduplication Store
 const apiCache = new Map();
@@ -108,6 +57,15 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
     return inFlightRequests.get(cacheKey);
   }
 
+  if (API_CONFIG_ERROR) {
+    return {
+      success: false,
+      status: 500,
+      error: { code: 'CONFIGURATION_ERROR', message: API_CONFIG_ERROR },
+      data: null
+    };
+  }
+
   const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
   const headers = {
     'Content-Type': 'application/json',
@@ -125,6 +83,20 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
           headers
         });
 
+        // Fail-safe: Detect if SPA rewrite returned index.html instead of JSON API response
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('text/html')) {
+          return {
+            success: false,
+            status: 502,
+            error: {
+              code: 'CONFIGURATION_ERROR',
+              message: 'সার্ভার এপিআই এর পরিবর্তে HTML রিটার্ন করেছে। VITE_API_URL সঠিক ব্যাকএন্ড ডোমেইনে কনফিগার করা আছে কি না যাচাই করুন।'
+            },
+            data: null
+          };
+        }
+
         let data = {};
         try {
           data = await res.json();
@@ -138,25 +110,20 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
         }
 
         if (res.status === 401) {
-          if (STUDENT_MOCKS[cleanEndpoint]) {
-            return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
-          }
           return {
             success: false,
             isUnauthorized: true,
-            error: { message: data?.error?.message || 'সেশনের মেয়াদ শেষ হয়েছে।' },
+            status: 401,
+            error: { code: 'UNAUTHORIZED', message: data?.error?.message || 'সেশনের মেয়াদ শেষ হয়েছে। অনুগ্রহ করে পুনরায় লগইন করুন।' },
             data: null
           };
         }
 
         if (!res.ok) {
-          if (STUDENT_MOCKS[cleanEndpoint]) {
-            return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
-          }
           return {
             success: false,
             status: res.status,
-            error: { message: data.error?.message || data.message || `Request failed with status ${res.status}` },
+            error: { code: data?.error?.code || `HTTP_${res.status}`, message: data?.error?.message || data?.message || `অনুরোধ ব্যর্থ হয়েছে (স্ট্যাটাস: ${res.status})` },
             data: null
           };
         }
@@ -182,13 +149,9 @@ async function request(endpoint, options = {}, retries = 3, backoffMs = 400) {
       }
     }
 
-    if (STUDENT_MOCKS[cleanEndpoint]) {
-      return { success: true, data: STUDENT_MOCKS[cleanEndpoint], isMockFallback: true };
-    }
-
     return {
       success: false,
-      error: { message: lastError?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' },
+      error: { code: 'NETWORK_ERROR', message: lastError?.message || 'নেটওয়ার্ক সংযোগে সমস্যা হয়েছে।' },
       data: null
     };
   };
@@ -387,7 +350,6 @@ export const materialAPI = {
   },
   uploadSourceMaterial: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token') || sessionStorage.getItem('token');
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     return fetch(`${API_BASE}/materials/upload`, {
       method: 'POST',
       headers: {
@@ -399,7 +361,6 @@ export const materialAPI = {
   createStudyMaterial: (data) => {
     if (data instanceof FormData) {
       const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token') || sessionStorage.getItem('token');
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       return fetch(`${API_BASE}/materials/upload`, {
         method: 'POST',
         headers: {
@@ -603,8 +564,18 @@ export const accountsAPI = {
   getReports: (params = {}) => {
     const q = new URLSearchParams(params).toString();
     return request(`/accounts/reports?${q}`);
-  }
+  },
+  collectOfflineCash: (data) => request('/accounts/offline-cash', { method: 'POST', body: JSON.stringify(data) }),
+  getCashbook: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return request(`/accounts/cashbook${q ? `?${q}` : ''}`);
+  },
+  getReceipt: (invoiceId) => request(`/accounts/receipt/${invoiceId}`),
+  getSalaryStructures: () => request('/accounts/salary-structures'),
+  updateSalaryStructure: (teacherId, data) => request(`/accounts/salary-structures/${teacherId}`, { method: 'PUT', body: JSON.stringify(data) })
 };
+
+export const collectOfflineCash = (data) => accountsAPI.collectOfflineCash(data);
 
 export const analyticsAPI = {
   getSummary: (params = {}) => {
@@ -641,7 +612,6 @@ export const settingsAPI = {
   updateStudentMenus: (data) => request('/settings/student-menus', { method: 'PUT', body: JSON.stringify(data) }),
   uploadLogo: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     return fetch(`${API_BASE}/settings/upload-logo`, {
       method: 'POST',
       headers: {
@@ -675,7 +645,6 @@ export const backupAPI = {
   downloadBackup: (fileName) => `${API_BASE}/backup/download/${fileName}`,
   uploadBackup: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     return fetch(`${API_BASE}/backup/upload`, {
       method: 'POST',
       headers: {
@@ -762,7 +731,6 @@ export const omrAPI = {
   evaluateOMR: (data) => request('/omr/evaluate', { method: 'POST', body: JSON.stringify(data) }),
   uploadOMRImage: (formData) => {
     const token = localStorage.getItem('token') || localStorage.getItem('adminToken') || localStorage.getItem('nextgen_token');
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     return fetch(`${API_BASE}/omr/upload-and-scan`, {
       method: 'POST',
       headers: {

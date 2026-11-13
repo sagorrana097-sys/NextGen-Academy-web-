@@ -131,5 +131,6 @@ const requireRole = (allowedRoles) => {
 module.exports = {
   authenticate,
   requireRole,
+  authorizeRole: requireRole,
   JWT_SECRET
 };

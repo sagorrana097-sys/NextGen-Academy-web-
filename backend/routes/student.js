@@ -19,39 +19,28 @@ const {
   ExamSubmission
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
+const { verifyStudentAccess } = require('../middleware/ownership');
 
 const router = express.Router();
 
 /**
- * Optional Authentication Middleware
- * Validates token if present; otherwise attaches a safe demo student context
+ * Strict Authentication Middleware
+ * Enforces valid JWT token and authenticates student/parent/admin/teacher
  */
-const safeAuth = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    return authenticate(req, res, (err) => {
-      if (err || !req.user) {
-        req.user = { id: 1, name: 'তাহমিদ আহমেদ', role: 'STUDENT', studentId: 1 };
-      }
-      next();
-    });
-  }
-  req.user = { id: 1, name: 'তাহমিদ আহমেদ', role: 'STUDENT', studentId: 1 };
-  next();
-};
-
-router.use(safeAuth);
+router.use(authenticate);
 
 /**
- * Robust Helper to get student record from request with zero-fail fallbacks
+ * Secure Helper to get student record from request enforcing ownership (IDOR protection)
  */
 async function getStudentFromUser(req) {
   try {
-    let studentId = req.params?.id || req.query?.studentId || req.user?.studentId;
-    
-    // 1. Direct ID lookup if studentId is numeric
-    if (studentId && !isNaN(Number(studentId))) {
-      const direct = await Student.findByPk(Number(studentId), {
+    const user = req.user;
+    if (!user) return null;
+
+    // 1. If STUDENT, they can ONLY access their own student profile
+    if (user.role === 'STUDENT') {
+      return await Student.findOne({
+        where: { userId: user.id },
         include: [
           { model: User, as: 'user' },
           { model: Class, as: 'class' },
@@ -63,60 +52,77 @@ async function getStudentFromUser(req) {
           }
         ]
       });
-      if (direct) return direct;
     }
 
-    // 2. Lookup by userId if user is logged in
-    if (req.user?.id) {
-      const byUser = await Student.findOne({
-        where: { userId: req.user.id },
-        include: [
-          { model: User, as: 'user' },
-          { model: Class, as: 'class' },
-          { model: Section, as: 'section' },
-          {
-            model: GuardianStudentMapping,
-            as: 'guardians',
-            include: [{ model: User, as: 'parent' }]
-          }
-        ]
-      });
-      if (byUser) return byUser;
-    }
+    // 2. If PARENT, they can only access their linked children
+    if (user.role === 'PARENT') {
+      let targetId = req.params?.id || req.query?.studentId;
+      if (targetId && !isNaN(Number(targetId))) {
+        targetId = Number(targetId);
+        const isLinked = user.linkedStudentIds && user.linkedStudentIds.includes(targetId);
+        if (!isLinked) {
+          const mapping = await GuardianStudentMapping.findOne({
+            where: { parentUserId: user.id, studentId: targetId }
+          });
+          if (!mapping) return null;
+        }
+        return await Student.findByPk(targetId, {
+          include: [
+            { model: User, as: 'user' },
+            { model: Class, as: 'class' },
+            { model: Section, as: 'section' },
+            {
+              model: GuardianStudentMapping,
+              as: 'guardians',
+              include: [{ model: User, as: 'parent' }]
+            }
+          ]
+        });
+      }
 
-    // 3. Lookup by Parent's linked students
-    if (req.user?.role === 'PARENT' && req.user?.id) {
+      // Default to first linked child
       const mapping = await GuardianStudentMapping.findOne({
-        where: { parentUserId: req.user.id }
+        where: { parentUserId: user.id }
       });
       if (mapping) {
-        const byMapping = await Student.findByPk(mapping.studentId, {
+        return await Student.findByPk(mapping.studentId, {
           include: [
             { model: User, as: 'user' },
             { model: Class, as: 'class' },
             { model: Section, as: 'section' }
           ]
         });
-        if (byMapping) return byMapping;
       }
+      return null;
     }
 
-    // 4. Fallback for Admin, Teacher or demo users: return the first available student in DB
-    const firstStudent = await Student.findOne({
-      include: [
-        { model: User, as: 'user' },
-        { model: Class, as: 'class' },
-        { model: Section, as: 'section' },
-        {
-          model: GuardianStudentMapping,
-          as: 'guardians',
-          include: [{ model: User, as: 'parent' }]
-        }
-      ],
-      order: [['id', 'ASC']]
-    });
+    // 3. If ADMIN, SUPER_ADMIN or TEACHER, lookup requested student
+    if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' || user.role === 'TEACHER') {
+      let targetId = req.params?.id || req.query?.studentId || user.studentId;
+      if (targetId && !isNaN(Number(targetId))) {
+        return await Student.findByPk(Number(targetId), {
+          include: [
+            { model: User, as: 'user' },
+            { model: Class, as: 'class' },
+            { model: Section, as: 'section' },
+            {
+              model: GuardianStudentMapping,
+              as: 'guardians',
+              include: [{ model: User, as: 'parent' }]
+            }
+          ]
+        });
+      }
+      return await Student.findOne({
+        include: [
+          { model: User, as: 'user' },
+          { model: Class, as: 'class' },
+          { model: Section, as: 'section' }
+        ],
+        order: [['id', 'ASC']]
+      });
+    }
 
-    if (firstStudent) return firstStudent;
     return null;
   } catch (err) {
     console.warn('[getStudentFromUser warning]:', err.message);
@@ -445,15 +451,27 @@ router.get('/financials', handleInvoices);
 /**
  * GET /api/student/:id/full-summary OR /api/student/full-summary
  */
-router.get('/:id/full-summary', async (req, res, next) => {
+router.get('/:id/full-summary', (req, res, next) => {
+  if (req.params.id !== 'self') {
+    req.params.studentId = req.params.id;
+    return verifyStudentAccess(req, res, next);
+  }
+  next();
+}, async (req, res, next) => {
   try {
     const student = await getStudentFromUser(req);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        error: { code: 'STUDENT_NOT_FOUND', message: 'শিক্ষার্থী পাওয়া যায়নি / Student not found' }
+      });
+    }
 
     // 1. Attendance Summary
     let attendanceRecords = [];
     try {
       attendanceRecords = await Attendance.findAll({
-        where: { studentId: student?.id || 1 },
+        where: { studentId: student.id },
         order: [['date', 'DESC']]
       });
     } catch (e) {}
@@ -597,9 +615,9 @@ router.get('/full-summary', async (req, res, next) => {
 
 /**
  * GET /api/students / GET /api/student
- * List all students with query filters
+ * List all students with query filters (Admin and Teacher access only)
  */
-router.get('/', async (req, res, next) => {
+router.get('/', requireRole(['ADMIN', 'TEACHER']), async (req, res, next) => {
   try {
     const { classId, batchId, search, status } = req.query;
     const where = {};
@@ -647,9 +665,13 @@ router.get('/', async (req, res, next) => {
 });
 
 /**
- * GET /api/students/:id
+ * GET /api/students/:id (and /api/student/:id)
+ * Enforces ownership and authorization via verifyStudentAccess
  */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', (req, res, next) => {
+  req.params.studentId = req.params.id;
+  next();
+}, verifyStudentAccess, async (req, res, next) => {
   try {
     const studentId = Number(req.params.id);
     if (isNaN(studentId)) {
@@ -665,16 +687,11 @@ router.get('/:id', async (req, res, next) => {
     });
 
     if (!student) {
-      return res.json({
-        success: true,
-        data: {
-          id: studentId,
-          userId: 1,
-          rollNo: studentId,
-          studentIdNumber: `STD-2026-${String(studentId).padStart(3, '0')}`,
-          class: { nameBn: 'দশম শ্রেণি' },
-          section: { nameBn: 'শাখা ক' },
-          user: { name: 'তাহমিদ আহমেদ', role: 'STUDENT', isActive: true }
+      return res.status(404).json({
+        success: false,
+        error: {
+          code: 'STUDENT_NOT_FOUND',
+          message: 'শিক্ষার্থী পাওয়া যায়নি / Student not found'
         }
       });
     }

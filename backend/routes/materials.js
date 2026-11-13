@@ -14,6 +14,8 @@ const multer = require('multer');
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 const crypto = require('crypto');
+const { storage } = require('../services/storageService');
+const { parsePdfQuestionsWithDiagrams } = require('../services/pdfDiagramExtractorService');
 
 /**
  * Universal Safe PDF Parser (Supports both pdf-parse function and PDFParse class)
@@ -37,10 +39,66 @@ async function parsePdfSafely(buffer) {
   return '';
 }
 
-// Configure multer memory storage with strict 25MB limits
+const path = require('path');
+
+// Safe file filter allowing only educational documents and images (SVG strictly disallowed)
+const ALLOWED_MIME_TYPES = new Set([
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'text/plain',
+  'image/jpeg',
+  'image/png',
+  'image/webp'
+]);
+
+const ALLOWED_EXTENSIONS = new Set([
+  '.pdf',
+  '.docx',
+  '.doc',
+  '.txt',
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.webp'
+]);
+
+const fileFilter = (req, file, cb) => {
+  const ext = path.extname(file.originalname || '').toLowerCase();
+  const mime = (file.mimetype || '').toLowerCase();
+
+  // Explicitly reject SVG to prevent stored XSS and XML entity attacks
+  if (ext === '.svg' || mime === 'image/svg+xml') {
+    const err = new Error('নিরাপত্তাজনিত কারণে SVG ফাইল সমর্থিত নয় / SVG files are disallowed for security');
+    err.statusCode = 415;
+    err.code = 'UNSUPPORTED_MEDIA_TYPE';
+    return cb(err, false);
+  }
+
+  // Explicitly reject executable or script extensions
+  const DANGEROUS_EXTENSIONS = ['.exe', '.bat', '.sh', '.cmd', '.php', '.phtml', '.js', '.jsx', '.ts', '.py', '.html', '.htm', '.vbs', '.jar', '.zip', '.rar', '.tar', '.gz'];
+  if (DANGEROUS_EXTENSIONS.includes(ext)) {
+    const err = new Error('নিরাপত্তাজনিত কারণে এই ধরণের ফাইল (.exe, .sh, .bat, .php, .html, .zip ইত্যাদি) আপলোড করা সম্পূর্ণ নিষিদ্ধ।');
+    err.statusCode = 415;
+    err.code = 'UNSUPPORTED_MEDIA_TYPE';
+    return cb(err, false);
+  }
+
+  if (ALLOWED_EXTENSIONS.has(ext) && (ALLOWED_MIME_TYPES.has(mime) || mime === 'application/octet-stream')) {
+    return cb(null, true);
+  }
+
+  const err = new Error('শুধুমাত্র PDF, DOCX, TXT এবং ইমেজ (JPG, PNG, WEBP) ফাইল আপলোড করা যাবে।');
+  err.statusCode = 415;
+  err.code = 'UNSUPPORTED_MEDIA_TYPE';
+  return cb(err, false);
+};
+
+// Configure multer memory storage with strict 25MB limits and security fileFilter
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 25 * 1024 * 1024 } // 25 MB max
+  limits: { fileSize: 25 * 1024 * 1024 }, // 25 MB max
+  fileFilter
 });
 
 /**
@@ -67,11 +125,10 @@ function generateAcademicBadge({ board, examYear, questionType, category }) {
 }
 
 /**
- * Enhanced Safe DOCX Extractor
- * Extracts BOTH Structured HTML (preserving tables, sup, sub, bold, italic) and Plain Text
- * NEVER modifies the original buffer.
+ * Enhanced Safe DOCX Extractor with Real Persistent Image Extraction & Position Mapping
+ * Extracts Structured HTML, Plain Text with inline image references, and persists images to /uploads/extracted_images
  */
-async function extractDocxContentSafely(buffer) {
+async function extractDocxContentSafely(buffer, originalFileName = 'document.docx') {
   const customStyleMap = [
     "p[style-name='Heading 1'] => h1:fresh",
     "p[style-name='Heading 2'] => h2:fresh",
@@ -80,29 +137,85 @@ async function extractDocxContentSafely(buffer) {
     "r[style-name='Subscript'] => sub"
   ];
 
+  const uploadDir = path.join(__dirname, '../uploads/extracted_images');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  const extractedImages = [];
+  let imageCounter = 0;
+
+  // Custom image converter that writes binary through storage abstraction and returns a persistent URL
+  const convertImage = mammoth.images.imgElement(async (image) => {
+    imageCounter++;
+    const imageBuffer = await image.read();
+    const saved = await storage.save(imageBuffer, {
+      category: 'extracted_images',
+      originalName: `${originalFileName || 'doc'}_img_${imageCounter}`,
+      mimeType: image.contentType || 'image/png'
+    });
+
+    extractedImages.push({
+      index: imageCounter,
+      fileName: saved.fileName,
+      publicUrl: saved.publicUrl,
+      contentType: image.contentType || 'image/png',
+      sizeBytes: imageBuffer.length,
+      sourceDocument: originalFileName
+    });
+
+    return {
+      src: saved.publicUrl,
+      alt: `চিত্র-${imageCounter}`
+    };
+  });
+
   let rawText = '';
   let structuredHtml = '';
   let messages = [];
 
   try {
-    const textResult = await mammoth.extractRawText({ buffer });
-    rawText = (textResult?.value || '').trim();
-    if (textResult?.messages) messages = textResult.messages;
-  } catch (e) {
-    console.warn('[DOCX Raw Text Extraction Warning]:', e.message);
-  }
-
-  try {
-    const htmlResult = await mammoth.convertToHtml({ buffer }, { styleMap: customStyleMap });
+    const htmlResult = await mammoth.convertToHtml({ buffer }, {
+      styleMap: customStyleMap,
+      convertImage
+    });
     structuredHtml = (htmlResult?.value || '').trim();
+    if (htmlResult?.messages) messages = htmlResult.messages;
   } catch (e) {
     console.warn('[DOCX HTML Conversion Warning]:', e.message);
-    structuredHtml = rawText ? `<div class="extracted-text-body"><p>${rawText.replace(/\n/g, '<br/>')}</p></div>` : '';
+  }
+
+  // Convert HTML to Plain Text while retaining [চিত্র] and ![চিত্র](url) in exact relative positions
+  if (structuredHtml) {
+    rawText = structuredHtml
+      .replace(/<img[^>]*src=["']([^"']+)["'][^>]*alt=["']?([^"'>]*)["']?[^>]*>/gi, (match, src, alt) => {
+        const cleanAlt = alt || 'চিত্র';
+        return `\n\n![${cleanAlt}](${src})\n\n`;
+      })
+      .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, '\n\n$1\n\n')
+      .replace(/<p[^>]*>(.*?)<\/p>/gi, '\n$1\n')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<li[^>]*>(.*?)<\/li>/gi, '\n* $1')
+      .replace(/<[^>]+>/g, '') // Strip remaining HTML tags
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  if (!rawText) {
+    try {
+      const textResult = await mammoth.extractRawText({ buffer });
+      rawText = (textResult?.value || '').trim();
+    } catch (e) {}
   }
 
   return {
     rawText,
     structuredHtml,
+    extractedImages,
     messages
   };
 }
@@ -250,12 +363,44 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
     let storageProvider = 'GOOGLE_DRIVE';
     let fileHash = '';
 
+    if (!req.file && !extractedText.trim()) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'FILE_REQUIRED',
+          message: 'কোনো ফাইল বা টেক্সট কনটেন্ট প্রদান করা হয়নি / No file or text content provided'
+        }
+      });
+    }
+
     if (req.file) {
-      fileName = req.file.originalname;
+      fileName = path.basename(req.file.originalname).replace(/[^a-zA-Z0-9.\-_ \u0980-\u09FF]/g, '_');
       fileSize = `${(req.file.size / (1024 * 1024)).toFixed(2)} MB`;
       const lowerName = fileName.toLowerCase();
       mimeType = (req.file.mimetype || '').toLowerCase();
       const buf = req.file.buffer;
+
+      // Check for zero-byte empty file
+      if (!buf || buf.length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'EMPTY_FILE',
+            message: 'আপলোড করা ফাইলটি ফাঁকা (০ বাইট) / Uploaded file is empty'
+          }
+        });
+      }
+
+      // Explicitly reject SVG even if renamed
+      if (lowerName.endsWith('.svg') || mimeType === 'image/svg+xml' || (buf.length >= 4 && buf.slice(0, 512).toString('utf8').toLowerCase().includes('<svg'))) {
+        return res.status(415).json({
+          success: false,
+          error: {
+            code: 'UNSUPPORTED_MEDIA_TYPE',
+            message: 'নিরাপত্তাজনিত কারণে SVG ফাইল আপলোড সম্পূর্ণ নিষিদ্ধ / SVG files are strictly prohibited'
+          }
+        });
+      }
 
       // 1. Calculate SHA-256 integrity hash of original uploaded binary
       fileHash = crypto.createHash('sha256').update(buf).digest('hex');
@@ -267,6 +412,20 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
           detectedType = 'PDF';
           mimeType = 'application/pdf';
         } else if (buf[0] === 0x50 && buf[1] === 0x4B && (buf[2] === 0x03 || buf[2] === 0x05 || buf[2] === 0x07)) {
+          // Genuine DOCX must contain word/document.xml and [Content_Types].xml
+          const binStr = buf.toString('binary');
+          const hasDocXml = binStr.includes('word/document.xml') || binStr.includes('word/document2.xml');
+          const hasContentTypes = binStr.includes('[Content_Types].xml');
+
+          if (!hasDocXml || !hasContentTypes) {
+            return res.status(415).json({
+              success: false,
+              error: {
+                code: 'INVALID_DOCX_ARCHIVE',
+                message: 'আপলোড করা ফাইলটি কোনো বৈধ DOCX ডকুমেন্ট নয় (ছদ্মবেশী বা বিকৃত ZIP ফাইল সনাক্ত হয়েছে) / Renamed or invalid ZIP archive detected'
+              }
+            });
+          }
           detectedType = 'DOCX';
           mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         } else if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) {
@@ -275,17 +434,41 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
         } else if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47) {
           detectedType = 'IMAGE';
           mimeType = 'image/png';
+        } else if (buf[0] === 0x52 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x46 && buf.length >= 12 && buf.toString('utf8', 8, 12) === 'WEBP') {
+          detectedType = 'IMAGE';
+          mimeType = 'image/webp';
+        } else {
+          // Magic bytes failed for claimed binary types
+          if (lowerName.endsWith('.docx') || lowerName.endsWith('.pdf') || lowerName.endsWith('.jpg') || lowerName.endsWith('.png') || lowerName.endsWith('.webp')) {
+            return res.status(415).json({
+              success: false,
+              error: {
+                code: 'FILE_SIGNATURE_MISMATCH',
+                message: 'ফাইলের এক্সটেনশন এবং অভ্যন্তরীণ বাইনারি সিগনেচার মিলছে না / File extension does not match binary signature'
+              }
+            });
+          }
         }
       }
 
       if (detectedType === 'TXT') {
         if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc') || mimeType.includes('wordprocessingml') || mimeType.includes('msword')) {
-          detectedType = 'DOCX';
-          mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+          return res.status(415).json({
+            success: false,
+            error: {
+              code: 'INVALID_DOCX_ARCHIVE',
+              message: 'আপলোড করা DOCX ফাইলটি বিকৃত বা অবৈধ / Corrupted DOCX file'
+            }
+          });
         } else if (lowerName.endsWith('.pdf') || mimeType === 'application/pdf') {
-          detectedType = 'PDF';
-          mimeType = 'application/pdf';
-        } else if (mimeType.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|svg|gif)$/i.test(lowerName)) {
+          return res.status(415).json({
+            success: false,
+            error: {
+              code: 'FILE_SIGNATURE_MISMATCH',
+              message: 'আপলোড করা PDF ফাইলটির হেডার অবৈধ / Corrupted PDF header'
+            }
+          });
+        } else if (mimeType.startsWith('image/') || /\.(jpg|jpeg|png|webp|bmp|gif)$/i.test(lowerName)) {
           detectedType = 'IMAGE';
         }
       }
@@ -319,7 +502,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       if (detectedType === 'DOCX') {
         fileType = 'DOCX';
         try {
-          const docxExtracted = await extractDocxContentSafely(buf);
+          const docxExtracted = await extractDocxContentSafely(buf, fileName);
           extractedText = docxExtracted.rawText;
           extractedHtml = docxExtracted.structuredHtml;
 
@@ -354,13 +537,35 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res, nex
       } else if (detectedType === 'PDF') {
         fileType = 'PDF';
         try {
-          const rawText = await parsePdfSafely(buf);
-          if (rawText) {
-            extractedText = rawText;
-            extractedHtml = `<div class="extracted-pdf-content"><p>${rawText.replace(/\n/g, '<br/>')}</p></div>`;
+          // Attempt high-fidelity embedded diagram extraction using PDF.js
+          const pdfAnalysis = await parsePdfQuestionsWithDiagrams(buf, { fileName }).catch(() => null);
+          if (pdfAnalysis && pdfAnalysis.questions && pdfAnalysis.questions.length > 0 && pdfAnalysis.diagramsFound > 0) {
+            const formattedParts = pdfAnalysis.questions.map(q => {
+              let part = `${q.questionType === 'CQ' ? 'CQ ' : 'প্রশ্ন '}${q.questionNumber}: ${q.stimulus}\n`;
+              if (q.diagramUrls && q.diagramUrls.length > 0) {
+                for (const d of q.diagramUrls) {
+                  part += `\n![${d.caption || 'চিত্র'}](${d.url})\n`;
+                }
+              }
+              if (q.subQuestions) {
+                if (q.subQuestions.ka) part += `(ক) ${q.subQuestions.ka.text}\n`;
+                if (q.subQuestions.kha) part += `(খ) ${q.subQuestions.kha.text}\n`;
+                if (q.subQuestions.ga) part += `(গ) ${q.subQuestions.ga.text}\n`;
+                if (q.subQuestions.gha) part += `(ঘ) ${q.subQuestions.gha.text}\n`;
+              }
+              return part;
+            });
+            extractedText = formattedParts.join('\n\n');
+            extractedHtml = `<div class="extracted-pdf-content"><pre class="whitespace-pre-wrap font-sans">${extractedText}</pre></div>`;
           } else {
-            extractedText = `[${fileName} - এই PDF ফাইলে কোনো সরাসরি সিলেক্টেবল টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা পৃষ্ঠা হতে পারে। মূল ফাইলটি গুগল ড্রাইভে সম্পূর্ণ অক্ষত সংরক্ষিত রয়েছে।]`;
-            extractedHtml = `<div class="p-4 bg-slate-800 rounded-xl text-amber-300"><p>${extractedText}</p></div>`;
+            const rawText = await parsePdfSafely(buf);
+            if (rawText) {
+              extractedText = rawText;
+              extractedHtml = `<div class="extracted-pdf-content"><p>${rawText.replace(/\n/g, '<br/>')}</p></div>`;
+            } else {
+              extractedText = `[${fileName} - এই PDF ফাইলে কোনো সরাসরি সিলেক্টেবল টেক্সট পাওয়া যায়নি। এটি স্ক্যান করা পৃষ্ঠা হতে পারে। মূল ফাইলটি গুগল ড্রাইভে সম্পূর্ণ অক্ষত সংরক্ষিত রয়েছে।]`;
+              extractedHtml = `<div class="p-4 bg-slate-800 rounded-xl text-amber-300"><p>${extractedText}</p></div>`;
+            }
           }
         } catch (pdfErr) {
           console.warn('PDF parse warning:', pdfErr.message);

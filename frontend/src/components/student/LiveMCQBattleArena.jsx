@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Swords,
   Timer,
@@ -63,9 +63,9 @@ const SAMPLE_BATTLE_QUESTIONS = [
 ];
 
 const OPPONENTS = [
-  { name: 'তানভীর আহমেদ (রোল: ১০২)', score: 0, avatar: '👨‍🎓', streak: 3 },
-  { name: 'সাদিয়া ইসলাম (রোল: ১০৫)', score: 0, avatar: '👩‍🎓', streak: 5 },
-  { name: 'আরিফুল হক (রোল: ১০৮)', score: 0, avatar: '🧑‍🎓', streak: 2 }
+  { name: 'NextGen AI টিউটর বট (সহজ স্তর)', score: 0, avatar: '🤖', streak: 3, accuracy: 0.65 },
+  { name: 'NextGen স্কলার বট (মাঝারি স্তর)', score: 0, avatar: '⚡', streak: 5, accuracy: 0.80 },
+  { name: 'NextGen জিনিয়াস বট (উচ্চ স্তর)', score: 0, avatar: '🏆', streak: 8, accuracy: 0.90 }
 ];
 
 export default function LiveMCQBattleArena({ studentName = 'আপনি (শিক্ষার্থী)' }) {
@@ -83,7 +83,7 @@ export default function LiveMCQBattleArena({ studentName = 'আপনি (শি
 
   const timerRef = useRef(null);
 
-  // Start matchmaking simulation
+  // Start matchmaking simulation with selected AI practice tier
   const startMatchmaking = () => {
     setGameState('MATCHING');
     setTimeout(() => {
@@ -95,23 +95,22 @@ export default function LiveMCQBattleArena({ studentName = 'আপনি (শি
       setPlayerCombo(1);
       setWinner(null);
       setRewardClaimed(false);
-      startRound(0);
-    }, 2000);
+      startRound(0, opp);
+    }, 1500);
   };
 
-  const startRound = (roundIdx) => {
+  const startRound = (roundIdx, opp = activeOpponent) => {
     setCurrentRound(roundIdx);
     setTimeLeft(30);
     setSelectedAnswer(null);
     setOpponentAnswered(false);
     setGameState('PLAYING');
 
-    // Simulate opponent AI response timing
-    const opponentResponseTime = 3000 + Math.random() * 6000;
+    // AI Practice Partner response timing based on skill tier
+    const opponentResponseTime = 3000 + Math.random() * 4000;
     setTimeout(() => {
       setOpponentAnswered(true);
-      // 75% opponent accuracy
-      const isOppCorrect = Math.random() > 0.25;
+      const isOppCorrect = Math.random() < (opp?.accuracy || 0.75);
       if (isOppCorrect) {
         setOpponentScore((prev) => prev + 50);
       }
@@ -213,7 +212,7 @@ export default function LiveMCQBattleArena({ studentName = 'আপনি (শি
                 ১v১ লাইভ MCQ ব্যাটেল অ্যারেনা
               </h2>
               <p className="text-xs text-slate-300 mt-0.5">
-                অন্যান্য শিক্ষার্থীদের সাথে সরাসরি কুইজ লড়াইয়ে অংশ নিন এবং পয়েন্ট ও কয়েন অর্জন করুন!
+                NextGen AI পার্টনারের সাথে সরাসরি কুইজ লড়াইয়ে অংশ নিন এবং পয়েন্ট ও কয়েন অর্জন করুন!
               </p>
             </div>
           </div>

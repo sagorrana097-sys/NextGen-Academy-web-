@@ -3,6 +3,7 @@ const router = express.Router();
 const { authenticate, authorizeRole } = require('../middleware/auth');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const dbPath = path.join(__dirname, '../data/nextgen_academy_db.json');
 
@@ -485,7 +486,7 @@ router.post('/payroll/pay/:id', authenticate, (req, res) => {
       paymentStatus: 'PAID',
       paymentMethod: paymentMethod || item.paymentMethod || 'BANK_TRANSFER',
       paymentDate: paymentDate || new Date().toISOString().split('T')[0],
-      transactionId: transactionId || `NGA-PAY-${Math.floor(100000 + Math.random() * 900000)}`,
+      transactionId: transactionId || `NGA-PAY-${crypto.randomInt(100000, 1000000)}`,
       remarks: remarks || 'বেতন সফলভাবে প্রদান করা হয়েছে',
       approvedByUserId: req.user?.id || 1,
       updatedAt: new Date().toISOString()
@@ -788,7 +789,7 @@ router.get('/cashbook', authenticate, (req, res) => {
 // ----------------------------------------------------
 // 5. OFFLINE / CASH FEE COLLECTION & MONEY RECEIPT
 // ----------------------------------------------------
-router.post('/offline-cash', authenticate, (req, res) => {
+router.post('/offline-cash', authenticate, authorizeRole(['ADMIN', 'SUPER_ADMIN', 'ACCOUNTANT', 'STAFF']), (req, res) => {
   try {
     const db = getDB();
     const {
@@ -805,12 +806,23 @@ router.post('/offline-cash', authenticate, (req, res) => {
       remarks = ''
     } = req.body;
 
-    if (!studentId || !feeType || !baseAmount) {
+    if (!studentId || !feeType || baseAmount === undefined || baseAmount === null) {
       return res.status(400).json({
         success: false,
         error: { message: 'শিক্ষার্থী, ফি শিরোনাম এবং মূল টাকার পরিমাণ আবশ্যক।' }
       });
     }
+
+    const base = Number(baseAmount);
+    if (isNaN(base) || base <= 0) {
+      return res.status(400).json({
+        success: false,
+        error: { message: 'মূল টাকার পরিমাণ অবশ্যই ০ থেকে বড় এবং সঠিক সংখ্যা হতে হবে।' }
+      });
+    }
+
+    const disc = Math.max(0, Number(discountAmount) || 0);
+    const finalPaid = paidAmount !== undefined ? Math.max(0, Number(paidAmount)) : Math.max(0, base - disc);
 
     const students = db.students || [];
     const users = db.users || [];
@@ -822,6 +834,29 @@ router.post('/offline-cash', authenticate, (req, res) => {
       return res.status(404).json({ success: false, error: { message: 'শিক্ষার্থী পাওয়া যায়নি।' } });
     }
 
+    const invoices = db.invoices || [];
+    const payments = db.payments || [];
+
+    // Duplicate submission prevention (within 30 seconds for same student, fee, month, year, amount)
+    const isDuplicate = payments.some(p => {
+      if (p.method !== 'CASH' || Number(p.amount) !== finalPaid) return false;
+      const linkedInv = invoices.find(inv => inv.id === p.invoiceId);
+      if (!linkedInv) return false;
+      const sameTarget = Number(linkedInv.studentId) === Number(student.id) &&
+                         linkedInv.titleBn === feeType &&
+                         linkedInv.month === (month || 'Current') &&
+                         Number(linkedInv.year) === (Number(year) || 2026);
+      const diffMs = Date.now() - new Date(p.createdAt).getTime();
+      return sameTarget && diffMs < 30000;
+    });
+
+    if (isDuplicate) {
+      return res.status(409).json({
+        success: false,
+        error: { message: 'এই শিক্ষার্থীর জন্য এই ফি ইতিমধ্যে জমা দেওয়া হয়েছে (সম্ভাব্য ডুপ্লিকেট রিকুয়েস্ট)।' }
+      });
+    }
+
     const studentUser = users.find((u) => u.id === student.userId) || {};
     const studentClass = classes.find((c) => Number(c.id) === Number(student.classId)) || {};
     const studentSection = sections.find((s) => Number(s.id) === Number(student.sectionId)) || {};
@@ -829,49 +864,68 @@ router.post('/offline-cash', authenticate, (req, res) => {
     const guardianMap = guardians.find((g) => Number(g.studentId) === Number(student.id));
     const guardianUser = guardianMap ? users.find((u) => u.id === guardianMap.parentUserId) : null;
 
-    const base = Number(baseAmount) || 0;
-    const disc = Number(discountAmount) || 0;
-    const finalPaid = paidAmount !== undefined ? Number(paidAmount) : Math.max(0, base - disc);
-
     // Auto-generate Unique Receipt Number & Transaction ID
-    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
+    const randomSuffix = crypto.randomInt(100000, 1000000);
     const invoiceNo = `NGA-REC-${year || 2026}-${randomSuffix}`;
     const transactionId = `CASH-TXN-${Date.now().toString(36).toUpperCase()}`;
     const now = new Date().toISOString();
 
-    const invoices = db.invoices || [];
-    const newInvoiceId = invoices.length > 0 ? Math.max(...invoices.map((i) => i.id)) + 1 : 1;
+    // Check if an UNPAID invoice already exists for this student, month, feeType to settle it
+    let targetInvoice = invoices.find(i =>
+      Number(i.studentId) === Number(student.id) &&
+      i.status !== 'PAID' &&
+      (i.titleBn === feeType || i.titleEn === feeType) &&
+      i.month === (month || 'Current') &&
+      Number(i.year) === (Number(year) || 2026)
+    );
 
-    const newInvoice = {
-      id: newInvoiceId,
-      invoiceNo,
-      studentId: Number(student.id),
-      titleBn: feeType,
-      titleEn: feeType,
-      month: month || 'Current',
-      year: Number(year) || 2026,
-      baseAmount: base,
-      discountType: disc > 0 ? 'FLAT' : 'NONE',
-      discountValue: disc,
-      discountReason: discountReason || null,
-      discountAmount: disc,
-      amount: finalPaid,
-      dueDate: paymentDate,
-      status: 'PAID',
-      paidDate: paymentDate,
-      paymentMethod: 'CASH',
-      receivedBy: receivedBy || req.user?.name || 'অফিস ক্যাশ কাউন্টার',
-      transactionId,
-      remarks,
-      createdAt: now,
-      updatedAt: now
-    };
-
-    invoices.push(newInvoice);
+    let newInvoiceId;
+    if (targetInvoice) {
+      newInvoiceId = targetInvoice.id;
+      targetInvoice.baseAmount = base;
+      targetInvoice.discountType = disc > 0 ? 'FLAT' : 'NONE';
+      targetInvoice.discountValue = disc;
+      targetInvoice.discountAmount = disc;
+      targetInvoice.discountReason = discountReason || targetInvoice.discountReason;
+      targetInvoice.amount = finalPaid;
+      targetInvoice.status = 'PAID';
+      targetInvoice.paidDate = paymentDate;
+      targetInvoice.paymentMethod = 'CASH';
+      targetInvoice.receivedBy = receivedBy || req.user?.name || 'অফিস ক্যাশ কাউন্টার';
+      targetInvoice.transactionId = transactionId;
+      targetInvoice.remarks = remarks || targetInvoice.remarks;
+      targetInvoice.updatedAt = now;
+    } else {
+      newInvoiceId = invoices.length > 0 ? Math.max(...invoices.map((i) => i.id)) + 1 : 1;
+      targetInvoice = {
+        id: newInvoiceId,
+        invoiceNo,
+        studentId: Number(student.id),
+        titleBn: feeType,
+        titleEn: feeType,
+        month: month || 'Current',
+        year: Number(year) || 2026,
+        baseAmount: base,
+        discountType: disc > 0 ? 'FLAT' : 'NONE',
+        discountValue: disc,
+        discountReason: discountReason || null,
+        discountAmount: disc,
+        amount: finalPaid,
+        dueDate: paymentDate,
+        status: 'PAID',
+        paidDate: paymentDate,
+        paymentMethod: 'CASH',
+        receivedBy: receivedBy || req.user?.name || 'অফিস ক্যাশ কাউন্টার',
+        transactionId,
+        remarks,
+        createdAt: now,
+        updatedAt: now
+      };
+      invoices.push(targetInvoice);
+    }
     db.invoices = invoices;
 
     // Create Payment Record
-    const payments = db.payments || [];
     const newPaymentId = payments.length > 0 ? Math.max(...payments.map((p) => p.id)) + 1 : 1;
     const newPayment = {
       id: newPaymentId,
@@ -962,7 +1016,7 @@ router.post('/offline-cash', authenticate, (req, res) => {
       success: true,
       message: 'ক্যাশ ফি সফলভাবে আদায় হয়েছে ও মানি রিসিট প্রস্তুত!',
       data: {
-        invoice: newInvoice,
+        invoice: targetInvoice,
         payment: newPayment,
         receipt: receiptData
       }

@@ -1,6 +1,7 @@
 const express = require('express');
 const { Exam, ExamSubmission, Class, Subject, Teacher, Student, User } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
+const { verifyStudentAccess } = require('../middleware/ownership');
 const AuditService = require('../services/auditService');
 
 const router = express.Router();
@@ -86,7 +87,7 @@ router.get('/', authenticate, async (req, res, next) => {
  * GET /api/exams/student/:studentId
  * Get exams and results for a specific student (For Student & Parent portal)
  */
-router.get('/student/:studentId', authenticate, async (req, res, next) => {
+router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req, res, next) => {
   try {
     const studentId = Number(req.params.studentId);
     const student = await Student.findOne({

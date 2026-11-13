@@ -119,6 +119,12 @@ router.post('/bulk-import', authenticate, requireRole(['ADMIN', 'TEACHER']), asy
           questionType: q.questionType || 'MCQ',
           questionText: q.questionText,
           questionHtml: q.questionHtml || null,
+          stem: q.stem || q.questionText || '',
+          subQuestions: q.subQuestions || q.creativeSubQuestions || null,
+          creativeSubQuestions: q.creativeSubQuestions || q.subQuestions || null,
+          diagramUrl: q.diagramUrl || null,
+          diagramCaption: q.diagramCaption || null,
+          shortAnswer: q.shortAnswer || null,
           options: Array.isArray(q.options) ? q.options : [],
           answer: q.answer || null,
           answerText: q.answerText || null,
@@ -130,12 +136,12 @@ router.post('/bulk-import', authenticate, requireRole(['ADMIN', 'TEACHER']), asy
           chapter: q.chapter || null,
           topic: q.topic || null,
           difficulty: q.difficulty || 'MEDIUM',
-          marks: Number(q.marks || 1),
+          marks: Number(q.marks || (q.questionType === 'CQ' ? 10 : 1)),
           sourceMaterialId: q.sourceMaterialId ? Number(q.sourceMaterialId) : null,
           sourceFileName: q.sourceFileName || null,
           googleDriveFileId: q.googleDriveFileId || null,
           fileUrl: q.fileUrl || null,
-          status: q.status || (q.answer ? 'APPROVED' : 'PENDING_REVIEW'),
+          status: q.status || (q.questionType === 'CQ' ? 'APPROVED' : (q.answer ? 'APPROVED' : 'PENDING_REVIEW')),
           duplicateStatus: q.duplicateStatus || 'UNIQUE',
           similarityScore: q.similarityScore || 0,
           familyId: null,
@@ -324,7 +330,7 @@ router.get('/final-suggestions', optionalAuth, async (req, res, next) => {
     const { classId, subjectId, minRepeats = 1, search, limit = 50, offset = 0 } = req.query;
 
     const allFamilies = await QuestionSuggestionFamily.findAll({
-      order: [['repeatedCount', 'DESC'], ['id', 'ASC']]
+      order: [['distinctBoardYearCount', 'DESC'], ['repeatedCount', 'DESC'], ['id', 'ASC']]
     });
 
     let filtered = allFamilies;

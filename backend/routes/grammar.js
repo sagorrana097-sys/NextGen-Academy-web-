@@ -14,6 +14,7 @@ const {
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -773,7 +774,7 @@ router.post('/quiz/random', async (req, res, next) => {
       marks: q.marks || 1
     }));
 
-    const quizSessionId = `quiz_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const quizSessionId = `quiz_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
 
     res.json({
       success: true,

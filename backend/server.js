@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
@@ -82,6 +83,7 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(honeypotGuard);
 app.use(sanitizeInput);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', generalLimiter);
 
 // Master Unified Dashboard Aggregate API Handler (Stats, Notices, Financials, Counts)

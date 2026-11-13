@@ -19,12 +19,25 @@ export default defineConfig({
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
-          'vendor-fabric': ['fabric'],
-          'vendor-katex': ['katex'],
-          'vendor-icons': ['lucide-react']
+        manualChunks(id) {
+          if (id.includes('questionBankDefaultData')) {
+            return 'data-question-bank';
+          }
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/three') || id.includes('@react-three')) {
+            return 'vendor-three';
+          }
+          if (id.includes('node_modules/fabric')) {
+            return 'vendor-fabric';
+          }
+          if (id.includes('node_modules/katex')) {
+            return 'vendor-katex';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
         }
       }
     }

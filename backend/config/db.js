@@ -11,6 +11,16 @@ const Op = {
 };
 const fs = require('fs');
 const path = require('path');
+const PostgresAdapter = require('./postgresAdapter');
+
+let activeDriver = (process.env.DB_DRIVER || (process.env.DATABASE_URL ? 'postgres' : 'json')).toLowerCase();
+function getDriver() {
+  return activeDriver;
+}
+function setDriver(driver) {
+  activeDriver = String(driver).toLowerCase();
+}
+const postgresAdapter = new PostgresAdapter();
 
 /**
  * Production-Ready Relational Storage & ORM Abstraction
@@ -252,6 +262,9 @@ class Model {
   }
 
   async findAll(options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.findAll(this.tableName, options, this.associations);
+    }
     const { where, include, order, limit, offset } = options;
     let list = globalDB.getTable(this.tableName);
 
@@ -284,15 +297,24 @@ class Model {
   }
 
   async findOne(options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.findOne(this.tableName, options, this.associations);
+    }
     const list = await this.findAll({ ...options, limit: 1 });
     return list.length > 0 ? list[0] : null;
   }
 
   async findByPk(id, options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.findByPk(this.tableName, id, options, this.associations);
+    }
     return this.findOne({ ...options, where: { id } });
   }
 
   async create(data) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.create(this.tableName, data);
+    }
     const list = globalDB.getTable(this.tableName);
     const maxId = list.reduce((max, item) => Math.max(max, typeof item.id === 'number' ? item.id : 0), 0);
     const now = new Date().toISOString();
@@ -310,6 +332,9 @@ class Model {
   }
 
   async bulkCreate(records = []) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.bulkCreate(this.tableName, records);
+    }
     const results = [];
     for (const r of records) {
       const created = await this.create(r);
@@ -319,6 +344,9 @@ class Model {
   }
 
   async update(updateData, options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.update(this.tableName, updateData, options);
+    }
     const { where } = options;
     if (!where) throw new Error('Update requires a where clause');
 
@@ -345,6 +373,9 @@ class Model {
   }
 
   async destroy(options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.destroy(this.tableName, options);
+    }
     const { where } = options;
     if (!where) throw new Error('Destroy requires a where clause');
 
@@ -358,13 +389,29 @@ class Model {
   }
 
   async count(options = {}) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.count(this.tableName, options);
+    }
     const list = await this.findAll(options);
     return list.length;
+  }
+
+  static async transaction(callback) {
+    if (getDriver() === 'postgres') {
+      return postgresAdapter.transaction(callback);
+    }
+    return callback(globalDB);
   }
 }
 
 module.exports = {
   globalDB,
   Model,
-  Op
+  Op,
+  PostgresAdapter,
+  postgresAdapter,
+  getDriver,
+  setDriver,
+  transaction: Model.transaction
 };
+

@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { Invoice, Payment, Student, User, Class, Section } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
@@ -142,9 +143,9 @@ router.post('/checkout', async (req, res, next) => {
     }
 
     // 2. Generate Bank-Grade Transaction & Receipt References
-    const randomHex = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const randomHex = crypto.randomBytes(3).toString('hex').toUpperCase();
     const transactionId = `${cleanMethod}-TXN-${randomHex}`;
-    const randomReceiptNo = `RCPT-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+    const randomReceiptNo = `RCPT-2026-${crypto.randomInt(10000, 100000)}`;
 
     const db = getDB();
     const students = db.students || [];
@@ -165,7 +166,7 @@ router.post('/checkout', async (req, res, next) => {
       createdInvoiceId = invoices.length > 0 ? Math.max(...invoices.map((i) => i.id)) + 1 : 1;
       const newInv = {
         id: createdInvoiceId,
-        invoiceNo: `INV-2026-${Math.floor(100000 + Math.random() * 900000)}`,
+        invoiceNo: `INV-2026-${crypto.randomInt(100000, 1000000)}`,
         studentId: Number(studentId || 1),
         titleBn: invoiceTitleBn,
         titleEn: purpose,
@@ -311,7 +312,7 @@ router.post('/checkout', async (req, res, next) => {
 
       securitySeal: {
         digitalSignature: `Digitally Verified by NextGen Secure Gateway (${cleanMethod})`,
-        verificationHash: `NGA-SEC-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+        verificationHash: `NGA-SEC-${crypto.randomBytes(4).toString('hex').toUpperCase()}`,
         issuedBy: BRAND.instructor
       }
     };

@@ -12,6 +12,7 @@ const {
   HomeworkStatus
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
+const { verifyStudentAccess } = require('../middleware/ownership');
 const AuditService = require('../services/auditService');
 
 const router = express.Router();
@@ -393,7 +394,7 @@ router.get('/merit-list', authenticate, async (req, res, next) => {
  * GET /api/results/report-card/:studentId
  * Generate comprehensive 360° Academic Report Card
  */
-router.get('/report-card/:studentId', authenticate, async (req, res, next) => {
+router.get('/report-card/:studentId', authenticate, verifyStudentAccess, async (req, res, next) => {
   try {
     const studentId = Number(req.params.studentId);
     const termId = req.query.examTermId ? Number(req.query.examTermId) : 1;

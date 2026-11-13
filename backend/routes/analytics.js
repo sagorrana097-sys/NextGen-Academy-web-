@@ -12,10 +12,13 @@ const {
   Payment,
   LiveClass,
   Homework,
+  HomeworkStatus,
   Exam,
-  ExamSubmission
+  ExamSubmission,
+  Mark
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
+const { verifyStudentAccess } = require('../middleware/ownership');
 
 const router = express.Router();
 
@@ -304,18 +307,44 @@ router.get('/attendance', optionalAuth, async (req, res, next) => {
   }
 });
 
-// Student Progress Sub-Endpoint
-router.get('/student/:studentId', optionalAuth, async (req, res, next) => {
+// Student Progress Sub-Endpoint with real calculation and IDOR protection
+router.get('/student/:studentId', authenticate, verifyStudentAccess, async (req, res, next) => {
   try {
-    const { studentId } = req.params;
+    const studentId = Number(req.params.studentId);
+    const student = await Student.findByPk(studentId);
+    if (!student) {
+      return res.status(404).json({ success: false, error: { message: 'শিক্ষার্থী পাওয়া যায়নি' } });
+    }
+
+    const [attendances, marks, completedHw, submissions] = await Promise.all([
+      Attendance.findAll({ where: { studentId } }),
+      Mark.findAll({ where: { studentId } }),
+      HomeworkStatus.findAll({ where: { studentId, status: 'COMPLETED' } }),
+      ExamSubmission.findAll({ where: { studentId } })
+    ]);
+
+    const presentCount = attendances.filter(a => a.status === 'PRESENT' || a.status === 'LATE').length;
+    const attendanceRate = attendances.length > 0 ? Number(((presentCount / attendances.length) * 100).toFixed(1)) : 0;
+
+    let gpa = 0;
+    if (marks.length > 0) {
+      const gpaValues = marks.map(m => Number(m.gradePoint || m.gpa || 0)).filter(g => !isNaN(g) && g > 0);
+      if (gpaValues.length > 0) {
+        gpa = Number((gpaValues.reduce((a, b) => a + b, 0) / gpaValues.length).toFixed(2));
+      }
+    }
+
+    const totalPoints = (submissions.reduce((sum, s) => sum + (s.score || 0), 0)) + (completedHw.length * 50);
+
     res.json({
       success: true,
       data: {
         studentId,
-        attendanceRate: 95.5,
-        gpa: 4.85,
-        completedAssignments: 14,
-        totalPoints: 1250
+        attendanceRate,
+        gpa,
+        completedAssignments: completedHw.length,
+        totalPoints,
+        totalExamsTaken: submissions.length
       }
     });
   } catch (err) {

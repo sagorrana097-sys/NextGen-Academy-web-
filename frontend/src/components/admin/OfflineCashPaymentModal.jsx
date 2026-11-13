@@ -154,6 +154,10 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
         remarks
       };
 
+      if (!accountsAPI || typeof accountsAPI.collectOfflineCash !== 'function') {
+        throw new Error('ক্যাশ পেমেন্ট সার্ভিস বর্তমানে অনুপলব্ধ। অনুগ্রহ করে ব্রাউজার রিফ্রেশ করুন। (Cash payment service unavailable)');
+      }
+
       const res = await accountsAPI.collectOfflineCash(payload);
       if (res.success && res.data?.receipt) {
         try {
@@ -171,7 +175,12 @@ export default function OfflineCashPaymentModal({ isOpen, onClose, onPaymentSucc
         throw new Error(res.error?.message || 'ক্যাশ ফি সংগ্রহ ব্যর্থ হয়েছে');
       }
     } catch (err) {
-      setError(err.message || 'ক্যাশ এন্ট্রি প্রসেসিং এরর');
+      console.error('[OfflineCashPaymentModal] Cash submission error:', err);
+      const friendlyMsg = err?.response?.data?.error?.message
+        || err?.response?.data?.message
+        || err?.message
+        || 'ক্যাশ এন্ট্রি প্রসেসিং এরর / Cash entry processing error';
+      setError(friendlyMsg);
     } finally {
       setSubmitting(false);
     }

@@ -4,6 +4,7 @@ const { authenticate } = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const dbPath = path.join(__dirname, '../data/nextgen_academy_db.json');
 
@@ -57,7 +58,7 @@ router.post('/apply', (req, res) => {
 
     const admissions = db.admissions || [];
     const newId = admissions.length > 0 ? Math.max(...admissions.map((a) => a.id)) + 1 : 1;
-    const randCode = Math.floor(1000 + Math.random() * 9000);
+    const randCode = crypto.randomInt(1000, 10000);
     const trackingId = `ADM-2026-${randCode}`;
 
     // Resolve classId and batch info
@@ -326,7 +327,7 @@ router.post('/applications/:id/approve', authenticate, (req, res) => {
       status: 'PAID',
       paymentMethod: paymentMethod || 'CASH',
       paidDate: new Date().toISOString().split('T')[0],
-      transactionId: transactionId || `NGA-ADM-${Math.floor(100000 + Math.random() * 900000)}`,
+      transactionId: transactionId || `NGA-ADM-${crypto.randomInt(100000, 1000000)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };

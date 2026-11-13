@@ -159,56 +159,17 @@ async function scanDriveFolder({ folderUrlOrId, apiKey = '', accessToken = '' })
       const errMessage = data?.error?.message || response.statusText;
       console.warn('[Google Drive API Notice]:', errMessage);
 
-      // Return informative structured fallback with mock documents if API Key is not yet configured
+      // Return truthful unavailable/not-configured state without fake educational documents
       return {
-        success: true,
-        isSimulated: true,
-        folderId,
-        folderName: 'NextGen Academy - Physics & Math Lecture Notes',
-        totalFiles: 4,
-        files: [
-          {
-            id: 'drive_demo_pdf_01',
-            name: 'SSC_Physics_Chapter_02_Motion_Notes.pdf',
-            mimeType: 'application/pdf',
-            size: '2.4 MB',
-            modifiedTime: new Date().toISOString(),
-            isSupported: true,
-            type: 'PDF',
-            summary: 'গতির সমীকরণ, ত্বরণ ও বেগ সংক্রান্ত পূর্ণাঙ্গ হ্যান্ডনোট'
-          },
-          {
-            id: 'drive_demo_docx_02',
-            name: 'Higher_Math_Trigonometry_Formulas_2026.docx',
-            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            size: '1.1 MB',
-            modifiedTime: new Date().toISOString(),
-            isSupported: true,
-            type: 'DOCX',
-            summary: 'ত্রিকোণমিতিক রূপান্তর ও সূত্র প্রমাণ'
-          },
-          {
-            id: 'drive_demo_gdoc_03',
-            name: 'Chemistry_Periodic_Table_Master_Sheet',
-            mimeType: 'application/vnd.google-apps.document',
-            size: '540 KB',
-            modifiedTime: new Date().toISOString(),
-            isSupported: true,
-            type: 'GDOC',
-            summary: 'পর্যায় সারণির পর্যায়বৃত্ত ধর্ম ও আয়নন শক্তি'
-          },
-          {
-            id: 'drive_demo_txt_04',
-            name: 'ICT_Number_System_Conversion_Guide.txt',
-            mimeType: 'text/plain',
-            size: '120 KB',
-            modifiedTime: new Date().toISOString(),
-            isSupported: true,
-            type: 'TXT',
-            summary: 'বাইনারি, ডেসিমাল, অক্টাল ও হেক্সাডেসিমাল রূপান্তর'
-          }
-        ],
-        notice: 'গুগল ড্রাইভ ফোল্ডার স্ক্যান সফল হয়েছে। ড্রাইভ ফাইল থেকে সরাসরি এআই প্রশ্ন তৈরি করা যাবে।'
+        success: false,
+        error: {
+          code: 'GOOGLE_DRIVE_UNAVAILABLE',
+          message: `গুগল ড্রাইভ সংযোগ ব্যর্থ হয়েছে বা সঠিক ক্রেডেনশিয়াল কনফিগার করা নেই (${errMessage})। অনুগ্রহ করে গুগল ড্রাইভ API কি বা অ্যাক্সেস টোকেন প্রদান করুন।`,
+          folderId,
+          details: errMessage
+        },
+        files: [],
+        totalFiles: 0
       };
     }
 

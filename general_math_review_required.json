@@ -1,0 +1,2621 @@
+[
+  {
+    "id": "GM-P002-CQ-08",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 2,
+    "questionNumber": 8,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P002-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 2,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P002-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 2,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P003-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 3,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P003-CQ-07",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 3,
+    "questionNumber": 7,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P003-CQ-08",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 3,
+    "questionNumber": 8,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P003-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 3,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P003-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 3,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P004-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 4,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P004-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 4,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P005-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 5,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P005-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 5,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P005-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 5,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P005-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 5,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P006-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 6,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P006-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 6,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P007-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 7,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P007-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 7,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P007-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 7,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P008-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 8,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P008-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 8,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P009-CQ-08",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 9,
+    "questionNumber": 8,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P009-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 9,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P009-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 9,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P010-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 10,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P011-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৩",
+    "sourcePage": 11,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P011-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৩",
+    "sourcePage": 11,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P011-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৩",
+    "sourcePage": 11,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P011-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৩",
+    "sourcePage": 11,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P012-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 12,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P012-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 12,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P012-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 12,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P013-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 13,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P013-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 13,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P013-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 13,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P013-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 13,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P014-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 14,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P014-CQ-07",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 14,
+    "questionNumber": 7,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P014-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 14,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P015-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 15,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P015-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 15,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P015-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 15,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P016-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 16,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P016-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 16,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P017-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 17,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P017-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 17,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P017-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 17,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P018-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 18,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P018-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 18,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P018-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 18,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P019-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 19,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P019-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 19,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P019-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 19,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P039-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "আইডিয়াল স্কুল অ্যান্ড কলেজ, মতিঝিল, ঢাকা",
+    "sourcePage": 39,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P040-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ঢাকা রেসিডেনসিয়াল মডেল কলেজ",
+    "sourcePage": 40,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P041-CQ-09",
+    "questionType": "CQ",
+    "sourceName": "হলিক্রস উচ্চ বালিকা বিদ্যালয়, ঢাকা",
+    "sourcePage": 41,
+    "questionNumber": 9,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P041-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "হলিক্রস উচ্চ বালিকা বিদ্যালয়, ঢাকা",
+    "sourcePage": 41,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P042-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "ধানমন্ডি গভঃ বয়েজ হাই স্কুল, ঢাকা",
+    "sourcePage": 42,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P042-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ধানমন্ডি গভঃ বয়েজ হাই স্কুল, ঢাকা",
+    "sourcePage": 42,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P042-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ধানমন্ডি গভঃ বয়েজ হাই স্কুল, ঢাকা",
+    "sourcePage": 42,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P043-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "মাইলস্টোন কলেজ, ঢাকা",
+    "sourcePage": 43,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P043-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "মাইলস্টোন কলেজ, ঢাকা",
+    "sourcePage": 43,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P044-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ফরিদপুর জিলা স্কুল",
+    "sourcePage": 44,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P044-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ফরিদপুর জিলা স্কুল",
+    "sourcePage": 44,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P045-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "সরকারি প্রমথনাথ বালিকা উচ্চ বিদ্যালয়, রাজশাহী",
+    "sourcePage": 45,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P045-CQ-08",
+    "questionType": "CQ",
+    "sourceName": "সরকারি প্রমথনাথ বালিকা উচ্চ বিদ্যালয়, রাজশাহী",
+    "sourcePage": 45,
+    "questionNumber": 8,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P045-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "সরকারি প্রমথনাথ বালিকা উচ্চ বিদ্যালয়, রাজশাহী",
+    "sourcePage": 45,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P046-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "বগুড়া জিলা স্কুল",
+    "sourcePage": 46,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P047-CQ-09",
+    "questionType": "CQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর",
+    "sourcePage": 47,
+    "questionNumber": 9,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P047-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর",
+    "sourcePage": 47,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P047-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর",
+    "sourcePage": 47,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P048-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা জিলা স্কুল",
+    "sourcePage": 48,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P048-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "কুমিল্লা জিলা স্কুল",
+    "sourcePage": 48,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P050-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "চট্টগ্রাম কলেজিয়েট স্কুল",
+    "sourcePage": 50,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P051-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ডা: খাস্তগীর সরকারি বালিকা উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 51,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P052-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "জালালাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 52,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P052-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "জালালাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 52,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P053-CQ-08",
+    "questionType": "CQ",
+    "sourceName": "সরকারি অগ্রগামী বালিকা উচ্চ বিদ্যালয় ও কলেজ, সিলেট",
+    "sourcePage": 53,
+    "questionNumber": 8,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P053-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "সরকারি অগ্রগামী বালিকা উচ্চ বিদ্যালয় ও কলেজ, সিলেট",
+    "sourcePage": 53,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P053-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "সরকারি অগ্রগামী বালিকা উচ্চ বিদ্যালয় ও কলেজ, সিলেট",
+    "sourcePage": 53,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P054-CQ-04",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল জিলা স্কুল",
+    "sourcePage": 54,
+    "questionNumber": 4,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P054-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "বরিশাল জিলা স্কুল",
+    "sourcePage": 54,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P055-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "পটুয়াখালী সরকারি জুবিলী উচ্চ বিদ্যালয়",
+    "sourcePage": 55,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P055-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "পটুয়াখালী সরকারি জুবিলী উচ্চ বিদ্যালয়",
+    "sourcePage": 55,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P056-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল ও কলেজ, রংপুর",
+    "sourcePage": 56,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P056-CQ-06",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল ও কলেজ, রংপুর",
+    "sourcePage": 56,
+    "questionNumber": 6,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P056-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল ও কলেজ, রংপুর",
+    "sourcePage": 56,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P057-CQ-05",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল এ্যান্ড কলেজ, সৈয়দপুর",
+    "sourcePage": 57,
+    "questionNumber": 5,
+    "reviewReason": "DIAGRAM_ASSOCIATION",
+    "details": "জ্যামিতি চিত্র / নকশা উপস্থিতি - ভিজ্যুয়াল যাচাই আবশ্যক"
+  },
+  {
+    "id": "GM-P057-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল এ্যান্ড কলেজ, সৈয়দপুর",
+    "sourcePage": 57,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P057-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ক্যান্টনমেন্ট পাবলিক স্কুল এ্যান্ড কলেজ, সৈয়দপুর",
+    "sourcePage": 57,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P058-CQ-10",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ জিলা স্কুল",
+    "sourcePage": 58,
+    "questionNumber": 10,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P058-CQ-11",
+    "questionType": "CQ",
+    "sourceName": "ময়মনসিংহ জিলা স্কুল",
+    "sourcePage": 58,
+    "questionNumber": 11,
+    "reviewReason": "VISUAL_EXTRACTION",
+    "details": "পরিসংখ্যান সারণি / উপাত্ত কাঠামো উপস্থিতি"
+  },
+  {
+    "id": "GM-P020-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 20,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P020-STIM-18-19)"
+  },
+  {
+    "id": "GM-P020-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 20,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P020-STIM-18-19)"
+  },
+  {
+    "id": "GM-P020-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 20,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P020-STIM-29-30)"
+  },
+  {
+    "id": "GM-P020-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "ঢাকা বোর্ড ২০২৪",
+    "sourcePage": 20,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P020-STIM-29-30)"
+  },
+  {
+    "id": "GM-P021-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-04-05)"
+  },
+  {
+    "id": "GM-P021-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-04-05)"
+  },
+  {
+    "id": "GM-P021-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-10-11)"
+  },
+  {
+    "id": "GM-P021-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-10-11)"
+  },
+  {
+    "id": "GM-P021-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-21-22)"
+  },
+  {
+    "id": "GM-P021-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৪",
+    "sourcePage": 21,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P021-STIM-21-22)"
+  },
+  {
+    "id": "GM-P022-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-07-08)"
+  },
+  {
+    "id": "GM-P022-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-07-08)"
+  },
+  {
+    "id": "GM-P022-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-11-12)"
+  },
+  {
+    "id": "GM-P022-MCQ-12",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 12,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-11-12)"
+  },
+  {
+    "id": "GM-P022-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-17-18)"
+  },
+  {
+    "id": "GM-P022-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-17-18)"
+  },
+  {
+    "id": "GM-P022-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-22-23)"
+  },
+  {
+    "id": "GM-P022-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৪",
+    "sourcePage": 22,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P022-STIM-22-23)"
+  },
+  {
+    "id": "GM-P023-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 23,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P023-STIM-21-22)"
+  },
+  {
+    "id": "GM-P023-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৪",
+    "sourcePage": 23,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P023-STIM-21-22)"
+  },
+  {
+    "id": "GM-P024-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-15-16)"
+  },
+  {
+    "id": "GM-P024-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-15-16)"
+  },
+  {
+    "id": "GM-P024-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-22-23)"
+  },
+  {
+    "id": "GM-P024-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 23,
+    "reviewReason": "ANSWER_UNRESOLVED",
+    "details": "অফিসিয়াল উত্তরপত্রে তারকাচিহ্ন (*) হিসেবে চিহ্নিত; বোর্ড থেকে কোনো নির্দিষ্ট অপশন প্রদান করা হয়নি।"
+  },
+  {
+    "id": "GM-P024-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-22-23)"
+  },
+  {
+    "id": "GM-P024-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-25-26)"
+  },
+  {
+    "id": "GM-P024-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P024-STIM-25-26)"
+  },
+  {
+    "id": "GM-P024-MCQ-27",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৪",
+    "sourcePage": 24,
+    "questionNumber": 27,
+    "reviewReason": "ANSWER_UNRESOLVED",
+    "details": "অফিসিয়াল উত্তরপত্রে তারকাচিহ্ন (*) হিসেবে চিহ্নিত; বোর্ড থেকে কোনো নির্দিষ্ট অপশন প্রদান করা হয়নি।"
+  },
+  {
+    "id": "GM-P025-MCQ-06",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 25,
+    "questionNumber": 6,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P025-STIM-06-07)"
+  },
+  {
+    "id": "GM-P025-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 25,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P025-STIM-06-07)"
+  },
+  {
+    "id": "GM-P025-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 25,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P025-STIM-15-16)"
+  },
+  {
+    "id": "GM-P025-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 25,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P025-STIM-15-16)"
+  },
+  {
+    "id": "GM-P025-MCQ-28",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৪",
+    "sourcePage": 25,
+    "questionNumber": 28,
+    "reviewReason": "ANSWER_UNRESOLVED",
+    "details": "অফিসিয়াল উত্তরপত্রে তারকাচিহ্ন (*) হিসেবে চিহ্নিত; বোর্ড থেকে কোনো নির্দিষ্ট অপশন প্রদান করা হয়নি।"
+  },
+  {
+    "id": "GM-P026-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 26,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P026-STIM-22-23)"
+  },
+  {
+    "id": "GM-P026-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 26,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P026-STIM-22-23)"
+  },
+  {
+    "id": "GM-P026-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 26,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P026-STIM-26-27)"
+  },
+  {
+    "id": "GM-P026-MCQ-27",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৪",
+    "sourcePage": 26,
+    "questionNumber": 27,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P026-STIM-26-27)"
+  },
+  {
+    "id": "GM-P027-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-08-09)"
+  },
+  {
+    "id": "GM-P027-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-08-09)"
+  },
+  {
+    "id": "GM-P027-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-16-17)"
+  },
+  {
+    "id": "GM-P027-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-16-17)"
+  },
+  {
+    "id": "GM-P027-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-21-22)"
+  },
+  {
+    "id": "GM-P027-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৪",
+    "sourcePage": 27,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P027-STIM-21-22)"
+  },
+  {
+    "id": "GM-P028-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-03-04)"
+  },
+  {
+    "id": "GM-P028-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-03-04)"
+  },
+  {
+    "id": "GM-P028-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-13-14)"
+  },
+  {
+    "id": "GM-P028-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-13-14)"
+  },
+  {
+    "id": "GM-P028-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-15-16)"
+  },
+  {
+    "id": "GM-P028-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-15-16)"
+  },
+  {
+    "id": "GM-P028-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-20-21)"
+  },
+  {
+    "id": "GM-P028-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৪",
+    "sourcePage": 28,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P028-STIM-20-21)"
+  },
+  {
+    "id": "GM-P030-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 30,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P030-STIM-07-08)"
+  },
+  {
+    "id": "GM-P030-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 30,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P030-STIM-07-08)"
+  },
+  {
+    "id": "GM-P030-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 30,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P030-STIM-15-16)"
+  },
+  {
+    "id": "GM-P030-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "রাজশাহী বোর্ড ২০২৩",
+    "sourcePage": 30,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P030-STIM-15-16)"
+  },
+  {
+    "id": "GM-P031-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-10-11)"
+  },
+  {
+    "id": "GM-P031-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-10-11)"
+  },
+  {
+    "id": "GM-P031-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-22-23)"
+  },
+  {
+    "id": "GM-P031-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-25-26)"
+  },
+  {
+    "id": "GM-P031-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-25-26)"
+  },
+  {
+    "id": "GM-P031-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-29-30)"
+  },
+  {
+    "id": "GM-P031-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "যশোর বোর্ড ২০২৩",
+    "sourcePage": 31,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P031-STIM-29-30)"
+  },
+  {
+    "id": "GM-P032-MCQ-02",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 32,
+    "questionNumber": 2,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P032-STIM-02-03)"
+  },
+  {
+    "id": "GM-P032-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 32,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P032-STIM-02-03)"
+  },
+  {
+    "id": "GM-P032-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 32,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P032-STIM-21-22)"
+  },
+  {
+    "id": "GM-P032-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা বোর্ড ২০২৩",
+    "sourcePage": 32,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P032-STIM-21-22)"
+  },
+  {
+    "id": "GM-P033-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 33,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P033-STIM-04-05)"
+  },
+  {
+    "id": "GM-P033-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 33,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P033-STIM-04-05)"
+  },
+  {
+    "id": "GM-P033-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 33,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P033-STIM-11-12)"
+  },
+  {
+    "id": "GM-P033-MCQ-12",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 33,
+    "questionNumber": 12,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P033-STIM-11-12)"
+  },
+  {
+    "id": "GM-P033-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "চট্টগ্রাম বোর্ড ২০২৩",
+    "sourcePage": 33,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P033-STIM-19-20)"
+  },
+  {
+    "id": "GM-P034-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 34,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P034-STIM-13-14)"
+  },
+  {
+    "id": "GM-P034-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 34,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P034-STIM-13-14)"
+  },
+  {
+    "id": "GM-P034-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 34,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P034-STIM-21-22)"
+  },
+  {
+    "id": "GM-P034-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 34,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P034-STIM-25-26)"
+  },
+  {
+    "id": "GM-P034-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "সিলেট বোর্ড ২০২৩",
+    "sourcePage": 34,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P034-STIM-25-26)"
+  },
+  {
+    "id": "GM-P035-MCQ-02",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 2,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-02-03)"
+  },
+  {
+    "id": "GM-P035-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-02-03)"
+  },
+  {
+    "id": "GM-P035-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-07-08)"
+  },
+  {
+    "id": "GM-P035-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-07-08)"
+  },
+  {
+    "id": "GM-P035-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-14-15)"
+  },
+  {
+    "id": "GM-P035-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-14-15)"
+  },
+  {
+    "id": "GM-P035-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-20-21)"
+  },
+  {
+    "id": "GM-P035-MCQ-21",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 21,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-20-21)"
+  },
+  {
+    "id": "GM-P035-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-26-27)"
+  },
+  {
+    "id": "GM-P035-MCQ-27",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 27,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-26-27)"
+  },
+  {
+    "id": "GM-P035-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-29-30)"
+  },
+  {
+    "id": "GM-P035-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল বোর্ড ২০২৩",
+    "sourcePage": 35,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P035-STIM-29-30)"
+  },
+  {
+    "id": "GM-P036-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-04-05)"
+  },
+  {
+    "id": "GM-P036-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-04-05)"
+  },
+  {
+    "id": "GM-P036-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-22-23)"
+  },
+  {
+    "id": "GM-P036-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-22-23)"
+  },
+  {
+    "id": "GM-P036-MCQ-27",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 27,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-27-28)"
+  },
+  {
+    "id": "GM-P036-MCQ-28",
+    "questionType": "MCQ",
+    "sourceName": "দিনাজপুর বোর্ড ২০২৩",
+    "sourcePage": 36,
+    "questionNumber": 28,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P036-STIM-27-28)"
+  },
+  {
+    "id": "GM-P037-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-05-06)"
+  },
+  {
+    "id": "GM-P037-MCQ-06",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 6,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-05-06)"
+  },
+  {
+    "id": "GM-P037-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-09-10)"
+  },
+  {
+    "id": "GM-P037-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-09-10)"
+  },
+  {
+    "id": "GM-P037-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-15-16)"
+  },
+  {
+    "id": "GM-P037-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "ময়মনসিংহ বোর্ড ২০২৩",
+    "sourcePage": 37,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P037-STIM-15-16)"
+  },
+  {
+    "id": "GM-P059-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-03-04)"
+  },
+  {
+    "id": "GM-P059-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-03-04)"
+  },
+  {
+    "id": "GM-P059-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-11-12)"
+  },
+  {
+    "id": "GM-P059-MCQ-12",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 12,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-11-12)"
+  },
+  {
+    "id": "GM-P059-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-19-20)"
+  },
+  {
+    "id": "GM-P059-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-19-20)"
+  },
+  {
+    "id": "GM-P059-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-29-30)"
+  },
+  {
+    "id": "GM-P059-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "রাজউক উত্তরা মডেল কলেজ, ঢাকা",
+    "sourcePage": 59,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P059-STIM-29-30)"
+  },
+  {
+    "id": "GM-P060-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "আদমজী ক্যান্টনমেন্ট পাবলিক স্কুল, ঢাকা",
+    "sourcePage": 60,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P060-STIM-10-11)"
+  },
+  {
+    "id": "GM-P060-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "আদমজী ক্যান্টনমেন্ট পাবলিক স্কুল, ঢাকা",
+    "sourcePage": 60,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P060-STIM-16-17)"
+  },
+  {
+    "id": "GM-P060-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "আদমজী ক্যান্টনমেন্ট পাবলিক স্কুল, ঢাকা",
+    "sourcePage": 60,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P060-STIM-16-17)"
+  },
+  {
+    "id": "GM-P061-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-03-04)"
+  },
+  {
+    "id": "GM-P061-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-03-04)"
+  },
+  {
+    "id": "GM-P061-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-07-08)"
+  },
+  {
+    "id": "GM-P061-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-07-08)"
+  },
+  {
+    "id": "GM-P061-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-10-11)"
+  },
+  {
+    "id": "GM-P061-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "গবর্নমেন্ট ল্যাবরেটরি হাই স্কুল, ধানমণ্ডি, ঢাকা",
+    "sourcePage": 61,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P061-STIM-10-11)"
+  },
+  {
+    "id": "GM-P062-MCQ-12",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 12,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-12-13)"
+  },
+  {
+    "id": "GM-P062-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-12-13)"
+  },
+  {
+    "id": "GM-P062-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-16-17)"
+  },
+  {
+    "id": "GM-P062-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-16-17)"
+  },
+  {
+    "id": "GM-P062-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-19-20)"
+  },
+  {
+    "id": "GM-P062-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "মনিপুর উচ্চ বিদ্যালয় ও কলেজ, ঢাকা",
+    "sourcePage": 62,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P062-STIM-19-20)"
+  },
+  {
+    "id": "GM-P063-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "ন্যাশনাল আইডিয়াল স্কুল এন্ড কলেজ, খিলগাঁও, ঢাকা",
+    "sourcePage": 63,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P063-STIM-09-10)"
+  },
+  {
+    "id": "GM-P063-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "ন্যাশনাল আইডিয়াল স্কুল এন্ড কলেজ, খিলগাঁও, ঢাকা",
+    "sourcePage": 63,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P063-STIM-16-17)"
+  },
+  {
+    "id": "GM-P063-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "ন্যাশনাল আইডিয়াল স্কুল এন্ড কলেজ, খিলগাঁও, ঢাকা",
+    "sourcePage": 63,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P063-STIM-16-17)"
+  },
+  {
+    "id": "GM-P063-MCQ-24",
+    "questionType": "MCQ",
+    "sourceName": "ন্যাশনাল আইডিয়াল স্কুল এন্ড কলেজ, খিলগাঁও, ঢাকা",
+    "sourcePage": 63,
+    "questionNumber": 24,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P063-STIM-24-25)"
+  },
+  {
+    "id": "GM-P063-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "ন্যাশনাল আইডিয়াল স্কুল এন্ড কলেজ, খিলগাঁও, ঢাকা",
+    "sourcePage": 63,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P063-STIM-24-25)"
+  },
+  {
+    "id": "GM-P064-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "বিন্দুবাসিনী সরকারি বালক উচ্চ বিদ্যালয়, টাঙ্গাইল",
+    "sourcePage": 64,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P064-STIM-05-06)"
+  },
+  {
+    "id": "GM-P064-MCQ-06",
+    "questionType": "MCQ",
+    "sourceName": "বিন্দুবাসিনী সরকারি বালক উচ্চ বিদ্যালয়, টাঙ্গাইল",
+    "sourcePage": 64,
+    "questionNumber": 6,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P064-STIM-05-06)"
+  },
+  {
+    "id": "GM-P064-MCQ-22",
+    "questionType": "MCQ",
+    "sourceName": "বিন্দুবাসিনী সরকারি বালক উচ্চ বিদ্যালয়, টাঙ্গাইল",
+    "sourcePage": 64,
+    "questionNumber": 22,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P064-STIM-22-23)"
+  },
+  {
+    "id": "GM-P064-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "বিন্দুবাসিনী সরকারি বালক উচ্চ বিদ্যালয়, টাঙ্গাইল",
+    "sourcePage": 64,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P064-STIM-22-23)"
+  },
+  {
+    "id": "GM-P065-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "গভঃ ল্যাবরেটরী হাই স্কুল, রাজশাহী",
+    "sourcePage": 65,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P065-STIM-04-05)"
+  },
+  {
+    "id": "GM-P065-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "গভঃ ল্যাবরেটরী হাই স্কুল, রাজশাহী",
+    "sourcePage": 65,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P065-STIM-04-05)"
+  },
+  {
+    "id": "GM-P065-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "গভঃ ল্যাবরেটরী হাই স্কুল, রাজশাহী",
+    "sourcePage": 65,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P065-STIM-25-26)"
+  },
+  {
+    "id": "GM-P065-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "গভঃ ল্যাবরেটরী হাই স্কুল, রাজশাহী",
+    "sourcePage": 65,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P065-STIM-25-26)"
+  },
+  {
+    "id": "GM-P066-MCQ-06",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 6,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-06-07)"
+  },
+  {
+    "id": "GM-P066-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-06-07)"
+  },
+  {
+    "id": "GM-P066-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-09-10)"
+  },
+  {
+    "id": "GM-P066-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-09-10)"
+  },
+  {
+    "id": "GM-P066-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-13-14)"
+  },
+  {
+    "id": "GM-P066-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-13-14)"
+  },
+  {
+    "id": "GM-P066-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-19-20)"
+  },
+  {
+    "id": "GM-P066-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-19-20)"
+  },
+  {
+    "id": "GM-P066-MCQ-24",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 24,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-24-25)"
+  },
+  {
+    "id": "GM-P066-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "কাদিরাবাদ ক্যান্টনমেন্ট পাবলিক স্কুল, নাটোর",
+    "sourcePage": 66,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P066-STIM-24-25)"
+  },
+  {
+    "id": "GM-P067-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-11-12)"
+  },
+  {
+    "id": "GM-P067-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-16-17)"
+  },
+  {
+    "id": "GM-P067-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-16-17)"
+  },
+  {
+    "id": "GM-P067-MCQ-20",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 20,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-20-21)"
+  },
+  {
+    "id": "GM-P067-MCQ-26",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 26,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-26-27)"
+  },
+  {
+    "id": "GM-P067-MCQ-27",
+    "questionType": "MCQ",
+    "sourceName": "মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষা বোর্ড, যশোর (আলজাবর)",
+    "sourcePage": 67,
+    "questionNumber": 27,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P067-STIM-26-27)"
+  },
+  {
+    "id": "GM-P068-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা মডার্ন হাই স্কুল, কুমিল্লা",
+    "sourcePage": 68,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P068-STIM-13-14)"
+  },
+  {
+    "id": "GM-P068-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা মডার্ন হাই স্কুল, কুমিল্লা",
+    "sourcePage": 68,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P068-STIM-13-14)"
+  },
+  {
+    "id": "GM-P068-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা মডার্ন হাই স্কুল, কুমিল্লা",
+    "sourcePage": 68,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P068-STIM-16-17)"
+  },
+  {
+    "id": "GM-P068-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "কুমিল্লা মডার্ন হাই স্কুল, কুমিল্লা",
+    "sourcePage": 68,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P068-STIM-16-17)"
+  },
+  {
+    "id": "GM-P069-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "ফেনী সরকারি পাইলট উচ্চ বিদ্যালয়",
+    "sourcePage": 69,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P069-STIM-13-14)"
+  },
+  {
+    "id": "GM-P069-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "ফেনী সরকারি পাইলট উচ্চ বিদ্যালয়",
+    "sourcePage": 69,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P069-STIM-13-14)"
+  },
+  {
+    "id": "GM-P069-MCQ-24",
+    "questionType": "MCQ",
+    "sourceName": "ফেনী সরকারি পাইলট উচ্চ বিদ্যালয়",
+    "sourcePage": 69,
+    "questionNumber": 24,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P069-STIM-24-25)"
+  },
+  {
+    "id": "GM-P069-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "ফেনী সরকারি পাইলট উচ্চ বিদ্যালয়",
+    "sourcePage": 69,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P069-STIM-24-25)"
+  },
+  {
+    "id": "GM-P070-MCQ-03",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 3,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-03-04)"
+  },
+  {
+    "id": "GM-P070-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-03-04)"
+  },
+  {
+    "id": "GM-P070-MCQ-06",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 6,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-06-07)"
+  },
+  {
+    "id": "GM-P070-MCQ-07",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 7,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-06-07)"
+  },
+  {
+    "id": "GM-P070-MCQ-11",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 11,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-11-12)"
+  },
+  {
+    "id": "GM-P070-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-16-17)"
+  },
+  {
+    "id": "GM-P070-MCQ-17",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 17,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-16-17)"
+  },
+  {
+    "id": "GM-P070-MCQ-23",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 23,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-23-24)"
+  },
+  {
+    "id": "GM-P070-MCQ-24",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 24,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-23-24)"
+  },
+  {
+    "id": "GM-P070-MCQ-28",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 28,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-28-29)"
+  },
+  {
+    "id": "GM-P070-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "বাংলাদেশ মহিলা সমিতি বালিকা উচ্চ বিদ্যালয় ও কলেজ, চট্টগ্রাম",
+    "sourcePage": 70,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P070-STIM-28-29)"
+  },
+  {
+    "id": "GM-P071-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-09-10)"
+  },
+  {
+    "id": "GM-P071-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-09-10)"
+  },
+  {
+    "id": "GM-P071-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-18-19)"
+  },
+  {
+    "id": "GM-P071-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-18-19)"
+  },
+  {
+    "id": "GM-P071-MCQ-24",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 24,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-24-25)"
+  },
+  {
+    "id": "GM-P071-MCQ-25",
+    "questionType": "MCQ",
+    "sourceName": "হাজী মুহাম্মদ মহসিন সরকারি উচ্চ বিদ্যালয়, চট্টগ্রাম",
+    "sourcePage": 71,
+    "questionNumber": 25,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P071-STIM-24-25)"
+  },
+  {
+    "id": "GM-P073-MCQ-04",
+    "questionType": "MCQ",
+    "sourceName": "বর্ডার গার্ড পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 73,
+    "questionNumber": 4,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P073-STIM-04-05)"
+  },
+  {
+    "id": "GM-P073-MCQ-05",
+    "questionType": "MCQ",
+    "sourceName": "বর্ডার গার্ড পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 73,
+    "questionNumber": 5,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P073-STIM-04-05)"
+  },
+  {
+    "id": "GM-P073-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "বর্ডার গার্ড পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 73,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P073-STIM-18-19)"
+  },
+  {
+    "id": "GM-P073-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "বর্ডার গার্ড পাবলিক স্কুল এন্ড কলেজ, সিলেট",
+    "sourcePage": 73,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P073-STIM-18-19)"
+  },
+  {
+    "id": "GM-P074-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 74,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P074-STIM-15-16)"
+  },
+  {
+    "id": "GM-P074-MCQ-16",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 74,
+    "questionNumber": 16,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P074-STIM-15-16)"
+  },
+  {
+    "id": "GM-P074-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "বরিশাল সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 74,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P074-STIM-18-19)"
+  },
+  {
+    "id": "GM-P075-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "ভোলা সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 75,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P075-STIM-10-11)"
+  },
+  {
+    "id": "GM-P075-MCQ-18",
+    "questionType": "MCQ",
+    "sourceName": "ভোলা সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 75,
+    "questionNumber": 18,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P075-STIM-18-19)"
+  },
+  {
+    "id": "GM-P075-MCQ-19",
+    "questionType": "MCQ",
+    "sourceName": "ভোলা সরকারি বালিকা উচ্চ বিদ্যালয়",
+    "sourcePage": 75,
+    "questionNumber": 19,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P075-STIM-18-19)"
+  },
+  {
+    "id": "GM-P076-MCQ-08",
+    "questionType": "MCQ",
+    "sourceName": "রংপুর জিলা স্কুল",
+    "sourcePage": 76,
+    "questionNumber": 8,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P076-STIM-08-09)"
+  },
+  {
+    "id": "GM-P076-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "রংপুর জিলা স্কুল",
+    "sourcePage": 76,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P076-STIM-08-09)"
+  },
+  {
+    "id": "GM-P076-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "রংপুর জিলা স্কুল",
+    "sourcePage": 76,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P076-STIM-29-30)"
+  },
+  {
+    "id": "GM-P076-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "রংপুর জিলা স্কুল",
+    "sourcePage": 76,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P076-STIM-29-30)"
+  },
+  {
+    "id": "GM-P077-MCQ-09",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 9,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-09-10)"
+  },
+  {
+    "id": "GM-P077-MCQ-10",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 10,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-09-10)"
+  },
+  {
+    "id": "GM-P077-MCQ-12",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 12,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-12-13)"
+  },
+  {
+    "id": "GM-P077-MCQ-13",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 13,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-12-13)"
+  },
+  {
+    "id": "GM-P077-MCQ-14",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 14,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-14-15)"
+  },
+  {
+    "id": "GM-P077-MCQ-15",
+    "questionType": "MCQ",
+    "sourceName": "পুলিশ লাইন্স স্কুল এন্ড কলেজ, রংপুর",
+    "sourcePage": 77,
+    "questionNumber": 15,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P077-STIM-14-15)"
+  },
+  {
+    "id": "GM-P078-MCQ-29",
+    "questionType": "MCQ",
+    "sourceName": "গভর্নমেন্ট ল্যাবরেটরী হাই স্কুল, ময়মনসিংহ",
+    "sourcePage": 78,
+    "questionNumber": 29,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P078-STIM-29-30)"
+  },
+  {
+    "id": "GM-P078-MCQ-30",
+    "questionType": "MCQ",
+    "sourceName": "গভর্নমেন্ট ল্যাবরেটরী হাই স্কুল, ময়মনসিংহ",
+    "sourcePage": 78,
+    "questionNumber": 30,
+    "reviewReason": "SHARED_STIMULUS_GROUP",
+    "details": "বহুপদী সমাপ্তিসূচক বা অভিন্ন তথ্যভিত্তিক প্রশ্ন (Group: GM-P078-STIM-29-30)"
+  }
+]

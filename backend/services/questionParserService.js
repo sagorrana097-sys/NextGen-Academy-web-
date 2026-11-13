@@ -66,7 +66,7 @@ const EXPLICIT_ANSWER_REGEX = /^(?:উত্তর|Ans|Answer|উ|সঠিক\s
  * Regex for Question Number Headers
  * Matches: 1. / 01. / ১। / ১. / (১) / [1] / Q1: / Question 1. / প্রশ্ন ১: / ১ -
  */
-const QUESTION_HEADER_REGEX = /^(?:(?:Q(?:uestion|\.)?\s*|প্রশ্ন\s*|বহুনির্বাচনী\s*)?[(\[]?\s*(?:[0-9]{1,4}|[০-৯]{1,4})\s*[)\]]?\s*[\.\:\।\-\–\—\)]\s*|(?:Q(?:uestion|\.)?\s*|প্রশ্ন\s*)([0-9০-৯]{1,4})\s*[:.\-]?\s*)/i;
+const QUESTION_HEADER_REGEX = /^(?:(?:CQ\s*|SQ\s*|Q(?:uestion|\.)?\s*|প্রশ্ন\s*|সৃজনশীল\s*প্রশ্ন\s*|বহুনির্বাচনী\s*)?[(\[]?\s*(?:[0-9]{1,4}|[০-৯]{1,4})\s*[)\]]?\s*[\.\:\।\-\–\—\)]\s*|(?:CQ\s*|SQ\s*|Q(?:uestion|\.)?\s*|প্রশ্ন\s*|সৃজনশীল\s*প্রশ্ন\s*)([0-9০-৯]{1,4})\s*[:.\-]?\s*)/i;
 
 /**
  * Regex for Option Markers
@@ -177,9 +177,158 @@ function parseQuestionsFromDocument(rawText, defaultMeta = {}) {
     questionBlocks.push(currentBlock);
   }
 
+/**
+ * Detect Creative Question (CQ) structure with stimulus and sub-questions (ক, খ, গ, ঘ)
+ */
+function detectCQStructure(blockLines) {
+  // If the block contains an explicit MCQ answer ("উত্তর: ..."), it is definitely an MCQ!
+  const hasExplicitMCQAnswer = blockLines.some(l => EXPLICIT_ANSWER_REGEX.test(l.trim()));
+  if (hasExplicitMCQAnswer) {
+    return { isCQ: false };
+  }
+
+  let hasStimulusMarker = false;
+  let hasSubQuestionMarksOrPunctuation = false;
+  let subQuestions = {
+    ka: null,
+    kha: null,
+    ga: null,
+    gha: null
+  };
+  let diagramUrl = null;
+  let diagramCaption = null;
+  let diagramUrls = [];
+  let stimulusLines = [];
+
+  const kaRegex = /^[(\[]?\s*(?:ক|ka|a)\s*[)\]\.\:\-]/i;
+  const khaRegex = /^[(\[]?\s*(?:খ|kha|b)\s*[)\]\.\:\-]/i;
+  const gaRegex = /^[(\[]?\s*(?:গ|ga|c)\s*[)\]\.\:\-]/i;
+  const ghaRegex = /^[(\[]?\s*(?:ঘ|gha|d)\s*[)\]\.\:\-]/i;
+
+  let currentSub = null;
+
+  for (const line of blockLines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Check for image / diagram markdown: ![caption](url)
+    const imgRegex = /!\[(.*?)\]\((.*?)\)/g;
+    let m;
+    let hasLineImg = false;
+    while ((m = imgRegex.exec(trimmed)) !== null) {
+      hasLineImg = true;
+      const c = m[1] || `চিত্র ${diagramUrls.length + 1}`;
+      const u = m[2];
+      diagramUrls.push({ url: u, caption: c });
+      if (!diagramUrl) {
+        diagramUrl = u;
+        diagramCaption = c;
+      }
+    }
+    if (hasLineImg) {
+      continue;
+    }
+
+    if (/^CQ\s*[0-9০-৯]/i.test(trimmed) || /^(?:উদ্দীপক|দৃশ্যকল্প|অনুচ্ছেদ|stem)\s*[:.\-]/i.test(trimmed) || /নিচের\s*উদ্দীপকটি/i.test(trimmed)) {
+      hasStimulusMarker = true;
+    }
+
+    if (kaRegex.test(trimmed)) {
+      currentSub = 'ka';
+      if (/\[\s*[১1]\s*\]|[\?？]/.test(trimmed)) hasSubQuestionMarksOrPunctuation = true;
+      const text = trimmed.replace(kaRegex, '').replace(/\[\s*[১1]\s*\]$/, '').trim();
+      subQuestions.ka = { label: '(ক)', text, marks: 1, type: 'KNOWLEDGE' };
+    } else if (khaRegex.test(trimmed)) {
+      currentSub = 'kha';
+      if (/\[\s*[২2]\s*\]|[\?？]/.test(trimmed)) hasSubQuestionMarksOrPunctuation = true;
+      const text = trimmed.replace(khaRegex, '').replace(/\[\s*[২2]\s*\]$/, '').trim();
+      subQuestions.kha = { label: '(খ)', text, marks: 2, type: 'COMPREHENSION' };
+    } else if (gaRegex.test(trimmed)) {
+      currentSub = 'ga';
+      if (/\[\s*[৩3]\s*\]|[\?？]/.test(trimmed)) hasSubQuestionMarksOrPunctuation = true;
+      const text = trimmed.replace(gaRegex, '').replace(/\[\s*[৩3]\s*\]$/, '').trim();
+      subQuestions.ga = { label: '(গ)', text, marks: 3, type: 'APPLICATION' };
+    } else if (ghaRegex.test(trimmed)) {
+      currentSub = 'gha';
+      if (/\[\s*[৪4]\s*\]|[\?？]/.test(trimmed)) hasSubQuestionMarksOrPunctuation = true;
+      const text = trimmed.replace(ghaRegex, '').replace(/\[\s*[৪4]\s*\]$/, '').trim();
+      subQuestions.gha = { label: '(ঘ)', text, marks: 4, type: 'HIGHER_ORDER' };
+    } else if (currentSub) {
+      // Continuation of current sub-question
+      subQuestions[currentSub].text += ' ' + trimmed;
+    } else {
+      stimulusLines.push(trimmed);
+    }
+  }
+
+  // A question is classified as CQ if it has 4 sub-questions (ka, kha, ga, gha) OR stimulus + sub-questions
+  const isCQ = (subQuestions.ka && subQuestions.kha && subQuestions.ga && subQuestions.gha) ||
+               (hasStimulusMarker && subQuestions.ka && subQuestions.kha) ||
+               (hasSubQuestionMarksOrPunctuation && subQuestions.ka && subQuestions.kha && subQuestions.ga);
+
+  if (isCQ) {
+    return {
+      isCQ: true,
+      stimulus: stimulusLines.join('\n').replace(QUESTION_HEADER_REGEX, '').trim(),
+      subQuestions,
+      diagramUrl,
+      diagramCaption,
+      diagramUrls: diagramUrls.length > 0 ? diagramUrls : (diagramUrl ? [{ url: diagramUrl, caption: diagramCaption }] : [])
+    };
+  }
+
+  return { isCQ: false };
+}
+
   // 2. Process each question block
   questionBlocks.forEach((blockLines, blockIdx) => {
     if (blockLines.length === 0) return;
+
+    // Check for CQ structure first
+    const cqCandidate = detectCQStructure(blockLines);
+    if (cqCandidate.isCQ) {
+      const { stimulus, subQuestions, diagramUrl, diagramCaption } = cqCandidate;
+      const isCompleteCQ = subQuestions.ka && subQuestions.kha && subQuestions.ga && subQuestions.gha;
+      const status = isCompleteCQ ? 'APPROVED' : 'PENDING_REVIEW';
+      const parserNotes = isCompleteCQ
+        ? 'সৃজনশীল প্রশ্নের ৪টি উপ-প্রশ্ন (ক, খ, গ, ঘ) সঠিকভাবে শনাক্ত হয়েছে।'
+        : 'সৃজনশীল প্রশ্নের কিছু উপ-প্রশ্ন অসম্পূর্ণ। শিক্ষক কর্তৃক রিভিউ প্রয়োজন।';
+
+      questions.push({
+        tempId: `candidate-cq-${Date.now()}-${blockIdx + 1}`,
+        questionType: 'CQ',
+        questionNumber: blockIdx + 1,
+        questionText: stimulus || `সৃজনশীল প্রশ্ন ${blockIdx + 1}`,
+        stem: stimulus || '',
+        subQuestions,
+        creativeSubQuestions: subQuestions,
+        diagramUrl,
+        diagramCaption,
+        diagramUrls: cqCandidate.diagramUrls || (diagramUrl ? [{ url: diagramUrl, caption: diagramCaption }] : []),
+        options: [],
+        answer: null,
+        answerText: null,
+        explanation: null,
+        classId: defaultMeta.classId || null,
+        subjectId: defaultMeta.subjectId || null,
+        board: defaultMeta.board || 'সাধারণ',
+        year: defaultMeta.year || defaultMeta.examYear || '2026',
+        chapter: defaultMeta.chapter || defaultMeta.chapterBn || null,
+        topic: defaultMeta.topic || defaultMeta.topicBn || null,
+        difficulty: defaultMeta.difficulty || 'MEDIUM',
+        marks: 10,
+        sourceMaterialId: defaultMeta.sourceMaterialId || null,
+        sourceFileName: defaultMeta.sourceFileName || defaultMeta.fileName || 'document.docx',
+        googleDriveFileId: defaultMeta.googleDriveFileId || null,
+        fileUrl: defaultMeta.fileUrl || null,
+        status,
+        duplicateStatus: 'UNIQUE',
+        similarityScore: 0,
+        parserNotes,
+        tags: [defaultMeta.board, defaultMeta.year, defaultMeta.chapter, 'CQ'].filter(Boolean)
+      });
+      return;
+    }
 
     let questionStemLines = [];
     let options = [];
@@ -236,6 +385,41 @@ function parseQuestionsFromDocument(rawText, defaultMeta = {}) {
       }
     }
 
+    // Check for Short Question (SQ) if 0 options detected
+    const fullQuestionStem = questionStemLines.join('\n').trim();
+    if (options.length === 0) {
+      questions.push({
+        tempId: `candidate-sq-${Date.now()}-${blockIdx + 1}`,
+        questionType: 'SQ',
+        questionNumber: blockIdx + 1,
+        questionText: fullQuestionStem || `সংক্ষিপ্ত প্রশ্ন ${blockIdx + 1}`,
+        stem: fullQuestionStem,
+        options: [],
+        answer: explicitAnswer,
+        answerText: explanation || null,
+        explanation: explanation || null,
+        shortAnswer: explanation || null,
+        classId: defaultMeta.classId || null,
+        subjectId: defaultMeta.subjectId || null,
+        board: defaultMeta.board || 'সাধারণ',
+        year: defaultMeta.year || defaultMeta.examYear || '2026',
+        chapter: defaultMeta.chapter || defaultMeta.chapterBn || null,
+        topic: defaultMeta.topic || defaultMeta.topicBn || null,
+        difficulty: defaultMeta.difficulty || 'MEDIUM',
+        marks: Number(defaultMeta.marks || 2),
+        sourceMaterialId: defaultMeta.sourceMaterialId || null,
+        sourceFileName: defaultMeta.sourceFileName || defaultMeta.fileName || 'document.docx',
+        googleDriveFileId: defaultMeta.googleDriveFileId || null,
+        fileUrl: defaultMeta.fileUrl || null,
+        status: 'APPROVED',
+        duplicateStatus: 'UNIQUE',
+        similarityScore: 0,
+        parserNotes: 'সংক্ষিপ্ত প্রশ্ন (SQ) শনাক্ত হয়েছে।',
+        tags: [defaultMeta.board, defaultMeta.year, defaultMeta.chapter, 'SQ'].filter(Boolean)
+      });
+      return;
+    }
+
     // Deduplicate & ensure proper keys for options (A, B, C, D)
     const expectedKeys = ['A', 'B', 'C', 'D'];
     const standardizedOptions = [];
@@ -248,8 +432,6 @@ function parseQuestionsFromDocument(rawText, defaultMeta = {}) {
         text: opt.text || `অপশন ${k + 1}`
       });
     }
-
-    const fullQuestionStem = questionStemLines.join('\n').trim();
 
     // Determine Status & Verification
     let status = 'APPROVED';
@@ -306,6 +488,7 @@ function normalizeMathText(text) {
 
 module.exports = {
   parseQuestionsFromDocument,
+  parseQuestionsFromRawText: parseQuestionsFromDocument,
   parseExplicitAnswer,
   standardizeOptionKey,
   toBengaliDigits,

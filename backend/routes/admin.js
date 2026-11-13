@@ -17,6 +17,7 @@ const {
 } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -1136,7 +1137,7 @@ router.post('/invoices', async (req, res, next) => {
 
     const createdInvoices = [];
     for (const sid of targetStudentIds) {
-      const randomInvSuffix = Math.floor(1000 + Math.random() * 9000);
+      const randomInvSuffix = crypto.randomInt(1000, 10000);
       const invoiceNo = `INV-${year}-${randomInvSuffix}`;
 
       const newInv = await Invoice.create({

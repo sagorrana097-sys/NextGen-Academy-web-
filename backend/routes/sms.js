@@ -3,6 +3,7 @@ const router = express.Router();
 const { authenticate } = require('../middleware/auth');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const dbPath = path.join(__dirname, '../data/nextgen_academy_db.json');
 
@@ -300,7 +301,7 @@ router.post('/send-bulk', authenticate, (req, res) => {
       const personalizedMessage = evaluateTemplate(templateText, recipientData);
       const parts = calculateSMSParts(personalizedMessage);
       const phone = s.guardianPhone || u.phone || '01712345678';
-      const randMsgCode = Math.floor(1000 + Math.random() * 9000);
+      const randMsgCode = crypto.randomInt(1000, 10000);
 
       const logEntry = {
         id: logs.length > 0 ? Math.max(...logs.map((l) => l.id)) + 1 : 1,

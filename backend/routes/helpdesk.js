@@ -2,6 +2,7 @@ const express = require('express');
 const { HelpdeskTicket, User } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.post('/tickets', authenticate, async (req, res, next) => {
       });
     }
 
-    const ticketNumber = 'TKT-' + new Date().getFullYear().toString().slice(-2) + '-' + Math.floor(1000 + Math.random() * 9000);
+    const ticketNumber = 'TKT-' + new Date().getFullYear().toString().slice(-2) + '-' + crypto.randomInt(1000, 10000);
 
     const ticket = await HelpdeskTicket.create({
       ticketNumber,

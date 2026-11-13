@@ -11,8 +11,32 @@ const errorHandler = (err, req, res, next) => {
     ip: req.ip
   });
 
-  const statusCode = err.statusCode || err.status || 500;
-  const errorCode = err.code || (statusCode === 404 ? 'NOT_FOUND' : statusCode === 400 ? 'VALIDATION_ERROR' : 'INTERNAL_SERVER_ERROR');
+  let statusCode = err.statusCode || err.status;
+  let errorCode = err.code;
+
+  if (err.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      statusCode = 413;
+      errorCode = 'PAYLOAD_TOO_LARGE';
+      err.message = 'ফাইলের আকার ২৫ মেগাবাইটের (25MB) চেয়ে বেশি হতে পারবে না / File exceeds 25MB limit';
+    } else {
+      statusCode = 400;
+      errorCode = err.code || 'BAD_REQUEST';
+    }
+  } else if (!statusCode) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      statusCode = 413;
+      errorCode = 'PAYLOAD_TOO_LARGE';
+    } else if (err.code === 'UNSUPPORTED_MEDIA_TYPE' || err.code === 'INVALID_FILE_TYPE') {
+      statusCode = 415;
+    } else {
+      statusCode = 500;
+    }
+  }
+
+  if (!errorCode) {
+    errorCode = statusCode === 404 ? 'NOT_FOUND' : statusCode === 413 ? 'PAYLOAD_TOO_LARGE' : statusCode === 415 ? 'UNSUPPORTED_MEDIA_TYPE' : statusCode === 400 ? 'VALIDATION_ERROR' : 'INTERNAL_SERVER_ERROR';
+  }
 
   // In production, mask internal 500 database error details to prevent information disclosure
   let safeMessage = err.message || 'একটি অনাকাঙ্ক্ষিত ত্রুটি ঘটেছে / An unexpected error occurred';

@@ -1,7 +1,60 @@
-node_modules/ 
-frontend/node_modules/ 
-backend/node_modules/ 
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Production build outputs
+dist/
+frontend/dist/
+build/
+.output/
+
+# Environment and secrets (NEVER commit secrets; allow .env.example)
 .env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Temporary and cache files
 *.tmp
+*.temp
 backend/data/*.tmp
+backend/data/*.temp
 scratch/
+.cache/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Deployment & Vercel
+.vercel/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Accidental nested repo clone
+NextGen-Academy-web-/
+
+# Local DB backups
+backend/data/*.backup.*.json
+backend/data/*.backup.json

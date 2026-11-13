@@ -14,21 +14,39 @@ import {
 export default function StudentResultScorecard({ results, studentName = 'তাহমিদ হাসান', studentRoll = '1001', studentClass = 'Class 10' }) {
   const { lang, t } = useLanguage();
 
-  // Calculate or mock totals if needed
-  const sampleSubjects = [
-    { code: '101', name: 'বাংলা (Bangla)', fullMarks: 100, obtainedMarks: 88, gpa: '5.00', grade: 'A+' },
-    { code: '107', name: 'ইংরেজি (English)', fullMarks: 100, obtainedMarks: 82, gpa: '5.00', grade: 'A+' },
-    { code: '109', name: 'সাধারণ গণিত (General Math)', fullMarks: 100, obtainedMarks: 94, gpa: '5.00', grade: 'A+' },
-    { code: '136', name: 'পদার্থবিজ্ঞান (Physics)', fullMarks: 100, obtainedMarks: 85, gpa: '5.00', grade: 'A+' },
-    { code: '137', name: 'রসায়ন (Chemistry)', fullMarks: 100, obtainedMarks: 79, gpa: '4.00', grade: 'A' },
-    { code: '138', name: 'জীববিজ্ঞান (Biology)', fullMarks: 100, obtainedMarks: 90, gpa: '5.00', grade: 'A+' },
-    { code: '154', name: 'আইসিটি (ICT)', fullMarks: 50, obtainedMarks: 48, gpa: '5.00', grade: 'A+' }
-  ];
+  const realSubjects = Array.isArray(results) && results.length > 0 ? results.map((r, idx) => ({
+    code: r.subject?.code || r.subjectCode || String(100 + idx + 1),
+    name: r.subject?.nameBn || r.subject?.name || r.subjectName || 'বিষয়',
+    fullMarks: Number(r.totalMarks || r.subject?.totalMarks || 100),
+    obtainedMarks: Number(r.obtainedMarks || 0),
+    gpa: Number(r.gradePoint || 0).toFixed(2),
+    grade: r.letterGrade || (r.gradePoint >= 5 ? 'A+' : r.gradePoint >= 4 ? 'A' : 'B')
+  })) : [];
 
+  if (realSubjects.length === 0) {
+    return (
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-8 md:p-12 text-center space-y-4 shadow-sm">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-500">
+          <Award className="w-7 h-7" />
+        </div>
+        <div className="space-y-1 max-w-md mx-auto">
+          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+            ফলাফল স্কোরকার্ড এখনও প্রকাশিত হয়নি / No Scorecard Available Yet
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {studentName} (রোল: {studentRoll}) এর জন্য এখনও কোনো টার্ম বা বার্ষিক পরীক্ষার ফলাফল লিপিবদ্ধ করা হয়নি।
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const sampleSubjects = realSubjects;
   const totalFull = sampleSubjects.reduce((acc, s) => acc + s.fullMarks, 0);
   const totalObtained = sampleSubjects.reduce((acc, s) => acc + s.obtainedMarks, 0);
-  const percentage = ((totalObtained / totalFull) * 100).toFixed(1);
-  const cgpa = '4.95';
+  const percentage = totalFull > 0 ? ((totalObtained / totalFull) * 100).toFixed(1) : '0.0';
+  const totalPoints = sampleSubjects.reduce((acc, s) => acc + Number(s.gpa), 0);
+  const cgpa = (totalPoints / (sampleSubjects.length || 1)).toFixed(2);
 
   // SVG circular progress calculation
   const radius = 45;

@@ -39,41 +39,44 @@ export default function AcademicPerformanceAnalytics({ student = null, marks = [
   const [chartType, setChartType] = useState('bars'); // 'bars' | 'lines' | 'radar'
   const [selectedTerm, setSelectedTerm] = useState('ALL');
 
-  // Default rich mock / real dataset if marks is empty
-  const defaultSubjectTrends = [
-    { subject: 'পদার্থবিজ্ঞান (Physics)', shortCode: 'PHY', term1: 88, term2: 92, annual: 95, classAvg: 74, grade: 'A+', highest: 98 },
-    { subject: 'রসায়ন (Chemistry)', shortCode: 'CHEM', term1: 82, term2: 86, annual: 91, classAvg: 70, grade: 'A+', highest: 94 },
-    { subject: 'উচ্চতর গণিত (Higher Math)', shortCode: 'HMATH', term1: 94, term2: 96, annual: 98, classAvg: 68, grade: 'A+', highest: 100 },
-    { subject: 'জীববিজ্ঞান (Biology)', shortCode: 'BIO', term1: 78, term2: 84, annual: 89, classAvg: 72, grade: 'A', highest: 92 },
-    { subject: 'বাংলা ১ম ও ২য় (Bangla)', shortCode: 'BAN', term1: 80, term2: 83, annual: 86, classAvg: 75, grade: 'A+', highest: 90 },
-    { subject: 'English (1st & 2nd)', shortCode: 'ENG', term1: 85, term2: 89, annual: 92, classAvg: 71, grade: 'A+', highest: 95 },
-    { subject: 'তথ্য ও যোগাযোগ প্রযুক্তি (ICT)', shortCode: 'ICT', term1: 92, term2: 95, annual: 98, classAvg: 80, grade: 'A+', highest: 99 }
-  ];
+  // Real data check: A production user must never see fake trends
+  const hasRealMarks = Array.isArray(marks) && marks.length > 0;
+  if (!hasRealMarks && !student?.hasExamData) {
+    return (
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-12 border border-slate-200 dark:border-slate-800 text-center space-y-4 shadow-sm">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-500">
+          <BarChart3 className="w-7 h-7" />
+        </div>
+        <div className="space-y-1 max-w-md mx-auto">
+          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+            ফলাফল ডেটা এখনও প্রস্তুত নয় / No Performance Data Available Yet
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {student ? `${student.nameBn || student.name}-এর কোনো পরীক্ষার ফলাফল রেকর্ড পাওয়া যায়নি। পরীক্ষা অনুষ্ঠিত হলে বিষয়ভিত্তিক চার্ট এখানে প্রদর্শিত হবে।` : 'কোনো একাডেমিক পরীক্ষার ফলাফল ডেটা পাওয়া যায়নি।'}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
-  const termProgressData = [
-    { term: '১ম সাময়িক (1st Term)', gpa: 4.85, percentage: 85.5, attendance: 96, rank: 4 },
-    { term: '২য় সাময়িক (2nd Term)', gpa: 4.92, percentage: 89.2, attendance: 98, rank: 3 },
-    { term: 'মডেল টেস্ট (Model Test)', gpa: 5.00, percentage: 94.0, attendance: 100, rank: 1 },
-    { term: 'বার্ষিক মূল্যায়ন (Annual)', gpa: 5.00, percentage: 92.7, attendance: 97, rank: 2 }
-  ];
-
-  // Calculate high-impact stats
-  const currentGpa = termProgressData[termProgressData.length - 1].gpa;
-  const currentPercentage = termProgressData[termProgressData.length - 1].percentage;
-  const currentRank = termProgressData[termProgressData.length - 1].rank;
-  const topSubject = [...defaultSubjectTrends].sort((a, b) => b.annual - a.annual)[0];
-
-  // Filtered Subject Data
-  const displayedSubjectData = defaultSubjectTrends.map((s) => ({
-    subject: s.subject,
-    shortCode: s.shortCode,
-    marks: selectedTerm === 'term1' ? s.term1 : selectedTerm === 'term2' ? s.term2 : s.annual,
-    term1: s.term1,
-    term2: s.term2,
-    annual: s.annual,
-    classAvg: s.classAvg,
-    highest: s.highest
+  // Derive real subject trends from marks
+  const displayedSubjectData = marks.map((m) => ({
+    subject: m.subject?.nameBn || m.subject?.name || m.subjectName || 'বিষয়',
+    shortCode: (m.subject?.code || m.subjectName || 'SUB').slice(0, 5),
+    marks: Number(m.obtainedMarks || 0),
+    term1: Number(m.term1Marks || m.obtainedMarks || 0),
+    term2: Number(m.term2Marks || m.obtainedMarks || 0),
+    annual: Number(m.obtainedMarks || 0),
+    classAvg: Number(m.classAverage || 75),
+    highest: Number(m.highestMarks || 95)
   }));
+
+  const currentGpa = marks.reduce((sum, m) => sum + Number(m.gradePoint || 0), 0) / (marks.length || 1);
+  const totalObt = marks.reduce((sum, m) => sum + Number(m.obtainedMarks || 0), 0);
+  const totalMax = marks.reduce((sum, m) => sum + Number(m.totalMarks || 100), 0);
+  const currentPercentage = totalMax > 0 ? (totalObt / totalMax) * 100 : 0;
+  const currentRank = student?.meritPosition || 1;
+  const topSubject = [...displayedSubjectData].sort((a, b) => b.marks - a.marks)[0] || { subject: 'সাধারণ' };
 
   return (
     <div className="space-y-6">

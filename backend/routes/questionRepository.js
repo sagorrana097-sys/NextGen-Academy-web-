@@ -1,5 +1,5 @@
 const express = require('express');
-const { QuestionRepository, Exam, Class, Subject, Teacher, Student, User } = require('../models');
+const { QuestionRepository, QuestionBank, Exam, Class, Subject, Teacher, Student, User } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
 
@@ -107,14 +107,23 @@ function parseRawQuestionText(rawText, defaultMeta = {}) {
     const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     if (lines.length === 0) return;
 
-    // Check for diagram/image
+    // Check for diagram/image (Support single or multiple embedded figures)
     let diagramUrl = null;
     let diagramCaption = null;
-    const imgMatch = block.match(/!\[(.*?)\]\((.*?)\)/);
-    if (imgMatch) {
-      diagramCaption = imgMatch[1] || 'চিত্র';
-      diagramUrl = imgMatch[2];
-    } else if (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram')) {
+    const diagramUrls = [];
+    const imgRegex = /!\[(.*?)\]\((.*?)\)/g;
+    let m;
+    while ((m = imgRegex.exec(block)) !== null) {
+      const caption = m[1] || `চিত্র ${diagramUrls.length + 1}`;
+      const url = m[2];
+      diagramUrls.push({ url, caption });
+      if (!diagramUrl) {
+        diagramUrl = url;
+        diagramCaption = caption;
+      }
+    }
+
+    if (!diagramCaption && (block.includes('চিত্র') || block.includes('লেখচিত্র') || block.includes('বর্তনী') || block.includes('Graph') || block.includes('Diagram'))) {
       diagramCaption = 'উদ্দীপকের সংশ্লিষ্ট চিত্র / বর্তনী / লেখচিত্র';
     }
 
@@ -155,6 +164,7 @@ function parseRawQuestionText(rawText, defaultMeta = {}) {
         subQuestions: subQs,
         diagramUrl,
         diagramCaption,
+        diagramUrls: diagramUrls.length > 0 ? diagramUrls : (diagramUrl ? [{ url: diagramUrl, caption: diagramCaption }] : []),
         marks: 10,
         difficulty: 'MEDIUM',
         className: defaultMeta.className || 'Class 9-10',
@@ -473,7 +483,33 @@ router.get('/', optionalAuth, async (req, res, next) => {
       offset = 0
     } = req.query;
 
-    const all = await QuestionRepository.findAll({ order: [['createdAt', 'DESC'], ['id', 'DESC']] });
+    let all = await QuestionRepository.findAll({ order: [['createdAt', 'DESC'], ['id', 'DESC']] });
+    if (all.length === 0) {
+      const qbList = await QuestionBank.findAll({ order: [['id', 'DESC']] });
+      all = qbList.map(q => ({
+        id: q.id,
+        type: q.questionType || 'MCQ',
+        question: q.questionText || q.stem || 'প্রশ্ন',
+        stem: q.stem || q.questionText || '',
+        options: Array.isArray(q.options) ? q.options.map(o => (typeof o === 'string' ? o : o.text || '')) : [],
+        correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+        explanation: q.explanation || '',
+        shortAnswer: q.shortAnswer || q.answerText || '',
+        subQuestions: q.subQuestions || q.creativeSubQuestions || null,
+        creativeSubQuestions: q.creativeSubQuestions || q.subQuestions || null,
+        diagramUrl: q.diagramUrl || null,
+        diagramCaption: q.diagramCaption || null,
+        marks: q.marks || (q.questionType === 'CQ' ? 10 : 1),
+        difficulty: q.difficulty || 'MEDIUM',
+        className: q.className || 'Class 9-10',
+        book: q.book || (q.chapter ? q.chapter : 'সাধারণ'),
+        institutionOrBoard: q.board || 'সকল বোর্ড',
+        board: q.board || 'সকল বোর্ড',
+        year: q.year || '2025',
+        chapter: q.chapter || 'সাধারণ অধ্যায়',
+        badge: q.board ? `[${q.board}]` : '[বোর্ড প্রশ্ন]'
+      }));
+    }
 
     let filtered = all;
 
@@ -563,7 +599,33 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
       examTitle = 'মডেল টেস্ট'
     } = req.body;
 
-    const allRepoQuestions = await QuestionRepository.findAll();
+    let allRepoQuestions = await QuestionRepository.findAll();
+    if (allRepoQuestions.length === 0) {
+      const qbList = await QuestionBank.findAll();
+      allRepoQuestions = qbList.map(q => ({
+        id: q.id,
+        type: q.questionType || 'MCQ',
+        className: q.className || 'Class 9-10',
+        book: q.book || q.chapter || 'সাধারণ',
+        institutionOrBoard: q.board || 'সকল বোর্ড',
+        board: q.board || 'সকল বোর্ড',
+        year: q.year || '2025',
+        chapter: q.chapter || 'সাধারণ অধ্যায়',
+        question: q.questionText || q.stem || 'প্রশ্ন',
+        stem: q.stem || q.questionText || '',
+        options: Array.isArray(q.options) ? q.options.map(o => (typeof o === 'string' ? o : o.text || '')) : [],
+        correctAnswer: q.answer === 'A' ? 0 : q.answer === 'B' ? 1 : q.answer === 'C' ? 2 : q.answer === 'D' ? 3 : 0,
+        explanation: q.explanation || '',
+        shortAnswer: q.shortAnswer || q.answerText || '',
+        subQuestions: q.subQuestions || q.creativeSubQuestions || null,
+        creativeSubQuestions: q.creativeSubQuestions || q.subQuestions || null,
+        diagramUrl: q.diagramUrl || null,
+        diagramCaption: q.diagramCaption || null,
+        marks: q.marks || (q.questionType === 'CQ' ? 10 : 1),
+        difficulty: q.difficulty || 'MEDIUM',
+        badge: q.board ? `[${q.board}]` : '[বোর্ড প্রশ্ন]'
+      }));
+    }
 
     // 1. Parse natural prompt if distribution is empty
     let parsedDistributions = Array.isArray(distribution) && distribution.length > 0 ? distribution : [];
@@ -589,6 +651,7 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
 
     const selectedQuestions = [];
     const usedIds = new Set();
+    const shortages = [];
 
     // 2. Query Repository according to distribution specifications
     if (parsedDistributions.length > 0) {
@@ -600,7 +663,7 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
         const matches = allRepoQuestions.filter(q => {
           if (usedIds.has(q.id)) return false;
           if (book && q.book && q.book !== book) return false;
-          const instMatch = !targetInst || (q.institutionOrBoard && q.institutionOrBoard.toLowerCase().includes(targetInst));
+          const instMatch = !targetInst || (q.institutionOrBoard && q.institutionOrBoard.toLowerCase().includes(targetInst)) || (q.board && q.board.toLowerCase().includes(targetInst));
           const yearMatch = !targetYear || String(q.year) === targetYear || String(q.year).endsWith(targetYear.slice(-2));
           return instMatch && yearMatch;
         });
@@ -612,30 +675,15 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
           usedIds.add(p.id);
         });
 
-        // If repo lacked sufficient questions, create synthetic matching ones tagged with that institution/year
+        // Report real shortage honestly instead of fabricating questions
         const needed = targetCount - picked.length;
-        for (let k = 0; k < needed; k++) {
-          const fakeId = `synth-${Date.now()}-${k}`;
-          const badge = createSourceBadge(dist.institutionOrBoard || dist.board || 'ঢাকা বোর্ড', dist.year || '2025', 'MCQ');
-          selectedQuestions.push({
-            id: fakeId,
-            type: 'MCQ',
-            className: className || 'Class 9-10 (SSC)',
-            book: book || 'পদার্থবিজ্ঞান',
-            institutionOrBoard: dist.institutionOrBoard || dist.board || 'ঢাকা বোর্ড',
+        if (needed > 0) {
+          shortages.push({
+            institutionOrBoard: dist.institutionOrBoard || dist.board || 'সাধারণ বোর্ড',
             year: dist.year || '2025',
-            question: `[${badge}] ${book || 'পদার্থবিজ্ঞান'} বিষয়ের প্রমিত প্রশ্ন নং ${selectedQuestions.length + 1}`,
-            options: [
-              'বিকল্প উত্তর ক (সঠিক ব্যাখ্যাসহ প্রমিত উত্তর)',
-              'বিকল্প উত্তর খ',
-              'বিকল্প উত্তর গ',
-              'বিকল্প উত্তর ঘ'
-            ],
-            correctAnswer: 0,
-            explanation: `${badge} হতে সংগৃহীত ও সংরক্ষিত মডেল উত্তর।`,
-            badge,
-            difficulty: difficulty || 'MEDIUM',
-            marks: 1
+            requested: targetCount,
+            found: picked.length,
+            shortage: needed
           });
         }
       }
@@ -647,9 +695,13 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
         return true;
       });
 
-      const mcqs = candidates.filter(q => q.type === 'MCQ').slice(0, Number(mcqCount) || 20);
-      const cqs = candidates.filter(q => q.type === 'CQ').slice(0, Number(cqCount) || 2);
-      const shorts = candidates.filter(q => q.type === 'SHORT').slice(0, Number(shortCount) || 0);
+      const targetMcq = req.body.mcqCount !== undefined ? Number(req.body.mcqCount) : 20;
+      const targetCq = req.body.cqCount !== undefined ? Number(req.body.cqCount) : 2;
+      const targetShort = req.body.shortCount !== undefined ? Number(req.body.shortCount) : 0;
+
+      const mcqs = targetMcq > 0 ? candidates.filter(q => q.type === 'MCQ').slice(0, targetMcq) : [];
+      const cqs = targetCq > 0 ? candidates.filter(q => q.type === 'CQ').slice(0, targetCq) : [];
+      const shorts = targetShort > 0 ? candidates.filter(q => q.type === 'SHORT').slice(0, targetShort) : [];
 
       selectedQuestions.push(...mcqs, ...cqs, ...shorts);
     }
@@ -664,6 +716,7 @@ router.post('/generate-ai-exam', authenticate, async (req, res, next) => {
         cqCount: selectedQuestions.filter(q => q.type === 'CQ').length,
         shortCount: selectedQuestions.filter(q => q.type === 'SHORT').length,
         questions: selectedQuestions,
+        shortages: shortages.length > 0 ? shortages : null,
         distributionSummary: parsedDistributions.map(d => `${d.institutionOrBoard || d.board} '${d.year?.slice(-2) || '২৫'} (${d.count}টি)`).join(', ')
       }
     });

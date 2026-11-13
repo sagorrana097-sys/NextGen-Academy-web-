@@ -1,5 +1,6 @@
 const { SMSLog, Notice, Student, User, Class, GuardianStudentMapping } = require('../models');
 const AuditService = require('./auditService');
+const crypto = require('crypto');
 
 // In-memory anti-spam cooldown tracker: Map<"studentId:eventType", timestampMs>
 const cooldownMap = new Map();
@@ -49,7 +50,7 @@ class SMSService {
         date
       });
 
-      const trxId = `SMS-BD-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const trxId = `SMS-BD-${Date.now()}-${crypto.randomInt(1000, 10000)}`;
 
       const smsLogEntry = await SMSLog.create({
         studentId: student.id,
@@ -179,7 +180,7 @@ class SMSService {
       // Record cooldown timestamp
       cooldownMap.set(cooldownKey, now);
 
-      const trxId = `SMS-PROCTOR-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const trxId = `SMS-PROCTOR-${Date.now()}-${crypto.randomInt(1000, 10000)}`;
 
       const smsLogEntry = await SMSLog.create({
         studentId: student.id,

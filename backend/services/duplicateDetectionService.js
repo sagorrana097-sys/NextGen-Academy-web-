@@ -211,16 +211,15 @@ async function processSuggestionFamilies(questionList) {
 
       if (!alreadyHasSource) {
         sources.push(currentSource);
-        if (typeof matchedFamily.update === 'function') {
-          await matchedFamily.update({
-            boardYearSources: sources,
-            repeatedCount: sources.length,
-            updatedAt: new Date().toISOString()
-          });
-        } else {
-          matchedFamily.boardYearSources = sources;
-          matchedFamily.repeatedCount = sources.length;
-        }
+        const distinctSources = new Set(sources.map(s => `${(s.board || '').trim().toLowerCase()}_${(s.year || '').trim()}`));
+        matchedFamily.boardYearSources = sources;
+        matchedFamily.repeatedCount = sources.length;
+        matchedFamily.distinctBoardYearCount = distinctSources.size;
+        await QuestionSuggestionFamily.update({
+          boardYearSources: sources,
+          repeatedCount: sources.length,
+          distinctBoardYearCount: distinctSources.size
+        }, { where: { id: matchedFamily.id } });
       }
 
       if (typeof q.update === 'function') {
@@ -228,10 +227,16 @@ async function processSuggestionFamilies(questionList) {
           familyId: matchedFamily.id,
           duplicateGroupId: matchedFamily.familyCode
         });
+      } else if (q.id) {
+        await QuestionBank.update({
+          familyId: matchedFamily.id,
+          duplicateGroupId: matchedFamily.familyCode
+        }, { where: { id: q.id } });
       }
     } else {
       // Create new Question Family
       const familyCode = `#NG-${String(allFamilies.length + 1).padStart(6, '0')}`;
+      const distinctSources = new Set([`${(currentSource.board || '').trim().toLowerCase()}_${(currentSource.year || '').trim()}`]);
       const newFamily = await QuestionSuggestionFamily.create({
         familyCode,
         baseQuestionText: q.questionText,
@@ -240,6 +245,7 @@ async function processSuggestionFamilies(questionList) {
         chapter: q.chapter,
         topic: q.topic,
         repeatedCount: 1,
+        distinctBoardYearCount: distinctSources.size,
         boardYearSources: [currentSource],
         primaryQuestionId: q.id,
         tags: [q.board, q.year, q.chapter].filter(Boolean),

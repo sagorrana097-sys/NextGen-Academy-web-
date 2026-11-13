@@ -2,6 +2,7 @@ const express = require('express');
 const { ReferralProfile, PromoSetting, Student, User } = require('../models');
 const { authenticate, requireRole } = require('../middleware/auth');
 const AuditService = require('../services/auditService');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -64,7 +65,7 @@ router.get('/my-referral', authenticate, async (req, res, next) => {
     let profile = await ReferralProfile.findOne({ where: { studentId } });
     if (!profile) {
       // Generate clean unique promo code: e.g. NGA-ALOM-889 or NGA-STD12-78
-      const rawCode = `NGA-${studentIdNumber.replace(/[^A-Z0-9]/gi, '').toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+      const rawCode = `NGA-${studentIdNumber.replace(/[^A-Z0-9]/gi, '').toUpperCase()}-${crypto.randomInt(100, 1000)}`;
       profile = await ReferralProfile.create({
         studentId,
         referralCode: rawCode,
@@ -262,7 +263,7 @@ router.post('/redeem-points', authenticate, async (req, res, next) => {
 
     const settings = await getPromoSettings();
     const discountBDT = Math.floor(points * (settings.pointToBdtRatio || 0.5));
-    const voucherCode = `REDEEM-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+    const voucherCode = `REDEEM-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 
     const currentHistory = Array.isArray(profile.referralHistory) ? profile.referralHistory : [];
     const redeemEntry = {

@@ -112,7 +112,7 @@ export default function PaymentModal({ invoice, isOpen, onClose, onPaymentSucces
         baseAmount: baseAmount,
         chargeAmount: calculatedCharge,
         senderPhone: phone,
-        trxId: trxId || `TXN-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        trxId: trxId || `TXN-${(window.crypto?.randomUUID ? window.crypto.randomUUID().slice(0, 8) : Date.now().toString(36)).toUpperCase()}`,
         pin
       });
 
